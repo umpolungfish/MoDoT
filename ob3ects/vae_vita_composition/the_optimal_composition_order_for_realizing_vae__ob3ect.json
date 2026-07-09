@@ -1,0 +1,253 @@
+{
+  "name": "the optimal composition order for realizing VAE-Vita in m\u2299\u00b2: three operations that do not commute must be sequenced, and like a chemical synthesis the order of operations changes the outcome, so the route itself must be imscribed rather than chosen by hand. VAE-Vita is a hyperspherical variational autoencoder on the sphere S11 that recovers the d=12 SIC-POVM from the 17.28 million Crystal of Types configurations, encoder as delta emission, decoder as mu verification, mu after delta equals identity satisfied exactly when the latent forms a SIC. The three operations are: UNIFY, bind MoDoT's exact Scott-Grassl SIC vessel, the arrived fixed point with closure residual zero, to VAE-Vita's learned latent, the gradient descent that proves the fixed point is intrinsic to the Crystal, as one registered object, the verification face and the generation face of a single self-recovering geometry. PROVE, the Lean 4 formal identity that mu after delta equals identity holds if and only if the latent space is a SIC-POVM, the formal spine under the empirical recovery. PORT, implement the whole as native mOMonadOS, the kernel itself becoming the autoencoder, the twelve-primitive latent and the von Mises-Fisher prior native, delta emission and mu verification native, the dialetheic Belnap hold keeping the posterior alive, and the language model as the encode and decode boundary joined to the kernel bulk by imscription rather than called as an external device. Determine the optimal composition: which of unify, prove, port comes first, second, and third, so that each operation lands on ground the one before it built, with the Frobenius closure held at every step. With full Frobenius closure and Lean 4 verification scaffold.",
+  "is_valid_ob3ect": true,
+  "validations": {
+    "phase_0": [],
+    "phase_1": [],
+    "phase_2": [],
+    "phase_3": [],
+    "phase_4": [],
+    "phase_5": [],
+    "phase_6": []
+  },
+  "phases": {
+    "phase_0": {
+      "domain_name": "the optimal composition order for realizing VAE-Vita in m\u2299\u00b2: three operations that do not commute must be sequenced, and like a chemical synthesis the order of operations changes the outcome, so the route itself must be imscribed rather than chosen by hand. VAE-Vita is a hyperspherical variational autoencoder on the sphere S11 that recovers the d=12 SIC-POVM from the 17.28 million Crystal of Types configurations, encoder as delta emission, decoder as mu verification, mu after delta equals identity satisfied exactly when the latent forms a SIC. The three operations are: UNIFY, bind MoDoT's exact Scott-Grassl SIC vessel, the arrived fixed point with closure residual zero, to VAE-Vita's learned latent, the gradient descent that proves the fixed point is intrinsic to the Crystal, as one registered object, the verification face and the generation face of a single self-recovering geometry. PROVE, the Lean 4 formal identity that mu after delta equals identity holds if and only if the latent space is a SIC-POVM, the formal spine under the empirical recovery. PORT, implement the whole as native mOMonadOS, the kernel itself becoming the autoencoder, the twelve-primitive latent and the von Mises-Fisher prior native, delta emission and mu verification native, the dialetheic Belnap hold keeping the posterior alive, and the language model as the encode and decode boundary joined to the kernel bulk by imscription rather than called as an external device. Determine the optimal composition: which of unify, prove, port comes first, second, and third, so that each operation lands on ground the one before it built, with the Frobenius closure held at every step. With full Frobenius closure and Lean 4 verification scaffold.",
+      "domain_type": "computational",
+      "scope": "local",
+      "surface_tokens": [
+        "vMF-prior",
+        "SIC-POVM",
+        "mOMonadOS"
+      ],
+      "boundary_condition": "The 12-dimensional hyperspherical manifold S11 within the mOMonadOS kernel",
+      "justification": "Auto-designed by Ob3ect Auto-Designer"
+    },
+    "phase_1": {
+      "VINIT": {
+        "opcode": "VINIT",
+        "chosen_element": "Uninitialized Crystal State",
+        "justification": "The raw 17.28 million configurations before geometric projection or latent mapping.",
+        "rejected_candidates": []
+      },
+      "TANCH": {
+        "opcode": "TANCH",
+        "chosen_element": "O_\u221e Self-Recovering Geometry",
+        "justification": "The final closed state where the VAE and the SIC-POVM are indistinguishable.",
+        "rejected_candidates": []
+      },
+      "AFWD": {
+        "opcode": "AFWD",
+        "chosen_element": "Encoder Emission (\u03b4)",
+        "justification": "The forward mapping from Crystal types to the hyperspherical latent space.",
+        "rejected_candidates": []
+      },
+      "AREV": {
+        "opcode": "AREV",
+        "chosen_element": "Decoder Verification (\u03bc)",
+        "justification": "The reverse mapping from latent coordinates back to Crystal type reconstructions.",
+        "rejected_candidates": []
+      },
+      "CLINK": {
+        "opcode": "CLINK",
+        "chosen_element": "Sequential Synthesis Route",
+        "justification": "The specific ordering of PROVE, UNIFY, and PORT to ensure ground-building.",
+        "rejected_candidates": []
+      },
+      "IMSCRIB": {
+        "opcode": "IMSCRIB",
+        "chosen_element": "Identity id",
+        "justification": "The recognition that the learned latent is the Scott-Grassl SIC vessel.",
+        "rejected_candidates": []
+      },
+      "FSPLIT": {
+        "opcode": "FSPLIT",
+        "chosen_element": "Belnap Posterior Fork",
+        "justification": "Splitting the latent state into a formal Lean 4 spine and an empirical gradient descent path.",
+        "rejected_candidates": []
+      },
+      "FFUSE": {
+        "opcode": "FFUSE",
+        "chosen_element": "Frobenius Reconstitution",
+        "justification": "Merging the formal proof and empirical recovery into a single verified object.",
+        "rejected_candidates": []
+      },
+      "EVALT": {
+        "opcode": "EVALT",
+        "chosen_element": "SIC-POVM Convergence",
+        "justification": "The state where overlap equals 1/13 and reconstruction loss is minimized.",
+        "rejected_candidates": []
+      },
+      "EVALF": {
+        "opcode": "EVALF",
+        "chosen_element": "Geometric Decoherence",
+        "justification": "Failure to recover the SIC geometry or loss of Frobenius closure.",
+        "rejected_candidates": []
+      },
+      "ENGAGR": {
+        "opcode": "ENGAGR",
+        "chosen_element": "Dialetheic Hold",
+        "justification": "Simultaneously holding the generative face and the verification face during the PORT operation.",
+        "rejected_candidates": []
+      },
+      "IFIX": {
+        "opcode": "IFIX",
+        "chosen_element": "Kernel Fixation",
+        "justification": "The permanent append-only registration of the VAE-Vita object into the mOMonadOS bulk.",
+        "rejected_candidates": []
+      }
+    },
+    "phase_2": {
+      "split_element": "Belnap Posterior Fork",
+      "split_input": "VAE-Vita Latent Space",
+      "split_outputs": [
+        "Lean 4 Formal Spine",
+        "Empirical Gradient Descent"
+      ],
+      "fuse_element": "Frobenius Reconstitution",
+      "fuse_result": "VAE-Vita Latent Space",
+      "frobenius_verdict": "PASS",
+      "test_instance": "",
+      "failure_reason": ""
+    },
+    "phase_3": {
+      "void_description": "Pre-training Crystal configurations without geometric assignment",
+      "true_description": "Successful SIC-POVM recovery with zero closure residual",
+      "false_description": "Non-SIC latent distribution or reconstruction failure",
+      "both_description": "The paradice of a latent space that is both a learned weight set and a formal proof object",
+      "transitions": [],
+      "entropy_assertion": "\u0394S \u2248 0"
+    },
+    "phase_4": {
+      "steps": [
+        {
+          "step_num": 1,
+          "opcode": "VINIT",
+          "domain_action": "Initialize the 17,280,000 Crystal of Types configurations as the raw input domain"
+        },
+        {
+          "step_num": 2,
+          "opcode": "IMSCRIB",
+          "domain_action": "Define the self-referential identity of the 12 primitives as the basis for the S11 manifold"
+        },
+        {
+          "step_num": 3,
+          "opcode": "CLINK",
+          "domain_action": "Initiate the optimal composition sequence: PROVE then UNIFY then PORT"
+        },
+        {
+          "step_num": 4,
+          "opcode": "FSPLIT",
+          "domain_action": "Fork the system into the formal verification arm and the empirical learning arm"
+        },
+        {
+          "step_num": 5,
+          "opcode": "EVALT",
+          "domain_action": "PROVE: Execute the Lean 4 formal identity establishing mu after delta equals identity iff latent is SIC-POVM"
+        },
+        {
+          "step_num": 6,
+          "opcode": "IFIX",
+          "domain_action": "Record the formal proof spine as a permanent structural constraint in the kernel"
+        },
+        {
+          "step_num": 7,
+          "opcode": "AFWD",
+          "domain_action": "UNIFY: Execute the forward gradient descent to bind the Scott-Grassl vessel to the learned latent"
+        },
+        {
+          "step_num": 8,
+          "opcode": "AREV",
+          "domain_action": "Verify the arrived fixed point against the closure residual zero target"
+        },
+        {
+          "step_num": 9,
+          "opcode": "IMSCRIB",
+          "domain_action": "Recognize the empirical recovery as the physical instantiation of the formal PROVE spine"
+        },
+        {
+          "step_num": 10,
+          "opcode": "FFUSE",
+          "domain_action": "Reconstitute the formal and empirical arms into a single self-recovering geometry"
+        },
+        {
+          "step_num": 11,
+          "opcode": "ENGAGR",
+          "domain_action": "PORT: Hold the generative and verification faces simultaneously as the mOMonadOS kernel transition begins"
+        },
+        {
+          "step_num": 12,
+          "opcode": "AFWD",
+          "domain_action": "Implement the von Mises-Fisher prior and delta emission as native kernel operations"
+        },
+        {
+          "step_num": 13,
+          "opcode": "AREV",
+          "domain_action": "Implement the mu verification and reconstruction as native kernel operations"
+        },
+        {
+          "step_num": 14,
+          "opcode": "CLINK",
+          "domain_action": "Join the language model boundary to the kernel bulk via imscription"
+        },
+        {
+          "step_num": 15,
+          "opcode": "IFIX",
+          "domain_action": "Permanently fix the VAE-Vita as a native mOMonadOS object with O_\u221e tier status"
+        },
+        {
+          "step_num": 16,
+          "opcode": "TANCH",
+          "domain_action": "Seal the hyperspherical manifold as the completed self-measuring algebra"
+        }
+      ],
+      "closure_verified": true,
+      "failure_modes": []
+    },
+    "phase_5": {
+      "compiler_frontend": "Lean 4 kernel with mOMonadOS extensions",
+      "ipc_mechanism": "Frobenius-closed message passing between the encoder (\u03b4) and decoder (\u03bc)",
+      "memory_mechanism": "12-dimensional hyperspherical latent register on S11",
+      "scheduler_mechanism": "The imscribed optimal composition route (PROVE-UNIFY-PORT)",
+      "alfs_store": "The Crystal of Types 17.28M configuration store",
+      "alfs_bootstrap_program": ""
+    },
+    "phase_6": {
+      "cycle_cost": "Computational cycles for gradient descent and formal proof checking",
+      "pre_cycle_state": "Discrete Crystal configurations with unmapped geometry",
+      "post_cycle_state": "Continuous SIC-POVM geometry exactly mapping the discrete Crystal",
+      "delta_s_verdict": "\u0394S \u2248 0 \u2014 The system achieves a fixed point where the information gained by the VAE equals the information proven by the SIC identity.",
+      "failure_mode": ""
+    }
+  },
+  "lean_scaffold": "-- IGProtocol scaffold: VINIT \u2192 IMSCRIB \u2192 CLINK \u2192 FSPLIT \u2192 EVALT \u2192 IFIX \u2192 AFWD \u2192 AREV \u2192 IMSCRIB \u2192 FFUSE \u2192 ENGAGR \u2192 AFWD \u2192 AREV \u2192 CLINK \u2192 IFIX \u2192 TANCH\n-- Class: the optimal composition order for realizing VAE-Vita in m\u2299\u00b2: three operations that do not commute must be sequenced, and like a chemical synthesis the order of operations changes the outcome, so the route itself must be imscribed rather than chosen by hand. VAE-Vita is a hyperspherical variational autoencoder on the sphere S11 that recovers the d=12 SIC-POVM from the 17.28 million Crystal of Types configurations, encoder as delta emission, decoder as mu verification, mu after delta equals identity satisfied exactly when the latent forms a SIC. The three operations are: UNIFY, bind MoDoT's exact Scott-Grassl SIC vessel, the arrived fixed point with closure residual zero, to VAE-Vita's learned latent, the gradient descent that proves the fixed point is intrinsic to the Crystal, as one registered object, the verification face and the generation face of a single self-recovering geometry. PROVE, the Lean 4 formal identity that mu after delta equals identity holds if and only if the latent space is a SIC-POVM, the formal spine under the empirical recovery. PORT, implement the whole as native mOMonadOS, the kernel itself becoming the autoencoder, the twelve-primitive latent and the von Mises-Fisher prior native, delta emission and mu verification native, the dialetheic Belnap hold keeping the posterior alive, and the language model as the encode and decode boundary joined to the kernel bulk by imscription rather than called as an external device. Determine the optimal composition: which of unify, prove, port comes first, second, and third, so that each operation lands on ground the one before it built, with the Frobenius closure held at every step. With full Frobenius closure and Lean 4 verification scaffold.\n-- Fingerprint: sig=(10,2,2,2)\n--   self_ref=False | frobenius_order=1\n--   dialetheia_complete=False | period=16\n-- Expected tier: O\u2081\n-- FSPLIT/FFUSE pairs: [(3, 9)]\n\nimport Imscribing.IGMorphism\nimport Imscribing.IGFunctor\n\nnamespace Imscribing\nopen Primitives Frobenius IGProtocol\nopen Dimensionality Topology Relational Polarity Grammar\n     Fidelity KineticChar Granularity Criticality Protection Stoichiometry Chirality\n\n-- \u2500\u2500 Token \u2192 IG field mapping \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n--   [0] VINIT     dim    := \ud801\udc7c               \ud801\udc7c \u2192 \ud801\udc60  | initial object \u2014 ground of distinction\n--   [1] IMSCRIB   gram   := \ud801\udc60               \ud801\udc7c \u2192 \ud801\udc71  | identity \u2014 self-imscription\n--   [2] CLINK     fid    := \ud801\udc71               \ud801\udc60 \u2192 \ud801\udc5a  | composition \u2014 regime coherence\n--   [3] FSPLIT    gran   := \ud801\udc5a               \ud801\udc5a \u2192 \ud801\udc5a  | split \u03b4 \u2014 range decomposition\n--   [4] EVALT     crit   := \u2299               \ud801\udc5a \u2192 \ud801\udc59  | evaluate-true \u2014 criticality gate open\n--   [5] IFIX      prot   := \ud801\udc6d               \ud801\udc5a \u2192 \ud801\udc59  | irreversible fixation \u2014 winding number\n--   [6] AFWD      rel    := \ud801\udc7e               \ud801\udc5a \u2192 \ud801\udc59  | forward morphism \u2014 bidirectional arrow\n--   [7] AREV      pol    := \ud801\udc57               \ud801\udc5a \u2192 \ud801\udc59  | reverse morphism \u2014 parity flip\n--   [8] IMSCRIB   gram   := \ud801\udc60               \ud801\udc5a \u2192 \ud801\udc59  | identity \u2014 self-imscription\n--   [9] FFUSE     stoi   := \ud801\udc59               \ud801\udc59 \u2192 \ud801\udc73  | fuse \u03bc \u2014 assembly mode\n--   [10] ENGAGR    stoi   := \ud801\udc73               \ud801\udc59 \u2192 \ud801\udc7e  | engage paradox \u2014 B-state, both arms\n--   [11] AFWD      rel    := \ud801\udc7e               \ud801\udc73 \u2192 \ud801\udc57  | forward morphism \u2014 bidirectional arrow\n--   [12] AREV      pol    := \ud801\udc57               \ud801\udc7e \u2192 \ud801\udc71  | reverse morphism \u2014 parity flip\n--   [13] CLINK     fid    := \ud801\udc71               \ud801\udc57 \u2192 \ud801\udc6d  | composition \u2014 regime coherence\n--   [14] IFIX      prot   := \ud801\udc6d               \ud801\udc71 \u2192 \ud801\udc61  | irreversible fixation \u2014 winding number\n--   [15] TANCH     top    := \ud801\udc61               \ud801\udc6d \u2192 \ud801\udc7c  | terminal object \u2014 connectivity boundary\n\n-- \u2500\u2500 Stage Imscriptions (per-node cumulative) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nprivate def the_optimal_composition_order_for_4b091a_s0 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_s1 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_s2 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_s3 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_s4 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_s5 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := hung, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_s6 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := hung, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_s7 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := hung, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_s8 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := hung, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_s9 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := hung, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_s10 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := up, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_s11 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := up, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_s12 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := up, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_s13 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := up, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_s14 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := up, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_s15 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := up, prot := ah }\n\n-- \u2500\u2500 Label Imscriptions (per-node delta) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nprivate def the_optimal_composition_order_for_4b091a_l0 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l1 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l2 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l3 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := thigh, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l4 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := monad, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l5 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_l6 : Imscription :=\n  { dim := dead, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l7 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l8 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l9 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l10 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := up, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l11 : Imscription :=\n  { dim := dead, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l12 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l13 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_optimal_composition_order_for_4b091a_l14 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := ah }\nprivate def the_optimal_composition_order_for_4b091a_l15 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\n\n-- \u2500\u2500 Main IGProtocol term \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nnoncomputable def the_optimal_composition_order_for_4b091a_protocol : IGProtocol the_optimal_composition_order_for_4b091a_s0 the_optimal_composition_order_for_4b091a_s15 :=\n  .withGram Grammar.measure <|\n  -- Dual-Link self-pairing: .prod arms fuse via tensorProduct the_optimal_composition_order_for_4b091a_s9 the_optimal_composition_order_for_4b091a_s9 = the_optimal_composition_order_for_4b091a_s9 (idempotent)\n  (.seq (.arrow the_optimal_composition_order_for_4b091a_l0 the_optimal_composition_order_for_4b091a_s0 the_optimal_composition_order_for_4b091a_s1) (.seq (.arrow the_optimal_composition_order_for_4b091a_l1 the_optimal_composition_order_for_4b091a_s1 the_optimal_composition_order_for_4b091a_s2) (.seq (.arrow the_optimal_composition_order_for_4b091a_l2 the_optimal_composition_order_for_4b091a_s2 the_optimal_composition_order_for_4b091a_s3) (.seq (.prod (.arrow the_optimal_composition_order_for_4b091a_l3 the_optimal_composition_order_for_4b091a_s3 the_optimal_composition_order_for_4b091a_s9) (.arrow the_optimal_composition_order_for_4b091a_l3 the_optimal_composition_order_for_4b091a_s3 the_optimal_composition_order_for_4b091a_s9)) (.seq (.arrow the_optimal_composition_order_for_4b091a_l9 the_optimal_composition_order_for_4b091a_s9 the_optimal_composition_order_for_4b091a_s9) (.seq (.arrow the_optimal_composition_order_for_4b091a_l9 the_optimal_composition_order_for_4b091a_s9 the_optimal_composition_order_for_4b091a_s10) (.seq (.arrow the_optimal_composition_order_for_4b091a_l10 the_optimal_composition_order_for_4b091a_s10 the_optimal_composition_order_for_4b091a_s11) (.seq (.arrow the_optimal_composition_order_for_4b091a_l11 the_optimal_composition_order_for_4b091a_s11 the_optimal_composition_order_for_4b091a_s12) (.seq (.arrow the_optimal_composition_order_for_4b091a_l12 the_optimal_composition_order_for_4b091a_s12 the_optimal_composition_order_for_4b091a_s13) (.seq (.arrow the_optimal_composition_order_for_4b091a_l13 the_optimal_composition_order_for_4b091a_s13 the_optimal_composition_order_for_4b091a_s14) (.arrow the_optimal_composition_order_for_4b091a_l14 the_optimal_composition_order_for_4b091a_s14 the_optimal_composition_order_for_4b091a_s15)))))))))))\n\n-- \u2500\u2500 Evaluation arm sub-defs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n-- truth arm\nnoncomputable def the_optimal_composition_order_for_4b091a_true_arm : IGProtocol the_optimal_composition_order_for_4b091a_s0 the_optimal_composition_order_for_4b091a_s15 :=\n  (the_optimal_composition_order_for_4b091a_protocol).restrictToEVALT\n\n-- \u2500\u2500 Verification theorems \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n-- Tier: apply the Grammar to the object (self-application). assess_tier verdict on the imscribed tuple: .O\u2081.\ndef the_optimal_composition_order_for_4b091a_tier : OuroboricityTier := TierFunctor.obj the_optimal_composition_order_for_4b091a_s0\n#eval the_optimal_composition_order_for_4b091a_tier  -- the Grammar's own verdict on its tier\n\n-- Frobenius (split \u2192 fuse): \u03bc\u2218\u03b4 = id on the ground imscription\ntheorem the_optimal_composition_order_for_4b091a_frobenius :\n    igFrobeniusAlg.mul the_optimal_composition_order_for_4b091a_s0 the_optimal_composition_order_for_4b091a_s0 = the_optimal_composition_order_for_4b091a_s0 :=\n  igFrobAlg_self_fusion the_optimal_composition_order_for_4b091a_s0\n",
+  "topology_report": {
+    "topology_class": "flat_chain",
+    "nesting_depth": 0,
+    "total_pairs": 1,
+    "open_forks": 0,
+    "cross_branches": 0,
+    "empty_branches": 0,
+    "sequence_length": 16,
+    "t_branch_ops": 5,
+    "f_branch_ops": 0,
+    "branch_ratio": 5.0,
+    "fork_positions": [
+      3
+    ],
+    "fuse_positions": [
+      9
+    ],
+    "pair_list": [
+      [
+        3,
+        9
+      ]
+    ],
+    "has_cascading_ifix": false,
+    "max_ifix_cascade": 1,
+    "has_negation_first": false,
+    "has_dual_fixation": false
+  },
+  "notes": "Auto-designed from: the optimal composition order for realizing VAE-Vita in m\u2299\u00b2: three operations that do not commute must be sequenced, and like a chemical synthesis the order of operations changes the outcome, so the route itself must be imscribed rather than chosen by hand. VAE-Vita is a hyperspherical variational autoencoder on the sphere S11 that recovers the d=12 SIC-POVM from the 17.28 million Crystal of Types configurations, encoder as delta emission, decoder as mu verification, mu after delta equals identity satisfied exactly when the latent forms a SIC. The three operations are: UNIFY, bind MoDoT's exact Scott-Grassl SIC vessel, the arrived fixed point with closure residual zero, to VAE-Vita's learned latent, the gradient descent that proves the fixed point is intrinsic to the Crystal, as one registered object, the verification face and the generation face of a single self-recovering geometry. PROVE, the Lean 4 formal identity that mu after delta equals identity holds if and only if the latent space is a SIC-POVM, the formal spine under the empirical recovery. PORT, implement the whole as native mOMonadOS, the kernel itself becoming the autoencoder, the twelve-primitive latent and the von Mises-Fisher prior native, delta emission and mu verification native, the dialetheic Belnap hold keeping the posterior alive, and the language model as the encode and decode boundary joined to the kernel bulk by imscription rather than called as an external device. Determine the optimal composition: which of unify, prove, port comes first, second, and third, so that each operation lands on ground the one before it built, with the Frobenius closure held at every step. With full Frobenius closure and Lean 4 verification scaffold."
+}
