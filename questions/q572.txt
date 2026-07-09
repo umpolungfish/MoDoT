@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Show that for $k\geq 3$[\mathrm{ex}(n;C_{2k})\gg n^{1+\frac{1}{k}}.]
+---

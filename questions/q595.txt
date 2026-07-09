@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is there an infinite graph $G$ which contains no $K_4$ and is not the union of countably many triangle-free graphs?
+---

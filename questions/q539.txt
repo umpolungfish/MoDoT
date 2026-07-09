@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $h(n)$ be such that, for any set $A\subseteq \mathbb{N}$ of size $n$, the set[\left\{ \frac{a}{(a,b)}: a,b\in A\right\}]has size at least $h(n)$. Estimate $h(n)$.
+---

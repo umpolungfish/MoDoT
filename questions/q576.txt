@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $Q_k$ be the $k$-dimensional hypercube graph (so that $Q_k$ has $2^k$ vertices and $k2^{k-1}$ edges). Determine the behaviour of[\mathrm{ex}(n;Q_k).]
+---

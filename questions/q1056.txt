@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $k\geq 2$. Does there exist a prime $p$ and consecutive intervals $I_1,\ldots,I_k$ such that[\prod_{n\in I_i}n \equiv 1\pmod{p}]for all $1\leq i\leq k$?
+---

@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+We call $m$ practical if every integer $1\leq n&#60;m$ is the sum of distinct divisors of $m$. If $m$ is practical then let $h(m)$  be such that $h(m)$ many divisors always suffice.
+
+Are there infinitely many practical $m$ such that\[h(m) &#60; (\log\log m)^{O(1)}?\]Is it true that $h(n!)&#60;n^{o(1)}$? Or perhaps even $h(n!)&#60;(\log n)^{O(1)}$?
+---

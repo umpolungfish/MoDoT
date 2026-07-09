@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A\subset\mathbb{N}$ be the set of cubes. Is it true that[1_A\ast 1_A(n) \ll (\log n)^{O(1)}?]
+---

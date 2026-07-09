@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $g(n)$ denote the number of groups of order $n$. If $n\leq 2^m$ then $g(n)\leq g(2^m)$.
+---

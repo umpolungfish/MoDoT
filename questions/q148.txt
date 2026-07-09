@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $F(k)$ be the number of solutions to[ 1= \frac{1}{n_1}+\cdots+\frac{1}{n_k},]where $1\leq n_1<\cdots<n_k$ are distinct integers. Find good estimates for $F(k)$.
+---

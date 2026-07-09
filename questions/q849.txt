@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that, for every integer $t\geq 1$, there is some integer $a$ such that[\binom{n}{k}=a](with $1\leq k\leq n/2$) has exactly $t$ solutions?
+---

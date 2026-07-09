@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is\[\sum_{n\geq 2}\frac{1}{n!-1}\]irrational?
+---

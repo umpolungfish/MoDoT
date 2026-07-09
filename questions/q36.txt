@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Find the optimal constant $c&#62;0$ such that the following holds. 
+
+For all sufficiently large $N$, if $A\sqcup B=\{1,\ldots,2N\}$ is a partition into two equal parts, so that $\lvert A\rvert=\lvert B\rvert=N$, then there is some $x$ such that the number of solutions to $a-b=x$ with $a\in A$ and $b\in B$ is at least $cN$.
+---

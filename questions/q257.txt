@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A\subseteq \mathbb{N}$ be an infinite set. Is[\sum_{n\in A}\frac{1}{2^n-1}]irrational?
+---

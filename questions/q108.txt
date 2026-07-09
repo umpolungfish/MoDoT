@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+For every $r\geq 4$ and $k\geq 2$ is there some finite $f(k,r)$ such that every graph of chromatic number $\geq f(k,r)$ contains a subgraph of girth $\geq r$ and chromatic number $\geq k$?
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f_r(n)$ be minimal such that every graph on $n$ vertices with $\geq f_r(n)$ edges and chromatic number $\geq r$ contains a triangle. Determine $f_r(n)$.
+---

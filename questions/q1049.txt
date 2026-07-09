@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $t>1$ be a rational number. Is[\sum_{n=1}^\infty\frac{1}{t^n-1}=\sum_{n=1}^\infty \frac{\tau(n)}{t^n}]irrational, where $\tau(n)$ counts the divisors of $n$?
+---

@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let[s(n)=\sigma(n)-n=\sum_{\substack{d\mid n\\ d<n}}d]be the sum of proper divisors function.
+
+If $A\subset \mathbb{N}$ has density $0$ then $s^{-1}(A)$ must also have density $0$.
+---

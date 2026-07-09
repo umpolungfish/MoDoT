@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is[\sum \frac{p_n}{2^n}]irrational? (Here $p_n$ is the $n$th prime.)
+---

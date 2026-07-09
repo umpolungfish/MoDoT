@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $R(3;k)$ be the minimal $n$ such that if the edges of $K_n$ are coloured with $k$ colours then there must exist a monochromatic triangle. Determine[\lim_{k\to \infty}R(3;k)^{1/k}.]
+---

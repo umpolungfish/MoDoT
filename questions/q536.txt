@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $f(N)$ be the largest size of $A\subseteq \{1,\ldots,N\}$ with the property that there are no distinct $a,b,c\in A$ such that[[a,b]=[b,c]=[a,c],]where $[a,b]$ denotes the least common multiple.
+
+Estimate $f(N)$ - in particular, is it true that $f(N)=o(N)$?
+---

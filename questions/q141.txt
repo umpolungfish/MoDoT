@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $k\geq 3$. Are there $k$ consecutive primes in arithmetic progression?
+---

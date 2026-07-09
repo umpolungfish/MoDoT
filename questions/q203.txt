@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is there an integer $m\geq 1$ with $(m,6)=1$ such that none of $2^k3^\ell m+1$ are prime, for any $k,\ell\geq 0$?
+---

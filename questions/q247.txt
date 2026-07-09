@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $1\leq a_1<a_2<\cdots$ be a sequence of integers such that[\limsup \frac{a_n}{n}=\infty.]Is[\sum_{n=1}^\infty \frac{1}{2^{a_n}}]transcendental?
+---

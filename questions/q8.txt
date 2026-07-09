@@ -1,0 +1,7 @@
+please solve the following, and show all work:
+
+---
+
+     In the plane, if $A$ has $n$ points and $\operatorname{diam}(A)=1$, is the number of unit distances at most $n$?
+      
+ ---

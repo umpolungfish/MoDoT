@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Show that[R(3,k+1)-R(3,k)\to\infty]as $k\to \infty$. Similarly, prove or disprove that[R(3,k+1)-R(3,k)=o(k).]
+---

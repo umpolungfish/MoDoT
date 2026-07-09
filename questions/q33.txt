@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A\subset\mathbb{N}$ be such that every large integer can be written as $n^2+a$ for some $a\in A$ and $n\geq 0$. What is the smallest possible value of\[\limsup \frac{\lvert A\cap\{1,\ldots,N\}\rvert}{N^{1/2}}?\]Is\[\liminf \frac{\lvert A\cap\{1,\ldots,N\}\rvert}{N^{1/2}}&#62;1?\]
+---

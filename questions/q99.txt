@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A\subseteq\mathbb{R}^2$ be a set of $n$ points with minimum distance equal to 1, chosen to minimise the diameter of $A$. If $n$ is sufficiently large then must there be three points in $A$ which form an equilateral triangle of size 1?
+---

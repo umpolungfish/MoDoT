@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Does there exist a maximal Sidon set $A\subset \{1,\ldots,N\}$ of size $O(N^{1/3})$?
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that, for all finite $k<\omega$,[\omega_1^2\to (\omega_1\omega, 3,\ldots,3)_{k+1}^2?]
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $N\geq 1$. What is the largest $t$ such that there are $A_1,\ldots,A_t\subseteq \{1,\ldots,N\}$ with $A_i\cap A_j$ a non-empty arithmetic progression for all $i\neq j$?
+---

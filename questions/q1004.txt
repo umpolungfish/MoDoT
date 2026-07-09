@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $c>0$. If $x$ is sufficiently large then does there exist $n\leq x$ such that the values of $\phi(n+k)$ are all distinct for $1\leq k\leq (\log x)^c$, where $\phi$ is the Euler totient function?
+---

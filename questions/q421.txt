@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is there a sequence $1\leq d_1<d_2<\cdots$ with density $1$ such that all products $\prod_{u\leq i\leq v}d_i$ are distinct?
+---

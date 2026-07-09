@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $m=m(n,k)$ be minimal such that in any collection of sets $A_1,\ldots,A_m\subseteq \{1,\ldots,n\}$ there must exist a sunflower of size $k$ - that is, some collection of $k$ of the $A_i$ which pairwise have the same intersection.
+
+Estimate $m(n,k)$, or even better, give an asymptotic formula.
+---

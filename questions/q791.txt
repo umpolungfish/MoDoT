@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $g(n)$ be minimal such that there exists $A\subseteq \{0,\ldots,n\}$ of size $g(n)$ with $\{0,\ldots,n\}\subseteq A+A$. Estimate $g(n)$. In particular is it true that $g(n)\sim 2n^{1/2}$?
+---

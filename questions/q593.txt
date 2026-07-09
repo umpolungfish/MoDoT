@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Characterize those finite 3-uniform hypergraphs which appear in every 3-uniform hypergraph of chromatic number $>\aleph_0$.
+---

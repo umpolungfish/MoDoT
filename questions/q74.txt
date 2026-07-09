@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(n)\to \infty$ (possibly very slowly). Is there a graph of infinite chromatic number such that every finite subgraph on $n$ vertices can be made bipartite by deleting at most $f(n)$ edges?
+---

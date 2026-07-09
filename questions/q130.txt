@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $A\subset\mathbb{R}^2$ be an infinite set which contains no three points on a line and no four points on a circle. Consider the graph with vertices the points in $A$, where two vertices are joined by an edge if and only if they are an integer distance apart. 
+
+How large can the chromatic number and clique number of this graph be? In particular, can the chromatic number be infinite?
+---

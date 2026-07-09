@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(n)$ be the maximal number of edges in a graph on $n$ vertices such that all cycles have more vertices than chords. Is it true that $f(n)\ll n$?
+---

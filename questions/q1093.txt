@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+For $n\geq 2k$ we define the deficiency of $\binom{n}{k}$ as follows. If $\binom{n}{k}$ is divisible by a prime $p\leq k$ then the deficiency is undefined. Otherwise, the deficiency is the number of $0\leq i<k$ such that $n-i$ is $k$-smooth, that is, divisible only by primes $\leq k$. 
+
+Are there infinitely many binomial coefficients with deficiency $1$? Are there only finitely many with deficiency $>1$?
+---

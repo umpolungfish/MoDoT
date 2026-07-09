@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Given $n$ distinct points $A\subset\mathbb{R}^2$ must there be a point $x\in A$ such that[\#\{ d(x,y) : y \in A\} \gg n^{1-o(1)}?]Or even $\gg n/\sqrt{\log n}$?
+---

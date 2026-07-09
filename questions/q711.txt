@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(n,m)$ be minimal such that in $(m,m+f(n,m))$ there exist distinct integers $a_1,\ldots,a_n$ such that $k\mid a_k$ for all $1\leq k\leq n$. Prove that[\max_m f(n,m) \leq n^{1+o(1)}]and that[\max_m (f(n,m)-f(n,n))\to \infty.]
+---

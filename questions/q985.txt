@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that, for every prime $p$, there is a prime $q<p$ which is a primitive root modulo $p$?
+---

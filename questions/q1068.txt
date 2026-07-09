@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Does every graph with chromatic number $\aleph_1$ contain a countable subgraph which is infinitely vertex-connected?
+---

@@ -1,0 +1,5 @@
+please solve the following, and show all work:
+---
+Let $k\geq 3$ and define $g_k(n)$ to be the minimal $N$ such that $\{1,\ldots,N\}$ contains some $A$ of size $\lvert A\rvert=n$ such that\[\langle A\rangle = \left\{\sum_{a\in A}\epsilon_aa: \epsilon_a\in \{0,1\}\right\}\]contains no non-trivial $k$-term arithmetic progression. Estimate $g_k(n)$. In particular, is it true that\[g_3(n) \gg 3^n?\]
+---
+Then provide the fully expanded, sorry-free Lean 4 verification to accompany

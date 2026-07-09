@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $p(n)$ denote the partition function of $n$ and let $F(n)$ count the number of distinct prime factors of[\prod_{1\leq k\leq n}p(k).]Does $F(n)\to \infty$ with $n$? Is $F(n)>n$ for all sufficiently large $n$?
+---

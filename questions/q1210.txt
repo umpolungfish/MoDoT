@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A\subseteq [1,n)$ be a set of integers such that $(a,b)=1$ for all distinct $a,b\in A$. Is it true that[\sum_{a\in A}\frac{1}{n-a}\leq \sum_{p<n}\frac{1}{p}+O(1)?]
+---

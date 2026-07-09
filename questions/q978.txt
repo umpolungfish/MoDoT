@@ -1,0 +1,10 @@
+please solve the following, and show all work:
+---
+Let $f\in \mathbb{Z}[x]$ be an irreducible polynomial of degree $k>2$ (and suppose that $k\neq 2^l$ for any $l\geq 1$) such that the leading coefficient of $f$ is positive.
+
+Does the set of integers $n\geq 1$ for which $f(n)$ is $(k-1)$-power-free have positive density?
+
+If $k>3$, and for all primes $p$ there exists $n$ such that $p^{k-2}\nmid f(n)$, then are there infinitely many $n$ for which $f(n)$ is $(k-2)$-power-free?
+
+In particular, does[n^4+2]represent infinitely many squarefree numbers?
+---

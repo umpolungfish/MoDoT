@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $k\geq 3$ and $f(k)$ be the supremum of $\sum_{n\in A}\frac{1}{n}$ as $A$ ranges over all sets of positive integers which do not contain a $k$-term arithmetic progression. Estimate $f(k)$. 
+
+Is[\lim_{k\to \infty}\frac{f(k)}{\log W(k)}=\infty]where $W(k)$ is the van der Waerden number?
+---

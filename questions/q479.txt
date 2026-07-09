@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that, for all $k\neq 1$, there are infinitely many $n$ such that $2^n\equiv k\pmod{n}$?
+---

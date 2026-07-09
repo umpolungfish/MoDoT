@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f\in \mathbb{C}[z]$ be a monic polynomial of degree $n$, all of whose roots satisfy $\lvert z\rvert\leq 1$. Let[E= \{ z : \lvert f(z)\rvert \leq 1\}.]What is the shortest length of a path in $E$ joining $z=0$ to $\lvert z\rvert =1$?
+---

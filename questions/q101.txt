@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Given $n$ points in $\mathbb{R}^2$, no five of which are on a line, the number of lines containing four points is $o(n^2)$.
+---

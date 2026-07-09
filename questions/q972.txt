@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $\alpha>1$ be irrational. Are there infinitely many primes $p$ such that $\lfloor p\alpha\rfloor$ is also prime?
+---

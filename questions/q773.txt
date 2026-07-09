@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+What is the size of the largest Sidon subset $A\subseteq\{1,2^2,\ldots,N^2\}$? Is it $N^{1-o(1)}$?
+---

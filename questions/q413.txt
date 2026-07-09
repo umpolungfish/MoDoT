@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $\omega(n)$ count the number of distinct primes dividing $n$. Are there infinitely many $n$ such that, for all $m<n$, we have $m+\omega(m) \leq n$?
+
+Can one show that there exists an $\epsilon>0$ such that there are infinitely many $n$ where $m+\epsilon \omega(m)\leq n$ for all $m<n$?
+---

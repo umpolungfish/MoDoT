@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that for every $k$ there exists $n$ such that[\prod_{0\leq i\leq k}(n-i) \mid \binom{2n}{n}?]
+---

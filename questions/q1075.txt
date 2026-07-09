@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $r\geq 3$. There exists $c_r>r^{-r}$ such that, for any $\epsilon>0$, if $n$ is sufficiently large, the following holds.
+
+Any $r$-uniform hypergraph on $n$ vertices with at least $(1+\epsilon)(n/r)^r$ many edges contains a subgraph on $m$ vertices with at least $c_rm^r$ edges, where $m=m(n)\to \infty$ as $n\to \infty$.
+---

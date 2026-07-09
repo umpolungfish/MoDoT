@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+How large must $y=y(\epsilon,n)$ be such that the number of integers in $(x,x+y)$ with a divisor in $(n,2n)$ is at most $\epsilon y$?
+---

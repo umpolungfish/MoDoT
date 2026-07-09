@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $p$ be a prime and[A_p = \{ k! \pmod{p} : 1\leq k<p\}.]Is it true that[\lvert A_p\rvert \sim (1-\tfrac{1}{e})p?]
+---

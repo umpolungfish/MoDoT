@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Describe (by statistical means) the arithmetic structure of the orders of subgroups of $S_n$.
+---

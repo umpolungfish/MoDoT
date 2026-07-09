@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+As $n\to \infty$ ranges over integers[\sum_{p\leq n}1_{n\in (p/2,p)\pmod{p}}\frac{1}{p}\sim \frac{\log\log n}{2}.]
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $1\leq a_1<a_2<\cdots$ be a sequence of integers such that no $a_i$ is the sum of consecutive $a_j$ for $j<i$. Is it true that[\limsup \frac{a_n}{n}=\infty?]Or even[\lim \frac{1}{\log x}\sum_{a_n<x}\frac{1}{a_n}=0?]
+---

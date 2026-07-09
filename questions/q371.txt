@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $P(n)$ denote the largest prime factor of $n$. Show that the set of $n$ with $P(n)<P(n+1)$ has density $1/2$.
+---

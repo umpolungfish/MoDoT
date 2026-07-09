@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $h(N)$ be the smallest $k$ such that $\{1,\ldots,N\}$ can be coloured with $k$ colours so that every four-term arithmetic progression must contain at least three distinct colours. Estimate $h(N)$.
+---

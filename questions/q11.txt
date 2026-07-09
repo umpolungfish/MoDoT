@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is every large odd integer $n$ the sum of a squarefree number and a power of 2?
+---

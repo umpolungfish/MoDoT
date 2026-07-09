@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $p>q\geq 2$ be two coprime integers. We call $n$ representable if it is the sum of integers of the form $p^kq^l$, none of which divide each other. 
+
+If $\{p,q\}\neq \{2,3\}$ then what can be said about the density of non-representable numbers? Are there infinitely many coprime non-representable numbers?
+---

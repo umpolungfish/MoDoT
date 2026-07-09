@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $r\geq 2$ be finite and $\lambda$ be an infinite cardinal. Let $\kappa_\alpha$ be cardinals for all $\alpha<\gamma$. 
+
+Is it true that[2^\lambda \to (\kappa_\alpha+1)_{\alpha<\gamma}^{r+1}]implies[\lambda \to (\kappa_\alpha)_{\alpha<\gamma}^{r}?]Here $+$ means cardinal addition, so that $\kappa_\alpha+1=\kappa_\alpha$ if $\kappa_\alpha$ is infinite.
+---

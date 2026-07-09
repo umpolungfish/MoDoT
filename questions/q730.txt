@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Are there infinitely many pairs of integers $n\neq m$ such that $\binom{2n}{n}$ and $\binom{2m}{m}$ have the same set of prime divisors?
+---

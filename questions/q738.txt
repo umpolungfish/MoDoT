@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+If $G$ has infinite chromatic number and is triangle-free (contains no $K_3$) then must $G$ contain every tree as an induced subgraph?
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it consistent that[\omega_2\to (\alpha)_2^2]for every $\alpha <\omega_2$?
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+How many iterations of $n\mapsto \phi(n)+1$ are needed before a prime is reached? Can infinitely many $n$ reach the same prime? What is the density of $n$ which reach any fixed prime?
+---

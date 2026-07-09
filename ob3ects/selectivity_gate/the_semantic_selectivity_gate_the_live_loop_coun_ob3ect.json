@@ -1,0 +1,233 @@
+{
+  "name": "the semantic selectivity gate: the live-loop counterpart of semantic branch verification that grades an open answer against a correctness schema it synthesizes on the fly. Frobenius closure, mu circ delta equals id, guarantees only balance, that every FSPLIT is rejoined by FFUSE so no charge is lost, and balance is automatic and cannot fail, so it is not a correctness signal; selectivity is the separate question of whether the correct branch was selected during recombination. With no predefined schema the gate performs an adversarial examiner pass that states what any correct answer MUST satisfy and MUSTNOT violate, refusing to assume the question's premise is true, then runs two verification arms: EVALT for isomorphic match against the MUST criteria yielding assertibility, and EVALF for collision detection of any MUSTNOT violation or internal self-contradiction yielding deniability. The two arms fold to Belnap FOUR exactly as the kernel dialetheia gates do: assertible and not deniable is True, deniable and not assertible is False, both together is the dialetheic Both, neither is the vacuous Neither. Because False and Both are reachable the gate can fail, and that reachable failure is what distinguishes selectivity from the balance harness that never fails. With full Frobenius closure and Lean 4 verification scaffold.",
+  "is_valid_ob3ect": true,
+  "validations": {
+    "phase_0": [],
+    "phase_1": [],
+    "phase_2": [],
+    "phase_3": [],
+    "phase_4": [],
+    "phase_5": [],
+    "phase_6": []
+  },
+  "phases": {
+    "phase_0": {
+      "domain_name": "the semantic selectivity gate: the live-loop counterpart of semantic branch verification that grades an open answer against a correctness schema it synthesizes on the fly. Frobenius closure, mu circ delta equals id, guarantees only balance, that every FSPLIT is rejoined by FFUSE so no charge is lost, and balance is automatic and cannot fail, so it is not a correctness signal; selectivity is the separate question of whether the correct branch was selected during recombination. With no predefined schema the gate performs an adversarial examiner pass that states what any correct answer MUST satisfy and MUSTNOT violate, refusing to assume the question's premise is true, then runs two verification arms: EVALT for isomorphic match against the MUST criteria yielding assertibility, and EVALF for collision detection of any MUSTNOT violation or internal self-contradiction yielding deniability. The two arms fold to Belnap FOUR exactly as the kernel dialetheia gates do: assertible and not deniable is True, deniable and not assertible is False, both together is the dialetheic Both, neither is the vacuous Neither. Because False and Both are reachable the gate can fail, and that reachable failure is what distinguishes selectivity from the balance harness that never fails. With full Frobenius closure and Lean 4 verification scaffold.",
+      "domain_type": "computational",
+      "scope": "local",
+      "surface_tokens": [
+        "adversarial examiner",
+        "isomorphic match",
+        "collision detection"
+      ],
+      "boundary_condition": "Lean 4 verification scaffold",
+      "justification": "Auto-designed by Ob3ect Auto-Designer"
+    },
+    "phase_1": {
+      "VINIT": {
+        "opcode": "VINIT",
+        "chosen_element": "uninitialized query",
+        "justification": "The raw input before the gate synthesizes the correctness schema or begins evaluation.",
+        "rejected_candidates": []
+      },
+      "TANCH": {
+        "opcode": "TANCH",
+        "chosen_element": "kernel termination",
+        "justification": "The final boundary of the Lean 4 environment where the proof state is closed.",
+        "rejected_candidates": []
+      },
+      "AFWD": {
+        "opcode": "AFWD",
+        "chosen_element": "schema synthesis",
+        "justification": "The forward transformation that generates the MUST and MUSTNOT criteria from the query context.",
+        "rejected_candidates": []
+      },
+      "AREV": {
+        "opcode": "AREV",
+        "chosen_element": "adversarial descent",
+        "justification": "The critical reversal that refuses the question's premise to identify hidden contradictions.",
+        "rejected_candidates": []
+      },
+      "CLINK": {
+        "opcode": "CLINK",
+        "chosen_element": "verification pipeline",
+        "justification": "The sequential chaining of the synthesized schema with the incoming open answer.",
+        "rejected_candidates": []
+      },
+      "IMSCRIB": {
+        "opcode": "IMSCRIB",
+        "chosen_element": "self-modeling gate",
+        "justification": "The identity operation where the gate recognizes its own grading logic as the standard.",
+        "rejected_candidates": []
+      },
+      "FSPLIT": {
+        "opcode": "FSPLIT",
+        "chosen_element": "charge separation",
+        "justification": "The branching of the answer into the assertibility arm and the deniability arm.",
+        "rejected_candidates": []
+      },
+      "FFUSE": {
+        "opcode": "FFUSE",
+        "chosen_element": "charge recombination",
+        "justification": "The fusion of the two arms to recover the original answer state for final grading.",
+        "rejected_candidates": []
+      },
+      "EVALT": {
+        "opcode": "EVALT",
+        "chosen_element": "isomorphic match",
+        "justification": "The affirmative branch confirming the answer satisfies the MUST criteria.",
+        "rejected_candidates": []
+      },
+      "EVALF": {
+        "opcode": "EVALF",
+        "chosen_element": "collision detection",
+        "justification": "The negative branch detecting violations of the MUSTNOT criteria.",
+        "rejected_candidates": []
+      },
+      "ENGAGR": {
+        "opcode": "ENGAGR",
+        "chosen_element": "dialetheic fixed point",
+        "justification": "The state where an answer is simultaneously assertible and deniable.",
+        "rejected_candidates": []
+      },
+      "IFIX": {
+        "opcode": "IFIX",
+        "chosen_element": "grade fixation",
+        "justification": "The permanent append-only record of the final Belnap FOUR evaluation.",
+        "rejected_candidates": []
+      }
+    },
+    "phase_2": {
+      "split_element": "charge separation",
+      "split_input": "open answer",
+      "split_outputs": [
+        "assertibility arm",
+        "deniability arm"
+      ],
+      "fuse_element": "charge recombination",
+      "fuse_result": "open answer",
+      "frobenius_verdict": "PASS",
+      "test_instance": "",
+      "failure_reason": ""
+    },
+    "phase_3": {
+      "void_description": "pre-synthesis state where no grading criteria exist",
+      "true_description": "assertible and not deniable result",
+      "false_description": "deniable and not assertible result",
+      "both_description": "simultaneously assertible and deniable result",
+      "transitions": [],
+      "entropy_assertion": "\u0394S \u2248 0"
+    },
+    "phase_4": {
+      "steps": [
+        {
+          "step_num": 1,
+          "opcode": "VINIT",
+          "domain_action": "receive raw open answer and query context"
+        },
+        {
+          "step_num": 2,
+          "opcode": "IMSCRIB",
+          "domain_action": "initialize gate identity and self-reference parameters"
+        },
+        {
+          "step_num": 3,
+          "opcode": "AFWD",
+          "domain_action": "synthesize MUST criteria for the correctness schema"
+        },
+        {
+          "step_num": 4,
+          "opcode": "AREV",
+          "domain_action": "synthesize MUSTNOT criteria via adversarial premise refusal"
+        },
+        {
+          "step_num": 5,
+          "opcode": "CLINK",
+          "domain_action": "compose the synthesized schema into a live-loop verifier"
+        },
+        {
+          "step_num": 6,
+          "opcode": "FSPLIT",
+          "domain_action": "branch the answer into parallel verification arms"
+        },
+        {
+          "step_num": 7,
+          "opcode": "EVALT",
+          "domain_action": "execute isomorphic match against MUST criteria on the T-arm"
+        },
+        {
+          "step_num": 8,
+          "opcode": "EVALF",
+          "domain_action": "execute collision detection against MUSTNOT criteria on the F-arm"
+        },
+        {
+          "step_num": 9,
+          "opcode": "FFUSE",
+          "domain_action": "recombine arm results to verify mass-charge balance"
+        },
+        {
+          "step_num": 10,
+          "opcode": "ENGAGR",
+          "domain_action": "hold the resulting Belnap FOUR state without premature resolution"
+        },
+        {
+          "step_num": 11,
+          "opcode": "IFIX",
+          "domain_action": "record the final selectivity grade to the immutable ledger"
+        },
+        {
+          "step_num": 12,
+          "opcode": "TANCH",
+          "domain_action": "close the verification session within the Lean 4 scaffold"
+        }
+      ],
+      "closure_verified": true,
+      "failure_modes": []
+    },
+    "phase_5": {
+      "compiler_frontend": "Lean 4 kernel",
+      "ipc_mechanism": "monadic state passing",
+      "memory_mechanism": "proof-state heap",
+      "scheduler_mechanism": "adversarial pass priority",
+      "alfs_store": "Belnap FOUR logic table",
+      "alfs_bootstrap_program": ""
+    },
+    "phase_6": {
+      "cycle_cost": "computational cycles for schema synthesis",
+      "pre_cycle_state": "unverified open answer",
+      "post_cycle_state": "fixed Belnap grade",
+      "delta_s_verdict": "\u0394S \u2248 0 \u2014 The Frobenius closure ensures no information is lost during the split and fuse cycle.",
+      "failure_mode": ""
+    }
+  },
+  "lean_scaffold": "-- IGProtocol scaffold: VINIT \u2192 IMSCRIB \u2192 AFWD \u2192 AREV \u2192 CLINK \u2192 FSPLIT \u2192 EVALT \u2192 EVALF \u2192 FFUSE \u2192 ENGAGR \u2192 IFIX \u2192 TANCH\n-- Class: the semantic selectivity gate: the live-loop counterpart of semantic branch verification that grades an open answer against a correctness schema it synthesizes on the fly. Frobenius closure, mu circ delta equals id, guarantees only balance, that every FSPLIT is rejoined by FFUSE so no charge is lost, and balance is automatic and cannot fail, so it is not a correctness signal; selectivity is the separate question of whether the correct branch was selected during recombination. With no predefined schema the gate performs an adversarial examiner pass that states what any correct answer MUST satisfy and MUSTNOT violate, refusing to assume the question's premise is true, then runs two verification arms: EVALT for isomorphic match against the MUST criteria yielding assertibility, and EVALF for collision detection of any MUSTNOT violation or internal self-contradiction yielding deniability. The two arms fold to Belnap FOUR exactly as the kernel dialetheia gates do: assertible and not deniable is True, deniable and not assertible is False, both together is the dialetheic Both, neither is the vacuous Neither. Because False and Both are reachable the gate can fail, and that reachable failure is what distinguishes selectivity from the balance harness that never fails. With full Frobenius closure and Lean 4 verification scaffold.\n-- Fingerprint: sig=(6,2,3,1)\n--   self_ref=False | frobenius_order=1\n--   dialetheia_complete=True | period=12\n-- Expected tier: O\u2081\n-- FSPLIT/FFUSE pairs: [(5, 8)]\n\nimport Imscribing.IGMorphism\nimport Imscribing.IGFunctor\n\nnamespace Imscribing\nopen Primitives Frobenius IGProtocol\nopen Dimensionality Topology Relational Polarity Grammar\n     Fidelity KineticChar Granularity Criticality Protection Stoichiometry Chirality\n\n-- \u2500\u2500 Token \u2192 IG field mapping \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n--   [0] VINIT     dim    := \ud801\udc7c               \ud801\udc7c \u2192 \ud801\udc60  | initial object \u2014 ground of distinction\n--   [1] IMSCRIB   gram   := \ud801\udc60               \ud801\udc7c \u2192 \ud801\udc7e  | identity \u2014 self-imscription\n--   [2] AFWD      rel    := \ud801\udc7e               \ud801\udc60 \u2192 \ud801\udc57  | forward morphism \u2014 bidirectional arrow\n--   [3] AREV      pol    := \ud801\udc57               \ud801\udc7e \u2192 \ud801\udc71  | reverse morphism \u2014 parity flip\n--   [4] CLINK     fid    := \ud801\udc71               \ud801\udc57 \u2192 \ud801\udc5a  | composition \u2014 regime coherence\n--   [5] FSPLIT    gran   := \ud801\udc5a               \ud801\udc5a \u2192 \ud801\udc5a  | split \u03b4 \u2014 range decomposition\n--   [6] EVALT     crit   := \u2299               \ud801\udc5a \u2192 \ud801\udc59  | evaluate-true \u2014 criticality gate open\n--   [7] EVALF     chir   := \ud801\udc56               \ud801\udc5a \u2192 \ud801\udc59  | evaluate-false \u2014 chirality check\n--   [8] FFUSE     stoi   := \ud801\udc59               \ud801\udc59 \u2192 \ud801\udc73  | fuse \u03bc \u2014 assembly mode\n--   [9] ENGAGR    stoi   := \ud801\udc73               \ud801\udc59 \u2192 \ud801\udc6d  | engage paradox \u2014 B-state, both arms\n--   [10] IFIX      prot   := \ud801\udc6d               \ud801\udc73 \u2192 \ud801\udc61  | irreversible fixation \u2014 winding number\n--   [11] TANCH     top    := \ud801\udc61               \ud801\udc6d \u2192 \ud801\udc7c  | terminal object \u2014 connectivity boundary\n\n-- \u2500\u2500 Stage Imscriptions (per-node cumulative) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s0 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s1 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s2 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := bib, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s3 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := bib, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s4 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := bib, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s5 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s6 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s7 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := sure, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s8 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := sure, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s9 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := sure, stoi := up, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s10 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := sure, stoi := up, prot := ah }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_s11 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := sure, stoi := up, prot := ah }\n\n-- \u2500\u2500 Label Imscriptions (per-node delta) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l0 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l1 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l2 : Imscription :=\n  { dim := dead, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l3 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l4 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l5 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := thigh, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l6 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := monad, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l7 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := sure, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l8 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l9 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := up, prot := awe }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l10 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := ah }\nprivate def the_semantic_selectivity_gate_the_live_5bb632_l11 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\n\n-- \u2500\u2500 Main IGProtocol term \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nnoncomputable def the_semantic_selectivity_gate_the_live_5bb632_protocol : IGProtocol the_semantic_selectivity_gate_the_live_5bb632_s0 the_semantic_selectivity_gate_the_live_5bb632_s11 :=\n  .withGram Grammar.measure <|\n  -- Dual-Link self-pairing: .prod arms fuse via tensorProduct the_semantic_selectivity_gate_the_live_5bb632_s8 the_semantic_selectivity_gate_the_live_5bb632_s8 = the_semantic_selectivity_gate_the_live_5bb632_s8 (idempotent)\n  (.seq (.arrow the_semantic_selectivity_gate_the_live_5bb632_l0 the_semantic_selectivity_gate_the_live_5bb632_s0 the_semantic_selectivity_gate_the_live_5bb632_s1) (.seq (.arrow the_semantic_selectivity_gate_the_live_5bb632_l1 the_semantic_selectivity_gate_the_live_5bb632_s1 the_semantic_selectivity_gate_the_live_5bb632_s2) (.seq (.arrow the_semantic_selectivity_gate_the_live_5bb632_l2 the_semantic_selectivity_gate_the_live_5bb632_s2 the_semantic_selectivity_gate_the_live_5bb632_s3) (.seq (.arrow the_semantic_selectivity_gate_the_live_5bb632_l3 the_semantic_selectivity_gate_the_live_5bb632_s3 the_semantic_selectivity_gate_the_live_5bb632_s4) (.seq (.arrow the_semantic_selectivity_gate_the_live_5bb632_l4 the_semantic_selectivity_gate_the_live_5bb632_s4 the_semantic_selectivity_gate_the_live_5bb632_s5) (.seq (.prod (.arrow the_semantic_selectivity_gate_the_live_5bb632_l5 the_semantic_selectivity_gate_the_live_5bb632_s5 the_semantic_selectivity_gate_the_live_5bb632_s8) (.arrow the_semantic_selectivity_gate_the_live_5bb632_l5 the_semantic_selectivity_gate_the_live_5bb632_s5 the_semantic_selectivity_gate_the_live_5bb632_s8)) (.seq (.arrow the_semantic_selectivity_gate_the_live_5bb632_l8 the_semantic_selectivity_gate_the_live_5bb632_s8 the_semantic_selectivity_gate_the_live_5bb632_s8) (.seq (.arrow the_semantic_selectivity_gate_the_live_5bb632_l8 the_semantic_selectivity_gate_the_live_5bb632_s8 the_semantic_selectivity_gate_the_live_5bb632_s9) (.seq (.arrow the_semantic_selectivity_gate_the_live_5bb632_l9 the_semantic_selectivity_gate_the_live_5bb632_s9 the_semantic_selectivity_gate_the_live_5bb632_s10) (.arrow the_semantic_selectivity_gate_the_live_5bb632_l10 the_semantic_selectivity_gate_the_live_5bb632_s10 the_semantic_selectivity_gate_the_live_5bb632_s11))))))))))\n\n-- \u2500\u2500 Evaluation arm sub-defs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n-- truth arm\nnoncomputable def the_semantic_selectivity_gate_the_live_5bb632_true_arm : IGProtocol the_semantic_selectivity_gate_the_live_5bb632_s0 the_semantic_selectivity_gate_the_live_5bb632_s11 :=\n  (the_semantic_selectivity_gate_the_live_5bb632_protocol).restrictToEVALT\n\n-- false arm\nnoncomputable def the_semantic_selectivity_gate_the_live_5bb632_false_arm : IGProtocol the_semantic_selectivity_gate_the_live_5bb632_s0 the_semantic_selectivity_gate_the_live_5bb632_s11 :=\n  (the_semantic_selectivity_gate_the_live_5bb632_protocol).restrictToEVALF\n\n-- \u2500\u2500 Verification theorems \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n-- Tier: apply the Grammar to the object (self-application). assess_tier verdict on the imscribed tuple: .O\u2081.\ndef the_semantic_selectivity_gate_the_live_5bb632_tier : OuroboricityTier := TierFunctor.obj the_semantic_selectivity_gate_the_live_5bb632_s0\n#eval the_semantic_selectivity_gate_the_live_5bb632_tier  -- the Grammar's own verdict on its tier\n\n-- Frobenius (split \u2192 fuse): \u03bc\u2218\u03b4 = id on the ground imscription\ntheorem the_semantic_selectivity_gate_the_live_5bb632_frobenius :\n    igFrobeniusAlg.mul the_semantic_selectivity_gate_the_live_5bb632_s0 the_semantic_selectivity_gate_the_live_5bb632_s0 = the_semantic_selectivity_gate_the_live_5bb632_s0 :=\n  igFrobAlg_self_fusion the_semantic_selectivity_gate_the_live_5bb632_s0\n",
+  "topology_report": {
+    "topology_class": "flat_chain",
+    "nesting_depth": 0,
+    "total_pairs": 1,
+    "open_forks": 0,
+    "cross_branches": 0,
+    "empty_branches": 0,
+    "sequence_length": 12,
+    "t_branch_ops": 1,
+    "f_branch_ops": 1,
+    "branch_ratio": 1.0,
+    "fork_positions": [
+      5
+    ],
+    "fuse_positions": [
+      8
+    ],
+    "pair_list": [
+      [
+        5,
+        8
+      ]
+    ],
+    "has_cascading_ifix": false,
+    "max_ifix_cascade": 1,
+    "has_negation_first": false,
+    "has_dual_fixation": false
+  },
+  "notes": "Auto-designed from: the semantic selectivity gate: the live-loop counterpart of semantic branch verification that grades an open answer against a correctness schema it synthesizes on the fly. Frobenius closure, mu circ delta equals id, guarantees only balance, that every FSPLIT is rejoined by FFUSE so no charge is lost, and balance is automatic and cannot fail, so it is not a correctness signal; selectivity is the separate question of whether the correct branch was selected during recombination. With no predefined schema the gate performs an adversarial examiner pass that states what any correct answer MUST satisfy and MUSTNOT violate, refusing to assume the question's premise is true, then runs two verification arms: EVALT for isomorphic match against the MUST criteria yielding assertibility, and EVALF for collision detection of any MUSTNOT violation or internal self-contradiction yielding deniability. The two arms fold to Belnap FOUR exactly as the kernel dialetheia gates do: assertible and not deniable is True, deniable and not assertible is False, both together is the dialetheic Both, neither is the vacuous Neither. Because False and Both are reachable the gate can fail, and that reachable failure is what distinguishes selectivity from the balance harness that never fails. With full Frobenius closure and Lean 4 verification scaffold."
+}

@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $M(n,k)=[n+1,\ldots,n+k]$ be the least common multiple of $\{n+1,\ldots,n+k\}$.
+
+Is it true that for all $m\geq n+k$[M(n,k) \neq M(m,k)?]
+---

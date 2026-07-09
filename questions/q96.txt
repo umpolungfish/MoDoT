@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+If $n$ points in $\mathbb{R}^2$ form a convex polygon then there are $O(n)$ many pairs which are distance $1$ apart.
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A\subset\mathbb{N}$ be such that every integer $n\geq 1$ can be written uniquely as $a_n-b_n$ for some $a_n,b_n\in A$. How fast must $a_n/n$ increase?
+---

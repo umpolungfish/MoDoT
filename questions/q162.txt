@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $\alpha>0$ and $n\geq 1$. Let $F(n,\alpha)$ be the largest $k$ such that there exists some 2-colouring of the edges of $K_n$ in which any induced subgraph $H$ on at least $k$ vertices contains more than $\alpha\binom{\lvert H\rvert}{2}$ many edges of each colour.
+
+Prove that for every fixed $0\leq \alpha \leq 1/2$, as $n\to\infty$,[F(n,\alpha)\sim c_\alpha \log n]for some constant $c_\alpha$.
+---

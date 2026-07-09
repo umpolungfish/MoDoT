@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Are there infinitely many $n$ such that if[n(n+1) = \prod_i p_i^{k_i}]is the factorisation into distinct primes then all exponents $k_i$ are distinct?
+---

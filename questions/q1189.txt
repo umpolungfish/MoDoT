@@ -1,0 +1,12 @@
+please solve the following, and show all work:
+---
+Call a set of distinct integers $1<n_1<\cdots<n_k$ a covering set if there is a choice of $a_i\pmod{n_i}$ for $1\leq i\leq k$ such that every integer satisfies at least one of these congruences. A set is an irreducible covering set if no proper subset is a covering set. 
+
+How many irreducible covering sets of size $k$ are there?
+
+What is the minimum and maximum that $n_k$ can be?
+
+Determine or estimate $\max \sum\frac{1}{n_i}$, where the maximum ranges over all irreducible covering sets of size $k$.
+
+Are there infinitely many $n$ such that the divisors of $n$ (which are $>1$) form an irreducible covering set?
+---

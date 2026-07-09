@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Determine the Ramsey number[R(C_4,S_n),]where $S_n=K_{1,n}$ is the star on $n+1$ vertices.
+
+In particular, is it true that, for any $c>0$, there are infinitely many $n$ such that[R(C_4,S_n)\leq n+\sqrt{n}-c?]
+---

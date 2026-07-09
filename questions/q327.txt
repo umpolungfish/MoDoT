@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Suppose $A\subseteq \{1,\ldots,N\}$ is such that if $a,b\in A$ and $a\neq b$ then $a+b\nmid ab$. Can $A$ be 'substantially more' than the odd numbers?
+
+What if $a,b\in A$ with $a\neq b$ implies $a+b\nmid 2ab$? Must $\lvert A\rvert=o(N)$?
+---

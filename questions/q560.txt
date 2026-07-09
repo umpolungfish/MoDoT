@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $\hat{R}(G)$ denote the size Ramsey number, the minimal number of edges $m$ such that there is a graph $H$ with $m$ edges such that in any $2$-colouring of the edges of $H$ there is a monochromatic copy of $G$. 
+
+Determine[\hat{R}(K_{n,n}),]where $K_{n,n}$ is the complete bipartite graph with $n$ vertices in each component.
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $\alpha,\beta \in \mathbb{R}$. Is it true that[\liminf_{n\to \infty} n \| n\alpha \| \| n\beta\| =0]where $\|x\|$ is the distance from $x$ to the nearest integer?
+---

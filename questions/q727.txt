@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $k\geq 2$. Does[(n+k)!^2 \mid (2n)!]for infinitely many $n$?
+---

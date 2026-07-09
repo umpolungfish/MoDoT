@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $A$ be a set of $n$ integers. How many distinct $d$ can occur as the common difference of a three-term arithmetic progression in $A$?
+
+In particular, are there always $O(n^{3/2})$ many such $d$?
+---

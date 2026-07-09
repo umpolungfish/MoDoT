@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A\subset \mathbb{R}^2$ be a set of size $n$ and let $\{d_1,\ldots,d_k\}$ be the set of distinct distances determined by $A$. Let $f(d)$ be the number of times the distance $d$ is determined, and suppose the $d_i$ are ordered such that[f(d_1)\geq f(d_2)\geq \cdots \geq f(d_k).]Estimate[\max (f(d_1)-f(d_2)),]where the maximum is taken over all $A$ of size $n$.
+---

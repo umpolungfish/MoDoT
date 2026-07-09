@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(n,k)$ be minimal such that there is a graph with $n$ vertices and $f(n,k)$ edges where every set of $k+2$ vertices induces a subgraph with maximum degree at least $k$. Determine $f(n,k)$.
+---

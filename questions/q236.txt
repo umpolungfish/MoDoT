@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(n)$ count the number of solutions to $n=p+2^k$ for prime $p$ and $k\geq 0$. Is it true that $f(n)=o(\log n)$?
+---

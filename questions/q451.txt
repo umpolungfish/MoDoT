@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Estimate $n_k$, the smallest integer $>2k$ such that $\prod_{1\leq i\leq k}(n_k-i)$ has no prime factor in $(k,2k)$.
+---

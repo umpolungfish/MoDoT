@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $\alpha\in[0,1/2)$ and $n,t\geq 1$. Let $F^{(t)}(n,\alpha)$ be the smallest $m$ such that we can $2$-colour the edges of the complete $t$-uniform hypergraph on $n$ vertices such that if $X\subseteq [n]$ with $\lvert X\rvert \geq m$ then there are at least $\alpha \binom{\lvert X\rvert}{t}$ many $t$-subsets of $X$ of each colour. 
+
+For fixed $n,t$ as we change $\alpha$ from $0$ to $1/2$ does $F^{(t)}(n,\alpha)$ increase continuously or are there jumps? Only one jump?
+---

@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Determine whether there exists a constant $C>1$ such that the following holds.
+
+Let $P$ be a finite projective plane. Must there exist a set of points $S$ such that $1\leq \lvert S\cap \ell\rvert \leq C$ for all lines $\ell$?
+---

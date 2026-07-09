@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Show that for any rational $\alpha \in [1,2)$ there exists a bipartite graph $G$ such that[\mathrm{ex}(n;G)\asymp n^{\alpha}.]
+---

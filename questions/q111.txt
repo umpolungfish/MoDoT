@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+If $G$ is a graph let $h_G(n)$ be defined such that any subgraph of $G$ on $n$ vertices can be made bipartite after deleting at most $h_G(n)$ edges. 
+
+What is the behaviour of $h_G(n)$? Is it true that $h_G(n)/n\to \infty$ for every graph $G$ with chromatic number $\aleph_1$?
+---

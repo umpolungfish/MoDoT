@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $p_k$ denote the $k$th prime. For infinitely many $r$ there are at least two integers $p_r<n<p_{r+1}$ all of whose prime factors are $<p_{r+1}-p_r$.
+---

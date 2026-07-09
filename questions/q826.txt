@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Are there infinitely many $n$ such that, for all $k\geq 1$,[\tau(n+k)\ll k?]
+---

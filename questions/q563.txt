@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $F(n,\alpha)$ denote the smallest $m$ such that there exists a $2$-colouring of the edges of $K_n$ so that every $X\subseteq [n]$ with $\lvert X\rvert\geq m$ contains more than $\alpha \binom{\lvert X\rvert}{2}$ many edges of each colour. 
+
+Prove that, for every $0\leq \alpha< 1/2$,[F(n,\alpha)\sim c_\alpha\log n]for some constant $c_\alpha$ depending only on $\alpha$.
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $S(N)$ count the number of distinct sums of the form $\sum_{n\in A}\frac{1}{n}$ for $A\subseteq \{1,\ldots,N\}$. Estimate $S(N)$.
+---

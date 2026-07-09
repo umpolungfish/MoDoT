@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $g(k)>k+1$ be the smallest $n$ such that all prime factors of $\binom{n}{k}$ are $>k$. Estimate $g(k)$.
+---

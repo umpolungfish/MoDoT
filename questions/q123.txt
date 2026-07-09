@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $a,b,c\geq 1$ be three integers which are pairwise coprime. Is every large integer the sum of distinct integers of the form $a^kb^lc^m$ ($k,l,m\geq 0$), none of which divide any other?
+---

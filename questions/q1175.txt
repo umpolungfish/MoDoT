@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $\kappa$ be an uncountable cardinal. Must there exist a cardinal $\lambda$ such that every graph with chromatic number $\lambda$ contains a triangle-free subgraph with chromatic number $\kappa$?
+---

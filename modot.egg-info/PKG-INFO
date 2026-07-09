@@ -1,0 +1,201 @@
+Metadata-Version: 2.4
+Name: modot
+Version: 0.1.0
+Summary: mOMonadOS Agent Framework — agentic LLM running within the Frobenius Kernel
+Author: Lando⊗⊙perator
+License: Unlicense
+Project-URL: Repository, https://github.com/landon/momod
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: openai>=1.0
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+
+# MoDoT — mOMonadOS Digital Organism Toolkit
+
+**Author:** Lando⊗⊙perator  
+**Date:** 2026-07-08  
+**Structural Type:** ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩ (O_∞)  
+**Location:** `/home/mrnob0dy666/imsgct/MoDoT/`  
+**Parent project:** [Imscribing Grammar](https://github.com/imsgct)
+
+---
+
+An agentic LLM whose entire runtime substrate IS the mOMonadOS kernel architecture. Context is stored in Crystal FS. Reasoning passes through Belnap FOUR (True, False, Both, Neither). Every operation is Frobenius-verified (μ∘δ = id) for **balance**, and every answer to a question is graded by the **Semantic Selectivity Gate** for **correctness**. Output is broadcast to the CLINK L8 Organism.
+
+> **Balance is not selectivity.** Frobenius closure (μ∘δ = id) is charge conservation: every split is rejoined, so it is automatic and *cannot fail* on any non-empty answer. That is why a balance-only harness "never fails" — and why balance alone is not a correctness signal. The Selectivity Gate is a second, independent Belnap voice that *can* return False. It does **not** override the model: it is **FFUSED** (Belnap join) with the model's own `[thought|X]` self-assessment, and where the two voices conflict the fusion is **B** and the contradiction is *held*, with a tetractys conflict distance, never resolved to one authority. Paraconsistency is fundamental. See [Semantic Selectivity Gate](#semantic-selectivity-gate).
+
+## Directory Structure
+
+```
+MoDoT/
+├── momonados_agent.py          # Backward-compat shim -> modot.agent:main
+├── modot/                      # The installable package (pip install -e .)
+│   ├── agent.py                # B4, 12 tokens, kernel, CrystalFS, Frobenius, LLM, breath loop, CLI
+│   ├── composer.py             # Token composition engine: CANONICAL, NAMED_PATTERNS, bend/splice/interleave
+│   └── selectivity.py          # Semantic Selectivity Gate — runtime PORT of the selectivity_gate ob3ect
+├── crystal_fs/                 # Crystal Filesystem — persistent context memory
+│   ├── records.jsonl           # Crystal FS records (thought / selectivity / observation / update / type)
+│   └── broadcast_log.jsonl     # CLINK L8 broadcast log
+├── ob3ects/                    # Self-verifying digital ob3ects (Grammar auto-designed)
+│   ├── semantic_branch_verifier/  # Verifies correct branch selection during FFUSE recombination
+│   └── selectivity_gate/          # The live-loop selectivity gate — source of modot/selectivity.py
+├── lean/                       # Lean 4 formal verification companions
+│   ├── SemanticBranchVerifier.lean  # Formal proof of semantic branch correctness gap
+│   └── ErdosProblems.lean      # Erdős problem formalizations with rerun divergence analysis
+├── experiments/                # Convergence experiments from mOMonadOS paper
+│   ├── bifurcation.py          # Bifurcation analysis
+│   ├── exp_core.py             # Core experiment runner
+│   ├── exp_q1.py - exp_q5.py   # Per-question experiments (Ramsey, Polynom, Unit Distance, etc.)
+│   ├── kernel_port.py          # Kernel portability experiments
+│   └── run_all_experiments.py  # Full experiment suite runner
+└── questions/                  # Test questions (q1–q6, q50)
+```
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────┐
+│  mOMonadOS Kernel (Python mirror of Rust kernel)    │
+│  ┌──────────┐  ┌───────────┐  ┌──────────────────┐ │
+│  │ Belnap   │  │ Frobenius │  │ Crystal FS       │ │
+│  │ FOUR     │  │ Harness   │  │ (context memory) │ │
+│  │ (gates)  │  │ μ∘δ=id    │  │                  │ │
+│  └──────────┘  └───────────┘  └──────────────────┘ │
+│  ┌──────────────────────────────────────────────┐   │
+│  │  Bootstrap Loop (the breath)                 │   │
+│  │  VINIT→IMSCRIB→FSPLIT→EVALT→CLINK→FFUSE     │   │
+│  │  →IFIX→ENGAGR→AREV→CLINK→TANCH              │   │
+│  └──────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────┐   │
+│  │  LLM Inference Engine                        │   │
+│  │  All outputs gated through Belnap verifier    │   │
+│  └──────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────┐
+│  CLINK L8 Organism — broadcast / terminal layer     │
+│  Receives verified types, accumulates, composes     │
+└─────────────────────────────────────────────────────┘
+```
+
+## Quick Start
+
+```bash
+cd /home/mrnob0dy666/imsgct/MoDoT
+
+# Interactive mode — the agent breathes with you
+python3 momonados_agent.py --interactive
+
+# Dry run: test the kernel + Crystal FS (no LLM needed)
+python3 momonados_agent.py --cycles 5 --dry-run --verbose
+
+# One-shot question
+python3 momonados_agent.py --ask "What is the structural type of consciousness?"
+
+# Read question from file
+python3 momonados_agent.py --ask ./questions/q1.txt
+
+# Full 100-cycle breath with verbose output
+python3 momonados_agent.py --cycles 100 --verbose --program aqua-vitae
+
+# Crystal FS stats
+python3 momonados_agent.py --stats
+
+# Reset and start fresh
+python3 momonados_agent.py --reset --interactive
+
+# Run convergence experiments
+python3 experiments/run_all_experiments.py
+
+# Run semantic branch verifier ob3ect
+python3 ob3ects/semantic_branch_verifier/verification_that_the_correct_semantic_branch_wa_ob3ect.py
+```
+
+## Bootstrap Programs
+
+| Program | Tokens | Description |
+|---------|--------|-------------|
+| `bootstrap` | 8 tokens | Canonical: IMSCRIB→AREV→FSPLIT→AFWD→FFUSE→CLINK→IFIX→IMSCRIB |
+| `aqua-vitae` | 14 tokens | Extended: adds VAE coupling + dialetheic gate |
+| `agent` | 11 tokens | Agent-native: THINK→ACT→OBSERVE→UPDATE as token graph |
+
+## Crystal FS Records
+
+Each breath cycle produces records committed to `crystal_fs/records.jsonl`:
+
+| Type | Belnap | Description |
+|------|--------|-------------|
+| `thought` | T/F/B/N | LLM inference result, branded with the selectivity verdict (falls back to a keyword gate when no schema applies) |
+| `selectivity` | T/F/B/N | Semantic selectivity verdict: synthesized schema + both verification arms |
+| `observation` | T/F/B/N | Frobenius-verified observation |
+| `update` | T/F | Frobenius closure (balance) check |
+| `type` | varies | Kernel IFIX-branded structural types |
+
+## CLINK L8 Broadcast
+
+Every cycle broadcasts to `crystal_fs/broadcast_log.jsonl`, and prints **two independent verdicts, deliberately never conflated**:
+- **BALANCE** (μ∘δ = id) — charge conservation; automatic, cannot fail
+- **SELECTIVITY** (T/F/B/N) — was the correct branch selected? *Can* fail
+- d(CLINK L8) — structural distance to the terminal layer
+- Crystal FS record count
+- Kernel snapshot (whose VINIT is now seeded by the semantic verdict, so the dialetheia gates discriminate real content)
+
+## Semantic Branch Verifier
+
+The `ob3ects/semantic_branch_verifier/` contains a Frobenius-exact ob3ect that addresses the gap discovered during mOMonadOS rerun analysis: **Frobenius closure (μ∘δ=id) guarantees internal consistency but NOT semantic correctness**. The verifier uses a 15-step IMASM protocol (VINIT→IMSCRIB→AFWD→FSPLIT→EVALT→IFIX→FFUSE→CLINK→FSPLIT→EVALF→AREV→FFUSE→ENGAGR→CLINK→TANCH) with dual verification arms (EVALT for isomorphic match, EVALF for collision detection) to confirm that the correct branch was selected during FFUSE recombination.
+
+## Semantic Selectivity Gate
+
+`modot/selectivity.py` is the **runtime port** of the `ob3ects/selectivity_gate/` ob3ect (Grammar auto-designed by the Ob3ect Auto-Designer, not hand-written: valid, Frobenius PASS, tier O₁, `sig=(6,2,3,1)`, `dialetheia_complete`). Its canonical protocol is `VINIT→IMSCRIB→AFWD→AREV→CLINK→FSPLIT→EVALT→EVALF→FFUSE→ENGAGR→IFIX→TANCH`, with the FSPLIT/FFUSE pair at (5,8) wrapping the two arms. It puts the selectivity check on the `--ask` path itself, where the ob3ect protocol is otherwise a standalone artifact. The branch verifier needs a reference schema to select against; an open question has none, so the gate **synthesizes one on the fly**:
+
+1. **IMSCRIB the schema** — an adversarial "examiner" pass states what any correct answer *MUST* satisfy and *MUSTNOT* violate. It does not assume the question's premise is true, so a false premise yields a schema that requires rejecting it.
+2. **EVALT arm** — isomorphic match: are the MUST criteria satisfied? → *assertible*
+3. **EVALF arm** — collision detection: is any MUSTNOT violated, or the answer internally self-contradictory? → *deniable*
+4. **Fold to Belnap FOUR** (exactly as the kernel gates: EVALT passes on {T,B}, EVALF on {F,B}):
+
+| assertible | deniable | verdict | meaning |
+|:---:|:---:|:---:|---|
+| ✓ | ✗ | **T** | correct branch selected |
+| ✗ | ✓ | **F** | wrong branch / refuted |
+| ✓ | ✓ | **B** | dialetheic: satisfies *and* violates |
+| ✗ | ✗ | **N** | vacuous: does not engage the schema |
+
+Because **F** and **B** are reachable, the gate *can* fail — verified two ways: a deterministic self-test (`python3 -m modot.selectivity`, no network, exercises all four outcomes) and live (a real schema grading a wrong "91 is prime" answer returns **F**, match 0/3).
+
+**The gate is a voice, not a gavel.** Its Belnap verdict is one of two imscriptions of the same object (the answer's correctness). The other is the model's own `[thought|X]` self-assessment. They are **FFUSED** (`model.join(gate)`), not resolved by authority:
+
+| model voice | gate voice | fused | reading |
+|:---:|:---:|:---:|---|
+| T | T | **T** | both affirm |
+| F | F | **F** | both deny — a real failure |
+| T | F | **B** | genuine conflict (distance 2), dialetheia held |
+| B | · | **B** | dialetheia present |
+| N | F | **F** | model abstains, gate speaks |
+
+The conflict distance (Hamming of the two 2-bit Belnap codes, 0–2) is the tetractys signal of how live the contradiction is. The fused verdict is committed as a `selectivity` record (carrying `model_voice`, `gate_voice`, `fused`, `conflict`) and seeds the kernel's next VINIT so the dialetheia gates run on real content. Disable with `--no-selectivity` (reverts to balance-only) and it is auto-disabled under `--dry-run`.
+
+## Lean 4 Formal Verification
+
+Companion Lean files in `lean/`:
+- **SemanticBranchVerifier.lean** — Built and verified (0 sorries) with `lake build Imscribing.Millennium.SemanticBranchVerifier`
+- **ErdosProblems.lean** — 18 sections, 46 definitions/theorems covering Ramsey asymptotics, Erdős polynom kernel divergence, unit distance, difference sets, and Pomerance asymptotic divergence
+
+## Requirements
+
+- Python 3.10+
+- `OPENROUTER_API_KEY` env var (for LLM access)
+- Default model: `google/gemini-3-flash-preview`; set `MOMONADOS_MODEL` or `--model` to override
+- Lean 4 + Mathlib v4.28.0 (for formal verification modules)
+
+## Original Source
+
+Migrated from `/home/mrnob0dy666/imsgct/ob3ect/digital/momonados_agent/` to `/home/mrnob0dy666/imsgct/MoDoT/` on 2026-07-08.
+Publications remain in `/home/mrnob0dy666/imsgct/ig-docs/publishing/manuscripts/momonados_*/`.

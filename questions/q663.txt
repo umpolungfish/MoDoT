@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $k\geq 2$ and $q(n,k)$ denote the least prime which does not divide $\prod_{1\leq i\leq k}(n+i)$. Is it true that, if $k$ is fixed and $n$ is sufficiently large, we have[q(n,k)<(1+o(1))\log n?]
+---

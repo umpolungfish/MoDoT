@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is every sufficiently large integer of the form[ap^2+b]for some prime $p$ and integer $a\geq 1$ and $0\leq b<p$?
+---

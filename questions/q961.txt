@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(k)$ be the minimal $n$ such that every set of $n$ consecutive integers $>k$ contains an integer divisible by a prime $>k$. Estimate $f(k)$.
+---

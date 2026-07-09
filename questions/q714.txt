@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that[\mathrm{ex}(n; K_{r,r}) \gg n^{2-1/r}?]
+---

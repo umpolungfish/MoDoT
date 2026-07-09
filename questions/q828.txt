@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that, for any $a\in\mathbb{Z}$, there are infinitely many $n$ such that[\phi(n) \mid n+a?]
+---

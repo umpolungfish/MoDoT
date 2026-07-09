@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $g_1=g(n)=n+\phi(n)$ and $g_k(n)=g(g_{k-1}(n))$. For which $n$ and $r$ is it true that $g_{k+r}(n)=2g_k(n)$ for all large $k$?
+---

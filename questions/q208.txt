@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $s_1<s_2<\cdots$ be the sequence of squarefree numbers. Is it true that, for any $\epsilon>0$ and large $n$,[s_{n+1}-s_n \ll_\epsilon s_n^{\epsilon}?]Is it true that[s_{n+1}-s_n \leq (1+o(1))\frac{\pi^2}{6}\frac{\log s_n}{\log\log s_n}?]
+---

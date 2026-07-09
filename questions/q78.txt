@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $R(k)$ be the Ramsey number for $K_k$, the minimal $n$ such that every $2$-colouring of the edges of $K_n$ contains a monochromatic copy of $K_k$.
+
+Give a constructive proof that $R(k)&#62;C^k$ for some constant $C&#62;1$.
+---

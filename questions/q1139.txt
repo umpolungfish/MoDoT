@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $1\leq u_1<u_2<\cdots$ be the sequence of integers with at most $2$ prime factors. Is it true that[\limsup \frac{u_{k+1}-u_k}{\log k}=\infty?]
+---

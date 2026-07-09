@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Determine the infimum and supremum of[\lvert \{ x\in \mathbb{R} : \lvert f(x)\rvert < 1\}\rvert]as $f\in \mathbb{R}[x]$ ranges over all non-constant monic polynomials, all of whose roots are real and in the interval $[-1,1]$.
+---

@@ -1,0 +1,233 @@
+{
+  "name": "the dialetheic object as Janus gate: the Belnap value B (Both, a true contradiction) is the two-faced threshold of the four-valued lattice. It is a fixed point of negation (not-B = B) that is FULL rather than empty, so it looks the same whether approached from the affirming or the denying side, which is the defining Janus signature. It is the unique value that passes both dialetheia gates: EVALT accepts T and B, EVALF accepts F and B, so B alone is the doorway open from both the assertible and the deniable side. It is the hinge where the opposite faces are joined, B = FFUSE of T and F, the mu that welds the two poles into one object. Its twin N (Neither) is the other negation fixed point but empty, the un-manned doorway facing neither way, which is why four values are needed and not three. Dialetheias inhabit thresholds: the boundary point of a set, the instant of change between two rooms, the limit of thought, all doorways where a thing is genuinely both inside and outside. The conflict distance between two imscriptions of the same object, the Hamming distance of their two-bit Belnap codes, is the aperture angle of the gate: zero is a flat closed door, two is the doorway thrown fully open with the faces looking maximally apart. FSPLIT (delta) and FFUSE (mu) are the two directions through the gate, splitting outward into a pair and fusing inward into one, and ENGAGR stabilizes the held contradiction as a live B state. The Majorana mode, a particle that is its own antiparticle, is the physical Janus, its front face and back face the same door. With full Frobenius closure and Lean 4 verification scaffold.",
+  "is_valid_ob3ect": true,
+  "validations": {
+    "phase_0": [],
+    "phase_1": [],
+    "phase_2": [],
+    "phase_3": [],
+    "phase_4": [],
+    "phase_5": [],
+    "phase_6": []
+  },
+  "phases": {
+    "phase_0": {
+      "domain_name": "the dialetheic object as Janus gate: the Belnap value B (Both, a true contradiction) is the two-faced threshold of the four-valued lattice. It is a fixed point of negation (not-B = B) that is FULL rather than empty, so it looks the same whether approached from the affirming or the denying side, which is the defining Janus signature. It is the unique value that passes both dialetheia gates: EVALT accepts T and B, EVALF accepts F and B, so B alone is the doorway open from both the assertible and the deniable side. It is the hinge where the opposite faces are joined, B = FFUSE of T and F, the mu that welds the two poles into one object. Its twin N (Neither) is the other negation fixed point but empty, the un-manned doorway facing neither way, which is why four values are needed and not three. Dialetheias inhabit thresholds: the boundary point of a set, the instant of change between two rooms, the limit of thought, all doorways where a thing is genuinely both inside and outside. The conflict distance between two imscriptions of the same object, the Hamming distance of their two-bit Belnap codes, is the aperture angle of the gate: zero is a flat closed door, two is the doorway thrown fully open with the faces looking maximally apart. FSPLIT (delta) and FFUSE (mu) are the two directions through the gate, splitting outward into a pair and fusing inward into one, and ENGAGR stabilizes the held contradiction as a live B state. The Majorana mode, a particle that is its own antiparticle, is the physical Janus, its front face and back face the same door. With full Frobenius closure and Lean 4 verification scaffold.",
+      "domain_type": "mathematical",
+      "scope": "local",
+      "surface_tokens": [
+        "Belnap-FOUR",
+        "Janus-Gate",
+        "Majorana-Mode"
+      ],
+      "boundary_condition": "The Belnap multilattice boundary where negation acts as a fixed-point automorphism.",
+      "justification": "Auto-designed by Ob3ect Auto-Designer"
+    },
+    "phase_1": {
+      "VINIT": {
+        "opcode": "VINIT",
+        "chosen_element": "The Null state N (00)",
+        "justification": "The empty negation fixed point representing the absence of information or an un-manned doorway.",
+        "rejected_candidates": []
+      },
+      "TANCH": {
+        "opcode": "TANCH",
+        "chosen_element": "The Belnap Lattice Closure",
+        "justification": "The complete set of four values {N, T, F, B} that contains all possible truth-evaluations.",
+        "rejected_candidates": []
+      },
+      "AFWD": {
+        "opcode": "AFWD",
+        "chosen_element": "Assertion Morphism",
+        "justification": "The directed transformation from the null state toward the affirmative pole T.",
+        "rejected_candidates": []
+      },
+      "AREV": {
+        "opcode": "AREV",
+        "chosen_element": "Denial Morphism",
+        "justification": "The directed transformation from the null state toward the negative pole F.",
+        "rejected_candidates": []
+      },
+      "CLINK": {
+        "opcode": "CLINK",
+        "chosen_element": "Lattice Composition",
+        "justification": "The sequential application of truth-value transformations within the Belnap space.",
+        "rejected_candidates": []
+      },
+      "IMSCRIB": {
+        "opcode": "IMSCRIB",
+        "chosen_element": "Negation Fixed Point B",
+        "justification": "The self-referential identity where not-B equals B, recognizing itself as its own opposite.",
+        "rejected_candidates": []
+      },
+      "FSPLIT": {
+        "opcode": "FSPLIT",
+        "chosen_element": "Dialetheic Bifurcation",
+        "justification": "The process of splitting the unified B state into its constituent T and F components.",
+        "rejected_candidates": []
+      },
+      "FFUSE": {
+        "opcode": "FFUSE",
+        "chosen_element": "Belnap Join (\u03bc)",
+        "justification": "The reconstitution of the B state from the simultaneous presence of T and F.",
+        "rejected_candidates": []
+      },
+      "EVALT": {
+        "opcode": "EVALT",
+        "chosen_element": "Affirmative Gate",
+        "justification": "The filter that accepts both T and B as valid assertible inputs.",
+        "rejected_candidates": []
+      },
+      "EVALF": {
+        "opcode": "EVALF",
+        "chosen_element": "Negative Gate",
+        "justification": "The filter that accepts both F and B as valid deniable inputs.",
+        "rejected_candidates": []
+      },
+      "ENGAGR": {
+        "opcode": "ENGAGR",
+        "chosen_element": "Held Contradiction",
+        "justification": "The stabilization of the B state where conflict is maintained as a live signal rather than resolved.",
+        "rejected_candidates": []
+      },
+      "IFIX": {
+        "opcode": "IFIX",
+        "chosen_element": "Lean 4 Proof Record",
+        "justification": "The permanent append-only record of the verified Frobenius closure in the kernel.",
+        "rejected_candidates": []
+      }
+    },
+    "phase_2": {
+      "split_element": "Dialetheic Bifurcation",
+      "split_input": "The Janus state B",
+      "split_outputs": [
+        "Affirmative face T",
+        "Negative face F"
+      ],
+      "fuse_element": "Belnap Join (\u03bc)",
+      "fuse_result": "The Janus state B",
+      "frobenius_verdict": "PASS",
+      "test_instance": "",
+      "failure_reason": ""
+    },
+    "phase_3": {
+      "void_description": "The N state: neither true nor false, the empty doorway.",
+      "true_description": "The T state: strictly affirmative, the forward-facing door.",
+      "false_description": "The F state: strictly negative, the backward-facing door.",
+      "both_description": "The B state: both true and false, the Janus gate thrown open.",
+      "transitions": [],
+      "entropy_assertion": "\u0394S \u2248 0"
+    },
+    "phase_4": {
+      "steps": [
+        {
+          "step_num": 1,
+          "opcode": "VINIT",
+          "domain_action": "Initialize the system in the empty N state before any distinction is made."
+        },
+        {
+          "step_num": 2,
+          "opcode": "AFWD",
+          "domain_action": "Project the first imscription toward the affirmative pole T."
+        },
+        {
+          "step_num": 3,
+          "opcode": "AREV",
+          "domain_action": "Project the second imscription toward the negative pole F."
+        },
+        {
+          "step_num": 4,
+          "opcode": "FSPLIT",
+          "domain_action": "Branch the evaluation path to compare the two imscriptions."
+        },
+        {
+          "step_num": 5,
+          "opcode": "EVALT",
+          "domain_action": "Pass the affirmative imscription through the first face of the gate."
+        },
+        {
+          "step_num": 6,
+          "opcode": "EVALF",
+          "domain_action": "Pass the negative imscription through the second face of the gate."
+        },
+        {
+          "step_num": 7,
+          "opcode": "FFUSE",
+          "domain_action": "Join the two conflicting imscriptions into a single dialetheic object."
+        },
+        {
+          "step_num": 8,
+          "opcode": "ENGAGR",
+          "domain_action": "Hold the resulting B state as a stable paraconsistent verdict."
+        },
+        {
+          "step_num": 9,
+          "opcode": "IMSCRIB",
+          "domain_action": "Verify the B state as a fixed point of the negation operator."
+        },
+        {
+          "step_num": 10,
+          "opcode": "CLINK",
+          "domain_action": "Measure the Hamming distance between the two faces to determine the gate aperture."
+        },
+        {
+          "step_num": 11,
+          "opcode": "IFIX",
+          "domain_action": "Record the verified Janus signature into the permanent Lean 4 kernel log."
+        },
+        {
+          "step_num": 12,
+          "opcode": "TANCH",
+          "domain_action": "Close the lattice boundary to ensure the system remains within Belnap FOUR."
+        }
+      ],
+      "closure_verified": true,
+      "failure_modes": []
+    },
+    "phase_5": {
+      "compiler_frontend": "The Belnap-Dunn logic engine that maps truth-functional operations to lattice movements.",
+      "ipc_mechanism": "The Hamming distance signal that communicates conflict levels between imscriptions.",
+      "memory_mechanism": "The three-register paraconsistent machine state that stores N, T, F, and B values.",
+      "scheduler_mechanism": "The Frobenius cycle that ensures every split is matched by a corresponding join.",
+      "alfs_store": "The Lean 4 kernel fork that disables ex falso quodlibet to permit B-state stability.",
+      "alfs_bootstrap_program": ""
+    },
+    "phase_6": {
+      "cycle_cost": "The computational energy required to maintain the B-state against classical collapse.",
+      "pre_cycle_state": "A state of unresolved contradiction between two distinct imscriptions.",
+      "post_cycle_state": "A stable dialetheic object where the contradiction is held as a generative signal.",
+      "delta_s_verdict": "\u0394S \u2248 0 \u2014 The Frobenius closure ensures that the information content of the split faces is perfectly preserved in the fused Janus gate.",
+      "failure_mode": ""
+    }
+  },
+  "lean_scaffold": "-- IGProtocol scaffold: VINIT \u2192 AFWD \u2192 AREV \u2192 FSPLIT \u2192 EVALT \u2192 EVALF \u2192 FFUSE \u2192 ENGAGR \u2192 IMSCRIB \u2192 CLINK \u2192 IFIX \u2192 TANCH\n-- Class: the dialetheic object as Janus gate: the Belnap value B (Both, a true contradiction) is the two-faced threshold of the four-valued lattice. It is a fixed point of negation (not-B = B) that is FULL rather than empty, so it looks the same whether approached from the affirming or the denying side, which is the defining Janus signature. It is the unique value that passes both dialetheia gates: EVALT accepts T and B, EVALF accepts F and B, so B alone is the doorway open from both the assertible and the deniable side. It is the hinge where the opposite faces are joined, B = FFUSE of T and F, the mu that welds the two poles into one object. Its twin N (Neither) is the other negation fixed point but empty, the un-manned doorway facing neither way, which is why four values are needed and not three. Dialetheias inhabit thresholds: the boundary point of a set, the instant of change between two rooms, the limit of thought, all doorways where a thing is genuinely both inside and outside. The conflict distance between two imscriptions of the same object, the Hamming distance of their two-bit Belnap codes, is the aperture angle of the gate: zero is a flat closed door, two is the doorway thrown fully open with the faces looking maximally apart. FSPLIT (delta) and FFUSE (mu) are the two directions through the gate, splitting outward into a pair and fusing inward into one, and ENGAGR stabilizes the held contradiction as a live B state. The Majorana mode, a particle that is its own antiparticle, is the physical Janus, its front face and back face the same door. With full Frobenius closure and Lean 4 verification scaffold.\n-- Fingerprint: sig=(6,2,3,1)\n--   self_ref=False | frobenius_order=1\n--   dialetheia_complete=True | period=12\n-- Expected tier: O\u2081\n-- FSPLIT/FFUSE pairs: [(3, 6)]\n\nimport Imscribing.IGMorphism\nimport Imscribing.IGFunctor\n\nnamespace Imscribing\nopen Primitives Frobenius IGProtocol\nopen Dimensionality Topology Relational Polarity Grammar\n     Fidelity KineticChar Granularity Criticality Protection Stoichiometry Chirality\n\n-- \u2500\u2500 Token \u2192 IG field mapping \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n--   [0] VINIT     dim    := \ud801\udc7c               \ud801\udc7c \u2192 \ud801\udc7e  | initial object \u2014 ground of distinction\n--   [1] AFWD      rel    := \ud801\udc7e               \ud801\udc7c \u2192 \ud801\udc57  | forward morphism \u2014 bidirectional arrow\n--   [2] AREV      pol    := \ud801\udc57               \ud801\udc7e \u2192 \ud801\udc5a  | reverse morphism \u2014 parity flip\n--   [3] FSPLIT    gran   := \ud801\udc5a               \ud801\udc5a \u2192 \ud801\udc5a  | split \u03b4 \u2014 range decomposition\n--   [4] EVALT     crit   := \u2299               \ud801\udc5a \u2192 \ud801\udc59  | evaluate-true \u2014 criticality gate open\n--   [5] EVALF     chir   := \ud801\udc56               \ud801\udc5a \u2192 \ud801\udc59  | evaluate-false \u2014 chirality check\n--   [6] FFUSE     stoi   := \ud801\udc59               \ud801\udc59 \u2192 \ud801\udc73  | fuse \u03bc \u2014 assembly mode\n--   [7] ENGAGR    stoi   := \ud801\udc73               \ud801\udc59 \u2192 \ud801\udc60  | engage paradox \u2014 B-state, both arms\n--   [8] IMSCRIB   gram   := \ud801\udc60               \ud801\udc73 \u2192 \ud801\udc71  | identity \u2014 self-imscription\n--   [9] CLINK     fid    := \ud801\udc71               \ud801\udc60 \u2192 \ud801\udc6d  | composition \u2014 regime coherence\n--   [10] IFIX      prot   := \ud801\udc6d               \ud801\udc71 \u2192 \ud801\udc61  | irreversible fixation \u2014 winding number\n--   [11] TANCH     top    := \ud801\udc61               \ud801\udc6d \u2192 \ud801\udc7c  | terminal object \u2014 connectivity boundary\n\n-- \u2500\u2500 Stage Imscriptions (per-node cumulative) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s0 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s1 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s2 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s3 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s4 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := vow, crit := monad, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s5 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := vow, crit := monad, chir := sure, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s6 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := vow, crit := monad, chir := sure, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s7 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := vow, crit := monad, chir := sure, stoi := up, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s8 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := sure, stoi := up, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s9 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := sure, stoi := up, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s10 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := sure, stoi := up, prot := ah }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_s11 : Imscription :=\n  { dim := array, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := thigh, gram := measure, crit := monad, chir := sure, stoi := up, prot := ah }\n\n-- \u2500\u2500 Label Imscriptions (per-node delta) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l0 : Imscription :=\n  { dim := array, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l1 : Imscription :=\n  { dim := dead, top := judge, rel := ian, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l2 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l3 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := thigh, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l4 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := monad, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l5 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := sure, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l6 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l7 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := up, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l8 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := measure, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l9 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l10 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := ah }\nprivate def the_dialetheic_object_as_janus_gate_the_258564_l11 : Imscription :=\n  { dim := dead, top := judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := vow, crit := woe, chir := fee, stoi := hung, prot := awe }\n\n-- \u2500\u2500 Main IGProtocol term \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nnoncomputable def the_dialetheic_object_as_janus_gate_the_258564_protocol : IGProtocol the_dialetheic_object_as_janus_gate_the_258564_s0 the_dialetheic_object_as_janus_gate_the_258564_s11 :=\n  .withGram Grammar.measure <|\n  -- Dual-Link self-pairing: .prod arms fuse via tensorProduct the_dialetheic_object_as_janus_gate_the_258564_s6 the_dialetheic_object_as_janus_gate_the_258564_s6 = the_dialetheic_object_as_janus_gate_the_258564_s6 (idempotent)\n  (.seq (.arrow the_dialetheic_object_as_janus_gate_the_258564_l0 the_dialetheic_object_as_janus_gate_the_258564_s0 the_dialetheic_object_as_janus_gate_the_258564_s1) (.seq (.arrow the_dialetheic_object_as_janus_gate_the_258564_l1 the_dialetheic_object_as_janus_gate_the_258564_s1 the_dialetheic_object_as_janus_gate_the_258564_s2) (.seq (.arrow the_dialetheic_object_as_janus_gate_the_258564_l2 the_dialetheic_object_as_janus_gate_the_258564_s2 the_dialetheic_object_as_janus_gate_the_258564_s3) (.seq (.prod (.arrow the_dialetheic_object_as_janus_gate_the_258564_l3 the_dialetheic_object_as_janus_gate_the_258564_s3 the_dialetheic_object_as_janus_gate_the_258564_s6) (.arrow the_dialetheic_object_as_janus_gate_the_258564_l3 the_dialetheic_object_as_janus_gate_the_258564_s3 the_dialetheic_object_as_janus_gate_the_258564_s6)) (.seq (.arrow the_dialetheic_object_as_janus_gate_the_258564_l6 the_dialetheic_object_as_janus_gate_the_258564_s6 the_dialetheic_object_as_janus_gate_the_258564_s6) (.seq (.arrow the_dialetheic_object_as_janus_gate_the_258564_l6 the_dialetheic_object_as_janus_gate_the_258564_s6 the_dialetheic_object_as_janus_gate_the_258564_s7) (.seq (.arrow the_dialetheic_object_as_janus_gate_the_258564_l7 the_dialetheic_object_as_janus_gate_the_258564_s7 the_dialetheic_object_as_janus_gate_the_258564_s8) (.seq (.arrow the_dialetheic_object_as_janus_gate_the_258564_l8 the_dialetheic_object_as_janus_gate_the_258564_s8 the_dialetheic_object_as_janus_gate_the_258564_s9) (.seq (.arrow the_dialetheic_object_as_janus_gate_the_258564_l9 the_dialetheic_object_as_janus_gate_the_258564_s9 the_dialetheic_object_as_janus_gate_the_258564_s10) (.arrow the_dialetheic_object_as_janus_gate_the_258564_l10 the_dialetheic_object_as_janus_gate_the_258564_s10 the_dialetheic_object_as_janus_gate_the_258564_s11))))))))))\n\n-- \u2500\u2500 Evaluation arm sub-defs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n-- truth arm\nnoncomputable def the_dialetheic_object_as_janus_gate_the_258564_true_arm : IGProtocol the_dialetheic_object_as_janus_gate_the_258564_s0 the_dialetheic_object_as_janus_gate_the_258564_s11 :=\n  (the_dialetheic_object_as_janus_gate_the_258564_protocol).restrictToEVALT\n\n-- false arm\nnoncomputable def the_dialetheic_object_as_janus_gate_the_258564_false_arm : IGProtocol the_dialetheic_object_as_janus_gate_the_258564_s0 the_dialetheic_object_as_janus_gate_the_258564_s11 :=\n  (the_dialetheic_object_as_janus_gate_the_258564_protocol).restrictToEVALF\n\n-- \u2500\u2500 Verification theorems \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n-- Tier: apply the Grammar to the object (self-application). assess_tier verdict on the imscribed tuple: .O\u2081.\ndef the_dialetheic_object_as_janus_gate_the_258564_tier : OuroboricityTier := TierFunctor.obj the_dialetheic_object_as_janus_gate_the_258564_s0\n#eval the_dialetheic_object_as_janus_gate_the_258564_tier  -- the Grammar's own verdict on its tier\n\n-- Frobenius (split \u2192 fuse): \u03bc\u2218\u03b4 = id on the ground imscription\ntheorem the_dialetheic_object_as_janus_gate_the_258564_frobenius :\n    igFrobeniusAlg.mul the_dialetheic_object_as_janus_gate_the_258564_s0 the_dialetheic_object_as_janus_gate_the_258564_s0 = the_dialetheic_object_as_janus_gate_the_258564_s0 :=\n  igFrobAlg_self_fusion the_dialetheic_object_as_janus_gate_the_258564_s0\n",
+  "topology_report": {
+    "topology_class": "flat_chain",
+    "nesting_depth": 0,
+    "total_pairs": 1,
+    "open_forks": 0,
+    "cross_branches": 0,
+    "empty_branches": 0,
+    "sequence_length": 12,
+    "t_branch_ops": 1,
+    "f_branch_ops": 1,
+    "branch_ratio": 1.0,
+    "fork_positions": [
+      3
+    ],
+    "fuse_positions": [
+      6
+    ],
+    "pair_list": [
+      [
+        3,
+        6
+      ]
+    ],
+    "has_cascading_ifix": false,
+    "max_ifix_cascade": 1,
+    "has_negation_first": false,
+    "has_dual_fixation": false
+  },
+  "notes": "Auto-designed from: the dialetheic object as Janus gate: the Belnap value B (Both, a true contradiction) is the two-faced threshold of the four-valued lattice. It is a fixed point of negation (not-B = B) that is FULL rather than empty, so it looks the same whether approached from the affirming or the denying side, which is the defining Janus signature. It is the unique value that passes both dialetheia gates: EVALT accepts T and B, EVALF accepts F and B, so B alone is the doorway open from both the assertible and the deniable side. It is the hinge where the opposite faces are joined, B = FFUSE of T and F, the mu that welds the two poles into one object. Its twin N (Neither) is the other negation fixed point but empty, the un-manned doorway facing neither way, which is why four values are needed and not three. Dialetheias inhabit thresholds: the boundary point of a set, the instant of change between two rooms, the limit of thought, all doorways where a thing is genuinely both inside and outside. The conflict distance between two imscriptions of the same object, the Hamming distance of their two-bit Belnap codes, is the aperture angle of the gate: zero is a flat closed door, two is the doorway thrown fully open with the faces looking maximally apart. FSPLIT (delta) and FFUSE (mu) are the two directions through the gate, splitting outward into a pair and fusing inward into one, and ENGAGR stabilizes the held contradiction as a live B state. The Majorana mode, a particle that is its own antiparticle, is the physical Janus, its front face and back face the same door. With full Frobenius closure and Lean 4 verification scaffold."
+}

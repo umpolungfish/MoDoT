@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+What is the chromatic number of the plane? That is, what is the smallest number of colours required to colour $\mathbb{R}^2$ such that no two points of the same colour are distance $1$ apart?
+---

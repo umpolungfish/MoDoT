@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A\subset\mathbb{N}$ be an infinite Sidon set. Is it true that[\liminf_{x\to \infty} \frac{\lvert A\cap [1,x]\rvert}{x^{1/2}}(\log x)^{1/2}=0?]Does there exist an infinite Sidon set $A$ such that[\liminf_{x\to \infty} \frac{\lvert A\cap [1,x]\rvert}{x^{1/2}}(\log x)^c>0]for some $c>0$?
+---

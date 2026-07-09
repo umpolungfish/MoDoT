@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+There exists some constant $c>0$ such that
+
+$$R(C_4,K_n) \ll n^{2-c}.$$
+---

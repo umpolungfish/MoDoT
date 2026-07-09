@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+For any $t\in (0,1)$ let $t=\sum_{k=1}^\infty \epsilon_k(t)2^{-k}$ (where $\epsilon_k(t)\in \{0,1\}$). What is the correct order of magnitude (for almost all $t\in(0,1)$) for[M_n(t)=\max_{x\in [-1,1]}\left\lvert \sum_{k\leq n}(-1)^{\epsilon_k(t)}x^k\right\rvert?]
+---

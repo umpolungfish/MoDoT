@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $d_n=p_{n+1}-p_n$, where $p_n$ is the $n$th prime. Prove that[\sum_{1\leq n\leq N}d_n^2 \ll N(\log N)^2.]
+---

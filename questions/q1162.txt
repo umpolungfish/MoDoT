@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Give an asymptotic formula for the number of subgroups of $S_n$. Is there a statistical theorem on their order?
+---

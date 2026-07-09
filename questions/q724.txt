@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(n)$ be the maximum number of mutually orthogonal Latin squares of order $n$. Is it true that[f(n) \gg n^{1/2}?]
+---

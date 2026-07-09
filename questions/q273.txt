@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is there a covering system all of whose moduli are of the form $p-1$ for some primes $p\geq 5$?
+---

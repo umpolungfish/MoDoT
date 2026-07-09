@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $G$ be such that any subgraph on $k$ vertices has at most $2k-3$ edges. Is it true that, if $H$ has $m$ edges and no isolated vertices, then[R(G,H)\ll m?]
+---

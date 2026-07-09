@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that[\mathrm{ex}(n;\{C_3,C_4\})\sim (n/2)^{3/2}?]
+---

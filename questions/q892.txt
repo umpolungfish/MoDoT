@@ -1,0 +1,8 @@
+please solve the following, and show all work:
+---
+Is there a necessary and sufficient condition for a sequence of integers $b_1<b_2<\cdots$ that ensures there exists a primitive sequence $a_1<a_2<\cdots$ (i.e. no element divides another) with $a_n \ll b_n$ for all $n$?
+
+In particular, is this always possible if there are no non-trivial solutions to $(b_i,b_j)=b_k$?
+
+Similarly, find necessary and sufficient conditions on a sequence $n_1<n_2<\cdots$ that ensure there exists a primitive set $A$ such that[\lvert A\cap [1,2^{n_i}]\rvert \gg 2^{n_i}]for every $i$.
+---

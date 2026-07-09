@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $h(n)$ be such that, for any $m\geq 1$, in the interval $(m,m+h(n))$ there exist distinct integers $a_i$ for $1\leq i\leq \pi(n)$ such that $p_i\mid a_i$, where $p_i$ denotes the $i$th prime. 
+
+Estimate $h(n)$.
+---

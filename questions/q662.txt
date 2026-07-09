@@ -1,0 +1,8 @@
+please solve the following, and show all work:
+---
+Consider the triangular lattice with minimal distance between two points $1$. Denote by $f(t)$ the number of distances from any points $\leq t$. For example $f(1)=6$, $f(\sqrt{3})=12$, and $f(3)=18$.
+
+Let $x_1,\ldots,x_n\in \mathbb{R}^2$ be such that $d(x_i,x_j)\geq 1$ for all $i\neq j$. Is it true that, provided $n$ is sufficiently large depending on $t$, the number of distances $d(x_i,x_j)\leq t$ is less than or equal to $f(t)$ with equality perhaps only for the triangular lattice?
+
+In particular, is it true that the number of distances $\leq \sqrt{3}-\epsilon$ is less than $1$?
+---

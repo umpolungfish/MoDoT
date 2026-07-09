@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+If $n(n+1)=2^k3^lm$, where $(m,6)=1$, then is it true that[\limsup_{n\to \infty} \frac{2^k3^l}{n\log n}=\infty?]
+---

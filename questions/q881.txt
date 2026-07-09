@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $A\subset\mathbb{N}$ be an additive basis of order $k$ which is minimal, in the sense that if $B\subset A$ is any infinite set then $A\backslash B$ is not a basis of order $k$. 
+
+Must there exist an infinite $B\subset A$ such that $A\backslash B$ is a basis of order $k+1$?
+---

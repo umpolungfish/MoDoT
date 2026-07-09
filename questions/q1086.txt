@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $g(n)$ be minimal such that any set of $n$ points in $\mathbb{R}^2$ contains the vertices of at most $g(n)$ many triangles with the same area. Estimate $g(n)$.
+---

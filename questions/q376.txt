@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Are there infinitely many $n$ such that $\binom{2n}{n}$ is coprime to $105$?
+---

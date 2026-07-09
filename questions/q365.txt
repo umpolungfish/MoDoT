@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Do all pairs of consecutive powerful numbers $n$ and $n+1$ come from solutions to Pell equations? In other words, must either $n$ or $n+1$ be a square?
+
+Is the number of such $n\leq x$ bounded by $(\log x)^{O(1)}$?
+---

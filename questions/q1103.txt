@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A$ be an infinite sequence of integers such that every $n\in A+A$ is squarefree. How fast must $A$ grow?
+---

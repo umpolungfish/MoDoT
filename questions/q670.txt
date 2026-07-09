@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A\subseteq \mathbb{R}^d$ be a set of $n$ points such that all pairwise distances differ by at least $1$. Is the diameter of $A$ at least $(1+o(1))n^2$?
+---

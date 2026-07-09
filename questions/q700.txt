@@ -1,0 +1,7 @@
+please solve the following, and show all work:
+---
+Let[f(n)=\min_{1<k\leq n/2}\textrm{gcd}\left(n,\binom{n}{k}\right).]
+Characterise those composite $n$ such that $f(n)=n/P(n)$, where $P(n)$ is the largest prime dividing $n$.
+Are there infinitely many composite $n$ such that $f(n)>n^{1/2}$?
+ Is it true that, for every composite $n$,[f(n) \ll_A \frac{n}{(\log n)^A}]for every $A>0$?
+---

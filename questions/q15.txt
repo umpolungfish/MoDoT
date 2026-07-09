@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that\[\sum_{n=1}^\infty(-1)^n\frac{n}{p_n}\]converges, where $p_n$ is the sequence of primes?
+---

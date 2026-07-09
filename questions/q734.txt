@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Find, for all large $n$, a non-trivial pairwise balanced block design $A_1,\ldots,A_m\subseteq \{1,\ldots,n\}$ such that, for all $t$, there are $O(n^{1/2})$ many $i$ such that $\lvert A_i\rvert=t$.
+---

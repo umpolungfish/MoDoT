@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+If $G$ is a graph on $n$ vertices without a $K_4$ then how large a triangle-free induced subgraph must $G$ contain?
+---

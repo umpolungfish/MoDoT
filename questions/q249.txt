@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is[\sum_n \frac{\phi(n)}{2^n}]irrational? Here $\phi$ is the Euler totient function.
+---

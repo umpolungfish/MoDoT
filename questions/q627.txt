@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $\omega(G)$ denote the clique number of $G$ and $\chi(G)$ the chromatic number. If $f(n)$ is the maximum value of $\chi(G)/\omega(G)$, as $G$ ranges over all graphs on $n$ vertices, then does[\lim_{n\to\infty}\frac{f(n)}{n/(\log_2n)^2}]exist?
+---

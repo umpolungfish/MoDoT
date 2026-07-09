@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $k\geq 3$ and $A$ be an additive basis of order $k$. Does there exist a constant $c=c(k)>0$ such that if $r(n)\geq c\log n$ for all large $n$ then $A$ must contain a minimal basis of order $k$? (Here $r(n)$ counts the number of representations of $n$ as the sum of at most $k$ elements from $A$.)
+---

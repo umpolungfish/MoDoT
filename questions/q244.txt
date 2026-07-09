@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $C>1$. Does the set of integers of the form $p+\lfloor C^k\rfloor$, for some prime $p$ and $k\geq 0$, have density $>0$?
+---

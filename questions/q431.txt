@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Are there two infinite sets $A$ and $B$ such that $A+B$ agrees with the set of prime numbers up to finitely many exceptions?
+---

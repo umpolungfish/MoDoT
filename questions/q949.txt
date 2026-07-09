@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $S\subset \mathbb{R}$ be a set containing no solutions to $a+b=c$. Must there be a set $A\subseteq \mathbb{R}\backslash S$ of cardinality continuum such that $A+A\subseteq \mathbb{R}\backslash S$?
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A,B\subseteq \mathbb{N}$ be two infinite sets. How dense can $A+B$ be if all elements of $A+B$ are pairwise relatively prime?
+---

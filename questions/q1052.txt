@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+A unitary divisor of $n$ is $d\mid n$ such that $(d,n/d)=1$. A number $n\geq 1$ is a unitary perfect number if it is the sum of its unitary divisors (aside from $n$ itself).
+
+Are there only finite many unitary perfect numbers?
+---

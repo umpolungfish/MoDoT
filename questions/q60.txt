@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Does every graph on $n$ vertices with $&#62;\mathrm{ex}(n;C_4)$ edges contain $\gg n^{1/2}$ many copies of $C_4$?
+---

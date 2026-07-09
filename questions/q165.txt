@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Give an asymptotic formula for $R(3,k)$.
+---

@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+The list chromatic number $\chi_L(G)$ is defined to be the minimal $k$ such that for any assignment of a list of $k$ colours to each vertex of $G$ (perhaps different lists for different vertices) a colouring of each vertex by a colour on its list can be chosen such that adjacent vertices receive distinct colours.
+
+Determine the minimal number of vertices $n(k)$ of a bipartite graph $G$ such that $\chi_L(G)>k$.
+---

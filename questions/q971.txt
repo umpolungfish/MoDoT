@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $p(a,d)$ be the least prime congruent to $a\pmod{d}$. Does there exist a constant $c>0$ such that, for all large $d$,[p(a,d) > (1+c)\phi(d)\log d]for $\gg \phi(d)$ many values of $a$?
+---

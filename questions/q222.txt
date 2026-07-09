@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $n_1<n_2<\cdots$ be the sequence of integers which are the sum of two squares. Explore the behaviour of (i.e. find good upper and lower bounds for) the consecutive differences $n_{k+1}-n_k$.
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that the number of incongruent sets of $n$ points in $\mathbb{R}^2$ which maximise the number of unit distances tends to infinity as $n\to\infty$? Is it always $>1$ for $n>3$?
+---

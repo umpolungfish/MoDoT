@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $F(N)$ be the smallest possible size of $A\subset \{0,1,\ldots,N\}$ such that $\{0,1,\ldots,N\}\subset A-A$. Find the value of[\lim_{N\to \infty}\frac{F(N)}{N^{1/2}}.]
+---

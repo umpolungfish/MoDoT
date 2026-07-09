@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $u_n=p_n/n$, where $p_n$ is the $n$th prime. Does the set of $n$ such that $u_n<u_{n+1}$ have positive density?
+---

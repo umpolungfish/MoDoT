@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $r\geq 2$ and suppose that $A\subseteq\{1,\ldots,N\}$ is such that, for any $m$, there are at most $r$ solutions to $m=pa$ where $p$ is prime and $a\in A$. Give the best possible upper bound for[\sum_{n\in A}\frac{1}{n}.]
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is there  $A\subseteq \mathbb{N}$ such that\[\lim_{n\to \infty}\frac{1_A\ast 1_A(n)}{\log n}\]exists and is $\neq 0$?
+---

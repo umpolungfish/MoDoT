@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+For all $n\geq 2k$ the least prime factor of $\binom{n}{k}$ is $\leq \max(n/k,k)$, with only finitely many exceptions.
+---

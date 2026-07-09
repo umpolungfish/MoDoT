@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Find some reasonable function $f(n)$ such that, for almost all integers $n$, the least integer $m$ such that $m\nmid \binom{2n}{n}$ satisfies[m\sim f(n).]
+---

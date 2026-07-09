@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $h_1(n)=h(n)=n+\tau(n)$ (where $\tau(n)$ counts the number of divisors of $n$) and $h_k(n)=h(h_{k-1}(n))$. Is it true, for any $m,n$, there exist $i$ and $j$ such that $h_i(m)=h_j(n)$?
+---

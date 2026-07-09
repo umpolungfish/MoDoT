@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $d(A)$ denote the density of $A\subseteq \mathbb{N}$. Characterise those $A,B\subseteq \mathbb{N}$ with positive density such that[d(A+B)=d(A)+d(B).]
+---

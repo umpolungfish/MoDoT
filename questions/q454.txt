@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let[f(n) = \min_{i<n} (p_{n+i}+p_{n-i}),]where $p_k$ is the $k$th prime. Is it true that[\limsup_n (f(n)-2p_n)=\infty?]
+---

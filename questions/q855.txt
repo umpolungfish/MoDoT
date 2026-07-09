@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+If $\pi(x)$ counts the number of primes in $[1,x]$ then is it true that (for large $x$ and $y$)[\pi(x+y) \leq \pi(x)+\pi(y)?]
+---

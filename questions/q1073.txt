@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $A(x)$ count the number of composite $u<x$ such that $n!+1\equiv 0\pmod{u}$ for some $n$. Is it true that $A(x)\leq x^{o(1)}$?
+---

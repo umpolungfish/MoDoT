@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+We say that $A\subset \mathbb{N}$ is an essential component if $d_s(A+B)>d_s(B)$ for every $B\subset \mathbb{N}$ with $0<d_s(B)<1$ where $d_s$ is the Schnirelmann density.
+
+Is $B=\{2^m3^n : m,n\geq 0\}$ an essential component?
+---

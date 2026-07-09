@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $1\leq a_1<\cdots <a_k\leq n$ be integers such that all sums of the shape $\sum_{u\leq i\leq v}a_i$ are distinct. Let $f(n)$ be the maximal such $k$.
+
+How does $f(n)$ grow? Is $f(n)=o(n)$?
+---

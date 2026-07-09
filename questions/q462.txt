@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $p(n)$ denote the least prime factor of $n$. There is a constant $c>0$ such that[\sum_{\substack{n<x\\ n\textrm{ not prime}}}\frac{p(n)}{n}\sim c\frac{x^{1/2}}{(\log x)^2}.]Is it true that there exists a constant $C>0$ such that[\sum_{x\leq n\leq x+Cx^{1/2}(\log x)^2}\frac{p(n)}{n} \gg 1]for all large $x$?
+---

@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $A=\{n_1<\cdots<n_r\}$ be a finite set of positive integers. What is the maximum density of integers covered by a suitable choice of congruences $a_i\pmod{n_i}$?
+
+Is the minimum density achieved when all the $a_i$ are equal?
+---

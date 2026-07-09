@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $1\leq a_1<a_2<\cdots$ be an increasing sequence of integers. How fast can $a_n\to \infty$ grow if[\sum\frac{1}{a_n}\quad\textrm{and}\quad\sum\frac{1}{a_n-1}]are both rational?
+---

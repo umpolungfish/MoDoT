@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Find the best function $f(d)$ such that, in any 2-colouring of the integers, at least one colour class contains an arithmetic progression with common difference $d$ of length $f(d)$ for infinitely many $d$.
+---

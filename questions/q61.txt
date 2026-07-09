@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+For any graph $H$ is there some $c=c(H)&#62;0$ such that every graph $G$ on $n$ vertices that does not contain $H$ as an induced subgraph contains either a complete graph or independent set on $\geq n^c$ vertices?
+---

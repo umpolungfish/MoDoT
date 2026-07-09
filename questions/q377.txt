@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is there some absolute constant $C>0$ such that[\sum_{p\leq n}1_{p\nmid \binom{2n}{n}}\frac{1}{p}\leq C]for all $n$ (where the summation is restricted to primes $p\leq n$)?
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+What is the largest $k$ such that in any permutation of $\mathbb{Z}$ there must exist a monotone $k$-term arithmetic progression $x_1<\cdots<x_k$?
+---

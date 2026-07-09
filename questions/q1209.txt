@@ -1,0 +1,8 @@
+please solve the following, and show all work:
+---
+Let $A=\{a_1<a_2<\cdots\}$ be a sequence of integers which tends to infinity sufficiently fast. If there is an $n$ such that all $n+a_k$ are primes then must there exist infinitely many such $n$?
+
+What if we ask for $n+a_k$ to be squarefree instead of prime?
+
+Are there $n$ such that $n+2^{2^k}$ is always a prime (or always squarefree, or infinitely often a prime, or infinitely often squarefree)?
+---

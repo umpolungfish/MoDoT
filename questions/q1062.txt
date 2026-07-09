@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(n)$ be the size of the largest subset $A\subseteq \{1,\ldots,n\}$ such that there are no three distinct elements $a,b,c\in A$ such that $a\mid b$ and $a\mid c$. How large can $f(n)$ be? Is $\lim f(n)/n$ irrational?
+---

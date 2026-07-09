@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let[A = \left\{ \sum_{n\in S}n! : S\subset \mathbb{N}\textrm{ finite}\right\}.]If $k\geq 2$, then does $A$ contain only finitely many $k$th powers? Does it contain only finitely many powerful numbers?
+---

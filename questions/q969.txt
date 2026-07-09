@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $Q(x)$ count the number of squarefree integers in $[1,x]$. Determine the order of magnitude in the error term in the asymptotic[Q(x)=\frac{6}{\pi^2}x+E(x).]
+---

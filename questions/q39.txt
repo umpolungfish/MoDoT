@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is there an infinite Sidon set $A\subset \mathbb{N}$ such that\[\lvert A\cap \{1\ldots,N\}\rvert \gg_\epsilon N^{1/2-\epsilon}\]for all $\epsilon&#62;0$?
+---

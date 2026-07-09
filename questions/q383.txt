@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that for every $k$ there are infinitely many primes $p$ such that the largest prime divisor of[\prod_{0\leq i\leq k}(p^2+i)]is $p$?
+---

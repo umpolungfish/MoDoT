@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $\epsilon>0$ and $\omega(n)$ count the number of distinct prime factors of $n$. Are there infinitely many values of $n$ such that[\omega(n-k) < (1+\epsilon)\frac{\log k}{\log\log k}]for all $k<n$ which are sufficiently large depending on $\epsilon$ only?
+
+Can one show the stronger version with[\omega(n-k) < \frac{\log k}{\log\log k}+O(1)]is false?
+---

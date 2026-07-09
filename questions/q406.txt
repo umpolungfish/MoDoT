@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that there are only finitely many powers of $2$ which have only the digits $0$ and $1$ when written in base $3$?
+---

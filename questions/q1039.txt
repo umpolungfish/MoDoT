@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $f(z)=\prod_{i=1}^n(z-z_i)\in \mathbb{C}[z]$ with $\lvert z_i\rvert \leq 1$ for all $i$. Let $\rho(f)$ be the radius of the largest disc which is contained in $\{z: \lvert f(z)\rvert< 1\}$. 
+
+Determine the behaviour of $\rho(f)$. In particular, is it always true that $\rho(f)\gg 1/n$?
+---

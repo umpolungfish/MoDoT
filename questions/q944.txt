@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+A critical vertex, edge, or set of edges, is one whose deletion lowers the chromatic number.
+
+Let $k\geq 4$ and $r\geq 1$. Must there exist a graph $G$ with chromatic number $k$ such that every vertex is critical, yet every critical set of edges has size $>r$?
+---

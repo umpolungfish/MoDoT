@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that any $K_r$-free graph on $n$ vertices with average degree $t$ contains an independent set on[\gg_r \frac{\log t}{t}n]many vertices?
+---

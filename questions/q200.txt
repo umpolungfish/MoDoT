@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Does the longest arithmetic progression of primes in $\{1,\ldots,N\}$ have length $o(\log N)$?
+---

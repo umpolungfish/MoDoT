@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $\mathfrak{c}$ be the ordinal of the real numbers, $\beta$ be any countable ordinal, and $2\leq n&#60;\omega$. Is it true that $\mathfrak{c}\to (\beta, n)_2^3$?
+---

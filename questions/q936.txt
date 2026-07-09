@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Are[2^n\pm 1]and[n!\pm 1]powerful (i.e. if $p\mid m$ then $p^2\mid m$) for only finitely many $n$?
+---

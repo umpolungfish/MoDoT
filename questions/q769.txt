@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $c(n)$ be minimal such that if $k\geq c(n)$ then the $n$-dimensional unit cube can be decomposed into $k$ homothetic $n$-dimensional cubes. Give good bounds for $c(n)$ - in particular, is it true that $c(n) \gg n^n$?
+---

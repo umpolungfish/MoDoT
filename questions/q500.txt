@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+What is $\mathrm{ex}_3(n,K_4^3)$? That is, the largest number of $3$-edges which can placed on $n$ vertices so that there exists no $K_4^3$, a set of 4 vertices which is covered by all 4 possible $3$-edges.
+---

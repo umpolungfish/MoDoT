@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that, for any $c>1/2$, if $p$ is a sufficiently large prime then, for any $n\geq 0$, there exist $a,b\in(n,n+p^c)$ such that $ab\equiv 1\pmod{p}$?
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Can $\mathbb{N}$ be partitioned into two sets, each of which can be permuted to avoid monotone 3-term arithmetic progressions?
+---

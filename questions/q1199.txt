@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that in any $2$-colouring of $\mathbb{N}$ there exists an infinite set $A$ such that all elements of $A+A$ are the same colour?
+---

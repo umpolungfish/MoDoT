@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Call a set of distinct integers $1<n_1<\cdots<n_k$ with associated congruence classes $a_i\pmod{n_i}$ a distinct covering system if every integer satisfies at least one of these congruences. A minimal distinct covering system is one such that no proper subset forms a covering system.
+
+Let $F(x)$ count the number of minimal distinct covering systems with all moduli in $[1,x]$. Estimate $F(x)$.
+---

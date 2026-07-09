@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $h_t(d)$ be minimal such that every graph $G$ with $h_t(d)$ edges and maximal degree $\leq d$ contains two edges whose shortest path between them has length $\geq t$.
+
+Estimate $h_t(d)$.
+---

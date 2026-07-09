@@ -1,0 +1,8 @@
+please solve the following, and show all work:
+---
+If $1=d_1<\cdots<d_{\tau(n)}=n$ are the divisors of $n$, then let $\tau_\perp(n)$ count the number of $i$ for which $(d_i,d_{i+1})=1$.
+
+Is it true that $\tau_\perp(n)/\omega(n)\to \infty$ for almost all $n$? Is it true that[\tau_\perp(n)< \exp((\log n)^{o(1)})]for all $n$?
+
+Let[g(k) = \max_{\omega(n)=k}\tau_\perp(n),]where $\omega(n)$ counts the number of distinct prime divisors of $n$, and $n$ is restricted to squarefree integers. Determine the growth of $g(k)$.
+---

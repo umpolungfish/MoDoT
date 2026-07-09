@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $f_k(n)$ be the maximum possible chromatic number of a graph with $n$ vertices which contains no $K_k$.
+
+Is it true that, for $k\geq 4$,[f_k(n) \gg \frac{n^{1-\frac{1}{k-1}}}{(\log n)^{c_k}}]for some constant $c_k>0$?
+---

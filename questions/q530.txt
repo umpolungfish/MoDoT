@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+Let $\ell(N)$ be maximal such that in any finite set $A\subset \mathbb{R}$ of size $N$ there exists a Sidon subset $S$ of size $\ell(N)$ (i.e. the only solutions to $a+b=c+d$ in $S$ are the trivial ones). Determine the order of $\ell(N)$.
+
+In particular, is it true that $\ell(N)\sim N^{1/2}$?
+---

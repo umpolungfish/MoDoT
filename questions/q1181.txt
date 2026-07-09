@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $q(n,k)$ denote the least prime which does not divide $\prod_{1\leq i\leq k}(n+i)$. Is it true that there exists some $c>0$ such that, for all large $n$,[q(n,\log n)<(1-c)(\log n)^2?]
+---

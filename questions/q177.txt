@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Find the smallest $h(d)$ such that the following holds. There exists a function $f:\mathbb{N}\to\{-1,1\}$ such that, for every $d\geq 1$,[\max_{P_d}\left\lvert \sum_{n\in P_d}f(n)\right\rvert\leq h(d),]where $P_d$ ranges over all finite arithmetic progressions with common difference $d$.
+---

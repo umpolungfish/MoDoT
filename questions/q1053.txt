@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Call a number $k$-perfect if $\sigma(n)=kn$, where $\sigma(n)$ is the sum of the divisors of $n$. Must $k=o(\log\log n)$?
+---

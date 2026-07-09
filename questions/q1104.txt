@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(n)$ be the maximum possible chromatic number of a triangle-free graph on $n$ vertices. Estimate $f(n)$.
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Are there infinitely many primes $p$ such that $p-k!$ is composite for each $k$ such that $1\leq k!<p$?
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is there a dense subset of $\mathbb{R}^2$ such that all pairwise distances are rational?
+---

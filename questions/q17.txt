@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Are there infinitely many primes $p$ such that every even number $n\leq p-3$ can be written as a difference of primes $n=q_1-q_2$ where $q_1,q_2\leq p$?
+---

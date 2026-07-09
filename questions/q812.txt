@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Is it true that[\frac{R(n+1)}{R(n)}\geq 1+c]for some constant $c>0$, for all large $n$? Is it true that[R(n+1)-R(n) \gg n^2?]
+---

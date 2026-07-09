@@ -1,0 +1,6 @@
+please solve the following, and show all work:
+---
+A pairwise balanced design for $\{1,\ldots,n\}$ is a collection of sets $A_1,\ldots,A_m\subseteq \{1,\ldots,n\}$ such that $2\leq \lvert A_i\rvert <n$ and every pair of distinct elements $x,y\in \{1,\ldots,n\}$ is contained in exactly one $A_i$.
+
+Is there a constant $C>0$ and, for all large $n$, a pairwise balanced design such that[\lvert A_i\rvert > n^{1/2}-C]for all $1\leq i\leq m$?
+---

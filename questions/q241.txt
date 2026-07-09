@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(N)$ be the maximum size of $A\subseteq \{1,\ldots,N\}$ such that the sums $a+b+c$ with $a,b,c\in A$ are all distinct (aside from the trivial coincidences). Is it true that[ f(N)\sim N^{1/3}?]
+---

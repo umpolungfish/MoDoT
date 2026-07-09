@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(n,k)$ be such that every graph on $n$ vertices and $k$ edges can be partitioned into at most $f(n,k)$ edge-disjoint complete graphs. Estimate $f(n,k)$ for $k>n^2/4$.
+---

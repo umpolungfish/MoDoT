@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Does every set of $n$ distinct points in $\mathbb{R}^2$ determine $\gg n/\sqrt{\log n}$ many distinct distances?
+---

@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $m_1\leq\cdots\leq m_k$ and $n$ be sufficiently large. If $T$ is a tree on $n$ vertices and $G$ is the complete multipartite graph with vertex class sizes $m_1,\ldots,m_k$ then prove that[R(T,G)\leq (\chi(G)-1)(R(T,K_{m_1,m_2})-1)+m_1.]
+---

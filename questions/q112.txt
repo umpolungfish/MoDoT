@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $k=k(n,m)$ be minimal such that any directed graph on $k$ vertices must contain either an independent set of size $n$ or a transitive tournament of size $m$. Determine $k(n,m)$.
+---

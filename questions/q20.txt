@@ -1,0 +1,4 @@
+please solve the following, and show all work:
+---
+Let $f(n,k)$ be minimal such that every family  $\mathcal{F}$  of $n$-uniform sets with $\lvert  \mathcal{F}\rvert \geq f(n,k)$ contains a $k$-sunflower. Is it true that\[f(n,k) < c_k^n\]for some constant $c_k>0$?
+---
