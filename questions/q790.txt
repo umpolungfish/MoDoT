@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $l(n)$ be maximal such that if $A\subset\mathbb{Z}$ with $\lvert A\rvert=n$ then there exists a sum-free $B\subseteq A$ with $\lvert B\rvert \geq l(n)$ - that is, $B$ is such that there are no solutions to[a_1=a_2+\cdots+a_r]with $a_i\in B$ all distinct.
 

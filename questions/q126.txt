@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $f(n)$ be maximal such that if $A\subseteq\mathbb{N}$ has $\lvert A\rvert=n$ then $\prod_{a\neq b\in A}(a+b)$ has at least $f(n)$ distinct prime factors. Is it true that $f(n)/\log n\to\infty$?
 ---

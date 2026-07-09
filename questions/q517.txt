@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $f(z)=\sum_{k=1}^\infty a_kz^{n_k}$ be an entire function (with $a_k\neq 0$ for all $k\geq 1$). Is it true that if $n_k/k\to \infty$ then $f(z)$ assumes every value infinitely often?
 ---

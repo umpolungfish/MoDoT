@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $n_1<n_2<\cdots$ be a lacunary sequence of integers and $f\in L^2([0,1])$. Estimate the growth of, for almost all $\alpha$,[\sum_{1\leq k\leq N}f(\{ \alpha n_k\}).]For example, is it true that, for almost all $\alpha$,[\sum_{1\leq k\leq N}f(\{ \alpha n_k\})=o(N\sqrt{\log\log N})?]
 ---

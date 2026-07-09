@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Is it true that for every $\epsilon,\eta>0$ there exists a $k$ such that the density of $n$ for which[P(n(n+1)\cdots(n+k))>n^{1-\epsilon}]is at least $1-\eta$ (where $P(m)$ is the greatest prime divisor of $m$)?
 ---

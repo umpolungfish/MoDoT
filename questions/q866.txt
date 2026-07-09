@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $k\geq 3$ and $g_k(N)$ be minimal such that if $A\subseteq \{1,\ldots,2N\}$ has $\lvert A\rvert \geq N+g_k(N)$ then there exist integers $b_1,\ldots,b_k$ such that all $\binom{k}{2}$ pairwise sums are in $A$ (but the $b_i$ themselves need not be in $A$).
 

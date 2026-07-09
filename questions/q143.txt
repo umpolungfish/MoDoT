@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $A\subset (1,\infty)$ be a countably infinite set such that for all $x\neq y\in A$ and integers $k\geq 1$ we have[ \lvert kx -y\rvert \geq 1.]Does this imply that $A$ is sparse? In particular, does this imply that[\sum_{x\in A}\frac{1}{x\log x}<\infty]or[\sum_{\substack{x <n\\ x\in A}}\frac{1}{x}=o(\log n)?]
 ---

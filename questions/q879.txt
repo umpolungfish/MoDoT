@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Call a set $S\subseteq \{1,\ldots,n\}$ admissible if $(a,b)=1$ for all $a\neq b\in S$. Let[G(n) = \max_{S\subseteq \{1,\ldots,n\}} \sum_{a\in S}a]and[H(n)=\sum_{p<n}p+ n\pi(n^{1/2}).]Is it true that[G(n) >H(n)-n^{1+o(1)}?]Is it true that, for every $k\geq 2$, if $n$ is sufficiently large then the admissible set which maximises $G(n)$ contains at least one integer with at least $k$ prime factors?
 ---

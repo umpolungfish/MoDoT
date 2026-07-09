@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Show that for any rational $\alpha \in [1,2)$ there exists a bipartite graph $G$ such that[\mathrm{ex}(n;G)\asymp n^{\alpha}.]
 ---

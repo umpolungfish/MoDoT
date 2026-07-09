@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Is there a graph of chromatic number $\aleph_1$ with $\aleph_1$ vertices such that for all $\epsilon&#62;0$ if $n$ is sufficiently large and $H$ is a subgraph on $n$ vertices then $H$ contains an independent set of size $&#62;n^{1-\epsilon}$? 
 

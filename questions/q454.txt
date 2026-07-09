@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let[f(n) = \min_{i<n} (p_{n+i}+p_{n-i}),]where $p_k$ is the $k$th prime. Is it true that[\limsup_n (f(n)-2p_n)=\infty?]
 ---

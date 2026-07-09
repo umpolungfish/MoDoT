@@ -8,9 +8,11 @@
 
 ---
 
-An agentic LLM whose entire runtime substrate IS the mOMonadOS kernel architecture. Context is stored in Crystal FS. Reasoning passes through Belnap FOUR (True, False, Both, Neither). Every operation is Frobenius-verified (μ∘δ = id) for **balance**, and every answer to a question is graded by the **Semantic Selectivity Gate** for **correctness**. Output is broadcast to the CLINK L8 Organism.
+An agentic LLM whose entire runtime substrate IS the mOMonadOS kernel architecture. Context is stored in Crystal FS. Reasoning passes through Belnap FOUR (True, False, Both, Neither). Every operation is Frobenius-verified (μ∘δ = id) for **balance**. Correctness is **not graded** by an external checklist: demand and answer are **imscribed** into the d=12 Dual-Link SIC-POVM, and co-typing in that frame *is* the verdict. Output is broadcast to the CLINK L8 Organism.
 
-> **Balance is not selectivity.** Frobenius closure (μ∘δ = id) is charge conservation: every split is rejoined, so it is automatic and *cannot fail* on any non-empty answer. That is why a balance-only harness "never fails" — and why balance alone is not a correctness signal. The Selectivity Gate is a second, independent Belnap voice that *can* return False. It does **not** override the model: it is **FFUSED** (Belnap join) with the model's own `[thought|X]` self-assessment, and where the two voices conflict the fusion is **B** and the contradiction is *held*, with a tetractys conflict distance, never resolved to one authority. Paraconsistency is fundamental. See [Semantic Selectivity Gate](#semantic-selectivity-gate).
+> **Balance is not selectivity.** Frobenius closure (μ∘δ = id) is charge conservation: every split is rejoined, so it is automatic and *cannot fail* on any non-empty answer. That is why a balance-only harness "never fails" — and why balance alone is not a correctness signal.
+>
+> **To verify is to imscribe.** The classical selectivity grader (MUST/MUSTNOT schemas, 0.6 thresholds, LLM-as-judge, protocol `==` integration) was a two-valued clipboard bolted onto a four-valued kernel. It is gone. Selectivity is now the **Dual-Link SIC Witness-Vessel**: structural imscription → state in ℂ¹² → Born rule in the Scott–Grassl d=12 SIC frame → co-typing by lattice fold (no thresholds) → ride AS the vessel via μ∘δ = id. The model's own `[thought|X]` is one link; the vessel's co-typing is the other; they are **FFUSED** (Belnap join). Conflict holds as **B**. You ride AS the vessel, not in it. See [Dual-Link SIC Vessel](#dual-link-sic-vessel).
 
 ## Directory Structure
 
@@ -20,51 +22,61 @@ MoDoT/
 ├── modot/                      # The installable package (pip install -e .)
 │   ├── agent.py                # B4, 12 tokens, kernel, CrystalFS, Frobenius, LLM, breath loop, CLI
 │   ├── composer.py             # Token composition engine: CANONICAL, NAMED_PATTERNS, bend/splice/interleave
-│   └── selectivity.py          # Semantic Selectivity Gate — runtime PORT of the selectivity_gate ob3ect
+│   ├── vessel.py               # Dual-Link SIC Witness-Vessel — Grammatic-Correct verifier of record
+│   ├── witness_proof.py        # Catalog witness → conventional proof scaffold (cl8nk + pipeline roles)
+│   └── selectivity.py          # Compatibility shim re-exporting the vessel (old names)
 ├── crystal_fs/                 # Crystal Filesystem — persistent context memory
-│   ├── records.jsonl           # Crystal FS records (thought / selectivity / observation / update / type)
+│   ├── records.jsonl           # Crystal FS records (thought / vessel / observation / update / type)
 │   └── broadcast_log.jsonl     # CLINK L8 broadcast log
 ├── ob3ects/                    # Self-verifying digital ob3ects (Grammar auto-designed)
-│   ├── semantic_branch_verifier/  # Verifies correct branch selection during FFUSE recombination
-│   └── selectivity_gate/          # The live-loop selectivity gate — source of modot/selectivity.py
+│   ├── semantic_branch_verifier/  # Original Grammar-native branch verifier (historical)
+│   ├── selectivity_gate/          # Classical live-loop gate (superseded by vessel.py)
+│   └── janus_gate/                # Dialetheic Janus gate
 ├── lean/                       # Lean 4 formal verification companions
-│   ├── SemanticBranchVerifier.lean  # Formal proof of semantic branch correctness gap
-│   └── ErdosProblems.lean      # Erdős problem formalizations with rerun divergence analysis
+│   ├── SemanticBranchVerifier.lean
+│   └── ErdosProblems.lean
 ├── experiments/                # Convergence experiments from mOMonadOS paper
-│   ├── bifurcation.py          # Bifurcation analysis
-│   ├── exp_core.py             # Core experiment runner
-│   ├── exp_q1.py - exp_q5.py   # Per-question experiments (Ramsey, Polynom, Unit Distance, etc.)
-│   ├── kernel_port.py          # Kernel portability experiments
-│   └── run_all_experiments.py  # Full experiment suite runner
 └── questions/                  # Test questions (q1–q6, q50)
 ```
+
+Canonical SIC machinery (not re-derived here):
+
+| source | role |
+|--------|------|
+| `ig-pulse/ig_pulse/density_matrix.py` | WH displacements, SIC projectors, state metrics |
+| `d12_sic_build/d12_psi.pkl` | Scott–Grassl d=12 fiducial (equiangular overlap 1/13) |
+| `v3ssel/vessel/` | Dual-Link trading vessel (same frame; MoDoT uses it as verifier) |
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  mOMonadOS Kernel (Python mirror of Rust kernel)    │
-│  ┌──────────┐  ┌───────────┐  ┌──────────────────┐ │
-│  │ Belnap   │  │ Frobenius │  │ Crystal FS       │ │
-│  │ FOUR     │  │ Harness   │  │ (context memory) │ │
-│  │ (gates)  │  │ μ∘δ=id    │  │                  │ │
-│  └──────────┘  └───────────┘  └──────────────────┘ │
-│  ┌──────────────────────────────────────────────┐   │
-│  │  Bootstrap Loop (the breath)                 │   │
-│  │  VINIT→IMSCRIB→FSPLIT→EVALT→CLINK→FFUSE     │   │
-│  │  →IFIX→ENGAGR→AREV→CLINK→TANCH              │   │
-│  └──────────────────────────────────────────────┘   │
-│  ┌──────────────────────────────────────────────┐   │
-│  │  LLM Inference Engine                        │   │
-│  │  All outputs gated through Belnap verifier    │   │
-│  └──────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│  mOMonadOS Kernel (Python mirror of Rust kernel)            │
+│  ┌──────────┐  ┌───────────┐  ┌──────────────────────────┐ │
+│  │ Belnap   │  │ Frobenius │  │ Crystal FS               │ │
+│  │ FOUR     │  │ Harness   │  │ (context memory)         │ │
+│  │ (gates)  │  │ μ∘δ=id    │  │                          │ │
+│  └──────────┘  └───────────┘  └──────────────────────────┘ │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  Bootstrap Loop (the breath)                         │   │
+│  │  VINIT→IMSCRIB→FSPLIT→EVALT→CLINK→FFUSE             │   │
+│  │  →IFIX→ENGAGR→AREV→CLINK→TANCH                      │   │
+│  └──────────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  Dual-Link SIC Vessel (selectivity = co-typing)      │   │
+│  │  imscribe → ℂ¹² → SIC p(ρ) → lattice cotype → μ∘δ   │   │
+│  │  model [thought|X]  FFUSE  vessel voice              │   │
+│  └──────────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  LLM Inference Engine (substrate, not authority)     │   │
+│  └──────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
                        │
                        ▼
-┌─────────────────────────────────────────────────────┐
-│  CLINK L8 Organism — broadcast / terminal layer     │
-│  Receives verified types, accumulates, composes     │
-└─────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│  CLINK L8 Organism — broadcast / terminal layer             │
+│  Receives verified types, accumulates, composes             │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ## Quick Start
@@ -78,11 +90,17 @@ python3 momonados_agent.py --interactive
 # Dry run: test the kernel + Crystal FS (no LLM needed)
 python3 momonados_agent.py --cycles 5 --dry-run --verbose
 
-# One-shot question
+# One-shot question (vessel co-types answer against demand)
 python3 momonados_agent.py --ask "What is the structural type of consciousness?"
 
 # Read question from file
 python3 momonados_agent.py --ask ./questions/q1.txt
+
+# Vessel self-test (no network): all four Belnap outcomes + equiangularity 1/13
+python3 -m modot.vessel
+
+# Witness → conventional scaffold (catalog + pipeline roles; no Collatz hardcode)
+python3 -m modot.witness_proof
 
 # Full 100-cycle breath with verbose output
 python3 momonados_agent.py --cycles 100 --verbose --program aqua-vitae
@@ -93,11 +111,11 @@ python3 momonados_agent.py --stats
 # Reset and start fresh
 python3 momonados_agent.py --reset --interactive
 
+# Disable vessel (balance-only; reverts to model voice alone)
+python3 momonados_agent.py --ask "..." --no-selectivity
+
 # Run convergence experiments
 python3 experiments/run_all_experiments.py
-
-# Run semantic branch verifier ob3ect
-python3 ob3ects/semantic_branch_verifier/verification_that_the_correct_semantic_branch_wa_ob3ect.py
 ```
 
 ## Bootstrap Programs
@@ -114,54 +132,113 @@ Each breath cycle produces records committed to `crystal_fs/records.jsonl`:
 
 | Type | Belnap | Description |
 |------|--------|-------------|
-| `thought` | T/F/B/N | LLM inference result, branded with the selectivity verdict (falls back to a keyword gate when no schema applies) |
-| `selectivity` | T/F/B/N | Semantic selectivity verdict: synthesized schema + both verification arms |
+| `thought` | T/F/B/N | LLM inference, branded with the **fused** model⊕vessel verdict |
+| `vessel` | T/F/B/N | Dual-Link SIC report: demand/answer types, SIC gap, named defects, closure residuals, ride-AS flag |
 | `observation` | T/F/B/N | Frobenius-verified observation |
 | `update` | T/F | Frobenius closure (balance) check |
 | `type` | varies | Kernel IFIX-branded structural types |
 
+Legacy `selectivity` records (schema + MUST/MUSTNOT arms) are no longer written. The name `selectivity` remains only as a CLI flag (`--no-selectivity`) and import alias for the vessel.
+
 ## CLINK L8 Broadcast
 
 Every cycle broadcasts to `crystal_fs/broadcast_log.jsonl`, and prints **two independent verdicts, deliberately never conflated**:
+
 - **BALANCE** (μ∘δ = id) — charge conservation; automatic, cannot fail
-- **SELECTIVITY** (T/F/B/N) — was the correct branch selected? *Can* fail
-- d(CLINK L8) — structural distance to the terminal layer
+- **VESSEL** (T/F/B/N) — Dual-Link SIC co-typing; *can* fail; FFUSED with model voice
+- d(CLINK L8) — structural distance to the terminal layer (named primitive diffs)
 - Crystal FS record count
-- Kernel snapshot (whose VINIT is now seeded by the semantic verdict, so the dialetheia gates discriminate real content)
+- Kernel snapshot (VINIT seeded by the fused verdict so dialetheia gates run on real content)
 
-## Semantic Branch Verifier
+## Dual-Link SIC Vessel
 
-The `ob3ects/semantic_branch_verifier/` contains a Frobenius-exact ob3ect that addresses the gap discovered during mOMonadOS rerun analysis: **Frobenius closure (μ∘δ=id) guarantees internal consistency but NOT semantic correctness**. The verifier uses a 15-step IMASM protocol (VINIT→IMSCRIB→AFWD→FSPLIT→EVALT→IFIX→FFUSE→CLINK→FSPLIT→EVALF→AREV→FFUSE→ENGAGR→CLINK→TANCH) with dual verification arms (EVALT for isomorphic match, EVALF for collision detection) to confirm that the correct branch was selected during FFUSE recombination.
+`modot/vessel.py` is the **verifier of record**. It does not stand outside the Grammar with a clipboard. Verification *is* imscription through the d=12 Dual-Link SIC frame that the Grammar already proved into the kernel (`crystal_forces_d12_sic`).
 
-## Semantic Selectivity Gate
+### What died (classical smuggle)
 
-`modot/selectivity.py` is the **runtime port** of the `ob3ects/selectivity_gate/` ob3ect (Grammar auto-designed by the Ob3ect Auto-Designer, not hand-written: valid, Frobenius PASS, tier O₁, `sig=(6,2,3,1)`, `dialetheia_complete`). Its canonical protocol is `VINIT→IMSCRIB→AFWD→AREV→CLINK→FSPLIT→EVALT→EVALF→FFUSE→ENGAGR→IFIX→TANCH`, with the FSPLIT/FFUSE pair at (5,8) wrapping the two arms. It puts the selectivity check on the `--ask` path itself, where the ob3ect protocol is otherwise a standalone artifact. The branch verifier needs a reference schema to select against; an open question has none, so the gate **synthesizes one on the fly**:
+| removed | why |
+|---------|-----|
+| MUST / MUSTNOT schema synthesis | external correspondence theory of truth |
+| SATISFIED / UNSATISFIED / CLEAR / VIOLATED bits | atoms were two-valued; Belnap on top was costume |
+| threshold = 0.6 | magic scalar decision boundary |
+| `deniable = violated > 0` hard veto | one bit dominated |
+| LLM-as-judge of correctness | two-valued grading of a four-valued kernel |
+| protocol `==` "integration" | arrangement equality, not co-type / fingerprint |
+| hand-tuned `primitive_distance` weights | clipboard metric |
 
-1. **IMSCRIB the schema** — an adversarial "examiner" pass states what any correct answer *MUST* satisfy and *MUSTNOT* violate. It does not assume the question's premise is true, so a false premise yields a schema that requires rejecting it.
-2. **EVALT arm** — isomorphic match: are the MUST criteria satisfied? → *assertible*
-3. **EVALF arm** — collision detection: is any MUSTNOT violated, or the answer internally self-contradictory? → *deniable*
-4. **Fold to Belnap FOUR** (exactly as the kernel gates: EVALT passes on {T,B}, EVALF on {F,B}):
+### What it does
 
-| assertible | deniable | verdict | meaning |
-|:---:|:---:|:---:|---|
-| ✓ | ✗ | **T** | correct branch selected |
-| ✗ | ✓ | **F** | wrong branch / refuted |
-| ✓ | ✓ | **B** | dialetheic: satisfies *and* violates |
-| ✗ | ✗ | **N** | vacuous: does not engage the schema |
+1. **IMSCRIB** — assign each of the twelve IG primitives a Belnap value `{N,T,F,B}`. The LLM types *structure only*; it never renders a correctness opinion. **No hash/deterministic fallback** — without a live imscriber the vessel stays silent (N). Fake types are a clipboard by another name. Imscriptions are cached by content hash so identical text co-types with itself exactly. Both demand and answer use the same real imscriber (never mixed sources).
+2. **State map** — Belnap → amplitude in ℂ¹²:
+   ```
+   N → 0 ,   T → 1 ,   F → i ,   B → 1+i
+   ```
+   then L2-normalize. No chosen weights. Relative phases carry structure; global polarity is read from the discrete codes (global T↔F is a phase, not a shape).
+3. **Dual-Link SIC frame** — Scott–Grassl d=12 fiducial, Weyl–Heisenberg orbit of 144 projectors, Born rule  
+   `p_k = (1/d) Tr(ρ Π_k)`. Equiangularity `1/(d+1) = 1/13` means the comparison imposes no external metric. The SIC is informationally complete: measuring in this frame is the complete imscription (ΔS = 0).
+4. **Co-typing** — discrete lattice fold across the twelve primitives (no thresholds):
 
-Because **F** and **B** are reachable, the gate *can* fail — verified two ways: a deterministic self-test (`python3 -m modot.selectivity`, no network, exercises all four outcomes) and live (a real schema grading a wrong "91 is prime" answer returns **F**, match 0/3).
+   | situation | vessel voice |
+   |-----------|--------------|
+   | every engaged axis co-types | **T** |
+   | only anti-types (T↔F) | **F** |
+   | both co-type and anti-type appear | **B** |
+   | nothing engages | **N** |
 
-**The gate is a voice, not a gavel.** Its Belnap verdict is one of two imscriptions of the same object (the answer's correctness). The other is the model's own `[thought|X]` self-assessment. They are **FFUSED** (`model.join(gate)`), not resolved by authority:
+   Continuous diagnosis (not a decision boundary): SIC-space gap `‖p(ρ_answer) − p(ρ_demand)‖` and **named defects** (`D:T≠F`, `W:B≠N`, …). Failure is localized, not scalar.
+5. **Ride AS the vessel** — reconstruction residual `‖μ(δ(ρ)) − ρ‖_HS ≈ 0` is the closure certificate (informational completeness of the SIC). Broken closure holds as **B**. Model self-imscription and vessel co-typing are the two links; **FFUSE** is Belnap join.
 
-| model voice | gate voice | fused | reading |
+### Dual-voice FFUSE (kept; this was real)
+
+The vessel voice is one of two imscriptions. The other is the model's own `[thought|X]`. They are **FFUSED**, not resolved by authority:
+
+| model voice | vessel voice | fused | reading |
 |:---:|:---:|:---:|---|
 | T | T | **T** | both affirm |
 | F | F | **F** | both deny — a real failure |
 | T | F | **B** | genuine conflict (distance 2), dialetheia held |
 | B | · | **B** | dialetheia present |
-| N | F | **F** | model abstains, gate speaks |
+| N | F | **F** | model abstains, vessel speaks |
 
-The conflict distance (Hamming of the two 2-bit Belnap codes, 0–2) is the tetractys signal of how live the contradiction is. The fused verdict is committed as a `selectivity` record (carrying `model_voice`, `gate_voice`, `fused`, `conflict`) and seeds the kernel's next VINIT so the dialetheia gates run on real content. Disable with `--no-selectivity` (reverts to balance-only) and it is auto-disabled under `--dry-run`.
+Conflict distance = Hamming of the two 2-bit Belnap codes (0–2). The fused verdict seeds the kernel's next VINIT. Disable with `--no-selectivity` (balance-only); auto-disabled under `--dry-run`.
+
+### Self-test
+
+```bash
+python3 -m modot.vessel
+```
+
+Exercises identity → T (gap 0), anti-type → F, mixed → B, vacuum → N, and checks Scott–Grassl equiangularity mean = 1/13. No network required.
+
+### Compatibility
+
+`modot/selectivity.py` re-exports the vessel under the historical names (`SemanticSelectivityGate`, `SelectivityReport`, …) so old imports keep working. Prefer `from modot.vessel import DualLinkVessel`.
+
+## Grammatic witness → conventional proof
+
+`modot/witness_proof.py` turns a **real catalog witness** into a conventional proof *scaffold* so the agent answers math questions instead of kernel-cosplaying.
+
+**Verified firsthand (not by module title):**
+
+| piece | what it actually does here |
+|-------|----------------------------|
+| `cl8nk_navigator.py` | live catalog (5k+ entries): resolve, distance, tier, CLINK formula fragments, meet/join/tensor vs CLINK L8 |
+| `GeneralizedPipeline.lean` | only the domain-invariant `primitiveMathRole` / `defaultProposition` / `defaultProofStrategy` tables are ported (`runPipeline` has 18 `sorry` — not called) |
+| `IGMorphism.lean` | `IGProtocol` constructors label the step skeleton (`refl\|arrow\|seq\|prod`) — not an English prover |
+| `IGFunctor.lean` / `Algebra.lean` | tier + lattice distance context via the navigator’s algebra ops |
+
+**Rejected after check:** `primitive_to_conventional_final.py` still emits Collatz `3n+1`/Terras bodies for non-Collatz names — never called.
+
+On `--ask`, the agent precomputes the scaffold, injects it under **Grammatic witness scaffold**, and the system prompt requires a conventional answer first. Status is always “scaffold to instantiate,” not “finished proof.”
+
+```bash
+python3 -m modot.witness_proof
+python3 momonados_agent.py --ask ./questions/q7.txt
+```
+
+## Semantic Branch Verifier (historical)
+
+`ob3ects/semantic_branch_verifier/` remains as the original Grammar-sourced ob3ect that named the gap: **Frobenius closure guarantees balance, not correct branch selection**. Its 15-step IMASM protocol (dual EVALT/EVALF arms) is the conceptual ancestor. The live path no longer ports a classical schema-grader from that idea; it rides the Dual-Link SIC vessel instead.
 
 ## Lean 4 Formal Verification
 
@@ -172,11 +249,13 @@ Companion Lean files in `lean/`:
 ## Requirements
 
 - Python 3.10+
-- `OPENROUTER_API_KEY` env var (for LLM access)
+- `numpy` (SIC linear algebra)
+- `ig-pulse` density matrix + `d12_sic_build/d12_psi.pkl` (resolved relative to the imsgct tree; override with `IG_PULSE_PATH` / `D12_SIC_FIDUCIAL`)
+- `OPENROUTER_API_KEY` env var (required for vessel voice — no hash fallback)
 - Default model: `google/gemini-3-flash-preview`; set `MOMONADOS_MODEL` or `--model` to override
 - Lean 4 + Mathlib v4.28.0 (for formal verification modules)
 
 ## Original Source
 
-Migrated from `/home/mrnob0dy666/imsgct/ob3ect/digital/momonados_agent/` to `/home/mrnob0dy666/imsgct/MoDoT/` on 2026-07-08.
+Migrated from `/home/mrnob0dy666/imsgct/ob3ect/digital/momonados_agent/` to `/home/mrnob0dy666/imsgct/MoDoT/` on 2026-07-08.  
 Publications remain in `/home/mrnob0dy666/imsgct/ig-docs/publishing/manuscripts/momonados_*/`.

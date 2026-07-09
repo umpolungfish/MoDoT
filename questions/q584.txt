@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $G$ be a graph with $n$ vertices and $\delta n^{2}$ edges. Are there subgraphs $H_1,H_2\subseteq G$ such that
 $H_1$ has $\gg \delta^3n^2$ edges and every two edges in $H_1$ are contained in a cycle of length at most $6$, and furthermore if two edges share a vertex they are on a cycle of length $4$, and

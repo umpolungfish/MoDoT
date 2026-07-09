@@ -48,6 +48,11 @@ from modot.selectivity import (
     OB3ECT_PROTOCOL,
     OB3ECT_PATH,
 )
+from modot.witness_proof import (
+    translate as witness_translate,
+    navigator_available,
+    WitnessProofReport,
+)
 
 __all__ = [
     "main",
@@ -74,4 +79,7 @@ __all__ = [
     "SelectivityReport",
     "OB3ECT_PROTOCOL",
     "OB3ECT_PATH",
+    "witness_translate",
+    "navigator_available",
+    "WitnessProofReport",
 ]

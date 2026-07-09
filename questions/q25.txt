@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $1\leq n_1&#60;n_2&#60;\cdots$ be an arbitrary sequence of integers, each with an associated residue class $a_i\pmod{n_i}$. Let $A$ be the set of integers $n$ such that for every $i$ either $n&#60;n_i$ or $n\not\equiv a_i\pmod{n_i}$. Must the logarithmic density of $A$ exist?
 ---

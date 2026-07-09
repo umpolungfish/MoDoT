@@ -3,3 +3,5 @@ please solve the following, and show all work:
 Let $r_k(N)$ be the largest possible size of a subset of $\{1,\ldots,N\}$ that does not contain any non-trivial $k$-term arithmetic progression. Prove an asymptotic formula for $r_k(N)$. 
 ---
 Then provide the fully expanded Lean 4 verification to accompany
+
+Your assessment should consider the mathematics itself, never the open or closed status of the proof.

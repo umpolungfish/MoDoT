@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $f(n,k)$ count the number of self-avoiding walks of $n$ steps (beginning at the origin) in $\mathbb{Z}^k$ (i.e. those walks which do not intersect themselves). Determine[C_k=\lim_{n\to\infty}f(n,k)^{1/n}.]
 ---

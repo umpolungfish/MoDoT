@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Determine the Ramsey number[R(C_4,S_n),]where $S_n=K_{1,n}$ is the star on $n+1$ vertices.
 

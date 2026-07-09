@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $G$ be the graph with vertex set those pairs $(x,y)\in \mathbb{N}^2$ with $\mathrm{gcd}(x,y)=1$, in which we join two vertices if the differ in only one coordinate, and there by $\pm 1$.
 

@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $k\geq 2$ and $n$ be sufficiently large depending on $k$. Let $A=\{a_1<a_2<\cdots \}$ be the set of those integers in $[n,n^k]$ which have a divisor in $(n,2n)$. Estimate[\max_{i} a_{i+1}-a_i.]Is this $\leq (\log n)^{O(1)}$?
 ---

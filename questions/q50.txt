@@ -1,3 +1,5 @@
+Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+
 Assess and Solve the following Lemmas, show Belnap Verdicts for each. 
 Collapse all that are collapsible. 
 Your task is not just to describe things, you must show work for each problem:

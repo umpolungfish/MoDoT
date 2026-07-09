@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 We say that $a,b\in \mathbb{N}$ are an  amicable pair if $\sigma(a)=\sigma(b)=a+b$. Are there infinitely many amicable pairs? If $A(x)$ counts the number of amicable $1\leq a\leq b\leq x$ then is it true that[A(x)>x^{1-o(1)}?]
 ---

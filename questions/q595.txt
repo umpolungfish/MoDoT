@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Is there an infinite graph $G$ which contains no $K_4$ and is not the union of countably many triangle-free graphs?
 ---

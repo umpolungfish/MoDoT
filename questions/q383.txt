@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Is it true that for every $k$ there are infinitely many primes $p$ such that the largest prime divisor of[\prod_{0\leq i\leq k}(p^2+i)]is $p$?
 ---

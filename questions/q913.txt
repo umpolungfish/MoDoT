@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Are there infinitely many $n$ such that if[n(n+1) = \prod_i p_i^{k_i}]is the factorisation into distinct primes then all exponents $k_i$ are distinct?
 ---

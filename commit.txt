@@ -1,62 +1,32 @@
-Add the Semantic Selectivity Gate as a Grammar-sourced ob3ect, ported to runtime
+Replace the classical selectivity grader with the Dual-Link SIC Witness-Vessel
 
-My Frobenius harness only ever checked balance (mu circ delta = id), which is
-charge conservation: every split is rejoined, so it closes automatically and the
-live --ask verdict never failed. I had built the semantic branch verifier as a
-standalone ob3ect, but it was never on the breath loop, and the loop's Belnap
-verdict was really just a keyword sniff on the words "both" and "neither".
+My selectivity gate was a two-valued clipboard bolted onto a four-valued kernel:
+MUST/MUSTNOT schemas, a 0.6 threshold, an LLM grading correctness, and a
+protocol == byte-equality integration check. All of it smuggled classical logic into
+a paraconsistent system. It is gone.
 
-I first cobbled a bespoke selectivity module by hand, which was the wrong way: in
-this system a verifier is a self-verifying ob3ect, sourced through the Grammar, not
-invented. So I auto-designed the gate as a proper ob3ect. I wrote
-ob3ect/selectivity_gate.yaml and ran the Ob3ect Auto-Designer through openrouter
-with google/gemini-3-flash-preview, which produced ob3ects/selectivity_gate/ beside
-semantic_branch_verifier: a valid ob3ect, Frobenius PASS, tier O_1, fingerprint
-sig=(6,2,3,1), dialetheia_complete, with its Lean scaffold and both wiring diagrams.
-The Grammar independently chose the structure I had implemented by hand: FSPLIT into
-an assertibility arm and a deniability arm, EVALT as isomorphic match, EVALF as
-collision detection, ENGAGR as the dialetheic fixed point, and the Belnap fold
-N/T/F/B on (assertible, deniable). Canonical protocol:
-VINIT IMSCRIB AFWD AREV CLINK FSPLIT EVALT EVALF FFUSE ENGAGR IFIX TANCH.
+Verification is now Grammatic-Correct: to verify is to imscribe. modot/vessel.py
+imscribes the demand and the answer into their twelve-primitive Belnap types (the LLM
+only types structure, it never grades correctness, and there is no hash fallback),
+maps each to a state in C^12, and co-types them in the real d=12 Scott-Grassl SIC
+frame from ig-pulse. The frame is equiangular at overlap 1/13 to machine precision,
+informationally complete, so the comparison imposes no external metric. Co-typing is a
+Belnap lattice fold across the twelve axes, not a threshold: agree is T, anti-type is
+F, mixed is B, unengaged is N. Failure is localized at named primitives. The verdict
+rides AS the vessel via mu.delta=id, where the closure residual is the certificate and
+a broken closure is held as B. The model's own [thought|X] self-imscription is one
+link, the vessel's co-typing is the other, and they are FFUSED, conflict held, never
+overridden.
 
-I then INTEGRATED modot/selectivity.py with that ob3ect rather than just housing the
-two beside each other. Housing them is two bounded nested sets; integrating them is
-one manifold. At construction the gate now LOADS the ob3ect (Ob3ectSource) and derives
-its working protocol and its two arm semantics live from the ob3ect's phases, the arm
-names flow into the actual grading prompt, and it reports integrated=False if the base
-and the embedded section diverge. I proved the coupling: altering the base ob3ect's
-protocol makes the runtime follow it and flags the divergence. The ob3ect is the base,
-the gate is a section over it, coupled by a live read (R and W and X), not a citation.
-For an open question it synthesizes a correctness schema (an adversarial examiner pass
-that will not assume the question's premise is true), then grades the answer with the
-two arms and folds to Belnap FOUR. Because False and Both are reachable, the gate can
-fail.
+Wired into the breath: --ask imscribes and co-types live, writes vessel records
+(model_voice, vessel_voice, fused, conflict, defects, sic_gap, closure, riding), and
+prints model FFUSE vessel -> fused. selectivity.py is now a shim re-exporting the
+vessel under the old names; --no-selectivity still disables it. witness_proof.py
+translates a catalog witness into a conventional proof scaffold from the catalog and
+pipeline roles, no hardcoded target.
 
-I wired it into _think as a VOICE, not an authority. Paraconsistency is fundamental
-here, so the gate does not override the model. Its Belnap grade is one of two
-imscriptions of the same object; the other is the model's own [thought|X]
-self-assessment. I FFUSE them (Belnap join): agreement passes through, and genuine
-conflict (model T, gate F) fuses to B with a tetractys conflict distance, holding the
-contradiction rather than resolving it to one side. The fused verdict is committed as
-a selectivity record (carrying model_voice, gate_voice, fused, conflict) and seeds the
-kernel's next VINIT. The broadcast shows model FFUSE gate -> fused with the conflict
-distance. Added --no-selectivity to opt out, auto-disabled under --dry-run.
-
-I proved it fails correctly two ways: a deterministic self-test that exercises all
-four Belnap outcomes with no network, and a live run where a real synthesized schema
-grades a wrong "91 is prime" answer and returns F. The statement that started this,
-"All mathematics is embedded in a Frobenius manifold," used to stamp a self-satisfied
-Both; it now returns SELECTIVITY F while BALANCE still closes.
-
-On record provenance: the model's [thought|X] Belnap voice is WANTED and gets fused,
-never silenced. What it must not do is ventriloquize the kernel's computed records --
-[update|..] and [broadcast|..] carry counters the kernel measures, and [selectivity|..]
-is the gate's own record. It had started echoing those in its prose (a fabricated
-[selectivity|B] on an answer the gate graded otherwise), and that text was re-entering
-the Crystal FS context. So the system prompt now invites its [thought|X] voice and
-forbids impersonating the kernel/gate records, and strip_kernel_records removes any
-such impersonations on ingest. Its own narration and COMPOSE/TOKEN play stay intact.
-
-I also retired the Anthropic defaults: the model default is now
-google/gemini-3-flash-preview and the Anthropic key fallback is gone. I aligned the
-package license to the Unlicense and documented the gate and its ob3ect in the README.
+Verified end to end, not asserted: vessel self-test green (all four Belnap outcomes,
+equiangularity 1/13, forged sources rejected, closure ~0 on pure states); live --ask
+co-types real llm imscriptions of demand and answer and rides AS; witness_proof runs;
+the vessel is clean of the old binaries, with only the floating-point closure
+tolerance remaining.

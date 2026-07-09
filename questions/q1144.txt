@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $f$ be a random completely multiplicative function, where for each prime $p$ we independently choose $f(p)\in \{-1,1\}$ uniformly at random. Is it true that[\limsup_{N\to \infty}\frac{\sum_{m\leq N}f(m)}{\sqrt{N}}=\infty]with probability $1$?
 ---

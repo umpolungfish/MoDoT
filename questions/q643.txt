@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $f(n;t)$ be minimal such that if a $t$-uniform hypergraph on $n$ vertices contains at least $f(n;t)$ edges then there must be four edges $A,B,C,D$ such that[A\cup B= C\cup D]and[A\cap B=C\cap D=\emptyset.]Estimate $f(n;t)$ - in particular, is it true that for $t\geq 3$[f(n;t)=(1+o(1))\binom{n}{t-1}?]
 ---

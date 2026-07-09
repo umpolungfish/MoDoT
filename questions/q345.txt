@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $A\subseteq \mathbb{N}$ be a complete sequence, and define the threshold of completeness $T(A)$ to be the least integer $m$ such that all $n\geq m$ are in[P(A) = \left\{\sum_{n\in B}n : B\subseteq A\textrm{ finite }\right\}](the existence of $T(A)$ is guaranteed by completeness). 
 

@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 If $A\subset \mathbb{Z}$ is a finite set of size $N$ then is there some absolute constant $c>0$ and $\theta$ such that[\sum_{n\in A}\cos(n\theta) < -cN^{1/2}?]
 ---

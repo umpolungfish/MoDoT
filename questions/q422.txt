@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $f(1)=f(2)=1$ and for $n>2$[f(n) = f(n-f(n-1))+f(n-f(n-2)).]Does $f(n)$ miss infinitely many integers? What is its behaviour?
 ---

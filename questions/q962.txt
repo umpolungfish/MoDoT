@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $k(n)$ be the maximal $k$ such that there exists $m\leq n$ such that each of the integers[m+1,\ldots,m+k]are divisible by at least one prime $>k$. Estimate $k(n)$ - in particular, is it true that[\log k(n) \leq (\log n)^{1/2+o(1)}?]
 ---

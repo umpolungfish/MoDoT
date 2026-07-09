@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $p_1<\cdots<p_u$ be primes and let $k\geq 1$. Let $F_k(p_1,\ldots,p_u)$ be such that every interval of $k$ positive integers contains at least $F_k(p_1,\ldots,p_u)$ multiples of at least one of the $p_i$.
 

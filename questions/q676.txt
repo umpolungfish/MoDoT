@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Is every sufficiently large integer of the form[ap^2+b]for some prime $p$ and integer $a\geq 1$ and $0\leq b<p$?
 ---

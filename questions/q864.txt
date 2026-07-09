@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $A\subseteq \{1,\ldots N\}$ be a set such that there exists at most one $n$ with more than one solution to $n=a+b$ (with $a\leq b\in A$). Estimate the maximal possible size of $\lvert A\rvert$ - in particular, is it true that[\lvert A\rvert \leq (1+o(1))\frac{2}{\sqrt{3}}N^{1/2}?]
 ---

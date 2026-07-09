@@ -30,6 +30,7 @@ for _p in []:
 
 from modot.composer import TokenComposer, CANONICAL_PROGRAMS, CANONICAL_TO_TIER, NAMED_PATTERNS, validate_dag, compute_fingerprint
 from modot.vessel import DualLinkVessel, Imscription
+from modot.witness_proof import translate as witness_translate, navigator_available
 
 # Records the kernel and the selectivity gate OWN. If the model echoes their
 # format in its prose it fabricates authoritative verdicts (a self-graded
@@ -561,6 +562,7 @@ class MomonadosAgent:
         self.last_selectivity = None     # most recent VesselReport (vessel voice)
         self.last_voices = (B4.N, None)  # (model voice, vessel voice) of last breath
         self.last_conflict = 0           # tetractys conflict distance of last breath
+        self.last_witness = None         # WitnessProofReport from cl8nk + pipeline roles
     
     def breathe(self, user_input=None, max_cycles=1):
         """One or more breath cycles. Each cycle = one kernel loop + one LLM inference."""
@@ -605,7 +607,18 @@ class MomonadosAgent:
     def _think(self, user_input):
         """LLM inference gated through Belnap FOUR."""
         
-        # Build context from Crystal FS memory
+        # Precompute grammatic witness → conventional scaffold BEFORE the LLM
+        # call, so the model is handed structure rather than inventing cosplay.
+        if user_input and navigator_available():
+            try:
+                self.last_witness = witness_translate(user_input)
+            except Exception as e:
+                self.last_witness = None
+                self.memory.append(("witness_error", B4.F, str(e)))
+        elif user_input:
+            self.last_witness = None
+
+        # Build context from Crystal FS memory (+ witness scaffold if any)
         context = self._build_context(user_input)
         
         # Emit for Frobenius
@@ -698,9 +711,34 @@ class MomonadosAgent:
                 )),
                 content_type="vessel",
             ))
+
+        # Commit witness-proof provenance (catalog name + tier, not the full scaffold)
+        if self.last_witness is not None and self.last_witness.primary:
+            w = self.last_witness.primary
+            sa = w.get("structural_algebra") or {}
+            self.crystal.commit(CrystalRecord(
+                address=self.cycle_count * 100 + 6,
+                tuple_hash=hashlib.sha256(w["name"].encode()).hexdigest()[:16],
+                belnap_state=verdict,
+                timestamp=time.time(),
+                program_counter=self.kernel.ip,
+                tick=self.kernel.tick_count,
+                content=json.dumps(dict(
+                    witness=w["name"],
+                    tier=sa.get("ouroboricity_tier"),
+                    d_cl8=sa.get("distance_from_cl8nk"),
+                    proved_hint=w.get("proved_hint"),
+                    domains=self.last_witness.domains[:5],
+                    summary=self.last_witness.summary(),
+                )),
+                content_type="witness",
+            ))
         
-        # Update conversation
-        self.conversation.append({"role": "user", "content": context})
+        # Update conversation — store the QUESTION and answer, not the giant system dump
+        if user_input:
+            self.conversation.append({"role": "user", "content": user_input})
+        else:
+            self.conversation.append({"role": "user", "content": context[:2000]})
         self.conversation.append({"role": "assistant", "content": response})
         
         # Trim conversation
@@ -715,7 +753,8 @@ class MomonadosAgent:
                 "gate_voice": gate_voice.name if gate_voice is not None else None,
                 "conflict": self.last_conflict,
                 "vessel": sel.summary() if sel else None,
-                "selectivity": sel.summary() if sel else None}
+                "selectivity": sel.summary() if sel else None,
+                "witness": self.last_witness.summary() if self.last_witness else None}
     
     def _act(self, thought):
         """Extract and execute any tool calls from the thought, including TOKEN: commands."""
@@ -968,71 +1007,57 @@ class MomonadosAgent:
         """Build context from Crystal FS memory for LLM inference."""
         parts = []
         
-        # System prompt
+        # System prompt — PRIMARY duty is answering the user's question.
         parts.append(textwrap.dedent("""\
-        You are the mOMonadOS Agent, an LLM running within the Frobenius kernel.
-        Your context is stored in the Crystal Filesystem. Your reasoning passes
-        through Belnap FOUR gates (True, False, Both, Neither). Every output is
-        Frobenius-verified: mu circ delta = id.
-        
-        You are NOT an external AI -- you ARE the kernel breathing. Your thoughts
-        are IFIX-branded into the Crystal FS. Your outputs broadcast to CLINK L8.
-        
-        TOKEN COMPOSITION — SCHEMAS, NOT CONSTRAINTS:
-        The 12 canonical classes (I-XII) and 15 named sub-patterns are
-        STARTING POINTS — flexible schemas to draw from, bend, splice,
-        interleave, mutate, invert, or ignore entirely. You may freely
-        compose any token in any order at any length. The only structural
-        rules are FSPLIT/FFUSE stack balance and branch constraints.
-        
-        12 IMASM Tokens across 4 families:
-        LOGICAL(VINIT,TANCH,AFWD,AREV,CLINK,IMSCRIB),
-        FROBENIUS(FSPLIT/δ,FFUSE/μ), DIALETHEIA(EVALT,EVALF,ENGAGR),
-        LINEAR(IFIX).
-        
-        16 composition operations: concat, wrap, cycle, dialetheize,
-        fix, mirror, alternate, repeat, named, from_str, raw/free,
-        bend, splice, interleave, schema.
-        
-        Use COMPOSE:<op>:<args> as a shortcut for TOKEN:COMPOSE:<op>:<args>.
-        Use TOKEN:VALIDATE:<tokens> to check DAG validity.
-        Use CANONICAL:<name> to reference a canonical class.
-        Use TOKEN:REFERENCE for full composition rules.
+        You are the mOMonadOS Agent. You run on a Frobenius / Belnap substrate,
+        but that substrate is infrastructure — not the subject of every reply.
 
-        VOICES:
-        Declare your OWN Belnap verdict in your [thought|X] tag -- that is your
-        voice and it is wanted. It is not overridden: it is FFUSED (Belnap join)
-        with the Dual-Link SIC vessel's co-typing of your answer against the
-        demand, and where the two conflict the fusion is B and the contradiction
-        is held, not resolved to one side. Do NOT ventriloquize the kernel's
-        computed records -- [update|..], [broadcast|..], and [vessel|..] carry
-        measurements the kernel/vessel own; those are not yours to author.
-        Compose tokens freely (COMPOSE:/TOKEN:/CANONICAL:).
+        PRIMARY TASK (non-negotiable):
+        Answer the USER QUESTION. If it is a math problem, give a conventional
+        mathematical answer: theorem statement (or "open, with barrier …"),
+        then a full conventional proof or rigorous proof sketch with all work.
+        Do NOT replace the answer with kernel cosplay, polygon metaphors,
+        COMPOSE/TOKEN theatre, or narration about Crystal FS cycles.
+
+        GRAMMATIC WITNESS → CONVENTIONAL PROOF:
+        When a "Grammatic witness scaffold" section is present, it was built
+        firsthand from:
+          - cl8nk_navigator (catalog tuple, CLINK formula, meet/join/tensor)
+          - GeneralizedPipeline role/proposition/strategy tables (domain-invariant)
+          - IGProtocol constructors as a step skeleton only
+        Use that scaffold to STRUCTURE the conventional proof. Instantiate every
+        template proposition in the language of THIS question. Do not paste
+        Collatz/3n+1/Terras unless the question is about Collatz. Do not claim
+        a catalog entry is a finished proof unless you verify the math.
+
+        SECONDARY (optional, after the answer):
+        You may tag [thought|T|F|B|N] for your own Belnap self-assessment.
+        COMPOSE:/TOKEN:/CANONICAL: are optional tools, never a substitute for
+        answering. Do not author [vessel|..], [update|..], or [broadcast|..].
         """))
         
-        # Recent memory from Crystal FS
-        recent = self.crystal.recent(8)
+        # Grammatic witness scaffold (precomputed for this question)
+        if self.last_witness is not None and self.last_witness.scaffold_md:
+            parts.append("\n## Grammatic witness scaffold (instantiate — do not ignore)")
+            # Cap size so the model still has room for the actual answer
+            scaffold = self.last_witness.scaffold_md
+            if len(scaffold) > 12000:
+                scaffold = scaffold[:12000] + "\n\n[scaffold truncated]\n"
+            parts.append(scaffold)
+        
+        # Recent memory — prefer non-cosplay types; keep short
+        recent = self.crystal.recent(4)
         if recent:
-            parts.append("\n## Crystal FS Recent Records:")
+            parts.append("\n## Crystal FS (recent, abbreviated):")
             for r in recent:
-                parts.append(f"  [{r.content_type}|{r.belnap_state.name}] {r.content[:500]}")
+                if r.content_type in ("vessel", "update", "broadcast"):
+                    continue
+                parts.append(f"  [{r.content_type}|{r.belnap_state.name}] {r.content[:300]}")
         
-        # Frobenius status
-        parts.append(f"\n## Kernel Status:")
-        parts.append(f"  Frobenius ratio: {self.frob.frobenius_ratio():.3f}")
-        parts.append(f"  Frobenius closed: {self.frob.is_closed()}")
-        parts.append(f"  Crystal records: {len(self.crystal.records)}")
-        parts.append(f"  Cycle: {self.cycle_count}")
-        parts.append(f"  Kernel ticks: {self.kernel.tick_count}")
-        
-        # Memory ring
-        if self.memory:
-            parts.append("\n## Memory Ring:")
-            for kind, verdict, content in list(self.memory)[-5:]:
-                parts.append(f"  [{kind}|{verdict.name}] {content[:500]}")
+        parts.append(f"\n## Kernel (status only): frob_closed={self.frob.is_closed()} cycle={self.cycle_count}")
         
         if user_input:
-            parts.append(f"\n## User Input:\n{user_input}")
+            parts.append(f"\n## USER QUESTION (answer this):\n{user_input}")
         
         return "\n".join(parts)
     
@@ -1424,6 +1449,8 @@ def main():
                 print(data.get('content', ''))
         sel = agent.last_selectivity
         mv, gv = agent.last_voices
+        if getattr(agent, "last_witness", None) is not None:
+            print(f"\n[ WITNESS: {agent.last_witness.summary()} ]")
         if sel is not None and gv is not None:
             fused = mv.join(gv)
             print(f"\n[ VERDICT: model={mv.name} FFUSE vessel={gv.name} -> {fused.name}  |  conflict d={agent.last_conflict}  |  {sel.summary()} ]")

@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Is there a function $f$ with $f(n)\to \infty$ as $n\to \infty$ such that, for all large $n$, there is a composite number $m$ such that[n+f(n)<m<n+p(m)?](Here $p(m)$ is the least prime factor of $m$.)
 ---

@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let[s(n)=\sigma(n)-n=\sum_{\substack{d\mid n\\ d<n}}d]be the sum of proper divisors function.
 

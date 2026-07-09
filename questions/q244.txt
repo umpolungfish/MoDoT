@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $C>1$. Does the set of integers of the form $p+\lfloor C^k\rfloor$, for some prime $p$ and $k\geq 0$, have density $>0$?
 ---

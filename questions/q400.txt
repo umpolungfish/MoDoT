@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 For any $k\geq 2$ let $g_k(n)$ denote the maximum value of[(a_1+\cdots+a_k)-n]where $a_1,\ldots,a_k$ are integers such that $a_1!\cdots a_k! \mid n!$. Can one show that[\sum_{n\leq x}g_k(n) \sim c_k x\log x]for some constant $c_k$? Is it true that there is a constant $c_k$ such that for almost all $n<x$ we have[g_k(n)=c_k\log x+o(\log x)?]
 ---

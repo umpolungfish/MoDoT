@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $a_1<a_2<\cdots$ be an increasing sequence such that $a_n/n\to \infty$. Is the sum[\sum_n \frac{a_n}{2^{a_n}}]irrational?
 ---

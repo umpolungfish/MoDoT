@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $f(z)\in\mathbb{C}[z]$ be a monic non-constant polynomial. Can the set[\{ z\in \mathbb{C} : \lvert f(z)\rvert \leq 1\}]be covered by a set of circles the sum of whose radii is $\leq 2$?
 ---

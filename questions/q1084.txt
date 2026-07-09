@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $f_d(n)$ be minimal such that in any collection of $n$ points in $\mathbb{R}^d$, all of distance at least $1$ apart, there are at most $f_d(n)$ many pairs of points which are distance $1$ apart. Estimate $f_d(n)$.
 ---

@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $(A_i)$ be a family of sets with $\lvert A_i\rvert=\aleph_0$ for all $i$, such that for any $i\neq j$ we have $\lvert A_i\cap A_j\rvert$ finite and $\neq 1$. Is there a $2$-colouring of $\cup A_i$ such that no $A_i$ is monochromatic?
 ---

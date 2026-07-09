@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Call a set of distinct integers $1<n_1<\cdots<n_k$ a covering set if there is a choice of $a_i\pmod{n_i}$ for $1\leq i\leq k$ such that every integer satisfies at least one of these congruences. A set is an irreducible covering set if no proper subset is a covering set. 
 

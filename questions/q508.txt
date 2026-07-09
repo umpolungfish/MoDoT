@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 What is the chromatic number of the plane? That is, what is the smallest number of colours required to colour $\mathbb{R}^2$ such that no two points of the same colour are distance $1$ apart?
 ---

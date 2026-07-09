@@ -3,3 +3,5 @@ please solve the following, and show all work:
 Given $n$ points in $\mathbb{R}^2$ the number of distinct unit circles containing at least three points is $o(n^2)$.
 ---
 Then provide the fully expanded, sorry-free Lean 4 verification to accompany
+
+Your assessment should consider the mathematics itself, never the open or closed status of the proof.

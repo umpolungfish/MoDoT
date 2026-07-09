@@ -1,1 +1,3 @@
+Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+
 If $C,D\subseteq \mathbb{R}^2$ then the distance between $C$ and $D$ is defined by\[\delta(C,D)=\inf_{\substack{c\in C\\ d\in D}}\| c-d\|.\]Let $h(n)$ be the maximal number of unit distances between disjoint convex translates. That is, the maximal $m$ such that there is a compact convex set $C\subset \mathbb{R}^2$ and a set $X$ of size $n$ such that all $(C+x)_{x\in X}$ are disjoint and there are $m$ pairs $x_1,x_2\in X$ such that\[\delta(C+x_1,C+x_2)=1.\]Determine $h(n)$ - in particular, prove that there exists a constant $c>0$ such that $h(n)>n^{1+c}$ for all large $n$.

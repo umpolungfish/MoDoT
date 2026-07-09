@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 If $\tau(n)$ counts the number of divisors of $n$ then let[F(f,n)=\frac{\tau((n+\lfloor f(n)\rfloor)!)}{\tau(n!)}.]Is it true that[\lim_{n\to \infty}F((\log n)^C,n)=\infty]for large $C$? 
 

@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Is it true that\[\sum_{n=1}^\infty(-1)^n\frac{n}{p_n}\]converges, where $p_n$ is the sequence of primes?
 ---

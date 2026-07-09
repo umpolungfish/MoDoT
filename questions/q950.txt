@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let[f(n) = \sum_{p<n}\frac{1}{n-p}.]Is it true that[\liminf f(n)=1]and[\limsup f(n)=\infty?]Is it true that $f(n)=o(\log\log n)$ for all $n$?
 ---

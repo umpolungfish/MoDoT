@@ -21,9 +21,9 @@ What this is NOT
 What this IS
 ------------
 1. IMSCRIB — structural type only. Each of the twelve IG primitives is assigned
-   a Belnap value {N,T,F,B}. The LLM (when present) types structure; it never
-   renders a correctness opinion. Without an LLM, a deterministic structural
-   imscriber (content geometry, not meaning-judgment) is used.
+   a Belnap value {N,T,F,B}. The LLM types structure; it never renders a
+   correctness opinion. There is NO hash/deterministic fallback: no imscriber,
+   no vessel voice. Fake types are a clipboard by another name.
 2. State map — Belnap → amplitude in ℂ¹²:
        N → 0,  T → 1,  F → i,  B → 1+i
    then L2-normalize. Relative phases carry structure; global polarity is read
@@ -346,32 +346,21 @@ def _imscribe_prompt(text: str) -> str:
     )
 
 
+class ImscriptionError(Exception):
+    """Raised when structural imscription cannot be obtained. No fallback."""
+
+
 def parse_imscription(raw: str) -> List[int]:
-    """Parse imscriber output → length-12 Belnap codes (catalog key order)."""
+    """Parse imscriber output → length-12 Belnap codes. All twelve keys required."""
     found: Dict[str, int] = {}
     for m in _IMSCRIBE_RE.finditer(raw or ""):
         found[m.group(1)] = B4.parse(m.group(2))
-    return [found.get(k, B4.N) for k in PRIMITIVE_KEYS]
-
-
-def deterministic_imscribe(text: str) -> List[int]:
-    """Clipboard-free structural fallback when no LLM is available.
-
-    Derives a 12-primitive Belnap assignment from content geometry only:
-    per-primitive digests of the text (no semantic judgment, no weights that
-    pick a preferred direction — each axis is a distinct hash channel; the
-    two bits of the digest pick N/T/F/B uniformly). This is a pure function
-    of the text bytes, so co-typing of identical texts is identity, and
-    different texts diverge as structured defects — without an external
-    standard of correctness.
-    """
-    raw = (text or "").encode("utf-8", errors="replace")
-    codes = []
-    for key in PRIMITIVE_KEYS:
-        h = hashlib.sha256(key.encode() + b"\0" + raw).digest()
-        # two bits → Belnap; bit-pair is uniform over {N,T,F,B}
-        codes.append(h[0] & 0b11)
-    return codes
+    missing = [k for k in PRIMITIVE_KEYS if k not in found]
+    if missing:
+        raise ImscriptionError(
+            f"incomplete imscription (missing {missing}); raw={ (raw or '')[:240]!r}"
+        )
+    return [found[k] for k in PRIMITIVE_KEYS]
 
 
 @dataclass
@@ -379,7 +368,7 @@ class Imscription:
     """A text's structural type: 12 Belnap codes + optional source note."""
     text: str
     codes: List[int]
-    source: str = "deterministic"   # "llm" | "deterministic" | "injected"
+    source: str = "llm"   # "llm" | "injected" — never invent codes
     raw: str = ""
 
     def as_dict(self) -> Dict[str, str]:
@@ -393,8 +382,8 @@ class Imscription:
 class VesselImscriber:
     """Structural imscriber. LLM types axes; never grades correctness.
 
-    Imscriptions are cached by content hash so the same text always co-types
-    with itself (identity), even across two evaluate arms in one breath.
+    No hash fallback. No invented types. Same text always co-types with itself
+    via content-hash cache of real imscriptions only.
     """
 
     def __init__(self, llm=None):
@@ -413,23 +402,19 @@ class VesselImscriber:
         return im
 
     def _imscribe_uncached(self, text: str) -> Imscription:
-        if self.available():
-            try:
-                raw, _ = self.llm.infer(
-                    [
-                        {"role": "system", "content": IMSCRIBE_SYS},
-                        {"role": "user", "content": _imscribe_prompt(text)},
-                    ],
-                    temperature=0.0,
-                )
-                codes = parse_imscription(raw or "")
-                # If the model produced nothing parseable, degrade to deterministic.
-                if any(c != B4.N for c in codes):
-                    return Imscription(text=text, codes=codes, source="llm", raw=raw or "")
-            except Exception:
-                pass
-        codes = deterministic_imscribe(text)
-        return Imscription(text=text, codes=codes, source="deterministic")
+        if not self.available():
+            raise ImscriptionError(
+                "no imscriber: LLM required (hash/deterministic fallback is forbidden)"
+            )
+        raw, _ = self.llm.infer(
+            [
+                {"role": "system", "content": IMSCRIBE_SYS},
+                {"role": "user", "content": _imscribe_prompt(text)},
+            ],
+            temperature=0.0,
+        )
+        codes = parse_imscription(raw or "")
+        return Imscription(text=text, codes=codes, source="llm", raw=raw or "")
 
 
 # ── Vessel report ────────────────────────────────────────────────────────────
@@ -517,22 +502,27 @@ class DualLinkVessel:
         self.llm = llm
         self.imscriber = VesselImscriber(llm)
         self.closure_tol = closure_tol
-        self.integrated = HAVE_SIC12   # integrated iff real SIC frame is live
+        # Integrated iff real SIC frame is live AND real imscriber is live.
+        self.integrated = HAVE_SIC12 and self.imscriber.available()
         self.protocol = self.PROTOCOL
 
     def available(self) -> bool:
-        # Vessel can run deterministic imscription + SIC with no API key.
-        # LLM only upgrades the imscriber; it is not required for the engine.
-        return HAVE_SIC12
+        # Both links required. No hash-typed half-vessel.
+        return HAVE_SIC12 and self.imscriber.available()
 
     def provenance(self) -> str:
         if not HAVE_SIC12:
             return f"vessel: SIC unavailable ({_IMPORT_ERROR})"
+        if not self.imscriber.available():
+            return (
+                f"vessel: SIC live d={_D} but no imscriber "
+                "(LLM required; no hash fallback)"
+            )
         fid = "scott-grassl" if _FIDUCIAL_PKL.exists() else "cached"
         return (
             f"vessel <- Dual-Link SIC d={_D} fiducial={fid} "
             f"elements={len(_SIC_PROJ)} integrated={self.integrated} "
-            f"overlap=1/{_D + 1}"
+            f"overlap=1/{_D + 1} imscriber=llm"
         )
 
     # -- public API ----------------------------------------------------------
@@ -547,18 +537,34 @@ class DualLinkVessel:
         demand: Optional[Imscription] = None,
         answer_im: Optional[Imscription] = None,
     ) -> VesselReport:
-        """Imscribe demand & answer; co-type in the Dual-Link SIC frame."""
+        """Imscribe demand & answer; co-type in the Dual-Link SIC frame.
+
+        Both sides must be real imscriptions (llm) or explicit test injections.
+        Hash/deterministic codes are rejected.
+        """
         if not HAVE_SIC12:
             return _vacuous(question, f"SIC unavailable: {_IMPORT_ERROR}")
 
-        demand = demand or self.imscriber.imscribe(question)
-        # Same bytes → same type (identity). Cache makes a second imscribe free
-        # and exact; the explicit short-circuit documents the invariant.
-        if answer_im is None:
-            if (answer or "") == (question or "") and demand is not None:
-                answer_im = demand
-            else:
-                answer_im = self.imscriber.imscribe(answer)
+        try:
+            if demand is None:
+                demand = self.imscriber.imscribe(question)
+            # Same bytes → same type (identity). Cache makes a second imscribe
+            # free and exact; short-circuit documents the invariant.
+            if answer_im is None:
+                if (answer or "") == (question or ""):
+                    answer_im = demand
+                else:
+                    answer_im = self.imscriber.imscribe(answer)
+        except ImscriptionError as e:
+            return _vacuous(question, str(e))
+
+        for side, im in (("demand", demand), ("answer", answer_im)):
+            if im.source not in ("llm", "injected"):
+                return _vacuous(
+                    question,
+                    f"{side} imscription source={im.source!r} forbidden "
+                    "(only llm|injected; no hash fallback)",
+                )
 
         psi_d = belnap_tuple_to_psi(demand.codes)
         psi_a = belnap_tuple_to_psi(answer_im.codes)
@@ -620,6 +626,11 @@ class DualLinkVessel:
         try:
             if not HAVE_SIC12:
                 return _vacuous(question, f"SIC unavailable: {_IMPORT_ERROR}")
+            if demand is None and not self.imscriber.available():
+                return _vacuous(
+                    question,
+                    "no imscriber: LLM required (no hash fallback)",
+                )
             return self.evaluate(question, answer, demand=demand)
         except Exception as e:
             return _vacuous(question, f"vessel error: {e}")
@@ -634,28 +645,33 @@ class DualLinkVessel:
 SemanticSelectivityGate = DualLinkVessel
 
 
-# ── Self-test (no network) ───────────────────────────────────────────────────
+# ── Self-test (no network; injected types only — never invent codes) ─────────
 
 def _selftest() -> dict:
     if not HAVE_SIC12:
         return {"available": False, "error": _IMPORT_ERROR}
 
     v = DualLinkVessel(llm=None)
+    # No LLM → vessel not available for live path; lattice/SIC still testable
+    # via explicit injected codes (test harness only, never a production fallback).
+    assert not v.available(), "vessel must require LLM; no hash fallback"
 
-    # 1. Identity: same text co-types with itself → T, gap=0, ride AS.
-    text = "The dual-link SIC vessel verifies by imscription, not by grading."
-    r_id = v.gate(text, text)
+    # 1. Identity: same injected type co-types with itself → T, gap=0, ride AS.
+    codes_t = [B4.T, B4.F, B4.B, B4.T, B4.N, B4.F, B4.T, B4.B, B4.F, B4.T, B4.N, B4.B]
+    dem = Imscription(text="identity", codes=list(codes_t), source="injected")
+    ans = Imscription(text="identity", codes=list(codes_t), source="injected")
+    r_id = v.evaluate("identity", "identity", demand=dem, answer_im=ans)
     assert r_id.belnap == "T", f"identity belnap {r_id.belnap} != T"
     assert r_id.sic_gap < 1e-9, f"identity gap {r_id.sic_gap}"
     assert r_id.riding, "identity must ride AS"
     assert not r_id.defects, f"identity defects {r_id.defects}"
 
-    # 2. Distinct texts: deterministic imscription diverges → defects named.
-    r_diff = v.gate(text, "Completely unrelated content about fishing boats.")
-    assert r_diff.sic_gap > 0 or r_diff.defects or r_diff.belnap != "T"
+    # 2. No-LLM gate without injection → vacuous N (does not invent types).
+    r_none = v.gate("q", "a")
+    assert r_none.belnap == "N", f"no-llm should be N, got {r_none.belnap}"
+    assert "no imscriber" in (r_none.note or "") or "fallback" in (r_none.note or "")
 
-    # 3. Injected anti-type: demand all-T, answer all-F → F (global polarity
-    #    is invisible to pure-state SIC, but the lattice fold catches it).
+    # 3. Injected anti-type: demand all-T, answer all-F → F.
     dem = Imscription(text="d", codes=[B4.T] * 12, source="injected")
     ans = Imscription(text="a", codes=[B4.F] * 12, source="injected")
     r_anti = v.evaluate("d", "a", demand=dem, answer_im=ans)
@@ -690,14 +706,20 @@ def _selftest() -> dict:
     mean_ov = float(sum(ovs) / len(ovs))
     assert abs(mean_ov - 1.0 / 13.0) < 1e-9, f"equiangularity broken: {mean_ov}"
 
+    # 8. Forged "deterministic" source is rejected.
+    forged = Imscription(text="x", codes=[B4.T] * 12, source="deterministic")
+    r_forge = v.evaluate("x", "x", demand=forged, answer_im=forged)
+    assert r_forge.belnap == "N" and "forbidden" in (r_forge.note or "")
+
     return {
-        "available": True,
+        "available_without_llm": v.available(),
         "provenance": v.provenance(),
         "identity": r_id.summary(),
-        "diff": r_diff.summary(),
+        "no_llm_gate": r_none.summary(),
         "anti": r_anti.summary(),
         "mixed": r_b.summary(),
         "vacuum": r_n.summary(),
+        "forged_rejected": r_forge.note,
         "equiangular_mean": mean_ov,
         "target_1_over_13": 1.0 / 13.0,
     }

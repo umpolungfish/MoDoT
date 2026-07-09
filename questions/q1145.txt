@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $A=\{1\leq a_1<a_2<\cdots\}$ and $B=\{1\leq b_1<b_2<\cdots\}$ be sets of integers with $a_n/b_n\to 1$. 
 

@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Let $1\leq a_1<\cdots <a_k\leq n$ be integers such that all sums of the shape $\sum_{u\leq i\leq v}a_i$ are distinct. Let $f(n)$ be the maximal such $k$.
 

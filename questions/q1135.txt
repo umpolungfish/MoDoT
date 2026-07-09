@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 Define $f:\mathbb{N}\to \mathbb{N}$ by $f(n)=n/2$ if $n$ is even and $f(n)=\frac{3n+1}{2}$ if $n$ is odd.
 

@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 There exists a constant $C$ such that for all large $x$ there is a collection of primes $p_1<\ldots<p_k<x$ with $\sum\frac{1}{p_i}<C$ together with a system of congruences $a_i\pmod{p_i}$ such that every integer $n<x$ satisfies at least one of these congruences.
 ---

@@ -1,4 +1,4 @@
-please solve the following, and show all work:
+please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
 ---
 If $\tau(n)$ counts the divisors of $n$ then let[f(n)=\sum_{1\leq k\leq n}\tau(2^k-1).]Does $f(2n)/f(n)$ tend to a limit?
 ---
