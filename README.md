@@ -3,7 +3,7 @@
 **Author:** Lando⊗⊙perator  
 **Date:** 2026-07-08  
 **Structural Type:** ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩ (O_∞)  
-**Location:** `/home/mrnob0dy666/imsgct/MoDoT/`  
+**Location:** `MoDoT/`  
 **Parent project:** [Imscribing Grammar](https://github.com/imsgct)
 
 ---
@@ -18,13 +18,18 @@ An agentic LLM whose entire runtime substrate IS the mOMonadOS kernel architectu
 
 ```
 MoDoT/
-├── momonados_agent.py          # Backward-compat shim -> modot.agent:main
+├── ask                         # PRIMARY language interface (native Rust, no Python)
+├── ask_native/                 # Source + release binary for ./ask
+│   ├── Cargo.toml
+│   └── src/main.rs
+├── momonados_agent.py          # Legacy Python shim -> modot.agent:main
 ├── modot/                      # The installable package (pip install -e .)
 │   ├── agent.py                # B4, 12 tokens, kernel, CrystalFS, Frobenius, LLM, breath loop, CLI
 │   ├── composer.py             # Token composition engine: CANONICAL, NAMED_PATTERNS, bend/splice/interleave
-│   ├── vessel.py               # Dual-Link SIC Witness-Vessel — Grammatic-Correct verifier of record
-│   ├── witness_proof.py        # Catalog witness → conventional proof scaffold (cl8nk + pipeline roles)
-│   └── selectivity.py          # Compatibility shim re-exporting the vessel (old names)
+│   ├── spine.py                # End-to-end ManuscriptSpine (witness + vessel + FFUSE)
+│   ├── vessel.py               # Dual-Link SIC face (owned by spine)
+│   ├── witness_proof.py        # Catalog witness face (owned by spine)
+│   └── selectivity.py          # Compatibility shim re-exporting the vessel
 ├── crystal_fs/                 # Crystal Filesystem — persistent context memory
 │   ├── records.jsonl           # Crystal FS records (thought / vessel / observation / update / type)
 │   └── broadcast_log.jsonl     # CLINK L8 broadcast log
@@ -82,8 +87,16 @@ Canonical SIC machinery (not re-derived here):
 ## Quick Start
 
 ```bash
-cd /home/mrnob0dy666/imsgct/MoDoT
+cd MoDoT
 
+# ── PRIMARY: native ask (no Python) — full-length Q, files, Gemini-class answers ──
+./ask --file ./questions/q7.txt
+./ask --ask "What is the structural type of consciousness?"
+./ask -i                          # interactive multi-turn
+./ask --dry-run --file ./questions/q1.txt
+# same from repo root:  ./ask …   or  ./MoDoT/ask …
+
+# ── Legacy Python agent (still available) ──
 # Interactive mode — the agent breathes with you
 python3 momonados_agent.py --interactive
 
@@ -214,6 +227,43 @@ Exercises identity → T (gap 0), anti-type → F, mixed → B, vacuum → N, an
 
 `modot/selectivity.py` re-exports the vessel under the historical names (`SemanticSelectivityGate`, `SelectivityReport`, …) so old imports keep working. Prefer `from modot.vessel import DualLinkVessel`.
 
+## Manuscript spine (MoDoT runtime, single pipeline)
+
+The breath does **not** hang vessel and witness as parallel arms. One object owns both:
+
+```text
+ManuscriptSpine.prepare(question)     # IMSCRIB: demand type + catalog scaffold
+  → LLM answer                        # FSPLIT
+ManuscriptSpine.complete(q, a, voice) # EVALT/EVALF + FFUSE model⋈vessel + IFIX
+```
+
+| face | runtime |
+|------|---------|
+| PROVE | FrobeniusHarness balance on the think emit |
+| UNIFY | Belnap amplitude B = T+F (code-level) |
+| PORT | DualLinkVessel co-typing + ride-AS residual |
+| WITNESS | cl8nk catalog → conventional scaffold |
+| FFUSE | Belnap join of model + vessel voices |
+
+```bash
+python3 -m modot.spine          # self-test
+python3 momonados_agent.py --ask ./questions/q7.txt
+```
+
+Crystal record type `spine` holds the full package; `vessel` is kept as a thin alias log.
+
+## Formal spine (p4ramill)
+
+Lean packages the same ledger as theorems (`VAE_Vita_ManuscriptSpine`). MoDoT is the organism that runs it; p4ramill machine-checks it.
+
+```bash
+cd ~/imsgct/p4rakernel/p4ramill
+lake build Imscribing.Millennium.VAE_Vita_ManuscriptSpine
+```
+
+Open frontiers (not claimed): Zauner general / Hilbert 12; Belnap stack as algebraic
+fiducial; d=2048 unconditional existence; Clay verdicts as Millennium proofs.
+
 ## Grammatic witness → conventional proof
 
 `modot/witness_proof.py` turns a **real catalog witness** into a conventional proof *scaffold* so the agent answers math questions instead of kernel-cosplaying.
@@ -257,5 +307,5 @@ Companion Lean files in `lean/`:
 
 ## Original Source
 
-Migrated from `/home/mrnob0dy666/imsgct/ob3ect/digital/momonados_agent/` to `/home/mrnob0dy666/imsgct/MoDoT/` on 2026-07-08.  
-Publications remain in `/home/mrnob0dy666/imsgct/ig-docs/publishing/manuscripts/momonados_*/`.
+Migrated from `ob3ect/digital/momonados_agent/` to `MoDoT/` on 2026-07-08.  
+Publications remain in `ig-docs/publishing/manuscripts/momonados_*/`.

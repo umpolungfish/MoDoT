@@ -41,6 +41,10 @@ from modot.vessel import (
     Imscription,
     HAVE_SIC12,
 )
+from modot.spine import (
+    ManuscriptSpine,
+    SpineReport,
+)
 from modot.selectivity import (
     SemanticSelectivityGate,  # alias of DualLinkVessel
     SemanticSchema,           # alias of Imscription
@@ -74,6 +78,8 @@ __all__ = [
     "VesselReport",
     "Imscription",
     "HAVE_SIC12",
+    "ManuscriptSpine",
+    "SpineReport",
     "SemanticSelectivityGate",
     "SemanticSchema",
     "SelectivityReport",

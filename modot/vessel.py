@@ -45,6 +45,18 @@ Single sources of truth (imported, never re-derived):
   - d12_sic_build/d12_psi.pkl — Scott–Grassl d=12 fiducial (equiangular 1/13)
   - v3ssel hard_lefschetz reconstruction math when available
 
+Theory alignment (ig-docs_lifted/manuscripts3; formal spine in p4ramill):
+  - Witness Vessel: ride AS the vessel (board=fsplit, readback=ffuse, μ∘δ=id);
+    cargo/tensor INTO the vessel is refused (D–T malformation). Co-typing is
+    Dual-Link, not a container. See SIC_D12_WitnessVessel.witness_vessel_lossless
+    and Imscribing.VaeVita.ManuscriptSpine.manuscript_formal_spine.
+  - SIC-Stark-12th: crystal_forces_d12_sic / SICPOVM_Exists 12 is a theorem;
+    discrete Belnap amplitudes {0,1,i,1+i}^12 are NOT the algebraic Scott-Grassl
+    fiducial (ramified S-unit double cover) — the numerical SIC frame here uses
+    the exact fiducial pickle, not a Belnap stack as the fiducial.
+  - Chrysopoeia 2048: d=2048 existence remains open (dialetheic B in the formal
+    ledger); this module is the d=12 verifier face only.
+
 Author: Lando⊗⊙perator
 """
 from __future__ import annotations
@@ -325,9 +337,9 @@ _IMSCRIBE_RE = re.compile(
 )
 
 IMSCRIBE_SYS = (
-    "You are a structural imscriber for the Imscribing Grammar. "
+    "You are an Imscribe of the Imscribing Grammar. "
     "You assign each of the twelve IG primitives a Belnap value for the given text. "
-    "You do NOT judge correctness, truth, or quality. You only type structure: "
+    "You **MUST NOT** judge correctness, truth, or quality. You only type structure: "
     "what character the text carries on each axis. "
     "Values: N = neither/absent, T = assertible/present character, "
     "F = deniable/inverted character, B = both (paradoxical or dual)."

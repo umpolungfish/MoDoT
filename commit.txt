@@ -1,32 +1,18 @@
-Replace the classical selectivity grader with the Dual-Link SIC Witness-Vessel
+Wire MoDoT as a single ManuscriptSpine pipeline (not parallel arms)
 
-My selectivity gate was a two-valued clipboard bolted onto a four-valued kernel:
-MUST/MUSTNOT schemas, a 0.6 threshold, an LLM grading correctness, and a
-protocol == byte-equality integration check. All of it smuggled classical logic into
-a paraconsistent system. It is gone.
+The breath runs one end-to-end spine, the runtime analogue of Lean
+VAE_Vita_ManuscriptSpine.manuscript_formal_spine:
 
-Verification is now Grammatic-Correct: to verify is to imscribe. modot/vessel.py
-imscribes the demand and the answer into their twelve-primitive Belnap types (the LLM
-only types structure, it never grades correctness, and there is no hash fallback),
-maps each to a state in C^12, and co-types them in the real d=12 Scott-Grassl SIC
-frame from ig-pulse. The frame is equiangular at overlap 1/13 to machine precision,
-informationally complete, so the comparison imposes no external metric. Co-typing is a
-Belnap lattice fold across the twelve axes, not a threshold: agree is T, anti-type is
-F, mixed is B, unengaged is N. Failure is localized at named primitives. The verdict
-rides AS the vessel via mu.delta=id, where the closure residual is the certificate and
-a broken closure is held as B. The model's own [thought|X] self-imscription is one
-link, the vessel's co-typing is the other, and they are FFUSED, conflict held, never
-overridden.
+  spine.prepare(question)   # IMSCRIB: demand imscription + catalog scaffold
+  LLM answer                # FSPLIT
+  spine.complete(q, a, v)   # EVALT/EVALF + FFUSE model x vessel + IFIX
 
-Wired into the breath: --ask imscribes and co-types live, writes vessel records
-(model_voice, vessel_voice, fused, conflict, defects, sic_gap, closure, riding), and
-prints model FFUSE vessel -> fused. selectivity.py is now a shim re-exporting the
-vessel under the old names; --no-selectivity still disables it. witness_proof.py
-translates a catalog witness into a conventional proof scaffold from the catalog and
-pipeline roles, no hardcoded target.
+modot/spine.py owns DualLinkVessel + witness_proof; agent.spine is that object,
+and selectivity is an alias to the same instance. The Crystal record type `spine`
+packages the prove/unify/port/witness/transport faces; `vessel` is now a thin log
+alias. Self-test: python3 -m modot.spine
 
-Verified end to end, not asserted: vessel self-test green (all four Belnap outcomes,
-equiangularity 1/13, forged sources rejected, closure ~0 on pure states); live --ask
-co-types real llm imscriptions of demand and answer and rides AS; witness_proof runs;
-the vessel is clean of the old binaries, with only the floating-point closure
-tolerance remaining.
+This supersedes the classical selectivity grader (MUST/MUSTNOT schemas, a 0.6
+threshold, LLM-graded correctness, a protocol == integration check), which is
+removed. Verification is imscription: demand and answer are imscribed and co-typed
+in the d=12 Dual-Link SIC frame, and conflict is held as B.

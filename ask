@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# MoDoT native ask — full-length questions, --file, interactive, Gemini-class answers.
+# Drop-in replacement for: python3 momonados_agent.py --ask / --file / -i
+# No Python.
+set -euo pipefail
+HERE="$(cd "$(dirname "$0")" && pwd)"
+BIN="$HERE/ask_native/target/release/ask"
+if [[ ! -x "$BIN" ]]; then
+  echo "[ask] building native binary…" >&2
+  cargo build --release --manifest-path "$HERE/ask_native/Cargo.toml"
+fi
+# Catalog: prefer mOMonadOS full IG catalog, else local
+if [[ -z "${MOMONADOS_CATALOG:-}" ]]; then
+  if [[ -f "$HERE/../mOMonadOS/IG_catalog.json" ]]; then
+    export MOMONADOS_CATALOG="$HERE/../mOMonadOS/IG_catalog.json"
+  elif [[ -f "$HERE/IG_catalog.json" ]]; then
+    export MOMONADOS_CATALOG="$HERE/IG_catalog.json"
+  fi
+fi
+exec "$BIN" "$@"
