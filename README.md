@@ -287,6 +287,30 @@ relay, no binding needed) reads differently from an inner-sphere one that grips 
 > R↔S live-pair charge and the ligand↔site complement. red-hot_rebis carries the same
 > stale Ç swap and should be reconciled to scripture too.
 
+**The catalytic cycle** (`--cycle CATALYST SUBSTRATE`) — every verb above is an *arc*
+of a mechanism; this closes them into the **loop**. It is **Solve et Coagula** made
+literal: **bind** (the catalyst recognizes its substrate via the ligand complement) →
+**working stroke δ = Solve** (dissolves the bond, freeing the winding quantum — the
+degree of freedom) → **return stroke μ = Coagula** (binds the freed quantum into an
+invariant) → **turnover**. The catalyst is a **fixed point**: it engages, spends to
+`C*`, and coagulates back to itself unchanged (μ∘δ=id), the way a real catalyst does —
+the Cu-NO SET cycle is the archetype. There are **two coagulations**: the catalyst
+binds back to the *same* invariant (regeneration), the substrate binds into a *new*
+one (the product). `--certify` proves the loop closes on itself — Coagula∘Solve = id
+on the catalyst — through `lake build`. `--register` canonizes the turned-over product.
+
+```bash
+./ask --cycle graviton the_moon_astrological --certify   # the loop, kernel-verified as a fixed point
+./ask --cycle yhwh the_sun_astrological --register        # turn over the substrate + canonize the product
+```
+
+> **Solve et Coagula = δ / μ.** The whole engine runs one law under two names. **Solve**
+> (δ / FSPLIT) reveals the degrees of freedom; **Coagula** (μ / FFUSE) binds them into a
+> new invariant. A **click** is a Coagula (bind two poles → one ring); the **complement**
+> is a Solve↔Coagula involution; the **cycle** is a full Solve-then-Coagula that returns
+> the catalyst and advances the substrate. Frobenius closure `μ∘δ=id` is just
+> `Coagula∘Solve = id` — what dissolution opens, coagulation re-closes, losslessly.
+
 ## Bootstrap Programs
 
 | Program | Tokens | Description |

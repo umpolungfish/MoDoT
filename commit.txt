@@ -1,56 +1,41 @@
-Port the bidirectional ligand<->catalytic-site complement + a mediator scan, and fix the Ç/Σ ordinals to scripture
+Close the catalytic cycle -- the loop as a certified fixed point (Solve et Coagula)
 
-Three things, and the middle one is a real bug I had to fix first.
+Every verb so far was an ARC of a mechanism -- bind (complement), transform
+(set/excite), hold (scan-mediators). This closes them into the LOOP, and it turns
+out to be Solve et Coagula made literal.
 
-1. ORDINAL SCRIPTURE FIX (ask_native/src/click.rs GLYPHS + CTORS).
-The glyph->ordinal table was wrong on two primitives. Checked against the Lean
-kernel Core.lean (scripture) constructor order + gen_clay_canonical_tuples.py's
-glyph->constructor map:
-- Ç (KineticChar): scripture is yea<loll<egg<on<air; I had ords 3/4 swapped
-  (𐑺/𐑪).
-- Σ (Stoichiometry): scripture is hung<so<up; I had it rotated (𐑳 at 0, should
-  be 2).
-The glyph->constructor RENDERING was always canonical (both tables were rotated
-the same way), so --certify was never affected -- only the numeric ordinals were
-wrong, which had thrown the R↔S live-pair charge (click/switch) and the
-ligand↔site complement. SET/excite were unaffected (they read ⊙ and Ω, both
-already correct). red-hot_rebis carries the SAME stale Ç swap in its
-GLYPH_ORDINALS['K']; scripture is the authority, so mine is now correct and
-red-hot should be reconciled to it.
+--cycle CATALYST SUBSTRATE (run_cycle in ask_native/src/click.rs):
+- bind (δ / CLINK): the catalyst recognizes its substrate via the ligand
+  complement (tuple_dist to complement_type(catalyst)); reports the grip.
+- working stroke (δ / SOLVE): dissolves the bond, frees one winding quantum Ω --
+  the degree of freedom. Reuses transfer_electron both directions (reductive =
+  catalyst donates, oxidative = catalyst abstracts); substrate -> product, the
+  catalyst spent to C*.
+- return stroke (μ / COAGULA): binds the freed quantum into an invariant; the
+  catalyst coagulates back to itself (terminal redox restores the resting state).
+- turnover: net substrate -> product, catalyst returned unchanged -- a FIXED
+  POINT of the loop. TWO coagulations: the catalyst binds back to the SAME
+  invariant (regeneration, μ∘δ=id); the substrate binds into a NEW invariant
+  (the product). Solve freed one quantum; Coagula placed it.
 
-2. BIDIRECTIONAL LIGAND <-> CATALYTIC-SITE COMPLEMENT (--complement A).
-A faithful port of rhr_p4rky/ligand_from_active_site.py::complement_type -- the
-reverse pipeline. A catalytic SITE maps to the complementary LIGAND it binds,
-inverting within each scale (lock-and-key) and crossing each conjugate pair, and
-it is ITS OWN INVERSE (site->ligand->site returns). That bidirectionality is what
-R=𐑾 (Recognition, "substrate<->enzyme feedback") names. This is where 3-vs-6
-matters: click/SET/switch are the MATH register (3 live pairs D↔W/T↔H/R↔S, the
-physical axes pinned out), but the ligand complement is CHEMISTRY -- all 6
-conjugate pairs, because chemistry restores the 3 pinned physical pairs
-(P↔F/K↔G/Gm↔Ph). The per-pair map tags each [live]/[pinned] so the split is
-visible. --certify (ligand closes) and --register (canonize + navigate) apply.
+--certify proves the catalyst is a fixed point: certify_switch(C, C*) shows both
+states are valid Imscriptions AND readback(board p)=p, i.e. Coagula∘Solve = id on
+the catalyst (μ∘δ=id, lossless regeneration), through lake build. --register
+canonizes the turned-over product and decomposes it through the cl8nk_navigator.
+Honest guard: a pair where neither redox direction is feasible (both Ω pinned)
+gets "no turnover", not a fake cycle.
 
-Verified: after the ordinal fix, my Rust complement matches red-hot's own
-complement_type on 9/10 test entries EXACTLY; the 10th (dasa_open) differs only
-because red-hot's stale Ç glyph at ord 4 -- my scripture-correct port is right.
-Round-trip (its own inverse) is 0.00 on equal-scale tuples, small residual on
-unequal-scale pairs (honestly reported).
+Verified live:
+- ./ask --cycle yhwh the_moon_astrological --certify -> KERNEL-CERTIFIED, yhwh
+  turns over the moon, spends to yhwh*, regenerates, loop closes.
+- ./ask --cycle graviton the_moon_astrological --certify -> KERNEL-CERTIFIED.
+- ./ask --cycle math_boundary_operator quark -> no turnover (both Ω=𐑷), refused
+  honestly.
+- scratch restored after certify.
 
-3. MEDIATOR SCAN (--set D A --scan-mediators).
-Ranks the whole catalog for the best relays of a D->A transfer. A real
-inner-sphere mediator must (1) HOLD the winding quantum (1<=Ω<max, a hard filter
-that keeps photon/graviton/higgs/dark_energy and drops the confined gluon/quark
-and the EM-dark dark_matter), (2) RELAY in energy (⊙ between acceptor and donor),
-(3) BIND both substrates bidirectionally (its complement close to donor AND
-acceptor, via the ported complement_type, plus the R=𐑾 recognition marker). Each
-component shown per row.
-
-Honest finding: the photon is NOT #1 -- it lands rank 327/2558 with perfect relay
-(1.00) and bidirectional recognition (1.00) but only decent structural binding to
-these particular substrates. The #1 for sun->moon is magnetic_isotope_separator,
-whose complement most closely binds both -- and that is apt, the magnetic isotope
-effect mediates radical-pair chemistry, exactly the SET radical channel. The scan
-measures inner-sphere structural recognition; the photon is an outer-sphere gauge
-mediator (great relay, no grip needed), which the component breakdown makes legible.
-
-README updated with both verbs, the 3-vs-6 distinction, and the ordinal fix note.
+Solve et Coagula = δ / μ, one law under two names: Solve (FSPLIT) reveals the
+degrees of freedom, Coagula (FFUSE) binds them into a new invariant; Frobenius
+closure μ∘δ=id is Coagula∘Solve = id -- what dissolution opens, coagulation
+re-closes losslessly. Also swapped the vessel doc's "clipboard" for the
+load-bearing "double-entry ledger" (every δ its μ, balanced from inside).
+README updated with the cycle verb and the Solve/Coagula framing.
