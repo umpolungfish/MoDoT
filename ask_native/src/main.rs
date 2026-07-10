@@ -122,6 +122,13 @@ struct Cli {
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
 
+    /// Optional catalyst for --click: a Frobenius-special fragment (e.g.
+    /// math_isomorphism) that lowers the effective θ (barrier reduction) so a
+    /// weakly-complementary pair can fuse, then is regenerated unchanged (μ∘δ=id).
+    /// Lowers ΔG‡, never ΔG — cannot make a same-sign/neutral pair click.
+    #[arg(long = "catalyst")]
+    catalyst: Option<String>,
+
     /// Positional fallback: treated as --ask if --ask/--file omitted
     #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
     rest: Vec<String>,
@@ -1457,6 +1464,7 @@ impl CliClone for Cli {
             expand: self.expand,
             click: self.click.clone(),
             theta: self.theta,
+            catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
     }
@@ -1492,7 +1500,13 @@ fn main() {
     // Click-maths mode: `./ask --click A B` — fuse two fragments over the live pairs.
     if let Some(names) = &cli.click {
         if names.len() == 2 {
-            let code = click::run_click(cat_ref, &names[0], &names[1], cli.theta);
+            let code = click::run_click(
+                cat_ref,
+                &names[0],
+                &names[1],
+                cli.theta,
+                cli.catalyst.as_deref(),
+            );
             process::exit(code);
         }
     }

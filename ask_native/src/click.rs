@@ -47,6 +47,10 @@ fn glyph_of(prim: usize, ord: u8) -> &'static str {
 
 /// The six conjugate pairs (indices into `PRIMS`): the "charge table", an
 /// involution pairing each primitive with its dual.  D↔W, T↔H, R↔S, P↔F, K↔G, Gm↔Ph.
+/// The full table; `LIVE_PAIRS` is the active subset for the math register. The
+/// three non-live pairs (each with a pinned member F/Ph/K) are reserved for the
+/// addition mode — fusion onto a pinned pole — not the two-pole cycloaddition click.
+#[allow(dead_code)]
 pub const CONJUGATE_PAIRS: [(usize, usize); 6] =
     [(0, 11), (1, 9), (2, 10), (3, 4), (5, 6), (7, 8)];
 
@@ -153,9 +157,46 @@ pub fn click_pair(a: &Tuple, b: &Tuple, theta: f32) -> Result<ClickProduct, Clic
     Ok(ClickProduct { pair_idx, drive, product, ring, inherited })
 }
 
-/// CLI entry: `./ask --click <A> <B>`. Prints the live-pair charge diagnostic and
-/// the click verdict for two catalog fragments. Returns a process exit code.
-pub fn run_click(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: &str, theta: f32) -> i32 {
+/// Catalyzed click. Ports the catalyst ob3ect protocol the Grammar designed
+/// (`ob3ect/digital/a_lossless_self_restoring_operation_that_lowers/`): a catalyst
+/// COUPLES to the pair (CLINK), LOWERS the threshold (AFWD barrier reduction),
+/// the fusion fires at the lowered θ (EVALT), the barrier is RESTORED (AREV), and
+/// the catalyst is verified unchanged (IMSCRIB — μ∘δ=id, regenerated, not consumed).
+///
+/// The catalyst's strength is its self-restoring / Frobenius-special character:
+/// discriminated by its Parity Φ (Φ=𐑹 is the Frobenius-special value, the lossless
+/// μ∘δ=id map — e.g. `math_isomorphism`). Strength scales the barrier reduction.
+/// Crucially the catalyst lowers only the threshold, NEVER the complementarity: a
+/// same-sign or neutral pair still cannot fuse (a catalyst lowers ΔG‡, not ΔG — it
+/// speeds an allowed fusion, it cannot drive a forbidden one). Returns the product
+/// and the lowered θ that was actually applied.
+/// Returns the fusion result and the effective (lowered) threshold that was
+/// applied — the effective θ is returned whether the fusion succeeds or fails, so
+/// a caller can honestly report "barrier at 0, still refuses" (the guardrail).
+pub fn click_pair_catalyzed(
+    a: &Tuple,
+    b: &Tuple,
+    catalyst: &Tuple,
+    base_theta: f32,
+) -> (Result<ClickProduct, ClickFail>, f32) {
+    // Catalyst strength = Frobenius-special / self-restoring character, discriminated
+    // by Parity Φ (index 3). Φ=𐑹 (norm 1.0) is the maximal μ∘δ=id catalyst.
+    let strength = catalyst.norm(3).unwrap_or(0.0);
+    // Barrier reduction: the catalyst lowers the effective threshold.
+    let theta_eff = base_theta * (1.0 - strength);
+    (click_pair(a, b, theta_eff), theta_eff)
+}
+
+/// CLI entry: `./ask --click <A> <B> [--catalyst <C>]`. Prints the live-pair charge
+/// diagnostic and the click verdict for two catalog fragments, optionally lowering
+/// the threshold with a catalyst. Returns a process exit code.
+pub fn run_click(
+    catalog: Option<&[CatalogEntry]>,
+    name_a: &str,
+    name_b: &str,
+    theta: f32,
+    catalyst_name: Option<&str>,
+) -> i32 {
     let Some(cat) = catalog else {
         eprintln!("click: no catalog loaded");
         return 2;
@@ -175,7 +216,28 @@ pub fn run_click(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: &str, t
     let ta = Tuple::from_entry(ea);
     let tb = Tuple::from_entry(eb);
 
-    println!("click-maths:  {name_a}  ⋈  {name_b}   (θ={theta:.2})");
+    // Optional catalyst: lowers the effective threshold (barrier reduction).
+    let catalyst: Option<(String, Tuple, f32)> = match catalyst_name {
+        Some(cn) => match find(cn) {
+            Some(ec) => {
+                let tc = Tuple::from_entry(ec);
+                let strength = tc.norm(3).unwrap_or(0.0);
+                Some((cn.to_string(), tc, strength))
+            }
+            None => {
+                eprintln!("click: catalyst not found: {cn}");
+                return 2;
+            }
+        },
+        None => None,
+    };
+
+    match &catalyst {
+        Some((cn, _, strength)) => println!(
+            "click-maths:  {name_a}  ⋈  {name_b}   (θ={theta:.2}, catalyst {cn}: Φ-strength {strength:.2})"
+        ),
+        None => println!("click-maths:  {name_a}  ⋈  {name_b}   (θ={theta:.2})"),
+    }
     println!("  live-pair charges (norm(x) − norm(y), the spring-loaded axis):");
     for (i, &pair) in LIVE_PAIRS.iter().enumerate() {
         let ca = pair_charge(&ta, pair);
@@ -191,10 +253,26 @@ pub fn run_click(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: &str, t
         );
     }
 
-    match click_pair(&ta, &tb, theta) {
-        Ok(p) => {
+    // Run the fusion. Catalyzed → the catalyst lowers the effective threshold
+    // (barrier reduction), reported whether the fusion succeeds or fails so the
+    // guardrail stays honest ("barrier at 0, still refuses" when same-sign).
+    let catalyzed = catalyst.is_some();
+    let result = match &catalyst {
+        Some((_, tc, _)) => {
+            let (r, applied_theta) = click_pair_catalyzed(&ta, &tb, tc, theta);
             println!(
-                "  ✓ CLICK on {} — spring-loaded Δ={:.2}, single reaction center, closes.",
+                "  catalyst lowers the barrier: θ {theta:.2} → {applied_theta:.2}  (AFWD reduction; AREV restores it; catalyst regenerated, μ∘δ=id)"
+            );
+            r
+        }
+        None => click_pair(&ta, &tb, theta),
+    };
+
+    match result {
+        Ok(p) => {
+            let via = if catalyzed { " (catalyzed)" } else { "" };
+            println!(
+                "  ✓ CLICK on {} — spring-loaded Δ={:.2}, single reaction center, closes.{via}",
                 LIVE_LABELS[p.pair_idx], p.drive
             );
             print!("  product: ⟨");

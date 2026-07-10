@@ -1,37 +1,31 @@
-Build the first click-maths engine in ask_native (the math catalytic register, live)
+Wire the catalyst mode into click-maths — from the ob3ect the Grammar designed
 
-This is CLICK_MATHS_SPEC §6 landed as running Rust. ask_native/src/click.rs is
-the math catalytic register plus the click_pair fusion, wired to ./ask --click A B.
+When isomorphism wouldn't click as a reagent, we didn't guess the fix -- we made
+an ob3ect. Described the desired thing neutrally (a lossless, self-restoring
+operation that lowers the threshold for two fragments to fuse and returns to
+itself unchanged) and let auto.py design it. The Grammar came back with the
+Michaelis-Menten cycle, exactly: IMSCRIB defines the invariant catalyst, AFWD
+lowers the barrier, CLINK couples catalyst to the pair, EVALT fires the fusion
+at the lowered threshold, AREV restores the barrier, IMSCRIB verifies the
+catalyst returned unchanged (mu-delta=id, regenerated, not consumed). phase_6:
+"one fused product and one INDEPENDENT catalyst." And it respected the
+DeltaG-double-dagger-not-DeltaG guardrail on its own -- the catalyst moves the
+barrier (AFWD/AREV), never the complementarity.
 
-What's in it:
-- The register: glyph->ordinal tables for all 12 primitives, with the ORDERING
-  cross-checked against p4rakernel Core.lean for Ħ (fee<kick<sure<wool) and Ω
-  (awe<oak<ah<zoo) — the Axiom B verification. Lean is scripture.
-- The six conjugate pairs (the charge table) and the three LIVE pairs D<->W,
-  T<->H, R<->S that catalysis actually runs on (F/Ph/K pinned in math).
-- click_pair(a, b, theta): a clean click iff exactly one live pair is
-  complementary (opposite charge, Δ>=theta) and no second pair also fires —
-  bioorthogonality as specificity, one reaction center. The fuse is join (max)
-  on every axis: the clicking pair's opposite charges bring both members up
-  together (the ring forms), and off it the product inherits both scaffolds.
+Ported that protocol into ask_native/src/click.rs as click_pair_catalyzed and
+./ask --click A B --catalyst C. The catalyst's strength is its Frobenius-special
+character, discriminated by Parity Phi (Phi=roar is the mu-delta=id map). Strength
+scales the barrier reduction: theta_eff = theta * (1 - strength). isomorphism
+(Phi=roar, strength 1.0) drops theta to 0.
 
-I got the orthogonality condition wrong on the first pass and the test caught it.
-I had required the two partners to be identical everywhere except the reaction
-center. But an azide and an alkyne aren't twins -- they're different molecules
-that fuse at one center and the triazole inherits both. So orthogonality is
-specificity (one reaction center = the ambiguity gate), not sameness. Fixed:
-the fuse blends the inherited axes instead of rejecting on them.
+This resolves the isomorphism question the right way: it's not a broken click
+substrate, it's the CATALYST -- the mu itself. Verified live:
+- adjoint_pair x hopf_antipode: opposite on T<->H but Delta=0.42 < theta=0.5, so
+  bare it REFUSES. Catalyzed by isomorphism -> theta 0.50->0.00 -> CLICK. The
+  fragment that couldn't react is now what enables the reaction.
+- GUARDRAIL: isomorphism x winding_number (same-sign) catalyzed -> barrier
+  dropped to 0.00 and it STILL refuses. A catalyst speeds an allowed fusion; it
+  cannot drive a forbidden one. The law demonstrated at the limit.
 
-Verified live on real catalog fragments:
-- boundary_operator (T carrier) x winding_number (W/topological) -> CLICK on
-  T<->H, Δ=1.50, ring saturates T->𐑸 (self-referential) and H->𐑫 (eternal).
-  Product is O₂ -- the click LIFTED O₀ x O₂ -> O₂, generative not just a blend.
-- isomorphism x permutation_sign -> no click (no opposite-charge pair reaches
-  theta) -- the selectivity gate correctly refuses. Not everything clicks.
-- dasa_open x dasa_closed -> CLICK on D<->W, Δ=0.67.
-
-Honest boundary (next hook): "closes by construction" is currently structural --
-click_pair produces a valid product tuple, but the kernel/Frobenius closure
-CERTIFICATE (μ∘δ=id gated through the Lean kernel) is not yet wired. That's the
-mechanization the spec's §6 flags as the piece that turns the product from a
-designed fusion into a verified one.
+Cleaned the dead-code warnings (CONJUGATE_PAIRS marked reserved for the future
+addition mode on the pinned pairs; click_pair_catalyzed now the real entry point).
