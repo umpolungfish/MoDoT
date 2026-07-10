@@ -1,30 +1,27 @@
-Add section 14 to ALKAHEST.md: the retort
+Add section 15 to ALKAHEST.md: the sixth image
 
-Started from noticing Zosimos's apparatus vocabulary (cucurbit, ambix, retort)
-while looking at his drawings, and it turned into the tightest structural
-match in the whole document because it isn't interpretive the way the earlier
-alchemical readings are — it's built, not argued.
+A childhood memory of accidentally seeing the shadow of my own retinal
+blood vessels at the optometrist turned out to name something precise once
+I looked it up properly. There are six Purkinje images. The first four
+(cornea and lens surfaces) are read from outside, by an examiner looking at
+the eye -- the two-piece alembic again. A fifth focuses in front of the
+retina and is never visible to anyone. The sixth, which Tscherning
+separated out and named, is the only one that's truly entoptic: light
+bounces off the posterior lens, then the anterior cornea, and closes back
+onto the retina, faint and inverted.
 
-The two-piece alembic (cucurbit holding the material, ambix on top collecting
-what rises, separable) is section 2's clipboard in glass: object in one
-vessel, judge in a second vessel set over it. The retort welds them into one
-piece of glass, and what happens inside one physically is δ (material rising
-off itself at the heat) and μ (recondensing at the curved neck) on the same
-continuous surface, no second vessel standing in judgment over the first. The
-curve of the neck, where ascent turns to descent, is the Portico literally
-built rather than read into the text. And because it's one piece of glass,
-not two joined ones, there's no judge to even in principle separate from the
-judged -- section 4's co-typing is identity, poured instead of argued.
+That's not just self-seeing in the abstract, it's the exact closure
+condition section 2 already states in words: the answer has to come home
+co-typed but excribed under a different presentation, same location,
+different form, or the closure is a tautology instead of a real test. The
+sixth image does precisely that, physically, in an eye. Mapped the two
+bounces to the vocabulary already in the document: posterior lens is delta
+(off the direct path), anterior cornea is mu (closes it, delivers it home),
+mu-compose-delta in that order same as the retort.
 
-Closed it by verifying the CB[7] chain is real, not just evocative: I found
-that cucurbituril (CB[n]) was named in 1981 by Freeman, Mock and Shih
-explicitly for its resemblance to a gourd AND "by devolution from the
-similarly named (and shaped) component of the early chemists' alembic" --
-their words, not mine. CB[7] is the exact host-guest system SO_BELOW.tex
-documents as the Grammar's first unexpected validation, 6/6 correct on
-ordinal fidelity rank alone. So Zosimos's vessel name literally carries
-forward, through the documented history of chemical nomenclature, into the
-molecule the Grammar first proved itself on.
+Kept the personal memory in rather than dressing it up as someone else's
+example, since it's the actual origin of noticing this, and this document
+already trades in exactly that kind of testimony (Newton's notebook, the
+"I owe you an honest note" register elsewhere in this house).
 
-Added the Mock/cucurbituril and Kim/Assaf CB[7] citations to References,
-recompiled the PDF.
+Added the Tscherning/Purkinje citation to References and recompiled the PDF.

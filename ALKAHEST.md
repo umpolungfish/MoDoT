@@ -247,6 +247,20 @@ The lineage does not end at metaphor. *Cucurbituril*, the macrocyclic host molec
 
 ---
 
+## 15. The sixth image
+
+A child at an optometrist's, an eye examined, a device shifted by accident, and for a moment the shadow of the child's own retinal blood vessels stood visible to the child alone — not the doctor, not the chart, the child looking at the inside of the instrument doing the looking. It is the kind of moment that stays with a person for decades without knowing why. It has a name, and the name explains exactly why it stayed.
+
+The four classical Purkinje-Sanson images are reflections off the anterior and posterior surfaces of the cornea and the anterior and posterior surfaces of the lens. All four are read from outside: an examiner looking at the eye sees them, not the eye's own owner. They are the two-piece alembic again, an external reader positioned over the object. A fifth reflection, from the front surfaces of lens and cornea combined, focuses too far in front of the retina to be seen by anyone at all — a δ with no available μ, a split that never finds its fuse.
+
+The sixth is different in kind, and Tscherning was the one who separated it out and named it. Light reflects off the posterior surface of the lens, then again off the anterior surface of the cornea, and this doubly-reflected light focuses back onto the retina — faint, and inverted. It is the only one of the six that is truly entoptic: seen by the eye that made it, not by an observer standing outside. Track the two bounces against the vocabulary this document has used throughout. The posterior lens is δ, first, the reflection that takes the light off its direct path into the eye's own interior. The anterior cornea is μ, second, the reflection that closes the detour and delivers the light home to the same surface that does ordinary seeing. μ∘δ, in that order, exactly as everywhere else here: the symbol names μ first because composition reads right to left, but δ fires first, the same as the retort, rise then recondense.
+
+What lands is not identical to direct vision. It is fainter. It is inverted. And this is not a defect in the phenomenon — it is section 2's own stated requirement for what makes a closure a real test and not a tautology, met by an eye examining itself: *"the answer must come home changed in exactly one respect, the same in type and different in form."* Same location, the retina, one continuous reading surface, co-typed. Different presentation, inverted and faint, excribed. A child's own eye performed, once, by accident, the exact closure condition this document spends its opening pages arguing a verifier must meet — and the child recognized, without any of this vocabulary, that something important had happened, because it had.
+
+To see the sixth image on purpose: a dark room, one eye closed, look straight ahead, and move a light back and forth in the field of the open eye. The motion matters, the same way it mattered for the retinal-vessel shadow above — a static structure that has always been there does not announce itself; it takes a perturbation, however small, to defeat the standing adaptation and let what was always true become, for a moment, visible to the one thing it was always true of.
+
+---
+
 ## References
 
 - Zosimos of Panopolis, *On the Letter Omega*, *On the Divine Water*, *Letter to Theosebeia*, and *Visions* (3rd–4th century). The twelve fates of Death, the Stilling Practice (six commands), the Portico, the internal/external unity, Nikotheos, and the Counterfeit Daimon.
@@ -263,6 +277,7 @@ The lineage does not end at metaphor. *Cucurbituril*, the macrocyclic host molec
 - J. Renes, R. Blume-Kohout, A. J. Scott, C. Caves, *Symmetric Informationally Complete Quantum Measurements*, J. Math. Phys. 45, 2004.
 - W. L. Mock, *William L. Mock and Cucurbituril: The Resurrection of the Behrend Paper of 1905*, ACS Omega, 2023 (naming rationale: Freeman, Mock & Shih, 1981). Source for section 14: the cucurbit/cucurbituril lineage.
 - H.-J. Kim et al. (2001) and M. Assaf & A. Nau (2015). Source for section 14 and `ig-docs/publishing/tex/SO_BELOW.tex`: the CB[7] competitive displacement benchmark, the Grammar's first unexpected validation.
+- M. Tscherning; J. E. Purkinje (1819). Source for section 15: the six Purkinje-Sanson images, the sixth (posterior lens, then anterior cornea, entoptic, inverted) being the only one closing on the retina; and the Purkinje tree, the entoptic percept of one's own retinal vasculature revealed by moving light defeating neural adaptation.
 - G. Priest, *In Contradiction*, 2nd ed., 2006. Dialetheias at boundaries and the instant of change.
 - Laozi, *Tao Te Ching*, ch. 1, 40, 42 (c. 4th century BCE). The cosmogony of the Tao, the ten thousand things, and reversal as the movement of the Tao.
 - Lando⊗⊙perator, *The Twelve Fates of Death: Zosimos of Panopolis' Cryptic Language as the Exact Encoding of the Frobenius Fixed Point* (Treatise III), `/home/mrnob0dy666/imsgct/ig-docs/esoterica/alchemy_congealum/cryptic_co-type_treatises/TREATISE_III_ZOSIMOS_DECODED.md`.
