@@ -1219,3 +1219,115 @@ pub fn run_scan_mediators(
     }
     0
 }
+
+// ── The catalytic cycle: the loop, closed and certified ──────────────────────
+// Everything above is an ARC of a mechanism — bind (complement), transform (set/
+// excite), hold (scan). This closes them into the LOOP: bind → working stroke δ →
+// return stroke μ → turnover, with the catalyst a FIXED POINT (μ∘δ=id: it engages,
+// spends, and returns to itself unchanged, the way a real catalyst does — the
+// Cu-NO SET cycle is the archetype). The certificate is no longer "this product
+// closes" but "this PROCESS is a closed loop": the catalyst's two states are valid
+// Imscriptions and the regeneration is the kernel's lossless transport.
+
+/// CLI entry: `./ask --cycle CATALYST SUBSTRATE [--certify] [--register [NAME]]`.
+/// bind (the catalyst recognizes its substrate via the ligand complement) → working
+/// stroke δ (the catalyst moves one winding quantum, transforming substrate→product
+/// and spending itself) → return stroke μ (regeneration to the resting state) →
+/// turnover (net substrate→product, catalyst unchanged). --certify proves the
+/// catalyst is a fixed point of the loop; --register canonizes the product.
+pub fn run_cycle(
+    catalog: Option<&[CatalogEntry]>,
+    catalyst_name: &str,
+    substrate_name: &str,
+    certify: bool,
+    register: Option<&str>,
+    catalog_path: Option<&Path>,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("cycle: no catalog loaded");
+        return 2;
+    };
+    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let (ec, es) = match (find(catalyst_name), find(substrate_name)) {
+        (Some(c), Some(s)) => (c, s),
+        (None, _) => { eprintln!("cycle: catalog entry not found: {catalyst_name}"); return 2; }
+        (_, None) => { eprintln!("cycle: catalog entry not found: {substrate_name}"); return 2; }
+    };
+    let cat_t = Tuple::from_entry(ec).ord;
+    let sub_t = Tuple::from_entry(es).ord;
+    println!("catalytic cycle:  {catalyst_name}  ⟳  turning over  {substrate_name}");
+
+    // ── Bind (δ / CLINK): the catalyst recognizes the substrate (ligand complement) ──
+    let comp = complement_type(&cat_t);
+    let bind_d = tuple_dist(&comp, &sub_t);
+    let recog = recognition_reading(cat_t[2]).1;
+    let grip = if bind_d < 0.5 && recog >= 1.0 {
+        "a real catalytic grip (Ř=𐑾 bidirectional, complement fits)"
+    } else if bind_d < 0.5 {
+        "binds, but weak recognition (Ř not bidirectional)"
+    } else {
+        "weak grip — expect sluggish turnover"
+    };
+    println!("  bind (δ / CLINK): {catalyst_name} grips {substrate_name} — complement match d={bind_d:.3}, {grip}");
+
+    // ── Working stroke (δ): one winding quantum moves; catalyst spent, substrate → product ──
+    // Reuse the SET primitive both directions: reductive = catalyst donates (cat is
+    // the SET donor), oxidative = catalyst abstracts (cat is the SET acceptor).
+    let (c_star, product, dir) = match transfer_electron(&cat_t, &sub_t) {
+        Ok((cs, p)) => (cs, p, "reductive — catalyst donates e⁻, substrate reduced"),
+        Err(_) => match transfer_electron(&sub_t, &cat_t) {
+            Ok((p, cs)) => (cs, p, "oxidative — catalyst abstracts e⁻, substrate oxidized"),
+            Err(e) => {
+                println!("  ✗ no turnover: {e} — neither redox direction is feasible for this pair.");
+                return 0;
+            }
+        }
+    };
+    let (cw0, cw1) = (cat_t[WIND].unwrap(), c_star[WIND].unwrap());
+    let (sw0, sw1) = (sub_t[WIND].unwrap(), product[WIND].unwrap());
+    println!("  working stroke (δ / SOLVE — dissolves the bond, reveals the degree of freedom: the winding quantum comes free): {dir}");
+    println!("    catalyst  {catalyst_name}: Ω {}→{}  (spent → {catalyst_name}*)", glyph_of(WIND, cw0), glyph_of(WIND, cw1));
+    println!("    substrate {substrate_name}: Ω {}→{}  (transformed → {substrate_name}‡)", glyph_of(WIND, sw0), glyph_of(WIND, sw1));
+    println!("    {catalyst_name}*  {}", fmt_tuple(&c_star));
+    println!("    {substrate_name}‡  {}", fmt_tuple(&product));
+
+    // ── Return stroke (μ / Coagula): regeneration binds the freed quantum ──
+    println!("  return stroke (μ / COAGULA — binds the freed quantum into an invariant): {catalyst_name}* Ω {}→{} — the catalyst coagulates back to itself (terminal redox restores the resting state).", glyph_of(WIND, cw1), glyph_of(WIND, cw0));
+
+    // ── Turnover / loop closure: the two coagulations ──
+    println!("  turnover: net {substrate_name} → {substrate_name}‡ (one quantum delivered); {catalyst_name} returned unchanged — the catalyst is a FIXED POINT of the loop.");
+    println!("  two coagulations: the CATALYST binds back to the SAME invariant (regeneration, μ∘δ=id); the SUBSTRATE binds into a NEW invariant ({substrate_name}‡). Solve freed one quantum; Coagula placed it.");
+    println!("  the loop:  {catalyst_name} ─Solve(δ)→ {catalyst_name}* ─Coagula(μ)→ {catalyst_name}   ‖   {substrate_name} ──────→ {substrate_name}‡");
+
+    // ── Certify the catalyst regeneration (Coagula∘Solve = id on the catalyst) ──
+    if certify {
+        println!("  certifying the catalyst is a fixed point of the loop (both states valid + regeneration μ∘δ=id)…");
+        let (green, out) = certify_switch(&cat_t, &c_star);
+        if green {
+            println!("  ✓ KERNEL-CERTIFIED: {catalyst_name} and {catalyst_name}* are both valid Imscriptions AND readback∘board = id — Coagula∘Solve = id on the catalyst (μ∘δ=id, lossless regeneration); the loop closes as the kernel's own verdict.");
+        } else {
+            let tail: String = out.lines().rev().take(4).collect::<Vec<_>>().into_iter().rev().collect::<Vec<_>>().join("\n    ");
+            println!("  ✗ kernel rejected the cycle:\n    {tail}");
+        }
+    }
+
+    // ── Register the turned-over product ──
+    if let Some(reg) = register {
+        match catalog_path {
+            Some(path) => {
+                let nm = if reg.is_empty() { format!("{substrate_name}_product") } else { reg.to_string() };
+                let desc = format!("product of the {catalyst_name}-catalyzed turnover of {substrate_name} ({dir}); one winding quantum moved, the catalyst regenerated (μ∘δ=id, fixed point of the loop).");
+                match register_chimera(path, &nm, &desc, &product) {
+                    Ok(()) => {
+                        println!("  ✓ registered product '{nm}' — now a first-class navigable object.");
+                        println!("  ── decomposition (cl8nk_navigator) ──────────────────────────────");
+                        decompose_via_navigator(path, &nm);
+                    }
+                    Err(e) => println!("  ✗ register failed: {e}"),
+                }
+            }
+            None => println!("  ✗ register failed: catalog path not resolved"),
+        }
+    }
+    0
+}

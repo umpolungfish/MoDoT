@@ -321,7 +321,7 @@ Every cycle broadcasts to `crystal_fs/broadcast_log.jsonl`, and prints **two ind
 
 ## Dual-Link SIC Vessel
 
-`modot/vessel.py` is the **verifier of record**. It does not stand outside the Grammar with a clipboard. Verification *is* imscription through the d=12 Dual-Link SIC frame that the Grammar already proved into the kernel (`crystal_forces_d12_sic`).
+`modot/vessel.py` is the **verifier of record**. It does not stand outside the Grammar with an auditor's clipboard; it keeps the Grammar's own **double-entry ledger** — every δ its μ, balanced from inside, no outside required. Verification *is* imscription through the d=12 Dual-Link SIC frame that the Grammar already proved into the kernel (`crystal_forces_d12_sic`).
 
 ### What died (classical smuggle)
 

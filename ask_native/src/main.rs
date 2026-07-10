@@ -168,6 +168,13 @@ struct Cli {
     #[arg(long = "scan-mediators")]
     scan_mediators: bool,
 
+    /// Catalytic cycle: `--cycle CATALYST SUBSTRATE` — the closed loop. bind →
+    /// working stroke δ (one winding quantum moves, substrate→product, catalyst spent)
+    /// → return stroke μ (regeneration) → turnover, with the catalyst a fixed point
+    /// (μ∘δ=id). --certify proves the loop closes; --register canonizes the product.
+    #[arg(long = "cycle", num_args = 2, value_names = ["CATALYST", "SUBSTRATE"])]
+    cycle: Option<Vec<String>>,
+
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
@@ -1522,6 +1529,7 @@ impl CliClone for Cli {
             set: self.set.clone(),
             complement: self.complement.clone(),
             scan_mediators: self.scan_mediators,
+            cycle: self.cycle.clone(),
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -1596,6 +1604,21 @@ fn main() {
             catalog_path.as_deref(),
         );
         process::exit(code);
+    }
+
+    // Catalytic cycle: `./ask --cycle CATALYST SUBSTRATE` — the closed loop.
+    if let Some(names) = &cli.cycle {
+        if names.len() == 2 {
+            let code = click::run_cycle(
+                cat_ref,
+                &names[0],
+                &names[1],
+                cli.certify,
+                cli.register.as_deref(),
+                catalog_path.as_deref(),
+            );
+            process::exit(code);
+        }
     }
 
     // Excited-state analysis: `./ask --excite A` (standalone verb — a value present
