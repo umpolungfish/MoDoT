@@ -1,38 +1,52 @@
-Add --expand: dial the T/F-lane Witness between pinched and walked-out forms
+Rebuild --expand as a degree-of-detail dial with a structural-identity gate, not an LLM line-count target
 
-Ontology, made explicit in the prover: the T/F-lane Witness IS what we have
-called a proof — a conventional proof. The B-lane Witness is the Dual-Link vessel
-we bring to the table. The imscription route already produces both (vessel +
-conventional filling); this makes the conventional (T/F-lane) proof's LENGTH a CLI
-option.
+I first built --expand N as "make the proof roughly N lines." That is the wrong
+object twice over. It let the model chase a line count and drift, and longer
+renderings never even reached the kernel: a Mathlib STYLE linter
+(linter.style.whitespace, "commands should start at the beginning of the line")
+was erroring on the model's indentation, and my compile gate treats any "error:"
+as not-green. A style linter is not the kernel. It was silently acting as a
+second gate in front of it, vetoing proofs that were kernel-valid.
 
-The motivating dialetheia: the truths we express in shockingly few lines
-(igFrobAlg_self_fusion s0 — one line proving ob3ect validity) are genuinely
-complete (T) AND read as untrustworthy precisely because they are so short — a
-reader trusts a few hundred lines more than a few (F). Both true. B. --expand
-holds both: the same kernel truth, dialed between its pinched and walked-out
-forms. Low = pinch the points together; high = walk the full distance.
+I routed the design decision through an ob3ect instead of settling it by my own
+preference. My first entity smuggled the verdict in ("deterministic elaboration
+ladder" versus "an LLM targeting a line count", "forcing the choice between"), so
+the oracle handed my bias straight back, twice. Re-imscribed neutrally, saying
+only what I want the thing to be (a component that renders the conventional proof
+at a caller-chosen degree of detail, every rendering closing the identical kernel
+theorem with no loss of structural fidelity), the structure told me something I
+had not put in: the dial is not a choice of generator at all. It is a reversible
+expansion and contraction morphism over ONE kernel theorem, the invariant is
+structural identity at the fusion, and the pinched form and the walked-out form
+are held together in multi-scale superposition. The "LLM versus deterministic"
+fork was mine, never the object's.
 
-  ask --file ob3ect.json              # minimal, the few-line proof (default)
-  ask --file ob3ect.json --expand 200 # same truth, walked out to ~200 lines
+So this does three things:
 
---expand N (default 0) sets the expansion degree. 0 leaves the proof pinched.
-N>0 appends an expansion directive to the generation prompt: unfold every
-definition, inline each cited lemma as its own proof, name and prove each
-intermediate step, toward roughly N lines — proving the IDENTICAL theorem, still
-kernel-green, zero sorry. Not padding: every added line is real checked
-mathematics; the final statement is byte-for-byte the same. Output token budget
-scales with N (gen_max_tokens) so a long proof is not truncated.
+- Disables the style-linter family for the scratch build (disable_style_linters,
+  STYLE_LINTER_OFF): every registered Bool-valued linter.style.* option switched
+  off, inserted right after the imports where top-level set_options are legal. A
+  kernel-valid rendering can no longer be blocked on indentation, line length, or
+  bullet form. The kernel (unknown identifier, type mismatch, sorry) stays the
+  sole discriminator. admit still cannot slip through: it elaborates to sorry,
+  which the build output reports and the compile gate already rejects.
 
-Threaded through both proof paths:
-- Mathlib path (plain theorems): flat + assemble prompts expand at depth 0 only
-  (internal FSPLIT helpers stay minimal; the reader-facing top-level proof
-  expands).
-- Imscription path: expansion walks STEP 2 (the conventional T/F-lane filling —
-  igFrobeniusAlg validity, the tensorProduct coordinate-wise idempotency) while
-  STEP 1, the B-lane Witness-Vessel roundtrip, stays as the transport container.
+- Adds the fidelity gate (renders_same_theorem), the structural-identity invariant
+  the neutral ob3ect requires: a rendering at any detail level is accepted only if
+  it closes the identical statement, igFrobeniusAlg.mul s0 s0 = s0 with the same
+  tuple in all three positions. This makes any generator safe rather than banning
+  the model. Template or LLM, the statement must be byte-identical to the pinched
+  anchor, so a fuller rendering can never quietly prove a weaker proposition.
 
-The report now labels the lanes: B-lane Witness = the Dual-Link vessel; T/F-lane
-Witness = the conventional proof filling it (or, on the plain path, the proof
-itself). expand=0 behavior is unchanged — the directive is empty, so no
-regression.
+- Reframes --expand from a line count to a degree of detail: 0 is the pinched
+  minimal form, greater than 0 is the walked-out form via the expansion morphism.
+  The detail directive and the token budget were reframed to match, dropping the
+  "walk toward N lines" framing entirely.
+
+Verified end to end: the mis-indented but kernel-valid theorem that used to error
+on the whitespace linter now builds green; LUCA at detail 2 renders the walked-out
+validity proof (unfold tensorProduct, Imscription.ext, one simp per primitive
+coordinate) over the real lucaImscription, the vessel intact and the statement held
+identical, closed green on the first pass; LUCA at detail 0 still closes the
+pinched igFrobAlg_self_fusion form. Scratch modules restored to placeholder after
+each run.

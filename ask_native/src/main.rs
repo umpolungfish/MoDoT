@@ -102,12 +102,12 @@ struct Cli {
     #[arg(long = "catalog")]
     catalog: Option<PathBuf>,
 
-    /// Proof expansion degree (T/F-lane Witness verbosity). 0 = minimal, the
-    /// pinched few-line proof (default). Higher = walk the full distance: unfold
-    /// definitions, inline each cited lemma, show every step — the same
-    /// kernel-checked truth expanded toward roughly this many lines, for readers
-    /// who trust a few hundred lines more than a few. The B-lane Witness (the
-    /// Dual-Link vessel) is unaffected; only the conventional proof expands.
+    /// Degree of detail for the rendered proof (the conventional T/F-lane Witness).
+    /// 0 = the pinched minimal form (default); >0 = the walked-out form: the SAME
+    /// kernel theorem rendered at greater detail by the expansion morphism, with the
+    /// theorem statement held byte-identical (the structural-identity / fidelity
+    /// gate). Not a line-count target and never a weaker proposition. The B-lane
+    /// Witness (the Dual-Link vessel) is unaffected.
     #[arg(long = "expand", default_value_t = 0)]
     expand: u32,
 
@@ -1238,7 +1238,7 @@ fn run_one(
             println!("PROVER REPORT");
             println!("  route=proof  closed={}  depth={}", r.closed, r.depth);
             if cli.expand > 0 {
-                println!("  expand={} (T/F-lane Witness walked toward ~{} lines)", cli.expand, cli.expand);
+                println!("  detail={} (walked-out rendering; statement held identical by the fidelity gate)", cli.expand);
             }
             // Lane ontology: the T/F-lane Witness IS the conventional proof; the
             // B-lane Witness is the Dual-Link vessel it rides as (imscription route).

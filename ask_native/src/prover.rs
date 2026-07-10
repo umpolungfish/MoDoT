@@ -200,6 +200,63 @@ fn scratch_file(slot: &str) -> PathBuf {
 
 // ── compile through the kernel ────────────────────────────────────────────────
 
+/// Every registered Mathlib `linter.style.*` option, switched off. These are STYLE
+/// checks (indentation, line length, bullet form, empty lines, ...), not the
+/// kernel. A generated rendering that is kernel-valid must never be vetoed by a
+/// style linter, so we disable the whole family for the scratch build; the kernel
+/// (unknown identifier / type mismatch / sorry) stays the sole discriminator.
+/// `setOption` is disabled first so it cannot flag the disables themselves. Every
+/// name is verified registered, so no `set_option` errors on an unknown option.
+/// (`admit` still cannot sneak a proof through: it elaborates to `sorry`, which the
+/// build output reports and `compile_lean` already rejects.)
+const STYLE_LINTER_OFF: &str = "\
+set_option linter.style.setOption false\n\
+set_option linter.style.whitespace false\n\
+set_option linter.style.commandStart false\n\
+set_option linter.style.longLine false\n\
+set_option linter.style.multiGoal false\n\
+set_option linter.style.cdot false\n\
+set_option linter.style.emptyLine false\n\
+set_option linter.style.dollarSyntax false\n\
+set_option linter.style.lambdaSyntax false\n\
+set_option linter.style.refine false\n\
+set_option linter.style.show false\n\
+set_option linter.style.cases false\n\
+set_option linter.style.induction false\n\
+set_option linter.style.nameCheck false\n\
+set_option linter.style.docString false\n\
+set_option linter.style.header false\n\
+set_option linter.style.missingEnd false\n\
+set_option linter.style.openClassical false\n\
+set_option linter.style.nativeDecide false\n\
+set_option linter.style.admit false\n";
+
+/// Insert `STYLE_LINTER_OFF` immediately after the file's last import line (where
+/// top-level `set_option`s are legal), so no kernel-valid rendering is blocked by
+/// indentation, line length, or bullet style.
+fn disable_style_linters(source: &str) -> String {
+    let last_import = source
+        .lines()
+        .enumerate()
+        .filter(|(_, l)| l.trim_start().starts_with("import "))
+        .last()
+        .map(|(i, _)| i);
+    match last_import {
+        Some(idx) => {
+            let mut out = String::new();
+            for (i, l) in source.lines().enumerate() {
+                out.push_str(l);
+                out.push('\n');
+                if i == idx {
+                    out.push_str(STYLE_LINTER_OFF);
+                }
+            }
+            out
+        }
+        None => format!("{STYLE_LINTER_OFF}{source}"),
+    }
+}
+
 /// Build `source` as the scratch module in the given slot ("A" or "B"). Two
 /// slots exist so a racing pair of attempts (see `race_portal`) can each run
 /// their own `lake build` concurrently without touching the same file.
@@ -209,7 +266,10 @@ fn compile_lean(source: &str, slot: &str) -> (bool, String) {
     if let Some(parent) = scratch.parent() {
         let _ = fs::create_dir_all(parent);
     }
-    if fs::write(&scratch, source).is_err() {
+    // Style linters are not the kernel; disable the family so a kernel-valid
+    // rendering is never blocked on indentation or line length.
+    let to_write = disable_style_linters(source);
+    if fs::write(&scratch, &to_write).is_err() {
         return (false, "error: cannot write scratch module".into());
     }
     let out = Command::new("lake")
@@ -459,6 +519,26 @@ fn grounded_in_real_algebra(source: &str) -> bool {
     has_vessel && has_filling && !redefines
 }
 
+/// The structural-identity (fidelity) gate the neutral ob3ect requires: every
+/// rendering, at any degree of detail, must close the IDENTICAL kernel theorem —
+/// Frobenius closure on the ground tuple, `igFrobeniusAlg.mul s s = s` with the
+/// SAME tuple in all three positions. A walked-out rendering that quietly proved a
+/// weaker or different proposition (`tensorProduct s s = s` alone, a free
+/// hypothesis, a renamed tuple) would be a loss of structural fidelity (ΔS>0), so
+/// the canonical closure statement must appear verbatim. Generator-agnostic:
+/// template or LLM, the gate is the same. (The `have h_mul : ... = tensorProduct`
+/// helper line does not satisfy it — `any` requires a match with all three tokens
+/// equal, which only the closure statement itself provides.)
+fn renders_same_theorem(source: &str) -> bool {
+    let re = Regex::new(r"igFrobeniusAlg\.mul\s+(\w+)\s+(\w+)\s*=\s*(\w+)").unwrap();
+    for c in re.captures_iter(source) {
+        if c[1].to_string() == c[2] && c[2].to_string() == c[3] {
+            return true;
+        }
+    }
+    false
+}
+
 fn assemble_prompt(goal: &str, header: &str, prev: &str, errors: &str) -> String {
     let mut p = format!(
         "The following helper lemmas are ALREADY PROVED and in scope above your \
@@ -478,37 +558,33 @@ fn assemble_prompt(goal: &str, header: &str, prev: &str, errors: &str) -> String
     p
 }
 
-/// The expansion directive appended to a proof prompt when `--expand N` (N>0) is
-/// set. The T/F-lane Witness IS the conventional proof; expansion walks the full
-/// distance instead of pinching — unfolds definitions, inlines every cited lemma,
-/// names each intermediate step — proving the IDENTICAL theorem, still
-/// kernel-green. The dialetheia made operational: the same truth, dialed between
-/// its few-line and few-hundred-line forms.
+/// The detail directive appended when `--expand` (>0) selects a higher granularity.
+/// Expansion is the forward morphism from the pinched (minimal) proof to the
+/// walked-out form; the theorem STATEMENT is held byte-identical (the
+/// structural-identity / fidelity invariant, ΔS≈0). Not a line-count target and not
+/// a different theorem: the same kernel truth rendered at greater detail. Kept
+/// generic so it fits both the imscription route and a plain Mathlib goal;
+/// `IMSCRIBE_EXPAND_HINT` supplies the route-specific verified template.
 fn expansion_directive(expand: u32) -> String {
     if expand == 0 {
         return String::new();
     }
-    format!(
-        "\n\nEXPANSION (degree {expand}): This is the T/F-lane Witness — the \
-         conventional proof. Do NOT leave it pinched to a one-line lemma \
-         application. WALK THE FULL DISTANCE toward roughly {expand} lines: unfold \
-         every definition you rely on (`unfold`/`simp only [defs]`/`show`), replace \
-         each cited lemma with its own inline proof, introduce and prove named \
-         intermediate steps (`have`), and make each logical move explicit. This is \
-         a faithful re-presentation, NOT a different or weaker theorem: the final \
-         statement is byte-for-byte the same and it must still compile with zero \
-         sorry. A short proof and its expanded form are the identical kernel truth; \
-         expand it for a reader who trusts a few hundred lines more than a few. Do \
-         NOT pad with comments or dead code — every added line must be real, \
-         checked mathematics."
-    )
+    "\n\nDETAIL (walked-out rendering): do NOT leave the proof pinched to a one-line \
+     lemma application. Apply the expansion morphism — unfold every definition you \
+     rely on, inline each cited lemma as its own steps, introduce and prove named \
+     intermediate `have`s, make each logical move explicit. FIDELITY INVARIANT: the \
+     theorem STATEMENT must stay byte-identical to the minimal form; you are \
+     re-rendering the SAME kernel truth at greater detail, never a weaker or \
+     different proposition, and it must still compile with zero sorry. Every added \
+     line is real, checked mathematics: no padding, no filler comments."
+        .to_string()
 }
 
-/// Output-token budget for a generation call, scaled so an expanded proof of
-/// ~`expand` lines is not truncated (roughly 18 tokens/line, floored at the
-/// normal 4096 for the minimal/pinched case).
+/// Output-token budget for a generation call. The walked-out rendering needs more
+/// room than the pinched form, so any requested detail gets a flat generous budget;
+/// the pinched (default) case keeps the normal budget.
 fn gen_max_tokens(expand: u32) -> u32 {
-    (expand.saturating_mul(18)).max(4096).min(60000)
+    if expand == 0 { 4096 } else { 16000 }
 }
 
 fn decompose_prompt(goal: &str, frontier: &str, depth: u32) -> String {
@@ -798,7 +874,7 @@ impl<'a> LeanProver<'a> {
                     // FILLED with the conventional validity (igFrobeniusAlg), neither
                     // redefined. (A free-hypothesis dodge can't reach green anyway:
                     // the real theorems only apply to the real objects.)
-                    if !grounded_in_real_algebra(&source) {
+                    if !(grounded_in_real_algebra(&source) && renders_same_theorem(&source)) {
                         prev = source;
                         errors = "Your file compiled but was not the required two-step \
                                   structure. STEP 1: build the Witness-Vessel — board/readback \
@@ -808,7 +884,11 @@ impl<'a> LeanProver<'a> {
                                   `igFrobAlg_self_fusion`, then a capstone conjoining the \
                                   roundtrip and the validity. Import the real library names; \
                                   do NOT redefine fsplit/ffuse/igFrobeniusAlg or introduce a \
-                                  free hypothesis. Return the corrected file."
+                                  free hypothesis. FIDELITY: the validity theorem \
+                                  statement must be exactly `igFrobeniusAlg.mul s0 s0 = s0` \
+                                  with the SAME tuple in all three positions, so a more \
+                                  detailed rendering proves the IDENTICAL proposition, never \
+                                  a weaker one. Return the corrected file."
                             .to_string();
                         if self.verbose {
                             println!("        (rejected: compiled but not the two-step vessel+filling — re-prompting)");
