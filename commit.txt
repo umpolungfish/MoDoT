@@ -1,36 +1,37 @@
-Fix the witness catalog in ask_native: canonical file, live merge, real scoring
+Race a portal-guided attempt against standard decomposition in the prover
 
-`./ask` was matching questions against the stale mOMonadOS/IG_catalog.json copy
-(5264, unsynced) instead of the canonical imscribing_grammar/IG_catalog.json
-(5275), and never merged in the live-crawler catalog at ~/.imscrbgrmr/catalog.json
-the way `imscribe catalog list` does — 5292 real entries down to 5264. Fixed the
-catalog preference in both the `ask` wrapper and Rust's own find_catalog, and
-ported the live-crawler merge into load_catalog.
+This is the chrysopoeia_2048 portal move (ig-docs/manuscripts3), generalized
+past SIC moduli: don't always walk the full decomposition distance to a proof.
+If an already-catalogued witness sits structurally close to the goal, cite it as
+a hint and race that attempt against the standard one. The kernel is the sole
+discriminator — no separate exact-match sieve needed, because a bad hint just
+fails to compile, and `lake build` costs little enough at this budget to just
+try both and see which (if either) closes.
 
-Also ported the diacritic/anchor fix I'd only made on the Python side:
-normalize() now folds ö/ő/ø/ü/é/è/á and the math-unicode symbols before matching,
-and the anchor list picked up the foundational/self-reference terms (godel, liar,
-tarski, halting, cantor, diagonal, epimenides, ...) so a self-referential question
-actually reaches liar_paradox / godel_incompleteness_theorem / epimenides_paradox
-instead of matching nothing.
+portal_hint() (ask_native/src/prover.rs) reuses the same search_catalog scoring
+I fixed in the witness-catalog commit — this is a hint only, not a claim the
+witness is independently proven (checked directly: the real catalog carries no
+populated proved_hint/structural_algebra field to pre-filter on, so lexical/
+structural match score is genuinely all there is to go on here).
 
-Found and fixed two scoring bugs while verifying this end to end:
-- A single generic glossary-style catalog entry ("argument", "theorem", ...) could
-  outscore a real compound match just because its one word appears as a substring
-  anywhere in a long question — Cantor's diagonal argument was matching the bare
-  `argument` entry instead of `classical_cantor_diagonal`. The big containment
-  bonus now requires a compound name or a short/near-exact query.
-- Rust's tokenizer never dropped stopwords the way the Python side does, so
-  common words like "the"/"all"/"are" inflated totally unrelated entries. Worse,
-  short name parts ("pi", "eta", "the") were scored by raw substring containment,
-  so "eta" matched inside "cretans" and "pi" matched inside "epimenides" — an
-  Epimenides-paradox question came back with `pi` as the primary witness. Added
-  the stopword list and required exact token matches for name parts <=3 chars.
+race_portal() spawns two threads at a modest, bounded budget (flat=3, fuse=2,
+depth<=1 — cheap enough that losing the race costs little): one standard, one
+with the goal augmented by the portal hint. Each targets its own scratch module
+(Imscribing.Scratch.ProverScratch / ProverScratchB, both now registered in
+p4ramill's lakefile.toml) so the two `lake build`s don't collide on the same
+file — confirmed safe by running both concurrently by hand first (two full
+lake builds against distinct modules in the same project, both green, no lock
+contention). Whichever side closes wins; if neither does within the tight
+budget, prove() falls through to the existing 3-round escalation loop
+unchanged, so this is strictly additive — no regression path.
 
-Verified against the regression set (liar_paradox, tarskis_undefinability,
-godel_incompleteness, halting_problem, collatz_conjecture, erdos_hajnal,
-hadwiger_conjecture, cantors_paradox, continuum_hypothesis) plus the two cases
-that surfaced the bugs (classical_cantor_diagonal, epimenides_paradox) — all
-resolve to the right primary witness now. The `prove:` kernel path is untouched
-and still closes rfl goals through lake build the same as before.
-</content>
+Pulled the definitional-rigging guard (Guard 2, already in the standard path)
+out into apply_rigging_guard() so both the race and the escalation loop check
+it identically — a portal-guided proof that "wins" by defining the goal's own
+vocabulary is exactly as disqualified as a standard one that does.
+
+Verified: a goal with no strong catalog match behaves identically to before
+(no portal line printed, straight to escalation). A goal lexically close to
+`collatz_conjecture` triggers the race, both threads run genuinely concurrently
+(interleaved PROVE(d0) lines), both scratch files are restored to placeholder
+after, and the winning side is reported by name in the proof's note.

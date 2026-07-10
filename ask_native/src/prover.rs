@@ -22,9 +22,29 @@ use std::process::Command;
 
 use crate::{infer, Llm};
 
-const SCRATCH_MODULE: &str = "Imscribing.Scratch.ProverScratch";
 const PLACEHOLDER: &str =
     "import Mathlib\n\ntheorem scratch_ok : (2 : ℝ) + 2 = 4 := by norm_num\n";
+const PLACEHOLDER_B: &str =
+    "import Mathlib\n\ntheorem scratch_ok_b : (2 : ℝ) + 2 = 4 := by norm_num\n";
+
+/// Two independent scratch modules so a standard attempt and a portal-guided
+/// attempt (see `portal_hint`/`race_portal`) can `lake build` concurrently
+/// without colliding on the same file. Registered in p4ramill's lakefile.toml.
+fn scratch_module(slot: &str) -> &'static str {
+    if slot == "B" {
+        "Imscribing.Scratch.ProverScratchB"
+    } else {
+        "Imscribing.Scratch.ProverScratch"
+    }
+}
+
+fn placeholder(slot: &str) -> &'static str {
+    if slot == "B" {
+        PLACEHOLDER_B
+    } else {
+        PLACEHOLDER
+    }
+}
 
 const PROVER_SYS: &str = "\
 You are a Lean 4 proof engine (toolchain leanprover/lean4:v4.28.0, Mathlib). You \
@@ -59,15 +79,19 @@ fn p4ramill_dir() -> PathBuf {
     PathBuf::from("p4ramill")
 }
 
-fn scratch_file() -> PathBuf {
-    p4ramill_dir().join("Imscribing/Scratch/ProverScratch.lean")
+fn scratch_file(slot: &str) -> PathBuf {
+    let name = if slot == "B" { "ProverScratchB.lean" } else { "ProverScratch.lean" };
+    p4ramill_dir().join("Imscribing/Scratch").join(name)
 }
 
 // ── compile through the kernel ────────────────────────────────────────────────
 
-/// Build `source` as the scratch module. Green iff exit 0, no error, no sorry.
-fn compile_lean(source: &str) -> (bool, String) {
-    let scratch = scratch_file();
+/// Build `source` as the scratch module in the given slot ("A" or "B"). Two
+/// slots exist so a racing pair of attempts (see `race_portal`) can each run
+/// their own `lake build` concurrently without touching the same file.
+/// Green iff exit 0, no error, no sorry.
+fn compile_lean(source: &str, slot: &str) -> (bool, String) {
+    let scratch = scratch_file(slot);
     if let Some(parent) = scratch.parent() {
         let _ = fs::create_dir_all(parent);
     }
@@ -75,7 +99,7 @@ fn compile_lean(source: &str) -> (bool, String) {
         return (false, "error: cannot write scratch module".into());
     }
     let out = Command::new("lake")
-        .args(["build", SCRATCH_MODULE])
+        .args(["build", scratch_module(slot)])
         .current_dir(p4ramill_dir())
         .output();
     match out {
@@ -95,12 +119,12 @@ fn compile_lean(source: &str) -> (bool, String) {
     }
 }
 
-fn restore_placeholder() {
-    let scratch = scratch_file();
+fn restore_placeholder(slot: &str) {
+    let scratch = scratch_file(slot);
     if let Some(parent) = scratch.parent() {
         let _ = fs::create_dir_all(parent);
     }
-    let _ = fs::write(&scratch, PLACEHOLDER);
+    let _ = fs::write(&scratch, placeholder(slot));
 }
 
 // ── text helpers ──────────────────────────────────────────────────────────────
@@ -224,6 +248,24 @@ fn authored_goal_defs(source: &str, goal: &str) -> Vec<String> {
     out
 }
 
+/// Look up a catalog witness structurally close to `goal` (chrysopoeia_2048's
+/// portal move, generalized: is there a point already reached under some other
+/// frame, rather than one we must walk the distance to?). Note: the real catalog
+/// carries no populated `proved_hint`/`structural_algebra` field to pre-filter on
+/// (checked directly — it's always absent, not false), so this is deliberately
+/// just the same lexical/structural match score `search_catalog` already uses for
+/// the witness scaffold, nothing more. That is fine: this is a hint, not a claim
+/// the witness is independently proven. A bad hint just fails to compile in
+/// `race_portal` — the kernel is the only discriminator that matters.
+fn portal_hint(goal: &str) -> Option<(String, String)> {
+    let path = crate::resolve_catalog_path()?;
+    let cat = crate::load_catalog(&path).ok()?;
+    let hits = crate::search_catalog(&cat, goal, 5);
+    hits.into_iter()
+        .find(|(_, score)| *score >= 50)
+        .map(|(e, _)| (e.name.clone(), e.description.clone()))
+}
+
 fn parse_lemmas(text: &str) -> Vec<String> {
     let mut out = Vec::new();
     for line in text.lines() {
@@ -308,6 +350,33 @@ pub struct LeanProver<'a> {
     max_depth: u32,
     verbose: bool,
     memo: HashMap<String, Option<String>>,
+    scratch_slot: &'static str,
+}
+
+/// Guard 2: the model must not author the goal's own meaning. If a closed proof
+/// defines a symbol the goal names, the green is a tautology it constructed, not
+/// a proof of the intended claim — demote it to an honest, explained non-closure.
+fn apply_rigging_guard(r: ProofResult, goal: &str) -> ProofResult {
+    if !r.closed {
+        return r;
+    }
+    let rigged = authored_goal_defs(&r.source, goal);
+    if rigged.is_empty() {
+        return r;
+    }
+    ProofResult {
+        closed: false,
+        source: r.source,
+        depth: r.depth,
+        last_output: r.last_output,
+        note: format!(
+            "definitional rigging: the proof defines {} — a symbol the goal refers \
+             to — so the kernel-green is a tautology it constructed, not a proof of \
+             the intended claim. Fix the definition upstream (given / Mathlib); the \
+             prover must not author it.",
+            rigged.join(", ")
+        ),
+    }
 }
 
 impl<'a> LeanProver<'a> {
@@ -319,6 +388,7 @@ impl<'a> LeanProver<'a> {
             max_depth: 2,
             verbose,
             memo: HashMap::new(),
+            scratch_slot: "A",
         }
     }
 
@@ -329,6 +399,25 @@ impl<'a> LeanProver<'a> {
     /// Escalating driver: B (not closed) is a frontier, so raise depth/budget and
     /// keep grinding until the path closes or the rounds are exhausted.
     pub fn prove(&mut self, goal: &str) -> ProofResult {
+        // Portal check (the chrysopoeia_2048 "mirror move" generalized): before
+        // walking the full decomposition distance, ask whether an already-closed
+        // witness sits structurally near this goal. If one does, race a standard
+        // attempt against a portal-guided attempt (the witness cited as a hint) on
+        // two independent scratch modules — the kernel decides which (if either)
+        // actually closes. No separate exact-match sieve is needed: a bad hint
+        // just fails to compile, so the race itself is the honest discriminator.
+        if let Some((name, desc)) = portal_hint(goal) {
+            if self.verbose {
+                println!("── portal candidate: `{name}` — racing standard vs portal-guided ──");
+            }
+            if let Some(r) = self.race_portal(goal, &name, &desc) {
+                return r;
+            }
+            if self.verbose {
+                println!("── portal race closed neither path — falling back to standard escalation ──");
+            }
+        }
+
         let rounds: [(u32, u32, u32); 3] = [(2, 4, 3), (3, 5, 4), (4, 6, 4)];
         let mut last = ProofResult {
             closed: false,
@@ -345,39 +434,95 @@ impl<'a> LeanProver<'a> {
             if self.verbose {
                 println!("── prover round: depth<={md} flat={fb} fuse={ab} ──");
             }
-            let r = self.prove_inner(goal, "import Mathlib", 0);
+            let r = apply_rigging_guard(self.prove_inner(goal, "import Mathlib", 0), goal);
             if r.closed {
-                // Guard 2: the model must not author the goal's own meaning. If the
-                // proof defines a symbol the goal names, the green is a tautology it
-                // constructed, not a proof of the intended claim.
-                let rigged = authored_goal_defs(&r.source, goal);
-                if !rigged.is_empty() {
-                    restore_placeholder();
-                    return ProofResult {
-                        closed: false,
-                        source: r.source,
-                        depth: r.depth,
-                        last_output: r.last_output,
-                        note: format!(
-                            "definitional rigging: the proof defines {} — a symbol the \
-                             goal refers to — so the kernel-green is a tautology it \
-                             constructed, not a proof of the intended claim. Fix the \
-                             definition upstream (given / Mathlib); the prover must not \
-                             author it.",
-                            rigged.join(", ")
-                        ),
-                    };
-                }
-                restore_placeholder();
+                restore_placeholder(self.scratch_slot);
                 return r;
             }
             last = r;
         }
-        restore_placeholder();
+        restore_placeholder(self.scratch_slot);
         last.note = "not closed within escalation cap — a resource frontier (B), \
                      not a verdict of unprovability; raise the rounds/budget to push further"
             .into();
         last
+    }
+
+    /// Race a standard attempt (slot A) against a portal-guided attempt (slot B,
+    /// goal augmented with the candidate witness as a hint) at a modest, bounded
+    /// budget — cheap enough that losing the race costs little. Returns the
+    /// closed side if either closes, after the same rigging guard as the main
+    /// path; `None` if neither closes, so the caller falls back to full escalation.
+    fn race_portal(&self, goal: &str, name: &str, desc: &str) -> Option<ProofResult> {
+        let llm_a = self.llm.clone();
+        let llm_b = self.llm.clone();
+        let verbose = self.verbose;
+        let goal_std = goal.to_string();
+        let goal_portal = format!(
+            "{goal}\n\n[Portal hint: a structurally related, already-established \
+             result in this project is `{name}`: {desc}. If genuinely applicable, \
+             use it as the key transport/reduction; otherwise prove the goal \
+             directly. The kernel alone judges — this is a hint, not an instruction \
+             to force a match.]"
+        );
+
+        let handle_a = std::thread::spawn(move || {
+            let mut p = LeanProver {
+                llm: &llm_a,
+                flat_budget: 3,
+                assemble_budget: 2,
+                max_depth: 1,
+                verbose,
+                memo: HashMap::new(),
+                scratch_slot: "A",
+            };
+            p.prove_inner(&goal_std, "import Mathlib", 0)
+        });
+        let handle_b = std::thread::spawn(move || {
+            let mut p = LeanProver {
+                llm: &llm_b,
+                flat_budget: 3,
+                assemble_budget: 2,
+                max_depth: 1,
+                verbose,
+                memo: HashMap::new(),
+                scratch_slot: "B",
+            };
+            p.prove_inner(&goal_portal, "import Mathlib", 0)
+        });
+
+        let blank = |note: &str| ProofResult {
+            closed: false,
+            source: String::new(),
+            depth: 0,
+            last_output: String::new(),
+            note: note.to_string(),
+        };
+        let ra = apply_rigging_guard(
+            handle_a.join().unwrap_or_else(|_| blank("standard race thread panicked")),
+            goal,
+        );
+        let rb = apply_rigging_guard(
+            handle_b.join().unwrap_or_else(|_| blank("portal race thread panicked")),
+            goal,
+        );
+
+        restore_placeholder("A");
+        restore_placeholder("B");
+
+        if ra.closed {
+            let mut r = ra;
+            r.note = format!("closed via standard decomposition (won the portal race against `{name}`)");
+            return Some(r);
+        }
+        if rb.closed {
+            let mut r = rb;
+            r.note = format!(
+                "closed via portal-guided transport citing `{name}` (won the race against standard decomposition)"
+            );
+            return Some(r);
+        }
+        None
     }
 
     fn prove_inner(&mut self, goal: &str, imports: &str, depth: u32) -> ProofResult {
@@ -509,7 +654,7 @@ impl<'a> LeanProver<'a> {
             let res = infer(self.llm, &msgs, 4096, 0.0);
             let body = strip_fences(&res.text);
             let source = wrap(&body);
-            let (green, out) = compile_lean(&source);
+            let (green, out) = compile_lean(&source, self.scratch_slot);
             last_source = source.clone();
             last_out = out.clone();
             if self.verbose {

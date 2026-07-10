@@ -189,6 +189,13 @@ fn find_catalog(cli: &Cli) -> Option<PathBuf> {
             return Some(p.clone());
         }
     }
+    resolve_catalog_path()
+}
+
+/// Catalog path resolution without a `Cli` (env var + candidate search only).
+/// Shared by `find_catalog` (CLI entry point) and the prover's portal lookup
+/// (`prover::portal_hint`), which has no `Cli` of its own.
+pub(crate) fn resolve_catalog_path() -> Option<PathBuf> {
     if let Ok(p) = env::var("MOMONADOS_CATALOG") {
         let pb = PathBuf::from(expand_user(&p));
         if pb.is_file() {
