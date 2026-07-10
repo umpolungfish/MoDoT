@@ -196,6 +196,17 @@ fn find_catalog(cli: &Cli) -> Option<PathBuf> {
         }
     }
     let mut candidates = Vec::new();
+    // Canonical catalog first (imscribing_grammar/IG_catalog.json is the ONE
+    // source of truth per [[project_ig_catalog]]; mOMonadOS/IG_catalog.json is a
+    // stale, smaller, unsynced copy — see [[project_lean_prover_loop]]).
+    candidates.push(PathBuf::from("../imscribing_grammar/IG_catalog.json"));
+    candidates.push(PathBuf::from("../../imscribing_grammar/IG_catalog.json"));
+    if let Ok(exe) = env::current_exe() {
+        if let Some(dir) = exe.parent() {
+            candidates.push(dir.join("../../../../imscribing_grammar/IG_catalog.json"));
+            candidates.push(dir.join("../../../../../imscribing_grammar/IG_catalog.json"));
+        }
+    }
     // relative to this binary / CWD / repo layouts
     candidates.push(PathBuf::from("IG_catalog.json"));
     candidates.push(PathBuf::from("mOMonadOS/IG_catalog.json"));
@@ -217,6 +228,64 @@ fn find_catalog(cli: &Cli) -> Option<PathBuf> {
         }
     }
     None
+}
+
+/// Fold the live-crawler catalog (~/.imscrbgrmr/catalog.json) into the base
+/// catalog, first-name-wins. Mirrors the Python Witness arm's
+/// `_merge_live_catalog` and the canonical `imscribe catalog list` CLI's
+/// read-time merge (the 5275-vs-5292 gap). Returns entries added.
+fn merge_live_catalog(out: &mut Vec<CatalogEntry>) -> usize {
+    let live_path = PathBuf::from(expand_user("~/.imscrbgrmr/catalog.json"));
+    let Ok(text) = fs::read_to_string(&live_path) else {
+        return 0;
+    };
+    let Ok(v) = serde_json::from_str::<Value>(&text) else {
+        return 0;
+    };
+    let live = v
+        .get("imscriptions")
+        .cloned()
+        .unwrap_or(v);
+    let Some(arr) = live.as_array() else {
+        return 0;
+    };
+    let existing: std::collections::HashSet<String> =
+        out.iter().map(|e| e.name.clone()).collect();
+    let mut added = 0usize;
+    for item in arr {
+        let name = item
+            .get("name")
+            .and_then(|x| x.as_str())
+            .unwrap_or("")
+            .to_string();
+        if name.is_empty() || existing.contains(&name) {
+            continue;
+        }
+        let description = item
+            .get("description")
+            .and_then(|x| x.as_str())
+            .unwrap_or("")
+            .to_string();
+        let proved_hint = item.get("proved_hint").and_then(|x| x.as_bool());
+        let sa = item.get("structural_algebra");
+        let tier = sa
+            .and_then(|s| s.get("ouroboricity_tier"))
+            .and_then(|x| x.as_str())
+            .map(|s| s.to_string());
+        let d_cl8 = sa
+            .and_then(|s| s.get("distance_from_cl8nk"))
+            .and_then(|x| x.as_f64());
+        out.push(CatalogEntry {
+            name,
+            description,
+            proved_hint,
+            tier,
+            d_cl8,
+            raw: item.clone(),
+        });
+        added += 1;
+    }
+    added
 }
 
 fn load_catalog(path: &Path) -> Result<Vec<CatalogEntry>, String> {
@@ -271,6 +340,7 @@ fn load_catalog(path: &Path) -> Result<Vec<CatalogEntry>, String> {
             });
         }
     }
+    merge_live_catalog(&mut out);
     Ok(out)
 }
 
@@ -318,16 +388,46 @@ const EXTRA_WITNESSES: &[(&str, &str)] = &[
     ),
 ];
 
+/// Fold common math unicode + diacritics so e.g. "Gödel"->"godel",
+/// "Erdős"->"erdos", "ℵ₁"->" aleph 1" match plain-ascii catalog names/tokens.
+/// Mirrors the Python Witness arm's `_normalize_math_text`.
+fn fold_math_text(s: &str) -> String {
+    let mut t = s.to_string();
+    const REPL: &[(&str, &str)] = &[
+        ("ℵ", " aleph "), ("χ", " chromatic "), ("α", " independent "),
+        ("ε", " epsilon "), ("ω", " omega "), ("∈", " in "), ("→", " to "),
+        ("₁", "1"), ("₂", "2"), ("₀", "0"), ("∞", " infinity "),
+        ("ö", "o"), ("ő", "o"), ("ø", "o"), ("ü", "u"),
+        ("é", "e"), ("è", "e"), ("á", "a"),
+    ];
+    for (a, b) in REPL {
+        t = t.replace(a, b);
+    }
+    t
+}
+
 fn normalize(s: &str) -> String {
     let re = Regex::new(r"[^a-z0-9]+").unwrap();
-    re.replace_all(&s.to_lowercase(), "_")
+    re.replace_all(&fold_math_text(s).to_lowercase(), "_")
         .trim_matches('_')
         .to_string()
 }
 
+// Common words that appear in thousands of catalog descriptions and carry no
+// discriminating signal (unlike Python's Witness arm, this list was missing
+// here — "the"/"all"/"are" alone were inflating unrelated entries' scores).
+const STOP: &[&str] = &[
+    "the", "and", "for", "are", "that", "this", "with", "from", "its", "such",
+    "every", "all", "any", "has", "have", "show", "prove", "please", "solve",
+    "following", "work", "there", "which", "than", "then", "into", "about",
+];
+
 fn search_catalog(cat: &[CatalogEntry], query: &str, limit: usize) -> Vec<(CatalogEntry, i32)> {
     let q = normalize(query);
-    let tokens: Vec<&str> = q.split('_').filter(|t| t.len() > 2).collect();
+    let tokens: Vec<&str> = q
+        .split('_')
+        .filter(|t| t.len() > 2 && !STOP.contains(t))
+        .collect();
     if tokens.is_empty() {
         return Vec::new();
     }
@@ -336,7 +436,14 @@ fn search_catalog(cat: &[CatalogEntry], query: &str, limit: usize) -> Vec<(Catal
         "hadwiger", "collatz", "navier", "riemann", "yang", "mills", "hodge",
         "birch", "zauner", "sic", "goldbach", "twin", "beal", "witness", "dual",
         "graph", "conjecture", "vertices", "finite", "subgraph", "millennium",
-        "navier", "stokes", "poincare", "p_vs_np", "complexity",
+        "navier", "stokes", "poincare", "p_vs_np", "complexity", "cuboid",
+        // foundational / self-reference anchors (catalog carries godel_*,
+        // liar_paradox, tarskis_undefinability_theorem, halting_problem,
+        // classical_cantor_diagonal, CH_independent — a self-ref goal matched
+        // none of the named-problem anchors above without these).
+        "godel", "goedel", "liar", "undecidab", "incompleteness", "paradox",
+        "tarski", "halting", "epimenides", "diagonal", "continuum", "referen",
+        "unprovab", "consisten", "cantor",
     ];
     let q_anchors: Vec<&str> = anchors.iter().copied().filter(|a| q.contains(a)).collect();
     let q_token_count = tokens.len().max(1) as i32;
@@ -348,19 +455,40 @@ fn search_catalog(cat: &[CatalogEntry], query: &str, limit: usize) -> Vec<(Catal
         let blob = format!("{}_{}", name, normalize(&e.description));
         let mut sc: i32 = 0;
 
+        // The catalog carries a math-glossary tail of bare single-word entries
+        // (`argument`, `theorem`, `function`, `structure`, ...). Query-contains-
+        // name is a weak signal for those: any long, specific question mentions
+        // the word "argument" or "theorem" somewhere, which must not outrank a
+        // compound, specific match like `classical_cantor_diagonal`. Require
+        // either a multi-part (compound) name or a short/near-exact query
+        // before granting the big containment bonus.
+        let specific_enough = name_parts.len() > 1 || q_token_count <= 2;
         if name == q {
             sc += 100;
         } else if name.len() >= 6 && (q == name || name.contains(&q)) {
             sc += 70;
-        } else if name.len() >= 8 && q.contains(name) {
+        } else if name.len() >= 8 && q.contains(name) && specific_enough {
             sc += 60;
-        } else if name_parts.len() == 1 && name.len() <= 6 && q.contains(name) {
+        } else if name_parts.len() == 1
+            && name.len() <= 6
+            && tokens.iter().any(|t| *t == name)
+        {
             sc += 8;
         }
 
+        // Short name parts (<=3 chars: "pi", "eta", "the", ...) are near-guaranteed
+        // to occur as an accidental raw substring somewhere in a long query (e.g.
+        // "eta" inside "cretans", "pi" inside "epimenides") even with zero semantic
+        // relation. Require an exact token match for those; only longer, more
+        // distinctive name parts get the looser substring-containment check.
         let mut parts_hit = 0i32;
         for p in &name_parts {
-            if q.contains(p) || tokens.iter().any(|t| t.contains(p) || p.contains(t)) {
+            let hit = if p.len() <= 3 {
+                tokens.iter().any(|t| t == p)
+            } else {
+                q.contains(p) || tokens.iter().any(|t| t.contains(p) || p.contains(t))
+            };
+            if hit {
                 parts_hit += 1;
             }
         }
@@ -1073,13 +1201,20 @@ fn run_one(
             if r.closed {
                 println!("Closed green through the Lean kernel (no sorry):\n");
                 println!("{}", r.source);
-            } else {
+            } else if r.note.contains("escalation cap") {
                 println!(
-                    "Not closed within the current escalation cap. This is a \
-                     navigation frontier (B), not a verdict of unprovability — the \
-                     path exists; raise the rounds/budget to push deeper.\n"
+                    "Not closed within the current escalation cap. A navigation \
+                     frontier (B), not a verdict of unprovability — the path exists; \
+                     raise the rounds/budget to push deeper.\n"
                 );
                 println!("Last frontier:\n{}", r.last_output);
+            } else {
+                // Rejected: ill-posed goal (hole in the statement) or definitional
+                // rigging (the model authored the goal's own meaning). Not a frontier.
+                println!("REJECTED (not a valid proof): {}\n", r.note);
+                if !r.source.is_empty() {
+                    println!("The model produced this, which was refused:\n{}", r.source);
+                }
             }
             println!();
             println!("{}", "=".repeat(60));

@@ -9,9 +9,13 @@ if [[ ! -x "$BIN" ]]; then
   echo "[ask] building native binary…" >&2
   cargo build --release --manifest-path "$HERE/ask_native/Cargo.toml"
 fi
-# Catalog: prefer mOMonadOS full IG catalog, else local
+# Catalog: prefer the canonical imscribing_grammar/IG_catalog.json (the one
+# source of truth); mOMonadOS/IG_catalog.json is a stale, smaller, unsynced
+# copy (5264 vs 5275+live-merge 5292 entries as of 2026-07-10).
 if [[ -z "${MOMONADOS_CATALOG:-}" ]]; then
-  if [[ -f "$HERE/../mOMonadOS/IG_catalog.json" ]]; then
+  if [[ -f "$HERE/../imscribing_grammar/IG_catalog.json" ]]; then
+    export MOMONADOS_CATALOG="$HERE/../imscribing_grammar/IG_catalog.json"
+  elif [[ -f "$HERE/../mOMonadOS/IG_catalog.json" ]]; then
     export MOMONADOS_CATALOG="$HERE/../mOMonadOS/IG_catalog.json"
   elif [[ -f "$HERE/IG_catalog.json" ]]; then
     export MOMONADOS_CATALOG="$HERE/IG_catalog.json"

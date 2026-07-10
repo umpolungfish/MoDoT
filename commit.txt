@@ -1,28 +1,36 @@
-Port the kernel-gated prover into ask_native (native, no Python)
+Fix the witness catalog in ask_native: canonical file, live merge, real scoring
 
-`./ask` runs the Rust ask_native binary, so the type-router and prover I built in
-the Python package were unreachable from it. A proof question came back as a
-scaffold with a `sorry` in it. This ports the prover into ask_native itself, in
-Rust, so `./ask` can close a goal through the Lean kernel.
+`./ask` was matching questions against the stale mOMonadOS/IG_catalog.json copy
+(5264, unsynced) instead of the canonical imscribing_grammar/IG_catalog.json
+(5275), and never merged in the live-crawler catalog at ~/.imscrbgrmr/catalog.json
+the way `imscribe catalog list` does — 5292 real entries down to 5264. Fixed the
+catalog preference in both the `ask` wrapper and Rust's own find_catalog, and
+ported the live-crawler merge into load_catalog.
 
-src/prover.rs is the closed loop: generate a Lean tactic block, write it into the
-p4ramill scratch module, run `lake build`, read the unsolved-goal state the
-compiler prints, and repair against it until the build is green with no sorry.
-When a goal will not close flat it is FSPLIT into helper lemmas, each proved
-recursively and FFUSEd back, with memoization by statement so a lemma proved once
-is reused and a header dedup so a reused lemma collapses to one declaration. It
-shells out to `lake`, the Lean toolchain, a separate binary. Nothing here touches
-Python.
+Also ported the diacritic/anchor fix I'd only made on the Python side:
+normalize() now folds ö/ő/ø/ü/é/è/á and the math-unicode symbols before matching,
+and the anchor list picked up the foundational/self-reference terms (godel, liar,
+tarski, halting, cantor, diagonal, epimenides, ...) so a self-referential question
+actually reaches liar_paradox / godel_incompleteness_theorem / epimenides_paradox
+instead of matching nothing.
 
-Not closed is a navigation frontier, never a verdict of unprovability. The driver
-escalates depth and budget across rounds and keeps decomposing; the only stop is a
-resource cap, which is a statement about compute, not about the theorem. A
-provable result closes given the work.
+Found and fixed two scoring bugs while verifying this end to end:
+- A single generic glossary-style catalog entry ("argument", "theorem", ...) could
+  outscore a real compound match just because its one word appears as a substring
+  anywhere in a long question — Cantor's diagonal argument was matching the bare
+  `argument` entry instead of `classical_cantor_diagonal`. The big containment
+  bonus now requires a compound name or a short/near-exact query.
+- Rust's tokenizer never dropped stopwords the way the Python side does, so
+  common words like "the"/"all"/"are" inflated totally unrelated entries. Worse,
+  short name parts ("pi", "eta", "the") were scored by raw substring containment,
+  so "eta" matched inside "cretans" and "pi" matched inside "epimenides" — an
+  Epimenides-paradox question came back with `pi` as the primary witness. Added
+  the stopword list and required exact token matches for name parts <=3 chars.
 
-Wired into run_one: a `prove:` prefix or a literal Lean theorem or lemma routes to
-the prover instead of the prose spine. Everything else flows the normal
-ManuscriptSpine unchanged.
-
-Verified: `./ask --ask "prove: theorem ask_native_ok : (2 : Nat) + 2 = 4"` routes
-to the prover and closes green through the real Lean kernel with rfl, no sorry, no
-Python. The scratch module is restored to its green placeholder after the run.
+Verified against the regression set (liar_paradox, tarskis_undefinability,
+godel_incompleteness, halting_problem, collatz_conjecture, erdos_hajnal,
+hadwiger_conjecture, cantors_paradox, continuum_hypothesis) plus the two cases
+that surfaced the bugs (classical_cantor_diagonal, epimenides_paradox) — all
+resolve to the right primary witness now. The `prove:` kernel path is untouched
+and still closes rfl goals through lake build the same as before.
+</content>
