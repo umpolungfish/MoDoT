@@ -17,23 +17,26 @@ use std::process::Command;
 /// The twelve primitive keys, in canonical navigator/catalog order.
 pub const PRIMS: [&str; 12] = ["Ð", "Þ", "Ř", "Φ", "ƒ", "Ç", "Γ", "ɢ", "⊙", "Ħ", "Σ", "Ω"];
 
-/// glyph → ordinal per primitive. The ORDERING is cross-checked against the
-/// p4rakernel Lean kernel (`Primitives/Core.lean`, which is scripture) for
-/// Ħ (Chirality: fee<kick<sure<wool) and Ω (Protection: awe<oak<ah<zoo) — the
-/// Axiom B verification. The remaining ten follow the canonical
-/// imscribing_grammar GLYPH_ORDINALS table.
+/// glyph → ordinal per primitive. The ORDERING is scripture: each primitive's
+/// constructor order comes from the p4rakernel Lean kernel (`Primitives/Core.lean`)
+/// and the glyph↔constructor map from `gen_clay_canonical_tuples.py`. Ç
+/// (KineticChar: yea<loll<egg<on<air) and Σ (Stoichiometry: hung<so<up) were
+/// CORRECTED here to match scripture — earlier values had Ç ords 3/4 swapped
+/// (𐑺/𐑪) and Σ rotated (𐑳 at 0 instead of 2), which threw the R↔S live-pair
+/// charge and the ligand↔site complement off (glyph→ctor rendering was unaffected,
+/// so certify always stayed correct; only the numeric ordinals were wrong).
 const GLYPHS: [&[(&str, u8)]; 12] = [
     /* Ð Dimensionality */ &[("𐑛", 0), ("𐑨", 1), ("𐑼", 2), ("𐑦", 3)],
     /* Þ Topology       */ &[("𐑡", 0), ("𐑰", 1), ("𐑥", 2), ("𐑶", 3), ("𐑸", 4)],
     /* Ř Recognition    */ &[("𐑩", 0), ("𐑑", 1), ("𐑽", 2), ("𐑾", 3)],
     /* Φ Parity         */ &[("𐑗", 0), ("𐑿", 1), ("𐑬", 2), ("𐑯", 3), ("𐑹", 4)],
     /* ƒ Fidelity       */ &[("𐑱", 0), ("𐑞", 1), ("𐑐", 2)],
-    /* Ç Kinetics       */ &[("𐑘", 0), ("𐑤", 1), ("𐑧", 2), ("𐑺", 3), ("𐑪", 4)],
+    /* Ç Kinetics       */ &[("𐑘", 0), ("𐑤", 1), ("𐑧", 2), ("𐑪", 3), ("𐑺", 4)],
     /* Γ Granularity    */ &[("𐑚", 0), ("𐑔", 1), ("𐑲", 2)],
     /* ɢ Composition    */ &[("𐑝", 0), ("𐑜", 1), ("𐑠", 2), ("𐑵", 3)],
     /* ⊙ Criticality    */ &[("𐑢", 0), ("⊙", 1), ("𐑮", 2), ("𐑻", 3), ("𐑣", 4)],
     /* Ħ Chirality      */ &[("𐑓", 0), ("𐑒", 1), ("𐑖", 2), ("𐑫", 3)],
-    /* Σ Stoichiometry  */ &[("𐑳", 0), ("𐑙", 1), ("𐑕", 2)],
+    /* Σ Stoichiometry  */ &[("𐑙", 0), ("𐑕", 1), ("𐑳", 2)],
     /* Ω Protection     */ &[("𐑷", 0), ("𐑴", 1), ("𐑭", 2), ("𐑟", 3)],
 ];
 
@@ -450,12 +453,12 @@ const CTORS: [&[&str]; 12] = [
     /* Ř */ &["ado", "tot", "ear", "ian"],
     /* Φ */ &["church", "yew", "out", "nun", "or'"],
     /* ƒ */ &["age", "they", "peep"],
-    /* Ç */ &["yea", "loll", "egg", "air", "on"],
+    /* Ç */ &["yea", "loll", "egg", "on", "air"],
     /* Γ */ &["bib", "thigh", "ice"],
     /* ɢ */ &["vow", "gag", "measure", "ooze"],
     /* ⊙ */ &["woe", "monad", "roar", "err", "haha"],
     /* Ħ */ &["fee", "kick", "sure", "wool"],
-    /* Σ */ &["up", "hung", "so"],
+    /* Σ */ &["hung", "so", "up"],
     /* Ω */ &["awe", "oak", "ah", "zoo"],
 ];
 const TYPES: [&str; 12] = [
