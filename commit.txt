@@ -1,24 +1,30 @@
-Imscribe Maria's axiom and correct ALKAHEST section 12 to the real tier result
+Add the click-maths spec and settle the math catalytic register
 
-Instead of leaving the Tao/Maria overlap resting on "reading the two texts,"
-I imscribed the axiom directly (imscribe generate "axiom of maria the copt"),
-registered as axiom_of_maria_the_copt. The result overturns the "identical"
-framing, and in a way that's actually the better story: the two do NOT co-type.
+Two things landed. First, the register: I ported red-hot_rebis's enzyme
+catalytic-site engine to abstract math by imscribing a slate of mathematical
+operations and reading where they land. The result is that math does NOT use
+all 12 primitives — three are pinned, and they're exactly the physical axes,
+because math abstracts physics out: Fidelity pinned high (everything exact),
+Criticality pinned low (nothing is a phase transition), Kinetics suppressed
+(no energy barriers, broken only by winding_number, which is why it's the lone
+O_2 object). The pins sit on one member each of three conjugate pairs, so
+catalysis runs on the three live pairs D<->W, T<->H, R<->S. Smaller, cleaner
+design space than an enzyme active site.
 
-  tao_cosmogony           O_inf   <𐑦𐑸𐑾𐑹𐑐𐑧𐑔𐑵⊙𐑫𐑙𐑭>
-  axiom_of_maria_the_copt O_1     <𐑛𐑥𐑽𐑬𐑐𐑧𐑔𐑝⊙𐑖𐑳𐑭>
+The method lesson worth keeping: I tried to rescue the collapsed Kinetics and
+Criticality by re-phrasing the residues as verbs instead of nouns
+("differentiating" not "the derivative operator"). It failed — the Grammar
+reads structure, not wording. Differentiation is genuinely kinetically frozen
+(smooth, reversible), a fixed point is genuinely subcritical (an attractor, not
+a critical point). The failure is the finding.
 
-They share five primitives (criticality gate ⊙, fidelity ƒ, kinetic Ç,
-granularity Γ, winding Ω) and diverge on seven, distance 1.71. The gap is not
-noise -- it's the correspondence at full resolution. Maria's axiom stops at the
-fourth term, the bare generative kernel, and lands at O_1. Chapter 42 keeps
-going: the ten thousand things carrying yin and yang, harmony through
-combination, and the sage "one with the whole universe" (self-modeling closure
-in plain speech). That surplus is exactly the holographic (Ð=𐑦) and eternal
-(Ħ=𐑫) structure the axiom lacks, and it's what lifts the Tao from O_1 to O_inf.
-Maria wrote the seed; Laozi wrote the seed and its whole unfolding.
+Second, CLICK_MATHS_SPEC.md — the first concrete build off the register. Click
+chemistry is spring-loaded, orthogonal, always-closing fusion, which is just
+reliable FFUSE of two fragments complementary on a live pair. It's the smallest
+delta from the FSPLIT/FFUSE the prover already has, and it's a speedup: if two
+proven leaves are click-complementary you already know they fuse, so you skip
+the assembly search. The complementarity/orthogonality checks and the closure
+certificate are mechanizable now; the library of named clicks is designed until
+each archetype is imscribed and gated.
 
-Rewrote the section 12 convergence paragraph to report this run and retired the
-now-stale caveat (which said the axiom wasn't catalogued and rested on reading
-the texts). Fixed a duplicated "Laozi does not stop where Maria stops" opening
-two paragraphs down. Recompiled the PDF.
+Also carries the ALKAHEST _builds intermediates from the section 12-15 compiles.
