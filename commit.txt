@@ -1,29 +1,40 @@
-Build the closed-loop Lean prover (modot/prover.py)
+Add the IMSCRIB type-router in front of the prover
 
-I built the prover that writes a full machine-checked proof instead of a sketch
-with sorries, by gating its own output through the Lean kernel.
+I put a front door on the prover so a goal is sorted to the arm that can
+actually settle it before any loop runs. The sorting is not a heuristic switch,
+it is an imscription: the router types the goal into the twelve IG primitives
+(each a Belnap value) using the vessel's own imscriber, folds that type to one
+vessel voice, and dispatches.
 
-It generates a tactic block, builds it through the lib's own lake path (the attempt
-is written into a registered scratch module in p4ramill and built with lake build,
-so Mathlib and Imscribing resolve exactly as they do for every other module), reads
-the unsolved-goal state the compiler prints back, and repairs against it until the
-build is green with no sorry. For a proof this is the true False-gate that
-structural co-typing cannot give: the compiler says False on a wrong proof, False
-on a sorried one, and True only on a real one, and the kernel enforces it.
+  N  ->  vacuity          nothing engages any axis, so there is nothing to prove
+  T  ->  the kernel loop   a definite, assertible proposition (modot.prover)
+  F  ->  the kernel loop   a definite, deniable proposition; the kernel is the
+                           honest False-gate, so a stated-false goal simply will
+                           not close, which is the correct verdict
+  B  ->  the Witness arm   a dialetheia (modot.witness_proof)
 
-On top of that flat compile-repair core I added recursive decomposition. When a
-goal will not close flat within budget, the prover splits it into self-contained
-helper lemmas, proves each through the same loop, and fuses the proven leaves into
-one file where the main theorem closes against them. The recursion is depth
-bounded, and the fusion uses whatever helpers actually proved, so a dead branch
-does not sink the proof.
+The fold is faithful to the four-valued lattice. An explicit B on any axis is the
+dialetheia marker: it is the top of the knowledge lattice placed on that axis,
+the imscriber's honest "this axis is over-determined." A plain T and F mix across
+structural axes is a definite proposition with mixed structural character, not a
+contradiction, so it goes to the kernel, not the Witness. I report the pure
+Belnap join of all twelve codes alongside the route for transparency, so you can
+see that a mixed goal joins to B in the lattice yet still routes to the prover.
 
-It closed Nicomachus's theorem, the sum of cubes equal to the square of the sum,
-three levels deep. It rediscovered the Gauss sum as a leaf lemma, proved it by
-induction, and built back up to the machine-checked result. This maps the
-lean_prover_loop ob3ect's FSPLIT, FFUSE, EVALF, AREV, and TANCH lanes onto running
-code.
+Same discipline as the vessel: the LLM types structure and never renders a
+correctness opinion, and there is no hash or deterministic fallback. No imscriber,
+no route. For tests a type may be injected explicitly.
 
-I also registered Imscribing.Scratch.ProverScratch in the p4ramill lib as the
-prover's build target, restored to a green placeholder after every run so lake
-build Imscribing stays clean.
+Verified. The no-network fold selftest passes: all-N routes to vacuity, all-T and
+all-F to the kernel, a single explicit B axis to the Witness even amid many T, a
+mixed T and F with no B stays on the kernel, and a forged deterministic type is
+rejected without inventing a route. The live demo runs all three arms end to end:
+the theorem 2 + 2 = 4 imscribes as definite, routes to the kernel loop, and closes
+green through the real Lean build on the first pass; a Godel/liar self-reference
+imscribes with B on several axes and routes to the Witness; the empty goal
+imscribes as all-N and routes to vacuity.
+
+This closes the router plank from the lean_prover_loop ob3ect. The remaining plank
+is the B-Witness arm's own catalog coverage: the self-reference routed correctly
+but the cl8nk catalog had no strong witness for that exact phrasing, so the arm
+returned empty. That is downstream of the router, not the router itself.

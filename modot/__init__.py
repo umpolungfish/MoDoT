@@ -57,6 +57,15 @@ from modot.witness_proof import (
     navigator_available,
     WitnessProofReport,
 )
+from modot.prover import (
+    LeanProver,
+    ProofResult,
+)
+from modot.router import (
+    TypeRouter,
+    RouterVerdict,
+    fold_goal_type,
+)
 
 __all__ = [
     "main",
@@ -88,4 +97,9 @@ __all__ = [
     "witness_translate",
     "navigator_available",
     "WitnessProofReport",
+    "LeanProver",
+    "ProofResult",
+    "TypeRouter",
+    "RouterVerdict",
+    "fold_goal_type",
 ]
