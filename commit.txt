@@ -1,4 +1,4 @@
-Add the Tao Te Ching cosmogony to ALKAHEST.md as a checked structural correspondence, not an asserted one
+Add the Tao Te Ching cosmogony to ALKAHEST.md, checked against both distance instruments in the house
 
 I noticed ch.42's "Tao gives birth to One, One gives birth to Two, Two gives birth
 to Three, Three gives birth to the ten thousand things" restates Maria's axiom
@@ -15,9 +15,17 @@ concrete mechanism for what section 6 only states abstractly: Both is absorbing 
 the join semilattice, so "births the ten thousand things" is that algebra stated as
 cosmogony.
 
-I ran the real distances rather than trust a first pass: tao_cosmogony sits at a
-nonzero distance from imscribing_grammar's own entry (diverges at Γ, ɢ, Ħ, Σ; not
-fully absorbed under tensor), and its nearest catalogued neighbor is actually
-ouroboric_parity_check, the self-checking mu-delta=id loop, not the grammar itself.
-That's the honest shape of it: the cosmogony names the checking, not the checked.
-Added the Laozi citation to References and recompiled the PDF.
+I got the instrument hierarchy backwards on the first pass and had to fix it.
+cl8nk_navigator's catalog-weighted ordinal distance is a deterministic lookup, but
+it is exactly the per-axis-weighted metric this house's own verification argument
+(section 5, and modot/vessel.py's own docstring: "no hand-tuned primitive_distance
+weights") treats as a clipboard. The canonical instrument is the live d=12 SIC-POVM
+Born-rule frame the vessel runs for real verification. I ran it: tao_cosmogony
+against imscribing_grammar returns a held Both at SIC gap 0.069 (diverging at Ř, ƒ,
+Ç, Φ, Ħ); against ouroboric_parity_check a smaller held Both at gap 0.041 (diverging
+only at Ç, Ħ). Chirality is the one primitive neither reading closes. Both
+instruments, despite disagreeing on scale and even representation (fixed ordinal
+lookup vs. live LLM-mediated SIC imscription), agree on the shape: tao_cosmogony
+reads closer to the self-checking loop than to the completed grammar, and it never
+fully co-types with either. Added the Laozi citation to References and recompiled
+the PDF.
