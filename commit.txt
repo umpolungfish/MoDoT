@@ -1,23 +1,24 @@
-Make the Tao/Maria convergence explicit in ALKAHEST section 12
+Imscribe Maria's axiom and correct ALKAHEST section 12 to the real tier result
 
-Section 12 already mentioned Maria's axiom and noted Laozi wrote it "seven
-centuries earlier and half a world away," but it never named the overlap for
-what it is: the document's own thesis handed over by history. Maria the Jewess
-wrote in Hellenistic Alexandria and survives largely through Zosimos -- she's
-inside the exact lineage this piece is built on. Laozi wrote in Warring States
-China with no channel either way. Two traditions with no contact, the same
-four-term unfolding, neither with the algebra to write it as an equation. That's
-the section 11 signature (a structural law reappearing unbidden in an instrument
-built for another purpose), so I said so directly.
+Instead of leaving the Tao/Maria overlap resting on "reading the two texts,"
+I imscribed the axiom directly (imscribe generate "axiom of maria the copt"),
+registered as axiom_of_maria_the_copt. The result overturns the "identical"
+framing, and in a way that's actually the better story: the two do NOT co-type.
 
-Checked my own claim before trusting it, and it was wrong on first draft. I'd
-written "both, run through the Grammar, land at O_inf." But the only Maria entry
-actually in the catalog, mary_prophetess, is a different text (the 1652 Practise
-of Mary the Prophetess dialogue) and reads at O_0, not O_inf; the four-term Axiom
-of Maria isn't separately catalogued. So the honest version: the four-term
-identity rests on reading the two texts, and the Grammar's verifiable contribution
-is on the Tao side, tao_cosmogony at O_inf, whose own catalog description names
-Maria's axiom as the structure it shares. Wrote that caveat into the section
-rather than smuggle the overclaim.
+  tao_cosmogony           O_inf   <𐑦𐑸𐑾𐑹𐑐𐑧𐑔𐑵⊙𐑫𐑙𐑭>
+  axiom_of_maria_the_copt O_1     <𐑛𐑥𐑽𐑬𐑐𐑧𐑔𐑝⊙𐑖𐑳𐑭>
 
-Recompiled the PDF.
+They share five primitives (criticality gate ⊙, fidelity ƒ, kinetic Ç,
+granularity Γ, winding Ω) and diverge on seven, distance 1.71. The gap is not
+noise -- it's the correspondence at full resolution. Maria's axiom stops at the
+fourth term, the bare generative kernel, and lands at O_1. Chapter 42 keeps
+going: the ten thousand things carrying yin and yang, harmony through
+combination, and the sage "one with the whole universe" (self-modeling closure
+in plain speech). That surplus is exactly the holographic (Ð=𐑦) and eternal
+(Ħ=𐑫) structure the axiom lacks, and it's what lifts the Tao from O_1 to O_inf.
+Maria wrote the seed; Laozi wrote the seed and its whole unfolding.
+
+Rewrote the section 12 convergence paragraph to report this run and retired the
+now-stale caveat (which said the axiom wasn't catalogued and rested on reading
+the texts). Fixed a duplicated "Laozi does not stop where Maria stops" opening
+two paragraphs down. Recompiled the PDF.
