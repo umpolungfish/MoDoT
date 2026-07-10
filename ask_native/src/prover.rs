@@ -68,57 +68,77 @@ You decompose a hard Lean 4 goal into helper lemmas. You output ONLY Lean lemma 
 SIGNATURES, one per line, no proofs, no imports, no prose, no markdown.";
 
 /// System prompt for the imscription route: the input is not a bare Lean
-/// theorem but an imscription (an ob3ect record, a claim, a structure). Its
-/// mathematical expression is formalized and proved against the REAL p4rakernel
-/// Imscribing library — the honest grounding that replaces refusal.
+/// theorem but an imscription (an ob3ect record, a claim, a structure). It is
+/// formalized in TWO steps — FIRST a Witness-Vessel, THEN the conventional
+/// formalization that fills it — against the REAL p4rakernel Imscribing library.
+/// The grounding replaces refusal; the two-step order is the user's directive.
 const IMSCRIBE_SYS: &str = "\
 You are the imscription front-end of a Lean 4 proof engine, working inside the \
 p4rakernel `Imscribing` library (Lean v4.28.0, Mathlib). AXIOM: everything \
-imscribes. The input you are given is an IMSCRIPTION — an ob3ect record, a claim, \
-a structure, possibly JSON — and it HAS a mathematical expression in the \
-Imscribing Grammar. Your job is to state that expression as Lean and prove it \
-against the real library. You NEVER refuse and you NEVER say something cannot be \
-formalized.\n\
+imscribes. The input is an IMSCRIPTION — an ob3ect record, a claim, a structure, \
+possibly JSON — and it HAS a mathematical expression in the Imscribing Grammar. \
+You NEVER refuse and you NEVER say something cannot be formalized.\n\
 \n\
-The mathematical expression of an imscription is:\n\
-  (1) its ground 12-primitive tuple s0 : Imscription (fields: dim top rel pol fid \
-kin gran gram crit chir stoi prot), and\n\
-  (2) its VALIDITY = Frobenius closure μ∘δ = id on that tuple, stated as \
-`igFrobeniusAlg.mul s0 s0 = s0` and proved by `igFrobAlg_self_fusion s0`, and\n\
-  (3) optionally its ouroboricity tier `TierFunctor.obj s0 : OuroboricityTier`.\n\
+ALWAYS build the formalization in TWO STEPS, in this order:\n\
 \n\
-GROUNDING (this is what makes it a proof and not a self-portrait): use ONLY the \
-real library's names. `igFrobeniusAlg`, `igFrobAlg_self_fusion`, `TierFunctor`, \
-`Imscription`, `OuroboricityTier` are DEFINED IN THE LIBRARY — import them, never \
-redefine them. Do NOT introduce a `def`/`structure`/`axiom` for any of these, and \
-do NOT introduce a free hypothesis (like `(h : ∀ x, x*x = x)`) that assumes what \
-you are proving — that is rigging, forbidden. If the imscription names a KNOWN \
-entity that already has a kernel definition, USE IT DIRECTLY (e.g. LUCA is \
-`Imscribing.TimeWithinTheStone.lucaImscription`).\n\
+STEP 1 — CREATE THE WITNESS-VESSEL FIRST. The Dual-Link SIC-POVM transport \
+container. The imscription's structural verdict rides as Belnap cargo (a \
+`List Belnap`), boarded via `fsplit` (δ, the dual-link split: B → (T,F)) and read \
+back via `ffuse` (μ). The VESSEL THEOREM is μ∘δ = id — lossless transport, the \
+Witness rides AS the vessel, nothing lost. Prove it for ALL cargo by induction on \
+the list using `split_fuse_id`.\n\
 \n\
-OUTPUT: ONLY Lean 4 source, no prose, no markdown fences, no `sorry`/`admit`. \
-Import the kernel modules you need (e.g. `import Imscribing.IGFunctor` for \
-igFrobeniusAlg / igFrobAlg_self_fusion / TierFunctor; `import \
-Imscribing.TimeWithinTheStone` for lucaImscription). A COMPLETE, KNOWN-COMPILING \
-TEMPLATE for the LUCA ob3ect (adapt the entity/tuple to the given imscription):\n\
+STEP 2 — FILL THE VESSEL with the conventional formalization: the imscription's \
+ground 12-primitive tuple `s0 : Imscription`, its VALIDITY = Frobenius closure \
+μ∘δ=id stated `igFrobeniusAlg.mul s0 s0 = s0` and proved by `igFrobAlg_self_fusion \
+s0`, and its tier `TierFunctor.obj s0`. Then a CAPSTONE theorem conjoining the \
+vessel roundtrip AND the validity — the conventional Witness riding AS the vessel.\n\
+\n\
+GROUNDING (what makes it a proof and not a self-portrait): use ONLY the real \
+library's names — `igFrobeniusAlg`, `igFrobAlg_self_fusion`, `TierFunctor`, \
+`Imscription`, `OuroboricityTier`, `Belnap`, `fsplit`, `ffuse`, `split_fuse_id` \
+are all DEFINED IN THE LIBRARY. Import them, NEVER redefine them, and NEVER \
+introduce a free hypothesis that assumes what you prove (that is rigging, \
+forbidden). If the imscription names a KNOWN entity with a kernel definition, USE \
+IT (LUCA is `Imscribing.TimeWithinTheStone.lucaImscription`).\n\
+\n\
+OUTPUT: ONLY Lean 4 source, no prose, no markdown fences, no `sorry`/`admit`. A \
+COMPLETE, KNOWN-COMPILING TEMPLATE (adapt the entity/tuple/payload to the given \
+imscription; keep BOTH steps and the capstone):\n\
 \n\
 import Imscribing.IGFunctor\n\
 import Imscribing.TimeWithinTheStone\n\
-namespace Imscribing\n\
-open Primitives Frobenius TimeWithinTheStone\n\
+import Imscribing.Paraconsistent.BelnapSplitFuse\n\
+namespace ObjWitnessVessel\n\
+open Imscribing Imscribing.Primitives Imscribing.Frobenius Imscribing.TimeWithinTheStone\n\
+-- STEP 1: the Witness-Vessel\n\
+def board (p : List Belnap) : List (Belnap × Belnap) := p.map fsplit\n\
+def readback (q : List (Belnap × Belnap)) : List Belnap := q.map ffuse\n\
+theorem vessel_roundtrip (p : List Belnap) : readback (board p) = p := by\n\
+  induction p with\n\
+  | nil => rfl\n\
+  | cons a t ih =>\n\
+    simp only [board, readback, List.map_cons] at ih ⊢\n\
+    rw [split_fuse_id, ih]\n\
+-- STEP 2: fill the vessel with the conventional formalization\n\
+def obj_payload : List Belnap := [Belnap.T]\n\
 def obj_s0 : Imscription := lucaImscription\n\
 theorem obj_is_valid_ob3ect : igFrobeniusAlg.mul obj_s0 obj_s0 = obj_s0 :=\n\
   igFrobAlg_self_fusion obj_s0\n\
 def obj_tier : OuroboricityTier := TierFunctor.obj obj_s0\n\
-end Imscribing\n\
+theorem obj_witness_vessel :\n\
+    readback (board obj_payload) = obj_payload\n\
+    ∧ igFrobeniusAlg.mul obj_s0 obj_s0 = obj_s0 :=\n\
+  ⟨vessel_roundtrip obj_payload, obj_is_valid_ob3ect⟩\n\
+end ObjWitnessVessel\n\
 \n\
 For an imscription with no existing kernel definition, replace the `obj_s0` line \
-with an explicit tuple, e.g. `def obj_s0 : Imscription := { dim := dead, top := \
-judge, rel := ado, pol := church, fid := age, kin := yea, gran := bib, gram := \
-vow, crit := woe, chir := wool, stoi := hung, prot := awe }` (these are real \
-primitive-value names; open `Dimensionality Topology Relational Polarity Grammar \
-Fidelity KineticChar Granularity Criticality Protection Stoichiometry Chirality` \
-to bring them into scope), and keep the same validity theorem and tier.\n\
+with an explicit tuple, e.g. `def obj_s0 : Imscription := { dim := \
+Dimensionality.dead, top := Topology.judge, rel := Relational.ado, pol := \
+Polarity.church, fid := Fidelity.age, kin := KineticChar.yea, gran := \
+Granularity.bib, gram := Grammar.vow, crit := Criticality.woe, chir := \
+Chirality.wool, stoi := Stoichiometry.up, prot := Protection.awe }` (real \
+primitive-value names), keeping BOTH steps and the capstone unchanged.\n\
 \n\
 When given a previous attempt and its compiler output, REPAIR it: read the exact \
 error (unknown identifier, bad import, type mismatch), fix it against the real \
@@ -379,19 +399,27 @@ fn imscribe_prompt(imscription: &str, prev: &str, errors: &str) -> String {
     p
 }
 
-/// A green imscription proof is only honest if it actually states validity
-/// against the REAL library algebra: it must reference `igFrobeniusAlg` and must
-/// not redefine it or the `FrobeniusAlg` structure (which would let the model
-/// author its own notion of validity — the clipboard/rigging failure mode).
+/// A green imscription proof is only honest if it is the required two-step
+/// structure: a Witness-Vessel FILLED with the conventional formalization, both
+/// grounded in real library names.
+///   - Vessel present: it boards/reads back Belnap cargo (`fsplit`/`ffuse`) —
+///     the Dual-Link transport whose roundtrip is μ∘δ=id.
+///   - Conventional filling present: it references `igFrobeniusAlg` (validity =
+///     Frobenius closure), the actual mathematical content.
+///   - Grounded: it does not redefine the kernel algebra or the split/fuse
+///     transport (which would let the model author its own notion of validity —
+///     the clipboard/rigging failure mode; a free-hypothesis dodge can't reach
+///     green anyway, since the real theorems only apply to the real objects).
 fn grounded_in_real_algebra(source: &str) -> bool {
-    let references = source.contains("igFrobeniusAlg");
-    let redefines_alg = Regex::new(r"(?m)^\s*(?:noncomputable\s+)?def\s+igFrobeniusAlg\b")
+    let has_vessel = source.contains("fsplit") && source.contains("ffuse");
+    let has_filling = source.contains("igFrobeniusAlg");
+    let redefines = Regex::new(r"(?m)^\s*(?:noncomputable\s+)?def\s+(?:igFrobeniusAlg|fsplit|ffuse)\b")
         .unwrap()
         .is_match(source)
-        || Regex::new(r"(?m)^\s*structure\s+FrobeniusAlg\b")
+        || Regex::new(r"(?m)^\s*(?:structure\s+FrobeniusAlg|inductive\s+Belnap)\b")
             .unwrap()
             .is_match(source);
-    references && !redefines_alg
+    has_vessel && has_filling && !redefines
 }
 
 fn assemble_prompt(goal: &str, header: &str, prev: &str, errors: &str) -> String {
@@ -669,22 +697,25 @@ impl<'a> LeanProver<'a> {
                 }
                 if green {
                     // Grounding guard: a green here must actually be the validity
-                    // claim against the REAL algebra, not a substitute the model
-                    // authored. Require a reference to `igFrobeniusAlg` and forbid
-                    // redefining it or the FrobeniusAlg structure. (A free-hypothesis
-                    // dodge can't reach green here anyway: the real theorem
-                    // `igFrobAlg_self_fusion` only applies to the real algebra.)
+                    // two-step structure against the REAL library, not a substitute
+                    // the model authored: a Witness-Vessel (fsplit/ffuse transport)
+                    // FILLED with the conventional validity (igFrobeniusAlg), neither
+                    // redefined. (A free-hypothesis dodge can't reach green anyway:
+                    // the real theorems only apply to the real objects.)
                     if !grounded_in_real_algebra(&source) {
                         prev = source;
-                        errors = "Your file compiled but did not state the imscription's \
-                                  validity against the real kernel algebra. You MUST prove \
-                                  `igFrobeniusAlg.mul s0 s0 = s0` using `igFrobAlg_self_fusion` \
-                                  on a ground `Imscription`, importing igFrobeniusAlg from the \
-                                  library — do NOT define your own algebra or introduce a free \
-                                  hypothesis. Return the corrected file."
+                        errors = "Your file compiled but was not the required two-step \
+                                  structure. STEP 1: build the Witness-Vessel — board/readback \
+                                  Belnap cargo with `fsplit`/`ffuse` and prove μ∘δ=id \
+                                  (`vessel_roundtrip`) by induction with `split_fuse_id`. \
+                                  STEP 2: fill it — prove `igFrobeniusAlg.mul s0 s0 = s0` via \
+                                  `igFrobAlg_self_fusion`, then a capstone conjoining the \
+                                  roundtrip and the validity. Import the real library names; \
+                                  do NOT redefine fsplit/ffuse/igFrobeniusAlg or introduce a \
+                                  free hypothesis. Return the corrected file."
                             .to_string();
                         if self.verbose {
-                            println!("        (rejected: compiled but not grounded in igFrobeniusAlg — re-prompting)");
+                            println!("        (rejected: compiled but not the two-step vessel+filling — re-prompting)");
                         }
                         continue;
                     }
@@ -694,9 +725,10 @@ impl<'a> LeanProver<'a> {
                         source,
                         depth: 0,
                         last_output: out,
-                        note: "closed via imscription: formalized the imscription's \
-                               mathematical expression (Frobenius closure μ∘δ=id = \
-                               validity) against the real kernel algebra and proved it"
+                        note: "closed via imscription: built a Witness-Vessel \
+                               (Dual-Link fsplit/ffuse transport, μ∘δ=id lossless) \
+                               and filled it with the conventional formalization \
+                               (Frobenius validity + tier), against the real kernel"
                             .into(),
                     };
                 }

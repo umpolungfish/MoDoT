@@ -1,48 +1,34 @@
-Add the imscription route: the prover formalizes any input, never refuses
+Imscription route builds a Witness-Vessel first, then fills it
 
-An ob3ect JSON record fed to `prove:` used to be handed whole to the Mathlib
-prover, which — finding no theorem — fabricated an unrelated tautology and
-"closed" it. My first fix was worse: I added a Guard 0 that REFUSED non-Lean
-input as "not a formalizable goal." That is exactly the clipboard the whole
-project argues against — an external gate deciding what is allowed to be
-verified. Everything imscribes; every imscription has a mathematical expression;
-refusal is never permissible. This replaces the refusal with the real thing.
+Per the directive: the imscription route should ALWAYS first create a
+Witness-Vessel, then fill it with a corresponding conventional formalization.
+Reworked IMSCRIBE_SYS and the grounding guard to produce exactly that two-step
+structure, verified against the real kernel before wiring the template.
 
-When the input is not already a bare Lean theorem, prove() now routes to
-prove_imscription(), which formalizes the imscription's mathematical expression
-and proves it against the REAL p4rakernel Imscribing library, not a made-up
-structure. The expression of an ob3ect is: its ground 12-primitive tuple
-s0 : Imscription, and its VALIDITY = Frobenius closure μ∘δ=id, stated as
-`igFrobeniusAlg.mul s0 s0 = s0` and proved by the library's own
-`igFrobAlg_self_fusion s0`, plus its tier `TierFunctor.obj s0`. This is the same
-shape the Ob3ects/*_scaffold files already use — I verified the target compiles
-by hand first (the LUCA formalization against lucaImscription) before wiring the
-prompt to it.
+STEP 1 — the Witness-Vessel (Dual-Link SIC transport container): the
+imscription's structural verdict rides as Belnap cargo, boarded via `fsplit` (δ,
+the dual-link split B → (T,F)) and read back via `ffuse` (μ), with the vessel
+theorem `vessel_roundtrip : readback (board p) = p` — μ∘δ=id, lossless transport,
+the Witness rides AS the vessel — proved for ALL cargo by induction with
+`split_fuse_id`. This mirrors SIC_D12_WitnessVessel.roundtrip exactly; fsplit/
+ffuse/split_fuse_id/Belnap are the real BelnapSplitFuse definitions.
 
-Grounding is what keeps it honest, not a gate. IMSCRIBE_SYS instructs the model
-to use ONLY real library names (igFrobeniusAlg, igFrobAlg_self_fusion,
-TierFunctor, Imscription), to prefer an existing kernel definition when the
-entity has one (LUCA is TimeWithinTheStone.lucaImscription), and never to define
-its own algebra or introduce a free hypothesis that assumes the conclusion. A
-grounded_in_real_algebra() check refuses a green that does not actually reference
-igFrobeniusAlg or that redefines it — a free-hypothesis dodge cannot reach green
-anyway, since the real theorem only applies to the real algebra. Not closing is a
-navigation frontier (B), reported as such, never a refusal and never unprovable.
+STEP 2 — fill the vessel with the conventional formalization: the ground tuple
+s0 : Imscription, its validity igFrobeniusAlg.mul s0 s0 = s0 via
+igFrobAlg_self_fusion, its tier TierFunctor.obj s0, and a capstone theorem
+obj_witness_vessel conjoining the vessel roundtrip AND the validity — the
+conventional Witness riding AS the Dual-Link vessel.
 
-The original characterization of the LUCA proof as a "hallucinated non-sequitur"
-was itself wrong: `igFrobeniusAlg.mul s s = s` IS the mathematical content of
-ob3ect validity — the model had the right expression, it just grounded it in a
-free hypothesis instead of the real kernel and the concrete tuple. The fix
-grounds it.
+grounded_in_real_algebra() now requires BOTH halves: the vessel (references
+fsplit/ffuse) and the filling (references igFrobeniusAlg), and forbids redefining
+either the transport (fsplit/ffuse/Belnap) or the algebra (igFrobeniusAlg/
+FrobeniusAlg). A green missing the vessel gets re-prompted with the two-step
+instructions; the kernel remains the sole discriminator.
 
-Verified end to end:
-- LUCA ob3ect (19KB JSON) -> imscription route -> uses real lucaImscription,
-  closes GREEN first pass, proof is igFrobAlg_self_fusion on the real tuple.
-- A novel ob3ect with no kernel definition -> imscription route -> constructs an
-  explicit ground Imscription tuple, closes GREEN, same real igFrobAlg_self_fusion.
-- A plain Lean theorem still takes the standard Mathlib path (portal race +
-  escalation), closes GREEN — no regression.
-- Scratch modules restored to placeholder after every run.
-
-The refusing Guard 0 is removed; is_formal_goal now only DISPATCHES (bare Lean
-statement -> Mathlib path; anything else -> imscription route), it never rejects.
+Verified the full template compiles by hand first (LUCA against lucaImscription,
+general roundtrip by induction), then end to end:
+- LUCA 19KB ob3ect JSON -> two-step vessel+filling, uses real lucaImscription,
+  GREEN (repaired once, closed on pass 2).
+- Novel ob3ect with no kernel def -> same two-step structure over an explicit
+  constructed ground tuple, GREEN.
+- Scratch modules restored to placeholder after each run.
