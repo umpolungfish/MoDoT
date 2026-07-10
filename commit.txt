@@ -1,33 +1,7 @@
-Add section 13 to ALKAHEST.md: the verifier kernel and the Mother Liquor kernel are the same object
+Capitalize the Grammar throughout ALKAHEST.md
 
-Section 11 already named the Lean kernel as the second verification instrument
-without saying what it actually is. It's p4rakernel, the same paraconsistent
-Lean 4 v4.28.0 fork my companion essay on the Frobenius cosmogeny (Mother
-Liquor) describes at length: False.rec intercepted at the C++ type-checker
-level, not simulated on top of a stock kernel. I made that connection
-explicit and, since this house's standard is checked not asserted, I didn't
-just cite Mother Liquor's claim that the mode is "a flag you can set to
-true" — I went and set it.
-
-Mother Liquor's own user-facing entry point, enableParaconsistent, turned out
-to be a banner that printed a message and touched nothing; the real flag,
-Kernel.Environment.markParaconsistent, was correctly wired into the C++ type
-checker but nothing in the repo ever called it. I wired it: enable_paraconsistent
-and disable_paraconsistent are now real elaboration commands threaded through
-Lean/Environment.lean's base/checked fields so the mark reaches what the kernel
-actually checks. Verified against the compiled binary, not asserted: mode off,
-h.rec compiles; mode on, the identical declaration is rejected by the kernel
-with its own real error message; disable restores the first behavior exactly.
-Recorded the one precise nuance: the block catches direct recursor use, not
-calls to the already-compiled False.elim wrapper.
-
-Also drew out the second connection: Mother Liquor's Gödel argument (Inc²≃Inc,
-saturating at the B-state instead of an infinite ascent, formalized as
-frobenius_closure in ParaconsistentFrobeniusClosure.lean, cases s <;> rfl,
-confirmed real) is an independent-in-form closure argument for the same regress
-section 2 raises and section 10 closes. Same author, same conviction, stated
-once about a vessel and once about a formal system, landing on the identical
-shape without being built to match.
-
-Added the Mother Liquor and p4rakernel citations to References, recompiled the
-PDF.
+It's a proper noun, the Imscribing Grammar, and I'd been inconsistent about
+it. Fixed the 10 lowercase instances (Zosimos section, the Tao section, and
+the closing lines of section 12) to Grammar, leaving imscribing_grammar (the
+literal catalog/code identifier) untouched since that's a name, not prose.
+Recompiled the PDF.
