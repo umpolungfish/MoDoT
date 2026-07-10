@@ -275,6 +275,90 @@ pub fn click_pair_catalyzed(
     (click_pair(a, b, theta_eff), theta_eff)
 }
 
+// ── DASA switch: the reversible bistable toggle ──────────────────────────────
+// A switch is not a click. A click fuses two different fragments at one reaction
+// center. A switch is ONE object in two co-typed forms, toggling on a live pair,
+// driven by a DIFFERENT stimulus each direction (light δ forward, heat μ reverse) —
+// the donor-acceptor Stenhouse adduct archetype: open↔closed, negative photochromism
+// (light HIDES: quenches criticality; heat REVEALS: restores it). ⊙ = Criticality, idx 8.
+const CRIT: usize = 8;
+
+/// CLI entry: `./ask --switch <A> <B>` — analyze two co-typed forms as a reversible
+/// bistable switch. Reports the toggling live pair (coupled — both members move),
+/// the photochromic sign (which form is revealed/colored vs hidden/colorless by
+/// criticality), the asymmetric δ (light) / μ (heat) legs, and the coupled
+/// consequences. The DASA (donor-acceptor Stenhouse adduct) is the archetype.
+pub fn run_switch(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: &str) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("switch: no catalog loaded");
+        return 2;
+    };
+    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let (ea, eb) = match (find(name_a), find(name_b)) {
+        (Some(a), Some(b)) => (a, b),
+        (None, _) => { eprintln!("switch: catalog entry not found: {name_a}"); return 2; }
+        (_, None) => { eprintln!("switch: catalog entry not found: {name_b}"); return 2; }
+    };
+    let ta = Tuple::from_entry(ea);
+    let tb = Tuple::from_entry(eb);
+
+    // primitives that differ between the two forms = the switch coordinates
+    let diffs: Vec<usize> = (0..12).filter(|&p| ta.ord[p] != tb.ord[p]).collect();
+    println!("switch:  {name_a}  ⇌  {name_b}");
+    if diffs.is_empty() {
+        println!("  the two forms are identical — no switch (not a bistable pair).");
+        return 0;
+    }
+
+    // toggling live pair(s): a live pair whose BOTH members move = a coupled switch
+    let coupled: Vec<usize> = LIVE_PAIRS
+        .iter()
+        .enumerate()
+        .filter(|(_, &(x, y))| diffs.contains(&x) && diffs.contains(&y))
+        .map(|(i, _)| i)
+        .collect();
+    match coupled.as_slice() {
+        [i] => {
+            let (x, y) = LIVE_PAIRS[*i];
+            let g = |t: &Tuple, p: usize| t.ord[p].map(|o| glyph_of(p, o)).unwrap_or("?");
+            println!(
+                "  toggling live pair: {} (coupled — both members move: {} {}→{}, {} {}→{})",
+                LIVE_LABELS[*i], PRIMS[x], g(&ta, x), g(&tb, x), PRIMS[y], g(&ta, y), g(&tb, y)
+            );
+        }
+        [] => println!("  no coupled live-pair toggle — the forms differ but not as a clean live-pair switch."),
+        many => {
+            let names: Vec<&str> = many.iter().map(|&i| LIVE_LABELS[i]).collect();
+            println!("  multiple coupled live pairs move ({}) — a compound switch, not a single-axis toggle.", names.join(", "));
+        }
+    }
+
+    // photochromic sign — criticality (⊙) orders the two forms: higher = revealed
+    // (colored/exoteric/critical), lower = hidden (colorless/esoteric/subcritical).
+    match (ta.ord[CRIT], tb.ord[CRIT]) {
+        (Some(ca), Some(cb)) if ca != cb => {
+            let (revealed, hidden) = if ca > cb { (name_a, name_b) } else { (name_b, name_a) };
+            println!("  criticality (⊙): {revealed} is REVEALED (higher-⊙, colored/exoteric); {hidden} is HIDDEN (subcritical, colorless/esoteric)");
+            println!("  δ (light):  {revealed} → {hidden}  — quenches criticality (negative photochromism: light hides)");
+            println!("  μ (heat):   {hidden} → {revealed}  — restores criticality (relaxation reveals)");
+        }
+        _ => println!("  criticality (⊙) is equal — no photochromic sign; a criticality-neutral switch."),
+    }
+
+    // coupled consequences: other moving primitives (e.g. ring winding on closure)
+    let in_pair: Vec<usize> = coupled.iter().flat_map(|&i| [LIVE_PAIRS[i].0, LIVE_PAIRS[i].1]).collect();
+    let consequences: Vec<&str> = diffs
+        .iter()
+        .filter(|&&p| p != CRIT && !in_pair.contains(&p))
+        .map(|&p| PRIMS[p])
+        .collect();
+    if !consequences.is_empty() {
+        println!("  coupled consequences (move with the toggle): [{}]", consequences.join(", "));
+    }
+    println!("  reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.");
+    0
+}
+
 // ── Kernel closure certificate ───────────────────────────────────────────────
 // Glyph→Lean-constructor per primitive, ordinal-indexed (matching GLYPHS above).
 // Canonical source: imscribing_grammar/scripts/gen_clay_canonical_tuples.py.

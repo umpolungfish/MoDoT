@@ -172,6 +172,20 @@ sameness — an azide and an alkyne are different molecules.
 ./ask --click A B --certify
 ```
 
+**Switch** (`--switch A B`) — a different verb. A click *fuses* two partners; a
+switch *toggles* one object between two co-typed forms, driven by a different
+stimulus each direction. The archetype is the **donor-acceptor Stenhouse adduct**
+(DASA): open⇌closed, a coupled **T↔H** toggle (topology + chirality move together
+as the ring forms), with **negative photochromism** — light (δ) *quenches*
+criticality (hides: colored→colorless), heat (μ) restores it (reveals). The
+analyzer reads the toggling live pair, the photochromic sign (which form is
+revealed vs hidden by ⊙), the δ/μ legs, and the coupled consequences.
+
+```bash
+./ask --switch dasa_open dasa_closed          # the DASA: T↔H toggle, light hides
+./ask --switch the_sun_astrological the_moon_astrological   # Sol/Luna — the same switch
+```
+
 Any two catalog names work (`math_*`, `dasa_*`, `setheus_paradox`, `paradice`,
 `monogenes`, `yhwh`, `the_sun_astrological`, …). The engine is domain-agnostic:
 handed the Sun and the Moon, it returns the coniunctio at O_∞; handed the paradice,

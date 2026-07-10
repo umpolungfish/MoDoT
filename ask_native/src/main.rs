@@ -128,6 +128,12 @@ struct Cli {
     #[arg(long = "certify")]
     certify: bool,
 
+    /// Switch: analyze two co-typed forms as a reversible bistable toggle (the DASA
+    /// archetype) — the toggling live pair, the photochromic sign, δ (light) / μ
+    /// (heat) legs. `./ask --switch A B`
+    #[arg(long = "switch", num_args = 2, value_names = ["A", "B"])]
+    switch: Option<Vec<String>>,
+
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
@@ -1476,6 +1482,7 @@ impl CliClone for Cli {
             theta: self.theta,
             top: self.top,
             certify: self.certify,
+            switch: self.switch.clone(),
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -1510,6 +1517,13 @@ fn main() {
     let cat_ref = catalog.as_deref();
 
     // Click-maths mode: `./ask --click A B` — fuse two fragments over the live pairs.
+    if let Some(names) = &cli.switch {
+        if names.len() == 2 {
+            let code = click::run_switch(cat_ref, &names[0], &names[1]);
+            process::exit(code);
+        }
+    }
+
     if let Some(names) = &cli.click {
         let code = match names.len() {
             2 => click::run_click(
