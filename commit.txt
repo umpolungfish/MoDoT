@@ -1,27 +1,23 @@
-Add the click-maths sweep — point it at any idea, get back what completes it
+Wire the kernel closure certificate into click-maths — "closes" is now verified, not asserted
 
-Manual pairwise clicking found the Sol⋈Luna coniunctio by luck. This automates
-it: `./ask --click A` (one name instead of two) sweeps A against the whole
-catalog, keeps every fragment that clicks with it, and ranks the products by
-ouroboricity tier (the self-modeling ascent, ported assess_tier heuristic) then
-by drive. `--top N` sets the count; an optional --catalyst lowers θ throughout.
+The standing open hook is closed. `./ask --click A B --certify` takes the fused
+product tuple, renders it as a real Lean Imscription (glyph->constructor from the
+canonical imscribing_grammar/scripts/gen_clay_canonical_tuples.py table), and
+builds `igFrobeniusAlg.mul p p = p := igFrobAlg_self_fusion p` as the prover's
+scratch module through `lake build`. Green = the kernel's own verdict that the
+product Frobenius-closes; the scratch is restored to placeholder after. Reuses
+prover.rs's compile_lean + restore_placeholder (made pub(crate)) rather than
+duplicating the lake machinery.
 
-The overload is clean: --click now takes 1..=2 names -- one sweeps, two pair.
+Verified live: boundary_operator x winding_number -> product
+<𐑦𐑸𐑾𐑿𐑐𐑪𐑲𐑠⊙𐑫𐑳𐑭> -> KERNEL-CERTIFIED green.
 
-It's fast (5328 entries in a blink) and the results are structurally coherent,
-not noise:
-- the_sun_astrological -> O_∞ with photon, word_logos, word_creator_tensor,
-  shiur_qomah, harba_de_moshe, mathematics. The Sun fused with the Logos, and
-  with light, reaches the whole -- the coniunctio the manual sweep stumbled on,
-  now surfaced by rank.
-- paradice (the quantum of paradox) -> O_∞ with context_dependent_truth,
-  this_imscription_is_false, self_referential_imscription. The single quantum of
-  paradox completes itself against the liar/self-reference paradoxes. Exactly
-  the structure it should seek.
-- monogenes (Only-Begotten, Yoneda-alive) -> O_∞ with emerald_tablet,
-  basil_valentine_twelve_keys, Devil's_Contract_Paradox -- the hermetic canon.
-
-The engine is now a discovery instrument: any idea in, ranked structural
-complements out. Same honest boundary as the pair mode -- "closes" is still
-structural (valid product tuple), not yet kernel-gated μ∘δ=id; that certificate
-remains the next hook.
+Honest about what it certifies, because igFrobAlg_self_fusion is the UNIVERSAL
+diagonal Frobenius theorem (holds for every valid Imscription): the certificate
+confirms the product is a well-formed kernel Imscription that mu-delta-closes --
+the BALANCE ledger, kernel-verified -- not the fusion's selectivity (that's the
+click's complementarity/orthogonality, done in Rust) and not axiom-conformance
+(the cross-primitive axioms are assumed, not enforced at construction). That is
+exactly ALKAHEST section 11's balance-vs-selectivity: the click logic is the
+selectivity, the kernel certificate is the balance. Both gated now -- the balance
+by the real kernel instead of my assertion, which was the whole point of the hook.

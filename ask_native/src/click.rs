@@ -275,15 +275,77 @@ pub fn click_pair_catalyzed(
     (click_pair(a, b, theta_eff), theta_eff)
 }
 
-/// CLI entry: `./ask --click <A> <B> [--catalyst <C>]`. Prints the live-pair charge
-/// diagnostic and the click verdict for two catalog fragments, optionally lowering
-/// the threshold with a catalyst. Returns a process exit code.
+// ── Kernel closure certificate ───────────────────────────────────────────────
+// Glyph→Lean-constructor per primitive, ordinal-indexed (matching GLYPHS above).
+// Canonical source: imscribing_grammar/scripts/gen_clay_canonical_tuples.py.
+const CTORS: [&[&str]; 12] = [
+    /* Ð */ &["dead", "ash", "array", "if'"],
+    /* Þ */ &["judge", "eat", "mime", "oil", "are"],
+    /* Ř */ &["ado", "tot", "ear", "ian"],
+    /* Φ */ &["church", "yew", "out", "nun", "or'"],
+    /* ƒ */ &["age", "they", "peep"],
+    /* Ç */ &["yea", "loll", "egg", "air", "on"],
+    /* Γ */ &["bib", "thigh", "ice"],
+    /* ɢ */ &["vow", "gag", "measure", "ooze"],
+    /* ⊙ */ &["woe", "monad", "roar", "err", "haha"],
+    /* Ħ */ &["fee", "kick", "sure", "wool"],
+    /* Σ */ &["up", "hung", "so"],
+    /* Ω */ &["awe", "oak", "ah", "zoo"],
+];
+const TYPES: [&str; 12] = [
+    "Dimensionality", "Topology", "Relational", "Polarity", "Fidelity", "KineticChar",
+    "Granularity", "Grammar", "Criticality", "Chirality", "Stoichiometry", "Protection",
+];
+const FIELDS: [&str; 12] = [
+    "dim", "top", "rel", "pol", "fid", "kin", "gran", "gram", "crit", "chir", "stoi", "prot",
+];
+
+/// Render a product tuple as a Lean `Imscription` literal `{ dim := Dimensionality.x, … }`.
+fn render_imscription(product: &[Option<u8>; 12]) -> Option<String> {
+    let mut parts = Vec::with_capacity(12);
+    for i in 0..12 {
+        let o = product[i]? as usize;
+        let ctor = CTORS[i].get(o)?;
+        parts.push(format!("{} := {}.{}", FIELDS[i], TYPES[i], ctor));
+    }
+    Some(format!("{{ {} }}", parts.join(", ")))
+}
+
+/// Certify a click product through the Lean kernel: construct it as a real
+/// `Imscription` and prove its Frobenius closure `igFrobeniusAlg.mul p p = p` via
+/// `igFrobAlg_self_fusion`, built as the prover's scratch module through `lake
+/// build`. Green ⟺ the kernel accepts the product as a valid Imscription that
+/// μ∘δ-closes — the "closes" claim verified, not asserted. Restores the scratch after.
+pub fn certify_click(product: &[Option<u8>; 12]) -> (bool, String) {
+    let Some(lit) = render_imscription(product) else {
+        return (false, "cannot render product (missing/unknown primitive)".into());
+    };
+    let source = format!(
+        "import Imscribing.IGFunctor\n\
+         namespace ClickCertify\n\
+         open Imscribing Imscribing.Primitives Imscribing.Frobenius\n\
+         def clickProduct : Imscription := {lit}\n\
+         theorem clickProduct_closes :\n\
+         \x20   igFrobeniusAlg.mul clickProduct clickProduct = clickProduct :=\n\
+         \x20 igFrobAlg_self_fusion clickProduct\n\
+         end ClickCertify\n"
+    );
+    let (green, out) = crate::prover::compile_lean(&source, "A");
+    crate::prover::restore_placeholder("A");
+    (green, out)
+}
+
+/// CLI entry: `./ask --click <A> <B> [--catalyst <C>] [--certify]`. Prints the
+/// live-pair charge diagnostic and the click verdict for two catalog fragments,
+/// optionally lowering the threshold with a catalyst and/or kernel-certifying the
+/// product's Frobenius closure. Returns a process exit code.
 pub fn run_click(
     catalog: Option<&[CatalogEntry]>,
     name_a: &str,
     name_b: &str,
     theta: f32,
     catalyst_name: Option<&str>,
+    certify: bool,
 ) -> i32 {
     let Some(cat) = catalog else {
         eprintln!("click: no catalog loaded");
@@ -377,6 +439,16 @@ pub fn run_click(
                     "  inherited scaffold (blended from both partners): [{}]",
                     names.join(", ")
                 );
+            }
+            if certify {
+                println!("  certifying closure through the Lean kernel (lake build)…");
+                let (green, out) = certify_click(&p.product);
+                if green {
+                    println!("  ✓ KERNEL-CERTIFIED: igFrobeniusAlg.mul p p = p closes (μ∘δ=id, real verdict).");
+                } else {
+                    let tail: String = out.lines().rev().take(4).collect::<Vec<_>>().into_iter().rev().collect::<Vec<_>>().join("\n    ");
+                    println!("  ✗ kernel rejected the product:\n    {tail}");
+                }
             }
         }
         Err(ClickFail::NoComplementarity) => {

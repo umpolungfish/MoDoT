@@ -290,7 +290,7 @@ fn disable_style_linters(source: &str) -> String {
 /// slots exist so a racing pair of attempts (see `race_portal`) can each run
 /// their own `lake build` concurrently without touching the same file.
 /// Green iff exit 0, no error, no sorry.
-fn compile_lean(source: &str, slot: &str) -> (bool, String) {
+pub(crate) fn compile_lean(source: &str, slot: &str) -> (bool, String) {
     let scratch = scratch_file(slot);
     if let Some(parent) = scratch.parent() {
         let _ = fs::create_dir_all(parent);
@@ -322,7 +322,7 @@ fn compile_lean(source: &str, slot: &str) -> (bool, String) {
     }
 }
 
-fn restore_placeholder(slot: &str) {
+pub(crate) fn restore_placeholder(slot: &str) {
     let scratch = scratch_file(slot);
     if let Some(parent) = scratch.parent() {
         let _ = fs::create_dir_all(parent);

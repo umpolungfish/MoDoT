@@ -122,6 +122,12 @@ struct Cli {
     #[arg(long = "top", default_value_t = 15)]
     top: usize,
 
+    /// For --click A B: certify the fused product's Frobenius closure through the
+    /// Lean kernel (lake build igFrobeniusAlg.mul p p = p). Turns "closes" from an
+    /// asserted valid tuple into a real kernel verdict.
+    #[arg(long = "certify")]
+    certify: bool,
+
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
@@ -1469,6 +1475,7 @@ impl CliClone for Cli {
             click: self.click.clone(),
             theta: self.theta,
             top: self.top,
+            certify: self.certify,
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -1511,6 +1518,7 @@ fn main() {
                 &names[1],
                 cli.theta,
                 cli.catalyst.as_deref(),
+                cli.certify,
             ),
             1 => click::run_click_sweep(
                 cat_ref,
