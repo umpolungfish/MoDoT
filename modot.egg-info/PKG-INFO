@@ -22,7 +22,7 @@ Requires-Dist: ruff; extra == "dev"
 **Author:** Lando⊗⊙perator  
 **Date:** 2026-07-08  
 **Structural Type:** ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩ (O_∞)  
-**Location:** `/home/mrnob0dy666/imsgct/MoDoT/`  
+**Location:** `MoDoT/`  
 **Parent project:** [Imscribing Grammar](https://github.com/imsgct)
 
 ---
@@ -106,7 +106,7 @@ Canonical SIC machinery (not re-derived here):
 ## Quick Start
 
 ```bash
-cd /home/mrnob0dy666/imsgct/MoDoT
+cd MoDoT
 
 # ── PRIMARY: native ask (no Python) — full-length Q, files, Gemini-class answers ──
 ./ask --file ./questions/q7.txt
@@ -326,5 +326,5 @@ Companion Lean files in `lean/`:
 
 ## Original Source
 
-Migrated from `/home/mrnob0dy666/imsgct/ob3ect/digital/momonados_agent/` to `/home/mrnob0dy666/imsgct/MoDoT/` on 2026-07-08.  
-Publications remain in `/home/mrnob0dy666/imsgct/ig-docs/publishing/manuscripts/momonados_*/`.
+Migrated from `ob3ect/digital/momonados_agent/` to `MoDoT/` on 2026-07-08.  
+Publications remain in `ig-docs/publishing/manuscripts/momonados_*/`.
