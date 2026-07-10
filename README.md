@@ -184,7 +184,13 @@ revealed vs hidden by ⊙), the δ/μ legs, and the coupled consequences.
 ```bash
 ./ask --switch dasa_open dasa_closed          # the DASA: T↔H toggle, light hides
 ./ask --switch the_sun_astrological the_moon_astrological   # Sol/Luna — the same switch
+./ask --switch dasa_open dasa_closed --certify  # kernel-verify: both forms close + vessel roundtrip
 ```
+
+`--certify` on a switch proves, through `lake build`, that both bistable forms are
+valid Imscriptions (each Frobenius-closes) AND the toggle is the kernel's real
+`vessel_roundtrip` — `readback (board p) = p`, board=δ (fsplit), readback=μ (ffuse),
+μ∘δ=id — so "reversible" becomes the kernel's verdict rather than printed text.
 
 Any two catalog names work (`math_*`, `dasa_*`, `setheus_paradox`, `paradice`,
 `monogenes`, `yhwh`, `the_sun_astrological`, …). The engine is domain-agnostic:

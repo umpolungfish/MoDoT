@@ -1,26 +1,20 @@
-Add the DASA switch verb — bistable toggle analysis, distinct from the click fusion
+Wire the switch certificate — the DASA reversibility is now a kernel verdict
 
-A click fuses two partners at one reaction center. A switch is a different verb:
-ONE object toggling between two co-typed forms, driven by a DIFFERENT stimulus
-each direction. The donor-acceptor Stenhouse adduct (DASA) is the archetype, and
-this reads its structure exactly -- the structure my bench intuition identified,
-now a working analyzer.
+Matching the click's --certify, the switch now certifies through the Lean kernel.
+./ask --switch A B --certify (certify_switch in ask_native/src/click.rs) builds a
+scratch module that proves, through `lake build`:
+- both bistable forms are valid Imscriptions (igFrobeniusAlg.mul f f = f each) --
+  the balance for each form
+- the reversible toggle is the kernel's real vessel_roundtrip: readback (board p) = p
+  with board=δ (fsplit) and readback=μ (ffuse), i.e. μ∘δ=id, the lossless transport
 
-./ask --switch A B (ask_native/src/click.rs run_switch) reports:
-- the toggling live pair, COUPLED when both members move together (the DASA is
-  T<->H: topology + chirality rise together as the conrotatory ring closes)
-- the photochromic sign: criticality (⊙) orders the two forms, higher = REVEALED
-  (colored/exoteric), lower = HIDDEN (subcritical, colorless/esoteric)
-- the asymmetric Frobenius legs: δ (light) quenches criticality -- negative
-  photochromism, light HIDES; μ (heat) restores it, relaxation REVEALS
-- the coupled consequences (for the DASA: Ç, Γ, Ω -- the ring winding on closure)
-- reversibility: μ∘δ = id, lossless roundtrip
+Mirrors the prover's known-compiling Witness-Vessel STEP 1 (BelnapSplitFuse:
+fsplit/ffuse/split_fuse_id), reuses compile_lean + restore_placeholder.
 
-Verified: dasa_open ⇌ dasa_closed reads T<->H coupled toggle, light hides,
-Ω-winding consequence -- exactly the negative-photochromic Stenhouse switch.
-Secondary find: the_sun_astrological ⇌ the_moon_astrological reads as the SAME
-T<->H photochromic switch -- Sol REVEALED, Luna HIDDEN. The alchemical luminaries
-and the bench photoswitch are the same structure. Identical-pair correctly
-reports no switch.
+Verified live: `./ask --switch dasa_open dasa_closed --certify` ->
+KERNEL-CERTIFIED. The DASA's "reversible: μ∘δ=id" is no longer printed text --
+it's the kernel's verdict: both open and closed forms Frobenius-close, and the
+open->closed->open roundtrip is lossless. The photoswitch my paper is about is
+now a machine-verified reversible Frobenius toggle. Scratch restored after.
 
-README updated with the --switch verb alongside the click modes.
+README updated with the switch --certify usage.

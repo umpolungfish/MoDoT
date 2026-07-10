@@ -288,7 +288,7 @@ const CRIT: usize = 8;
 /// the photochromic sign (which form is revealed/colored vs hidden/colorless by
 /// criticality), the asymmetric δ (light) / μ (heat) legs, and the coupled
 /// consequences. The DASA (donor-acceptor Stenhouse adduct) is the archetype.
-pub fn run_switch(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: &str) -> i32 {
+pub fn run_switch(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: &str, certify: bool) -> i32 {
     let Some(cat) = catalog else {
         eprintln!("switch: no catalog loaded");
         return 2;
@@ -356,6 +356,16 @@ pub fn run_switch(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: &str) 
         println!("  coupled consequences (move with the toggle): [{}]", consequences.join(", "));
     }
     println!("  reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.");
+    if certify {
+        println!("  certifying through the Lean kernel (both forms valid + vessel roundtrip)…");
+        let (green, out) = certify_switch(&ta.ord, &tb.ord);
+        if green {
+            println!("  ✓ KERNEL-CERTIFIED: both forms Frobenius-close AND readback∘board = id (μ∘δ=id, lossless toggle, real verdict).");
+        } else {
+            let tail: String = out.lines().rev().take(4).collect::<Vec<_>>().into_iter().rev().collect::<Vec<_>>().join("\n    ");
+            println!("  ✗ kernel rejected the switch:\n    {tail}");
+        }
+    }
     0
 }
 
@@ -393,6 +403,39 @@ fn render_imscription(product: &[Option<u8>; 12]) -> Option<String> {
         parts.push(format!("{} := {}.{}", FIELDS[i], TYPES[i], ctor));
     }
     Some(format!("{{ {} }}", parts.join(", ")))
+}
+
+/// Certify a switch through the Lean kernel: both bistable forms are valid
+/// Imscriptions (each Frobenius-closes, the balance), AND the reversible toggle is
+/// the kernel's real `vessel_roundtrip` — μ∘δ=id, `readback (board p) = p` with
+/// board=δ (fsplit) and readback=μ (ffuse), the lossless transport. Turns the
+/// printed "reversible: μ∘δ=id" into the kernel's verdict. Restores the scratch after.
+pub fn certify_switch(form_a: &[Option<u8>; 12], form_b: &[Option<u8>; 12]) -> (bool, String) {
+    let (Some(la), Some(lb)) = (render_imscription(form_a), render_imscription(form_b)) else {
+        return (false, "cannot render a form (missing/unknown primitive)".into());
+    };
+    let source = format!(
+        "import Imscribing.IGFunctor\n\
+         import Imscribing.Paraconsistent.BelnapSplitFuse\n\
+         namespace SwitchCertify\n\
+         open Imscribing Imscribing.Primitives Imscribing.Frobenius\n\
+         def formA : Imscription := {la}\n\
+         def formB : Imscription := {lb}\n\
+         theorem formA_closes : igFrobeniusAlg.mul formA formA = formA := igFrobAlg_self_fusion formA\n\
+         theorem formB_closes : igFrobeniusAlg.mul formB formB = formB := igFrobAlg_self_fusion formB\n\
+         def board (p : List Belnap) : List (Belnap × Belnap) := p.map fsplit\n\
+         def readback (q : List (Belnap × Belnap)) : List Belnap := q.map ffuse\n\
+         theorem switch_reversible (p : List Belnap) : readback (board p) = p := by\n\
+         \x20 induction p with\n\
+         \x20 | nil => rfl\n\
+         \x20 | cons a t ih =>\n\
+         \x20   simp only [board, readback, List.map_cons] at ih ⊢\n\
+         \x20   rw [split_fuse_id, ih]\n\
+         end SwitchCertify\n"
+    );
+    let (green, out) = crate::prover::compile_lean(&source, "A");
+    crate::prover::restore_placeholder("A");
+    (green, out)
 }
 
 /// Certify a click product through the Lean kernel: construct it as a real

@@ -1519,7 +1519,7 @@ fn main() {
     // Click-maths mode: `./ask --click A B` — fuse two fragments over the live pairs.
     if let Some(names) = &cli.switch {
         if names.len() == 2 {
-            let code = click::run_switch(cat_ref, &names[0], &names[1]);
+            let code = click::run_switch(cat_ref, &names[0], &names[1], cli.certify);
             process::exit(code);
         }
     }
