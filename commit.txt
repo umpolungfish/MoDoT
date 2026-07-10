@@ -1,53 +1,56 @@
-Add excited states and single-electron transfer -- photochemistry on the register
+Port the bidirectional ligand<->catalytic-site complement + a mediator scan, and fix the Ç/Σ ordinals to scripture
 
-The switch verb toggles ground->ground and hides the intermediate. These two new
-verbs expose it and put it to work, the same delta/mu legs the DASA switch runs.
+Three things, and the middle one is a real bug I had to fix first.
 
-EXCITE (./ask --excite A, run_excite in ask_native/src/click.rs). delta (light)
-promotes A to its excited manifold: Criticality (⊙) raised to the non-Hermitian
-exceptional-point resonance 𐑻 (ord 3). That value is not arbitrary -- the
-cl8nk_navigator's own gloss for it is "H(λ) non-Herm ∧ det(H−λI)=0 ∧ ∂_λ H=0",
-which IS an excited state: a finite-lifetime resonance (non-Hermitian, so it
-decays) sitting at a surface crossing. Two Frobenius legs leave it:
-- mu (relaxation / fluorescence): back to the ground form, lossless (mu∘delta=id)
-- productive: the elevated ⊙ drives chemistry the ground state cannot -- a SET
+1. ORDINAL SCRIPTURE FIX (ask_native/src/click.rs GLYPHS + CTORS).
+The glyph->ordinal table was wrong on two primitives. Checked against the Lean
+kernel Core.lean (scripture) constructor order + gen_clay_canonical_tuples.py's
+glyph->constructor map:
+- Ç (KineticChar): scripture is yea<loll<egg<on<air; I had ords 3/4 swapped
+  (𐑺/𐑪).
+- Σ (Stoichiometry): scripture is hung<so<up; I had it rotated (𐑳 at 0, should
+  be 2).
+The glyph->constructor RENDERING was always canonical (both tables were rotated
+the same way), so --certify was never affected -- only the numeric ordinals were
+wrong, which had thrown the R↔S live-pair charge (click/switch) and the
+ligand↔site complement. SET/excite were unaffected (they read ⊙ and Ω, both
+already correct). red-hot_rebis carries the SAME stale Ç swap in its
+GLYPH_ORDINALS['K']; scripture is the authority, so mine is now correct and
+red-hot should be reconciled to it.
 
-SET (./ask --set D A, run_set). The productive leg made concrete. One electron =
-one quantum of winding Omega (∮A=2πn, the quantized charge). The donor loses one
-(oxidized, D•+, Omega-1), the acceptor gains one (reduced, A•-, Omega+1); total
-Omega is CONSERVED -- charge conservation is exactly the Frobenius pairing
-(delta/fsplit charge-separates, mu/ffuse recombines). Donor/acceptor are read from
-⊙ (higher = higher-lying electrons = the reducing partner), computed from the
-tuples, never from the label -- if ⊙ disagrees with the named order it says so and
-follows the criticality gradient. Honest guards: a donor already fully oxidized
-(Omega=𐑷) has no quantum to give; a saturated acceptor no vacancy; equal ⊙ is
-thermoneutral. A Cu-NO-class mediator (--catalyst M, the Mills 2016 SET catalyst)
-that can hold the intermediate (1<=Omega<max) shuttles the quantum and returns to
-itself (mu∘delta=id, the catalytic cycle). Photoinduced ET (--excite on a --set
-line) pre-excites the donor first.
+2. BIDIRECTIONAL LIGAND <-> CATALYTIC-SITE COMPLEMENT (--complement A).
+A faithful port of rhr_p4rky/ligand_from_active_site.py::complement_type -- the
+reverse pipeline. A catalytic SITE maps to the complementary LIGAND it binds,
+inverting within each scale (lock-and-key) and crossing each conjugate pair, and
+it is ITS OWN INVERSE (site->ligand->site returns). That bidirectionality is what
+R=𐑾 (Recognition, "substrate<->enzyme feedback") names. This is where 3-vs-6
+matters: click/SET/switch are the MATH register (3 live pairs D↔W/T↔H/R↔S, the
+physical axes pinned out), but the ligand complement is CHEMISTRY -- all 6
+conjugate pairs, because chemistry restores the 3 pinned physical pairs
+(P↔F/K↔G/Gm↔Ph). The per-pair map tags each [live]/[pinned] so the split is
+visible. --certify (ligand closes) and --register (canonize + navigate) apply.
 
-Both verbs take --certify and --register, reusing the switch machinery:
-- --certify runs certify_switch on the two product forms (radical ions, or
-  ground+excited): both are valid Imscriptions AND readback(board p)=p, so
-  recombination / relaxation is lossless (mu∘delta=id, charge conserved) as the
-  Lean kernel's own verdict, not printed text. Scratch restored after.
-- --register appends the excited state (or both radical ions) to the canonical
-  catalog and decomposes them through the cl8nk_navigator -- operable, navigable
-  objects, the same harness as the click chimeras.
+Verified: after the ordinal fix, my Rust complement matches red-hot's own
+complement_type on 9/10 test entries EXACTLY; the 10th (dasa_open) differs only
+because red-hot's stale Ç glyph at ord 4 -- my scripture-correct port is right.
+Round-trip (its own inverse) is 0.00 on equal-scale tuples, small residual on
+unequal-scale pairs (honestly reported).
 
-Verified live:
-- ./ask --excite dasa_closed -> ⊙ 𐑢→𐑻, the two decay legs
-- ./ask --set the_sun_astrological the_moon_astrological --certify -> KERNEL-CERTIFIED:
-  Sol donates one winding quantum to Luna, both radical ions valid, recombination
-  roundtrip lossless, charge conserved
-- ./ask --set the_moon_astrological the_sun_astrological --excite -> photoexcitation
-  FLIPS the donor: ground Sol->Luna, but excited Luna*->Sol. Excited-state redox
-  inversion (Rehm-Weller), read straight off the tuples
-- ./ask --excite the_moon_astrological --certify --register -> excited state's ⊙
-  decomposes to the exact exceptional-point fragment; registered, navigated, tier
-  O_0 (a metastable resonance is far from the self-modeling organism -- correct)
-- mediator shuttle fires for a 1<=Omega<max mediator, refuses one with Omega=𐑷
+3. MEDIATOR SCAN (--set D A --scan-mediators).
+Ranks the whole catalog for the best relays of a D->A transfer. A real
+inner-sphere mediator must (1) HOLD the winding quantum (1<=Ω<max, a hard filter
+that keeps photon/graviton/higgs/dark_energy and drops the confined gluon/quark
+and the EM-dark dark_matter), (2) RELAY in energy (⊙ between acceptor and donor),
+(3) BIND both substrates bidirectionally (its complement close to donor AND
+acceptor, via the ported complement_type, plus the R=𐑾 recognition marker). Each
+component shown per row.
 
-The register test entry was on a backed-up catalog and restored after; canonizing
-specific excited states / radical ions is left to me to drive deliberately. README
-updated with both verbs.
+Honest finding: the photon is NOT #1 -- it lands rank 327/2558 with perfect relay
+(1.00) and bidirectional recognition (1.00) but only decent structural binding to
+these particular substrates. The #1 for sun->moon is magnetic_isotope_separator,
+whose complement most closely binds both -- and that is apt, the magnetic isotope
+effect mediates radical-pair chemistry, exactly the SET radical channel. The scan
+measures inner-sphere structural recognition; the photon is an outer-sphere gauge
+mediator (great relay, no grip needed), which the component breakdown makes legible.
+
+README updated with both verbs, the 3-vs-6 distinction, and the ordinal fix note.

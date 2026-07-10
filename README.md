@@ -248,6 +248,45 @@ lossless, charge conserved, as the kernel's own verdict. `--register` appends th
 excited state (or both radical ions) to the catalog and decomposes them through the
 cl8nk_navigator, so they become operable, navigable objects.
 
+**Bidirectional ligand ⇌ catalytic-site** (`--complement A`) — a faithful port of
+red-hot_rebis's `rhr_p4rky/ligand_from_active_site.py::complement_type`, the reverse
+pipeline. A catalytic **site** type maps to the complementary **ligand** it binds,
+inverting within each scale (lock-and-key: pocket ↔ bump) and crossing each conjugate
+pair, and it **is its own inverse** — site→ligand→site returns. That bidirectionality
+is what the enzyme's **R=𐑾** (Recognition, "substrate ↔ enzyme feedback") names. This
+is the point where **3-vs-6 matters**: click / SET / switch run the **math register**
+(the 3 *live* pairs D↔W, T↔H, R↔S — math pins the physical axes out), but the ligand
+complement is **chemistry** and runs all **6** conjugate pairs (chemistry *restores*
+the 3 pinned physical pairs P↔F, K↔G, Gm↔Ph). The output tags each pair `[live]` /
+`[pinned]` so the split is visible.
+
+```bash
+./ask --complement the_moon_astrological            # the ligand the site binds + per-pair map + round-trip
+./ask --complement yhwh --certify --register        # certify the ligand closes, register + navigate it
+```
+
+**Mediator scan** (`--set D A --scan-mediators`) — rank the whole catalog for the
+best relays of a D→A transfer. A real inner-sphere mediator must (1) **hold** the
+winding quantum (1≤Ω<max — accept then re-donate; a hard filter that keeps photon,
+graviton, higgs, dark_energy and drops the confined gluon/quark and the EM-dark
+dark_matter), (2) **relay** in energy (⊙ between acceptor and donor), and (3) **bind**
+both substrates bidirectionally (its ligand complement close to donor *and* acceptor,
+via the ported `complement_type`, plus the R=𐑾 recognition marker). The three
+components are shown per row, so an outer-sphere gauge mediator (photon: perfect
+relay, no binding needed) reads differently from an inner-sphere one that grips both.
+
+```bash
+./ask --set the_sun_astrological the_moon_astrological --scan-mediators --top 15
+```
+
+> **Ordinal scripture fix.** The glyph→ordinal table was corrected against the Lean
+> kernel (`p4rakernel/…/Primitives/Core.lean` + `gen_clay_canonical_tuples.py`): **Ç**
+> (KineticChar: yea<loll<egg<on<air) had ords 3/4 swapped, and **Σ** (Stoichiometry:
+> hung<so<up) was rotated. The glyph→constructor *rendering* was always canonical, so
+> `--certify` was never wrong; only the numeric ordinals were, which had thrown the
+> R↔S live-pair charge and the ligand↔site complement. red-hot_rebis carries the same
+> stale Ç swap and should be reconciled to scripture too.
+
 ## Bootstrap Programs
 
 | Program | Tokens | Description |

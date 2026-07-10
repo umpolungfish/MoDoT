@@ -1094,9 +1094,12 @@ pub fn run_complement(
     let (recog_txt, _) = recognition_reading(site[2]);
     println!("  recognition: {recog_txt}");
     println!("  conjugate-pair map (site → ligand — inverted within each scale, crossed across the pair):");
+    println!("    the complement is CHEMISTRY: all 6 pairs. [live] = the 3 catalytic axes math varies (D↔W, T↔H, R↔S);");
+    println!("    [pinned] = the 3 physical axes math abstracts out and chemistry restores (P↔F, K↔G, Gm↔Ph).");
     for &(a, b) in CONJUGATE_PAIRS.iter() {
+        let tag = if LIVE_PAIRS.contains(&(a, b)) { "[live]  " } else { "[pinned]" };
         println!(
-            "    {}↔{}:   {}{}→{}{}   |   {}{}→{}{}",
+            "    {tag} {}↔{}:   {}{}→{}{}   |   {}{}→{}{}",
             PRIMS[a], PRIMS[b],
             PRIMS[a], g(&site, a), PRIMS[b], g(&ligand, b),
             PRIMS[b], g(&site, b), PRIMS[a], g(&ligand, a)
