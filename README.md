@@ -96,6 +96,12 @@ cd MoDoT
 ./ask --dry-run --file ./questions/q1.txt
 # same from repo root:  ./ask …   or  ./MoDoT/ask …
 
+# ── Click-maths: structural fusion over the math catalytic register ──
+./ask --click the_sun_astrological the_moon_astrological   # pairwise fuse (the coniunctio → O_∞)
+./ask --click paradice                                     # sweep: what completes the paradice?
+./ask --click adjoint_pair hopf_antipode --catalyst math_isomorphism  # catalyzed (barrier reduction)
+./ask --click math_boundary_operator math_winding_number --certify    # kernel-verified closure
+
 # ── Legacy Python agent (still available) ──
 # Interactive mode — the agent breathes with you
 python3 momonados_agent.py --interactive
@@ -130,6 +136,46 @@ python3 momonados_agent.py --ask "..." --no-selectivity
 # Run convergence experiments
 python3 experiments/run_all_experiments.py
 ```
+
+## Click-Maths (`./ask --click`)
+
+Structural fusion over the **math catalytic register** — a port of red-hot_rebis's
+enzyme catalytic-site engine to abstract structure. The register is the twelve
+IG primitives paired into six charge-conjugate duals; mathematics pins three of
+them out (**F** exact, **Ph** subcritical, **K** frozen — the physical axes), so
+catalysis runs on the three **live** pairs **D↔W, T↔H, R↔S**. See
+`CLICK_MATHS_SPEC.md` and `project_math_catalytic_register`.
+
+A **click** is a reliable FFUSE (μ): two fragments that are complementary on
+exactly one live pair — opposite charges, spring-loaded past θ — with no second
+reaction center. The clicking pair saturates (the ring forms); off it the product
+inherits both scaffolds. Bioorthogonality is *specificity* (one center), not
+sameness — an azide and an alkyne are different molecules.
+
+```bash
+# Pairwise — fuse A and B, or report why they refuse (same-sign / ambiguous / no drive)
+./ask --click A B  [--theta 0.5]
+
+# Sweep — click A against the whole catalog, ranked by product tier (finds the O_∞ fusions)
+./ask --click A  [--top 15]
+
+# Catalyzed — a Frobenius-special fragment (e.g. math_isomorphism, Φ=𐑹, the μ∘δ=id map)
+# lowers the effective θ (barrier reduction) and is regenerated, μ∘δ=id. It lowers ΔG‡,
+# never ΔG: a same-sign pair with θ→0 still refuses; too strong a catalyst wakes a
+# competing center and selectivity collapses (over-catalysis).
+./ask --click A B --catalyst C
+
+# Certify — render the fused product as a Lean Imscription and prove its Frobenius
+# closure (igFrobeniusAlg.mul p p = p) through `lake build`. Turns "closes" from an
+# asserted valid tuple into the kernel's own verdict (the balance ledger; the click
+# logic is the selectivity — ALKAHEST §11).
+./ask --click A B --certify
+```
+
+Any two catalog names work (`math_*`, `dasa_*`, `setheus_paradox`, `paradice`,
+`monogenes`, `yhwh`, `the_sun_astrological`, …). The engine is domain-agnostic:
+handed the Sun and the Moon, it returns the coniunctio at O_∞; handed the paradice,
+it completes it against the liar paradoxes. Implementation: `ask_native/src/click.rs`.
 
 ## Bootstrap Programs
 
