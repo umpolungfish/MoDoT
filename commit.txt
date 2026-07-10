@@ -1,40 +1,31 @@
-Add the IMSCRIB type-router in front of the prover
+Wire the type-router into the agent breath (proof turns reach the kernel)
 
-I put a front door on the prover so a goal is sorted to the arm that can
-actually settle it before any loop runs. The sorting is not a heuristic switch,
-it is an imscription: the router types the goal into the twelve IG primitives
-(each a Belnap value) using the vessel's own imscriber, folds that type to one
-vessel voice, and dispatches.
+The router was built and tested but it sat beside the organism, not in it. The
+breath ran every turn through the ManuscriptSpine (vessel co-typing plus witness
+scaffold) and never touched the prover, so a proof-shaped question typed at the
+live agent never reached the Lean kernel. This mounts it.
 
-  N  ->  vacuity          nothing engages any axis, so there is nothing to prove
-  T  ->  the kernel loop   a definite, assertible proposition (modot.prover)
-  F  ->  the kernel loop   a definite, deniable proposition; the kernel is the
-                           honest False-gate, so a stated-false goal simply will
-                           not close, which is the correct verdict
-  B  ->  the Witness arm   a dialetheia (modot.witness_proof)
+I put a proof-intent gate at the top of _think. A turn is a formal proof request
+iff it opens with `prove:` or carries a literal Lean theorem or lemma declaration.
+Those turns divert to the router (imscribe, fold to N or T-F or B, dispatch); the
+arm's output becomes the thought content and seeds the kernel value. Everything
+else (proof_intent returns None) flows through the ordinary conversational breath
+unchanged, so no chat turn is ever sent to Lean. The gate is conservative on
+purpose.
 
-The fold is faithful to the four-valued lattice. An explicit B on any axis is the
-dialetheia marker: it is the top of the knowledge lattice placed on that axis,
-the imscriber's honest "this axis is over-determined." A plain T and F mix across
-structural axes is a definite proposition with mixed structural character, not a
-contradiction, so it goes to the kernel, not the Witness. I report the pure
-Belnap join of all twelve codes alongside the route for transparency, so you can
-see that a mixed goal joins to B in the lattice yet still routes to the prover.
+The verdicts follow the ob3ect. Kernel closure is T and the content is the
+machine-checked proof. An unclosed goal is held as B, a navigation frontier, never
+a verdict of unprovability. A routed dialetheia is B with the Witness scaffold. A
+vacuous goal is N.
 
-Same discipline as the vessel: the LLM types structure and never renders a
-correctness opinion, and there is no hash or deterministic fallback. No imscriber,
-no route. For tests a type may be injected explicitly.
+Integration, not a second pipeline. The agent owns one TypeRouter over its own
+LLM (self.router), the proof turn commits a proof record to the Crystal FS beside
+the thought and spine records, and a public prove() method exposes the same path
+programmatically. The router import is lazy inside __init__ because
+agent to router to prover to agent would cycle at module load.
 
-Verified. The no-network fold selftest passes: all-N routes to vacuity, all-T and
-all-F to the kernel, a single explicit B axis to the Witness even amid many T, a
-mixed T and F with no B stays on the kernel, and a forged deterministic type is
-rejected without inventing a route. The live demo runs all three arms end to end:
-the theorem 2 + 2 = 4 imscribes as definite, routes to the kernel loop, and closes
-green through the real Lean build on the first pass; a Godel/liar self-reference
-imscribes with B on several axes and routes to the Witness; the empty goal
-imscribes as all-N and routes to vacuity.
-
-This closes the router plank from the lean_prover_loop ob3ect. The remaining plank
-is the B-Witness arm's own catalog coverage: the self-reference routed correctly
-but the cl8nk catalog had no strong witness for that exact phrasing, so the arm
-returned empty. That is downstream of the router, not the router itself.
+Verified live. Through the breath, `prove: theorem wired_demo : (2 : Nat) + 2 = 4`
+routes T to the kernel loop and closes green on the first pass with source=router,
+the proof returned as rfl. proof_intent leaves ordinary chat alone. The router,
+vessel, and spine selftests still pass, and the scratch module is restored to its
+green placeholder so lake build Imscribing stays clean.

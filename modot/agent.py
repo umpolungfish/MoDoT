@@ -40,6 +40,23 @@ _KERNEL_RECORD_RE = re.compile(r'(?im)^[ \t]*\[(?:selectivity|vessel|spine|updat
 
 def strip_kernel_records(text: str) -> str:
     return _KERNEL_RECORD_RE.sub('', text or '')
+
+# A turn is a formal proof request iff it opens with `prove:` (explicit, user- or
+# model-invoked) or carries a literal Lean `theorem`/`lemma` declaration. The gate
+# is deliberately conservative: ordinary conversation never diverts to the kernel.
+_PROVE_PREFIX_RE = re.compile(r'(?is)^\s*prove\s*[:\-]\s*(.+)$')
+_LEAN_DECL_RE = re.compile(r'(?m)^\s*(?:theorem|lemma)\s+\S')
+
+def proof_intent(text: str):
+    """Return the goal string if `text` is a proof request, else None."""
+    if not text:
+        return None
+    m = _PROVE_PREFIX_RE.match(text)
+    if m:
+        return m.group(1).strip()
+    if _LEAN_DECL_RE.search(text):
+        return text.strip()
+    return None
 # ========================== BELNAP FOUR ==============================
 
 class B4(IntEnum):
@@ -556,6 +573,11 @@ class MomonadosAgent:
         self.selectivity_enabled = selectivity
         self.spine = ManuscriptSpine(self.llm)
         self.selectivity = self.spine          # back-compat alias (same object)
+        # IMSCRIB type-router: proof-shaped turns are sorted N/T-F/B and dispatched
+        # to their arm (vacuity / kernel loop / Witness) before any answer is drawn.
+        # Lazy import: agent → router → prover → agent would cycle at module load.
+        from modot.router import TypeRouter
+        self.router = TypeRouter(self.llm)
         self.active_question = None
         self.active_schema = None              # demand Imscription from spine.prepare
         self.last_selectivity = None           # VesselReport face (from spine report)
@@ -563,6 +585,7 @@ class MomonadosAgent:
         self.last_voices = (B4.N, None)
         self.last_conflict = 0
         self.last_witness = None               # witness face of last spine prepare
+        self.last_proof = None                 # last RouterVerdict from a proof turn
     
     def breathe(self, user_input=None, max_cycles=1):
         """One or more breath cycles. Each cycle = one kernel loop + one LLM inference."""
@@ -604,8 +627,97 @@ class MomonadosAgent:
         
         return results
     
+    def prove(self, goal, imscription=None, verbose=False):
+        """Route a formal goal through the IMSCRIB type-router to its arm.
+
+        N → vacuity, T/F → the Lean kernel loop, B → the Witness scaffold.
+        Returns the RouterVerdict; a proof turn in the breath uses this.
+        """
+        verdict = self.router.route(goal, imscription=imscription, verbose=verbose)
+        self.last_proof = verdict
+        return verdict
+
+    def _prove_turn(self, goal, user_input):
+        """A proof-shaped breath: route to the kernel/witness, not the chat model.
+
+        The router's arm output becomes the thought content. Kernel closure is T;
+        an unclosed goal is held as B (a navigation frontier, per the ob3ect, never
+        a verdict of unprovability); a routed dialetheia is B with the Witness
+        scaffold; a vacuous goal is N.
+        """
+        verdict = self.prove(goal)
+        route = verdict.route
+        if route in ("T", "F") and verdict.proof and verdict.proof.closed:
+            content = verdict.proof.source
+            belnap = B4.T
+        elif route in ("T", "F"):
+            frontier = verdict.proof.last_output if verdict.proof else verdict.note
+            content = (
+                "Not closed within budget — held as a navigation frontier (B).\n"
+                f"route={route} raw⊔={verdict.raw_join}\n\nLast frontier:\n{frontier}"
+            )
+            belnap = B4.B
+        elif route == "B":
+            scaffold = verdict.witness.scaffold_md if verdict.witness else ""
+            content = scaffold or (
+                "Dialetheia (B): the goal carries both assertible and deniable "
+                "character; no catalog witness matched this phrasing."
+            )
+            belnap = B4.B
+        else:  # N
+            content = f"Vacuous (N): nothing to prove. {verdict.reason}"
+            belnap = B4.N
+
+        self.crystal.commit(CrystalRecord(
+            address=self.cycle_count * 100 + 7,
+            tuple_hash=hashlib.sha256(
+                (route + content[:40]).encode()
+            ).hexdigest()[:16],
+            belnap_state=belnap,
+            timestamp=time.time(),
+            program_counter=self.kernel.ip,
+            tick=self.kernel.tick_count,
+            content=json.dumps(verdict.to_dict()),
+            content_type="proof",
+        ))
+        self.kernel.injected_value = belnap
+        self.memory.append(("proof", belnap, verdict.summary()))
+        if user_input:
+            self.conversation.append({"role": "user", "content": user_input})
+        self.conversation.append({"role": "assistant", "content": content})
+        if len(self.conversation) > 20:
+            self.conversation = self.conversation[-20:]
+
+        return {
+            "verdict": belnap.name,
+            "content": content,
+            "length": len(content),
+            "balance": "T" if belnap == B4.T else "N",
+            "belnap_source": "router",
+            "model_voice": belnap.name,
+            "gate_voice": None,
+            "conflict": 0,
+            "spine": None,
+            "vessel": None,
+            "selectivity": None,
+            "witness": verdict.witness.summary() if verdict.witness else None,
+            "route": f"{route}→{verdict.arm}",
+            "proof_closed": bool(verdict.proof and verdict.proof.closed),
+        }
+
     def _think(self, user_input):
         """LLM inference through the single ManuscriptSpine pipeline."""
+
+        # ---- IMSCRIB type-router: proof-shaped turns bypass the chat breath ----
+        # A `prove:` prefix or a literal Lean theorem/lemma routes to the kernel or
+        # the Witness. Ordinary conversation (proof_intent → None) is untouched.
+        goal = proof_intent(user_input) if user_input else None
+        if goal and self.selectivity_enabled and self.router.available():
+            try:
+                return self._prove_turn(goal, user_input)
+            except Exception as e:
+                self.memory.append(("proof_turn_error", B4.F, str(e)))
+                # fall through to the ordinary breath on any router failure
 
         # ---- IMSCRIB (spine.prepare): demand imscription + witness scaffold ----
         prep = None
