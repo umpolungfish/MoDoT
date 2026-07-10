@@ -947,9 +947,9 @@ then a full conventional proof or rigorous proof sketch with all work.
 Do NOT replace the answer with kernel cosplay, polygon metaphors,
 COMPOSE/TOKEN theatre, or narration about Crystal FS cycles.
 
-Write FULL-LENGTH answers when the question warrants it — same depth and
-extent expected from a frontier model (Gemini / GPT-class): complete proofs,
-complete case analysis, Lean sketches when asked, no premature truncation.
+Write FULL-LENGTH answers when the question warrants it: complete proofs,
+complete case analysis, Lean sketches when asked, the fullest and most
+rigorous treatment the question deserves, no premature truncation.
 
 MANUSCRIPT SPINE (single pipeline): prepare = IMSCRIB demand + catalog
 witness scaffold; after your answer, complete = Dual-Link co-type +
@@ -1284,7 +1284,7 @@ fn run_one(
             // conversation: system once, then history, then this turn
             let mut msgs: Vec<(String, String)> = Vec::new();
             if conversation.is_empty() {
-                msgs.push(("system".into(), SYSTEM_PROMPT.into()));
+                msgs.push(("system".into(), format!("{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT)));
             }
             for (r, c) in conversation.iter() {
                 msgs.push((r.clone(), c.clone()));
