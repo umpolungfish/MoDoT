@@ -1,27 +1,23 @@
-Add section 15 to ALKAHEST.md: the sixth image
+Make the Tao/Maria convergence explicit in ALKAHEST section 12
 
-A childhood memory of accidentally seeing the shadow of my own retinal
-blood vessels at the optometrist turned out to name something precise once
-I looked it up properly. There are six Purkinje images. The first four
-(cornea and lens surfaces) are read from outside, by an examiner looking at
-the eye -- the two-piece alembic again. A fifth focuses in front of the
-retina and is never visible to anyone. The sixth, which Tscherning
-separated out and named, is the only one that's truly entoptic: light
-bounces off the posterior lens, then the anterior cornea, and closes back
-onto the retina, faint and inverted.
+Section 12 already mentioned Maria's axiom and noted Laozi wrote it "seven
+centuries earlier and half a world away," but it never named the overlap for
+what it is: the document's own thesis handed over by history. Maria the Jewess
+wrote in Hellenistic Alexandria and survives largely through Zosimos -- she's
+inside the exact lineage this piece is built on. Laozi wrote in Warring States
+China with no channel either way. Two traditions with no contact, the same
+four-term unfolding, neither with the algebra to write it as an equation. That's
+the section 11 signature (a structural law reappearing unbidden in an instrument
+built for another purpose), so I said so directly.
 
-That's not just self-seeing in the abstract, it's the exact closure
-condition section 2 already states in words: the answer has to come home
-co-typed but excribed under a different presentation, same location,
-different form, or the closure is a tautology instead of a real test. The
-sixth image does precisely that, physically, in an eye. Mapped the two
-bounces to the vocabulary already in the document: posterior lens is delta
-(off the direct path), anterior cornea is mu (closes it, delivers it home),
-mu-compose-delta in that order same as the retort.
+Checked my own claim before trusting it, and it was wrong on first draft. I'd
+written "both, run through the Grammar, land at O_inf." But the only Maria entry
+actually in the catalog, mary_prophetess, is a different text (the 1652 Practise
+of Mary the Prophetess dialogue) and reads at O_0, not O_inf; the four-term Axiom
+of Maria isn't separately catalogued. So the honest version: the four-term
+identity rests on reading the two texts, and the Grammar's verifiable contribution
+is on the Tao side, tao_cosmogony at O_inf, whose own catalog description names
+Maria's axiom as the structure it shares. Wrote that caveat into the section
+rather than smuggle the overclaim.
 
-Kept the personal memory in rather than dressing it up as someone else's
-example, since it's the actual origin of noticing this, and this document
-already trades in exactly that kind of testimony (Newton's notebook, the
-"I owe you an honest note" register elsewhere in this house).
-
-Added the Tscherning/Purkinje citation to References and recompiled the PDF.
+Recompiled the PDF.
