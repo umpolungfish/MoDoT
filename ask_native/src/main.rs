@@ -28,6 +28,7 @@ use std::io::{self, BufRead, Read, Write};
 use std::path::{Path, PathBuf};
 use std::process;
 
+mod click;
 mod prover;
 
 // ── CLI ─────────────────────────────────────────────────────────────────────
@@ -110,6 +111,16 @@ struct Cli {
     /// Witness (the Dual-Link vessel) is unaffected.
     #[arg(long = "expand", default_value_t = 0)]
     expand: u32,
+
+    /// Click-maths: fuse two catalog fragments A and B if they are complementary
+    /// on exactly one live conjugate pair (D↔W, T↔H, R↔S) and orthogonal elsewhere.
+    /// Prints the live-pair charge diagnostic and the click verdict. `./ask --click A B`
+    #[arg(long = "click", num_args = 2, value_names = ["A", "B"])]
+    click: Option<Vec<String>>,
+
+    /// Spring-loaded offset threshold for --click (default 0.5).
+    #[arg(long = "theta", default_value_t = 0.5)]
+    theta: f32,
 
     /// Positional fallback: treated as --ask if --ask/--file omitted
     #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
@@ -1444,6 +1455,8 @@ impl CliClone for Cli {
             temperature: self.temperature,
             catalog: self.catalog.clone(),
             expand: self.expand,
+            click: self.click.clone(),
+            theta: self.theta,
             rest: self.rest.clone(),
         }
     }
@@ -1475,6 +1488,14 @@ fn main() {
         }
     };
     let cat_ref = catalog.as_deref();
+
+    // Click-maths mode: `./ask --click A B` — fuse two fragments over the live pairs.
+    if let Some(names) = &cli.click {
+        if names.len() == 2 {
+            let code = click::run_click(cat_ref, &names[0], &names[1], cli.theta);
+            process::exit(code);
+        }
+    }
 
     if cli.interactive
         && cli.ask.is_none()

@@ -1,30 +1,37 @@
-Add the click-maths spec and settle the math catalytic register
+Build the first click-maths engine in ask_native (the math catalytic register, live)
 
-Two things landed. First, the register: I ported red-hot_rebis's enzyme
-catalytic-site engine to abstract math by imscribing a slate of mathematical
-operations and reading where they land. The result is that math does NOT use
-all 12 primitives — three are pinned, and they're exactly the physical axes,
-because math abstracts physics out: Fidelity pinned high (everything exact),
-Criticality pinned low (nothing is a phase transition), Kinetics suppressed
-(no energy barriers, broken only by winding_number, which is why it's the lone
-O_2 object). The pins sit on one member each of three conjugate pairs, so
-catalysis runs on the three live pairs D<->W, T<->H, R<->S. Smaller, cleaner
-design space than an enzyme active site.
+This is CLICK_MATHS_SPEC §6 landed as running Rust. ask_native/src/click.rs is
+the math catalytic register plus the click_pair fusion, wired to ./ask --click A B.
 
-The method lesson worth keeping: I tried to rescue the collapsed Kinetics and
-Criticality by re-phrasing the residues as verbs instead of nouns
-("differentiating" not "the derivative operator"). It failed — the Grammar
-reads structure, not wording. Differentiation is genuinely kinetically frozen
-(smooth, reversible), a fixed point is genuinely subcritical (an attractor, not
-a critical point). The failure is the finding.
+What's in it:
+- The register: glyph->ordinal tables for all 12 primitives, with the ORDERING
+  cross-checked against p4rakernel Core.lean for Ħ (fee<kick<sure<wool) and Ω
+  (awe<oak<ah<zoo) — the Axiom B verification. Lean is scripture.
+- The six conjugate pairs (the charge table) and the three LIVE pairs D<->W,
+  T<->H, R<->S that catalysis actually runs on (F/Ph/K pinned in math).
+- click_pair(a, b, theta): a clean click iff exactly one live pair is
+  complementary (opposite charge, Δ>=theta) and no second pair also fires —
+  bioorthogonality as specificity, one reaction center. The fuse is join (max)
+  on every axis: the clicking pair's opposite charges bring both members up
+  together (the ring forms), and off it the product inherits both scaffolds.
 
-Second, CLICK_MATHS_SPEC.md — the first concrete build off the register. Click
-chemistry is spring-loaded, orthogonal, always-closing fusion, which is just
-reliable FFUSE of two fragments complementary on a live pair. It's the smallest
-delta from the FSPLIT/FFUSE the prover already has, and it's a speedup: if two
-proven leaves are click-complementary you already know they fuse, so you skip
-the assembly search. The complementarity/orthogonality checks and the closure
-certificate are mechanizable now; the library of named clicks is designed until
-each archetype is imscribed and gated.
+I got the orthogonality condition wrong on the first pass and the test caught it.
+I had required the two partners to be identical everywhere except the reaction
+center. But an azide and an alkyne aren't twins -- they're different molecules
+that fuse at one center and the triazole inherits both. So orthogonality is
+specificity (one reaction center = the ambiguity gate), not sameness. Fixed:
+the fuse blends the inherited axes instead of rejecting on them.
 
-Also carries the ALKAHEST _builds intermediates from the section 12-15 compiles.
+Verified live on real catalog fragments:
+- boundary_operator (T carrier) x winding_number (W/topological) -> CLICK on
+  T<->H, Δ=1.50, ring saturates T->𐑸 (self-referential) and H->𐑫 (eternal).
+  Product is O₂ -- the click LIFTED O₀ x O₂ -> O₂, generative not just a blend.
+- isomorphism x permutation_sign -> no click (no opposite-charge pair reaches
+  theta) -- the selectivity gate correctly refuses. Not everything clicks.
+- dasa_open x dasa_closed -> CLICK on D<->W, Δ=0.67.
+
+Honest boundary (next hook): "closes by construction" is currently structural --
+click_pair produces a valid product tuple, but the kernel/Frobenius closure
+CERTIFICATE (μ∘δ=id gated through the Lean kernel) is not yet wired. That's the
+mechanization the spec's §6 flags as the piece that turns the product from a
+designed fusion into a verified one.
