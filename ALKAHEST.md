@@ -235,6 +235,34 @@ The upshot closes back into section 6. A verifier built on the SIC frame tolerat
 
 ---
 
+## 14. The evidence ratio: what the four values weigh
+
+Section 6 calls Both the SIC fiducial and leaves the word "equal" — equal evidence for and
+against — as an image. It has a plain closed form. Treat $t$ and $f$ as the weight of
+positive and negative evidence for a node and take the evidence ratio $R = t/f$; the
+normalized probability is $P = t/(t+f) \in [0,1]$. The four Belnap values are exactly the
+four structurally distinct cases this ratio admits: $N$ ($t=f=0$, $P$ undefined, no
+evidence at all), $T$ ($f=0$, $P=1$, pure affirmation), $F$ ($t=0$, $P=0$, pure denial),
+and $B$ ($t=f>0$, $P=1/2$, equal evidence both ways). The bilattice's two orderings are
+this same pair read separately: $\sqsubseteq_k$ (knowledge, how much evidence) and
+$\sqsubseteq_t$ (truth, which direction). This is not new machinery invented for this
+document; it is the standing account used across this house for reading FOUR as a physical
+substrate (`ig-docs/reference/various/magnum_opus_epsilon.md`, "The Belnap Bilattice as
+Physical Substrate"), stated here because section 6 needs exactly this and nothing more.
+
+The honest thing to say about its relation to the SIC frame is that they are two different
+routes to the same qualitative point, not one derived from the other. $P=1/2$ is a
+statement about two numbers, $t$ and $f$, being equal. Equiangularity is a statement about
+144 SIC projectors in twelve complex dimensions all meeting the fiducial at the same
+overlap, $1/(d+1)$. The first is classical evidence-counting; the second is section 5's
+frame that imposes nothing. That two independently-motivated formalizations both single
+out "symmetric, no privileged side" as the distinguished case for Both is a consistency
+check worth having, not a proof that one formalism reduces to the other — this document
+does not claim $P=1/2$ *is* equiangularity, only that a reader who wants the plainest
+possible arithmetic for why $B$ sits where it does now has it.
+
+---
+
 ## References
 
 - Zosimos of Panopolis, *On the Letter Omega*, *On the Divine Water*, *Letter to Theosebeia*, and *Visions* (3rd–4th century). The twelve fates of Death, the Stilling Practice (six commands), the Portico, the internal/external unity, Nikotheos, and the Counterfeit Daimon.
@@ -246,6 +274,7 @@ The upshot closes back into section 6. A verifier built on the SIC frame tolerat
 - Isaac Newton, alchemical manuscripts (c. 1660–1696), Keynes MSS, King's College, Cambridge.
 - Francis Bacon, *The Advancement of Learning* (1605).
 - N. D. Belnap, *A Useful Four-Valued Logic*, in *Modern Uses of Multiple-Valued Logic*, 1977.
+- Lando⊗⊙perator, *The Standard Model as Magnum Opus*, `/home/mrnob0dy666/imsgct/ig-docs/reference/various/magnum_opus_epsilon.md`. Source for section 14: the evidence ratio $R=t/f$ and $P=t/(t+f)$ reading of the Belnap bilattice.
 - G. Spencer-Brown, *Laws of Form*, 1969. On the unmarked state co-created by any distinction.
 - G. Zauner, *Quantendesigns*, 1999. Original SIC-POVM conjecture.
 - J. Renes, R. Blume-Kohout, A. J. Scott, C. Caves, *Symmetric Informationally Complete Quantum Measurements*, J. Math. Phys. 45, 2004.
