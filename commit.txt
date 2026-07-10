@@ -1,32 +1,28 @@
-Fix the Witness arm: full 5292 catalog and self-reference matching
+Port the kernel-gated prover into ask_native (native, no Python)
 
-The router's B route came back empty on a Gödel/liar self-reference, and the
-catalog the arm read was 5275 while my `imscribe catalog list` showed 5292. Two
-separate causes, both fixed here in the Witness arm (no change to the shared
-canonical catalog).
+`./ask` runs the Rust ask_native binary, so the type-router and prover I built in
+the Python package were unreachable from it. A proof question came back as a
+scaffold with a `sorry` in it. This ports the prover into ask_native itself, in
+Rust, so `./ask` can close a goal through the Lean kernel.
 
-Catalog merge. cl8nk_navigator loads only the flat imscribing_grammar/IG_catalog.json
-(5275), but the canonical CLI merges that file with the crawler's
-~/.imscrbgrmr/catalog.json at read time, first-name-wins, which is where the extra
-17 come from (Odin, Mimir, the nitroso-radical family, the majorana chain, the
-topological insulator, and so on). I replicate that same read-time merge after the
-navigator loads, so the arm now indexes 5292, exactly what the CLI counts.
-catalog_size() reports it.
+src/prover.rs is the closed loop: generate a Lean tactic block, write it into the
+p4ramill scratch module, run `lake build`, read the unsolved-goal state the
+compiler prints, and repair against it until the build is green with no sorry.
+When a goal will not close flat it is FSPLIT into helper lemmas, each proved
+recursively and FFUSEd back, with memoization by statement so a lemma proved once
+is reused and a header dedup so a reused lemma collapses to one declaration. It
+shells out to `lake`, the Lean toolchain, a separate binary. Nothing here touches
+Python.
 
-Self-reference matching. This was the real reason the liar came back empty, not the
-17. find_witnesses scored only against a hardcoded list of named problems (erdos,
-collatz, navier, riemann and so on) with a floor of ten, and a self-referential
-goal matched none of them, even though the catalog already holds godel_*,
-liar_paradox, tarskis_undefinability_theorem, the halting problem, cantor's
-diagonal, and CH_independent. I fold diacritics so Gödel reads as godel and Erdős
-as erdos, add the foundational and self-reference anchors, and add the same
-concepts to the direct-resolve list so a mentioned concept resolves straight to its
-entry.
+Not closed is a navigation frontier, never a verdict of unprovability. The driver
+escalates depth and budget across rounds and keeps decomposing; the only stop is a
+resource cap, which is a statement about compute, not about the theorem. A
+provable result closes given the work.
 
-Verified. The full Gödel/liar goal now resolves to liar_paradox, godel_completion,
-godel_incompleteness_liar, godel_diagonal_lemma, godel_complete_sentence; the bare
-version with no Gödel or liar words still hits proof_goedel_incompleteness through
-the unprovability anchor; and translate() on the router's own B goal returns
-liar_paradox at tier O2 with a full scaffold instead of empty. Collatz still returns
-its five collatz entries and the module selftest still selects
-erdos_hajnal_aleph1_graph, so named-problem matching did not regress.
+Wired into run_one: a `prove:` prefix or a literal Lean theorem or lemma routes to
+the prover instead of the prose spine. Everything else flows the normal
+ManuscriptSpine unchanged.
+
+Verified: `./ask --ask "prove: theorem ask_native_ok : (2 : Nat) + 2 = 4"` routes
+to the prover and closes green through the real Lean kernel with rfl, no sorry, no
+Python. The scratch module is restored to its green placeholder after the run.

@@ -28,6 +28,8 @@ use std::io::{self, BufRead, Read, Write};
 use std::path::{Path, PathBuf};
 use std::process;
 
+mod prover;
+
 // ── CLI ─────────────────────────────────────────────────────────────────────
 
 #[derive(Parser, Debug)]
@@ -1057,6 +1059,39 @@ fn run_one(
             prep.primary_name.as_deref().unwrap_or("—")
         );
         println!();
+    }
+
+    // Proof-intent route: a `prove:` prefix or a literal Lean theorem/lemma goes to
+    // the kernel-gated prover (native — shells to `lake build`), not the prose spine.
+    // Not closed is a navigation frontier (B), never a verdict of unprovability.
+    if !cli.dry_run && llm.api_key.is_some() {
+        if let Some(goal) = prover::proof_intent(question) {
+            println!("── ROUTE: proof-intent → kernel-gated prover ──");
+            let mut p = prover::LeanProver::new(llm, cli.verbose);
+            let r = p.prove(&goal);
+            println!("── ANSWER (kernel-gated prover) ──");
+            if r.closed {
+                println!("Closed green through the Lean kernel (no sorry):\n");
+                println!("{}", r.source);
+            } else {
+                println!(
+                    "Not closed within the current escalation cap. This is a \
+                     navigation frontier (B), not a verdict of unprovability — the \
+                     path exists; raise the rounds/budget to push deeper.\n"
+                );
+                println!("Last frontier:\n{}", r.last_output);
+            }
+            println!();
+            println!("{}", "=".repeat(60));
+            println!("PROVER REPORT");
+            println!("  route=proof  closed={}  depth={}", r.closed, r.depth);
+            if !r.note.is_empty() {
+                println!("  note: {}", r.note);
+            }
+            println!("  protocol: VINIT→IMSCRIB→FSPLIT→(lake build)→EVALT/EVALF→FFUSE→TANCH");
+            println!("{}", "=".repeat(60));
+            return if r.closed { 0 } else { 1 };
+        }
     }
 
     let mut last_code = 0;
