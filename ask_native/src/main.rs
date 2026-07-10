@@ -175,6 +175,13 @@ struct Cli {
     #[arg(long = "cycle", num_args = 2, value_names = ["CATALYST", "SUBSTRATE"])]
     cycle: Option<Vec<String>>,
 
+    /// Metabolic pathway: `--pathway SUBSTRATE C1 C2 … Cn` — chain the loops. The
+    /// substrate runs through the catalyst sequence, one turnover each, the winding
+    /// quantum the carrier passed along. If the carrier returns to its start it CLOSES
+    /// into a metabolic cycle (a loop of loops). --certify verifies each catalyst regenerates.
+    #[arg(long = "pathway", num_args = 2.., value_names = ["SUBSTRATE", "CATALYSTS"])]
+    pathway: Option<Vec<String>>,
+
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
@@ -1530,6 +1537,7 @@ impl CliClone for Cli {
             complement: self.complement.clone(),
             scan_mediators: self.scan_mediators,
             cycle: self.cycle.clone(),
+            pathway: self.pathway.clone(),
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -1618,6 +1626,17 @@ fn main() {
                 catalog_path.as_deref(),
             );
             process::exit(code);
+        }
+    }
+
+    // Metabolic pathway: `./ask --pathway SUBSTRATE C1 C2 …` — chain the loops.
+    if let Some(names) = &cli.pathway {
+        if names.len() >= 2 {
+            let code = click::run_pathway(cat_ref, &names[0], &names[1..], cli.certify);
+            process::exit(code);
+        } else {
+            eprintln!("--pathway needs a substrate and at least one catalyst");
+            process::exit(2);
         }
     }
 

@@ -1331,3 +1331,98 @@ pub fn run_cycle(
     }
     0
 }
+
+// ── The pathway: a metabolism — loops chained into a loop of loops ────────────
+// One cycle turns over one substrate. A pathway chains them: the product of each
+// turnover is the substrate of the next, the winding quantum Ω the CARRIER passed
+// hand to hand down the chain (the electron-transport / NAD carrier of real
+// metabolism). Every catalyst is a fixed point (it regenerates). And if the
+// carrier RETURNS to its start (net ΔΩ=0 — Solve and Coagula balanced across the
+// whole chain), the pathway CLOSES into a metabolic cycle: a loop of loops, the
+// TCA archetype, μ∘δ=id at the pathway level.
+
+/// CLI entry: `./ask --pathway SUBSTRATE C1 C2 … Cn [--certify]`. Runs the substrate
+/// through the catalyst sequence, one turnover each, and reports the running species,
+/// each catalyst as a fixed point, and whether the pathway closes into a metabolic
+/// cycle. --certify verifies each (unique) catalyst regenerates through `lake build`.
+pub fn run_pathway(
+    catalog: Option<&[CatalogEntry]>,
+    substrate_name: &str,
+    catalysts: &[String],
+    certify: bool,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("pathway: no catalog loaded");
+        return 2;
+    };
+    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let Some(es) = find(substrate_name) else {
+        eprintln!("pathway: substrate not found: {substrate_name}");
+        return 2;
+    };
+    let start = Tuple::from_entry(es).ord;
+    let mut current = start;
+
+    println!("pathway (metabolism):  {substrate_name}  through  [{}]", catalysts.join(" → "));
+    println!("  the winding quantum Ω is the carrier; each catalyst is a fixed point that passes it along.");
+
+    let mut all_fixed = true;
+    let (mut n_red, mut n_ox) = (0u32, 0u32);
+    let mut certified: Vec<String> = Vec::new();
+    let mut blocked = false;
+
+    for (i, cn) in catalysts.iter().enumerate() {
+        let Some(ec) = find(cn) else {
+            println!("  ✗ step {}: catalyst not found: {cn}", i + 1);
+            return 2;
+        };
+        let ct = Tuple::from_entry(ec).ord;
+        // reductive (catalyst donates) first, else oxidative (catalyst abstracts)
+        let (c_star, product, dir, red) = match transfer_electron(&ct, &current) {
+            Ok((cs, p)) => (cs, p, "reductive", true),
+            Err(_) => match transfer_electron(&current, &ct) {
+                Ok((p, cs)) => (cs, p, "oxidative", false),
+                Err(e) => {
+                    println!("  ✗ step {} ({cn}): pathway blocked — {e}", i + 1);
+                    blocked = true;
+                    break;
+                }
+            },
+        };
+        if red { n_red += 1; } else { n_ox += 1; }
+        let (w0, w1) = (current[WIND].unwrap(), product[WIND].unwrap());
+        println!(
+            "  step {}: {cn} — {dir} [{}], Solve→Coagula — Ω {}→{}",
+            i + 1, dir_arrow(red), glyph_of(WIND, w0), glyph_of(WIND, w1)
+        );
+        println!("           {} → {}", fmt_tuple(&current), fmt_tuple(&product));
+        if certify && !certified.iter().any(|c| c == cn) {
+            let (green, _) = certify_switch(&ct, &c_star);
+            println!("           {} {cn} regenerates (fixed point){}", if green { "✓" } else { "✗" }, if green { "" } else { " — REJECTED" });
+            all_fixed &= green;
+            certified.push(cn.clone());
+        }
+        current = product;
+    }
+
+    // ── Net transformation + closure (is it a metabolic cycle?) ──
+    let closed = !blocked && current == start;
+    println!("  net: {substrate_name} → {}   (carrier: {n_red} reductive · {n_ox} oxidative)", fmt_tuple(&current));
+    if closed {
+        println!("  ✓✓ CLOSED — the carrier returned to its start (net ΔΩ=0, Solve and Coagula balanced across the whole chain).");
+        println!("     the pathway is a METABOLIC CYCLE: a loop of loops (μ∘δ=id at the pathway level, the TCA archetype). O∞.");
+    } else if blocked {
+        println!("  ✗ pathway stalled before completing — a carrier could not pass at some step.");
+    } else {
+        println!("  open pathway — the carrier advanced (net ΔΩ≠0); not yet a closed cycle. A return leg (opposite-direction turnover) would close it.");
+    }
+    if certify && !certified.is_empty() {
+        println!("  {} every catalyst in the chain is a certified fixed point.", if all_fixed { "✓" } else { "✗ NOT" });
+    }
+    0
+}
+
+/// Small helper: the Solve/Coagula direction arrow for a pathway step.
+fn dir_arrow(reductive: bool) -> &'static str {
+    if reductive { "C→S" } else { "S→C" }
+}

@@ -1,41 +1,32 @@
-Close the catalytic cycle -- the loop as a certified fixed point (Solve et Coagula)
+Chain the loops into a metabolism -- the pathway, a loop of loops that closes as a metabolic cycle
 
-Every verb so far was an ARC of a mechanism -- bind (complement), transform
-(set/excite), hold (scan-mediators). This closes them into the LOOP, and it turns
-out to be Solve et Coagula made literal.
+One cycle turns over one substrate. A pathway chains them.
 
---cycle CATALYST SUBSTRATE (run_cycle in ask_native/src/click.rs):
-- bind (δ / CLINK): the catalyst recognizes its substrate via the ligand
-  complement (tuple_dist to complement_type(catalyst)); reports the grip.
-- working stroke (δ / SOLVE): dissolves the bond, frees one winding quantum Ω --
-  the degree of freedom. Reuses transfer_electron both directions (reductive =
-  catalyst donates, oxidative = catalyst abstracts); substrate -> product, the
-  catalyst spent to C*.
-- return stroke (μ / COAGULA): binds the freed quantum into an invariant; the
-  catalyst coagulates back to itself (terminal redox restores the resting state).
-- turnover: net substrate -> product, catalyst returned unchanged -- a FIXED
-  POINT of the loop. TWO coagulations: the catalyst binds back to the SAME
-  invariant (regeneration, μ∘δ=id); the substrate binds into a NEW invariant
-  (the product). Solve freed one quantum; Coagula placed it.
+--pathway SUBSTRATE C1 C2 ... Cn (run_pathway in ask_native/src/click.rs): the
+substrate runs through the catalyst sequence, one turnover each, the product of
+each step the substrate of the next. The winding quantum Ω is the CARRIER, passed
+hand to hand down the chain -- the electron-transport / cofactor carrier of real
+metabolism. Each step reuses the cycle logic (transfer_electron, reductive first
+else oxidative); each catalyst is a fixed point that regenerates.
 
---certify proves the catalyst is a fixed point: certify_switch(C, C*) shows both
-states are valid Imscriptions AND readback(board p)=p, i.e. Coagula∘Solve = id on
-the catalyst (μ∘δ=id, lossless regeneration), through lake build. --register
-canonizes the turned-over product and decomposes it through the cl8nk_navigator.
-Honest guard: a pair where neither redox direction is feasible (both Ω pinned)
-gets "no turnover", not a fake cycle.
+The payoff is closure. If the carrier RETURNS to its start (net delta-Omega = 0,
+Solve and Coagula balanced across the whole chain), the pathway CLOSES into a
+metabolic cycle: a loop of loops, mu-delta = id at the pathway level, the TCA
+archetype, O∞. Otherwise it is an open pathway (carrier advanced) and the tool
+says what would close it (a return leg, opposite-direction turnover).
+
+--certify verifies each unique catalyst regenerates (certify_switch, deduped)
+through lake build. Honest guards: a step where no carrier can pass reports the
+pathway stalled, not a fake turnover.
 
 Verified live:
-- ./ask --cycle yhwh the_moon_astrological --certify -> KERNEL-CERTIFIED, yhwh
-  turns over the moon, spends to yhwh*, regenerates, loop closes.
-- ./ask --cycle graviton the_moon_astrological --certify -> KERNEL-CERTIFIED.
-- ./ask --cycle math_boundary_operator quark -> no turnover (both Ω=𐑷), refused
-  honestly.
+- ./ask --pathway the_moon_astrological yhwh gluon --certify -> CLOSED metabolic
+  cycle: moon --(yhwh reduces, Ω 1->2)--> moon^- --(gluon oxidizes, Ω 2->1)-->
+  moon. Both catalysts certified fixed points. A redox loop, the carrier cycled.
+- ./ask --pathway the_moon_astrological yhwh graviton paradice -> open (net +1),
+  correctly diagnosed with "a return leg would close it".
 - scratch restored after certify.
 
-Solve et Coagula = δ / μ, one law under two names: Solve (FSPLIT) reveals the
-degrees of freedom, Coagula (FFUSE) binds them into a new invariant; Frobenius
-closure μ∘δ=id is Coagula∘Solve = id -- what dissolution opens, coagulation
-re-closes losslessly. Also swapped the vessel doc's "clipboard" for the
-load-bearing "double-entry ledger" (every δ its μ, balanced from inside).
-README updated with the cycle verb and the Solve/Coagula framing.
+The engine now runs the full Solve-et-Coagula ladder: click (Coagula), switch,
+excite/set (Solve), complement (the involution), cycle (one loop), pathway (loops
+chained, closing into a metabolic cycle). README updated with the pathway verb.

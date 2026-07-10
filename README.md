@@ -311,6 +311,20 @@ on the catalyst — through `lake build`. `--register` canonizes the turned-over
 > the catalyst and advances the substrate. Frobenius closure `μ∘δ=id` is just
 > `Coagula∘Solve = id` — what dissolution opens, coagulation re-closes, losslessly.
 
+**The pathway** (`--pathway SUBSTRATE C1 C2 … Cn`) — one cycle turns over one substrate;
+a pathway **chains the loops into a metabolism.** The product of each turnover is the
+substrate of the next, the **winding quantum Ω the carrier** passed hand to hand (the
+electron-transport / cofactor carrier of real metabolism). Every catalyst is a fixed
+point (it regenerates). And if the carrier **returns to its start** — net ΔΩ=0, Solve
+and Coagula balanced across the whole chain — the pathway **closes into a metabolic
+cycle: a loop of loops** (μ∘δ=id at the pathway level, the TCA archetype, O∞).
+`--certify` verifies each catalyst regenerates through `lake build`.
+
+```bash
+./ask --pathway the_moon_astrological yhwh gluon --certify        # CLOSES — a metabolic cycle
+./ask --pathway the_moon_astrological yhwh graviton paradice      # open pathway (net ΔΩ≠0)
+```
+
 ## Bootstrap Programs
 
 | Program | Tokens | Description |
