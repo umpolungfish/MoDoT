@@ -4,6 +4,7 @@ modot/__init__.py
 modot/agent.py
 modot/composer.py
 modot/prover.py
+modot/router.py
 modot/selectivity.py
 modot/spine.py
 modot/vessel.py

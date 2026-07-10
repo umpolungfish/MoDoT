@@ -26,12 +26,13 @@ Run:  python3 -m modot.prover
 """
 from __future__ import annotations
 
+import hashlib
 import os
 import re
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 from modot.agent import LLMInterface  # openrouter + gemini default
 
@@ -64,6 +65,52 @@ _FENCE_RE = re.compile(r"```(?:lean)?\s*(.*?)```", re.S)
 _NOISE_RE = re.compile(r"has local changes|Using cache|decompressed|Building|Compiling")
 _IMPORT_RE = re.compile(r"^\s*import\s", re.M)
 _DECL_RE = re.compile(r"^\s*(?:theorem|lemma)\s", re.M)
+_DECL_HEAD_RE = re.compile(r"^\s*(?:lemma|theorem)\s+\S+\s*")
+_TOP_DECL_RE = re.compile(r"(?m)^(?=(?:noncomputable\s+)?(?:lemma|theorem|def)\b)")
+_DECL_NAME_RE = re.compile(r"^(?:noncomputable\s+)?(?:lemma|theorem|def)\s+([^\s(:{]+)")
+
+
+def _statement_key(sig: str) -> str:
+    """Name-independent key for a lemma: binders + proposition, ws-collapsed.
+
+    Two helpers with the same statement (whatever their names) share a key, so a
+    lemma proved once under one parent is reused instead of re-derived under another.
+    """
+    body = (sig or "").split(":=", 1)[0]
+    body = _DECL_HEAD_RE.sub("", body, count=1)
+    return re.sub(r"\s+", " ", body).strip()
+
+
+def _memo_name(key: str) -> str:
+    """Stable, statement-derived Lean identifier — identical statements → same name."""
+    return "memo_" + hashlib.sha256(key.encode("utf-8")).hexdigest()[:10]
+
+
+def _rename_decl(sig: str, new_name: str) -> str:
+    """Rewrite `lemma/theorem <name>` -> `lemma <new_name>`, keeping binders+prop."""
+    return _DECL_HEAD_RE.sub(f"lemma {new_name} ", sig, count=1)
+
+
+def _dedup_decls(blocks: List[str]) -> str:
+    """Join proven blocks, keeping one declaration per name.
+
+    Memoized helpers carry statement-derived names, so the same lemma embedded in
+    two sibling blocks collapses to a single declaration rather than tripping a
+    duplicate-name error when the blocks are fused into one header.
+    """
+    text = "\n\n".join(b for b in blocks if b and b.strip())
+    seen: Dict[str, str] = {}
+    order: List[str] = []
+    for part in _TOP_DECL_RE.split(text):
+        p = part.strip()
+        if not p:
+            continue
+        m = _DECL_NAME_RE.match(p)
+        key = m.group(1) if m else p        # non-decl preamble (open/…) keyed by text
+        if key not in seen:
+            seen[key] = p
+            order.append(key)
+    return "\n\n".join(seen[k] for k in order)
 
 
 def _strip_fences(text: str) -> str:
@@ -127,6 +174,9 @@ class LeanProver:
         # the depth-0 flat attempt may be tightened so hard goals reach FSPLIT while
         # the simpler helpers still get the full budget
         self.top_flat_budget = top_flat_budget or flat_budget
+        # statement-key -> proven declaration (or None if that lemma failed);
+        # shared across the whole recursion, reset per top-level prove()
+        self._memo: Dict[str, Optional[str]] = {}
 
     def available(self) -> bool:
         return bool(getattr(self.llm, "api_key", None))
@@ -135,6 +185,8 @@ class LeanProver:
 
     def prove(self, goal: str, imports: str = "import Mathlib",
               depth: int = 0, verbose: bool = True) -> ProofResult:
+        if depth == 0:
+            self._memo = {}      # fresh memo per top-level goal
         try:
             return self._prove(goal, imports, depth, verbose)
         finally:
@@ -152,19 +204,46 @@ class LeanProver:
         if flat.closed or depth >= self.max_depth:
             return flat
 
-        # 2. FSPLIT: decompose into self-contained helper lemmas
-        lemmas = self._decompose(goal, flat.last_output, depth)
+        # 2. FSPLIT: decompose into self-contained helper lemmas. Prune helpers
+        #    that merely restate the parent goal (circular) or repeat a sibling,
+        #    and give each a statement-derived name so identical lemmas coincide.
+        goal_key = _statement_key(goal)
+        lemmas: List[Tuple[str, str]] = []   # (statement key, renamed signature)
+        seen_keys = set()
+        for lem in self._decompose(goal, flat.last_output, depth):
+            key = _statement_key(lem)
+            if not key or key == goal_key:
+                if verbose:
+                    print(f"{pad}  pruned circular helper (restates the goal)")
+                continue
+            if key in seen_keys:
+                continue
+            seen_keys.add(key)
+            lemmas.append((key, _rename_decl(lem, _memo_name(key))))
         if not lemmas:
             return flat
         if verbose:
             print(f"{pad}FSPLIT(d{depth}) -> {len(lemmas)} helper(s)")
 
-        # 3. prove each helper recursively; keep the proven declarations
+        # 3. prove each helper recursively, memoized by statement: a lemma proved
+        #    once anywhere in the tree is reused, not re-derived; a known-failed
+        #    lemma is not re-attempted.
         proven_decls: List[str] = []
-        for lem in lemmas:
-            sub = self._prove(lem, imports, depth + 1, verbose)
+        for key, sig in lemmas:
+            if key in self._memo:
+                cached = self._memo[key]
+                if cached is not None:
+                    proven_decls.append(cached)
+                    if verbose:
+                        print(f"{pad}  memo hit -> reuse {_memo_name(key)}")
+                continue
+            sub = self._prove(sig, imports, depth + 1, verbose)
             if sub.closed:
-                proven_decls.append(_strip_imports(sub.source))
+                decl = _strip_imports(sub.source)
+                self._memo[key] = decl
+                proven_decls.append(decl)
+            else:
+                self._memo[key] = None
         if not proven_decls:
             return flat
 
@@ -186,7 +265,7 @@ class LeanProver:
     # -- assemble loop -----------------------------------------------------------
 
     def _assemble(self, goal, proven_decls, imports, depth, verbose) -> ProofResult:
-        header = imports + "\n\n" + "\n\n".join(proven_decls)
+        header = imports + "\n\n" + _dedup_decls(proven_decls)
 
         def prompt(prev, errors):
             return _assemble_prompt(goal, header, prev, errors)

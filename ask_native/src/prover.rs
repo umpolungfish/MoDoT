@@ -29,7 +29,14 @@ const PLACEHOLDER: &str =
 const PROVER_SYS: &str = "\
 You are a Lean 4 proof engine (toolchain leanprover/lean4:v4.28.0, Mathlib). You \
 output ONLY Lean 4 source: a single import line, then the theorem with a COMPLETE \
-proof. No prose, no markdown fences, and never `sorry` or `admit`.\n\
+proof. No prose, no markdown fences, and never `sorry` or `admit` in your output.\n\
+A `sorry` in the GIVEN GOAL is a HOLE you must FILL: determine the correct term — \
+the actual answer the problem asks for — put it in place of the sorry, and prove \
+the resulting statement. Filling that hole with real mathematics IS the task.\n\
+Do NOT introduce a `def`, `abbrev`, or `axiom` for any symbol the goal already \
+names. Use its given or Mathlib meaning. Defining it yourself would let you make \
+the claim true by your own choice of definition, which is not a proof. Fill the \
+hole; do not rewrite the vocabulary.\n\
 IMPORTS: use exactly `import Mathlib` and NOTHING else. Never import a specific \
 Mathlib sub-module (paths move between versions and fail as 'bad import'). \
 `import Mathlib` already gives you all of Mathlib.\n\
@@ -198,6 +205,25 @@ fn dedup_decls(blocks: &[String]) -> String {
     out.join("\n\n")
 }
 
+/// Names the proof introduces via def/abbrev/axiom that the GOAL also references.
+/// Defining a symbol the goal names is authoring the claim's meaning: the kernel
+/// green is then a tautology the model constructed, not a proof of the intent.
+fn authored_goal_defs(source: &str, goal: &str) -> Vec<String> {
+    let def_re = Regex::new(
+        r"(?m)^\s*(?:noncomputable\s+)?(?:def|abbrev|axiom)\s+([A-Za-z_][A-Za-z0-9_']*)",
+    )
+    .unwrap();
+    let mut out: Vec<String> = Vec::new();
+    for c in def_re.captures_iter(source) {
+        let name = c[1].to_string();
+        let wb = Regex::new(&format!(r"\b{}\b", regex::escape(&name))).unwrap();
+        if wb.is_match(goal) && !out.contains(&name) {
+            out.push(name);
+        }
+    }
+    out
+}
+
 fn parse_lemmas(text: &str) -> Vec<String> {
     let mut out = Vec::new();
     for line in text.lines() {
@@ -321,6 +347,27 @@ impl<'a> LeanProver<'a> {
             }
             let r = self.prove_inner(goal, "import Mathlib", 0);
             if r.closed {
+                // Guard 2: the model must not author the goal's own meaning. If the
+                // proof defines a symbol the goal names, the green is a tautology it
+                // constructed, not a proof of the intended claim.
+                let rigged = authored_goal_defs(&r.source, goal);
+                if !rigged.is_empty() {
+                    restore_placeholder();
+                    return ProofResult {
+                        closed: false,
+                        source: r.source,
+                        depth: r.depth,
+                        last_output: r.last_output,
+                        note: format!(
+                            "definitional rigging: the proof defines {} — a symbol the \
+                             goal refers to — so the kernel-green is a tautology it \
+                             constructed, not a proof of the intended claim. Fix the \
+                             definition upstream (given / Mathlib); the prover must not \
+                             author it.",
+                            rigged.join(", ")
+                        ),
+                    };
+                }
                 restore_placeholder();
                 return r;
             }
