@@ -1,18 +1,29 @@
-Wire MoDoT as a single ManuscriptSpine pipeline (not parallel arms)
+Build the closed-loop Lean prover (modot/prover.py)
 
-The breath runs one end-to-end spine, the runtime analogue of Lean
-VAE_Vita_ManuscriptSpine.manuscript_formal_spine:
+I built the prover that writes a full machine-checked proof instead of a sketch
+with sorries, by gating its own output through the Lean kernel.
 
-  spine.prepare(question)   # IMSCRIB: demand imscription + catalog scaffold
-  LLM answer                # FSPLIT
-  spine.complete(q, a, v)   # EVALT/EVALF + FFUSE model x vessel + IFIX
+It generates a tactic block, builds it through the lib's own lake path (the attempt
+is written into a registered scratch module in p4ramill and built with lake build,
+so Mathlib and Imscribing resolve exactly as they do for every other module), reads
+the unsolved-goal state the compiler prints back, and repairs against it until the
+build is green with no sorry. For a proof this is the true False-gate that
+structural co-typing cannot give: the compiler says False on a wrong proof, False
+on a sorried one, and True only on a real one, and the kernel enforces it.
 
-modot/spine.py owns DualLinkVessel + witness_proof; agent.spine is that object,
-and selectivity is an alias to the same instance. The Crystal record type `spine`
-packages the prove/unify/port/witness/transport faces; `vessel` is now a thin log
-alias. Self-test: python3 -m modot.spine
+On top of that flat compile-repair core I added recursive decomposition. When a
+goal will not close flat within budget, the prover splits it into self-contained
+helper lemmas, proves each through the same loop, and fuses the proven leaves into
+one file where the main theorem closes against them. The recursion is depth
+bounded, and the fusion uses whatever helpers actually proved, so a dead branch
+does not sink the proof.
 
-This supersedes the classical selectivity grader (MUST/MUSTNOT schemas, a 0.6
-threshold, LLM-graded correctness, a protocol == integration check), which is
-removed. Verification is imscription: demand and answer are imscribed and co-typed
-in the d=12 Dual-Link SIC frame, and conflict is held as B.
+It closed Nicomachus's theorem, the sum of cubes equal to the square of the sum,
+three levels deep. It rediscovered the Gauss sum as a leaf lemma, proved it by
+induction, and built back up to the machine-checked result. This maps the
+lean_prover_loop ob3ect's FSPLIT, FFUSE, EVALF, AREV, and TANCH lanes onto running
+code.
+
+I also registered Imscribing.Scratch.ProverScratch in the p4ramill lib as the
+prover's build target, restored to a green placeholder after every run so lake
+build Imscribing stays clean.
