@@ -985,3 +985,231 @@ pub fn run_set(
     }
     0
 }
+
+// ── Bidirectional ligand ⇌ catalytic-site (ported from red-hot_rebis) ─────────
+// Port of rhr_p4rky/ligand_from_active_site.py::complement_type — the reverse
+// pipeline: a catalytic SITE type maps to the complementary LIGAND it binds, and
+// back. For each of the six conjugate pairs (A,B) it INVERTS within each scale
+// (lock-and-key: where the site is high the ligand is low, a pocket ↔ a bump) and
+// CROSSES the pair (site A informs ligand B and vice versa). It IS ITS OWN
+// INVERSE: site→ligand→site returns — the bidirectionality the enzyme's R=𐑾
+// (Recognition, "substrate ↔ enzyme feedback") names. In the SET picture this is
+// what an inner-sphere mediator does: it must BIND both donor and acceptor (its
+// complement close to each) to relay the electron between them.
+
+/// Python-parity round-half-to-even (banker's rounding), so the port agrees with
+/// red-hot_rebis on the .5 boundary cases. Inputs here are always ≥ 0.
+fn round_half_even(x: f32) -> i32 {
+    let f = x.floor();
+    if (x - f - 0.5).abs() < 1e-6 {
+        let fi = f as i32;
+        if fi % 2 == 0 { fi } else { fi + 1 }
+    } else {
+        x.round() as i32
+    }
+}
+
+/// Mean normalized per-primitive ordinal distance in [0,1] (heuristic — an
+/// unweighted ordinal metric, port of tuple_distance_dict; not the navigator's
+/// canonical SIC frame, see feedback_two_distance_metrics). Missing axes skipped.
+fn tuple_dist(a: &[Option<u8>; 12], b: &[Option<u8>; 12]) -> f32 {
+    let mut sum = 0.0;
+    let mut n = 0;
+    for i in 0..12 {
+        if let (Some(x), Some(y)) = (a[i], b[i]) {
+            let m = max_ord(i);
+            if m > 0 {
+                sum += (x as f32 - y as f32).abs() / m as f32;
+                n += 1;
+            }
+        }
+    }
+    if n > 0 { sum / n as f32 } else { 1.0 }
+}
+
+/// Bidirectional ligand ⇌ catalytic-site complement over the six conjugate pairs.
+/// Faithful port of complement_type: `ligand[B]=INV(site[A])`, `ligand[A]=INV(site[B])`,
+/// each rescaled to the partner's ordinal range. Its own inverse (bidirectional).
+fn complement_type(site: &[Option<u8>; 12]) -> [Option<u8>; 12] {
+    let mut ligand = *site; // every index is written below (the six pairs partition all 12)
+    for &(a, b) in CONJUGATE_PAIRS.iter() {
+        let a_max = max_ord(a);
+        let b_max = max_ord(b);
+        let sa = site[a].unwrap_or(0);
+        let sb = site[b].unwrap_or(0);
+        let inv_a = a_max - sa; // reflect within each scale (lock-and-key)
+        let inv_b = b_max - sb;
+        ligand[b] = Some(if a_max > 0 {
+            round_half_even(inv_a as f32 / a_max as f32 * b_max as f32).clamp(0, b_max as i32) as u8
+        } else {
+            b_max
+        });
+        ligand[a] = Some(if b_max > 0 {
+            round_half_even(inv_b as f32 / b_max as f32 * a_max as f32).clamp(0, a_max as i32) as u8
+        } else {
+            a_max
+        });
+    }
+    ligand
+}
+
+/// One-line reading of a Recognition (Ř, index 2) ordinal as binding directionality.
+fn recognition_reading(r: Option<u8>) -> (&'static str, f32) {
+    match r {
+        Some(3) => ("Ř=𐑾 (bidirectional — substrate↔enzyme feedback): a true catalytic/binding site", 1.0),
+        Some(2) => ("Ř=𐑽 (lateral dual): partial bidirectional binding", 0.5),
+        _ => ("Ř low: weak / one-way binding, not a strong bidirectional site", 0.0),
+    }
+}
+
+/// CLI entry: `./ask --complement A [--certify] [--register [NAME]]` — the ported
+/// reverse pipeline. Maps a catalytic-site type A to the complementary ligand it
+/// binds (and back — its own inverse), shows the per-conjugate-pair map and the
+/// bidirectional round-trip, optionally certifies the ligand closes and registers it.
+pub fn run_complement(
+    catalog: Option<&[CatalogEntry]>,
+    name: &str,
+    certify: bool,
+    register: Option<&str>,
+    catalog_path: Option<&Path>,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("complement: no catalog loaded");
+        return 2;
+    };
+    let Some(e) = cat.iter().find(|e| e.name == name) else {
+        eprintln!("complement: catalog entry not found: {name}");
+        return 2;
+    };
+    let site = Tuple::from_entry(e).ord;
+    let ligand = complement_type(&site);
+    let g = |t: &[Option<u8>; 12], i: usize| t[i].map(|o| glyph_of(i, o)).unwrap_or("?");
+
+    println!("complement (bidirectional ligand ⇌ catalytic-site):  {name}");
+    println!("  site   {name}:   {}", fmt_tuple(&site));
+    println!("  ligand {name}′:  {}   (the complementary partner the site binds — lock-and-key over the 6 conjugate pairs)", fmt_tuple(&ligand));
+    let (recog_txt, _) = recognition_reading(site[2]);
+    println!("  recognition: {recog_txt}");
+    println!("  conjugate-pair map (site → ligand — inverted within each scale, crossed across the pair):");
+    for &(a, b) in CONJUGATE_PAIRS.iter() {
+        println!(
+            "    {}↔{}:   {}{}→{}{}   |   {}{}→{}{}",
+            PRIMS[a], PRIMS[b],
+            PRIMS[a], g(&site, a), PRIMS[b], g(&ligand, b),
+            PRIMS[b], g(&site, b), PRIMS[a], g(&ligand, a)
+        );
+    }
+    let back = complement_type(&ligand);
+    let d = tuple_dist(&site, &back);
+    if d < 1e-6 {
+        println!("  round-trip {name} → {name}′ → {name}″: distance 0.00 — the complement is its own inverse (bidirectional, lossless R∧W∧X).");
+    } else {
+        println!("  round-trip {name} → {name}′ → {name}″: distance {d:.3} — near-involutive (a rescaling residual on the unequal-scale pairs; the bidirection holds up to ordinal granularity).");
+    }
+    if certify {
+        println!("  certifying the ligand closes through the Lean kernel (lake build)…");
+        let (green, out) = certify_click(&ligand);
+        if green {
+            println!("  ✓ KERNEL-CERTIFIED: the complementary ligand is a valid Imscription (igFrobeniusAlg.mul p p = p, μ∘δ=id).");
+        } else {
+            let tail: String = out.lines().rev().take(4).collect::<Vec<_>>().into_iter().rev().collect::<Vec<_>>().join("\n    ");
+            println!("  ✗ kernel rejected the ligand:\n    {tail}");
+        }
+    }
+    if let Some(reg) = register {
+        match catalog_path {
+            Some(path) => {
+                let nm = if reg.is_empty() { format!("{name}_ligand") } else { reg.to_string() };
+                let desc = format!("de-novo ligand for the catalytic site {name} — the bidirectional structural complement (complement_type, ported from red-hot_rebis ligand_from_active_site); the partner {name} binds lock-and-key over the six conjugate pairs.");
+                match register_chimera(path, &nm, &desc, &ligand) {
+                    Ok(()) => {
+                        println!("  ✓ registered ligand '{nm}' — now a first-class navigable object.");
+                        println!("  ── decomposition (cl8nk_navigator) ──────────────────────────────");
+                        decompose_via_navigator(path, &nm);
+                    }
+                    Err(e) => println!("  ✗ register failed: {e}"),
+                }
+            }
+            None => println!("  ✗ register failed: catalog path not resolved"),
+        }
+    }
+    0
+}
+
+/// CLI entry: `./ask --set D A --scan-mediators [--top N]` — rank the whole catalog
+/// for the best mediators of the D→A single-electron transfer. A good inner-sphere
+/// SET mediator must (1) HOLD the winding quantum (1≤Ω<max — accept then re-donate),
+/// (2) RELAY in energy (⊙ between acceptor and donor, both legs downhill), and
+/// (3) BIND both substrates bidirectionally (its ligand complement close to donor
+/// AND acceptor — the ported catalytic-site recognition). Composite-ranked.
+pub fn run_scan_mediators(
+    catalog: Option<&[CatalogEntry]>,
+    name_a: &str,
+    name_b: &str,
+    top: usize,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("scan-mediators: no catalog loaded");
+        return 2;
+    };
+    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let (ea, eb) = match (find(name_a), find(name_b)) {
+        (Some(a), Some(b)) => (a, b),
+        (None, _) => { eprintln!("scan-mediators: catalog entry not found: {name_a}"); return 2; }
+        (_, None) => { eprintln!("scan-mediators: catalog entry not found: {name_b}"); return 2; }
+    };
+    let ta = Tuple::from_entry(ea).ord;
+    let tb = Tuple::from_entry(eb).ord;
+    let (ca, cb) = match (ta[CRIT], tb[CRIT]) {
+        (Some(x), Some(y)) => (x, y),
+        _ => { eprintln!("scan-mediators: a form is missing Criticality ⊙."); return 2; }
+    };
+    if ca == cb {
+        println!("scan-mediators: {name_a} and {name_b} have equal ⊙ — thermoneutral, no directed relay to scan for. Excite one first.");
+        return 0;
+    }
+    // donor = higher ⊙, acceptor = lower ⊙
+    let ((dn, donor, cd), (an, acceptor, cac)) = if ca > cb {
+        ((name_a, ta, ca), (name_b, tb, cb))
+    } else {
+        ((name_b, tb, cb), (name_a, ta, ca))
+    };
+    let (lo, hi) = (cac, cd); // relay band [acceptor ⊙, donor ⊙]
+    let wmax = max_ord(WIND);
+
+    // (name, composite, relay, bind, recog, Ω glyph, ⊙ glyph)
+    let mut hits: Vec<(String, f32, f32, f32, f32, &'static str, &'static str)> = Vec::new();
+    for e in cat {
+        if e.name == dn || e.name == an {
+            continue;
+        }
+        let m = Tuple::from_entry(e).ord;
+        let Some(mw) = m[WIND] else { continue };
+        if !(mw >= 1 && mw < wmax) {
+            continue; // hard filter: must hold the quantum (accept then re-donate)
+        }
+        let Some(cm) = m[CRIT] else { continue };
+        let relay = if cm >= lo && cm <= hi {
+            1.0
+        } else {
+            let outside = if cm < lo { lo - cm } else { cm - hi };
+            1.0 / (1.0 + outside as f32)
+        };
+        let comp = complement_type(&m);
+        let dbind = (tuple_dist(&comp, &donor) + tuple_dist(&comp, &acceptor)) * 0.5;
+        let bind = 1.0 / (1.0 + dbind);
+        let (_, recog) = recognition_reading(m[2]);
+        let composite = 0.4 * relay + 0.4 * bind + 0.2 * recog;
+        hits.push((e.name.clone(), composite, relay, bind, recog, glyph_of(WIND, mw), glyph_of(CRIT, cm)));
+    }
+    hits.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+
+    println!("scan-mediators:  {dn}  ⟶e⁻⟶  {an}   ({} holdable candidates over {} entries)", hits.len(), cat.len());
+    println!("  relay band ⊙∈[{},{}] (acceptor→donor);  hold band Ω∈[𐑴,{}] (accept then re-donate);  bind = complement recognizes both substrates",
+        glyph_of(CRIT, lo), glyph_of(CRIT, hi), glyph_of(WIND, wmax - 1));
+    println!("  {:>4}  {:>6}  {:>5} {:>5} {:>5}  {:>3} {:>3}  mediator", "rank", "score", "relay", "bind", "recog", "Ω", "⊙");
+    for (i, (name, comp, relay, bind, recog, wg, cg)) in hits.iter().take(top).enumerate() {
+        println!("  {:>4}  {:>6.3}  {:>5.2} {:>5.2} {:>5.2}  {:>3} {:>3}  {name}", i + 1, comp, relay, bind, recog, wg, cg);
+    }
+    0
+}

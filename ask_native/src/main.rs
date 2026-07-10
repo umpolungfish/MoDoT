@@ -155,6 +155,19 @@ struct Cli {
     #[arg(long = "set", num_args = 2, value_names = ["D", "A"])]
     set: Option<Vec<String>>,
 
+    /// Bidirectional ligand ⇌ catalytic-site complement (ported from red-hot_rebis
+    /// ligand_from_active_site). `--complement A` maps a catalytic-site type to the
+    /// complementary ligand it binds — and back, it is its own inverse. --certify /
+    /// --register apply to the derived ligand.
+    #[arg(long = "complement", num_args = 1, value_name = "A")]
+    complement: Option<String>,
+
+    /// With `--set D A`: scan the whole catalog for the best mediators of that
+    /// transfer — holdable winding (Ω), ⊙ relay between donor and acceptor, and
+    /// bidirectional recognition (its complement binds both substrates). Ranked; --top bounds it.
+    #[arg(long = "scan-mediators")]
+    scan_mediators: bool,
+
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
@@ -1507,6 +1520,8 @@ impl CliClone for Cli {
             register: self.register.clone(),
             excite: self.excite.clone(),
             set: self.set.clone(),
+            complement: self.complement.clone(),
+            scan_mediators: self.scan_mediators,
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -1548,23 +1563,39 @@ fn main() {
         }
     }
 
-    // Single-electron transfer: `./ask --set D A` (donor, acceptor). Bare `--excite`
-    // on this line makes it photoinduced (the donor is excited first).
+    // Single-electron transfer: `./ask --set D A` (donor, acceptor). `--scan-mediators`
+    // ranks the catalog for relays; bare `--excite` makes it photoinduced.
     if let Some(names) = &cli.set {
         if names.len() == 2 {
-            let photo = cli.excite.is_some();
-            let code = click::run_set(
-                cat_ref,
-                &names[0],
-                &names[1],
-                cli.certify,
-                cli.catalyst.as_deref(),
-                photo,
-                cli.register.as_deref(),
-                catalog_path.as_deref(),
-            );
+            let code = if cli.scan_mediators {
+                click::run_scan_mediators(cat_ref, &names[0], &names[1], cli.top)
+            } else {
+                let photo = cli.excite.is_some();
+                click::run_set(
+                    cat_ref,
+                    &names[0],
+                    &names[1],
+                    cli.certify,
+                    cli.catalyst.as_deref(),
+                    photo,
+                    cli.register.as_deref(),
+                    catalog_path.as_deref(),
+                )
+            };
             process::exit(code);
         }
+    }
+
+    // Bidirectional ligand ⇌ catalytic-site complement: `./ask --complement A`.
+    if let Some(name) = &cli.complement {
+        let code = click::run_complement(
+            cat_ref,
+            name,
+            cli.certify,
+            cli.register.as_deref(),
+            catalog_path.as_deref(),
+        );
+        process::exit(code);
     }
 
     // Excited-state analysis: `./ask --excite A` (standalone verb — a value present
