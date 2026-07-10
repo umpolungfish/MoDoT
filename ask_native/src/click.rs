@@ -157,6 +157,94 @@ pub fn click_pair(a: &Tuple, b: &Tuple, theta: f32) -> Result<ClickProduct, Clic
     Ok(ClickProduct { pair_idx, drive, product, ring, inherited })
 }
 
+/// Ouroboricity-tier heuristic on a product tuple — ported from
+/// `cl8nk_navigator.assess_tier`: counts the advanced primitive values a
+/// self-modeling O_∞ system carries. Score 0–8 → tier.
+fn tier_score(ord: &[Option<u8>; 12]) -> u8 {
+    let eq = |i: usize, v: u8| ord[i] == Some(v);
+    let mut s = 0u8;
+    if eq(8, 1) { s += 1; } // ⊙ = ⊙ (self-modeling critical)
+    if eq(3, 4) { s += 1; } // Φ = 𐑹 (Frobenius-special parity)
+    if eq(9, 3) { s += 1; } // Ħ = 𐑫 (eternal chirality)
+    if matches!(ord[11], Some(2) | Some(3)) { s += 1; } // Ω integer/non-Abelian winding
+    if eq(0, 3) { s += 1; } // Ð = 𐑦 (holographic)
+    if eq(5, 2) { s += 1; } // Ç = 𐑧 (slow/coherent kinetics)
+    if eq(1, 4) { s += 1; } // Þ = 𐑸 (self-referential topology)
+    if eq(2, 3) { s += 1; } // Ř = 𐑾 (bidirectional recognition)
+    s
+}
+fn tier_label(score: u8) -> &'static str {
+    match score {
+        7..=8 => "O_∞",
+        5..=6 => "O₂",
+        3..=4 => "O₁",
+        _ => "O₀",
+    }
+}
+
+/// CLI entry: `./ask --click <A>` (one name) — sweep A against the whole catalog,
+/// keep every fragment that clicks with it, and rank the products by tier (the
+/// self-modeling ascent), then by drive. Surfaces the coniunctio-class results
+/// (products that fuse to O_∞) automatically. Optional catalyst lowers θ throughout.
+pub fn run_click_sweep(
+    catalog: Option<&[CatalogEntry]>,
+    name: &str,
+    theta: f32,
+    catalyst_name: Option<&str>,
+    top: usize,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("click-sweep: no catalog loaded");
+        return 2;
+    };
+    let Some(ea) = cat.iter().find(|e| e.name == name) else {
+        eprintln!("click-sweep: catalog entry not found: {name}");
+        return 2;
+    };
+    let ta = Tuple::from_entry(ea);
+    let catalyst: Option<Tuple> = match catalyst_name {
+        Some(cn) => match cat.iter().find(|e| e.name == cn) {
+            Some(ec) => Some(Tuple::from_entry(ec)),
+            None => {
+                eprintln!("click-sweep: catalyst not found: {cn}");
+                return 2;
+            }
+        },
+        None => None,
+    };
+
+    // hit: (partner name, live-pair label, drive, product tier score, product tier label)
+    let mut hits: Vec<(String, &str, f32, u8, &str)> = Vec::new();
+    for e in cat {
+        if e.name == name {
+            continue;
+        }
+        let tb = Tuple::from_entry(e);
+        let res = match &catalyst {
+            Some(tc) => click_pair_catalyzed(&ta, &tb, tc, theta).0,
+            None => click_pair(&ta, &tb, theta),
+        };
+        if let Ok(p) = res {
+            let sc = tier_score(&p.product);
+            hits.push((e.name.clone(), LIVE_LABELS[p.pair_idx], p.drive, sc, tier_label(sc)));
+        }
+    }
+    // rank: highest tier first, then strongest drive
+    hits.sort_by(|a, b| b.3.cmp(&a.3).then(b.2.partial_cmp(&a.2).unwrap_or(std::cmp::Ordering::Equal)));
+
+    let cat_note = catalyst_name.map(|c| format!(" (catalyst {c})")).unwrap_or_default();
+    println!(
+        "click-sweep: {name} ⋈ * over {} entries{cat_note} — {} clicks, top {}:",
+        cat.len(),
+        hits.len(),
+        top.min(hits.len())
+    );
+    for (partner, pair, drive, _sc, tier) in hits.iter().take(top) {
+        println!("  {tier:4}  {pair:5} Δ={drive:.2}   {partner}");
+    }
+    0
+}
+
 /// Catalyzed click. Ports the catalyst ob3ect protocol the Grammar designed
 /// (`ob3ect/digital/a_lossless_self_restoring_operation_that_lowers/`): a catalyst
 /// COUPLES to the pair (CLINK), LOWERS the threshold (AFWD barrier reduction),

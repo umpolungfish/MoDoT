@@ -112,11 +112,15 @@ struct Cli {
     #[arg(long = "expand", default_value_t = 0)]
     expand: u32,
 
-    /// Click-maths: fuse two catalog fragments A and B if they are complementary
-    /// on exactly one live conjugate pair (D↔W, T↔H, R↔S) and orthogonal elsewhere.
-    /// Prints the live-pair charge diagnostic and the click verdict. `./ask --click A B`
-    #[arg(long = "click", num_args = 2, value_names = ["A", "B"])]
+    /// Click-maths. Two names `--click A B`: fuse A and B if complementary on one
+    /// live conjugate pair (D↔W, T↔H, R↔S). One name `--click A`: SWEEP A against
+    /// the whole catalog and rank what it fuses with by product tier.
+    #[arg(long = "click", num_args = 1..=2, value_names = ["A", "B"])]
     click: Option<Vec<String>>,
+
+    /// Result count for the --click sweep (default 15).
+    #[arg(long = "top", default_value_t = 15)]
+    top: usize,
 
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
@@ -1464,6 +1468,7 @@ impl CliClone for Cli {
             expand: self.expand,
             click: self.click.clone(),
             theta: self.theta,
+            top: self.top,
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -1499,16 +1504,27 @@ fn main() {
 
     // Click-maths mode: `./ask --click A B` — fuse two fragments over the live pairs.
     if let Some(names) = &cli.click {
-        if names.len() == 2 {
-            let code = click::run_click(
+        let code = match names.len() {
+            2 => click::run_click(
                 cat_ref,
                 &names[0],
                 &names[1],
                 cli.theta,
                 cli.catalyst.as_deref(),
-            );
-            process::exit(code);
-        }
+            ),
+            1 => click::run_click_sweep(
+                cat_ref,
+                &names[0],
+                cli.theta,
+                cli.catalyst.as_deref(),
+                cli.top,
+            ),
+            _ => {
+                eprintln!("--click takes one name (sweep) or two (pair)");
+                2
+            }
+        };
+        process::exit(code);
     }
 
     if cli.interactive
