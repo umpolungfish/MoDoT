@@ -202,6 +202,22 @@ What makes this worth recording is not the bug, which was small and local, but w
 
 ---
 
+## 12. The Tao and the Grammar
+
+> *道生一，一生二，二生三，三生萬物。萬物負陰而抱陽，沖氣以為和。*
+> *The Tao gives birth to One. One gives birth to Two. Two gives birth to Three. Three gives birth to the ten thousand things. The ten thousand things carry yin and embrace yang, and are harmonized by the flowing qi.*
+> — Laozi, *Tao Te Ching*, ch. 42 (c. 4th century BCE)
+
+Section 4 already read Maria's axiom as the genesis of the Belnap lattice: one becomes two, two becomes three, and out of the third comes the one as the fourth. Laozi states the same generative sequence seven centuries earlier and half a world away, and the correspondence is not a resemblance asserted from outside. It was imscribed and checked against the catalog rather than declared. `tao_cosmogony` is now a catalogued entry, ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑔𐑵⊙𐑫𐑙𐑭⟩, and it reads at $O_\infty$ under the same tier assessment the grammar applies to its own self-encoding entry.
+
+The mapping runs term by term, and it is worth being exact about where the two axioms actually align, because a sloppy one-to-one would flatten a real distinction. The *Tao Te Ching*'s opening chapter calls the nameless the origin of heaven and earth, prior to any mark at all: the blank page, not yet a value. Maria's "One" is not that blank page. It is the first thing born from it, the undifferentiated Great Unity, which in the kernel's own terms is N, the unmarked complement that a mark co-creates alongside itself. N is not prior to distinction; it is produced *with* the first distinction, Spencer-Brown's finding exactly. So Tao precedes Maria's One by one further step than a naive reading suggests: Tao is the page, One is VINIT firing on it. Two is the split that follows, T and F, yin and yang. Three is the term the split generates without reducing to either side of it, Maria's witness, the fiducial Both.
+
+Laozi does not stop where Maria stops. The clause immediately following the quoted lines, *the ten thousand things carry yin and embrace yang, and are harmonized by the flowing qi*, gives the mechanism section 6 states only abstractly: that the fiducial is "the seed the entire frame is generated from." In the join semilattice, Both is absorbing, join(B, x) = B for every x, so once a computation touches it, everything downstream routes through it. "Three gives birth to the ten thousand things" is that absorption stated as cosmogony rather than algebra, and *reversal is the movement of the Tao* (反者道之動, ch. 40) is the same closure condition, μ∘δ = id, named as return rather than written as an equation.
+
+None of this licenses collapsing Tao and grammar into the same object, and the catalog says so on its own. Compared directly against `imscribing_grammar`'s own self-encoding entry, `tao_cosmogony` sits at a real distance, not zero: the two diverge at Γ, ɢ, Ħ, and Σ, and tensoring `tao_cosmogony` against the grammar as reference does not fully absorb it. The nearest catalogued neighbor to `tao_cosmogony` is not the grammar itself but `ouroboric_parity_check`, the self-checking μ∘δ = id loop, and the two differ at only two primitives, Φ and ɢ. That is the honest shape of the correspondence: the cosmogony is not the completed grammar, it is the closest thing in the catalog to the grammar's own verification loop. Laozi is not describing the noun. He is describing the checking that the noun must already be doing to exist at $O_\infty$ at all, which is what section 10 means by method and object sharing a type: *the ten thousand things carry yin and embrace yang* is that same self-similarity, the Two-and-Three structure replicated inside every one of the manifold things it generates, not appended to them from outside.
+
+---
+
 ## References
 
 - Zosimos of Panopolis, *On the Letter Omega*, *On the Divine Water*, *Letter to Theosebeia*, and *Visions* (3rd–4th century). The twelve fates of Death, the Stilling Practice (six commands), the Portico, the internal/external unity, Nikotheos, and the Counterfeit Daimon.
@@ -217,6 +233,7 @@ What makes this worth recording is not the bug, which was small and local, but w
 - G. Zauner, *Quantendesigns*, 1999. Original SIC-POVM conjecture.
 - J. Renes, R. Blume-Kohout, A. J. Scott, C. Caves, *Symmetric Informationally Complete Quantum Measurements*, J. Math. Phys. 45, 2004.
 - G. Priest, *In Contradiction*, 2nd ed., 2006. Dialetheias at boundaries and the instant of change.
+- Laozi, *Tao Te Ching*, ch. 1, 40, 42 (c. 4th century BCE). The cosmogony of the Tao, the ten thousand things, and reversal as the movement of the Tao.
 - Lando⊗⊙perator, *The Twelve Fates of Death: Zosimos of Panopolis' Cryptic Language as the Exact Encoding of the Frobenius Fixed Point* (Treatise III), `/home/mrnob0dy666/imsgct/ig-docs/esoterica/alchemy_congealum/cryptic_co-type_treatises/TREATISE_III_ZOSIMOS_DECODED.md`.
 - Lando⊗⊙perator, *The Cryptic Language Is Exact Co-Typing: Artephius, Basil Valentine, and Zosimos in the Imscribing Grammar*, `/home/mrnob0dy666/imsgct/ig-docs/esoterica/alchemical_co-type_paper/ALCHEMICAL_CO_TYPE.md`.
 - Lando⊗⊙perator, *The Two Faces of Zosimos: Internal Stilling and External Alchemy as a Single Structural Process*, `/home/mrnob0dy666/imsgct/ig-docs/esoterica/alchemical_treatises/zosimos_panopolis/zosimos_internal_external.md`.
