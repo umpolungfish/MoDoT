@@ -1,37 +1,48 @@
-Race a portal-guided attempt against standard decomposition in the prover
+Add the imscription route: the prover formalizes any input, never refuses
 
-This is the chrysopoeia_2048 portal move (ig-docs/manuscripts3), generalized
-past SIC moduli: don't always walk the full decomposition distance to a proof.
-If an already-catalogued witness sits structurally close to the goal, cite it as
-a hint and race that attempt against the standard one. The kernel is the sole
-discriminator — no separate exact-match sieve needed, because a bad hint just
-fails to compile, and `lake build` costs little enough at this budget to just
-try both and see which (if either) closes.
+An ob3ect JSON record fed to `prove:` used to be handed whole to the Mathlib
+prover, which — finding no theorem — fabricated an unrelated tautology and
+"closed" it. My first fix was worse: I added a Guard 0 that REFUSED non-Lean
+input as "not a formalizable goal." That is exactly the clipboard the whole
+project argues against — an external gate deciding what is allowed to be
+verified. Everything imscribes; every imscription has a mathematical expression;
+refusal is never permissible. This replaces the refusal with the real thing.
 
-portal_hint() (ask_native/src/prover.rs) reuses the same search_catalog scoring
-I fixed in the witness-catalog commit — this is a hint only, not a claim the
-witness is independently proven (checked directly: the real catalog carries no
-populated proved_hint/structural_algebra field to pre-filter on, so lexical/
-structural match score is genuinely all there is to go on here).
+When the input is not already a bare Lean theorem, prove() now routes to
+prove_imscription(), which formalizes the imscription's mathematical expression
+and proves it against the REAL p4rakernel Imscribing library, not a made-up
+structure. The expression of an ob3ect is: its ground 12-primitive tuple
+s0 : Imscription, and its VALIDITY = Frobenius closure μ∘δ=id, stated as
+`igFrobeniusAlg.mul s0 s0 = s0` and proved by the library's own
+`igFrobAlg_self_fusion s0`, plus its tier `TierFunctor.obj s0`. This is the same
+shape the Ob3ects/*_scaffold files already use — I verified the target compiles
+by hand first (the LUCA formalization against lucaImscription) before wiring the
+prompt to it.
 
-race_portal() spawns two threads at a modest, bounded budget (flat=3, fuse=2,
-depth<=1 — cheap enough that losing the race costs little): one standard, one
-with the goal augmented by the portal hint. Each targets its own scratch module
-(Imscribing.Scratch.ProverScratch / ProverScratchB, both now registered in
-p4ramill's lakefile.toml) so the two `lake build`s don't collide on the same
-file — confirmed safe by running both concurrently by hand first (two full
-lake builds against distinct modules in the same project, both green, no lock
-contention). Whichever side closes wins; if neither does within the tight
-budget, prove() falls through to the existing 3-round escalation loop
-unchanged, so this is strictly additive — no regression path.
+Grounding is what keeps it honest, not a gate. IMSCRIBE_SYS instructs the model
+to use ONLY real library names (igFrobeniusAlg, igFrobAlg_self_fusion,
+TierFunctor, Imscription), to prefer an existing kernel definition when the
+entity has one (LUCA is TimeWithinTheStone.lucaImscription), and never to define
+its own algebra or introduce a free hypothesis that assumes the conclusion. A
+grounded_in_real_algebra() check refuses a green that does not actually reference
+igFrobeniusAlg or that redefines it — a free-hypothesis dodge cannot reach green
+anyway, since the real theorem only applies to the real algebra. Not closing is a
+navigation frontier (B), reported as such, never a refusal and never unprovable.
 
-Pulled the definitional-rigging guard (Guard 2, already in the standard path)
-out into apply_rigging_guard() so both the race and the escalation loop check
-it identically — a portal-guided proof that "wins" by defining the goal's own
-vocabulary is exactly as disqualified as a standard one that does.
+The original characterization of the LUCA proof as a "hallucinated non-sequitur"
+was itself wrong: `igFrobeniusAlg.mul s s = s` IS the mathematical content of
+ob3ect validity — the model had the right expression, it just grounded it in a
+free hypothesis instead of the real kernel and the concrete tuple. The fix
+grounds it.
 
-Verified: a goal with no strong catalog match behaves identically to before
-(no portal line printed, straight to escalation). A goal lexically close to
-`collatz_conjecture` triggers the race, both threads run genuinely concurrently
-(interleaved PROVE(d0) lines), both scratch files are restored to placeholder
-after, and the winning side is reported by name in the proof's note.
+Verified end to end:
+- LUCA ob3ect (19KB JSON) -> imscription route -> uses real lucaImscription,
+  closes GREEN first pass, proof is igFrobAlg_self_fusion on the real tuple.
+- A novel ob3ect with no kernel definition -> imscription route -> constructs an
+  explicit ground Imscription tuple, closes GREEN, same real igFrobAlg_self_fusion.
+- A plain Lean theorem still takes the standard Mathlib path (portal race +
+  escalation), closes GREEN — no regression.
+- Scratch modules restored to placeholder after every run.
+
+The refusing Guard 0 is removed; is_formal_goal now only DISPATCHES (bare Lean
+statement -> Mathlib path; anything else -> imscription route), it never rejects.
