@@ -134,6 +134,27 @@ struct Cli {
     #[arg(long = "switch", num_args = 2, value_names = ["A", "B"])]
     switch: Option<Vec<String>>,
 
+    /// For --click A B: register the fused product as a first-class catalog object
+    /// and decompose it through the cl8nk_navigator (harness the chimera's existence).
+    /// Optional value is the entry name; default `chimera_A_B`. `--click A B --register [NAME]`
+    #[arg(long = "register", num_args = 0..=1, default_missing_value = "")]
+    register: Option<String>,
+
+    /// Excited-state analysis. `--excite A` promotes A to its excited manifold
+    /// (Criticality ⊙ → the non-Hermitian exceptional-point resonance) and reports
+    /// the δ (light) promotion and the μ (relaxation/fluorescence) + productive decay
+    /// legs. On a `--set` line, bare `--excite` makes the transfer PHOTOINDUCED (the
+    /// donor is excited first, opening the driving-force gap). `--excite A [--certify] [--register]`
+    #[arg(long = "excite", num_args = 0..=1, default_missing_value = "")]
+    excite: Option<String>,
+
+    /// Single-electron transfer (SET). `--set D A` transfers one winding quantum Ω
+    /// (the quantized charge) from donor to acceptor: donor oxidized (D•⁺), acceptor
+    /// reduced (A•⁻), total Ω conserved. Donor/acceptor set by Criticality ⊙ (energy).
+    /// Add `--catalyst M` for a Cu-NO-class mediator, `--excite` for photoinduced ET.
+    #[arg(long = "set", num_args = 2, value_names = ["D", "A"])]
+    set: Option<Vec<String>>,
+
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
@@ -1483,6 +1504,9 @@ impl CliClone for Cli {
             top: self.top,
             certify: self.certify,
             switch: self.switch.clone(),
+            register: self.register.clone(),
+            excite: self.excite.clone(),
+            set: self.set.clone(),
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -1524,6 +1548,40 @@ fn main() {
         }
     }
 
+    // Single-electron transfer: `./ask --set D A` (donor, acceptor). Bare `--excite`
+    // on this line makes it photoinduced (the donor is excited first).
+    if let Some(names) = &cli.set {
+        if names.len() == 2 {
+            let photo = cli.excite.is_some();
+            let code = click::run_set(
+                cat_ref,
+                &names[0],
+                &names[1],
+                cli.certify,
+                cli.catalyst.as_deref(),
+                photo,
+                cli.register.as_deref(),
+                catalog_path.as_deref(),
+            );
+            process::exit(code);
+        }
+    }
+
+    // Excited-state analysis: `./ask --excite A` (standalone verb — a value present
+    // and no --set). On a --set line the flag is consumed above as photoinduced.
+    if let Some(ex) = &cli.excite {
+        if !ex.is_empty() {
+            let code = click::run_excite(
+                cat_ref,
+                ex,
+                cli.certify,
+                cli.register.as_deref(),
+                catalog_path.as_deref(),
+            );
+            process::exit(code);
+        }
+    }
+
     if let Some(names) = &cli.click {
         let code = match names.len() {
             2 => click::run_click(
@@ -1533,6 +1591,8 @@ fn main() {
                 cli.theta,
                 cli.catalyst.as_deref(),
                 cli.certify,
+                cli.register.as_deref(),
+                catalog_path.as_deref(),
             ),
             1 => click::run_click_sweep(
                 cat_ref,

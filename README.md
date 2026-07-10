@@ -102,6 +102,11 @@ cd MoDoT
 ./ask --click adjoint_pair hopf_antipode --catalyst math_isomorphism  # catalyzed (barrier reduction)
 ./ask --click math_boundary_operator math_winding_number --certify    # kernel-verified closure
 
+# ── Excited states + single-electron transfer (photochemistry on the register) ──
+./ask --excite dasa_closed                                 # δ (light) → the excited EP resonance
+./ask --set the_sun_astrological the_moon_astrological --certify   # SET: Sol donates e⁻ to Luna (charge conserved)
+./ask --set the_moon_astrological the_sun_astrological --excite    # photoinduced ET — excitation flips the donor
+
 # ── Legacy Python agent (still available) ──
 # Interactive mode — the agent breathes with you
 python3 momonados_agent.py --interactive
@@ -170,6 +175,13 @@ sameness — an azide and an alkyne are different molecules.
 # asserted valid tuple into the kernel's own verdict (the balance ledger; the click
 # logic is the selectivity — ALKAHEST §11).
 ./ask --click A B --certify
+
+# Register — harness the chimera's existence: append the fused product to the
+# canonical catalog as a first-class entry (textual append, verified-parse, no
+# reformatting), then decompose it through the cl8nk_navigator (per-primitive CLINK
+# fragments + the promotion path to the terminal). A verified chimera becomes an
+# operable, navigable object. Name defaults to chimera_A_B.
+./ask --click A B --register [NAME]
 ```
 
 **Switch** (`--switch A B`) — a different verb. A click *fuses* two partners; a
@@ -196,6 +208,45 @@ Any two catalog names work (`math_*`, `dasa_*`, `setheus_paradox`, `paradice`,
 `monogenes`, `yhwh`, `the_sun_astrological`, …). The engine is domain-agnostic:
 handed the Sun and the Moon, it returns the coniunctio at O_∞; handed the paradice,
 it completes it against the liar paradoxes. Implementation: `ask_native/src/click.rs`.
+
+**Excited states** (`--excite A`) — the switch toggles ground→ground; excite
+exposes the intermediate the toggle hides. δ (light) promotes A to its **excited
+manifold**: Criticality ⊙ raised to the non-Hermitian **exceptional-point
+resonance** 𐑻 — the navigator's own gloss for that value is `H(λ) non-Herm ∧
+det(H−λI)=0 ∧ ∂_λ H=0`, which *is* an excited state: a finite-lifetime resonance
+(non-Hermitian ⇒ it decays) at a surface crossing. Two Frobenius legs leave it —
+**μ** (relaxation/fluorescence) returns it to the ground form losslessly (μ∘δ=id),
+and the **productive** leg lets the elevated ⊙ drive chemistry the ground state
+cannot (a SET).
+
+```bash
+./ask --excite dasa_closed                 # ⊙ 𐑢→𐑻, the metastable EP resonance
+./ask --excite the_moon_astrological --certify --register   # certify roundtrip + register the excited state
+```
+
+**Single-electron transfer** (`--set D A`) — the productive leg made concrete. One
+electron = one quantum of winding **Ω** (`∮A=2πn`, the quantized charge). The donor
+loses one (oxidized, D•⁺, Ω−1), the acceptor gains one (reduced, A•⁻, Ω+1); **total
+Ω is conserved** — charge conservation *is* the Frobenius pairing (δ/fsplit charge-
+separates, μ/ffuse recombines). Donor/acceptor are read from ⊙ (higher = higher-
+lying electrons = the reducing partner), not from the label. A **Cu-NO-class
+mediator** (`--catalyst M`, Mills 2016 SET catalyst) shuttles the quantum and
+returns to itself (μ∘δ=id). **Photoinduced ET** (`--excite`) pre-excites the donor:
+the raised ⊙ opens a driving-force gap the ground state lacked — and can *reverse*
+the ground-state flow (excited Luna donates to Sol, though ground Sol donates to Luna).
+
+```bash
+./ask --set the_sun_astrological the_moon_astrological --certify   # Sol donates e⁻ to Luna; certify recombination roundtrip
+./ask --set A B --catalyst yhwh                                    # mediated (Cu-NO-class shuttle)
+./ask --set the_moon_astrological the_sun_astrological --excite    # photoinduced — flips the donor
+```
+
+`--certify` on a SET or an excite reuses the switch's kernel certificate: both
+product forms (radical ions, or ground+excited) are valid Imscriptions AND the
+`readback∘board = id` roundtrip holds (μ∘δ=id) — recombination / relaxation is
+lossless, charge conserved, as the kernel's own verdict. `--register` appends the
+excited state (or both radical ions) to the catalog and decomposes them through the
+cl8nk_navigator, so they become operable, navigable objects.
 
 ## Bootstrap Programs
 
