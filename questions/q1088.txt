@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $f_d(n)$ be the minimal $m$ such that any set of $m$ points in $\mathbb{R}^d$ contains a set of $n$ points such that any two determined distances are distinct. Estimate $f_d(n)$. In particular, is it true that, for fixed $n\geq 3$,[f_d(n)=2^{o(d)}?]
 ---

@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 For $n\geq 2k$ we define the deficiency of $\binom{n}{k}$ as follows. If $\binom{n}{k}$ is divisible by a prime $p\leq k$ then the deficiency is undefined. Otherwise, the deficiency is the number of $0\leq i<k$ such that $n-i$ is $k$-smooth, that is, divisible only by primes $\leq k$. 
 

@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $p_1<p_2<\cdots$ be a sequence of primes such that $p_{i+1}\equiv 1\pmod{p_i}$. Is it true that[\lim_k p_k^{1/k}=\infty?]Does there exist such a sequence with[p_k \leq \exp(k(\log k)^{1+o(1)})?]
 ---

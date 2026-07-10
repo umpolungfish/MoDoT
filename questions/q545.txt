@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $G$ be a graph with $m$ edges and no isolated vertices. Is the Ramsey number $R(G)$ maximised when $G$ is 'as complete as possible'? That is, if $m=\binom{n}{2}+t$ edges with $0\leq t<n$ then is[R(G)\leq R(H),]where $H$ is the graph formed by connecting a new vertex to $t$ of the vertices of $K_n$?
 ---

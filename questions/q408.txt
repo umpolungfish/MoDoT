@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $\phi(n)$ be the Euler totient function and $\phi_k(n)$ be the iterated $\phi$ function, so that $\phi_1(n)=\phi(n)$ and $\phi_k(n)=\phi(\phi_{k-1}(n))$. Let[f(n) = \min \{ k : \phi_k(n)=1\}.]Does $f(n)/\log n$ have a distribution function? Is $f(n)/\log n$ almost always constant? What can be said about the largest prime factor of $\phi_k(n)$ when, say, $k=\log\log n$?
 ---

@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 What is the smallest $k$ such that $\mathbb{R}^2$ can be red/blue coloured with no pair of red points unit distance apart, and no $k$-term arithmetic progression of blue points with distance $1$?
 ---

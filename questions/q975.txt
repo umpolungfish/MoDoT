@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $f\in \mathbb{Z}[x]$ be an irreducible non-constant polynomial such that $f(n)\geq 1$ for all large $n\in\mathbb{N}$. Does there exist a constant $c=c(f)>0$ such that[\sum_{n\leq X} \tau(f(n))\sim cX\log X,]where $\tau$ is the divisor function?
 ---

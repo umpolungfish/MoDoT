@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 How many solutions are there to[\sigma(a)+\sigma(b)=\sigma(a+b)]with $a+b\leq x$, where $\sigma$ is the sum of divisors function? Is it $\sim cx$ for some constant $c>0$?
 ---

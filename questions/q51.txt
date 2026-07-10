@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Is there an infinite set $A\subset \mathbb{N}$ such that for every $a\in A$ there is an integer $n$ such that $\phi(n)=a$, and yet if $n_a$ is the smallest such integer then $n_a/a\to \infty$ as $a\to\infty$?
 ---

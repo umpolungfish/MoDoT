@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $G$ be a graph on at most $\aleph_1$ vertices which contains no $K_4$ and no $K_{\aleph_0,\aleph_0}$ (the complete bipartite graph with $\aleph_0$ vertices in each class). Is it true that[\omega_1^2 \to (\omega_1\omega, G)^2?]What about finite $G$?
 ---

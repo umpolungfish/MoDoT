@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $1\leq u_1<u_2<\cdots$ be the sequence of integers with at most $2$ prime factors. Is it true that[\limsup \frac{u_{k+1}-u_k}{\log k}=\infty?]
 ---

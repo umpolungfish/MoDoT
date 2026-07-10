@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $f(z)$ be an entire function which is not a monomial. Let $\nu(r)$ count the number of $z$ with $\lvert z\rvert=r$ such that $\lvert f(z)\rvert=\max_{\lvert z\rvert=r}\lvert f(z)\rvert$. (This is a finite quantity if $f$ is not a monomial.)
 

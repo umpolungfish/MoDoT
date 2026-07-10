@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $P$ be a finite set of primes with $\lvert P\rvert \geq 2$ and let $\{a_1<a_2<\cdots\}=\{ n\in \mathbb{N} : \textrm{if }p\mid n\textrm{ then }p\in P\}$. Is the sum[\sum_{n=1}^\infty \frac{1}{[a_1,\ldots,a_n]},]where $[a_1,\ldots,a_n]$ is the lowest common multiple of $a_1,\ldots,a_n$, irrational?
 ---

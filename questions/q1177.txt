@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $G$ be a finite $3$-uniform hypergraph, and let $F_G(\kappa)$ denote the collection of $3$-uniform hypergraphs with chromatic number $\kappa$ not containing $G$.
 

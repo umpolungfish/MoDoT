@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 If $u=\{u_1<u_2<\cdots\}$ is a sequence of integers such that $(u_i,u_j)=1$ for all $i\neq j$ and $\sum \frac{1}{u_i}<\infty$ then let $\{a_1<a_2<\cdots\}$ be the sequence of integers which are not divisible by any of the $u_i$. For any $x$ define $t_x$ by[u_1\cdots u_{t_x}\leq x< u_1\cdots u_{t_x}u_{t_x+1}.]We call such a sequence $u_i$ good if, for all $\epsilon>0$, if $x$ is sufficiently large then[\max_{a_k<x} (a_{k+1}-a_k) < (1+\epsilon)t_x \prod_{i}\left(1-\frac{1}{u_i}\right)^{-1}.]Is there a good sequence such that $u_n< n^{O(1)}$? Is there a good sequence such that $u_n\leq e^{o(n)}$?
 ---

@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $\ell(N)$ be maximal such that in any finite set $A\subset \mathbb{R}$ of size $N$ there exists a Sidon subset $S$ of size $\ell(N)$ (i.e. the only solutions to $a+b=c+d$ in $S$ are the trivial ones). Determine the order of $\ell(N)$.
 

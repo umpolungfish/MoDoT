@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $k\geq 2$, and let $f_k(n)$ count the number of solutions to[n=p_1^k+\cdots+p_k^k,]where the $p_i$ are prime numbers. Is it true that $\limsup f_k(n)=\infty$?
 ---

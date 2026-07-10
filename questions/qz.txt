@@ -1,0 +1,1 @@
+prepare a witness and a conventional proof for the following: Show that there exists a coherent sequence of finite set mappings \langle f_n:n<\omega\rangle such that, for every (n<\omega), f_n:[\aleph_{n+1}]^{n+1}\to\aleph_{n+1},

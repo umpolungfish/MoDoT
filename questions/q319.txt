@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 What is the size of the largest $A\subseteq \{1,\ldots,N\}$ such that there is a function $\delta:A\to \{-1,1\}$ such that[\sum_{n\in A}\frac{\delta_n}{n}=0]and[\sum_{n\in A'}\frac{\delta_n}{n}\neq 0]for all non-empty $A'\subsetneq A$?
 ---

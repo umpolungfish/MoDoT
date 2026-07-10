@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $R_r(n)$ denote the $r$-uniform hypergraph Ramsey number: the minimal $m$ such that if we $2$-colour all edges of the complete $r$-uniform hypergraph on $m$ vertices then there must be some monochromatic copy of the complete $r$-uniform hypergraph on $n$ vertices.
 

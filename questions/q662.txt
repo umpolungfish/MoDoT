@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Consider the triangular lattice with minimal distance between two points $1$. Denote by $f(t)$ the number of distances from any points $\leq t$. For example $f(1)=6$, $f(\sqrt{3})=12$, and $f(3)=18$.
 

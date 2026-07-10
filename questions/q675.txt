@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 We say that $A\subset \mathbb{N}$ has the translation property if, for every $n$, there exists some integer $t_n\geq 1$ such that, for all $1\leq a\leq n$,[a\in A\quad\textrm{ if and only if }\quad a+t_n\in A.]
 Does the set of the sums of two squares have the translation property?

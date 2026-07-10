@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $A$ be the set of powerful numbers (if $p\mid n$ then $p^2\mid n$). Is it true that[1_A\ast 1_A(n)=n^{o(1)}]for every $n$?
 ---

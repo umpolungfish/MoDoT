@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Do all pairs of consecutive powerful numbers $n$ and $n+1$ come from solutions to Pell equations? In other words, must either $n$ or $n+1$ be a square?
 

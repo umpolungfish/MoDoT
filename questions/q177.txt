@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Find the smallest $h(d)$ such that the following holds. There exists a function $f:\mathbb{N}\to\{-1,1\}$ such that, for every $d\geq 1$,[\max_{P_d}\left\lvert \sum_{n\in P_d}f(n)\right\rvert\leq h(d),]where $P_d$ ranges over all finite arithmetic progressions with common difference $d$.
 ---

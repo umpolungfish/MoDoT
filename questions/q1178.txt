@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 For $r\geq 3$ let $d_r(e)$ be the minimal $d$ such that[\mathrm{ex}_r(n,\mathcal{F})=o(n^2),]where $\mathcal{F}$ is the family of $r$-uniform hypergraphs on $d$ vertices with $e$ edges.
 

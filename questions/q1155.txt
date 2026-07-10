@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Construct a random graph on $n$ vertices in the following way: begin with the complete graph $K_n$. At each stage, choose uniformly a random triangle in the graph and delete all the edges of this triangle. Repeat until the graph is triangle-free.
 

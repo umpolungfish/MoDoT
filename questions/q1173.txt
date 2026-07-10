@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Assume the generalised continuum hypothesis. Let[f: \omega_{\omega+1}\to [\omega_{\omega+1}]^{\leq \aleph_\omega}]be a set mapping such that[\lvert f(\alpha)\cap f(\beta)\rvert <\aleph_\omega]for all $\alpha\neq \beta$. Does there exist a free set of cardinality $\aleph_{\omega+1}$?
 ---

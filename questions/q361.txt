@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $c>0$ and $n$ be some large integer. What is the size of the largest $A\subseteq \{1,\ldots,\lfloor cn\rfloor\}$ such that $n$ is not a sum of a subset of $A$? Does this depend on $n$ in an irregular way?
 ---

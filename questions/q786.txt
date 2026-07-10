@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $\epsilon>0$. Is there some set $A\subset \mathbb{N}$ of density $>1-\epsilon$ such that $a_1\cdots a_r=b_1\cdots b_s$ with $a_i,b_j\in A$ can only hold when $r=s$?
 

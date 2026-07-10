@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 With $a_1=1$ and $a_2=2$ let $a_{n+1}$ for $n\geq 2$ be the least integer $>a_n$ which can be expressed uniquely as $a_i+a_j$ for $i<j\leq n$.
 

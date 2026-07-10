@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $A\subset \mathbb{R}$ be a set of size $n$ such that every subset $B\subseteq A$ with $\lvert B\rvert =4$ has $\lvert B-B\rvert\geq 11$. Find the best constant $c>0$ such that $A$ must always contain a Sidon set of size $\geq cn$.
 ---

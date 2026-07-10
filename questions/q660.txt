@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $x_1,\ldots,x_n\in \mathbb{R}^3$ be the vertices of a convex polyhedron. Are there at least[(1-o(1))\frac{n}{2}]many distinct distances between the $x_i$?
 ---

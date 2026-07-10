@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $f(n)$ denote the minimal $m\geq 1$ such that[n! = a_1\cdots a_t]with $a_1<\cdots <a_t=a_1+m$. What is the behaviour of $f(n)$?
 ---

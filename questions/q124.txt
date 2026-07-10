@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 For any $d\geq 1$ and $k\geq 0$ let $P(d,k)$ be the set of integers which are the sum of distinct powers $d^i$ with $i\geq k$. Let $3\leq d_1<d_2<\cdots <d_r$ be integers such that[\sum_{1\leq i\leq r}\frac{1}{d_r-1}\geq 1.]Can all sufficiently large integers be written as a sum of the shape $\sum_i c_ia_i$ where $c_i\in \{0,1\}$ and $a_i\in P(d_i,0)$? 
 

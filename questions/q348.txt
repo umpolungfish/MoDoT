@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 For what values of $0\leq m<n$ is there a complete sequence $A=\{a_1\leq a_2\leq \cdots\}$ of integers such that
  $A$ remains complete after removing any $m$ elements, but 

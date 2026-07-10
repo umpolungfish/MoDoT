@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $A(n)=\{a_0<a_1<\cdots\}$ be the sequence defined by $a_0=0$ and $a_1=n$, and for $k\geq 1$ define $a_{k+1}$ as the least positive integer such that there is no three-term arithmetic progression in $\{a_0,\ldots,a_{k+1}\}$.
 

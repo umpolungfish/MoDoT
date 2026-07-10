@@ -1,4 +1,4 @@
-prove:
+prepare a witness and a conventional proof for the following:
 ---
 For any $0<\alpha<1$, let[f(\alpha,n)=\frac{1}{\log n}\sum_{1\leq k\leq n}(\tfrac{1}{2}-\{ \alpha k\}).]Does $f(\alpha,n)$ have an asymptotic distribution function?
 

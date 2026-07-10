@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $f(n)$ be minimal such that every set of $n$ points in $\mathbb{R}^2$ contains at most $f(n)$ many sets of four points which are 'degenerate' in the sense that some pair are the same distance apart. Estimate $f(n)$ - in particular, is it true that $f(n)\leq n^{3+o(1)}$?
 ---

@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Are there infinitely many primes $p$ such that $p=2^kq+1$ for some prime $q$ and $k\geq 0$? Or $p=2^k3^lq+1$?
 ---

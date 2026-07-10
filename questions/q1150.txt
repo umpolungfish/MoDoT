@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Does there exist a constant $c>0$ such that, for all large $n$ and all polynomials $P$ of degree $n$ with coefficients $\pm 1$,[\max_{\lvert z\rvert=1}\lvert P(z)\rvert > (1+c)\sqrt{n}?]
 ---

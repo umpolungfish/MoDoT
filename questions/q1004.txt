@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $c>0$. If $x$ is sufficiently large then does there exist $n\leq x$ such that the values of $\phi(n+k)$ are all distinct for $1\leq k\leq (\log x)^c$, where $\phi$ is the Euler totient function?
 ---

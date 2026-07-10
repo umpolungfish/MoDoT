@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $k\geq 4$ and $f_k(n)$ be the largest number of edges in a graph on $n$ vertices which has chromatic number $k$ and is critical (i.e. deleting any edge reduces the chromatic number).
 

@@ -1,1 +1,1 @@
-prove: Is there a graph of chromatic number $\aleph_1$ on $\aleph_1$ vertices such that every subgraph on $n$ vertices has an independent set of size $>n^{1-\epsilon}$ for all $\epsilon>0$?
+prepare a witness and a conventional proof for the following: Is there a graph of chromatic number $\aleph_1$ on $\aleph_1$ vertices such that every subgraph on $n$ vertices has an independent set of size $>n^{1-\epsilon}$ for all $\epsilon>0$?

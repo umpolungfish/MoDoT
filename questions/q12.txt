@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $A$ be an infinite set such that there are no distinct $a,b,c\in A$ such that $a\mid (b+c)$ and $b,c&#62;a$. Is there such an $A$ with\[\liminf \frac{\lvert A\cap\{1,\ldots,N\}\rvert}{N^{1/2}}&#62;0?\]Does there exist some absolute constant $c&#62;0$ such that there are always infinitely many $N$ with\[\lvert A\cap\{1,\ldots,N\}\rvert&#60;N^{1-c}?\]Is it true that\[\sum_{n\in A}\frac{1}{n}&#60;\infty?\]
 ---

@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $f(n)$ be maximal such that there is a connected graph $G$ with $n$ vertices and $f(n)$ edges such that[R(K_3,G)= 2n-1.]Let $F(n)$ be maximal such that every connected graph $G$ with $n$ vertices and $\leq F(n)$ edges has[R(K_3,G)= 2n-1.]Estimate $f(n)$ and $F(n)$. In particular, is it true that $F(n)/n\to \infty$?
 ---

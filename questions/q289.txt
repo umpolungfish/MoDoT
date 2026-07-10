@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Is it true that, for all sufficiently large $k$, there exist finite intervals $I_1,\ldots,I_k\subset \mathbb{N}$, distinct, not overlapping or adjacent, with $\lvert I_i\rvert \geq 2$ for $1\leq i\leq k$ such that[1=\sum_{i=1}^k \sum_{n\in I_i}\frac{1}{n}?]
 ---

@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $h(N)$ be the smallest $k$ such that $\{1,\ldots,N\}$ can be coloured with $k$ colours so that every four-term arithmetic progression must contain at least three distinct colours. Estimate $h(N)$.
 ---

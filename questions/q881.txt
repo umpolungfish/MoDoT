@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $A\subset\mathbb{N}$ be an additive basis of order $k$ which is minimal, in the sense that if $B\subset A$ is any infinite set then $A\backslash B$ is not a basis of order $k$. 
 

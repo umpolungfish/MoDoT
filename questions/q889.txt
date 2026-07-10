@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 For $k\geq 0$ and $n\geq 1$ let $v(n,k)$ count the prime factors of $n+k$ which do not divide $n+i$ for $0\leq i<k$. Equivalently, $v(n,k)$ counts the number of prime factors of $n+k$ which are $>k$.
 

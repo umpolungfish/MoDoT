@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $h(n)$ be such that, for any set $A\subseteq \mathbb{N}$ of size $n$, the set[\left\{ \frac{a}{(a,b)}: a,b\in A\right\}]has size at least $h(n)$. Estimate $h(n)$.
 ---

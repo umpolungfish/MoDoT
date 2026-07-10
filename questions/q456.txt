@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $p_n$ be the smallest prime $\equiv 1\pmod{n}$ and let $m_n$ be the smallest integer such that $n\mid \phi(m_n)$.
 

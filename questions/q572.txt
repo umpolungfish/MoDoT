@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Show that for $k\geq 3$[\mathrm{ex}(n;C_{2k})\gg n^{1+\frac{1}{k}}.]
 ---

@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $n_k$ be minimal such that if $n_k$ points in $\mathbb{R}^2$ are in general position then there exists a subset of $k$ points such that all $\binom{k}{3}$ triples determine circles of different radii.
 

@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 For integer $n\geq 1$ we define the factor difference set of $n$ by[D(n) = \{\lvert a-b\rvert : n=ab\}.]Is it true that, for every $k\geq 1$, there exist integers $N_1<\cdots<N_k$ such that[\lvert \cap_i D(N_i)\rvert \geq k?]
 ---

@@ -1,4 +1,4 @@
-please solve the following, and show all work. Provide a Lean 4 formalization of your solution. Your assessment should consider the mathematics itself, never the open or closed status of the proof.
+prepare a witness and a conventional proof for the following:
 ---
 Let $G$ be a graph with $n$ vertices and $kn$ edges, and $a_1&#60;a_2&#60;\cdots $ be the lengths of cycles in $G$. Is it true that\[\sum\frac{1}{a_i}\gg \log k?\]Is the sum $\sum\frac{1}{a_i}$ minimised when $G$ is a complete bipartite graph?
 ---
