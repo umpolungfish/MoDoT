@@ -235,6 +235,18 @@ The upshot closes back into section 6. A verifier built on the SIC frame tolerat
 
 ---
 
+## 14. The retort
+
+A cucurbit is the gourd-shaped lower vessel of the classical distillation apparatus, from Latin *cucurbita*, gourd. An ambix — alembic, from Arabic *al-inbīq*, from Greek *ámbix*, cup — is the head set on top of it, the piece that receives and condenses what rises. The complete classical apparatus is these two vessels joined: cucurbit below holding the material, alembic above collecting the vapor, separable, liftable apart. That arrangement is the clipboard of section 2 built in glass before the word existed for it: an object in one vessel, a reader in a second vessel placed over it, physically distinct, gathering what comes off the object without ever being continuous with it.
+
+The retort fuses them. Cap and cucurbit become one piece of glass, blown as a single form, the neck curving back down into the vessel it rose out of. Track what happens inside one physically. Heat rises the material off itself, the volatile separating from the fixed — δ, self-differentiation, the solve of section 5. The vapor recondenses at the curve of the neck — μ, self-reintegration, the coagula — on the same continuous glass surface the material started on, not handed off to a second vessel standing in judgment over the first. The curve itself, the point where ascent becomes descent, is the Portico of the epigraph: not a metaphor for the threshold where the Spiritual Man neither accepts nor spurns, but the same structural role, built — the place where δ becomes μ in one unbroken motion on one unbroken surface, section 10's "ascends from earth to heaven and descends again to earth" with a point on the glass you could touch. And because it is one piece of glass and not two joined ones, there is no judge to separate from the judged even in principle. Section 4's co-typing is identity, poured rather than argued: one vessel doing both jobs because it was only ever one vessel.
+
+What comes out the end of a retort is the distillate. Not a report about the material, not a grade assigned to it from outside — the material itself, having gone up and come back down through the one vessel that never let go of it, arriving as what it actually is with the impurities left behind in the flask. That is section 5's "what is left in the flask is the type, and only the type" and section 8's "the verdict is a type, not a number," said in the oldest available vocabulary. The distillate is truth in exactly the sense this document means the word: not correspondence to an external standard, co-typing recovered intact across the round trip.
+
+The lineage does not end at metaphor. *Cucurbituril*, the macrocyclic host molecule abbreviated CB[n], was named in 1981 by the chemists who solved its crystal structure — Freeman, Mock, and Shih — explicitly for its resemblance to a gourd and, in their own words, "by devolution from the similarly named (and shaped) component of the early chemists' alembic." CB[7] is not a separate example reaching for the same image. It is the same vessel, same word, carried forward through the history of chemical nomenclature into a real molecule — and that molecule is the first thing the Grammar predicted correctly and did not expect to (section on CB[7] competitive displacement, `ig-docs/publishing/tex/SO_BELOW.tex`): six guests, ordinal rank of the fidelity primitive alone, six out of six, no binding energies. Zosimos's cucurbit did not merely resemble the structure this document argues for. It named, without knowing it would, the molecule the Grammar would first prove itself on.
+
+---
+
 ## References
 
 - Zosimos of Panopolis, *On the Letter Omega*, *On the Divine Water*, *Letter to Theosebeia*, and *Visions* (3rd–4th century). The twelve fates of Death, the Stilling Practice (six commands), the Portico, the internal/external unity, Nikotheos, and the Counterfeit Daimon.
@@ -249,6 +261,8 @@ The upshot closes back into section 6. A verifier built on the SIC frame tolerat
 - G. Spencer-Brown, *Laws of Form*, 1969. On the unmarked state co-created by any distinction.
 - G. Zauner, *Quantendesigns*, 1999. Original SIC-POVM conjecture.
 - J. Renes, R. Blume-Kohout, A. J. Scott, C. Caves, *Symmetric Informationally Complete Quantum Measurements*, J. Math. Phys. 45, 2004.
+- W. L. Mock, *William L. Mock and Cucurbituril: The Resurrection of the Behrend Paper of 1905*, ACS Omega, 2023 (naming rationale: Freeman, Mock & Shih, 1981). Source for section 14: the cucurbit/cucurbituril lineage.
+- H.-J. Kim et al. (2001) and M. Assaf & A. Nau (2015). Source for section 14 and `ig-docs/publishing/tex/SO_BELOW.tex`: the CB[7] competitive displacement benchmark, the Grammar's first unexpected validation.
 - G. Priest, *In Contradiction*, 2nd ed., 2006. Dialetheias at boundaries and the instant of change.
 - Laozi, *Tao Te Ching*, ch. 1, 40, 42 (c. 4th century BCE). The cosmogony of the Tao, the ten thousand things, and reversal as the movement of the Tao.
 - Lando⊗⊙perator, *The Twelve Fates of Death: Zosimos of Panopolis' Cryptic Language as the Exact Encoding of the Frobenius Fixed Point* (Treatise III), `/home/mrnob0dy666/imsgct/ig-docs/esoterica/alchemy_congealum/cryptic_co-type_treatises/TREATISE_III_ZOSIMOS_DECODED.md`.

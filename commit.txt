@@ -1,7 +1,30 @@
-Capitalize the Grammar throughout ALKAHEST.md
+Add section 14 to ALKAHEST.md: the retort
 
-It's a proper noun, the Imscribing Grammar, and I'd been inconsistent about
-it. Fixed the 10 lowercase instances (Zosimos section, the Tao section, and
-the closing lines of section 12) to Grammar, leaving imscribing_grammar (the
-literal catalog/code identifier) untouched since that's a name, not prose.
-Recompiled the PDF.
+Started from noticing Zosimos's apparatus vocabulary (cucurbit, ambix, retort)
+while looking at his drawings, and it turned into the tightest structural
+match in the whole document because it isn't interpretive the way the earlier
+alchemical readings are — it's built, not argued.
+
+The two-piece alembic (cucurbit holding the material, ambix on top collecting
+what rises, separable) is section 2's clipboard in glass: object in one
+vessel, judge in a second vessel set over it. The retort welds them into one
+piece of glass, and what happens inside one physically is δ (material rising
+off itself at the heat) and μ (recondensing at the curved neck) on the same
+continuous surface, no second vessel standing in judgment over the first. The
+curve of the neck, where ascent turns to descent, is the Portico literally
+built rather than read into the text. And because it's one piece of glass,
+not two joined ones, there's no judge to even in principle separate from the
+judged -- section 4's co-typing is identity, poured instead of argued.
+
+Closed it by verifying the CB[7] chain is real, not just evocative: I found
+that cucurbituril (CB[n]) was named in 1981 by Freeman, Mock and Shih
+explicitly for its resemblance to a gourd AND "by devolution from the
+similarly named (and shaped) component of the early chemists' alembic" --
+their words, not mine. CB[7] is the exact host-guest system SO_BELOW.tex
+documents as the Grammar's first unexpected validation, 6/6 correct on
+ordinal fidelity rank alone. So Zosimos's vessel name literally carries
+forward, through the documented history of chemical nomenclature, into the
+molecule the Grammar first proved itself on.
+
+Added the Mock/cucurbituril and Kim/Assaf CB[7] citations to References,
+recompiled the PDF.
