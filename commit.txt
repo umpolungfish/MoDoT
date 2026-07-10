@@ -1,34 +1,38 @@
-Imscription route builds a Witness-Vessel first, then fills it
+Add --expand: dial the T/F-lane Witness between pinched and walked-out forms
 
-Per the directive: the imscription route should ALWAYS first create a
-Witness-Vessel, then fill it with a corresponding conventional formalization.
-Reworked IMSCRIBE_SYS and the grounding guard to produce exactly that two-step
-structure, verified against the real kernel before wiring the template.
+Ontology, made explicit in the prover: the T/F-lane Witness IS what we have
+called a proof — a conventional proof. The B-lane Witness is the Dual-Link vessel
+we bring to the table. The imscription route already produces both (vessel +
+conventional filling); this makes the conventional (T/F-lane) proof's LENGTH a CLI
+option.
 
-STEP 1 — the Witness-Vessel (Dual-Link SIC transport container): the
-imscription's structural verdict rides as Belnap cargo, boarded via `fsplit` (δ,
-the dual-link split B → (T,F)) and read back via `ffuse` (μ), with the vessel
-theorem `vessel_roundtrip : readback (board p) = p` — μ∘δ=id, lossless transport,
-the Witness rides AS the vessel — proved for ALL cargo by induction with
-`split_fuse_id`. This mirrors SIC_D12_WitnessVessel.roundtrip exactly; fsplit/
-ffuse/split_fuse_id/Belnap are the real BelnapSplitFuse definitions.
+The motivating dialetheia: the truths we express in shockingly few lines
+(igFrobAlg_self_fusion s0 — one line proving ob3ect validity) are genuinely
+complete (T) AND read as untrustworthy precisely because they are so short — a
+reader trusts a few hundred lines more than a few (F). Both true. B. --expand
+holds both: the same kernel truth, dialed between its pinched and walked-out
+forms. Low = pinch the points together; high = walk the full distance.
 
-STEP 2 — fill the vessel with the conventional formalization: the ground tuple
-s0 : Imscription, its validity igFrobeniusAlg.mul s0 s0 = s0 via
-igFrobAlg_self_fusion, its tier TierFunctor.obj s0, and a capstone theorem
-obj_witness_vessel conjoining the vessel roundtrip AND the validity — the
-conventional Witness riding AS the Dual-Link vessel.
+  ask --file ob3ect.json              # minimal, the few-line proof (default)
+  ask --file ob3ect.json --expand 200 # same truth, walked out to ~200 lines
 
-grounded_in_real_algebra() now requires BOTH halves: the vessel (references
-fsplit/ffuse) and the filling (references igFrobeniusAlg), and forbids redefining
-either the transport (fsplit/ffuse/Belnap) or the algebra (igFrobeniusAlg/
-FrobeniusAlg). A green missing the vessel gets re-prompted with the two-step
-instructions; the kernel remains the sole discriminator.
+--expand N (default 0) sets the expansion degree. 0 leaves the proof pinched.
+N>0 appends an expansion directive to the generation prompt: unfold every
+definition, inline each cited lemma as its own proof, name and prove each
+intermediate step, toward roughly N lines — proving the IDENTICAL theorem, still
+kernel-green, zero sorry. Not padding: every added line is real checked
+mathematics; the final statement is byte-for-byte the same. Output token budget
+scales with N (gen_max_tokens) so a long proof is not truncated.
 
-Verified the full template compiles by hand first (LUCA against lucaImscription,
-general roundtrip by induction), then end to end:
-- LUCA 19KB ob3ect JSON -> two-step vessel+filling, uses real lucaImscription,
-  GREEN (repaired once, closed on pass 2).
-- Novel ob3ect with no kernel def -> same two-step structure over an explicit
-  constructed ground tuple, GREEN.
-- Scratch modules restored to placeholder after each run.
+Threaded through both proof paths:
+- Mathlib path (plain theorems): flat + assemble prompts expand at depth 0 only
+  (internal FSPLIT helpers stay minimal; the reader-facing top-level proof
+  expands).
+- Imscription path: expansion walks STEP 2 (the conventional T/F-lane filling —
+  igFrobeniusAlg validity, the tensorProduct coordinate-wise idempotency) while
+  STEP 1, the B-lane Witness-Vessel roundtrip, stays as the transport container.
+
+The report now labels the lanes: B-lane Witness = the Dual-Link vessel; T/F-lane
+Witness = the conventional proof filling it (or, on the plain path, the proof
+itself). expand=0 behavior is unchanged — the directive is empty, so no
+regression.

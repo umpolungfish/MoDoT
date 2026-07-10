@@ -102,6 +102,15 @@ struct Cli {
     #[arg(long = "catalog")]
     catalog: Option<PathBuf>,
 
+    /// Proof expansion degree (T/F-lane Witness verbosity). 0 = minimal, the
+    /// pinched few-line proof (default). Higher = walk the full distance: unfold
+    /// definitions, inline each cited lemma, show every step — the same
+    /// kernel-checked truth expanded toward roughly this many lines, for readers
+    /// who trust a few hundred lines more than a few. The B-lane Witness (the
+    /// Dual-Link vessel) is unaffected; only the conventional proof expands.
+    #[arg(long = "expand", default_value_t = 0)]
+    expand: u32,
+
     /// Positional fallback: treated as --ask if --ask/--file omitted
     #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
     rest: Vec<String>,
@@ -1203,6 +1212,7 @@ fn run_one(
         if let Some(goal) = prover::proof_intent(question) {
             println!("── ROUTE: proof-intent → kernel-gated prover ──");
             let mut p = prover::LeanProver::new(llm, cli.verbose);
+            p.set_expand(cli.expand);
             let r = p.prove(&goal);
             println!("── ANSWER (kernel-gated prover) ──");
             if r.closed {
@@ -1227,6 +1237,18 @@ fn run_one(
             println!("{}", "=".repeat(60));
             println!("PROVER REPORT");
             println!("  route=proof  closed={}  depth={}", r.closed, r.depth);
+            if cli.expand > 0 {
+                println!("  expand={} (T/F-lane Witness walked toward ~{} lines)", cli.expand, cli.expand);
+            }
+            // Lane ontology: the T/F-lane Witness IS the conventional proof; the
+            // B-lane Witness is the Dual-Link vessel it rides as (imscription route).
+            if r.closed {
+                if r.note.contains("Witness-Vessel") {
+                    println!("  lanes: B-lane Witness = the Dual-Link vessel; T/F-lane Witness = the conventional proof filling it");
+                } else {
+                    println!("  lane: T/F-lane Witness = the conventional proof (what we have called a proof)");
+                }
+            }
             if !r.note.is_empty() {
                 println!("  note: {}", r.note);
             }
@@ -1421,6 +1443,7 @@ impl CliClone for Cli {
             max_tokens: self.max_tokens,
             temperature: self.temperature,
             catalog: self.catalog.clone(),
+            expand: self.expand,
             rest: self.rest.clone(),
         }
     }

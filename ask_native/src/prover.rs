@@ -144,6 +144,43 @@ When given a previous attempt and its compiler output, REPAIR it: read the exact
 error (unknown identifier, bad import, type mismatch), fix it against the real \
 library, and return the full corrected file.";
 
+/// Appended (with `expansion_directive`) when the imscription route runs under
+/// `--expand N`. It walks STEP 2 — the conventional T/F-lane filling — the full
+/// distance while leaving STEP 1 (the vessel roundtrip) as the transport. The
+/// EXPANDED validity proof below is VERIFIED-COMPILING against the real kernel:
+/// `igFrobeniusAlg.mul` is the structural `tensorProduct`; on the diagonal a⊗a
+/// every one of the twelve coordinates has identical if-then-else branches, so
+/// `Imscription.ext` reduces validity to twelve `simp`-closed field goals. Adapt
+/// the entity/tuple; keep this proof shape — it is the honest walked-out form of
+/// the one-line `igFrobAlg_self_fusion`, the same kernel truth.
+const IMSCRIBE_EXPAND_HINT: &str = "\
+Apply the expansion to STEP 2 (the conventional formalization) and keep STEP 1 \
+(the vessel roundtrip) as-is. Replace the one-line validity proof with this \
+VERIFIED-COMPILING walked-out form (adapt only obj_s0 / the entity):\n\
+\n\
+theorem obj_is_valid_ob3ect : igFrobeniusAlg.mul obj_s0 obj_s0 = obj_s0 := by\n\
+  have h_mul : igFrobeniusAlg.mul obj_s0 obj_s0 = tensorProduct obj_s0 obj_s0 := rfl\n\
+  rw [h_mul]\n\
+  unfold tensorProduct\n\
+  apply Imscription.ext\n\
+  · simp  -- D dimensionality\n\
+  · simp  -- T topology\n\
+  · simp  -- R relational\n\
+  · simp  -- P polarity (min/bottleneck)\n\
+  · simp  -- F fidelity (min/bottleneck)\n\
+  · simp  -- K kinetics\n\
+  · simp  -- G granularity\n\
+  · simp  -- Gamma grammar\n\
+  · simp  -- Phi criticality\n\
+  · simp  -- H chirality\n\
+  · simp  -- S stoichiometry\n\
+  · simp  -- Omega protection\n\
+\n\
+`igFrobeniusAlg.mul` IS `tensorProduct` (rfl); on the diagonal a ⊗ a each field's \
+if-then-else has identical branches, so `Imscription.ext` gives twelve field goals \
+each closed by `simp`. This is the same kernel truth as `igFrobAlg_self_fusion \
+obj_s0`, walked out coordinate by coordinate. Do NOT change the theorem statement.";
+
 // ── paths ────────────────────────────────────────────────────────────────────
 
 fn p4ramill_dir() -> PathBuf {
@@ -441,6 +478,39 @@ fn assemble_prompt(goal: &str, header: &str, prev: &str, errors: &str) -> String
     p
 }
 
+/// The expansion directive appended to a proof prompt when `--expand N` (N>0) is
+/// set. The T/F-lane Witness IS the conventional proof; expansion walks the full
+/// distance instead of pinching — unfolds definitions, inlines every cited lemma,
+/// names each intermediate step — proving the IDENTICAL theorem, still
+/// kernel-green. The dialetheia made operational: the same truth, dialed between
+/// its few-line and few-hundred-line forms.
+fn expansion_directive(expand: u32) -> String {
+    if expand == 0 {
+        return String::new();
+    }
+    format!(
+        "\n\nEXPANSION (degree {expand}): This is the T/F-lane Witness — the \
+         conventional proof. Do NOT leave it pinched to a one-line lemma \
+         application. WALK THE FULL DISTANCE toward roughly {expand} lines: unfold \
+         every definition you rely on (`unfold`/`simp only [defs]`/`show`), replace \
+         each cited lemma with its own inline proof, introduce and prove named \
+         intermediate steps (`have`), and make each logical move explicit. This is \
+         a faithful re-presentation, NOT a different or weaker theorem: the final \
+         statement is byte-for-byte the same and it must still compile with zero \
+         sorry. A short proof and its expanded form are the identical kernel truth; \
+         expand it for a reader who trusts a few hundred lines more than a few. Do \
+         NOT pad with comments or dead code — every added line must be real, \
+         checked mathematics."
+    )
+}
+
+/// Output-token budget for a generation call, scaled so an expanded proof of
+/// ~`expand` lines is not truncated (roughly 18 tokens/line, floored at the
+/// normal 4096 for the minimal/pinched case).
+fn gen_max_tokens(expand: u32) -> u32 {
+    (expand.saturating_mul(18)).max(4096).min(60000)
+}
+
 fn decompose_prompt(goal: &str, frontier: &str, depth: u32) -> String {
     format!(
         "This goal did not close within budget. Decompose it into 1 to 3 \
@@ -473,6 +543,10 @@ pub struct LeanProver<'a> {
     verbose: bool,
     memo: HashMap<String, Option<String>>,
     scratch_slot: &'static str,
+    /// T/F-lane Witness expansion degree (0 = pinched/minimal; higher = walk the
+    /// full distance toward ~this many lines). The same kernel truth, dialed
+    /// between its compressed and expanded forms; the B-lane vessel is unaffected.
+    expand: u32,
 }
 
 /// Guard 2: the model must not author the goal's own meaning. If a closed proof
@@ -511,7 +585,13 @@ impl<'a> LeanProver<'a> {
             verbose,
             memo: HashMap::new(),
             scratch_slot: "A",
+            expand: 0,
         }
+    }
+
+    /// Set the T/F-lane Witness expansion degree (0 = minimal, default).
+    pub fn set_expand(&mut self, expand: u32) {
+        self.expand = expand;
     }
 
     pub fn available(&self) -> bool {
@@ -590,6 +670,7 @@ impl<'a> LeanProver<'a> {
         let llm_a = self.llm.clone();
         let llm_b = self.llm.clone();
         let verbose = self.verbose;
+        let expand = self.expand;
         let goal_std = goal.to_string();
         let goal_portal = format!(
             "{goal}\n\n[Portal hint: a structurally related, already-established \
@@ -608,6 +689,7 @@ impl<'a> LeanProver<'a> {
                 verbose,
                 memo: HashMap::new(),
                 scratch_slot: "A",
+                expand,
             };
             p.prove_inner(&goal_std, "import Mathlib", 0)
         });
@@ -620,6 +702,7 @@ impl<'a> LeanProver<'a> {
                 verbose,
                 memo: HashMap::new(),
                 scratch_slot: "B",
+                expand,
             };
             p.prove_inner(&goal_portal, "import Mathlib", 0)
         });
@@ -668,7 +751,9 @@ impl<'a> LeanProver<'a> {
         }
         // The model emits a whole kernel-importing file; the escalating budget is
         // the number of generate/compile/repair passes before we call it a frontier.
-        let budgets = [3u32, 4, 5];
+        // Expansion (walking STEP 2 the full distance) is harder to land, so give
+        // it more repair passes per round.
+        let budgets: [u32; 3] = if self.expand > 0 { [5, 6, 7] } else { [3, 4, 5] };
         let mut prev = String::new();
         let mut errors = String::new();
         let mut last_source = String::new();
@@ -678,11 +763,22 @@ impl<'a> LeanProver<'a> {
                 println!("── imscription round {}: budget={budget} ──", round + 1);
             }
             for i in 1..=budget {
+                // Expansion walks STEP 2 (the conventional T/F-lane filling) the
+                // full distance; the STEP 1 Witness-Vessel stays as the transport.
+                let user = format!(
+                    "{}{}",
+                    imscribe_prompt(imscription, &prev, &errors),
+                    if self.expand > 0 {
+                        format!("{}\n{}", expansion_directive(self.expand), IMSCRIBE_EXPAND_HINT)
+                    } else {
+                        String::new()
+                    }
+                );
                 let msgs = vec![
                     ("system".to_string(), IMSCRIBE_SYS.to_string()),
-                    ("user".to_string(), imscribe_prompt(imscription, &prev, &errors)),
+                    ("user".to_string(), user),
                 ];
-                let res = infer(self.llm, &msgs, 4096, 0.0);
+                let res = infer(self.llm, &msgs, gen_max_tokens(self.expand), 0.0);
                 let source = strip_fences(&res.text);
                 let (green, out) = compile_lean(&source, self.scratch_slot);
                 last_source = source.clone();
@@ -821,11 +917,15 @@ impl<'a> LeanProver<'a> {
         let budget = self.flat_budget;
         let goal = goal.to_string();
         let imports = imports.to_string();
+        // Expansion applies only to the top-level proof (depth 0), not to internal
+        // FSPLIT helpers: it is the conventional T/F-lane Witness the reader sees.
+        let expand = if depth == 0 { self.expand } else { 0 };
+        let directive = expansion_directive(expand);
         let (closed, source, out) = self.repair_loop(
             budget,
             depth,
             "flat",
-            &|prev, errors| gen_prompt(&goal, &imports, prev, errors),
+            &|prev, errors| format!("{}{}", gen_prompt(&goal, &imports, prev, errors), directive),
             &|body| body.to_string(),
         );
         ProofResult {
@@ -842,11 +942,16 @@ impl<'a> LeanProver<'a> {
         let goal = goal.to_string();
         let header_for_prompt = header.clone();
         let header_for_wrap = header.clone();
+        // The assembled main theorem is the closing T/F-lane Witness at depth 0.
+        let expand = if depth == 0 { self.expand } else { 0 };
+        let directive = expansion_directive(expand);
         let (closed, source, out) = self.repair_loop(
             self.assemble_budget,
             depth,
             "fuse",
-            &|prev, errors| assemble_prompt(&goal, &header_for_prompt, prev, errors),
+            &|prev, errors| {
+                format!("{}{}", assemble_prompt(&goal, &header_for_prompt, prev, errors), directive)
+            },
             &|body| format!("{}\n\n{}", header_for_wrap, strip_imports(body)),
         );
         ProofResult {
@@ -876,7 +981,7 @@ impl<'a> LeanProver<'a> {
                 ("system".to_string(), PROVER_SYS.to_string()),
                 ("user".to_string(), make_prompt(&prev, &errors)),
             ];
-            let res = infer(self.llm, &msgs, 4096, 0.0);
+            let res = infer(self.llm, &msgs, gen_max_tokens(self.expand), 0.0);
             let body = strip_fences(&res.text);
             let source = wrap(&body);
             let (green, out) = compile_lean(&source, self.scratch_slot);
