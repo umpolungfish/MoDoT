@@ -59,9 +59,48 @@ for _d in _NAV_DIRS:
 
 _NAV = None
 _NAV_ERR = ""
+_LIVE_CATALOG = Path.home() / ".imscrbgrmr" / "catalog.json"
+_LIVE_MERGED = 0
+
+
+def _merge_live_catalog() -> int:
+    """Fold the live-crawler catalog into the navigator index, first-name-wins.
+
+    `cl8nk_navigator` loads only the flat IG_catalog.json, but the canonical
+    `imscribe catalog list` CLI merges that file with the crawler's
+    ~/.imscrbgrmr/catalog.json at read time. Without the same merge the Witness
+    arm is blind to live-crawler entries the CLI already counts (the 5275-vs-5292
+    gap). This replicates the CLI's read-time merge, so the arm stays current.
+    """
+    if _NAV is None or not _LIVE_CATALOG.exists():
+        return 0
+    try:
+        with open(_LIVE_CATALOG, "r", encoding="utf-8") as fh:
+            raw = json.load(fh)
+    except Exception:
+        return 0
+    live = raw.get("imscriptions", raw) if isinstance(raw, dict) else raw
+    index = getattr(_NAV, "CATALOG_INDEX", None)
+    catalog = getattr(_NAV, "CATALOG", None)
+    if not isinstance(live, list) or index is None:
+        return 0
+    added = 0
+    for e in live:
+        if not isinstance(e, dict):
+            continue
+        name = e.get("name")
+        if name and name not in index:
+            index[name] = e
+            if isinstance(catalog, list):
+                catalog.append(e)
+            added += 1
+    return added
+
+
 try:
     import cl8nk_navigator as _NAV  # type: ignore
     _NAV.load_catalog()
+    _LIVE_MERGED = _merge_live_catalog()
 except Exception as e:  # pragma: no cover
     _NAV_ERR = f"{type(e).__name__}: {e}"
     _NAV = None
@@ -69,6 +108,11 @@ except Exception as e:  # pragma: no cover
 
 def navigator_available() -> bool:
     return _NAV is not None and bool(getattr(_NAV, "CATALOG", None))
+
+
+def catalog_size() -> int:
+    """Entries the arm can actually match (flat file + live-crawler merge)."""
+    return len(getattr(_NAV, "CATALOG_INDEX", {})) if _NAV is not None else 0
 
 
 # ── Domain-invariant maps verified from GeneralizedPipeline.lean ─────────────
@@ -283,6 +327,8 @@ def _normalize_math_text(text: str) -> str:
         "ℵ": " aleph ", "χ": " chromatic ", "α": " independent ",
         "ε": " epsilon ", "ω": " omega ", "∈": " in ", "→": " to ",
         "₁": "1", "₂": "2", "₀": "0", "∞": " infinity ",
+        # fold diacritics so "Gödel" → "godel", "Erdős" → "erdos", etc.
+        "ö": "o", "ő": "o", "ø": "o", "ü": "u", "é": "e", "è": "e", "á": "a",
     }
     for a, b in repl.items():
         t = t.replace(a, b)
@@ -300,6 +346,13 @@ _ANCHORS = (
     "erdos", "hajnal", "aleph", "chromatic", "independent", "ramsey",
     "hadwiger", "collatz", "navier", "riemann", "yang", "hodge",
     "goldbach", "twin", "beal", "cuboid", "zauner", "sic",
+    # foundational / self-reference concepts (present in the catalog: godel_*,
+    # liar_paradox, tarskis_undefinability_theorem, halting_problem, cantor
+    # diagonal, CH_independent). A self-referential goal matched none of the
+    # named-problem anchors above, so the B route surfaced nothing.
+    "godel", "goedel", "liar", "undecidab", "incompleteness", "paradox",
+    "tarski", "halting", "epimenides", "diagonal", "continuum", "referen",
+    "unprovab", "consisten", "cantor",
 )
 
 
@@ -319,6 +372,10 @@ def find_witnesses(question: str, limit: int = 5) -> List[Dict[str, Any]]:
         "erdos_hajnal_aleph1_graph", "erdos_hajnal", "erdos hajnal",
         "chromatic number", "independent set",
         "ramsey", "collatz", "hadwiger", "list coloring", "aleph_1", "aleph1",
+        # foundational / self-reference resolves (substring-matched by the navigator)
+        "godel", "goedel", "liar", "liar paradox", "self referential",
+        "undecidable", "incompleteness", "halting problem", "tarski",
+        "diagonal lemma", "continuum hypothesis", "epimenides", "unprovable",
     ):
         key = phrase.replace(" ", "_")
         if phrase in qnorm or key in qnorm or all(

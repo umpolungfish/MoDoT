@@ -1,31 +1,32 @@
-Wire the type-router into the agent breath (proof turns reach the kernel)
+Fix the Witness arm: full 5292 catalog and self-reference matching
 
-The router was built and tested but it sat beside the organism, not in it. The
-breath ran every turn through the ManuscriptSpine (vessel co-typing plus witness
-scaffold) and never touched the prover, so a proof-shaped question typed at the
-live agent never reached the Lean kernel. This mounts it.
+The router's B route came back empty on a Gödel/liar self-reference, and the
+catalog the arm read was 5275 while my `imscribe catalog list` showed 5292. Two
+separate causes, both fixed here in the Witness arm (no change to the shared
+canonical catalog).
 
-I put a proof-intent gate at the top of _think. A turn is a formal proof request
-iff it opens with `prove:` or carries a literal Lean theorem or lemma declaration.
-Those turns divert to the router (imscribe, fold to N or T-F or B, dispatch); the
-arm's output becomes the thought content and seeds the kernel value. Everything
-else (proof_intent returns None) flows through the ordinary conversational breath
-unchanged, so no chat turn is ever sent to Lean. The gate is conservative on
-purpose.
+Catalog merge. cl8nk_navigator loads only the flat imscribing_grammar/IG_catalog.json
+(5275), but the canonical CLI merges that file with the crawler's
+~/.imscrbgrmr/catalog.json at read time, first-name-wins, which is where the extra
+17 come from (Odin, Mimir, the nitroso-radical family, the majorana chain, the
+topological insulator, and so on). I replicate that same read-time merge after the
+navigator loads, so the arm now indexes 5292, exactly what the CLI counts.
+catalog_size() reports it.
 
-The verdicts follow the ob3ect. Kernel closure is T and the content is the
-machine-checked proof. An unclosed goal is held as B, a navigation frontier, never
-a verdict of unprovability. A routed dialetheia is B with the Witness scaffold. A
-vacuous goal is N.
+Self-reference matching. This was the real reason the liar came back empty, not the
+17. find_witnesses scored only against a hardcoded list of named problems (erdos,
+collatz, navier, riemann and so on) with a floor of ten, and a self-referential
+goal matched none of them, even though the catalog already holds godel_*,
+liar_paradox, tarskis_undefinability_theorem, the halting problem, cantor's
+diagonal, and CH_independent. I fold diacritics so Gödel reads as godel and Erdős
+as erdos, add the foundational and self-reference anchors, and add the same
+concepts to the direct-resolve list so a mentioned concept resolves straight to its
+entry.
 
-Integration, not a second pipeline. The agent owns one TypeRouter over its own
-LLM (self.router), the proof turn commits a proof record to the Crystal FS beside
-the thought and spine records, and a public prove() method exposes the same path
-programmatically. The router import is lazy inside __init__ because
-agent to router to prover to agent would cycle at module load.
-
-Verified live. Through the breath, `prove: theorem wired_demo : (2 : Nat) + 2 = 4`
-routes T to the kernel loop and closes green on the first pass with source=router,
-the proof returned as rfl. proof_intent leaves ordinary chat alone. The router,
-vessel, and spine selftests still pass, and the scratch module is restored to its
-green placeholder so lake build Imscribing stays clean.
+Verified. The full Gödel/liar goal now resolves to liar_paradox, godel_completion,
+godel_incompleteness_liar, godel_diagonal_lemma, godel_complete_sentence; the bare
+version with no Gödel or liar words still hits proof_goedel_incompleteness through
+the unprovability anchor; and translate() on the router's own B goal returns
+liar_paradox at tier O2 with a full scaffold instead of empty. Collatz still returns
+its five collatz entries and the module selftest still selects
+erdos_hajnal_aleph1_graph, so named-problem matching did not regress.
