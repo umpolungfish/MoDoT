@@ -265,6 +265,18 @@ struct Cli {
     #[arg(long = "anneal", num_args = 3.., value_names = ["MONOMERS"])]
     anneal: Option<Vec<String>>,
 
+    /// Distillation: separate a set by volatility (Criticality ⊙) into distillate / bottoms.
+    #[arg(long = "distill", num_args = 2.., value_names = ["MONOMERS"])]
+    distill: Option<Vec<String>>,
+
+    /// Fractional distillation: rank the whole set by volatility ⊙, plate by plate.
+    #[arg(long = "fdistill", num_args = 2.., value_names = ["MONOMERS"])]
+    fdistill: Option<Vec<String>>,
+
+    /// Sublimation: purify one unit by a two-state skip across ⊙.
+    #[arg(long = "sublime", num_args = 1, value_name = "A")]
+    sublime: Option<String>,
+
     /// Recall a registered material by name: `--recall NAME`. Prints its stored sheet from the
     /// material registry without respecifying it from units. Pair with `--forge … --register`.
     #[arg(long = "recall", value_name = "NAME")]
@@ -1270,6 +1282,9 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: fuse A B + X Y      weld two rings into one: forge each, then forge the union into a single macrocycle, and report how the fused ρ/conductance relate to the parents — the `+` token separates the two rings
   TOOL: cleave M1 M2…      ring fission (the reverse of fuse): forge the set into its best ring, then cut it into two daughter rings on complementary arcs and report both daughters + their spectra (or that it does not cleave)
   TOOL: anneal M1 M2…      relax a ring to its lowest-strain ordering — the settled ground state whose bonds are most evenly loaded, vs the quenched forge order
+  TOOL: distill M1 M2…     separate a set by volatility (Criticality ⊙): the volatile head (distillate) vs the involatile residue (bottoms); a pair tied on ⊙ is an azeotrope it cannot resolve
+  TOOL: fdistill M1 M2…    fractional distillation: rank the whole set by ⊙ plate by plate with the resolution gap to each next fraction (flags azeotropic neighbors that co-distill)
+  TOOL: sublime A          purify one unit by a two-state skip across ⊙, omitting the middle state; reports whether it sublimes or is entrapped and must climb stepwise (excite)
   TOOL: register NAME M1 M2…  forge the set into a ring and store its full sheet in the material library under NAME (recall it later by name)
   TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
@@ -1750,6 +1765,7 @@ fn mentions_structural_work(text: &str) -> bool {
         "forge", "spectral radius", "conductance", "--compare", "--dope", "--forge", "--fuse",
         "--cleave", "cleave", "fission", "--anneal", "anneal", "strain",
         "--recall", "recall", "register", "--register",
+        "distill", "sublim", "volatility", "azeotrope",
     ];
     let low = text.to_lowercase();
     CUES.iter().any(|c| low.contains(c))
@@ -1977,6 +1993,23 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             }
             vec!["--recall".to_string(), args[0].clone()]
         }
+        "distill" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--distill".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "fdistill" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--fdistill".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "sublime" => vec!["--sublime".into(), a(0)?],
         _ => return None,
     };
     // Distinct from the arity None above: a failure to LOCATE or SPAWN the binary is not
@@ -2058,6 +2091,9 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "anneal"     => "anneal M1 M2...; 2+ names",
         "register"   => "register NAME M1 M2...; a NAME then 2+ names",
         "recall"     => "recall NAME; exactly 1 stored name",
+        "distill"    => "distill M1 M2...; 2+ names (separate by volatility ⊙)",
+        "fdistill"   => "fdistill M1 M2...; 2+ names (fractional: ranked column by ⊙)",
+        "sublime"    => "sublime A; 1 name (skip-path purify across ⊙)",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         _ => return None,
     })
@@ -2069,6 +2105,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "click", "switch", "excite", "set", "homolyze", "scan", "complement", "cycle",
     "pathway", "polymerize", "close", "material", "modulus", "arrange", "forge",
     "compare", "dope", "fuse", "cleave", "anneal", "register", "recall", "imscribe",
+    "distill", "fdistill", "sublime",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -2744,6 +2781,9 @@ impl CliClone for Cli {
             fuse: self.fuse.clone(),
             cleave: self.cleave.clone(),
             anneal: self.anneal.clone(),
+            distill: self.distill.clone(),
+            fdistill: self.fdistill.clone(),
+            sublime: self.sublime.clone(),
             recall: self.recall.clone(),
             export: self.export.clone(),
             jam: self.jam,
@@ -2893,6 +2933,15 @@ fn main() {
     }
     if let Some(names) = &cli.anneal {
         process::exit(click::run_anneal(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.distill {
+        process::exit(click::run_distill(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.fdistill {
+        process::exit(click::run_fdistill(cat_ref, names, cli.theta));
+    }
+    if let Some(name) = &cli.sublime {
+        process::exit(click::run_sublime(cat_ref, name));
     }
 
     // Imscriptive polymerization: `./ask --polymerize M1 M2 …` — chain the clicks.

@@ -2466,6 +2466,141 @@ enum Cond {
     Insulating { blocked: Vec<usize> }, // some junction blocks a carrier both ways
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Alchemical bench — the classical separation / purification operations. The
+// ob3ect typing (alchemical_tools_roadmap) showed every one is the SAME Frobenius
+// shape: a feedstock FSPLITs into a kept arm (EVALT) and a rejected arm (EVALF),
+// and the arms FFUSE back to the feedstock (mass balance), verdict PASS, tier O₁.
+// So the whole bench is one `fractionate` core parameterized by a per-unit axis.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Score every unit on one axis, cut the set at the midpoint of the score range
+/// into a kept arm (at or above the cut) and a rejected arm (below), and flag any
+/// pair closer than `eps` on the axis as an unresolvable tie — the azeotrope /
+/// co-elution B frontier where the axis cannot separate them. Arms are sorted
+/// high→low. This is the FSPLIT the alchemical verbs route through.
+fn fractionate(
+    units: &[Tuple],
+    score: impl Fn(&Tuple) -> f32,
+    eps: f32,
+) -> (Vec<(String, f32)>, Vec<(String, f32)>, Vec<(String, String)>) {
+    let mut scored: Vec<(String, f32)> =
+        units.iter().map(|u| (u.name.clone(), score(u))).collect();
+    scored.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+    let hi = scored.first().map(|x| x.1).unwrap_or(0.0);
+    let lo = scored.last().map(|x| x.1).unwrap_or(0.0);
+    let cut = (hi + lo) / 2.0;
+    let kept: Vec<(String, f32)> = scored.iter().filter(|x| x.1 >= cut).cloned().collect();
+    let rejected: Vec<(String, f32)> = scored.iter().filter(|x| x.1 < cut).cloned().collect();
+    let mut ties = Vec::new();
+    for i in 0..scored.len() {
+        for j in (i + 1)..scored.len() {
+            if (scored[i].1 - scored[j].1).abs() < eps {
+                ties.push((scored[i].0.clone(), scored[j].0.clone()));
+            }
+        }
+    }
+    (kept, rejected, ties)
+}
+
+/// CLI: `./ask --distill M1 M2 …`. Separate a mixture by volatility — Criticality ⊙
+/// (index 8), the readiness-to-leave axis the oracle put the EVALT gate on. High-⊙
+/// units rise as the distillate (EVALT), low-⊙ stay as the bottoms (EVALF); a pair
+/// tied on ⊙ is an azeotrope (B) the cut cannot resolve.
+pub fn run_distill(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else { eprintln!("distill: no catalog loaded"); return 2; };
+    if monomers.len() < 2 { eprintln!("distill needs at least two units"); return 2; }
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("distill: {e}"); return 2; }
+    };
+    let (distillate, bottoms, azeotropes) =
+        fractionate(&units, |u| u.norm(8).unwrap_or(0.0), 0.06);
+    println!("distillation (separate by volatility = Criticality ⊙, the readiness to leave):  {{{}}}", monomers.join(", "));
+    println!("  axis ⊙ Criticality: high ⊙ is volatile and rises first, low ⊙ is involatile and stays.");
+    println!("  ── distillate (EVALT — the volatile head drawn off) ──");
+    if distillate.is_empty() { println!("    (none)"); }
+    for (n, s) in &distillate { println!("    {n}   ⊙={s:.2}"); }
+    println!("  ── bottoms (EVALF — the involatile residue left behind) ──");
+    if bottoms.is_empty() { println!("    (none — the whole feed rose)"); }
+    for (n, s) in &bottoms { println!("    {n}   ⊙={s:.2}"); }
+    if azeotropes.is_empty() {
+        println!("  ✓ clean cut: every pair resolves on ⊙, the fractions separate.");
+    } else {
+        println!("  ⚠ azeotrope (B — these pairs tie on ⊙, the cut does NOT fully separate them):");
+        for (a, b) in &azeotropes { println!("      {a} ≈ {b}"); }
+    }
+    println!("  FFUSE: distillate ⊎ bottoms recovers the feedstock (mass balance holds).");
+    0
+}
+
+/// CLI: `./ask --fdistill M1 M2 …`. Fractional distillation — the same volatility ⊙
+/// axis as `distill`, resolved plate by plate into the full ranked column with the
+/// resolution gap to each next fraction, flagging neighboring pairs too close on ⊙
+/// to resolve. The nested, higher-resolution distillation.
+pub fn run_fdistill(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else { eprintln!("fdistill: no catalog loaded"); return 2; };
+    if monomers.len() < 2 { eprintln!("fdistill needs at least two units"); return 2; }
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("fdistill: {e}"); return 2; }
+    };
+    let eps = 0.06_f32;
+    let mut scored: Vec<(String, f32)> =
+        units.iter().map(|u| (u.name.clone(), u.norm(8).unwrap_or(0.0))).collect();
+    scored.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+    println!("fractional distillation (rank the whole column by volatility ⊙, plate by plate):  {{{}}}", monomers.join(", "));
+    let mut unresolved = 0;
+    for i in 0..scored.len() {
+        let (n, s) = (scored[i].0.clone(), scored[i].1);
+        if i + 1 < scored.len() {
+            let gap = s - scored[i + 1].1;
+            let flag = if gap < eps { unresolved += 1; "   ⚠ unresolved from the next plate (azeotropic pair)" } else { "" };
+            println!("  plate {:>2}: {n}   ⊙={s:.2}   Δ→next={gap:.2}{flag}", i + 1);
+        } else {
+            println!("  plate {:>2}: {n}   ⊙={s:.2}   (bottoms)", i + 1);
+        }
+    }
+    if unresolved == 0 {
+        println!("  ✓ every neighboring pair resolves: the column separates into distinct fractions.");
+    } else {
+        println!("  ⚠ {unresolved} neighboring pair(s) unresolved (B): those fractions co-distill; more plates will not split an azeotrope.");
+    }
+    0
+}
+
+/// CLI: `./ask --sublime A`. Sublimation — purify one unit by promoting it directly
+/// across two Criticality ⊙ states, skipping the intermediate. A unit whose ⊙ has
+/// room for a two-step skip sublimes (EVALT); one within a step of the ceiling is
+/// entrapped (EVALF) and would have to climb stepwise (use `--excite`).
+pub fn run_sublime(catalog: Option<&[CatalogEntry]>, name: &str) -> i32 {
+    let Some(cat) = catalog else { eprintln!("sublime: no catalog loaded"); return 2; };
+    let names = [name.to_string()];
+    let unit = match load_monomers(cat, &names, 0.5) {
+        Ok(u) => match u.into_iter().next() { Some(t) => t, None => { eprintln!("sublime: no unit"); return 2; } },
+        Err(e) => { eprintln!("sublime: {e}"); return 2; }
+    };
+    println!("sublimation of {name} (skip-path across Criticality ⊙, omitting the middle state):");
+    match unit.ord[8] {
+        None => println!("  {name} has no ⊙ (Criticality) value; no skip-path to assess."),
+        Some(o) => {
+            let maxo = max_ord(8);
+            if o + 2 <= maxo {
+                let from = glyph_of(8, o);
+                let skipped = glyph_of(8, o + 1);
+                let to = glyph_of(8, o + 2);
+                println!("  ⊙ {from} →→ {to}, skipping the intermediate {skipped}.");
+                println!("  ✓ clean skip-path (EVALT): {name} sublimes — it crosses two ⊙ states and omits the middle register.");
+                println!("  sublimate: {name} (purified);  residue: none.");
+            } else {
+                println!("  ⊙ ord {o} sits within one step of the ceiling ({maxo}); no two-state skip exists.");
+                println!("  ✗ entrapped (EVALF): {name} does not sublime — it would climb through every intervening ⊙ state (stepwise; use --excite).");
+            }
+        }
+    }
+    0
+}
+
 /// Can a winding quantum Ω circulate the ring (units treated as a cycle)? A consistent
 /// one-way circulation is a persistent ring current (the loop SUSTAINS itself, μ∘δ=id
 /// around the cycle). Reuses the Ω-transfer primitive at each junction.
@@ -2958,4 +3093,33 @@ pub fn run_polymerize(
         );
     }
     0
+}
+
+#[cfg(test)]
+mod alchemy_tests {
+    use super::{fractionate, Tuple};
+
+    fn u(name: &str, crit: u8) -> Tuple {
+        let mut ord = [Some(0u8); 12];
+        ord[8] = Some(crit); // ⊙ Criticality = the volatility axis
+        Tuple { name: name.into(), ord }
+    }
+
+    // distill: high volatility rises (distillate), low stays (bottoms); distinct ⊙ do not tie.
+    #[test]
+    fn fractionate_cuts_high_vs_low() {
+        let units = vec![u("a", 4), u("b", 0), u("c", 3), u("d", 1)];
+        let (kept, rejected, ties) = fractionate(&units, |t| t.norm(8).unwrap_or(0.0), 0.06);
+        assert!(kept.iter().any(|(n, _)| n == "a"), "highest ⊙ must be in the distillate");
+        assert!(rejected.iter().any(|(n, _)| n == "b"), "lowest ⊙ must be in the bottoms");
+        assert!(ties.is_empty(), "distinct ⊙ values must not register an azeotrope");
+    }
+
+    // equal volatility is an azeotrope: the axis cannot separate them (the B frontier).
+    #[test]
+    fn equal_volatility_is_an_azeotrope() {
+        let units = vec![u("x", 2), u("y", 2)];
+        let (_k, _r, ties) = fractionate(&units, |t| t.norm(8).unwrap_or(0.0), 0.06);
+        assert!(!ties.is_empty(), "equal ⊙ must flag an azeotrope");
+    }
 }
