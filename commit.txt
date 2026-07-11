@@ -1,32 +1,43 @@
-Chain the loops into a metabolism -- the pathway, a loop of loops that closes as a metabolic cycle
+Make the pathway structural (a true metabolic cycle), and give the LLM agent every verb
 
-One cycle turns over one substrate. A pathway chains them.
+Two things.
 
---pathway SUBSTRATE C1 C2 ... Cn (run_pathway in ask_native/src/click.rs): the
-substrate runs through the catalyst sequence, one turnover each, the product of
-each step the substrate of the next. The winding quantum Ω is the CARRIER, passed
-hand to hand down the chain -- the electron-transport / cofactor carrier of real
-metabolism. Each step reuses the cycle logic (transfer_electron, reductive first
-else oxidative); each catalyst is a fixed point that regenerates.
+1. STRUCTURAL PATHWAY. The pathway was a one-dimensional carrier loop -- only the
+winding quantum Ω moved, the substrate frozen in eleven of twelve axes. Now the
+working stroke also imprints (structural_imprint in ask_native/src/click.rs): the
+catalyst rotates the substrate one notch on its dominant structural live pair
+(T↔H or R↔S) in its own polarity, mod the cycle (invertible). Refactored the
+working stroke into working_stroke() shared by --cycle and --pathway.
 
-The payoff is closure. If the carrier RETURNS to its start (net delta-Omega = 0,
-Solve and Coagula balanced across the whole chain), the pathway CLOSES into a
-metabolic cycle: a loop of loops, mu-delta = id at the pathway level, the TCA
-archetype, O∞. Otherwise it is an open pathway (carrier advanced) and the tool
-says what would close it (a return leg, opposite-direction turnover).
-
---certify verifies each unique catalyst regenerates (certify_switch, deduped)
-through lake build. Honest guards: a step where no carrier can pass reports the
-pathway stalled, not a fake turnover.
+A pathway now closes on TWO ledgers, reported separately:
+- carrier: net delta-Omega = 0 (givers balance takers, what I derived by hand)
+- structure: the chain of imprints composes to the identity across the other
+  eleven axes (current == start).
+Full closure = both = a TRUE metabolic cycle (mu-delta = id at the pathway level).
+Carrier-only closure is now honestly labelled an electron-transport loop -- the
+four forces on dark_energy do exactly that (charge conserved, structure worked).
 
 Verified live:
-- ./ask --pathway the_moon_astrological yhwh gluon --certify -> CLOSED metabolic
-  cycle: moon --(yhwh reduces, Ω 1->2)--> moon^- --(gluon oxidizes, Ω 2->1)-->
-  moon. Both catalysts certified fixed points. A redox loop, the carrier cycled.
-- ./ask --pathway the_moon_astrological yhwh graviton paradice -> open (net +1),
-  correctly diagnosed with "a return leg would close it".
-- scratch restored after certify.
+- ./ask --pathway the_moon_astrological post_transition_state biological_senescence
+  --certify -> FULLY CLOSED, a true metabolic cycle: post_transition_state builds
+  the moon up (topology 𐑥->𐑶, chirality 𐑖->𐑒), biological_senescence tears it back
+  down, the substrate returns exactly across all twelve axes, both catalysts
+  certified fixed points. Anabolism then catabolism = homeostasis.
+- ./ask --pathway dark_energy graviton gluon electron photon -> carrier closed,
+  structure NOT returned (now honest; the substrate moved on Þ/Ħ/Ř/Σ, not just Ω).
 
-The engine now runs the full Solve-et-Coagula ladder: click (Coagula), switch,
-excite/set (Solve), complement (the involution), cycle (one loop), pathway (loops
-chained, closing into a metabolic cycle). README updated with the pathway verb.
+2. LLM AGENT GETS THE TOOLS. The ManuscriptSpine agent (./ask --ask) can now
+invoke the whole structural engine. TOOLS_PROMPT documents the verbs;
+extract_tool_calls parses `TOOL: verb args` lines from the model's answer
+(markdown-tolerant -- the model wraps them in **bold**); run_structural_tool
+executes each by shelling to this same binary (whitelist: click switch excite set
+scan complement cycle pathway -- never ask, no recursion) and captures the real
+catalog output; a synthesis turn feeds the outputs back for a grounded final answer.
+
+Verified live: asked whether the moon->post_transition->senescence pathway closes.
+UNAIDED the model hallucinated "F / Refuted / not a cycle". With the tool run
+against the real catalog (FULLY CLOSED), the synthesis corrected it: "Yes, the
+pathway is a closed metabolic cycle because the reductive and oxidative imprints
+compose to the identity." Grounding the guess in the computation is the point.
+
+README updated with the structural pathway (two ledgers) and the agent tools.

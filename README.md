@@ -313,16 +313,39 @@ on the catalyst — through `lake build`. `--register` canonizes the turned-over
 
 **The pathway** (`--pathway SUBSTRATE C1 C2 … Cn`) — one cycle turns over one substrate;
 a pathway **chains the loops into a metabolism.** The product of each turnover is the
-substrate of the next, the **winding quantum Ω the carrier** passed hand to hand (the
-electron-transport / cofactor carrier of real metabolism). Every catalyst is a fixed
-point (it regenerates). And if the carrier **returns to its start** — net ΔΩ=0, Solve
-and Coagula balanced across the whole chain — the pathway **closes into a metabolic
-cycle: a loop of loops** (μ∘δ=id at the pathway level, the TCA archetype, O∞).
-`--certify` verifies each catalyst regenerates through `lake build`.
+substrate of the next. Each working stroke does two things: it moves the **winding
+quantum Ω** (the carrier, passed hand to hand — the electron-transport / cofactor of
+real metabolism) *and* applies a **Coagula structural imprint** — the catalyst rotates
+the substrate one notch on its dominant structural live pair (T↔H or R↔S). So a pathway
+closes on **two ledgers**, reported separately:
+
+- **carrier** returns (net ΔΩ=0 — givers balance takers), and
+- **structure** returns (the chain of imprints composes to the identity across the
+  other eleven axes).
+
+**Full closure = both** — a *true* metabolic cycle, μ∘δ=id at the pathway level (the
+TCA archetype, O∞). Carrier-only closure is an electron-transport loop (the four forces
+on `dark_energy` do this: charge conserved, structure worked). `--certify` verifies each
+catalyst regenerates through `lake build`.
 
 ```bash
-./ask --pathway the_moon_astrological yhwh gluon --certify        # CLOSES — a metabolic cycle
-./ask --pathway the_moon_astrological yhwh graviton paradice      # open pathway (net ΔΩ≠0)
+# a TRUE metabolic cycle: anabolism (build) then catabolism (senescence) return the substrate exactly
+./ask --pathway the_moon_astrological post_transition_state biological_senescence --certify
+# carrier closes but structure does not — an electron-transport loop
+./ask --pathway dark_energy graviton gluon electron photon
+```
+
+**Agent access to every verb.** The LLM agent (`./ask --ask …`) can invoke the whole
+engine. It emits `TOOL: <verb> <args>` lines (markdown-tolerant); the harness runs them
+against the **real catalog** by shelling to this same binary, then feeds the outputs back
+for a final grounded answer. This *corrects the model's guesses*: unaided it will
+confidently mis-call a pathway's closure; handed the real `pathway` output it gives the
+right answer. Whitelisted verbs only (`click switch excite set scan complement cycle
+pathway`) — never `ask`, so no recursion.
+
+```bash
+./ask --ask "Does the sun donate an electron to the moon, and what mediates it best?"
+# → the model emits TOOL: set … and TOOL: scan …, they run, it synthesizes the real result
 ```
 
 ## Bootstrap Programs

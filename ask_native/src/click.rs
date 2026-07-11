@@ -1273,21 +1273,27 @@ pub fn run_cycle(
     // ── Working stroke (δ): one winding quantum moves; catalyst spent, substrate → product ──
     // Reuse the SET primitive both directions: reductive = catalyst donates (cat is
     // the SET donor), oxidative = catalyst abstracts (cat is the SET acceptor).
-    let (c_star, product, dir) = match transfer_electron(&cat_t, &sub_t) {
-        Ok((cs, p)) => (cs, p, "reductive — catalyst donates e⁻, substrate reduced"),
-        Err(_) => match transfer_electron(&sub_t, &cat_t) {
-            Ok((p, cs)) => (cs, p, "oxidative — catalyst abstracts e⁻, substrate oxidized"),
-            Err(e) => {
-                println!("  ✗ no turnover: {e} — neither redox direction is feasible for this pair.");
-                return 0;
-            }
+    let (c_star, product, dir, imprint) = match working_stroke(&cat_t, &sub_t) {
+        Ok(t) => t,
+        Err(e) => {
+            println!("  ✗ no turnover: {e} — neither redox direction is feasible for this pair.");
+            return 0;
         }
+    };
+    let dirdesc = if dir == "reductive" {
+        "reductive — catalyst donates e⁻, substrate reduced"
+    } else {
+        "oxidative — catalyst abstracts e⁻, substrate oxidized"
     };
     let (cw0, cw1) = (cat_t[WIND].unwrap(), c_star[WIND].unwrap());
     let (sw0, sw1) = (sub_t[WIND].unwrap(), product[WIND].unwrap());
-    println!("  working stroke (δ / SOLVE — dissolves the bond, reveals the degree of freedom: the winding quantum comes free): {dir}");
-    println!("    catalyst  {catalyst_name}: Ω {}→{}  (spent → {catalyst_name}*)", glyph_of(WIND, cw0), glyph_of(WIND, cw1));
-    println!("    substrate {substrate_name}: Ω {}→{}  (transformed → {substrate_name}‡)", glyph_of(WIND, sw0), glyph_of(WIND, sw1));
+    println!("  working stroke (δ / SOLVE — dissolves the bond, reveals the degree of freedom: the winding quantum comes free): {dirdesc}");
+    println!("    carrier   {catalyst_name}: Ω {}→{}  (spent → {catalyst_name}*)", glyph_of(WIND, cw0), glyph_of(WIND, cw1));
+    println!(
+        "    substrate {substrate_name}: Ω {}→{}{}  (transformed → {substrate_name}‡)",
+        glyph_of(WIND, sw0), glyph_of(WIND, sw1),
+        imprint.map(|p| format!(" + Coagula imprint on {p}")).unwrap_or_default()
+    );
     println!("    {catalyst_name}*  {}", fmt_tuple(&c_star));
     println!("    {substrate_name}‡  {}", fmt_tuple(&product));
 
@@ -1377,23 +1383,21 @@ pub fn run_pathway(
             return 2;
         };
         let ct = Tuple::from_entry(ec).ord;
-        // reductive (catalyst donates) first, else oxidative (catalyst abstracts)
-        let (c_star, product, dir, red) = match transfer_electron(&ct, &current) {
-            Ok((cs, p)) => (cs, p, "reductive", true),
-            Err(_) => match transfer_electron(&current, &ct) {
-                Ok((p, cs)) => (cs, p, "oxidative", false),
-                Err(e) => {
-                    println!("  ✗ step {} ({cn}): pathway blocked — {e}", i + 1);
-                    blocked = true;
-                    break;
-                }
-            },
+        let (c_star, product, dir, imprint) = match working_stroke(&ct, &current) {
+            Ok(t) => t,
+            Err(e) => {
+                println!("  ✗ step {} ({cn}): pathway blocked — {e}", i + 1);
+                blocked = true;
+                break;
+            }
         };
+        let red = dir == "reductive";
         if red { n_red += 1; } else { n_ox += 1; }
         let (w0, w1) = (current[WIND].unwrap(), product[WIND].unwrap());
         println!(
-            "  step {}: {cn} — {dir} [{}], Solve→Coagula — Ω {}→{}",
-            i + 1, dir_arrow(red), glyph_of(WIND, w0), glyph_of(WIND, w1)
+            "  step {}: {cn} — {dir} [{}], Solve→Coagula — Ω {}→{}{}",
+            i + 1, dir_arrow(red), glyph_of(WIND, w0), glyph_of(WIND, w1),
+            imprint.map(|p| format!(", imprint {p}")).unwrap_or_default()
         );
         println!("           {} → {}", fmt_tuple(&current), fmt_tuple(&product));
         if certify && !certified.iter().any(|c| c == cn) {
@@ -1405,16 +1409,23 @@ pub fn run_pathway(
         current = product;
     }
 
-    // ── Net transformation + closure (is it a metabolic cycle?) ──
-    let closed = !blocked && current == start;
+    // ── Net transformation + closure: carrier (Ω) vs structure (all other axes) ──
+    let carrier_ok = !blocked && current[WIND] == start[WIND];
+    let structure_ok = !blocked && (0..WIND).all(|i| current[i] == start[i]);
+    let full = carrier_ok && structure_ok; // == (current == start): the chain composed to identity
     println!("  net: {substrate_name} → {}   (carrier: {n_red} reductive · {n_ox} oxidative)", fmt_tuple(&current));
-    if closed {
-        println!("  ✓✓ CLOSED — the carrier returned to its start (net ΔΩ=0, Solve and Coagula balanced across the whole chain).");
-        println!("     the pathway is a METABOLIC CYCLE: a loop of loops (μ∘δ=id at the pathway level, the TCA archetype). O∞.");
-    } else if blocked {
+    if blocked {
         println!("  ✗ pathway stalled before completing — a carrier could not pass at some step.");
+    } else if full {
+        println!("  ✓✓✓ FULLY CLOSED — carrier AND structure returned across all twelve axes.");
+        println!("      a TRUE METABOLIC CYCLE: the whole chain of catalysts composed to the identity on {substrate_name} (μ∘δ=id at the pathway level, the TCA archetype). O∞.");
+    } else if carrier_ok {
+        println!("  ~ carrier closed (net ΔΩ=0) but the STRUCTURE did not return — the substrate was worked and not regenerated.");
+        println!("    an electron-transport loop, not yet a full metabolic cycle. A chain whose Coagula imprints compose to identity would close it.");
+    } else if structure_ok {
+        println!("  ~ structure returned but the carrier is unbalanced (net ΔΩ≠0) — a return leg (opposite-direction turnover) would close the carrier.");
     } else {
-        println!("  open pathway — the carrier advanced (net ΔΩ≠0); not yet a closed cycle. A return leg (opposite-direction turnover) would close it.");
+        println!("  open pathway — neither carrier nor structure returned; not yet a cycle.");
     }
     if certify && !certified.is_empty() {
         println!("  {} every catalyst in the chain is a certified fixed point.", if all_fixed { "✓" } else { "✗ NOT" });
@@ -1425,4 +1436,69 @@ pub fn run_pathway(
 /// Small helper: the Solve/Coagula direction arrow for a pathway step.
 fn dir_arrow(reductive: bool) -> &'static str {
     if reductive { "C→S" } else { "S→C" }
+}
+
+// ── Structural transformation: the catalyst works the live pairs ─────────────
+// The carrier (Ω) is one wire; a real metabolism transforms the substrate's
+// STRUCTURE. In its working stroke a catalyst also imprints (Coagula) on its
+// dominant structural live pair (T↔H or R↔S), rotating the substrate one notch in
+// the catalyst's own polarity. The imprint is invertible (a rotation mod the pair
+// cycle), so a pathway closes STRUCTURALLY only when the whole chain of imprints
+// composes back to the identity — the substrate returned across all twelve axes.
+
+fn norm_ord(ord: &[Option<u8>; 12], i: usize) -> Option<f32> {
+    let m = max_ord(i);
+    ord[i].map(|o| if m > 0 { o as f32 / m as f32 } else { 0.0 })
+}
+
+/// Rotate primitive `i` of `t` by `dir` notches, mod its cycle length (invertible).
+fn rot(t: &mut [Option<u8>; 12], i: usize, dir: i16) {
+    if let Some(o) = t[i] {
+        let n = max_ord(i) as i16 + 1;
+        let v = (((o as i16 + dir) % n) + n) % n;
+        t[i] = Some(v as u8);
+    }
+}
+
+/// Coagula imprint: the catalyst shapes the substrate on its dominant structural
+/// live pair (T↔H or R↔S), raising the member it favors and lowering the other by
+/// one notch (mod cycle) — the catalyst's polarity pressed into the substrate.
+/// Returns the pair label, or None if the catalyst has no structural polarity.
+fn structural_imprint(catalyst: &[Option<u8>; 12], substrate: &mut [Option<u8>; 12]) -> Option<&'static str> {
+    let pairs = [(1usize, 9usize, "T↔H"), (2usize, 10usize, "R↔S")];
+    let mut best: Option<(usize, usize, &'static str, f32)> = None;
+    for &(x, y, lbl) in pairs.iter() {
+        if let (Some(nx), Some(ny)) = (norm_ord(catalyst, x), norm_ord(catalyst, y)) {
+            let ch = nx - ny;
+            if best.map_or(true, |(_, _, _, m)| ch.abs() > m.abs()) {
+                best = Some((x, y, lbl, ch));
+            }
+        }
+    }
+    let (x, y, lbl, ch) = best?;
+    if ch == 0.0 {
+        return None;
+    }
+    let s: i16 = if ch > 0.0 { 1 } else { -1 };
+    rot(substrate, x, s);
+    rot(substrate, y, -s);
+    Some(lbl)
+}
+
+/// One catalytic working stroke: the Ω carrier transfer (reductive if the catalyst
+/// can donate, else oxidative) plus the Coagula structural imprint on the substrate.
+/// Returns (catalyst spent C*, product, carrier direction, imprint pair label).
+fn working_stroke(
+    catalyst: &[Option<u8>; 12],
+    substrate: &[Option<u8>; 12],
+) -> Result<([Option<u8>; 12], [Option<u8>; 12], &'static str, Option<&'static str>), String> {
+    let (c_star, mut product, dir) = match transfer_electron(catalyst, substrate) {
+        Ok((cs, p)) => (cs, p, "reductive"),
+        Err(_) => match transfer_electron(substrate, catalyst) {
+            Ok((p, cs)) => (cs, p, "oxidative"),
+            Err(e) => return Err(e),
+        },
+    };
+    let imprint = structural_imprint(catalyst, &mut product);
+    Ok((c_star, product, dir, imprint))
 }

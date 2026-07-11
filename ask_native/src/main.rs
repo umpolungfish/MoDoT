@@ -1046,6 +1046,24 @@ COMPOSE:/TOKEN:/CANONICAL: optional tools, never a substitute for
 answering. Do not author [spine|..], [vessel|..], [update|..], [broadcast|..].
 "#;
 
+/// The structural verbs the LLM agent may invoke, appended to the system prompt.
+const TOOLS_PROMPT: &str = r#"
+STRUCTURAL TOOLS (optional): you may invoke the engine's structural verbs over the
+real IG catalog by emitting lines of the form `TOOL: <verb> <args>` (one per line,
+anywhere in your answer). They run on the live catalog and their output is returned
+to you for a final synthesis, so call them when a structural fact would GROUND your
+answer. Available verbs (args are catalog entry names, snake_case):
+  TOOL: click A B         fuse two entries on a live conjugate pair (or `click A` to sweep the catalog)
+  TOOL: switch A B        analyze a reversible bistable toggle (the DASA archetype)
+  TOOL: excite A          the excited state (Criticality ⊙ raised to the exceptional-point resonance)
+  TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum Ω moved)
+  TOOL: scan A B          rank the catalog for the best mediators of the A→B transfer
+  TOOL: complement A      the bidirectional ligand⇌catalytic-site complement (its own inverse)
+  TOOL: cycle C S         the catalytic cycle: C turns over S, certified a fixed point (μ∘δ=id)
+  TOOL: pathway S C1 C2…  a metabolic pathway — does it close into a cycle (carrier + structure)?
+Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
+"#;
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum B4 {
     N,
@@ -1208,6 +1226,62 @@ fn strip_kernel_records(text: &str) -> String {
     re.replace_all(text, "").to_string()
 }
 
+/// Parse `TOOL: <verb> <args…>` lines the agent emitted (one call per line).
+/// Tolerant of markdown wrapping (`**TOOL: …**`, `` `TOOL: …` ``, list bullets):
+/// leading non-alphanumerics are skipped and each arg is trimmed of `*` `` ` `` `_`.
+fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
+    let re = Regex::new(r"(?im)^[^A-Za-z0-9\n]*TOOL:\s*([A-Za-z][A-Za-z0-9_-]*)\s+(.+)$").unwrap();
+    let trim_md = |s: &str| {
+        s.trim_matches(|c: char| c == '*' || c == '`' || c == '_' || c == ' ' || c == '.')
+            .to_string()
+    };
+    let mut out = Vec::new();
+    for cap in re.captures_iter(text) {
+        let verb = cap[1].to_lowercase();
+        let args: Vec<String> = cap[2]
+            .split_whitespace()
+            .map(trim_md)
+            .filter(|s| !s.is_empty())
+            .collect();
+        if !args.is_empty() {
+            out.push((verb, args));
+        }
+    }
+    out
+}
+
+/// Execute one whitelisted structural verb by shelling to this same binary and
+/// capturing its stdout. Returns None for a non-whitelisted verb or missing args.
+/// The whitelist never includes `ask`, so there is no recursion.
+fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
+    let a = |i: usize| args.get(i).cloned();
+    let flags: Vec<String> = match verb {
+        "click" => {
+            let mut v = vec!["--click".to_string(), a(0)?];
+            if let Some(b) = a(1) { v.push(b); }
+            v
+        }
+        "switch" => vec!["--switch".into(), a(0)?, a(1)?],
+        "excite" => vec!["--excite".into(), a(0)?],
+        "set" => vec!["--set".into(), a(0)?, a(1)?],
+        "scan" => vec!["--set".into(), a(0)?, a(1)?, "--scan-mediators".into()],
+        "complement" => vec!["--complement".into(), a(0)?],
+        "cycle" => vec!["--cycle".into(), a(0)?, a(1)?],
+        "pathway" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--pathway".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        _ => return None,
+    };
+    let exe = env::current_exe().ok()?;
+    let out = process::Command::new(exe).args(&flags).output().ok()?;
+    Some(String::from_utf8_lossy(&out.stdout).into_owned())
+}
+
 fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
     println!();
     println!("{}", "=".repeat(60));
@@ -1366,7 +1440,7 @@ fn run_one(
             // conversation: system once, then history, then this turn
             let mut msgs: Vec<(String, String)> = Vec::new();
             if conversation.is_empty() {
-                msgs.push(("system".into(), format!("{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT)));
+                msgs.push(("system".into(), format!("{}\n{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, TOOLS_PROMPT)));
             }
             for (r, c) in conversation.iter() {
                 msgs.push((r.clone(), c.clone()));
@@ -1396,6 +1470,44 @@ fn run_one(
         println!("── ANSWER ──");
         println!("{answer}");
         println!();
+
+        // Agent structural tools: run any `TOOL: verb args` the model emitted over
+        // the real catalog (by shelling to this same binary), then feed the outputs
+        // back for a final grounded synthesis.
+        if !cli.dry_run {
+            let calls = extract_tool_calls(&answer);
+            if !calls.is_empty() {
+                println!("── STRUCTURAL TOOLS ({} call(s)) ──", calls.len().min(6));
+                let mut results = String::new();
+                for (verb, args) in calls.iter().take(6) {
+                    match run_structural_tool(verb, args) {
+                        Some(o) => {
+                            println!("● TOOL {verb} {}", args.join(" "));
+                            print!("{o}");
+                            results.push_str(&format!("### {verb} {}\n{o}\n", args.join(" ")));
+                        }
+                        None => println!("● TOOL {verb}: not an available verb / missing args"),
+                    }
+                }
+                if !results.is_empty() {
+                    let synth = vec![
+                        (
+                            "system".to_string(),
+                            "You invoked structural tools over the IG catalog; their real outputs follow. Give a final, concise answer grounded in them.".to_string(),
+                        ),
+                        (
+                            "user".to_string(),
+                            format!("QUESTION:\n{question}\n\nYOUR DRAFT:\n{answer}\n\nTOOL RESULTS:\n{results}\nFINAL ANSWER:"),
+                        ),
+                    ];
+                    let res2 = infer(llm, &synth, cli.max_tokens, cli.temperature);
+                    println!();
+                    println!("── FINAL (tools synthesized) ──");
+                    println!("{}", strip_kernel_records(&res2.text));
+                    println!();
+                }
+            }
+        }
 
         let rep = complete(&prep, &answer, model_voice, cli.no_selectivity);
         print_spine(&rep, &prep, cli.verbose);
