@@ -1634,6 +1634,31 @@ fn find_linkers(cat: &[CatalogEntry], a: &Tuple, b: &Tuple, theta: f32, top: usi
     hits
 }
 
+/// Pre-click a `+`-joined monomer token (`A+B`, `A+B+C`) into ONE blended monomer on
+/// the fly, without touching the catalog: fold the parts left-to-right through the click
+/// primitive (μ/FFUSE join). This is "click then polymerize" as a single feed token —
+/// and the blend is LOSSY (max per axis), so the inputs are no longer recoverable. That
+/// is precisely why order of operations matters: a click blends, a polymer remembers.
+fn preclick(cat: &[CatalogEntry], token: &str, theta: f32) -> Result<Tuple, String> {
+    let parts: Vec<&str> = token.split('+').filter(|s| !s.is_empty()).collect();
+    if parts.len() < 2 {
+        return Err(format!("pre-click token '{token}' needs at least two '+'-joined entries"));
+    }
+    let load = |name: &str| cat.iter().find(|e| e.name == name)
+        .map(Tuple::from_entry)
+        .ok_or_else(|| format!("pre-click: entry not found: {name}"));
+    let mut acc = load(parts[0])?;
+    for p in &parts[1..] {
+        let t = load(p)?;
+        match click_pair(&acc, &t, theta) {
+            Ok(prod) => acc = Tuple { name: token.to_string(), ord: prod.product },
+            Err(_) => return Err(format!("pre-click: {} ⋈ {p} does not fuse (no single clean click at θ={theta:.2})", acc.name)),
+        }
+    }
+    acc.name = token.to_string();
+    Ok(acc)
+}
+
 /// The conductance verdict of a ring: does a winding quantum Ω circulate it?
 enum Cond {
     Conductive { fwd: bool },      // one consistent direction closes the loop — a persistent current
@@ -1732,11 +1757,20 @@ pub fn run_polymerize(
     }
     let mut units: Vec<Tuple> = Vec::with_capacity(monomers.len());
     for m in monomers {
-        let Some(e) = cat.iter().find(|e| e.name == *m) else {
-            eprintln!("polymerize: monomer not found: {m}");
-            return 2;
-        };
-        units.push(Tuple::from_entry(e));
+        // A `+`-joined token (`A+B`) is pre-clicked into one blended monomer first —
+        // "click then polymerize" inline (lossy blend), so order of operations is testable.
+        if m.contains('+') {
+            match preclick(cat, m, theta) {
+                Ok(t) => units.push(t),
+                Err(e) => { eprintln!("polymerize: {e}"); return 2; }
+            }
+        } else {
+            let Some(e) = cat.iter().find(|e| e.name == *m) else {
+                eprintln!("polymerize: monomer not found: {m}");
+                return 2;
+            };
+            units.push(Tuple::from_entry(e));
+        }
     }
     let n = units.len();
 
@@ -1745,7 +1779,8 @@ pub fn run_polymerize(
     if n <= 8 {
         println!("  sequence (read back off the chain, unit by unit):");
         for (i, t) in units.iter().enumerate() {
-            println!("    {}. {}  {}", i + 1, monomers[i], fmt_tuple(&t.ord));
+            let tag = if monomers[i].contains('+') { "   (pre-clicked blend — inputs no longer recoverable)" } else { "" };
+            println!("    {}. {}  {}{}", i + 1, monomers[i], fmt_tuple(&t.ord), tag);
         }
     }
 

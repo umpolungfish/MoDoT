@@ -1098,6 +1098,10 @@ answer. Available verbs (args are catalog entry names, snake_case):
 NOTE: to make a polymer cyclize, use `close` — NOT `scan`. `scan` ranks SET electron-transfer
 mediators (a different question) and will return junk if you ask it for a ring-closing monomer.
 Every `close` candidate is verified to actually click both sides of the failed junction.
+NOTE: a monomer token may be `A+B` (e.g. `polymerize general_recursive_function+skolem_normal_form
+grothendieck_topos`) to PRE-CLICK A and B into one blended monomer before enchaining — this is
+"click then polymerize", and the blend is lossy, so it gives a DIFFERENT product than listing them
+separately (a click blends, a polymer remembers). Use it to test order of operations.
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -1573,11 +1577,19 @@ fn run_one(
                     let synth = vec![
                         (
                             "system".to_string(),
-                            "You invoked structural tools over the IG catalog; their real outputs follow. Give a final, concise answer grounded in them.".to_string(),
+                            "You invoked structural tools over the IG catalog; their real outputs follow. \
+                             These TOOL RESULTS are ground truth — what the Grammar actually computed. Your \
+                             draft was a guess made before you ran them. Write the final answer so it never \
+                             contradicts a tool result: where a tool settled a question (whether a chain \
+                             cyclizes, its architecture, tacticity, modulus/conductance, or whether a name is \
+                             even in the catalog), report the tool's verdict — not the draft's guess — and if \
+                             the draft disagreed, correct it explicitly. Do not introduce any entity, value, \
+                             ordinal, or operation the tools did not return. Think freely, but speak only what \
+                             the tools ground.".to_string(),
                         ),
                         (
                             "user".to_string(),
-                            format!("QUESTION:\n{question}\n\nYOUR DRAFT:\n{answer}\n\nTOOL RESULTS:\n{results}\nFINAL ANSWER:"),
+                            format!("QUESTION:\n{question}\n\nYOUR DRAFT (a prior guess — supersede it wherever a tool disagrees):\n{answer}\n\nTOOL RESULTS (ground truth):\n{results}\nFINAL ANSWER:"),
                         ),
                     ];
                     let res2 = infer(llm, &synth, cli.max_tokens, cli.temperature);

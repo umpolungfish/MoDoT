@@ -418,6 +418,21 @@ fundamental modulus; each generator is verified to actually conduct.
 ./ask --polymerize the_moon_astrological the_logographic_system the_moon_astrological the_logographic_system --modulus
 ```
 
+**Click then polymerize** (a `A+B` feed token) — order of operations matters, because the
+two verbs have opposite information behavior: a **click blends** (μ/FFUSE, max per axis —
+lossy, the inputs are gone) and a **polymer remembers** (R∧W∧X, the sequence is readable).
+A `+`-joined monomer token is **pre-clicked** into one blended monomer before enchaining, so
+you can run either order and see they differ: listing three monomers keeps three units;
+pre-clicking two of them enchains two units, one an irreversible fusion — a different product,
+a different MW.
+
+```bash
+# polymerize-first (remember): 3 distinct units, GRF·GT·SNF sequence preserved
+./ask --polymerize general_recursive_function grothendieck_topos skolem_normal_form
+# click-first (blend): GRF+SNF fused inline into ONE monomer, then 2 units enchained
+./ask --polymerize general_recursive_function+skolem_normal_form grothendieck_topos
+```
+
 **Agent access to every verb.** The LLM agent (`./ask --ask …`) can invoke the whole
 engine. It emits `TOOL: <verb> <args>` lines (markdown-tolerant); the harness runs them
 against the **real catalog** by shelling to this same binary, then feeds the outputs back
@@ -428,6 +443,16 @@ pathway polymerize close material modulus`) — never `ask`, so no recursion. Th
 agent to use `close` (not `scan`) for cyclization, and tool stdout **and stderr** are
 fed back, so a call that errors (e.g. a monomer the model invented) surfaces its failure
 instead of vanishing.
+
+**The operator is a golem — perfect intellect, harnessed voice.** The model may *think*
+freely in its draft, but the synthesis step binds its *speech* to the tools: the tool
+results are ground truth (what the Grammar actually computed), the draft is a prior guess,
+and the final answer may not contradict a tool — where a tool settled a question (does it
+cyclize, its modulus, whether a name is even in the catalog), the answer reports the tool's
+verdict and corrects the draft explicitly, introducing no entity or value the tools did not
+return. In practice the golem now says *"contrary to the draft, the tool confirms it
+cyclizes; modulus: NONE"* instead of confabulating a "high-stiffness" ring and an invented
+linker. Think freely; speak only what the tools ground.
 
 ```bash
 ./ask --ask "Does the sun donate an electron to the moon, and what mediates it best?"
