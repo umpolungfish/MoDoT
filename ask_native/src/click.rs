@@ -2340,11 +2340,15 @@ fn print_ring_spectrum(units: &[Tuple], theta: f32) {
     } else {
         "< 2 ⟹ a broken/open ring (a junction carries no bond)"
     };
+    let energy: f64 = ev.iter().map(|x| x.abs()).sum();
     println!("    ── spectral invariants (adjacency of the ring graph; clean bond=1, cross-link=k centers) ──");
     println!("    spectral radius ρ = {rho:.4}  ({verdict})");
     println!("    spectrum: [{}]", spec.join(", "));
     println!(
         "    spectral gap (ρ − |λ₂|) = {gap:.4} — the wider the gap, the more a single ring-current mode dominates transport."
+    );
+    println!(
+        "    graph energy Σ|λ| = {energy:.4} — the ring's total spectral weight; where ρ is stiffness (the dominant mode), this is toughness (the reserve carried across all modes)."
     );
 }
 
@@ -2356,19 +2360,31 @@ fn print_ring_spectrum(units: &[Tuple], theta: f32) {
 /// bond — a ring is only as stable as its weakest link. Reuses the Ω-transfer primitive.
 fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
     let n = units.len();
-    // weakest clean condensation bond around the ring (cross-links/additions counted apart)
+    // weakest clean condensation bond around the ring (cross-links/additions counted apart),
+    // plus every clean drive so the ring's strain (how evenly the bonds are loaded) is read.
     let mut weakest: Option<(usize, f32)> = None;
     let mut noncond = 0;
+    let mut drives: Vec<f32> = Vec::new();
     for i in 0..n {
         match click_pair(&units[i], &units[(i + 1) % n], theta) {
             Ok(p) => {
                 if weakest.map_or(true, |(_, d)| p.drive < d) {
                     weakest = Some((i, p.drive));
                 }
+                drives.push(p.drive);
             }
             Err(_) => noncond += 1,
         }
     }
+    // ring strain: the spread (population σ) of clean-bond drive around the loop. Near zero
+    // when every junction carries the same tension; large when the ring is forced shut against
+    // reluctant bonds. This is the quantity `anneal` (an upcoming reordering op) drives down.
+    let strain = if drives.len() > 1 {
+        let mean = drives.iter().sum::<f32>() / drives.len() as f32;
+        (drives.iter().map(|d| (d - mean).powi(2)).sum::<f32>() / drives.len() as f32).sqrt()
+    } else {
+        0.0
+    };
     println!("  ── material properties (the ring as a mathematical material) ──");
     println!(
         "    macrocycle: {n}-membered ring{}",
@@ -2381,6 +2397,16 @@ fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
             if noncond > 0 { format!("; {noncond} junction(s) cross-link/addition, not one clean bond") } else { String::new() }
         ),
         None => println!("    ring stability: no clean condensation bond around the ring (every junction a cross-link/addition)"),
+    }
+    if drives.len() > 1 {
+        println!(
+            "    ring strain σ(Δ) = {strain:.3} — {}",
+            if strain < 0.15 {
+                "bonds evenly loaded, a relaxed ring at rest"
+            } else {
+                "bonds unevenly loaded, internal stress stored (an anneal would relax it)"
+            }
+        );
     }
     match ring_conductance(units) {
         Cond::Conductive { fwd } => {

@@ -1,15 +1,18 @@
-Add --cleave: ring fission, the reverse of --fuse
+Add ring strain and graph energy to the material sheet
 
-First op off the material-algebra roadmap ob3ect, which imscribed cleave as
-`edge_fission` over the shared vertex space of a parent ring and its daughter
-cycles. `--cleave M1 M2 ... Mn` (or the `cleave` agent verb) forges the set into
-its best ring, then searches every contiguous bipartition of the loop for a cut
-that leaves BOTH arcs re-closing into their own daughter ring. It reports the
-parent, the best fission (both daughters and their spectra, ranked by the weaker
-daughter's stability), and how the parent's principal mode splits into the two
-daughter modes -- with a pointer back to --fuse to weld them (mu after delta).
-Honest refusal when no cut leaves both arcs closed: the ring holds as one loop.
+Two more invariants off the roadmap ob3ects, both pure scalar reads (the ob3ects
+typed them as reads, not transforms), so they live in the property sheet rather
+than as their own verbs -- every --props / --forge / material sheet now carries
+them.
 
-Verified live: the 7-unit ring that --fuse welded cleaves back, 6 distinct cuts
-found, best splitting into a 2-unit daughter (rho=1.0) and a 5-unit daughter
-(rho=2.56).
+  ring strain sigma(Delta): the population spread of clean-bond drive around the
+    loop. Near zero when every junction carries equal tension, large when the
+    ring is forced shut against reluctant bonds. This is the quantity the coming
+    `anneal` reorder will drive down.
+
+  graph energy sum|lambda|: the ring's total absolute spectral weight. Where the
+    spectral radius rho is the ring's stiffness (its single dominant mode), this
+    is its toughness -- the reserve carried across all the modes.
+
+Verified against hand math: the pure 4-ring gives energy 4.0000 (|2|+0+0+|-2|),
+the branched 3-ring gives 5.4641 (2.732+0.732+2.0).
