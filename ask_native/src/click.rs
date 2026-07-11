@@ -1534,9 +1534,13 @@ fn classify_architecture(seq: &[String]) -> String {
     if distinct.len() <= 1 {
         return "homopolymer (a single repeat unit)".into();
     }
+    if distinct.len() == seq.len() {
+        return format!("heteropolymer ({} distinct monomers, each once — no repeat unit)", seq.len());
+    }
     let changes = (1..seq.len()).filter(|&i| seq[i] != seq[i - 1]).count();
-    if changes == seq.len() - 1 {
-        return format!("alternating copolymer ({} types, every adjacent unit differs — an …ABAB… sequence)", distinct.len());
+    // "alternating" is period-2 between exactly two types (…ABAB…).
+    if distinct.len() == 2 && changes == seq.len() - 1 {
+        return "alternating copolymer (2 types, strict …ABAB… alternation)".into();
     }
     if changes + 1 == distinct.len() {
         return format!("block copolymer ({} contiguous blocks of {} monomer types)", changes + 1, distinct.len());
@@ -1568,6 +1572,26 @@ fn classify_tacticity(chir: &[Option<u8>]) -> String {
         }
     }
     format!("atactic ({glyphs}) — irregular chirality, no stereo-regular pattern")
+}
+
+/// The strongest OPPOSITE-charge live pair between two monomers regardless of the
+/// threshold, with its drive — so a bond that terminates below θ can report the
+/// near-miss honestly (there IS a complementary handle, just sub-threshold) rather
+/// than claiming none exists. None if no live pair is even oppositely charged.
+fn best_weak_complement(a: &Tuple, b: &Tuple) -> Option<(usize, f32)> {
+    let mut best: Option<(usize, f32)> = None;
+    for (i, &pair) in LIVE_PAIRS.iter().enumerate() {
+        if let (Some(ca), Some(cb)) = (pair_charge(a, pair), pair_charge(b, pair)) {
+            let opposite = (ca > 0.0 && cb < 0.0) || (ca < 0.0 && cb > 0.0);
+            if opposite {
+                let drive = (ca - cb).abs();
+                if best.map_or(true, |(_, d)| drive > d) {
+                    best = Some((i, drive));
+                }
+            }
+        }
+    }
+    best
 }
 
 /// CLI entry: `./ask --polymerize M1 M2 … Mn [--certify]`. Chain the monomers into a
@@ -1629,7 +1653,14 @@ pub fn run_polymerize(
                     println!("{tag}  → addition (chain-growth: identical unit enchained by the propagating center)");
                     bonds.push(Bond::Addition);
                 } else {
-                    println!("{tag}  → ✗ termination: no complementary handle — the chain ends here.");
+                    println!("{tag}  → ✗ termination at θ={theta:.2} — the chain ends here.");
+                    match best_weak_complement(a, b) {
+                        Some((pi, drive)) => println!(
+                            "           near-miss: weakly complementary on {} (Δ={drive:.2} < θ) — near-co-typed monomers; they would condense at θ≤{drive:.2} or with a catalyst.",
+                            LIVE_LABELS[pi]
+                        ),
+                        None => println!("           no oppositely-charged live pair at all — fully co-typed / same-handed; no reaction center exists."),
+                    }
                     terminated = Some(i);
                     break;
                 }
@@ -1675,9 +1706,16 @@ pub fn run_polymerize(
         println!("  topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.");
     }
 
-    println!("  architecture: {}", classify_architecture(&monomers[..dp]));
-    let chir: Vec<Option<u8>> = units[..dp].iter().map(|t| t.ord[CHIR]).collect();
-    println!("  tacticity (Ħ chirality per unit): {}", classify_tacticity(&chir));
+    // Architecture and tacticity describe a CHAIN; with zero bonds there is none —
+    // one enchained unit is an unreacted monomer, not a homopolymer. Only read them
+    // out once at least one bond has formed (dp ≥ 2).
+    if dp >= 2 {
+        println!("  architecture: {}", classify_architecture(&monomers[..dp]));
+        let chir: Vec<Option<u8>> = units[..dp].iter().map(|t| t.ord[CHIR]).collect();
+        println!("  tacticity (Ħ chirality per unit): {}", classify_tacticity(&chir));
+    } else {
+        println!("  no chain formed — the feed did not enchain past the first monomer (0 bonds); these are unreacted monomers, not a polymer.");
+    }
 
     // cyclization: only a fully enchained chain (both original ends still live) can close head-to-tail
     if terminated.is_none() && dp >= 2 {

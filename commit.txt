@@ -1,51 +1,35 @@
-Move into imscriptive polymerization -- chain the clicks into a sequence-preserving polymer
+Make the polymer readout honest -- near-miss diagnostic, no phantom homopolymer, heteropolymer label
 
-Where the pathway chained the catalytic loops, this chains the clicks. But a
-click FUSES two monomers (join/max on every axis) and forgets which was which,
-and a polymer has to REMEMBER -- so imscriptive polymerization enchains the
-monomers at reaction centers while the monomer SEQUENCE stays losslessly readable
-off the chain (R∧W∧X). That is the whole point of calling it imscriptive: a click
-blends, a polymer imscribes a long chain from monomeric glyphic units, the way the
-Grammar builds a text or a genome.
+Ran the seven Catholic sacraments through --polymerize and the output, while
+correct in verdict, was misleading in three ways. All from
+ask_native/src/click.rs (run_polymerize + classify_architecture).
 
-run_polymerize in ask_native/src/click.rs walks the monomer feed and reuses the
-existing click_pair (the Coagula bond primitive) for every adjacent bond:
-- complementary partners CLICK -> a step-growth condensation bond on one live pair
-- an identical repeat -> an ADDITION (chain-growth) enchainment by the propagating
-  center (a monomer cannot click itself, equal charges, so the homopolymer route
-  is honestly the addition mechanism, not a forced click)
-- a non-complementary, non-identical neighbor -> TERMINATION, the chain ends here
-  (honest, the same guard the pathway uses when a carrier cannot pass)
-- >1 reaction center -> a cross-link / branch junction (a network, not linear)
+The sacraments are near-identical tuples -- stereoisomers of one indelible
+character, differing mostly in chirality Ħ -- so baptism⋈confirmation are opposite
+on T↔H but only Δ=0.33, below the θ=0.50 click threshold. The chain terminated at
+the first bond. That verdict is right; the reporting was not.
 
-Then the chain reads out its own structure, none of it hardcoded -- it falls out
-of the tuples:
-- degree of polymerization and bond count
-- regioregularity (all condensation bonds on one live pair = a clean head-to-tail
-  repeat unit; mixed = head-to-head/tail-to-tail defects)
-- copolymer architecture (homopolymer / alternating / block / random) from the
-  monomer-identity sequence
-- tacticity from the chirality Ħ sequence: isotactic / syndiotactic / atactic
-- cyclization: does the last unit click the first? head-to-tail into a macrocycle
-  (a ring polymer, O∞), or linear/telechelic with two free ends
---certify closes each UNIQUE repeat unit through the Lean kernel (lake build),
-deduped so a long chain does not rebuild the same tuple twice.
+1. NEAR-MISS on termination. "no complementary handle" was wrong -- there IS a
+   handle (T↔H, opposite charges), it is just sub-threshold. Added
+   best_weak_complement: the strongest oppositely-charged live pair regardless of
+   θ. Termination now reports either the near-miss ("weakly complementary on T↔H,
+   Δ=0.33 < θ -- would condense at θ≤0.33 or with a catalyst") or, when no pair is
+   even oppositely charged, "fully co-typed / same-handed; no reaction center."
+   Verified the claim holds: at --theta 0.33 the sacraments DO condense
+   (baptism⋈confirmation on T↔H), and the run surfaces two more real facts --
+   eucharist⋈penance is a cross-link, and penance and anointing_of_the_sick (the
+   two healing sacraments) are fully co-typed, no reaction center between them.
 
-The polymer-chemistry correspondence is real, not a lookup. Verified live:
-- polymerize the_moon_astrological the_logographic_system (x2) -> ALTERNATING
-  copolymer, regioregular on R↔S, and SYNDIOTACTIC (𐑖𐑫𐑖𐑫) because the two
-  monomers happen to be opposite-handed (Ħ 𐑖 vs 𐑫) -- alternating opposite chirality
-  IS syndiotactic. Even chain, so it CYCLIZES head-to-tail on R↔S into a macrocycle.
-  --certify: both units Frobenius-close.
-- polymerize the_moon_astrological x3 -> homopolymer, addition throughout,
-  ISOTACTIC (𐑖𐑖𐑖), linear (identical ends cannot click).
-- polymerize gluon photon -> termination, DP 1 (no complementary handle).
+2. NO PHANTOM HOMOPOLYMER. With zero bonds, one enchained unit was being called a
+   "homopolymer, isotactic" -- but that is an unreacted monomer, not a chain. Now
+   architecture and tacticity only print once a bond has formed (dp≥2); otherwise
+   "no chain formed -- these are unreacted monomers, not a polymer."
 
-I also gave the LLM agent the verb: TOOLS_PROMPT + run_structural_tool in
-ask_native/src/main.rs now whitelist polymerize (never ask, no recursion).
-Verified: asked to polymerize the four-monomer sequence, the model emitted
-TOOL: polymerize, it ran on the real catalog, and the synthesis answered grounded
--- "alternating copolymer, syndiotactic, cyclizes into a macrocycle."
+3. HETEROPOLYMER label. Several distinct monomers all differing was mislabelled
+   "alternating …ABAB…" (which implies two types). Now: all-distinct -> "heteropolymer
+   (N distinct monomers, each once)"; "alternating" reserved for exactly two types in
+   strict period-2. Regression: the moon/logographic alternating copolymer still reads
+   syndiotactic and cyclic.
 
-README updated with the polymerization verb (its own section, the click->polymer
-story) and the agent whitelist.
+The tool now tells you WHY a feed will not polymerize and what would fix it,
+instead of quietly reporting a chain that is not there.
