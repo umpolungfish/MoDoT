@@ -1594,7 +1594,47 @@ fn best_weak_complement(a: &Tuple, b: &Tuple) -> Option<(usize, f32)> {
     best
 }
 
-/// CLI entry: `./ask --polymerize M1 M2 … Mn [--certify]`. Chain the monomers into a
+/// A ring-closing / bridging comonomer: a catalog entry X that CLICKS BOTH sides of a
+/// failing junction (A,B) — A⋈X and X⋈B each a clean single-center bond. This is the
+/// honest answer to "what monomer closes (or repairs) this polymer", and it is a
+/// DIFFERENT question from `scan`, which ranks SET electron-transfer mediators.
+struct Linker {
+    name: String,
+    pair_a: usize,
+    drive_a: f32,
+    pair_b: usize,
+    drive_b: f32,
+}
+
+/// Search the catalog for monomers X that click both A and X, and X and B — ranked by
+/// the WEAKER of the two bonds (a good linker is strongly complementary on both sides).
+fn find_linkers(cat: &[CatalogEntry], a: &Tuple, b: &Tuple, theta: f32, top: usize) -> Vec<Linker> {
+    let mut hits: Vec<Linker> = Vec::new();
+    for e in cat {
+        let x = Tuple::from_entry(e);
+        if x.ord == a.ord || x.ord == b.ord {
+            continue;
+        }
+        let (Ok(pax), Ok(pxb)) = (click_pair(a, &x, theta), click_pair(&x, b, theta)) else {
+            continue;
+        };
+        hits.push(Linker {
+            name: e.name.clone(),
+            pair_a: pax.pair_idx,
+            drive_a: pax.drive,
+            pair_b: pxb.pair_idx,
+            drive_b: pxb.drive,
+        });
+    }
+    hits.sort_by(|p, q| {
+        let (mp, mq) = (p.drive_a.min(p.drive_b), q.drive_a.min(q.drive_b));
+        mq.partial_cmp(&mp).unwrap_or(std::cmp::Ordering::Equal)
+    });
+    hits.truncate(top);
+    hits
+}
+
+/// CLI entry: `./ask --polymerize M1 M2 … Mn [--certify] [--close]`. Chain the monomers into a
 /// polymer — each adjacent bond a click (step-growth condensation) or an addition
 /// (chain-growth, where a monomer repeats) — while the sequence stays losslessly
 /// readable off the chain. Reports degree of polymerization, regioregularity,
@@ -1604,6 +1644,7 @@ pub fn run_polymerize(
     monomers: &[String],
     theta: f32,
     certify: bool,
+    close: bool,
 ) -> i32 {
     let Some(cat) = catalog else {
         eprintln!("polymerize: no catalog loaded");
@@ -1718,19 +1759,62 @@ pub fn run_polymerize(
     }
 
     // cyclization: only a fully enchained chain (both original ends still live) can close head-to-tail
-    if terminated.is_none() && dp >= 2 {
-        match click_pair(&units[dp - 1], &units[0], theta) {
-            Ok(p) => println!(
-                "  cyclization: {} ⋈ {} → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on {} (O∞).",
-                monomers[dp - 1], monomers[0], LIVE_LABELS[p.pair_idx]
-            ),
-            Err(_) => println!(
-                "  cyclization: {} ⋈ {} → linear (telechelic — two free ends, no head-to-tail closure).",
-                monomers[dp - 1], monomers[0]
-            ),
-        }
+    let head_tail = if terminated.is_none() && dp >= 2 {
+        Some(click_pair(&units[dp - 1], &units[0], theta))
     } else {
-        println!("  cyclization: linear — the chain terminated, so it cannot close into a ring.");
+        None
+    };
+    let cyclic = matches!(head_tail, Some(Ok(_)));
+    match &head_tail {
+        Some(Ok(p)) => println!(
+            "  cyclization: {} ⋈ {} → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on {} (O∞).",
+            monomers[dp - 1], monomers[0], LIVE_LABELS[p.pair_idx]
+        ),
+        Some(Err(_)) => println!(
+            "  cyclization: {} ⋈ {} → linear (telechelic — two free ends, no head-to-tail closure).",
+            monomers[dp - 1], monomers[0]
+        ),
+        None => println!("  cyclization: linear — the chain terminated, so it cannot close into a ring."),
+    }
+
+    // --close: find the monomer that actually CLOSES this chain (or BRIDGES the break),
+    // by testing real clicks against the catalog — the honest cyclization search. This is
+    // NOT `scan` (SET electron relays); each candidate is verified to click both sides.
+    if close && !cyclic {
+        let bridge = terminated.is_some();
+        let (ai, bi) = match terminated {
+            Some(i) => (i, i + 1), // internal break Mᵢ ⋈ Mᵢ₊₁ — a linker goes between them
+            None => (dp - 1, 0),   // head-tail ring bond Mₙ ⋈ M₁ — a closer appends to wrap
+        };
+        println!(
+            "  ── closing search: a monomer X with {} ⋈ X and X ⋈ {} (a real click test, NOT a SET-mediator scan) ──",
+            monomers[ai], monomers[bi]
+        );
+        let linkers = find_linkers(cat, &units[ai], &units[bi], theta, 6);
+        if linkers.is_empty() {
+            println!("    none — no catalog monomer clicks both sides of this junction at θ={theta:.2}. Lower θ or accept the chain is open.");
+        } else {
+            for l in &linkers {
+                println!(
+                    "    {}   ({} ⋈ X on {} Δ={:.2}  ·  X ⋈ {} on {} Δ={:.2})",
+                    l.name, monomers[ai], LIVE_LABELS[l.pair_a], l.drive_a, monomers[bi], LIVE_LABELS[l.pair_b], l.drive_b
+                );
+            }
+            let best = &linkers[0].name;
+            if bridge {
+                let mut feed: Vec<&str> = monomers[..dp].iter().map(|s| s.as_str()).collect();
+                feed.insert(ai + 1, best); // between Mᵢ and Mᵢ₊₁
+                println!(
+                    "    ⮑ insert {best} to repair the break (Mᵢ ⋈ X ⋈ Mᵢ₊₁):  ./ask --polymerize {}",
+                    feed.join(" ")
+                );
+            } else {
+                println!(
+                    "    ⮑ append {best} to close the ring head-to-tail:  ./ask --polymerize {} {best}",
+                    monomers[..dp].join(" ")
+                );
+            }
+        }
     }
 
     if certify {

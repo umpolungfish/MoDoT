@@ -191,6 +191,13 @@ struct Cli {
     #[arg(long = "polymerize", num_args = 2.., value_names = ["MONOMERS"])]
     polymerize: Option<Vec<String>>,
 
+    /// With `--polymerize`: if the chain does not cyclize, search the catalog for the
+    /// monomer that CLOSES it into a ring (clicks the tail and the head) or BRIDGES a
+    /// co-typed break (clicks both sides of the failed junction). The honest cyclization
+    /// search — distinct from `--scan-mediators`, which ranks SET electron relays.
+    #[arg(long = "close")]
+    close: bool,
+
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
@@ -1071,6 +1078,10 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: cycle C S         the catalytic cycle: C turns over S, certified a fixed point (μ∘δ=id)
   TOOL: pathway S C1 C2…  a metabolic pathway — does it close into a cycle (carrier + structure)?
   TOOL: polymerize M1 M2… chain monomers into a sequence-preserving polymer (architecture, tacticity, does it cyclize?)
+  TOOL: close M1 M2…      polymerize, and if it does not cyclize, find the real monomer that CLOSES the ring or BRIDGES the break
+NOTE: to make a polymer cyclize, use `close` — NOT `scan`. `scan` ranks SET electron-transfer
+mediators (a different question) and will return junk if you ask it for a ring-closing monomer.
+Every `close` candidate is verified to actually click both sides of the failed junction.
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -1293,11 +1304,28 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             v.extend(args.iter().cloned());
             v
         }
+        "close" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--polymerize".to_string()];
+            v.extend(args.iter().cloned());
+            v.push("--close".into());
+            v
+        }
         _ => return None,
     };
     let exe = env::current_exe().ok()?;
     let out = process::Command::new(exe).args(&flags).output().ok()?;
-    Some(String::from_utf8_lossy(&out.stdout).into_owned())
+    // Capture stdout AND stderr — a tool call that errors (e.g. a monomer the model
+    // invented that is not in the catalog) must surface its failure, not vanish.
+    let mut s = String::from_utf8_lossy(&out.stdout).into_owned();
+    let err = String::from_utf8_lossy(&out.stderr);
+    if !err.trim().is_empty() {
+        s.push_str(err.trim_end());
+        s.push('\n');
+    }
+    Some(s)
 }
 
 fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
@@ -1669,6 +1697,7 @@ impl CliClone for Cli {
             cycle: self.cycle.clone(),
             pathway: self.pathway.clone(),
             polymerize: self.polymerize.clone(),
+            close: self.close,
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -1774,7 +1803,7 @@ fn main() {
     // Imscriptive polymerization: `./ask --polymerize M1 M2 …` — chain the clicks.
     if let Some(names) = &cli.polymerize {
         if names.len() >= 2 {
-            let code = click::run_polymerize(cat_ref, names, cli.theta, cli.certify);
+            let code = click::run_polymerize(cat_ref, names, cli.theta, cli.certify, cli.close);
             process::exit(code);
         } else {
             eprintln!("--polymerize needs at least two monomers");
