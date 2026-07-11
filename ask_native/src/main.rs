@@ -297,6 +297,18 @@ struct Cli {
     #[arg(long = "column", num_args = 2.., value_names = ["MONOMERS"])]
     column: Option<Vec<String>>,
 
+    /// Freeze-pump-thaw: degas a set, shedding weakly-held units.
+    #[arg(long = "fpt", num_args = 2.., value_names = ["MONOMERS"])]
+    fpt: Option<Vec<String>>,
+
+    /// Ionic trapping: sequester a unit by its charge. `trap A [X]`.
+    #[arg(long = "trap", num_args = 1..=2, value_names = ["A", "X"])]
+    trap: Option<Vec<String>>,
+
+    /// Stain: apply a diagnostic reagent to a set. `stain R M1 M2 …`.
+    #[arg(long = "stain", num_args = 2.., value_names = ["REAGENT_THEN_UNITS"])]
+    stain: Option<Vec<String>>,
+
     /// Recall a registered material by name: `--recall NAME`. Prints its stored sheet from the
     /// material registry without respecifying it from units. Pair with `--forge … --register`.
     #[arg(long = "recall", value_name = "NAME")]
@@ -1310,6 +1322,9 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: seed M1 M2… with S template the crystal on seed S's handedness Ħ: units matching S copy its polymorph (templated) vs the default (spontaneous); an even split is racemic twinning
   TOOL: tlc M1 M2…         analytical chromatography: spread the set by Rf (mobility, inverse of retention Ř), count the bands, and flag units that co-elute at the same Rf. Counts, does not isolate
   TOOL: column M1 M2… [on S]  preparative chromatography: elute the set least-retained first, with the resolution gap to each next fraction; `on S` ranks by affinity to stationary phase S, else intrinsic retention
+  TOOL: fpt M1 M2…         freeze-pump-thaw degassing: keep the strongly-bound core (bonds ≥ θ to a neighbor), shed the weakly-held filtrate that bonds with nothing
+  TOOL: trap A [X]         ionic trapping: sequester A by its R↔S charge in a potential well (add a counter X of opposite charge to deepen it); a held charge state, distinct from set (electron transfer)
+  TOOL: stain R M1 M2…     apply a diagnostic reagent R (kmno4/uv→⊙, chiral→Ħ, ninhydrin→Ř, iodine→any live center): units carrying the feature light up, the rest stay dark
   TOOL: register NAME M1 M2…  forge the set into a ring and store its full sheet in the material library under NAME (recall it later by name)
   TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
@@ -1793,6 +1808,7 @@ fn mentions_structural_work(text: &str) -> bool {
         "distill", "sublim", "volatility", "azeotrope",
         "crystalliz", "cocrystal", "polymorph", "lattice",
         "chromatograph", "elut", "retention factor", " Rf ",
+        "degas", "freeze-pump", "outgas", "sequester", "stain", "reagent",
     ];
     let low = text.to_lowercase();
     CUES.iter().any(|c| low.contains(c))
@@ -2070,6 +2086,29 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             v.extend(args.iter().cloned());
             v
         }
+        "fpt" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--fpt".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "trap" => {
+            let mut v = vec!["--trap".to_string(), a(0)?];
+            if let Some(x) = a(1) {
+                v.push(x);
+            }
+            v
+        }
+        "stain" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--stain".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
         _ => return None,
     };
     // Distinct from the arity None above: a failure to LOCATE or SPAWN the binary is not
@@ -2159,6 +2198,9 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "seed"          => "seed M1 M2 ... with S; a set, then `with`, then one seed",
         "tlc"           => "tlc M1 M2...; 2+ names (spread by Rf, count bands)",
         "column"        => "column M1 M2 ... [on S]; 2+ names, optional `on S` stationary phase",
+        "fpt"           => "fpt M1 M2...; 2+ names (degas: shed weakly-held units)",
+        "trap"          => "trap A [X]; 1 unit, optional counter X (ionic sequester)",
+        "stain"         => "stain R M1 M2...; a reagent (kmno4/uv/chiral/ninhydrin/iodine) then 1+ units",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         _ => return None,
     })
@@ -2172,7 +2214,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "compare", "dope", "fuse", "cleave", "anneal", "register", "recall", "imscribe",
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
-    "tlc", "column",
+    "tlc", "column", "fpt", "trap", "stain",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -2856,6 +2898,9 @@ impl CliClone for Cli {
             seed: self.seed.clone(),
             tlc: self.tlc.clone(),
             column: self.column.clone(),
+            fpt: self.fpt.clone(),
+            trap: self.trap.clone(),
+            stain: self.stain.clone(),
             recall: self.recall.clone(),
             export: self.export.clone(),
             jam: self.jam,
@@ -3029,6 +3074,15 @@ fn main() {
     }
     if let Some(names) = &cli.column {
         process::exit(click::run_column(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.fpt {
+        process::exit(click::run_fpt(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.trap {
+        process::exit(click::run_trap(cat_ref, &names[0], names.get(1).map(|s| s.as_str()), cli.theta));
+    }
+    if let Some(names) = &cli.stain {
+        process::exit(click::run_stain(cat_ref, &names[0], &names[1..], cli.theta));
     }
 
     // Imscriptive polymerization: `./ask --polymerize M1 M2 …` — chain the clicks.

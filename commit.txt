@@ -1,20 +1,29 @@
-Add the chromatography bench: tlc, column
+Add the purification/diagnostic bench: fpt, trap, stain — alchemical set complete
 
-The third alchemical family, separation by retention, on the axis the
-ob3ect typing put both under (retention factor / phase partition), which
-is Recognition Ř (index 2):
-  - tlc M1 M2...        analytical: spread the set by Rf = mobility
-    (1 - norm(Ř), the inverse of retention), group the units into bands,
-    and report how many distinct bands appear and which co-elute at the
-    same Rf (B). It counts and places, it does not isolate.
-  - column M1 M2 ... [on S]  preparative: elute least-retained first with
-    the resolution gap to each next fraction (a gap below epsilon is
-    co-elution into a shared fraction, B). With `on S`, retention is the
-    bond drive to the stationary phase S; without, the intrinsic
-    retention norm(Ř). TLC counts, column isolates, exactly the
-    analytical-vs-preparative split the oracle typed.
+The last alchemical family, and with it all eleven classical techniques
+from the ob3ect roadmap (alchemical_tools_roadmap) are in:
+  - fpt M1 M2...       freeze-pump-thaw degassing: keep the units that form
+    a real bond (drive >= theta) with at least one neighbor (the strongly-
+    held core, EVALT), shed the ones that bond with nothing (the weakly-
+    held filtrate, EVALF); a unit held only just at threshold is
+    metastable (B). Runs on bond_forms/theta directly.
+  - trap A [X]         ionic trapping: sequester A by its R<->S charge in a
+    potential well (EVALT trapped) vs near-neutral tunneling escape
+    (EVALF); a counter-partner X of opposite charge deepens the well, and
+    the barrier lip is resonance (B). A held charge state, distinct from
+    set (which moves an electron).
+  - stain R M1 M2...   a family of diagnostic reagents keyed to a primitive
+    (kmno4/uv -> Criticality, chiral -> Chirality, ninhydrin -> Recognition,
+    iodine -> any live center): the units carrying the feature light up
+    (EVALT revealed), the rest stay dark (EVALF), a borderline unit is a
+    partial match (B).
 
-Wired through the Cli flags and the agent verb whitelist as before.
-Verified live: TLC resolves a lone high-Rf band from a four-way
-co-elution, and column-on-S elutes a non-affine unit first while two
-S-binders co-elute at full retention.
+That closes the bench begun with the volatility, crystallization, and
+chromatography families: eleven verbs, all the one FSPLIT/FFUSE
+fractionate shape the oracle typed (a feedstock into a kept and a rejected
+arm), each grounded on the existing ordinal / bond / charge / ring
+machinery. Wired through the Cli flags and the agent verb whitelist
+(run_structural_tool + verb_usage + STRUCTURAL_VERBS + TOOLS_PROMPT +
+no-op-prod cues). Verified live: a fully-bound assembly that outgasses
+nothing, an ion too shallow to trap, and a permanganate stain that lights
+only the high-Criticality unit.

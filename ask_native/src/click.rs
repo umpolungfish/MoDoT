@@ -2792,6 +2792,119 @@ pub fn run_column(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: 
     0
 }
 
+/// CLI: `./ask --fpt M1 M2 …`. Freeze-pump-thaw degassing: keep the units that form a
+/// real bond (drive ≥ θ) with at least one other (the strongly-held core, EVALT), shed
+/// the ones that bond with nothing (the weakly-held filtrate, EVALF). A unit bonded
+/// only just at threshold is metastable (B).
+pub fn run_fpt(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else { eprintln!("fpt: no catalog loaded"); return 2; };
+    if monomers.len() < 2 { eprintln!("fpt needs at least two units"); return 2; }
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("fpt: {e}"); return 2; }
+    };
+    let margin = 0.06_f32;
+    let mut core: Vec<String> = Vec::new();
+    let mut filtrate: Vec<String> = Vec::new();
+    let mut metastable = 0;
+    for (i, u) in units.iter().enumerate() {
+        let best = units.iter().enumerate()
+            .filter(|(j, _)| *j != i)
+            .filter_map(|(_, v)| bond_forms(u, v, theta))
+            .fold(f32::NAN, |a, b| if a.is_nan() { b } else { a.max(b) });
+        if best.is_nan() {
+            filtrate.push(u.name.clone());
+        } else {
+            if best - theta < margin { metastable += 1; }
+            core.push(u.name.clone());
+        }
+    }
+    println!("freeze-pump-thaw (degas: strip the weakly-held, keep the strongly-bound core):  {{{}}}", monomers.join(", "));
+    println!("  ── retained core (EVALT — bonds ≥ θ to at least one neighbor) ──");
+    println!("    {}", if core.is_empty() { "(none)".to_string() } else { core.join(", ") });
+    println!("  ── filtrate (EVALF — outgassed, bonds with nothing) ──");
+    println!("    {}", if filtrate.is_empty() { "(none — the whole assembly held)".to_string() } else { filtrate.join(", ") });
+    if metastable > 0 {
+        println!("  ~ B: {metastable} unit(s) held only just at the threshold (attach ≈ detach; a fresh cycle may still shed them).");
+    } else if filtrate.is_empty() {
+        println!("  ✓ T: nothing outgasses — the assembly is fully bound.");
+    } else {
+        println!("  ✓ degassed: the weakly-held fraction is gone, the core remains.");
+    }
+    0
+}
+
+/// CLI: `./ask --trap A [X]`. Ionic trapping: sequester A by its charge on the R↔S pair.
+/// A strong charge imbalance is an ion held in its potential well (EVALT, trapped); a
+/// near-neutral unit tunnels back out (EVALF, escapes). A counter-partner X of opposite
+/// charge deepens the well (stabilizes the trap). At the barrier height it resonates (B).
+/// Distinct from `set` — a held charge state, not a moved electron.
+pub fn run_trap(catalog: Option<&[CatalogEntry]>, name: &str, counter: Option<&str>, theta: f32) -> i32 {
+    let Some(cat) = catalog else { eprintln!("trap: no catalog loaded"); return 2; };
+    let mut names = vec![name.to_string()];
+    if let Some(x) = counter { names.push(x.to_string()); }
+    let units = match load_monomers(cat, &names, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("trap: {e}"); return 2; }
+    };
+    let charge = pair_charge(&units[0], LIVE_PAIRS[2]).unwrap_or(0.0);
+    let mag = charge.abs();
+    let stabilized = if let Some(x) = units.get(1) {
+        let xc = pair_charge(x, LIVE_PAIRS[2]).unwrap_or(0.0);
+        if (charge > 0.0 && xc < 0.0) || (charge < 0.0 && xc > 0.0) { mag + xc.abs() } else { mag }
+    } else { mag };
+    let (well, margin) = (0.5_f32, 0.06_f32);
+    println!("ionic trapping (sequester {name} by its charge on R↔S{}):", counter.map(|x| format!(", counter {x}")).unwrap_or_default());
+    println!("  charge(R↔S) = {charge:+.2}  →  well depth {stabilized:.2}");
+    if stabilized >= well + margin {
+        println!("  ✓ trapped (EVALT): {name} is an ion held in its potential well — sequestered in a phase it cannot leave (reverse with a counter-shift).");
+    } else if stabilized <= well - margin {
+        println!("  ✗ escapes (EVALF): {name} is near-neutral — no well deep enough to hold it; it tunnels back out.");
+        if counter.is_none() { println!("    add a counter-partner of opposite R↔S charge to deepen the well: trap {name} <X>"); }
+    } else {
+        println!("  ~ B: barrier resonance — {name} sits at the well lip, held and escaping at once.");
+    }
+    0
+}
+
+/// CLI: `./ask --stain R M1 M2 …`. Apply a diagnostic reagent R (kmno4/uv → Criticality ⊙,
+/// chiral → Chirality Ħ, ninhydrin → Recognition Ř, iodine → any live center): the units
+/// carrying that feature light up (EVALT, revealed), the rest stay dark (EVALF). A unit
+/// borderline on the feature is a partial match (B).
+pub fn run_stain(catalog: Option<&[CatalogEntry]>, reagent: &str, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else { eprintln!("stain: no catalog loaded"); return 2; };
+    if monomers.is_empty() { eprintln!("stain needs a reagent then at least one unit: stain R M1 …"); return 2; }
+    let (prim, feature): (Option<usize>, &str) = match reagent.to_lowercase().as_str() {
+        "kmno4" | "permanganate" | "uv" => (Some(8), "Criticality ⊙ (unsaturation / excitation)"),
+        "chiral" | "chirality" => (Some(9), "Chirality Ħ (handedness)"),
+        "ninhydrin" => (Some(2), "Recognition Ř (binding center)"),
+        "iodine" | "i2" => (None, "any live reaction center (D↔W / T↔H / R↔S)"),
+        _ => { eprintln!("stain: unknown reagent `{reagent}` (try: kmno4, uv, chiral, ninhydrin, iodine)"); return 2; }
+    };
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("stain: {e}"); return 2; }
+    };
+    println!("stain {reagent} → detects {feature}:  {{{}}}", monomers.join(", "));
+    let mut revealed: Vec<String> = Vec::new();
+    let mut dark: Vec<String> = Vec::new();
+    let mut partial = 0;
+    for u in &units {
+        let signal = match prim {
+            Some(p) => u.norm(p).unwrap_or(0.0),
+            None => LIVE_PAIRS.iter().filter_map(|&pr| pair_charge(u, pr)).map(|c| c.abs()).fold(0.0_f32, f32::max),
+        };
+        if signal >= 0.5 { revealed.push(u.name.clone()); }
+        else { if signal >= 0.375 { partial += 1; } dark.push(u.name.clone()); }
+    }
+    println!("  ── revealed (EVALT — carries the feature, lights up) ──");
+    println!("    {}", if revealed.is_empty() { "(none)".to_string() } else { revealed.join(", ") });
+    println!("  ── dark (EVALF — lacks the feature) ──");
+    println!("    {}", if dark.is_empty() { "(none)".to_string() } else { dark.join(", ") });
+    if partial > 0 { println!("  ~ B: {partial} unit(s) borderline — a partial match the reagent cannot call cleanly."); }
+    0
+}
+
 /// Can a winding quantum Ω circulate the ring (units treated as a cycle)? A consistent
 /// one-way circulation is a persistent ring current (the loop SUSTAINS itself, μ∘δ=id
 /// around the cycle). Reuses the Ω-transfer primitive at each junction.
