@@ -1595,6 +1595,52 @@ mod delatex_tests {
     }
 }
 
+#[cfg(test)]
+mod verb_feedback_tests {
+    use super::{run_structural_tool, tool_miss_message, verb_usage, STRUCTURAL_VERBS};
+
+    // Every whitelisted verb must have a usage string, or a real verb given bad args
+    // would be reported as nonexistent — the miss that made the eagle loop.
+    #[test]
+    fn every_structural_verb_has_usage() {
+        for v in STRUCTURAL_VERBS {
+            assert!(verb_usage(v).is_some(), "no usage help for real verb `{v}`");
+        }
+        assert!(verb_usage("definitely_not_a_verb").is_none());
+    }
+
+    // A real verb given too few names must NOT run (None), so the caller reaches the
+    // actionable-feedback path rather than silently dropping args.
+    #[test]
+    fn real_verb_underargged_does_not_run() {
+        assert!(run_structural_tool("polymerize", &["only_one".into()]).is_none());
+        assert!(run_structural_tool("scan", &["only_one".into()]).is_none());
+        assert!(run_structural_tool("forge", &["only_one".into()]).is_none());
+    }
+
+    // The feedback for a real verb names the correct form and echoes what was given,
+    // and never calls a real verb nonexistent.
+    #[test]
+    fn underargged_message_is_actionable() {
+        let m = tool_miss_message("polymerize", &["only_one".into()]);
+        assert!(m.contains("2+ names"), "no arity guidance: {m}");
+        assert!(m.contains("only_one"), "did not echo the given arg: {m}");
+        assert!(!m.contains("not an available verb"), "real verb called nonexistent: {m}");
+
+        let empty: [String; 0] = [];
+        let m0 = tool_miss_message("forge", &empty);
+        assert!(m0.contains("you gave: nothing"), "empty-arg wording wrong: {m0}");
+    }
+
+    // A genuinely unknown verb is reported as such, and the list points at real verbs.
+    #[test]
+    fn unknown_verb_lists_real_verbs() {
+        let m = tool_miss_message("frobnicate", &["a".into(), "b".into()]);
+        assert!(m.contains("not an available verb"), "{m}");
+        assert!(m.contains("polymerize") && m.contains("forge"), "verb list missing: {m}");
+    }
+}
+
 /// Does the text reference a structural operation (by verb stem or `--flag`)? Used to
 /// tell a legitimate conceptual answer (no catalog work needed) from a confabulated one
 /// that narrated tools it never ran — the trigger for the no-op prod.
@@ -1836,6 +1882,71 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         ));
     }
     Some(s)
+}
+
+/// The canonical call form for a known structural verb, or None if `verb` is not a
+/// structural verb at all. `run_structural_tool` returns None both for an unknown
+/// verb AND for a real verb given too few names; without this split the caller
+/// reported every miss as "not an available verb", which sent the eagle looping —
+/// re-emitting `polymerize A` (one name) round after round instead of adding the
+/// second name. This lets the caller answer "polymerize needs 2+ names" so the next
+/// round self-corrects.
+fn verb_usage(verb: &str) -> Option<&'static str> {
+    Some(match verb {
+        "click"      => "click A B (or `click A` to sweep the catalog); 1 or 2 names",
+        "switch"     => "switch A B; 2 names",
+        "excite"     => "excite A; 1 name",
+        "set"        => "set A B; 2 names (donor acceptor)",
+        "homolyze"   => "homolyze A [B]; 1 or 2 names",
+        "scan"       => "scan A B; 2 names (donor acceptor), ranks mediators of A to B",
+        "complement" => "complement A; 1 name",
+        "cycle"      => "cycle C S; 2 names (catalyst substrate)",
+        "pathway"    => "pathway S C1 C2...; 2+ names",
+        "polymerize" => "polymerize M1 M2...; 2+ names to chain",
+        "close"      => "close M1 M2...; 2+ names",
+        "material"   => "material M1 M2...; 2+ names",
+        "modulus"    => "modulus M1 M2...; 2+ names",
+        "arrange"    => "arrange M1 M2...; 2+ names (unordered set)",
+        "forge"      => "forge M1 M2...; 2+ names (unordered set)",
+        "compare"    => "compare A B vs X Y; two sets split by `vs`",
+        "dope"       => "dope A B with C; base and dopant split by `with`",
+        "fuse"       => "fuse A B + X Y; two rings split by `+`",
+        "cleave"     => "cleave M1 M2...; 2+ names (forges then cuts the ring)",
+        "anneal"     => "anneal M1 M2...; 2+ names",
+        "register"   => "register NAME M1 M2...; a NAME then 2+ names",
+        "recall"     => "recall NAME; exactly 1 stored name",
+        "imscribe"   => "imscribe NAME [description]; a name and optional description",
+        _ => return None,
+    })
+}
+
+/// Every structural verb the agent may call. Single source of truth for the
+/// unknown-verb feedback list and the coverage test that keeps `verb_usage` in sync.
+const STRUCTURAL_VERBS: &[&str] = &[
+    "click", "switch", "excite", "set", "homolyze", "scan", "complement", "cycle",
+    "pathway", "polymerize", "close", "material", "modulus", "arrange", "forge",
+    "compare", "dope", "fuse", "cleave", "anneal", "register", "recall", "imscribe",
+];
+
+/// Feedback when `run_structural_tool` could not run `verb`: the correct call form
+/// if it is a real verb given bad/too-few args, or the verb list if it is unknown.
+/// Split out (from the agent loop) so it is unit-testable and so a real verb never
+/// gets reported as nonexistent — the miss that made the eagle re-emit the same call.
+fn tool_miss_message(verb: &str, args: &[String]) -> String {
+    match verb_usage(verb) {
+        Some(usage) => {
+            let gave = args.join(" ");
+            format!(
+                "wrong or too few args (you gave: {}). Correct form: {usage}. \
+                 Re-emit it with the right names next round.",
+                if gave.is_empty() { "nothing".to_string() } else { gave }
+            )
+        }
+        None => format!(
+            "not an available verb. Available verbs: {}.",
+            STRUCTURAL_VERBS.join(", ")
+        ),
+    }
 }
 
 /// Is a name already registered — in the base IG_catalog.json OR the live
@@ -2246,7 +2357,10 @@ fn run_one(
                             executed_verbs.insert(verb.clone()); // this verb now has an execution arm
                         }
                         None => {
-                            let m = format!("● TOOL {verb}: not an available verb / missing args");
+                            // A real verb given bad/too-few args gets its correct form (so the
+                            // eagle self-corrects); a genuinely unknown verb gets the real list.
+                            // Collapsing both into one vague line made the eagle loop.
+                            let m = format!("● TOOL {verb}: {}", tool_miss_message(verb, args));
                             println!("{m}");
                             results.push_str(&format!("{m}\n"));
                         }

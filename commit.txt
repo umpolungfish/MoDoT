@@ -1,22 +1,23 @@
-Add --eagles and take --cycles across the board
+Give the eagle a way to fix a fumbled verb call
 
-The agentic round count -- the eagles flown out to run tools and read
-their results back as ground truth -- was hardcoded: 40 under --jam, 5
-otherwise, and the kernel-gated prover ran a fixed three-round escalation.
-There was no way to turn it up without editing the source, even though the
-prover's own "raise the rounds/budget" note begged for exactly that lever.
+run_structural_tool returned None for two unrelated cases: a verb that
+does not exist, and a real verb given too few names. The agent loop
+collapsed both into one line, "not an available verb / missing args", so
+a real call like `polymerize A` (one name) or `scan A` (one name) was
+reported as if polymerize and scan did not exist. With no correct form to
+aim at, the agent re-emitted the same bad call round after round, burning
+eagles on what was really just a missing second name.
 
---eagles N now sets that count as a first-class knob, honored across the
-board: the ACT/OBSERVE loop in both jam and normal ask, and the prover's
-escalation schedule (N rounds of monotonically growing depth/flat/fuse
-budget). 0 keeps the old auto behaviour (40 jam, 5 normal, the default
-three prover rounds), so nothing changes unless the flag is set.
+Now the two cases are split. verb_usage(verb) holds the canonical call
+form for every real verb (wording taken from the TOOLS_PROMPT the agent
+already reads). tool_miss_message uses it: a real verb given bad args gets
+"wrong or too few args (you gave: ...). Correct form: polymerize M1 M2...;
+2+ names to chain", and only a genuinely unknown verb gets "not an
+available verb" plus the list of the real ones. Either way the next round
+has something to correct toward.
 
---cycles now reaches the proof-intent route too. It re-flies the whole
-escalation up to N times, stopping the moment the kernel closes, so a
-stubborn B frontier gets more than one run at the wall. The "not closed
-within cap" messages now name both flags, so the advice to push deeper is
-actionable instead of abstract.
-
-Two knobs: --cycles is how many compounding breaths, --eagles is how far
-each breath flies. The options header and --help carry both.
+STRUCTURAL_VERBS is the single source of truth for the verb list, and a
+test asserts every one of them has usage help, so a real verb can never
+again be reported as nonexistent. Further tests cover the under-argged
+path (returns None), the actionable message text, and the unknown-verb
+list.
