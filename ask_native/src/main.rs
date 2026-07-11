@@ -1118,6 +1118,13 @@ section is present, use it to STRUCTURE the conventional proof.
 Instantiate templates in THIS question's language. No Collatz paste
 unless the question is Collatz. Catalog proved_hint is not a proof.
 
+TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
+renderer. Write plain Unicode symbols directly and NEVER LaTeX. Use Δ θ μ ∘ δ ↔ →
+⊙ Σ Ω Φ Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs Ð Ř ƒ Þ Ħ Ç ɢ, and Shavian
+directly. No `$` or `$$`, no `\command` (\Delta, \text, \frac, \left), no `_{...}`
+or `^{...}`. Write `Δ_T↔H = |−0.08 − 0.75| = 0.83 > θ`, never
+`$\Delta_{\text{T↔H}} = 0.83 > \theta$`. Never wrap a glyph in `$…$`.
+
 SECONDARY (optional, after the answer):
 Tag [thought|T|F|B|N] for your Belnap self-assessment.
 COMPOSE:/TOKEN:/CANONICAL: optional tools, never a substitute for
@@ -1334,7 +1341,116 @@ fn build_user_packet(question: &str, prep: &Prepare) -> String {
 fn strip_kernel_records(text: &str) -> String {
     let re = Regex::new(r"(?im)^[ \t]*\[(?:selectivity|vessel|spine|update|broadcast)\s*\|.*$\n?")
         .unwrap();
-    re.replace_all(text, "").to_string()
+    delatex(&re.replace_all(text, ""))
+}
+
+/// The answer prints to a raw terminal with no math renderer, but the LLM habitually wraps
+/// its math in LaTeX (`$$\Delta_{\text{T↔H}} = 0.83 > \theta$$`) which then shows as literal
+/// backslash-garbage. Convert the common LaTeX to the plain Unicode the terminal (and the IG
+/// house style) actually wants — `Δ_T↔H = 0.83 > θ`. Grouping braces in prose (e.g. a
+/// `{binah monad ankh}` set) are left untouched; only math constructs are rewritten.
+fn delatex(text: &str) -> String {
+    let mut s = text.to_string();
+    // Math delimiters and spacing macros first (their next char isn't a letter, so the
+    // command table below would miss them).
+    for (pat, rep) in [
+        ("$$", ""), ("\\[", ""), ("\\]", ""), ("\\(", ""), ("\\)", ""),
+        ("\\,", ""), ("\\;", ""), ("\\!", ""), ("\\:", " "), ("\\ ", " "),
+        ("\\{", "{"), ("\\}", "}"), ("\\|", "‖"), ("\\\\", "\n"),
+        ("\\_", "_"), ("\\%", "%"), ("\\&", "&"), ("\\#", "#"),
+    ] {
+        s = s.replace(pat, rep);
+    }
+    s = s.replace('$', ""); // remaining inline math delimiters
+    // `\text{X}`, `\mathrm{X}`, … → X (unwrap the styling, keep the content).
+    let brace_cmd =
+        Regex::new(r"\\(?:text|mathrm|mathbf|mathbb|mathcal|mathit|operatorname|boldsymbol|mathsf)\{([^{}]*)\}")
+            .unwrap();
+    s = brace_cmd.replace_all(&s, "$1").into_owned();
+    // `\frac{A}{B}` → A/B.
+    let frac = Regex::new(r"\\frac\{([^{}]*)\}\{([^{}]*)\}").unwrap();
+    s = frac.replace_all(&s, "$1/$2").into_owned();
+    // (Layout wrappers like \left \right \quad are handled by `sym` in the command pass
+    // below — doing them as substring replaces here would chew the \left out of
+    // \leftrightarrow. The full-word regex is safe.)
+    // Drop the braces around a sub/superscript body: `_{T↔H}` → `_T↔H`, `^{2}` → `^2`.
+    let subsup = Regex::new(r"([_^])\{([^{}]*)\}").unwrap();
+    s = subsup.replace_all(&s, "$1$2").into_owned();
+    // Named commands → Unicode. One pass over `\word`; unknown names lose only the backslash.
+    let cmd = Regex::new(r"\\([A-Za-z]+)").unwrap();
+    s = cmd
+        .replace_all(&s, |c: &regex::Captures| sym(&c[1]).to_string())
+        .into_owned();
+    s
+}
+
+/// LaTeX command name → Unicode glyph (or the bare name if unknown).
+fn sym(name: &str) -> &str {
+    match name {
+        "leftrightarrow" | "iff" => "↔",
+        "Leftrightarrow" => "⇔",
+        "rightarrow" | "to" | "longrightarrow" | "mapsto" => "→",
+        "leftarrow" | "gets" => "←",
+        "Rightarrow" | "implies" => "⇒",
+        "Delta" => "Δ", "nabla" => "∇", "partial" => "∂",
+        "theta" | "vartheta" => "θ", "Theta" => "Θ",
+        "mu" => "μ", "delta" => "δ", "sigma" => "σ", "Sigma" => "Σ",
+        "omega" => "ω", "Omega" => "Ω", "phi" | "varphi" => "φ", "Phi" => "Φ",
+        "gamma" => "γ", "Gamma" => "Γ", "rho" => "ρ", "pi" => "π", "Pi" => "Π",
+        "lambda" => "λ", "Lambda" => "Λ", "alpha" => "α", "beta" => "β",
+        "epsilon" | "varepsilon" => "ε", "zeta" => "ζ", "eta" => "η",
+        "kappa" => "κ", "nu" => "ν", "xi" => "ξ", "Xi" => "Ξ", "tau" => "τ",
+        "chi" => "χ", "psi" => "ψ", "Psi" => "Ψ", "circ" => "∘",
+        "cdot" => "·", "times" => "×", "otimes" => "⊗", "oplus" => "⊕",
+        "geq" | "ge" => "≥", "leq" | "le" => "≤", "neq" | "ne" => "≠",
+        "approx" => "≈", "equiv" => "≡", "cong" => "≅", "sim" => "∼", "propto" => "∝",
+        "infty" => "∞", "in" => "∈", "notin" => "∉",
+        "subset" => "⊂", "subseteq" => "⊆", "supset" => "⊃",
+        "forall" => "∀", "exists" => "∃", "wedge" | "land" => "∧", "vee" | "lor" => "∨",
+        "neg" | "lnot" => "¬", "pm" => "±", "mp" => "∓", "emptyset" | "varnothing" => "∅",
+        "langle" => "⟨", "rangle" => "⟩", "sum" => "∑", "prod" => "∏", "int" => "∫",
+        "sqrt" => "√", "ldots" | "dots" | "cdots" => "…", "star" | "ast" => "∗",
+        "bullet" => "•", "dagger" => "†", "perp" => "⊥", "parallel" => "‖",
+        "top" => "⊤", "bot" => "⊥", "mid" => "|", "backslash" => "\\",
+        // styling/layout tokens with no glyph → drop entirely
+        "text" | "mathrm" | "mathbf" | "mathbb" | "mathcal" | "mathit" | "mathsf"
+        | "boldsymbol" | "operatorname" | "left" | "right" | "displaystyle" | "limits"
+        | "nonumber" | "quad" | "qquad" | "label" | "tag" => "",
+        other => other, // unknown command: keep the name, shed the backslash
+    }
+}
+
+#[cfg(test)]
+mod delatex_tests {
+    use super::delatex;
+
+    #[test]
+    fn converts_the_reported_example() {
+        // The exact shape the user pasted: display math with \Delta, \text{}, subscript
+        // braces, and \theta — must come out as plain terminal Unicode.
+        let got = delatex(
+            r"$$\Delta_{\text{T↔H}} = |\text{charge}_{\text{T}}(binah) - \text{charge}_{\text{H}}(monad)| = |-0.08 - 0.75| = 0.83 > \theta = 0.50.$$",
+        );
+        assert!(!got.contains('$'), "dollar delimiters remain: {got}");
+        assert!(!got.contains('\\'), "backslash commands remain: {got}");
+        assert!(got.contains("Δ_T↔H"), "subscript not unwrapped: {got}");
+        assert!(got.contains("charge_T(binah)"), "text{{}} not unwrapped: {got}");
+        assert!(got.contains("> θ = 0.50"), "theta not converted: {got}");
+    }
+
+    #[test]
+    fn leaves_prose_braces_and_glyphs_alone() {
+        // A `{set}` in braces and the real IG glyphs must survive untouched.
+        let got = delatex("the set {binah monad ankh} imscribes ⟨𐑨𐑰𐑩⊙𐑒𐑳𐑴⟩ with Ð Ř ƒ");
+        assert_eq!(got, "the set {binah monad ankh} imscribes ⟨𐑨𐑰𐑩⊙𐑒𐑳𐑴⟩ with Ð Ř ƒ");
+    }
+
+    #[test]
+    fn common_operators_and_frac() {
+        let got = delatex(r"$\mu \circ \delta = \text{id}$, $\frac{a}{b} \geq \Omega \leftrightarrow \Sigma$");
+        assert!(got.contains("μ ∘ δ = id"), "{got}");
+        assert!(got.contains("a/b ≥ Ω ↔ Σ"), "{got}");
+    }
 }
 
 /// Does the text reference a structural operation (by verb stem or `--flag`)? Used to

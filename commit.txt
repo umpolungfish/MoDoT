@@ -1,43 +1,31 @@
-Give the tools a voice in the spine: the banner now fuses what the catalog computed
+Stop printing LaTeX to the terminal -- render math as plain Unicode symbols
 
-The ManuscriptSpine was grading my confidence, not the structure. It fused the model's
-self-assessment (model_voice) with the vessel co-type (vessel_voice, which is ~always T for
-any non-empty answer), so a fluent "PROVED. The manifold is closed" scored fused=T even when
-every tool had just returned "terminated / telechelic / does not close." The banner said T
-right next to a prose Status: F. The tools -- the one part that actually computes closure --
-had no vote.
+The answers were coming out as backslash-garbage: `$$\Delta_{\text{T↔H}} = ... > \theta$$`
+instead of `Δ_T↔H = ... > θ`. The tools already emit clean Unicode (⟨𐑨𐑰...⊙...⟩, Δ=0.83,
+μ∘δ=id); it was the LLM's own prose wrapping every symbol in LaTeX for a renderer that
+isn't there -- `./ask` prints to a raw terminal. It also broke my own rule about never
+wrapping a glyph in $...$.
 
-They do now. Three changes in ask_native/src/main.rs:
+Fixed at the generator, two layers:
 
-1. TOOL VOICE. New tool_belnap() reads the canonical phrases the verbs emit and returns a
-   Belnap value for what the catalog actually found about closure: T = a chain cyclized
-   (`✓ CYCLIC` / `CYCLIZES into a ring`), F = every attempt terminated or came back
-   linear/telechelic (`terminated early`, `no head-to-tail closure`, `cannot close into a
-   ring`), B = both happened (it closes only under a reordering), N = no closure-bearing
-   verb ran. Every round's real output is accumulated into all_tool_output and fed to it.
+1. delatex() in ask_native/src/main.rs, wired into strip_kernel_records (the single funnel
+   every model output already passes through). It converts the common LaTeX to the Unicode
+   the terminal wants: strips $ / $$ / \( \) / \[ \]; unwraps \text{X}/\mathrm{X}/... to X;
+   \frac{A}{B} -> A/B; drops the braces on _{...}/^{...} (Δ_T↔H, not \Delta_{\text{T↔H}});
+   and maps \command -> glyph over a table (\Delta Δ, \theta θ, \mu μ, \circ ∘, \delta δ,
+   \leftrightarrow ↔, \to ->, \geq ≥, \Omega Ω, \Sigma Σ, \Phi Φ, \langle ⟨, ...). Unknown
+   \commands lose only the backslash. Grouping braces in prose are LEFT ALONE, so a
+   `{binah monad ankh}` set and the real glyphs Ð Ř ƒ / Shavian survive untouched -- only
+   math constructs are rewritten. One landmine handled: \left is a substring of
+   \leftrightarrow, so the layout wrappers (\left \right \quad ...) are dropped by the
+   full-word command regex, never by substring replace, which had chewed \leftrightarrow
+   down to "rightarrow".
 
-2. FUSE IT AS A THIRD VOICE, not an override. complete() now takes tool_voice and does
-   fused = join(join(model, vessel), tools); conflict, when the tools spoke, is
-   model-vs-tools (did the answer's verdict match the catalog?). Per the paraconsistent
-   rule this is a Belnap join, never a silent override: a model that claims a ring the tools
-   deny (T vs F) lands on B with conflict flagged -- the tension is held, not smoothed. N
-   means the tools abstain and the fuse is unchanged. Banner + note now show the tool voice:
-   `fused model vessel tools conflict`.
+2. A hard TERMINAL OUTPUT rule in SYSTEM_PROMPT: the answer prints to a raw terminal with
+   no math renderer, so write plain Unicode directly and never LaTeX -- no $, no \command,
+   no _{}/^{}. Cuts the LaTeX at the source; delatex cleans whatever still slips through.
 
-3. GRADE THE FINAL ANSWER, AND READ ITS VERDICT. model_voice was computed from the DRAFT and
-   never updated, and model_self_belnap() defaulted every untagged answer to T -- so an
-   honest "Status: NOT PROVED" graded the same as "PROVED." Now model_voice is recomputed
-   from the final grounded answer, and model_self_belnap reads the stated verdict (strips
-   markdown; NOT PROVED / does not close / refuted / Status: F -> F, Status: B -> B) instead
-   of always assuming T.
-
-Verified live across all three closure directions:
-- a set whose every tool came back telechelic/terminated -> tools=F, and the fuse comes off
-  T (fused=B, conflict=1) instead of the old fused=T conflict=0.
-- {binah monad ankh} run where the model tried both the given order (telechelic) and arrange
-  (cyclic) -> tools=B: closes only when reordered, exactly right.
-- {binah monad ankh} arranged so every tool returned `✓ CYCLIC` -> tools=T, fused=T,
-  conflict=0. No false B on a set that genuinely closes.
-
-README: spine diagram now shows model FFUSE vessel FFUSE tool voice, and the golem section
-documents the no-op prod and the tool-voice banner (T/F/B/N closure legend).
+Three unit tests (cargo test delatex) lock it in, including the user's exact pasted string
+and a check that prose braces + IG glyphs are not disturbed. Verified live: the click
+binah/monad question that produced the garbled paste now prints `Δ_T↔H = |0.92 − 0.17| =
+0.75`, `θ = 0.50`, `X ⊙ M = X`, `Φ ⊙ Þ`, `Ω` -- zero LaTeX survives a grep of the output.
