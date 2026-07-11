@@ -1951,8 +1951,168 @@ fn material_of(
 /// treat the monomers as a set, find the best-ringing order, and print the full material
 /// sheet (topology, stability, conductance, spectral invariants). No LLM, no search verbs;
 /// just the material and its numbers. Equivalent to `--polymerize … --arrange --props`.
-pub fn run_forge(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
-    run_arrange(catalog, monomers, theta, false, false, true, false)
+pub fn run_forge(
+    catalog: Option<&[CatalogEntry]>,
+    monomers: &[String],
+    theta: f32,
+    register: Option<&str>,
+    export: Option<&str>,
+) -> i32 {
+    let code = run_arrange(catalog, monomers, theta, false, false, true, false);
+    // Persist the forged material if asked: register into the shared library, and/or export a
+    // standalone sheet. Recompute the ring the same way the printout did (arrange → best order).
+    if register.map_or(false, |s| !s.is_empty()) || export.is_some() {
+        if let Some(cat) = catalog {
+            if let Ok(units) = load_monomers(cat, monomers, theta) {
+                let arr = best_ordering(&units, theta);
+                let ring: Vec<Tuple> = arr.order.iter().map(|&i| units[i].clone()).collect();
+                let names: Vec<String> = arr.order.iter().map(|&i| monomers[i].clone()).collect();
+                match material_record_json(&names, &ring, theta) {
+                    Some(rec) => {
+                        if let Some(name) = register {
+                            if !name.is_empty() {
+                                register_material(name, &rec);
+                            }
+                        }
+                        if let Some(p) = export {
+                            export_material(p, &rec);
+                        }
+                    }
+                    None => eprintln!("  (not a closed ring — nothing to register or export)"),
+                }
+            }
+        }
+    }
+    code
+}
+
+/// The full material sheet as a serialized record: the ring order, its spectrum and spectral
+/// radius, conductance, strain, graph energy, weakest bond, and whether it is branched. This
+/// is the transferable object `--register` stores in the library and `--export` writes to a
+/// file. None when the units do not close into a ring.
+fn material_record_json(names: &[String], units: &[Tuple], theta: f32) -> Option<serde_json::Value> {
+    let n = units.len();
+    if n < 2 || click_pair(&units[n - 1], &units[0], theta).is_err() {
+        return None;
+    }
+    let mut ev = sym_eigenvalues(ring_adjacency(units, theta));
+    ev.sort_by(|a, b| b.partial_cmp(a).unwrap_or(std::cmp::Ordering::Equal));
+    let rho = ev.iter().fold(0.0f64, |m, &x| m.max(x.abs()));
+    let energy: f64 = ev.iter().map(|x| x.abs()).sum();
+    let cond = match ring_conductance(units) {
+        Cond::Conductive { .. } => "CONDUCTIVE",
+        Cond::Frustrated => "FRUSTRATED",
+        Cond::Insulating { .. } => "INSULATING",
+    };
+    let weakest = (0..n)
+        .filter_map(|i| click_pair(&units[i], &units[(i + 1) % n], theta).ok().map(|p| p.drive))
+        .fold(f32::INFINITY, f32::min);
+    let branched = (0..n)
+        .any(|i| matches!(click_pair(&units[i], &units[(i + 1) % n], theta), Err(ClickFail::Ambiguous(_))));
+    let r4 = |x: f64| (x * 1e4).round() / 1e4;
+    Some(serde_json::json!({
+        "units": names,
+        "n": n,
+        "rho": r4(rho),
+        "spectrum": ev.iter().map(|&x| r4(x)).collect::<Vec<f64>>(),
+        "conductance": cond,
+        "strain": r4(ring_strain(units, theta) as f64),
+        "energy": r4(energy),
+        "weakest": if weakest.is_finite() { r4(weakest as f64) } else { 0.0 },
+        "branched": branched,
+    }))
+}
+
+/// The material registry file — a MoDoT-local library of named material sheets, resolved by
+/// $MOMONADOS_MATERIALS, else beside the MoDoT root (binary-relative), else the working dir.
+fn materials_path() -> std::path::PathBuf {
+    if let Ok(p) = std::env::var("MOMONADOS_MATERIALS") {
+        return std::path::PathBuf::from(p);
+    }
+    if let Ok(exe) = std::env::current_exe() {
+        // <MoDoT>/ask_native/target/release/ask  →  <MoDoT>
+        if let Some(root) = exe
+            .parent()
+            .and_then(|p| p.parent())
+            .and_then(|p| p.parent())
+            .and_then(|p| p.parent())
+        {
+            return root.join("materials.json");
+        }
+    }
+    std::path::PathBuf::from("materials.json")
+}
+
+/// Upsert a material record into the shared registry (create the file if absent).
+fn register_material(name: &str, rec: &serde_json::Value) {
+    let path = materials_path();
+    let mut reg: serde_json::Value = std::fs::read_to_string(&path)
+        .ok()
+        .and_then(|s| serde_json::from_str(&s).ok())
+        .unwrap_or_else(|| serde_json::json!({}));
+    if !reg.is_object() {
+        reg = serde_json::json!({});
+    }
+    reg.as_object_mut().unwrap().insert(name.to_string(), rec.clone());
+    match std::fs::write(&path, serde_json::to_string_pretty(&reg).unwrap_or_default()) {
+        Ok(_) => println!("  ✓ registered material '{name}' → {} (recall with --recall {name})", path.display()),
+        Err(e) => eprintln!("  register failed: {e}"),
+    }
+}
+
+/// Write a single material sheet to a standalone file — the portable transport envelope.
+fn export_material(path: &str, rec: &serde_json::Value) {
+    match std::fs::write(path, serde_json::to_string_pretty(rec).unwrap_or_default()) {
+        Ok(_) => println!("  ✓ exported material sheet → {path}"),
+        Err(e) => eprintln!("  export failed: {e}"),
+    }
+}
+
+/// CLI entry: `./ask --recall NAME [--export PATH]`. Reload a registered material by name and
+/// print its stored sheet, without respecifying it from units. Optionally re-export it.
+pub fn run_recall(name: &str, export: Option<&str>) -> i32 {
+    let path = materials_path();
+    let reg: serde_json::Value = match std::fs::read_to_string(&path)
+        .ok()
+        .and_then(|s| serde_json::from_str(&s).ok())
+    {
+        Some(v) => v,
+        None => {
+            eprintln!("recall: no material registry at {} (register one first: --forge … --register NAME)", path.display());
+            return 2;
+        }
+    };
+    let Some(rec) = reg.get(name) else {
+        eprintln!("recall: no material named '{name}' in the registry");
+        if let Some(obj) = reg.as_object() {
+            if !obj.is_empty() {
+                eprintln!("  registered: {}", obj.keys().cloned().collect::<Vec<_>>().join(", "));
+            }
+        }
+        return 2;
+    };
+    let units = rec
+        .get("units")
+        .and_then(|u| u.as_array())
+        .map(|a| a.iter().filter_map(|x| x.as_str()).collect::<Vec<_>>().join(" · "))
+        .unwrap_or_default();
+    let g = |k: &str| rec.get(k).map(|v| v.to_string()).unwrap_or_else(|| "?".into());
+    println!("material '{name}' (recalled from the registry):");
+    println!("  ring: [{units}]");
+    println!(
+        "  ρ={}  {}  strain={}  energy={}  weakest Δ={}  branched={}",
+        g("rho"),
+        rec.get("conductance").and_then(|v| v.as_str()).unwrap_or("?"),
+        g("strain"),
+        g("energy"),
+        g("weakest"),
+        g("branched")
+    );
+    println!("  spectrum: {}", g("spectrum"));
+    if let Some(p) = export {
+        export_material(p, rec);
+    }
+    0
 }
 
 /// CLI entry: `./ask --compare A B C vs X Y Z`. Forge two materials and diff them — spectral

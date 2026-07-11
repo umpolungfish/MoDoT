@@ -1,12 +1,22 @@
-Add --anneal: relax a ring to its lowest-strain ordering
+Add material registry: register / recall / export
 
-The transform the strain invariant was built for. `--anneal M1 M2 ... Mn` (or the
-`anneal` agent verb) takes the forge order -- which rings well but is quenched,
-optimized for enchainment and closure rather than even loading -- and searches
-every ordering that rings for the one whose bond drive is most uniform, the
-settled ground state on the same units. Exhaustive for n <= 9. Reports the
-quenched order and strain against the annealed order and strain.
+The persistence pair, the last of the material-algebra roadmap. A material is a
+ring of ordered units plus its computed sheet, not a single tuple, so it gets its
+own store rather than being collapsed into a catalog chimera.
 
-Factored ring_strain out of the material sheet so anneal and --props share one
-formula. Verified live: the 7-unit ring relaxes from strain 0.369 (forge order)
-to 0.229 by reordering the same units.
+  --forge … --register NAME   forge the ring, then upsert its full sheet (ordered
+                              units, spectrum, rho, conductance, strain, energy,
+                              weakest bond, branched) into materials.json, a
+                              MoDoT-local named library.
+  --recall NAME               reload a registered material by name and print its
+                              stored sheet, no respecifying from units. Lists the
+                              registry when the name is missing.
+  --forge … --export PATH     write the same record to a standalone portable file.
+  --recall NAME --export PATH  re-export an already-registered material.
+
+Also the `register NAME M1 M2…` and `recall NAME` agent verbs. The registry path
+resolves by $MOMONADOS_MATERIALS, else the MoDoT root (binary-relative), else the
+working dir; materials.json is runtime state, not tracked.
+
+Verified end to end: register a branched 3-ring, recall it (rho=2.7321,
+CONDUCTIVE, spectrum recovered intact), export a 4-ring to a JSON file.

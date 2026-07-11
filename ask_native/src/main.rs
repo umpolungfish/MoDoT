@@ -259,6 +259,16 @@ struct Cli {
     #[arg(long = "anneal", num_args = 3.., value_names = ["MONOMERS"])]
     anneal: Option<Vec<String>>,
 
+    /// Recall a registered material by name: `--recall NAME`. Prints its stored sheet from the
+    /// material registry without respecifying it from units. Pair with `--forge … --register`.
+    #[arg(long = "recall", value_name = "NAME")]
+    recall: Option<String>,
+
+    /// Export a material sheet to a standalone file: `--forge … --export PATH` (or
+    /// `--recall NAME --export PATH`). Writes the whole record as portable JSON.
+    #[arg(long = "export", value_name = "PATH")]
+    export: Option<String>,
+
     /// Create a missing catalog entry by imscribing it via the real generate pipeline
     /// (`imscribe generate … --name <NAME>`), writing to the live catalog MoDoT merges.
     /// Optionally pass a free-text description in --rest; defaults to the humanized name.
@@ -1204,6 +1214,8 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: fuse A B + X Y      weld two rings into one: forge each, then forge the union into a single macrocycle, and report how the fused ρ/conductance relate to the parents — the `+` token separates the two rings
   TOOL: cleave M1 M2…      ring fission (the reverse of fuse): forge the set into its best ring, then cut it into two daughter rings on complementary arcs and report both daughters + their spectra (or that it does not cleave)
   TOOL: anneal M1 M2…      relax a ring to its lowest-strain ordering — the settled ground state whose bonds are most evenly loaded, vs the quenched forge order
+  TOOL: register NAME M1 M2…  forge the set into a ring and store its full sheet in the material library under NAME (recall it later by name)
+  TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
 NOTE: a name being "not found" in the catalog is NOT a dead end and NOT a reason to say you cannot do something. Imscribe it: `TOOL: imscribe NAME` (optionally with a short description), then re-run your verb — the new entry loads automatically on the next call. Never refuse a task for a missing imscription; make it.
 NOTE: only imscribe the EXACT name a verb reported "not found" — one imscribe per genuinely-missing name. Do NOT pre-imscribe a whole set (names already in the catalog are reported back and waste a round), and do NOT invent article variants (`the_djed_pillar` when `djed_pillar` exists) — use the exact catalog name.
@@ -1518,6 +1530,7 @@ fn mentions_structural_work(text: &str) -> bool {
         "pathway", "--scan", "--close", "--click", "--material", "--switch", "--excite",
         "forge", "spectral radius", "conductance", "--compare", "--dope", "--forge", "--fuse",
         "--cleave", "cleave", "fission", "--anneal", "anneal", "strain",
+        "--recall", "recall", "register", "--register",
     ];
     let low = text.to_lowercase();
     CUES.iter().any(|c| low.contains(c))
@@ -1705,6 +1718,23 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             let mut v = vec!["--anneal".to_string()];
             v.extend(args.iter().cloned());
             v
+        }
+        "register" => {
+            // register NAME M1 M2 … : forge the set and store it under NAME
+            if args.len() < 3 {
+                return None;
+            }
+            let mut v = vec!["--forge".to_string()];
+            v.extend(args[1..].iter().cloned());
+            v.push("--register".into());
+            v.push(args[0].clone());
+            v
+        }
+        "recall" => {
+            if args.len() != 1 {
+                return None;
+            }
+            vec!["--recall".to_string(), args[0].clone()]
         }
         _ => return None,
     };
@@ -2357,6 +2387,8 @@ impl CliClone for Cli {
             fuse: self.fuse.clone(),
             cleave: self.cleave.clone(),
             anneal: self.anneal.clone(),
+            recall: self.recall.clone(),
+            export: self.export.clone(),
             imscribe: self.imscribe.clone(),
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
@@ -2480,9 +2512,14 @@ fn main() {
         process::exit(0);
     }
 
+    // Recall a registered material by name (no catalog work needed).
+    if let Some(name) = &cli.recall {
+        process::exit(click::run_recall(name, cli.export.as_deref()));
+    }
+
     // Forge / compare / dope — the material-operation verbs (deterministic; no LLM).
     if let Some(names) = &cli.forge {
-        process::exit(click::run_forge(cat_ref, names, cli.theta));
+        process::exit(click::run_forge(cat_ref, names, cli.theta, cli.register.as_deref(), cli.export.as_deref()));
     }
     if let Some(names) = &cli.compare {
         process::exit(click::run_compare(cat_ref, names, cli.theta));
