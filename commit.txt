@@ -1,48 +1,34 @@
-Give the polymer a real closing search -- find the monomer that actually rings it, not a laundered scan
+Characterize the closed ring as a material -- conductance grounds the "computer" claim
 
-I kept asking the agent to "scan for a monomer to achieve cyclization" and it kept
-misusing the scan verb -- which ranks SET electron-transfer mediators, a completely
-different question -- then laundering junk like roko_basilisk and
-i_am_the_way_the_truth_and_the_life into plausible-sounding cyclizing monomers.
-None were ever verified to close the ring, and the one that got tested
-(holographic_type_theory) did not help, because the chain was already dead at an
-EARLIER junction and you cannot repair a middle break by appending at the end.
+I fed a cyclic polymer (general_recursive_function · grothendieck_topos ·
+skolem_normal_form) back through the agent and asked it to "apply it as a material"
+and hand me a computer design. The STRUCTURAL layer was grounded -- the ring really
+does cyclize (close confirms it on R↔S). But the APPLICATION layer was pure prose:
+the model spun an "LTC-1 Topological Processor" with a superconducting sheaf-array,
+chi=0 non-dissipative memory, topologically protected gates, and "a current of
+effective calculability flowing through the cyclic logic-gates." None of it computed.
 
-The honest fix: a real closing search. All in ask_native/src/click.rs +
-ask_native/src/main.rs.
+The one checkable claim buried in there is that the ring CONDUCTS. So I made that
+decidable. --polymerize ... --props (agent verb: material), in ask_native/src/click.rs
+(print_ring_material). When the polymer is closed, it characterizes the macrocycle as
+a material by reusing the Omega-transfer primitive:
+- try to circulate a winding quantum Omega around the ring; one consistent direction
+  the whole loop = CONDUCTIVE (a persistent ring current, the carrier integral closes)
+- every junction passes a carrier but no single direction closes = FRUSTRATED
+- a junction blocks a carrier both ways = INSULATING
+- plus the weakest clean ring bond (a ring is only as stable as its weakest link)
 
---polymerize ... --close: when a chain does not cyclize, search the catalog for the
-monomer that ACTUALLY closes it (find_linkers), testing real clicks on both sides:
-- chain broke at a co-typed junction Mᵢ ⋈ Mᵢ₊₁ -> find a BRIDGE X with Mᵢ ⋈ X and
-  X ⋈ Mᵢ₊₁ (goes between them, repairs the break)
-- chain enchained but the ends will not meet -> find a CLOSER X with tail ⋈ X and
-  X ⋈ head (append to wrap the ring)
-Every candidate is verified to click BOTH sides; ranked by the weaker of the two
-bonds. The tool prints the exact re-run command, and running it does close the ring.
+The verdict refuted the narrative exactly. The grf/grothendieck/skolem ring is
+INSULATING: every unit has Omega = awe (fully oxidized, zero winding quantum), so no
+carrier can pass any junction. The ring exists but it is STATIC -- not the dynamic
+"topological computer" the prose asserted. Contrast: the moon/logographic macrocycle
+carries mid-range Omega and comes back CONDUCTIVE, a persistent ring current. So the
+sheet genuinely separates conductor from insulator, from structure alone.
 
-Verified live on the exact case that had been failing:
-- grothendieck_topos and free_algebra are the same structural type (both free
-  left-adjoint constructions, fully co-typed) -- the chain breaks between them.
-  --close finds extradimensional_entity, ZFC_set_theory, yang_mills_mass_gap,
-  connes_embedding_problem (all real, all click both sides on R↔S Δ=1.67), and the
-  suggested `--polymerize grothendieck_topos extradimensional_entity free_algebra
-  holographic_type_theory` enchains the repaired junction.
-- telechelic head-tail case grothendieck_topos extradimensional_entity free_algebra:
-  --close appends extradimensional_entity and I re-ran it -> ✓ CYCLIC on R↔S. The
-  suggestion is verifiably correct, not asserted.
+Verified via the agent too: asked whether the ring "works as a computer", the model
+now grounds on the material readout and answers "functions as a mathematical
+insulator ... Omega-saturated ... a static architectural loop that lacks the dynamic
+carrier flow" -- the direct correction of the LTC-1 fantasy.
 
-Two more fixes from the same runs:
-- run_structural_tool now captures STDERR as well as stdout, so a tool call that
-  errors (the model invented `frobenius_algebra`, not in the catalog) surfaces
-  "catalog entry not found" instead of vanishing silently.
-- Fixed the repair command truncating the feed: a mid-chain break sets dp=1, so the
-  insert must go into the FULL monomer feed, not the enchained prefix (which had
-  dropped free_algebra from the suggested command).
-
-Agent gets the verb: TOOLS_PROMPT adds `close` and explicitly steers the model to
-use it -- NOT scan -- for cyclization. Verified: asked to cyclize the topos/algebra
-chain, the model now emits TOOL: close, gets grounded candidates, and answers with
-extradimensional_entity + the real alternatives, instead of scan-relay junk.
-
-README updated with the closing search (bridge vs closer, scan-is-not-close) and the
-stderr note.
+Also captured `branched` once and reused it. README updated with the material readout
+(conductive/frustrated/insulating) and the agent whitelist now lists `material`.

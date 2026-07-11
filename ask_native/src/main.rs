@@ -198,6 +198,13 @@ struct Cli {
     #[arg(long = "close")]
     close: bool,
 
+    /// With `--polymerize`: if the polymer is CLOSED (cyclic), characterize the ring as a
+    /// mathematical material — is it conductive (a winding quantum Ω circulates the loop),
+    /// frustrated, or insulating; and its weakest ring bond. Grounds the transport claims
+    /// prose asserts about a cyclic "computer".
+    #[arg(long = "props")]
+    props: bool,
+
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
@@ -1079,6 +1086,7 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: pathway S C1 C2…  a metabolic pathway — does it close into a cycle (carrier + structure)?
   TOOL: polymerize M1 M2… chain monomers into a sequence-preserving polymer (architecture, tacticity, does it cyclize?)
   TOOL: close M1 M2…      polymerize, and if it does not cyclize, find the real monomer that CLOSES the ring or BRIDGES the break
+  TOOL: material M1 M2…    polymerize, and if the ring CLOSES, characterize it as a material: conductive / frustrated / insulating, and ring stability
 NOTE: to make a polymer cyclize, use `close` — NOT `scan`. `scan` ranks SET electron-transfer
 mediators (a different question) and will return junk if you ask it for a ring-closing monomer.
 Every `close` candidate is verified to actually click both sides of the failed junction.
@@ -1311,6 +1319,15 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             let mut v = vec!["--polymerize".to_string()];
             v.extend(args.iter().cloned());
             v.push("--close".into());
+            v
+        }
+        "material" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--polymerize".to_string()];
+            v.extend(args.iter().cloned());
+            v.push("--props".into());
             v
         }
         _ => return None,
@@ -1698,6 +1715,7 @@ impl CliClone for Cli {
             pathway: self.pathway.clone(),
             polymerize: self.polymerize.clone(),
             close: self.close,
+            props: self.props,
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -1803,7 +1821,7 @@ fn main() {
     // Imscriptive polymerization: `./ask --polymerize M1 M2 …` — chain the clicks.
     if let Some(names) = &cli.polymerize {
         if names.len() >= 2 {
-            let code = click::run_polymerize(cat_ref, names, cli.theta, cli.certify, cli.close);
+            let code = click::run_polymerize(cat_ref, names, cli.theta, cli.certify, cli.close, cli.props);
             process::exit(code);
         } else {
             eprintln!("--polymerize needs at least two monomers");

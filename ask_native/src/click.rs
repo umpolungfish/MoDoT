@@ -1634,7 +1634,66 @@ fn find_linkers(cat: &[CatalogEntry], a: &Tuple, b: &Tuple, theta: f32, top: usi
     hits
 }
 
-/// CLI entry: `./ask --polymerize M1 M2 … Mn [--certify] [--close]`. Chain the monomers into a
+/// Material-property sheet for a CLOSED (cyclic) polymer — the ring treated as a
+/// mathematical material. Grounds the transport claims that prose loves to assert: a
+/// winding quantum Ω that circulates the whole loop one direction is a persistent ring
+/// current (CONDUCTIVE); a junction that blocks a carrier both ways is INSULATING;
+/// conduction with no consistent global direction is FRUSTRATED. Plus the weakest ring
+/// bond — a ring is only as stable as its weakest link. Reuses the Ω-transfer primitive.
+fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
+    let n = units.len();
+    // weakest clean condensation bond around the ring (cross-links/additions counted apart)
+    let mut weakest: Option<(usize, f32)> = None;
+    let mut noncond = 0;
+    for i in 0..n {
+        match click_pair(&units[i], &units[(i + 1) % n], theta) {
+            Ok(p) => {
+                if weakest.map_or(true, |(_, d)| p.drive < d) {
+                    weakest = Some((i, p.drive));
+                }
+            }
+            Err(_) => noncond += 1,
+        }
+    }
+    // conductance: can a winding quantum Ω circulate the ring? (transfer_electron per junction)
+    let dir_ok = |fwd: bool| (0..n).all(|i| {
+        let (a, b) = if fwd { (i, (i + 1) % n) } else { ((i + 1) % n, i) };
+        transfer_electron(&units[a].ord, &units[b].ord).is_ok()
+    });
+    let (fwd, bwd) = (dir_ok(true), dir_ok(false));
+    let junction_ok: Vec<bool> = (0..n).map(|i| {
+        transfer_electron(&units[i].ord, &units[(i + 1) % n].ord).is_ok()
+            || transfer_electron(&units[(i + 1) % n].ord, &units[i].ord).is_ok()
+    }).collect();
+
+    println!("  ── material properties (the ring as a mathematical material) ──");
+    println!(
+        "    macrocycle: {n}-membered ring{}",
+        if branched { ", branched (a cross-linked network node on the ring)" } else { "" }
+    );
+    match weakest {
+        Some((i, d)) => println!(
+            "    ring stability: weakest clean bond Δ={d:.2} at junction {}→{} (only as stable as its weakest link){}",
+            i + 1, (i + 1) % n + 1,
+            if noncond > 0 { format!("; {noncond} junction(s) cross-link/addition, not one clean bond") } else { String::new() }
+        ),
+        None => println!("    ring stability: no clean condensation bond around the ring (every junction a cross-link/addition)"),
+    }
+    if fwd || bwd {
+        let d = if fwd { "→ reductive" } else { "← oxidative" };
+        println!("    conductance: CONDUCTIVE — a winding quantum Ω circulates the whole ring one way ({d}); a persistent ring current is supported (∮ carrier closes).");
+    } else if junction_ok.iter().all(|&x| x) {
+        println!("    conductance: FRUSTRATED — every junction passes a carrier, but no single direction circulates the loop (no persistent global current; an ohmic/segmented conductor).");
+    } else {
+        let blocked: Vec<String> = junction_ok.iter().enumerate()
+            .filter(|(_, &ok)| !ok)
+            .map(|(i, _)| format!("{}→{}", i + 1, (i + 1) % n + 1))
+            .collect();
+        println!("    conductance: INSULATING — no carrier can pass junction(s) {} in either direction; the ring cannot circulate a current (the units are Ω-saturated/empty, a static ring not a dynamic one).", blocked.join(", "));
+    }
+}
+
+/// CLI entry: `./ask --polymerize M1 M2 … Mn [--certify] [--close] [--props]`. Chain the monomers into a
 /// polymer — each adjacent bond a click (step-growth condensation) or an addition
 /// (chain-growth, where a monomer repeats) — while the sequence stays losslessly
 /// readable off the chain. Reports degree of polymerization, regioregularity,
@@ -1645,6 +1704,7 @@ pub fn run_polymerize(
     theta: f32,
     certify: bool,
     close: bool,
+    props: bool,
 ) -> i32 {
     let Some(cat) = catalog else {
         eprintln!("polymerize: no catalog loaded");
@@ -1743,7 +1803,8 @@ pub fn run_polymerize(
     if n_bonds > 0 && bonds.iter().all(|b| matches!(b, Bond::Addition)) {
         println!("  backbone: addition (chain-growth) throughout — one repeat unit enchained by the propagating center.");
     }
-    if bonds.iter().any(|b| matches!(b, Bond::CrossLink)) {
+    let branched = bonds.iter().any(|b| matches!(b, Bond::CrossLink));
+    if branched {
         println!("  topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.");
     }
 
@@ -1816,6 +1877,17 @@ pub fn run_polymerize(
                     monomers[..dp].join(" ")
                 );
             }
+        }
+    }
+
+    // --props: characterize the CLOSED ring as a material (conductance, stability). This
+    // grounds the transport claims prose asserts about a cyclic "computer" — a ring of
+    // Ω-saturated units cannot circulate a current, whatever the narrative says.
+    if props {
+        if cyclic {
+            print_ring_material(&units[..dp], theta, branched);
+        } else {
+            println!("  material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).");
         }
     }
 

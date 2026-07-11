@@ -381,13 +381,32 @@ ring. The closing search answers the ring question honestly.
 ./ask --polymerize grothendieck_topos extradimensional_entity free_algebra --close
 ```
 
+**The ring as a material** (`--polymerize … --props`) — a closed polymer is a
+macrocycle, and a macrocycle has **material properties you can compute**, not just
+assert. The readout grounds the one claim prose always makes about a cyclic "device":
+that it **conducts**. It tries to circulate a winding quantum **Ω** around the ring —
+if a carrier flows one consistent direction the whole loop, the ring is **conductive**
+(a persistent ring current); if every junction passes a carrier but no single direction
+closes, it is **frustrated**; if a junction blocks a carrier both ways, it is
+**insulating**. Plus the weakest ring bond (a ring is only as stable as its weakest
+link). So a ring of Ω-saturated units is honestly an **insulator** — a *static* loop —
+however the narrative dresses it up.
+
+```bash
+# grf·grothendieck·skolem cyclizes structurally — but every unit is Ω-saturated:
+# INSULATING. A static ring, NOT the "topological computer" the prose claims.
+./ask --polymerize general_recursive_function grothendieck_topos skolem_normal_form --props
+# the moon/logographic macrocycle carries mid-range Ω → CONDUCTIVE (a persistent ring current)
+./ask --polymerize the_moon_astrological the_logographic_system the_moon_astrological the_logographic_system --props
+```
+
 **Agent access to every verb.** The LLM agent (`./ask --ask …`) can invoke the whole
 engine. It emits `TOOL: <verb> <args>` lines (markdown-tolerant); the harness runs them
 against the **real catalog** by shelling to this same binary, then feeds the outputs back
 for a final grounded answer. This *corrects the model's guesses*: unaided it will
 confidently mis-call a pathway's closure; handed the real `pathway` output it gives the
 right answer. Whitelisted verbs only (`click switch excite set scan complement cycle
-pathway polymerize close`) — never `ask`, so no recursion. The prompt also steers the
+pathway polymerize close material`) — never `ask`, so no recursion. The prompt also steers the
 agent to use `close` (not `scan`) for cyclization, and tool stdout **and stderr** are
 fed back, so a call that errors (e.g. a monomer the model invented) surfaces its failure
 instead of vanishing.
