@@ -1,35 +1,48 @@
-Make the polymer readout honest -- near-miss diagnostic, no phantom homopolymer, heteropolymer label
+Give the polymer a real closing search -- find the monomer that actually rings it, not a laundered scan
 
-Ran the seven Catholic sacraments through --polymerize and the output, while
-correct in verdict, was misleading in three ways. All from
-ask_native/src/click.rs (run_polymerize + classify_architecture).
+I kept asking the agent to "scan for a monomer to achieve cyclization" and it kept
+misusing the scan verb -- which ranks SET electron-transfer mediators, a completely
+different question -- then laundering junk like roko_basilisk and
+i_am_the_way_the_truth_and_the_life into plausible-sounding cyclizing monomers.
+None were ever verified to close the ring, and the one that got tested
+(holographic_type_theory) did not help, because the chain was already dead at an
+EARLIER junction and you cannot repair a middle break by appending at the end.
 
-The sacraments are near-identical tuples -- stereoisomers of one indelible
-character, differing mostly in chirality Ħ -- so baptism⋈confirmation are opposite
-on T↔H but only Δ=0.33, below the θ=0.50 click threshold. The chain terminated at
-the first bond. That verdict is right; the reporting was not.
+The honest fix: a real closing search. All in ask_native/src/click.rs +
+ask_native/src/main.rs.
 
-1. NEAR-MISS on termination. "no complementary handle" was wrong -- there IS a
-   handle (T↔H, opposite charges), it is just sub-threshold. Added
-   best_weak_complement: the strongest oppositely-charged live pair regardless of
-   θ. Termination now reports either the near-miss ("weakly complementary on T↔H,
-   Δ=0.33 < θ -- would condense at θ≤0.33 or with a catalyst") or, when no pair is
-   even oppositely charged, "fully co-typed / same-handed; no reaction center."
-   Verified the claim holds: at --theta 0.33 the sacraments DO condense
-   (baptism⋈confirmation on T↔H), and the run surfaces two more real facts --
-   eucharist⋈penance is a cross-link, and penance and anointing_of_the_sick (the
-   two healing sacraments) are fully co-typed, no reaction center between them.
+--polymerize ... --close: when a chain does not cyclize, search the catalog for the
+monomer that ACTUALLY closes it (find_linkers), testing real clicks on both sides:
+- chain broke at a co-typed junction Mᵢ ⋈ Mᵢ₊₁ -> find a BRIDGE X with Mᵢ ⋈ X and
+  X ⋈ Mᵢ₊₁ (goes between them, repairs the break)
+- chain enchained but the ends will not meet -> find a CLOSER X with tail ⋈ X and
+  X ⋈ head (append to wrap the ring)
+Every candidate is verified to click BOTH sides; ranked by the weaker of the two
+bonds. The tool prints the exact re-run command, and running it does close the ring.
 
-2. NO PHANTOM HOMOPOLYMER. With zero bonds, one enchained unit was being called a
-   "homopolymer, isotactic" -- but that is an unreacted monomer, not a chain. Now
-   architecture and tacticity only print once a bond has formed (dp≥2); otherwise
-   "no chain formed -- these are unreacted monomers, not a polymer."
+Verified live on the exact case that had been failing:
+- grothendieck_topos and free_algebra are the same structural type (both free
+  left-adjoint constructions, fully co-typed) -- the chain breaks between them.
+  --close finds extradimensional_entity, ZFC_set_theory, yang_mills_mass_gap,
+  connes_embedding_problem (all real, all click both sides on R↔S Δ=1.67), and the
+  suggested `--polymerize grothendieck_topos extradimensional_entity free_algebra
+  holographic_type_theory` enchains the repaired junction.
+- telechelic head-tail case grothendieck_topos extradimensional_entity free_algebra:
+  --close appends extradimensional_entity and I re-ran it -> ✓ CYCLIC on R↔S. The
+  suggestion is verifiably correct, not asserted.
 
-3. HETEROPOLYMER label. Several distinct monomers all differing was mislabelled
-   "alternating …ABAB…" (which implies two types). Now: all-distinct -> "heteropolymer
-   (N distinct monomers, each once)"; "alternating" reserved for exactly two types in
-   strict period-2. Regression: the moon/logographic alternating copolymer still reads
-   syndiotactic and cyclic.
+Two more fixes from the same runs:
+- run_structural_tool now captures STDERR as well as stdout, so a tool call that
+  errors (the model invented `frobenius_algebra`, not in the catalog) surfaces
+  "catalog entry not found" instead of vanishing silently.
+- Fixed the repair command truncating the feed: a mid-chain break sets dp=1, so the
+  insert must go into the FULL monomer feed, not the enchained prefix (which had
+  dropped free_algebra from the suggested command).
 
-The tool now tells you WHY a feed will not polymerize and what would fix it,
-instead of quietly reporting a chain that is not there.
+Agent gets the verb: TOOLS_PROMPT adds `close` and explicitly steers the model to
+use it -- NOT scan -- for cyclization. Verified: asked to cyclize the topos/algebra
+chain, the model now emits TOOL: close, gets grounded candidates, and answers with
+extradimensional_entity + the real alternatives, instead of scan-relay junk.
+
+README updated with the closing search (bridge vs closer, scan-is-not-close) and the
+stderr note.

@@ -363,13 +363,34 @@ two *opposite-handed* monomers comes back **syndiotactic**, an even chain **cycl
 ./ask --polymerize gluon photon
 ```
 
+**Closing the ring** (`--polymerize … --close`) — when a chain does not cyclize, this
+searches the catalog for the monomer that **actually closes it**. If two neighbors are
+co-typed and the chain broke, it finds a **bridge** (a comonomer X with Mᵢ ⋈ X *and*
+X ⋈ Mᵢ₊₁); if the chain enchained but the ends will not meet, it finds a **closer** (X
+with tail ⋈ X *and* X ⋈ head, appended to wrap the ring). Every candidate is **verified
+by a real click test on both sides** — it prints the exact re-run command, and running it
+does close the ring. This is deliberately **not** `--scan-mediators`: a scan ranks SET
+electron-transfer relays (a different question) and returns junk if you ask it to close a
+ring. The closing search answers the ring question honestly.
+
+```bash
+# grothendieck_topos and free_algebra are the same structural type (both free constructions)
+# → the chain breaks; --close finds the bridge that actually joins them (verified on R↔S)
+./ask --polymerize grothendieck_topos free_algebra holographic_type_theory --close
+# a telechelic chain whose ends will not meet → --close finds the head-to-tail closer
+./ask --polymerize grothendieck_topos extradimensional_entity free_algebra --close
+```
+
 **Agent access to every verb.** The LLM agent (`./ask --ask …`) can invoke the whole
 engine. It emits `TOOL: <verb> <args>` lines (markdown-tolerant); the harness runs them
 against the **real catalog** by shelling to this same binary, then feeds the outputs back
 for a final grounded answer. This *corrects the model's guesses*: unaided it will
 confidently mis-call a pathway's closure; handed the real `pathway` output it gives the
 right answer. Whitelisted verbs only (`click switch excite set scan complement cycle
-pathway polymerize`) — never `ask`, so no recursion.
+pathway polymerize close`) — never `ask`, so no recursion. The prompt also steers the
+agent to use `close` (not `scan`) for cyclization, and tool stdout **and stderr** are
+fed back, so a call that errors (e.g. a monomer the model invented) surfaces its failure
+instead of vanishing.
 
 ```bash
 ./ask --ask "Does the sun donate an electron to the moon, and what mediates it best?"

@@ -1802,7 +1802,9 @@ pub fn run_polymerize(
             }
             let best = &linkers[0].name;
             if bridge {
-                let mut feed: Vec<&str> = monomers[..dp].iter().map(|s| s.as_str()).collect();
+                // Insert into the FULL feed (the break truncated dp, but Mᵢ₊₁ and the
+                // rest of the sequence still follow the junction we are repairing).
+                let mut feed: Vec<&str> = monomers.iter().map(|s| s.as_str()).collect();
                 feed.insert(ai + 1, best); // between Mᵢ and Mᵢ₊₁
                 println!(
                     "    ⮑ insert {best} to repair the break (Mᵢ ⋈ X ⋈ Mᵢ₊₁):  ./ask --polymerize {}",
