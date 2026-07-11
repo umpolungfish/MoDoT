@@ -1659,6 +1659,155 @@ fn preclick(cat: &[CatalogEntry], token: &str, theta: f32) -> Result<Tuple, Stri
     Ok(acc)
 }
 
+/// Load a monomer feed into tuples, resolving `+` pre-click tokens (`A+B` → one blend).
+/// Shared by --polymerize and --arrange.
+fn load_monomers(cat: &[CatalogEntry], monomers: &[String], theta: f32) -> Result<Vec<Tuple>, String> {
+    let mut units = Vec::with_capacity(monomers.len());
+    for m in monomers {
+        if m.contains('+') {
+            units.push(preclick(cat, m, theta)?);
+        } else {
+            let e = cat.iter().find(|e| e.name == *m).ok_or_else(|| format!("monomer not found: {m}"))?;
+            units.push(Tuple::from_entry(e));
+        }
+    }
+    Ok(units)
+}
+
+/// Whether an ordered pair bonds at all — condensation, cross-link, or identical addition —
+/// with its condensation drive (0 for cross-link/addition). None = the bond fails.
+fn bond_forms(a: &Tuple, b: &Tuple, theta: f32) -> Option<f32> {
+    match click_pair(a, b, theta) {
+        Ok(p) => Some(p.drive),
+        Err(ClickFail::Ambiguous(_)) => Some(0.0),
+        Err(ClickFail::NoComplementarity) => if a.ord == b.ord { Some(0.0) } else { None },
+        Err(ClickFail::Missing) => None,
+    }
+}
+
+/// Score one ordering of a set: (enchained length, cyclizes, total condensation drive).
+fn walk_score(units: &[Tuple], order: &[usize], theta: f32) -> (usize, bool, f32) {
+    let n = order.len();
+    let mut dp = 1usize;
+    let mut drive = 0.0f32;
+    for i in 0..n.saturating_sub(1) {
+        match bond_forms(&units[order[i]], &units[order[i + 1]], theta) {
+            Some(d) => { drive += d; dp = i + 2; }
+            None => break,
+        }
+    }
+    let cyclic = dp == n && n >= 2 && click_pair(&units[order[n - 1]], &units[order[0]], theta).is_ok();
+    (dp, cyclic, drive)
+}
+
+/// Ranking: longer enchainment wins; then cyclization; then bond stability.
+fn ordering_better(c: (usize, bool, f32), b: (usize, bool, f32)) -> bool {
+    if c.0 != b.0 { c.0 > b.0 } else if c.1 != b.1 { c.1 } else { c.2 > b.2 }
+}
+
+/// Find the ordering of a monomer SET that polymerizes best. A set is unordered, so this
+/// searches orderings rather than assuming the given sequence. Exhaustive (every
+/// permutation, Heap's algorithm) for n ≤ 9, else greedy nearest-neighbor from each start
+/// (heuristic). Returns (best order, count searched, exhaustive?).
+fn best_ordering(units: &[Tuple], theta: f32) -> (Vec<usize>, usize, bool) {
+    let n = units.len();
+    let mut best_order: Vec<usize> = (0..n).collect();
+    let mut best_score = walk_score(units, &best_order, theta);
+    let mut searched = 1usize;
+    let exhaustive = n <= 9;
+    if exhaustive {
+        let mut idx: Vec<usize> = (0..n).collect();
+        let mut c = vec![0usize; n];
+        let mut i = 0;
+        while i < n {
+            if c[i] < i {
+                if i % 2 == 0 { idx.swap(0, i); } else { idx.swap(c[i], i); }
+                let s = walk_score(units, &idx, theta);
+                searched += 1;
+                if ordering_better(s, best_score) { best_score = s; best_order = idx.clone(); }
+                c[i] += 1;
+                i = 0;
+            } else {
+                c[i] = 0;
+                i += 1;
+            }
+        }
+    } else {
+        for start in 0..n {
+            let mut used = vec![false; n];
+            let mut order = vec![start];
+            used[start] = true;
+            for _ in 1..n {
+                let last = *order.last().unwrap();
+                let (mut pick, mut pd) = (None, -1.0f32);
+                for j in 0..n {
+                    if !used[j] {
+                        if let Ok(p) = click_pair(&units[last], &units[j], theta) {
+                            if p.drive > pd { pd = p.drive; pick = Some(j); }
+                        }
+                    }
+                }
+                match pick { Some(j) => { order.push(j); used[j] = true; } None => break }
+            }
+            for j in 0..n { if !used[j] { order.push(j); } }
+            let s = walk_score(units, &order, theta);
+            searched += 1;
+            if ordering_better(s, best_score) { best_score = s; best_order = order; }
+        }
+    }
+    (best_order, searched, exhaustive)
+}
+
+/// CLI entry: `./ask --polymerize <SET> --arrange`. Treats the monomers as an UNORDERED
+/// set, searches orderings for the one that polymerizes best, and runs the full analysis on
+/// that order — so the engine finds the sequence instead of assuming the one you typed.
+pub fn run_arrange(
+    catalog: Option<&[CatalogEntry]>,
+    monomers: &[String],
+    theta: f32,
+    certify: bool,
+    close: bool,
+    props: bool,
+    modulus: bool,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("arrange: no catalog loaded");
+        return 2;
+    };
+    if monomers.len() < 2 {
+        eprintln!("arrange needs at least two monomers");
+        return 2;
+    }
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("arrange: {e}"); return 2; }
+    };
+    let n = units.len();
+    let (order, searched, exhaustive) = best_ordering(&units, theta);
+    let (dp, cyclic, _) = walk_score(&units, &order, theta);
+    let ordered: Vec<String> = order.iter().map(|&i| monomers[i].clone()).collect();
+
+    println!("arrange (unordered set → best order):  {{{}}}", monomers.join(", "));
+    println!(
+        "  searched {searched} ordering(s) {} — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).",
+        if exhaustive { "(exhaustive: every permutation)" } else { "(greedy nearest-neighbor: heuristic — too many permutations to exhaust)" }
+    );
+    if dp == n {
+        println!(
+            "  ✓ best ordering FULLY enchains all {n} units{} — the co-typed wall was an artifact of the given order, not the set:",
+            if cyclic { " AND CYCLIZES into a ring" } else { "" }
+        );
+    } else {
+        println!(
+            "  ✗ NO ordering fully enchains — best reaches {dp}/{n}. The set is fundamentally fragmented (a monomer is co-typed with every other); a linker is needed regardless of order (--close):"
+        );
+    }
+    println!("      [{}]", ordered.join(" · "));
+    println!("  → running the full analysis on the best order:");
+    println!();
+    run_polymerize(catalog, &ordered, theta, certify, close, props, modulus)
+}
+
 /// The conductance verdict of a ring: does a winding quantum Ω circulate it?
 enum Cond {
     Conductive { fwd: bool },      // one consistent direction closes the loop — a persistent current
@@ -1755,23 +1904,11 @@ pub fn run_polymerize(
         eprintln!("polymerize needs at least two monomers (repeat one to show homopolymerization, e.g. --polymerize M M M)");
         return 2;
     }
-    let mut units: Vec<Tuple> = Vec::with_capacity(monomers.len());
-    for m in monomers {
-        // A `+`-joined token (`A+B`) is pre-clicked into one blended monomer first —
-        // "click then polymerize" inline (lossy blend), so order of operations is testable.
-        if m.contains('+') {
-            match preclick(cat, m, theta) {
-                Ok(t) => units.push(t),
-                Err(e) => { eprintln!("polymerize: {e}"); return 2; }
-            }
-        } else {
-            let Some(e) = cat.iter().find(|e| e.name == *m) else {
-                eprintln!("polymerize: monomer not found: {m}");
-                return 2;
-            };
-            units.push(Tuple::from_entry(e));
-        }
-    }
+    // Load the feed (resolving `+` pre-click tokens — `A+B` blends into one monomer first).
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("polymerize: {e}"); return 2; }
+    };
     let n = units.len();
 
     println!("polymerization (imscriptive):  [{}]   ({n} monomers)", monomers.join(" · "));

@@ -212,6 +212,13 @@ struct Cli {
     #[arg(long = "modulus")]
     modulus: bool,
 
+    /// With `--polymerize`: treat the monomers as an UNORDERED set and search orderings for
+    /// the one that polymerizes best (longest enchainment, then closure, then stability),
+    /// then run the full analysis on that order. A set has no inherent order — this finds
+    /// the sequence instead of assuming the one given. Exhaustive for ≤9 monomers.
+    #[arg(long = "arrange")]
+    arrange: bool,
+
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
@@ -1095,6 +1102,10 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: close M1 M2…      polymerize, and if it does not cyclize, find the real monomer that CLOSES the ring or BRIDGES the break
   TOOL: material M1 M2…    polymerize, and if the ring CLOSES, characterize it as a material: conductive / frustrated / insulating, and ring stability
   TOOL: modulus M1 M2…     find a monomer that generates a SUSTAINING loop (a conductive cycle) somewhere along the chain — the modulus (elasticity), NOT mere closure
+  TOOL: arrange M1 M2…     treat the monomers as an UNORDERED SET and find the ordering that polymerizes best (a set has no order — do NOT assume the given sequence)
+NOTE: a `{set}` in braces is UNORDERED. Do not assume the listed order is meaningful — use `arrange`
+to let the engine find the best ordering, rather than polymerizing the given sequence and reporting it
+"terminated". Only `polymerize` in a fixed order when the order is genuinely given as a sequence.
 NOTE: to make a polymer cyclize, use `close` — NOT `scan`. `scan` ranks SET electron-transfer
 mediators (a different question) and will return junk if you ask it for a ring-closing monomer.
 Every `close` candidate is verified to actually click both sides of the failed junction.
@@ -1361,6 +1372,15 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             let mut v = vec!["--polymerize".to_string()];
             v.extend(args.iter().cloned());
             v.push("--modulus".into());
+            v
+        }
+        "arrange" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--polymerize".to_string()];
+            v.extend(args.iter().cloned());
+            v.push("--arrange".into());
             v
         }
         _ => return None,
@@ -1799,6 +1819,7 @@ impl CliClone for Cli {
             close: self.close,
             props: self.props,
             modulus: self.modulus,
+            arrange: self.arrange,
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -1904,7 +1925,11 @@ fn main() {
     // Imscriptive polymerization: `./ask --polymerize M1 M2 …` — chain the clicks.
     if let Some(names) = &cli.polymerize {
         if names.len() >= 2 {
-            let code = click::run_polymerize(cat_ref, names, cli.theta, cli.certify, cli.close, cli.props, cli.modulus);
+            let code = if cli.arrange {
+                click::run_arrange(cat_ref, names, cli.theta, cli.certify, cli.close, cli.props, cli.modulus)
+            } else {
+                click::run_polymerize(cat_ref, names, cli.theta, cli.certify, cli.close, cli.props, cli.modulus)
+            };
             process::exit(code);
         } else {
             eprintln!("--polymerize needs at least two monomers");
