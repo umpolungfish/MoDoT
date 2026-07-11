@@ -2125,6 +2125,86 @@ pub fn run_fuse(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f3
     0
 }
 
+/// CLI entry: `./ask --anneal M1 M2 … Mn`. Relax a ring to its lowest-strain ordering. The
+/// forge order rings well but is quenched (it optimizes enchainment and closure, not even
+/// loading); annealing searches the orderings that ring for the one whose bond drive is most
+/// uniform — the settled ground state on the same units. Exhaustive for n ≤ 9. Reports the
+/// quenched order and its strain against the annealed order and its strain.
+pub fn run_anneal(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("anneal: no catalog loaded");
+        return 2;
+    };
+    if monomers.len() < 3 {
+        eprintln!("anneal: need at least three monomers");
+        return 2;
+    }
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("anneal: {e}"); return 2; }
+    };
+    let n = units.len();
+    let quenched = best_ordering(&units, theta).order;
+    let (dp0, cyc0, _) = walk_score(&units, &quenched, theta);
+    let qnames: Vec<String> = quenched.iter().map(|&i| monomers[i].clone()).collect();
+    println!("anneal (relax the ring to its lowest-strain ordering):");
+    if !(dp0 == n && cyc0) {
+        println!("  [{}] does not close into a ring — nothing to relax (forge or --close it first).", qnames.join(" · "));
+        return 0;
+    }
+    let qunits: Vec<Tuple> = quenched.iter().map(|&i| units[i].clone()).collect();
+    let quenched_strain = ring_strain(&qunits, theta);
+
+    // search orderings that fully enchain AND cyclize for the minimum ring strain (Heap's
+    // algorithm, mirroring best_ordering; exhaustive for n ≤ 9, else the quenched order stands).
+    let mut best_order = quenched.clone();
+    let mut best_strain = quenched_strain;
+    let exhaustive = n <= 9;
+    let mut consider = |order: &[usize], best_order: &mut Vec<usize>, best_strain: &mut f32| {
+        let (dp, cyc, _) = walk_score(&units, order, theta);
+        if dp == n && cyc {
+            let u: Vec<Tuple> = order.iter().map(|&i| units[i].clone()).collect();
+            let s = ring_strain(&u, theta);
+            if s < *best_strain - 1e-6 {
+                *best_strain = s;
+                *best_order = order.to_vec();
+            }
+        }
+    };
+    if exhaustive {
+        let mut idx: Vec<usize> = (0..n).collect();
+        let mut c = vec![0usize; n];
+        let mut i = 0;
+        while i < n {
+            if c[i] < i {
+                if i % 2 == 0 { idx.swap(0, i); } else { idx.swap(c[i], i); }
+                consider(&idx, &mut best_order, &mut best_strain);
+                c[i] += 1;
+                i = 0;
+            } else {
+                c[i] = 0;
+                i += 1;
+            }
+        }
+    }
+
+    println!("  quenched (forge order): [{}]\n            strain σ(Δ)={quenched_strain:.3}", qnames.join(" · "));
+    if best_strain < quenched_strain - 1e-6 {
+        let anames: Vec<String> = best_order.iter().map(|&i| monomers[i].clone()).collect();
+        println!(
+            "  annealed (relaxed):     [{}]\n            strain σ(Δ)={best_strain:.3} ({:+.3}) — a lower-stress ring on the same units, the settled ground state.",
+            anames.join(" · "),
+            best_strain - quenched_strain
+        );
+    } else {
+        println!(
+            "  annealed: the forge order is ALREADY the lowest-strain ring{} — no relaxation available.",
+            if exhaustive { " (exhaustive over every ordering)" } else { " among those searched" }
+        );
+    }
+    0
+}
+
 /// CLI entry: `./ask --cleave M1 M2 … Mn`. Ring fission, the δ-split reverse of `--fuse`.
 /// Forge the set into its best ring, then cut the loop at two junctions so it falls into two
 /// daughter rings on complementary arcs, each re-closing head-to-tail on its own. Reports the
@@ -2376,15 +2456,8 @@ fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
             Err(_) => noncond += 1,
         }
     }
-    // ring strain: the spread (population σ) of clean-bond drive around the loop. Near zero
-    // when every junction carries the same tension; large when the ring is forced shut against
-    // reluctant bonds. This is the quantity `anneal` (an upcoming reordering op) drives down.
-    let strain = if drives.len() > 1 {
-        let mean = drives.iter().sum::<f32>() / drives.len() as f32;
-        (drives.iter().map(|d| (d - mean).powi(2)).sum::<f32>() / drives.len() as f32).sqrt()
-    } else {
-        0.0
-    };
+    // ring strain: the spread of clean-bond drive around the loop (shared with `anneal`).
+    let strain = ring_strain(units, theta);
     println!("  ── material properties (the ring as a mathematical material) ──");
     println!(
         "    macrocycle: {n}-membered ring{}",
@@ -2420,6 +2493,21 @@ fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
         }
     }
     print_ring_spectrum(units, theta);
+}
+
+/// Ring strain: the population σ of clean-bond drive around the loop. Near zero when every
+/// junction carries the same tension, large when the ring is forced shut against reluctant
+/// bonds. The scalar `anneal` minimizes over the orderings that ring.
+fn ring_strain(units: &[Tuple], theta: f32) -> f32 {
+    let n = units.len();
+    let drives: Vec<f32> = (0..n)
+        .filter_map(|i| click_pair(&units[i], &units[(i + 1) % n], theta).ok().map(|p| p.drive))
+        .collect();
+    if drives.len() < 2 {
+        return 0.0;
+    }
+    let mean = drives.iter().sum::<f32>() / drives.len() as f32;
+    (drives.iter().map(|d| (d - mean).powi(2)).sum::<f32>() / drives.len() as f32).sqrt()
 }
 
 /// Compact one-line material signature — ρ, conductance, and weakest bond — for a cyclic

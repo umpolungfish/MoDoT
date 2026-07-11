@@ -1,18 +1,12 @@
-Add ring strain and graph energy to the material sheet
+Add --anneal: relax a ring to its lowest-strain ordering
 
-Two more invariants off the roadmap ob3ects, both pure scalar reads (the ob3ects
-typed them as reads, not transforms), so they live in the property sheet rather
-than as their own verbs -- every --props / --forge / material sheet now carries
-them.
+The transform the strain invariant was built for. `--anneal M1 M2 ... Mn` (or the
+`anneal` agent verb) takes the forge order -- which rings well but is quenched,
+optimized for enchainment and closure rather than even loading -- and searches
+every ordering that rings for the one whose bond drive is most uniform, the
+settled ground state on the same units. Exhaustive for n <= 9. Reports the
+quenched order and strain against the annealed order and strain.
 
-  ring strain sigma(Delta): the population spread of clean-bond drive around the
-    loop. Near zero when every junction carries equal tension, large when the
-    ring is forced shut against reluctant bonds. This is the quantity the coming
-    `anneal` reorder will drive down.
-
-  graph energy sum|lambda|: the ring's total absolute spectral weight. Where the
-    spectral radius rho is the ring's stiffness (its single dominant mode), this
-    is its toughness -- the reserve carried across all the modes.
-
-Verified against hand math: the pure 4-ring gives energy 4.0000 (|2|+0+0+|-2|),
-the branched 3-ring gives 5.4641 (2.732+0.732+2.0).
+Factored ring_strain out of the material sheet so anneal and --props share one
+formula. Verified live: the 7-unit ring relaxes from strain 0.369 (forge order)
+to 0.229 by reordering the same units.
