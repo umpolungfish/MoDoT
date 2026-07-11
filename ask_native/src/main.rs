@@ -155,6 +155,13 @@ struct Cli {
     #[arg(long = "set", num_args = 2, value_names = ["D", "A"])]
     set: Option<Vec<String>>,
 
+    /// Homolytic cleavage → NEUTRAL radicals (the δ_A symmetric split, the reverse of
+    /// --click). `--homolyze A B` cleaves the A—B σ-bond into A• + B•; `--homolyze A`
+    /// splits A symmetrically into two identical radicals A•. Contrast --set (the
+    /// single-electron / heterolytic route → radical IONS A•⁺/B•⁻).
+    #[arg(long = "homolyze", num_args = 1..=2, value_names = ["A", "B"])]
+    homolyze: Option<Vec<String>>,
+
     /// Bidirectional ligand ⇌ catalytic-site complement (ported from red-hot_rebis
     /// ligand_from_active_site). `--complement A` maps a catalytic-site type to the
     /// complementary ligand it binds — and back, it is its own inverse. --certify /
@@ -1147,7 +1154,8 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: click A B         fuse two entries on a live conjugate pair (or `click A` to sweep the catalog)
   TOOL: switch A B        analyze a reversible bistable toggle (the DASA archetype)
   TOOL: excite A          the excited state (Criticality ⊙ raised to the exceptional-point resonance)
-  TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum Ω moved)
+  TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum Ω moved) → radical IONS A•⁺/B•⁻
+  TOOL: homolyze A [B]     homolytic cleavage → NEUTRAL radicals (δ_A symmetric split, the reverse of click): `homolyze A B` breaks the A—B bond into A•+B•; `homolyze A` splits A into two A•
   TOOL: scan A B          rank the catalog for the best mediators of the A→B transfer
   TOOL: complement A      the bidirectional ligand⇌catalytic-site complement (its own inverse)
   TOOL: cycle C S         the catalytic cycle: C turns over S, certified a fixed point (μ∘δ=id)
@@ -1545,6 +1553,11 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         }
         "switch" => vec!["--switch".into(), a(0)?, a(1)?],
         "excite" => vec!["--excite".into(), a(0)?],
+        "homolyze" => {
+            let mut v = vec!["--homolyze".to_string(), a(0)?];
+            if let Some(b) = a(1) { v.push(b); }
+            v
+        }
         "set" => vec!["--set".into(), a(0)?, a(1)?],
         "scan" => vec!["--set".into(), a(0)?, a(1)?, "--scan-mediators".into()],
         "complement" => vec!["--complement".into(), a(0)?],
@@ -2199,6 +2212,7 @@ impl CliClone for Cli {
             register: self.register.clone(),
             excite: self.excite.clone(),
             set: self.set.clone(),
+            homolyze: self.homolyze.clone(),
             complement: self.complement.clone(),
             scan_mediators: self.scan_mediators,
             cycle: self.cycle.clone(),
@@ -2269,6 +2283,14 @@ fn main() {
                     catalog_path.as_deref(),
                 )
             };
+            process::exit(code);
+        }
+    }
+
+    // Homolytic cleavage → neutral radicals: `./ask --homolyze A [B]`.
+    if let Some(names) = &cli.homolyze {
+        if !names.is_empty() {
+            let code = click::run_homolyze(cat_ref, &names[0], names.get(1).map(|s| s.as_str()), cli.theta);
             process::exit(code);
         }
     }

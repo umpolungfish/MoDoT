@@ -771,6 +771,85 @@ fn transfer_electron(
     Ok((d, a))
 }
 
+/// Radical character from the winding quantum Ω (electron count): odd Ω = an intrinsically
+/// unpaired electron (already open-shell); even = a closed-shell parent whose SOMO is the
+/// freshly-opened bond center.
+fn somo_note(t: &Tuple) -> String {
+    match t.ord[WIND] {
+        Some(w) if w % 2 == 1 => format!("Ω={} odd — intrinsically open-shell", glyph_of(WIND, w)),
+        Some(w) => format!("Ω={} even — SOMO is the opened bond center", glyph_of(WIND, w)),
+        None => "Ω absent".into(),
+    }
+}
+
+/// CLI: `./ask --homolyze A [B]`. Homolytic cleavage → NEUTRAL radicals — the δ_A symmetric
+/// split, the radical-generating REVERSE of `click`. `homolyze A B` cleaves the A—B σ-bond
+/// (they must click on a single live pair) into two neutral radicals A• + B•, each keeping
+/// one electron of the shared pair (the SOMO). `homolyze A` splits A symmetrically into two
+/// identical radicals A• + A•. Contrast `set`: the single-electron / heterolytic route → the
+/// radical IONS A•⁺ / B•⁻ (δ_D, one fragment takes both electrons).
+pub fn run_homolyze(
+    catalog: Option<&[CatalogEntry]>,
+    name_a: &str,
+    name_b: Option<&str>,
+    theta: f32,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("homolyze: no catalog loaded");
+        return 2;
+    };
+    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let Some(ea) = find(name_a) else {
+        eprintln!("homolyze: catalog entry not found: {name_a}");
+        return 2;
+    };
+    let ta = Tuple::from_entry(ea);
+
+    let Some(nb) = name_b else {
+        // Symmetric homolysis of a single entity — the diagonal split δ_A(a) = (a, a).
+        println!("homolyze (symmetric homolysis, δ_A(a)=(a,a)):  {name_a}");
+        println!("  → two identical NEUTRAL radicals — the diagonal split (μ∘δ_A=id):");
+        println!("      {name_a}•  {}   radical (open SOMO)  [{}]", fmt_tuple(&ta.ord), somo_note(&ta));
+        println!("      {name_a}•  {}   radical (open SOMO)  [{}]", fmt_tuple(&ta.ord), somo_note(&ta));
+        println!("  recombination (μ): {name_a}• + {name_a}• → {name_a}—{name_a}  — radical coupling re-pairs the SOMO (lossless).");
+        println!("  one electron instead (heterolytic / SET → radical ION): `./ask --set {name_a} <acceptor>`, or `--excite {name_a}`.");
+        return 0;
+    };
+
+    let Some(eb) = find(nb) else {
+        eprintln!("homolyze: catalog entry not found: {nb}");
+        return 2;
+    };
+    let tb = Tuple::from_entry(eb);
+    println!("homolyze (homolytic cleavage — the radical-generating reverse of click, δ_A symmetric):  {name_a} ⋈ {nb}");
+    match click_pair(&ta, &tb, theta) {
+        Ok(p) => {
+            let axis = LIVE_LABELS[p.pair_idx];
+            println!("  the {name_a}—{nb} σ-bond: a click on {axis} (Δ={:.2}) — a shared electron pair, the reaction center.", p.drive);
+            println!("  → homolysis splits that pair EVENLY (δ_A): each fragment keeps ONE electron — the SOMO:");
+            println!("      {name_a}•  {}   neutral radical — SOMO open on {axis}, seeks a partner  [{}]", fmt_tuple(&ta.ord), somo_note(&ta));
+            println!("      {nb}•  {}   neutral radical — SOMO open on {axis}  [{}]", fmt_tuple(&tb.ord), somo_note(&tb));
+            println!("  recombination (μ): {name_a}• + {nb}• → {name_a}—{nb}  — radical coupling re-pairs the SOMO (μ∘δ=id, lossless).");
+            println!("  heterolytic alternative (δ_D → ion pair): the same bond can break UNEVENLY — one fragment takes both");
+            println!("    electrons (anion), the other none (cation): the single-electron / radical-ion route — `./ask --set {name_a} {nb}` → {name_a}•⁺ / {nb}•⁻.");
+            0
+        }
+        Err(ClickFail::NoComplementarity) => {
+            println!("  ✗ {name_a} and {nb} share no reaction center (not complementary on any live pair) — there is no σ-bond to cleave, and they would not couple. Nothing to homolyze.");
+            2
+        }
+        Err(ClickFail::Ambiguous(pairs)) => {
+            let labs: Vec<&str> = pairs.iter().filter_map(|&i| LIVE_LABELS.get(i).copied()).collect();
+            println!("  ✗ {name_a} and {nb} are complementary on {} centers ({}) — not one clean σ-bond. Homolysis is ambiguous: it would open a diradical/network, not two clean radicals.", pairs.len(), labs.join(", "));
+            2
+        }
+        Err(ClickFail::Missing) => {
+            println!("  ✗ a fragment is missing a live-pair charge — cannot gauge the bond to homolyze.");
+            2
+        }
+    }
+}
+
 /// CLI entry: `./ask --excite A [--certify] [--register [NAME]]` — promote A to
 /// its excited manifold (⊙ → the exceptional-point resonance), report the δ (light)
 /// promotion and the μ (relaxation/fluorescence) + productive decay legs, optionally

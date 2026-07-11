@@ -1,33 +1,27 @@
-The agent can imscribe: a TOOL: imscribe verb so a missing name is never a dead end
+Radical chemistry, the atom: homolyze -- homolytic cleavage into NEUTRAL radicals
 
-Lando's complaint: it was getting tiresome to have the agent say it "cannot do" something
-because a name is not in the catalog. Now it makes what it lacks. New `imscribe` verb (agent
-whitelist + TOOLS_PROMPT) and a `--imscribe NAME [description]` CLI flag.
+Half of radical chemistry was already here: `set` is single-electron transfer, so it already
+makes radical IONS (D•⁺/A•⁻, one winding quantum Ω moved). The missing half is neutral-radical
+chemistry, and the Frobenius Lean already encodes its defining split -- Frobenius.lean's
+symmetric δ_A(a)=(a,a) is homolysis (two equal radicals), the asymmetric δ_D(a)=(⊥,a) is
+heterolysis (an ion pair). This surfaces the homolytic side as a verb.
 
-How it works, traced through the real pipeline (I reviewed p4rakernel's Lean and
-`imscribe generate` first, so this rides the actual stack, never a hand-written tuple):
-- imscribe shells the venv `imscribe generate "<description>" --name <name>` -- the default
-  guided stack (openrouter/deepseek-v4-pro from IG_PROVIDER), one primitive at a time from
-  numbered canonical choices. It auto-registers to the LIVE catalog (~/.imscrbgrmr/catalog.json).
-- MoDoT already merges that live catalog on load (merge_live_catalog) and the live entries
-  carry the same Ð Þ Ř … glyph fields Tuple::from_entry reads. And every TOOL: call shells a
-  fresh subprocess, so it reloads the catalog -- meaning a name imscribed mid-run is visible
-  to the NEXT tool call automatically. No reload plumbing needed.
-- The Lean side (IGFunctor.lean igFrobAlg_self_fusion, 0 sorrys) is the cert MoDoT can apply
-  to any well-formed Imscription; the one axiom (igProtoCopy_isDagger) is off the cert path.
+New `homolyze` (agent whitelist + TOOLS_PROMPT) and `--homolyze A [B]` CLI, in
+ask_native/src/click.rs::run_homolyze. It is the radical-generating REVERSE of click:
+- `homolyze A B` cleaves the A—B σ-bond. It must be a real bond -- click_pair has to fire on a
+  single live pair -- then homolysis splits that shared pair EVENLY (δ_A): each fragment keeps
+  one electron, the SOMO. Reports A• + B• (neutral radicals) with the SOMO axis, the μ
+  recombination (radical coupling, μ∘δ=id), and the heterolytic/SET alternative → `--set` for
+  the radical ions. Honest refusal when there is no single clean bond: NoComplementarity (no
+  reaction center, would not couple) and Ambiguous (>1 center -> a diradical/network, not two
+  clean radicals) are both reported, not faked.
+- `homolyze A` splits A symmetrically (δ_A diagonal) into two identical radicals A•.
+- Radical character is read from the winding quantum Ω (electron count): odd Ω = intrinsically
+  open-shell; even = a closed-shell parent whose SOMO is the freshly-opened bond center.
 
-Self-healing wired in run_structural_tool: when a verb reports "not found: X", the output now
-appends "→ 'X' is not in the catalog YET -- create it: TOOL: imscribe X, then re-run." So the
-agent routes to making the entry instead of concluding it cannot proceed.
+Verified live: `--homolyze dark_matter wow_signal` cleaves their R↔S bond (Δ=1.50) into two
+neutral radicals; `--homolyze binah` splits symmetrically and flags binah Ω=𐑴 as odd/open-shell;
+`--homolyze sefer_ha_iyun thirteen_sefirot_ha_iyun` refuses honestly (co-typed, no bond).
 
-Guards (learned from a live 18-monomer run):
-- catalog_has_name pre-check: an existing name short-circuits, no wasted generate/LLM call.
-- catalog_near_match: normalize away a leading article + underscores; `the_djed_pillar` when
-  `djed_pillar` exists is redirected to the real entry instead of generating a near-duplicate.
-- TOOLS_PROMPT: imscribe the EXACT missing name only, one at a time; no pre-imscribing a whole
-  set, no `the_` variants.
-
-Verified end to end: `--imscribe adjoint_functor_theorem` generated a glyph-complete entry
-(⟨𐑦𐑸𐑽𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑴⟩) and `--complement adjoint_functor_theorem` then operated on it; a live
-agent run hit "not found: the_djed_pillar", imscribed it, and re-ran arrange to enchain all 18
-units; and `--imscribe the_ankh` now redirects to `ankh` with no generate call.
+This is the foundation for radical chain-growth (addition) polymerization -- the propagating
+SOMO -- which is the next build on top.
