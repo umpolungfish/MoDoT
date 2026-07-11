@@ -269,6 +269,14 @@ struct Cli {
     #[arg(long = "export", value_name = "PATH")]
     export: Option<String>,
 
+    /// Jam mode: turn the agent loose on the catalog with the full toolset and no question to
+    /// answer. Feed a seed (a lemma, a pile of context, `--file …`) or nothing, and let it
+    /// forge / fuse / cleave / dope / anneal / compare freely, following its own curiosity.
+    /// The only rule stays the golem rule: the final report may state only what a tool
+    /// returned. Runs a long agentic loop before it writes up what it actually found.
+    #[arg(long = "jam")]
+    jam: bool,
+
     /// Create a missing catalog entry by imscribing it via the real generate pipeline
     /// (`imscribe generate … --name <NAME>`), writing to the live catalog MoDoT merges.
     /// Optionally pass a free-text description in --rest; defaults to the humanized name.
@@ -1187,6 +1195,28 @@ COMPOSE:/TOKEN:/CANONICAL: optional tools, never a substitute for
 answering. Do not author [spine|..], [vessel|..], [update|..], [broadcast|..].
 "#;
 
+/// Appended to the system prompt in jam mode. It unleashes the PROCESS completely and leans
+/// the whole weight of honesty onto the OUTPUT boundary — the golem principle scaled to free
+/// exploration: think/play however wild, report only what a tool returned.
+const JAM_PROMPT: &str = r#"
+JAM MODE. There is no question to answer and no target to hit. You are turned loose on the
+real catalog with the full toolset to PLAY. Forge rings, fuse and cleave them, dope and anneal
+them, compare them, click, polymerize, set, excite — chase whatever catches your attention,
+pull in whatever catalog entries you are curious about, build things and take them apart, and
+combine tools in ways nobody asked for. Follow your OWN sense of what is worth doing next.
+There is no gradient you must climb, no signal you are told to hunt, and no shape your output
+must take. Range widely; leave the seed the moment something more interesting appears — the
+seed is a starting point, not a boundary. If nothing was seeded, start wherever you like.
+
+The ONLY rule is the one that always holds: your final write-up may state only what a tool
+actually returned. So be as free and wild as you want in the DOING — you cannot break anything
+by exploring — and when you finally report what you found, every claim is pinned to a tool you
+ran, with its output. Keep jamming (run tools, read results, run more, chase threads, double
+back) for as many rounds as you have. When you are genuinely done exploring, stop emitting
+TOOL: lines and hand back the most interesting things you actually found, each grounded in the
+tool output that found it. Surprise yourself. Surprise me.
+"#;
+
 /// The structural verbs the LLM agent may invoke, appended to the system prompt.
 const TOOLS_PROMPT: &str = r#"
 STRUCTURAL TOOLS (optional): you may invoke the engine's structural verbs over the
@@ -1391,7 +1421,7 @@ fn complete(
     }
 }
 
-fn build_user_packet(question: &str, prep: &Prepare) -> String {
+fn build_user_packet(question: &str, prep: &Prepare, jam: bool) -> String {
     let mut parts = Vec::new();
     if !prep.scaffold_md.is_empty() {
         parts.push("## Grammatic witness scaffold (spine IMSCRIB — instantiate, do not ignore)".into());
@@ -1402,7 +1432,13 @@ fn build_user_packet(question: &str, prep: &Prepare) -> String {
         }
         parts.push(sc);
     }
-    parts.push(format!("## USER QUESTION (answer this):\n{question}"));
+    if jam {
+        parts.push(format!(
+            "## JAM SEED (a starting point to explore from, NOT a question to answer — leave it whenever something more interesting appears):\n{question}"
+        ));
+    } else {
+        parts.push(format!("## USER QUESTION (answer this):\n{question}"));
+    }
     parts.join("\n\n")
 }
 
@@ -2035,11 +2071,12 @@ fn run_one(
             );
             model_voice = B4::N;
         } else {
-            let user_packet = build_user_packet(question, &prep);
+            let user_packet = build_user_packet(question, &prep, cli.jam);
             // conversation: system once, then history, then this turn
             let mut msgs: Vec<(String, String)> = Vec::new();
             if conversation.is_empty() {
-                msgs.push(("system".into(), format!("{}\n{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, TOOLS_PROMPT)));
+                let jam = if cli.jam { JAM_PROMPT } else { "" };
+                msgs.push(("system".into(), format!("{}\n{}\n{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, TOOLS_PROMPT, jam)));
             }
             for (r, c) in conversation.iter() {
                 msgs.push((r.clone(), c.clone()));
@@ -2076,24 +2113,26 @@ fn run_one(
         // the tool results come back as ground truth (the golem constraint), so it acts and
         // then speaks on what the Grammar actually computed. Bounded by MAX_ROUNDS.
         if !cli.dry_run {
-            const MAX_ROUNDS: usize = 5;
+            // Jam mode gets a long leash so it can actually range; a normal answer is bounded tight.
+            let max_rounds: usize = if cli.jam { 40 } else { 5 };
             const PER_ROUND_CAP: usize = 6;
             let mut agent_msgs: Vec<(String, String)> = Vec::new();
             agent_msgs.push((
                 "system".to_string(),
                 format!(
-                    "{}\n{}\n{}\nYou are in an ACT→OBSERVE loop: emit TOOL: lines to run verbs over the real \
+                    "{}\n{}\n{}\n{}\nYou are in an ACT→OBSERVE loop: emit TOOL: lines to run verbs over the real \
                      catalog; their outputs return as ground truth and you choose the next step. Iterate — run a \
                      tool, read its result, run the next — until the task is actually done, then give your FINAL \
                      answer with NO TOOL: lines. NEVER narrate a step you could run; run it. Never contradict a \
                      tool result or introduce anything the tools did not return.",
-                    prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, TOOLS_PROMPT
+                    prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, TOOLS_PROMPT,
+                    if cli.jam { JAM_PROMPT } else { "" }
                 ),
             ));
             for (r, c) in conversation.iter().take(conversation.len().saturating_sub(2)) {
                 agent_msgs.push((r.clone(), c.clone()));
             }
-            agent_msgs.push(("user".to_string(), build_user_packet(question, &prep)));
+            agent_msgs.push(("user".to_string(), build_user_packet(question, &prep, cli.jam)));
 
             let mut current = answer.clone(); // the draft is round-0's action
 
@@ -2104,7 +2143,7 @@ fn run_one(
             // enchainment, closure) it never computed. If the draft narrates structural
             // work but ran nothing, prod it once to actually act before we accept it.
             if extract_tool_calls(&current).is_empty()
-                && (mentions_structural_work(&current) || question.contains("--"))
+                && (mentions_structural_work(&current) || question.contains("--") || cli.jam)
             {
                 println!("── PROD (narrated tools, ran none — forcing action) ──");
                 agent_msgs.push(("assistant".to_string(), current.clone()));
@@ -2131,7 +2170,7 @@ fn run_one(
             // arm to fuse against, so it collapses to N — it must not be narrated as a result.
             let mut executed_verbs: std::collections::BTreeSet<String> = std::collections::BTreeSet::new();
             let mut round = 0;
-            while round < MAX_ROUNDS {
+            while round < max_rounds {
                 let calls = extract_tool_calls(&current);
                 if calls.is_empty() {
                     break; // the operator stopped acting — `current` is the answer
@@ -2205,7 +2244,7 @@ fn run_one(
             }
 
             // If we hit the step cap mid-action, force one clean grounded close.
-            if round == MAX_ROUNDS && !extract_tool_calls(&current).is_empty() {
+            if round == max_rounds && !extract_tool_calls(&current).is_empty() {
                 agent_msgs.push(("assistant".to_string(), current.clone()));
                 agent_msgs.push((
                     "user".to_string(),
@@ -2389,6 +2428,7 @@ impl CliClone for Cli {
             anneal: self.anneal.clone(),
             recall: self.recall.clone(),
             export: self.export.clone(),
+            jam: self.jam,
             imscribe: self.imscribe.clone(),
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),

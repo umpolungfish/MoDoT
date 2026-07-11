@@ -1,22 +1,23 @@
-Add material registry: register / recall / export
+Add --jam: turn the agent loose on the catalog, no question
 
-The persistence pair, the last of the material-algebra roadmap. A material is a
-ring of ordered units plus its computed sheet, not a single tuple, so it gets its
-own store rather than being collapsed into a catalog chimera.
+The toolset is built out enough that the right move is to stop steering it. Jam
+mode hands the agent the full toolset and a seed (a lemma, a pile of context,
+--file, or nothing) with NO question to answer and NO objective to climb -- it
+forges, fuses, cleaves, dopes, anneals, compares, clicks, follows its own
+curiosity, and combines tools in ways nobody asked for.
 
-  --forge … --register NAME   forge the ring, then upsert its full sheet (ordered
-                              units, spectrum, rho, conductance, strain, energy,
-                              weakest bond, branched) into materials.json, a
-                              MoDoT-local named library.
-  --recall NAME               reload a registered material by name and print its
-                              stored sheet, no respecifying from units. Lists the
-                              registry when the name is missing.
-  --forge … --export PATH     write the same record to a standalone portable file.
-  --recall NAME --export PATH  re-export an already-registered material.
+The design rests on one principle, the golem rule scaled to free exploration:
+constrain the OUTPUT, free the PROCESS. The whole reason it is safe to unleash
+the process completely is that honesty is already enforced at the output boundary
+-- the executed-verb binding means the final write-up can state only what a tool
+actually returned. So there is no interestingness gradient, no curated signal to
+hunt, no leash on where it wanders. Freedom in the doing, truth in the report.
 
-Also the `register NAME M1 M2…` and `recall NAME` agent verbs. The registry path
-resolves by $MOMONADOS_MATERIALS, else the MoDoT root (binary-relative), else the
-working dir; materials.json is runtime state, not tracked.
+Reuses the entire ManuscriptSpine agentic loop; jam only swaps in JAM_PROMPT,
+reframes the seed as a starting point rather than a question, raises the round
+budget to 40 so it can actually range, and forces the act-prod so it jams rather
+than narrating. Everything that keeps it honest (executed-verb binding, cap
+guard, golem synthesis) is untouched.
 
-Verified end to end: register a branched 3-ring, recall it (rho=2.7321,
-CONDUCTIVE, spectrum recovered intact), export a 4-ring to a JSON file.
+  ./ask --jam "some lemma or pile of context"
+  ./ask --jam --file context.md
