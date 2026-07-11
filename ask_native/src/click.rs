@@ -1705,15 +1705,33 @@ fn ordering_better(c: (usize, bool, f32), b: (usize, bool, f32)) -> bool {
     if c.0 != b.0 { c.0 > b.0 } else if c.1 != b.1 { c.1 } else { c.2 > b.2 }
 }
 
+/// Result of the ordering search: the best order, how many were searched, whether the
+/// search was exhaustive, and — so the caller can report MULTIPLICITY instead of letting a
+/// reader assume the best order is the ONLY one that works — how many searched orderings
+/// fully enchain and how many cyclize.
+struct Arrangement {
+    order: Vec<usize>,
+    searched: usize,
+    exhaustive: bool,
+    n_full: usize,   // orderings that enchain all n units
+    n_cyclic: usize, // orderings that also close into a ring
+}
+
 /// Find the ordering of a monomer SET that polymerizes best. A set is unordered, so this
 /// searches orderings rather than assuming the given sequence. Exhaustive (every
 /// permutation, Heap's algorithm) for n ≤ 9, else greedy nearest-neighbor from each start
-/// (heuristic). Returns (best order, count searched, exhaustive?).
-fn best_ordering(units: &[Tuple], theta: f32) -> (Vec<usize>, usize, bool) {
+/// (heuristic).
+fn best_ordering(units: &[Tuple], theta: f32) -> Arrangement {
     let n = units.len();
     let mut best_order: Vec<usize> = (0..n).collect();
     let mut best_score = walk_score(units, &best_order, theta);
     let mut searched = 1usize;
+    let (mut n_full, mut n_cyclic) = (0usize, 0usize);
+    let mut tally = |s: (usize, bool, f32)| {
+        if s.0 == n { n_full += 1; }
+        if s.1 { n_cyclic += 1; }
+    };
+    tally(best_score);
     let exhaustive = n <= 9;
     if exhaustive {
         let mut idx: Vec<usize> = (0..n).collect();
@@ -1724,6 +1742,7 @@ fn best_ordering(units: &[Tuple], theta: f32) -> (Vec<usize>, usize, bool) {
                 if i % 2 == 0 { idx.swap(0, i); } else { idx.swap(c[i], i); }
                 let s = walk_score(units, &idx, theta);
                 searched += 1;
+                tally(s);
                 if ordering_better(s, best_score) { best_score = s; best_order = idx.clone(); }
                 c[i] += 1;
                 i = 0;
@@ -1752,10 +1771,11 @@ fn best_ordering(units: &[Tuple], theta: f32) -> (Vec<usize>, usize, bool) {
             for j in 0..n { if !used[j] { order.push(j); } }
             let s = walk_score(units, &order, theta);
             searched += 1;
+            tally(s);
             if ordering_better(s, best_score) { best_score = s; best_order = order; }
         }
     }
-    (best_order, searched, exhaustive)
+    Arrangement { order: best_order, searched, exhaustive, n_full, n_cyclic }
 }
 
 /// CLI entry: `./ask --polymerize <SET> --arrange`. Treats the monomers as an UNORDERED
@@ -1783,7 +1803,8 @@ pub fn run_arrange(
         Err(e) => { eprintln!("arrange: {e}"); return 2; }
     };
     let n = units.len();
-    let (order, searched, exhaustive) = best_ordering(&units, theta);
+    let arr = best_ordering(&units, theta);
+    let (order, searched, exhaustive) = (arr.order, arr.searched, arr.exhaustive);
     let (dp, cyclic, _) = walk_score(&units, &order, theta);
     let ordered: Vec<String> = order.iter().map(|&i| monomers[i].clone()).collect();
 
@@ -1797,6 +1818,21 @@ pub fn run_arrange(
             "  ✓ best ordering FULLY enchains all {n} units{} — the co-typed wall was an artifact of the given order, not the set:",
             if cyclic { " AND CYCLIZES into a ring" } else { "" }
         );
+        // Multiplicity — so nobody reads "best" as "the only one that works". A set where
+        // most orderings close is order-ROBUST, not order-specific; only n_cyclic==1 is
+        // genuinely a unique closing sequence.
+        if cyclic {
+            if arr.n_cyclic <= 1 {
+                println!("  closure is order-SPECIFIC: this is the only ordering (of {searched} searched) that cyclizes.");
+            } else {
+                println!(
+                    "  closure is order-ROBUST: {}/{searched} searched orderings cyclize (this is merely the best-scoring one, NOT the only sequence that closes — do not call it unique).",
+                    arr.n_cyclic
+                );
+            }
+        } else if arr.n_full > 1 {
+            println!("  ({}/{searched} searched orderings also fully enchain — this is the best, not the only one.)", arr.n_full);
+        }
     } else {
         println!(
             "  ✗ NO ordering fully enchains — best reaches {dp}/{n}. The set is fundamentally fragmented (a monomer is co-typed with every other); a linker is needed regardless of order (--close):"

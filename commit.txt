@@ -1,31 +1,14 @@
-Stop printing LaTeX to the terminal -- render math as plain Unicode symbols
+arrange now reports closure MULTIPLICITY -- kills the "only sequence" overclaim
 
-The answers were coming out as backslash-garbage: `$$\Delta_{\text{T↔H}} = ... > \theta$$`
-instead of `Δ_T↔H = ... > θ`. The tools already emit clean Unicode (⟨𐑨𐑰...⊙...⟩, Δ=0.83,
-μ∘δ=id); it was the LLM's own prose wrapping every symbol in LaTeX for a renderer that
-isn't there -- `./ask` prints to a raw terminal. It also broke my own rule about never
-wrapping a glyph in $...$.
+Watching a "design a computer from {grothendieck_topos, general_recursive_function,
+skolem_normal_form}" run, the agent declared its best order "the only configuration that
+achieves closure" -- and its own close call had just cyclized a DIFFERENT order. The
+overclaim traces to arrange: it searched all 6 orderings but printed only the single best,
+so a reader (or the model) reads "best" as "only."
 
-Fixed at the generator, two layers:
-
-1. delatex() in ask_native/src/main.rs, wired into strip_kernel_records (the single funnel
-   every model output already passes through). It converts the common LaTeX to the Unicode
-   the terminal wants: strips $ / $$ / \( \) / \[ \]; unwraps \text{X}/\mathrm{X}/... to X;
-   \frac{A}{B} -> A/B; drops the braces on _{...}/^{...} (Δ_T↔H, not \Delta_{\text{T↔H}});
-   and maps \command -> glyph over a table (\Delta Δ, \theta θ, \mu μ, \circ ∘, \delta δ,
-   \leftrightarrow ↔, \to ->, \geq ≥, \Omega Ω, \Sigma Σ, \Phi Φ, \langle ⟨, ...). Unknown
-   \commands lose only the backslash. Grouping braces in prose are LEFT ALONE, so a
-   `{binah monad ankh}` set and the real glyphs Ð Ř ƒ / Shavian survive untouched -- only
-   math constructs are rewritten. One landmine handled: \left is a substring of
-   \leftrightarrow, so the layout wrappers (\left \right \quad ...) are dropped by the
-   full-word command regex, never by substring replace, which had chewed \leftrightarrow
-   down to "rightarrow".
-
-2. A hard TERMINAL OUTPUT rule in SYSTEM_PROMPT: the answer prints to a raw terminal with
-   no math renderer, so write plain Unicode directly and never LaTeX -- no $, no \command,
-   no _{}/^{}. Cuts the LaTeX at the source; delatex cleans whatever still slips through.
-
-Three unit tests (cargo test delatex) lock it in, including the user's exact pasted string
-and a check that prose braces + IG glyphs are not disturbed. Verified live: the click
-binah/monad question that produced the garbled paste now prints `Δ_T↔H = |0.92 − 0.17| =
-0.75`, `θ = 0.50`, `X ⊙ M = X`, `Φ ⊙ Þ`, `Ω` -- zero LaTeX survives a grep of the output.
+Fix in ask_native/src/click.rs: best_ordering now returns an Arrangement struct that also
+tallies how many searched orderings fully enchain (n_full) and how many cyclize (n_cyclic).
+run_arrange reports it: closure is order-ROBUST ("N/M searched orderings cyclize ... NOT the
+only sequence that closes -- do not call it unique") vs order-SPECIFIC ("the only ordering
+that cyclizes") when exactly one closes. Verified: the exact set now prints "order-ROBUST:
+4/6 searched orderings cyclize," so the uniqueness claim can no longer be confabulated.
