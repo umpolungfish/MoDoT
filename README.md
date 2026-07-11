@@ -400,13 +400,31 @@ however the narrative dresses it up.
 ./ask --polymerize the_moon_astrological the_logographic_system the_moon_astrological the_logographic_system --props
 ```
 
+**The modulus** (`--polymerize … --modulus`) — closing a ring is cheap; making it
+**sustain** is not, and that difference is a material's **modulus** (its elasticity). A
+polymer gets its modulus from network loops, and in this register a loop only sustains
+if the winding quantum **Ω circulates it and returns** — i.e. it *conducts*. So `--close`
+and `--modulus` are deliberately different verbs: `--close` fills the gap (a ring, maybe
+static); `--modulus` searches for a monomer that generates a **sustaining** loop (a
+conductive cycle, ∮ Ω closes) *anywhere* along the chain, and reports its period — the
+modulus. A chain can be closeable yet **modulus-less**: every closure static (insulating),
+a viscous chain rather than an elastic network. The tightest sustaining loop is the
+fundamental modulus; each generator is verified to actually conduct.
+
+```bash
+# closeable but modulus-less: the plasma chain rings (via --close) yet no closure sustains
+./ask --polymerize plasma_turbulence tokamak_disruption z_pinch magnetic_reconnection --modulus
+# the moon/logographic ring has an intrinsic modulus (a sustaining 4-loop) and a tighter generatable 3-loop
+./ask --polymerize the_moon_astrological the_logographic_system the_moon_astrological the_logographic_system --modulus
+```
+
 **Agent access to every verb.** The LLM agent (`./ask --ask …`) can invoke the whole
 engine. It emits `TOOL: <verb> <args>` lines (markdown-tolerant); the harness runs them
 against the **real catalog** by shelling to this same binary, then feeds the outputs back
 for a final grounded answer. This *corrects the model's guesses*: unaided it will
 confidently mis-call a pathway's closure; handed the real `pathway` output it gives the
 right answer. Whitelisted verbs only (`click switch excite set scan complement cycle
-pathway polymerize close material`) — never `ask`, so no recursion. The prompt also steers the
+pathway polymerize close material modulus`) — never `ask`, so no recursion. The prompt also steers the
 agent to use `close` (not `scan`) for cyclization, and tool stdout **and stderr** are
 fed back, so a call that errors (e.g. a monomer the model invented) surfaces its failure
 instead of vanishing.

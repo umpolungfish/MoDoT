@@ -1,34 +1,41 @@
-Characterize the closed ring as a material -- conductance grounds the "computer" claim
+Add --modulus: a sustaining loop, distinct from --close which only fills the gap
 
-I fed a cyclic polymer (general_recursive_function · grothendieck_topos ·
-skolem_normal_form) back through the agent and asked it to "apply it as a material"
-and hand me a computer design. The STRUCTURAL layer was grounded -- the ring really
-does cyclize (close confirms it on R↔S). But the APPLICATION layer was pure prose:
-the model spun an "LTC-1 Topological Processor" with a superconducting sheaf-array,
-chi=0 non-dissipative memory, topologically protected gates, and "a current of
-effective calculability flowing through the cyclic logic-gates." None of it computed.
+Lando drew the line and it is the right one. --close stays exactly what it is: it
+closes the GAP -- finds the monomer that makes the ends meet, geometry only. But a
+ring can close and still be dead: the "topological computer" and the plasma ring both
+cyclize structurally yet come back INSULATING, a static loop with no life in it.
 
-The one checkable claim buried in there is that the ring CONDUCTS. So I made that
-decidable. --polymerize ... --props (agent verb: material), in ask_native/src/click.rs
-(print_ring_material). When the polymer is closed, it characterizes the macrocycle as
-a material by reusing the Omega-transfer primitive:
-- try to circulate a winding quantum Omega around the ring; one consistent direction
-  the whole loop = CONDUCTIVE (a persistent ring current, the carrier integral closes)
-- every junction passes a carrier but no single direction closes = FRUSTRATED
-- a junction blocks a carrier both ways = INSULATING
-- plus the weakest clean ring bond (a ring is only as stable as its weakest link)
+--modulus is the other thing. A material's modulus is its elasticity, and a polymer
+gets its modulus from network LOOPS -- but only from loops that SUSTAIN. In this
+register a loop sustains iff the winding quantum Omega circulates it and returns
+(∮ carrier closes, mu∘delta=id around the cycle) -- i.e. it CONDUCTS. So --modulus
+searches for a monomer that generates a sustaining loop somewhere along the chain (a
+conductive cycle), not merely a closed one, and reports its period: the modulus.
 
-The verdict refuted the narrative exactly. The grf/grothendieck/skolem ring is
-INSULATING: every unit has Omega = awe (fully oxidized, zero winding quantum), so no
-carrier can pass any junction. The ring exists but it is STATIC -- not the dynamic
-"topological computer" the prose asserted. Contrast: the moon/logographic macrocycle
-carries mid-range Omega and comes back CONDUCTIVE, a persistent ring current. So the
-sheet genuinely separates conductor from insulator, from structure alone.
+All in ask_native/src/click.rs + main.rs. Factored the conductance test out of
+--props into ring_conductance (Cond enum: Conductive/Frustrated/Insulating), reused
+by both. run_polymerize gains a modulus pass:
+- intrinsic: if the closed chain already conducts, report modulus = its ring size (a
+  sustaining N-loop, no monomer needed)
+- generative: over every backbone span [i..j] and every catalog monomer X, if X closes
+  the span into a ring that CONDUCTS, that is a sustaining loop; report the tightest
+  (smallest period = the fundamental modulus) and its generators. Catalog tuples
+  precomputed once.
+- if none: "NO modulus (a viscous chain, not an elastic network)" -- honest.
 
-Verified via the agent too: asked whether the ring "works as a computer", the model
-now grounds on the material readout and answers "functions as a mathematical
-insulator ... Omega-saturated ... a static architectural loop that lacks the dynamic
-carrier flow" -- the direct correction of the LTC-1 fantasy.
+Verified live -- and the point is that --close and --modulus DISAGREE on the same chain:
+- plasma_turbulence tokamak_disruption z_pinch magnetic_reconnection: --close rings it
+  (append CH_false -> CYCLIC), but --modulus says NONE -- every closure is static
+  (insulating), the material has no modulus. Closeable but not sustaining.
+- moon/logographic ring: intrinsic modulus 4 (already a sustaining conductive 4-loop),
+  and a tighter generatable modulus 3. Ran a suggested generator
+  (moon logographic F4_min_O_Z2 --props) -> CONDUCTIVE 3-ring, so the search's claim is
+  verifiable, not asserted.
+- --close output unchanged (still just the gap-closer, no modulus talk), as intended.
 
-Also captured `branched` once and reused it. README updated with the material readout
-(conductive/frustrated/insulating) and the agent whitelist now lists `material`.
+Agent gets the verb: TOOLS_PROMPT + run_structural_tool add `modulus` (-> --polymerize
+--modulus). Whitelist is now click switch excite set scan complement cycle pathway
+polymerize close material modulus.
+
+README: new modulus section (close fills the gap, modulus demands a sustaining loop)
+and the whitelist.

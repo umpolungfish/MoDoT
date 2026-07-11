@@ -1634,6 +1634,33 @@ fn find_linkers(cat: &[CatalogEntry], a: &Tuple, b: &Tuple, theta: f32, top: usi
     hits
 }
 
+/// The conductance verdict of a ring: does a winding quantum Ω circulate it?
+enum Cond {
+    Conductive { fwd: bool },      // one consistent direction closes the loop — a persistent current
+    Frustrated,                    // every junction passes, but no single direction circulates
+    Insulating { blocked: Vec<usize> }, // some junction blocks a carrier both ways
+}
+
+/// Can a winding quantum Ω circulate the ring (units treated as a cycle)? A consistent
+/// one-way circulation is a persistent ring current (the loop SUSTAINS itself, μ∘δ=id
+/// around the cycle). Reuses the Ω-transfer primitive at each junction.
+fn ring_conductance(units: &[Tuple]) -> Cond {
+    let n = units.len();
+    let dir_ok = |fwd: bool| (0..n).all(|i| {
+        let (a, b) = if fwd { (i, (i + 1) % n) } else { ((i + 1) % n, i) };
+        transfer_electron(&units[a].ord, &units[b].ord).is_ok()
+    });
+    let (fwd, bwd) = (dir_ok(true), dir_ok(false));
+    if fwd || bwd {
+        return Cond::Conductive { fwd };
+    }
+    let blocked: Vec<usize> = (0..n).filter(|&i| {
+        !(transfer_electron(&units[i].ord, &units[(i + 1) % n].ord).is_ok()
+            || transfer_electron(&units[(i + 1) % n].ord, &units[i].ord).is_ok())
+    }).collect();
+    if blocked.is_empty() { Cond::Frustrated } else { Cond::Insulating { blocked } }
+}
+
 /// Material-property sheet for a CLOSED (cyclic) polymer — the ring treated as a
 /// mathematical material. Grounds the transport claims that prose loves to assert: a
 /// winding quantum Ω that circulates the whole loop one direction is a persistent ring
@@ -1655,17 +1682,6 @@ fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
             Err(_) => noncond += 1,
         }
     }
-    // conductance: can a winding quantum Ω circulate the ring? (transfer_electron per junction)
-    let dir_ok = |fwd: bool| (0..n).all(|i| {
-        let (a, b) = if fwd { (i, (i + 1) % n) } else { ((i + 1) % n, i) };
-        transfer_electron(&units[a].ord, &units[b].ord).is_ok()
-    });
-    let (fwd, bwd) = (dir_ok(true), dir_ok(false));
-    let junction_ok: Vec<bool> = (0..n).map(|i| {
-        transfer_electron(&units[i].ord, &units[(i + 1) % n].ord).is_ok()
-            || transfer_electron(&units[(i + 1) % n].ord, &units[i].ord).is_ok()
-    }).collect();
-
     println!("  ── material properties (the ring as a mathematical material) ──");
     println!(
         "    macrocycle: {n}-membered ring{}",
@@ -1679,17 +1695,16 @@ fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
         ),
         None => println!("    ring stability: no clean condensation bond around the ring (every junction a cross-link/addition)"),
     }
-    if fwd || bwd {
-        let d = if fwd { "→ reductive" } else { "← oxidative" };
-        println!("    conductance: CONDUCTIVE — a winding quantum Ω circulates the whole ring one way ({d}); a persistent ring current is supported (∮ carrier closes).");
-    } else if junction_ok.iter().all(|&x| x) {
-        println!("    conductance: FRUSTRATED — every junction passes a carrier, but no single direction circulates the loop (no persistent global current; an ohmic/segmented conductor).");
-    } else {
-        let blocked: Vec<String> = junction_ok.iter().enumerate()
-            .filter(|(_, &ok)| !ok)
-            .map(|(i, _)| format!("{}→{}", i + 1, (i + 1) % n + 1))
-            .collect();
-        println!("    conductance: INSULATING — no carrier can pass junction(s) {} in either direction; the ring cannot circulate a current (the units are Ω-saturated/empty, a static ring not a dynamic one).", blocked.join(", "));
+    match ring_conductance(units) {
+        Cond::Conductive { fwd } => {
+            let d = if fwd { "→ reductive" } else { "← oxidative" };
+            println!("    conductance: CONDUCTIVE — a winding quantum Ω circulates the whole ring one way ({d}); a persistent ring current is supported (∮ carrier closes). This ring SUSTAINS — it carries a modulus.");
+        }
+        Cond::Frustrated => println!("    conductance: FRUSTRATED — every junction passes a carrier, but no single direction circulates the loop (no persistent global current; an ohmic/segmented conductor)."),
+        Cond::Insulating { blocked } => {
+            let js: Vec<String> = blocked.iter().map(|&i| format!("{}→{}", i + 1, (i + 1) % n + 1)).collect();
+            println!("    conductance: INSULATING — no carrier can pass junction(s) {} in either direction; the ring cannot circulate a current (the units are Ω-saturated/empty, a static ring not a dynamic one).", js.join(", "));
+        }
     }
 }
 
@@ -1705,6 +1720,7 @@ pub fn run_polymerize(
     certify: bool,
     close: bool,
     props: bool,
+    modulus: bool,
 ) -> i32 {
     let Some(cat) = catalog else {
         eprintln!("polymerize: no catalog loaded");
@@ -1888,6 +1904,52 @@ pub fn run_polymerize(
             print_ring_material(&units[..dp], theta, branched);
         } else {
             println!("  material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).");
+        }
+    }
+
+    // --modulus: a SUSTAINING loop = a conductive cycle (∮ Ω current closes) somewhere
+    // along the chain. Distinct from --close, which only fills a gap: a ring can close
+    // and still be static (insulating, no modulus). This searches for a monomer that
+    // generates a loop that actually SUSTAINS, and reports its period — the modulus.
+    if modulus {
+        println!("  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ Ω closes), not merely a closed one ──");
+        if cyclic {
+            if let Cond::Conductive { .. } = ring_conductance(&units[..dp]) {
+                println!("    intrinsic modulus = {dp} — the closed chain is already a sustaining {dp}-loop (persistent Ω current); no monomer needed.");
+            }
+        }
+        // generative search: a monomer X that closes a backbone span [i..j] into a
+        // conductive loop. Catalog tuples precomputed once; spans are within the
+        // enchained region, so the segment is already bonded.
+        let cat_t: Vec<(&str, Tuple)> = cat.iter().map(|e| (e.name.as_str(), Tuple::from_entry(e))).collect();
+        let mut found: Vec<(usize, usize, usize, String)> = Vec::new(); // (period, i, j, monomer)
+        for i in 0..dp {
+            for j in (i + 1)..dp {
+                for (name, x) in &cat_t {
+                    if x.ord == units[i].ord || x.ord == units[j].ord {
+                        continue;
+                    }
+                    if click_pair(&units[j], x, theta).is_err() || click_pair(x, &units[i], theta).is_err() {
+                        continue;
+                    }
+                    let mut loop_units: Vec<Tuple> = units[i..=j].to_vec();
+                    loop_units.push((*x).clone());
+                    if let Cond::Conductive { .. } = ring_conductance(&loop_units) {
+                        found.push((j - i + 2, i, j, name.to_string()));
+                    }
+                }
+            }
+        }
+        if found.is_empty() {
+            println!("    none — no catalog monomer generates a sustaining loop over this chain; every closure is static (insulating). This material has NO modulus (a viscous chain, not an elastic network).");
+        } else {
+            found.sort_by(|a, b| a.0.cmp(&b.0).then(a.3.cmp(&b.3)));
+            let min_p = found[0].0;
+            println!("    modulus = {min_p} — the tightest sustaining loop this chain admits (a conductive {min_p}-cycle). Generators:");
+            for (p, i, j, name) in found.iter().filter(|f| f.0 == min_p).take(4) {
+                let seg: Vec<&str> = units[*i..=*j].iter().map(|t| t.name.as_str()).collect();
+                println!("      {name}  closes units {}‥{} into a sustaining {p}-loop:  ./ask --polymerize {} {name} --props", i + 1, j + 1, seg.join(" "));
+            }
         }
     }
 
