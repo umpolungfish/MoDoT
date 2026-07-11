@@ -1,23 +1,32 @@
-Give the eagle a way to fix a fumbled verb call
+Keep the spine and tool runner honest under two failure modes
 
-run_structural_tool returned None for two unrelated cases: a verb that
-does not exist, and a real verb given too few names. The agent loop
-collapsed both into one line, "not an available verb / missing args", so
-a real call like `polymerize A` (one name) or `scan A` (one name) was
-reported as if polymerize and scan did not exist. With no correct form to
-aim at, the agent re-emitted the same bad call round after round, burning
-eagles on what was really just a missing second name.
+Two fixes, both surfaced by real jam runs.
 
-Now the two cases are split. verb_usage(verb) holds the canonical call
-form for every real verb (wording taken from the TOOLS_PROMPT the agent
-already reads). tool_miss_message uses it: a real verb given bad args gets
-"wrong or too few args (you gave: ...). Correct form: polymerize M1 M2...;
-2+ names to chain", and only a genuinely unknown verb gets "not an
-available verb" plus the list of the real ones. Either way the next round
-has something to correct toward.
+1. A material non-closure no longer denies a proven theorem.
+   The agent would prove a real theorem (h(k) << k^2, Iwaniec), forge the
+   catalog entries naming its parts, find them co-typed (no click), and
+   the fuse turned that into B: "True, but does not close / does not
+   exist". But forging named entities tests their tuple complementarity,
+   a fact about the entries, not the theorem's truth; a non-click is not
+   disproof and a closure is not a proof. TOOLS_PROMPT now says so in one
+   sentence (and points at prove: for a theorem's real closure), and
+   complete() gains a lane guard: on a proof-shaped answer a material
+   non-closure abstains (N) instead of voting against the proof. Outside
+   jam the proof stays T with no false conflict; in a jam it is N
+   (honestly ungrounded, since the tools never tested the theorem), never
+   the B self-contradiction. A genuine structural jam keeps its real F.
 
-STRUCTURAL_VERBS is the single source of truth for the verb list, and a
-test asserts every one of them has usage help, so a real verb can never
-again be reported as nonexistent. Further tests cover the under-argged
-path (returns None), the actionable message text, and the unknown-verb
-list.
+2. A spawn failure is no longer reported as bad args.
+   Structural verbs re-shell to this binary via current_exe(). When the
+   binary is rebuilt while a session runs, the old inode is unlinked and
+   current_exe() reads back "<path> (deleted)", so every structural call
+   failed to spawn and returned None -- which the new arity feedback then
+   mislabeled "wrong or too few args" even though the args were correct.
+   resolve_self_exe() strips the " (deleted)" suffix and relinks to the
+   rebuilt binary at the real path; if it still cannot find or spawn the
+   binary, the runner returns a clear "restart ./ask" message rather than
+   a None that masquerades as an argument error.
+
+Tests: answer_is_proof recognition; complete() across proof-outside-jam
+(T, no conflict), proof-in-jam (N, not B), and a real non-closure (B);
+and the deleted-suffix strip.

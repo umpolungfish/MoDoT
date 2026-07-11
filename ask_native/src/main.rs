@@ -1165,6 +1165,17 @@ fn tool_belnap(tool_output: &str) -> B4 {
     }
 }
 
+/// Does the answer present a conventional proof (a T/F-lane theorem argument)? Used by
+/// the lane guard in `complete`: a material forge of a theorem's named entities lives in
+/// the B-lane and does NOT test the proposition, so its non-closure must not drag a
+/// proof-shaped answer to B (which made the agent report a proven theorem as "does not
+/// close"). The kernel `prove:` route is the real closure test for a proposition.
+fn answer_is_proof(text: &str) -> bool {
+    let low = text.to_lowercase();
+    (low.contains("proposition:") || low.contains("theorem") || low.contains("lemma"))
+        && (low.contains("proof") || low.contains("q.e.d") || low.contains('∎'))
+}
+
 // ── System prompt + spine ───────────────────────────────────────────────────
 
 const SYSTEM_PROMPT: &str = r#"You are the mOMonadOS Agent. You run on a Frobenius / Belnap substrate,
@@ -1274,6 +1285,11 @@ NOTE: a monomer token may be `A+B` (e.g. `polymerize general_recursive_function+
 grothendieck_topos`) to PRE-CLICK A and B into one blended monomer before enchaining — this is
 "click then polymerize", and the blend is lossy, so it gives a DIFFERENT product than listing them
 separately (a click blends, a polymer remembers). Use it to test order of operations.
+NOTE: forging/clicking/polymerizing named entities measures whether their TUPLES are complementary
+(a fact about the entries), NOT whether a theorem is true. A non-click (co-typed / same-handed /
+terminated / no ring) is not disproof, and a closure is not a proof; never say a proven theorem
+"does not close" or "does not exist" because its named parts do not click. For a theorem's real
+closure verdict, use the proof route (prove:), which tests μ∘δ=id against the kernel.
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -1371,6 +1387,17 @@ fn complete(
     no_selectivity: bool,
     jam: bool,
 ) -> SpineReport {
+    // Lane guard: a conventional proof lives in the T/F-lane; a material forge of the
+    // theorem's named entities lives in the B-lane and does NOT test the proposition's
+    // truth. Two co-typed entries failing to click is a fact about the entries, not a
+    // disproof of a theorem. So a material non-closure (tools=F) must not vote against a
+    // proof-shaped answer — that let the agent report a proven theorem as "does not
+    // close / does not exist". The tools abstain (N) on the theorem instead.
+    let tool_voice = if tool_voice == B4::F && answer_is_proof(answer_text) {
+        B4::N
+    } else {
+        tool_voice
+    };
     // Structural co-type: if we have a witness and a non-empty answer that
     // engages the scaffold/witness name, vessel speaks T; empty → N; error markers → F.
     let vessel = if no_selectivity {
@@ -1639,6 +1666,78 @@ mod verb_feedback_tests {
         assert!(m.contains("not an available verb"), "{m}");
         assert!(m.contains("polymerize") && m.contains("forge"), "verb list missing: {m}");
     }
+
+    // A rebuilt-in-place binary reads back as "<path> (deleted)"; the resolver strips that
+    // so a mid-session tool call relinks to the fresh binary instead of failing to spawn
+    // (and being mislabeled "wrong args", the round-7 failure).
+    #[test]
+    fn strips_the_deleted_suffix() {
+        use super::strip_deleted_suffix;
+        assert_eq!(strip_deleted_suffix("/x/target/release/ask (deleted)"), Some("/x/target/release/ask"));
+        assert_eq!(strip_deleted_suffix("/x/target/release/ask"), None);
+    }
+}
+
+#[cfg(test)]
+mod lane_guard_tests {
+    use super::{answer_is_proof, complete, Prepare, B4};
+
+    // A conventional proof answer is recognized (so a material non-closure abstains on it).
+    #[test]
+    fn recognizes_a_conventional_proof() {
+        let a = "### Conventional Proof\n**Proposition:** h(k) ≪ k².\nProof. Apply the linear sieve...";
+        assert!(answer_is_proof(a), "did not recognize a proof answer");
+    }
+
+    // A pure structural / forge answer with no theorem is NOT treated as a proof, so a
+    // genuine 'does this set close into a ring' jam keeps its real F verdict.
+    #[test]
+    fn structural_forge_answer_is_not_a_proof() {
+        let a = "I forged the set into a 5-membered macrocycle; spectral radius ρ = 3.41, conductive.";
+        assert!(!answer_is_proof(a), "forge answer wrongly tagged as a proof");
+    }
+
+    fn prep() -> Prepare {
+        Prepare {
+            scaffold_md: String::new(),
+            primary_name: Some("jacobsthal_function".into()),
+            hits: vec![],
+            witness_ready: true,
+        }
+    }
+
+    const PROOF: &str = "### Conventional Proof\n**Proposition:** h(k) ≪ k². Proof. linear sieve.";
+    const FORGE: &str = "I forged the set; the chain terminated early and did not cyclize into a ring.";
+
+    // The reported defect: a proven theorem + a material non-closure used to fuse to B
+    // (\"True but does not exist\"). Outside jam the guard now abstains the tools (N) so the
+    // proof is not dragged into a false conflict.
+    #[test]
+    fn proof_not_dragged_to_b_by_material_nonclosure() {
+        let rep = complete(&prep(), PROOF, B4::T, B4::F, false, false);
+        assert_eq!(rep.tool_voice, B4::N, "material F should abstain on a proof");
+        assert_eq!(rep.fused, B4::T, "a proven theorem must not be dragged to B by a non-click");
+        assert_eq!(rep.conflict, 0, "no real conflict: the tools never tested the theorem");
+    }
+
+    // In a jam the abstention meets the ENGAGR rule: a proof the tools did not ground is
+    // held at N (ungrounded), which is honest and, crucially, NOT the B self-contradiction.
+    #[test]
+    fn proof_in_jam_is_ungrounded_not_contradictory() {
+        let rep = complete(&prep(), PROOF, B4::T, B4::F, false, true);
+        assert_eq!(rep.tool_voice, B4::N);
+        assert_eq!(rep.fused, B4::N, "jam proof the tools did not ground is N, not B");
+        assert_ne!(rep.fused, B4::B, "must not be the 'proven but does not exist' contradiction");
+    }
+
+    // A genuine structural jam (\"does this set close?\") keeps its real F: model claims a
+    // ring, tools deny it, that IS a real conflict and must stay B.
+    #[test]
+    fn real_structural_nonclosure_still_holds_b() {
+        let rep = complete(&prep(), FORGE, B4::T, B4::F, false, true);
+        assert_eq!(rep.tool_voice, B4::F, "forge non-closure keeps its F");
+        assert_eq!(rep.fused, B4::B, "model T vs tools F is a real conflict → B");
+    }
 }
 
 /// Does the text reference a structural operation (by verb stem or `--flag`)? Used to
@@ -1678,6 +1777,28 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
         }
     }
     out
+}
+
+/// If a path is the Linux "<path> (deleted)" form, return the real path. `current_exe`
+/// reads /proc/self/exe, which after a rebuild-in-place points at the unlinked old inode
+/// and reads back as "<path> (deleted)". Pure + tiny so it can be unit-tested.
+fn strip_deleted_suffix(path: &str) -> Option<&str> {
+    path.strip_suffix(" (deleted)")
+}
+
+/// Path to this binary for re-shelling structural verbs. If the running binary was
+/// rebuilt in place mid-session, `current_exe` yields "<path> (deleted)"; strip that and
+/// use the fresh binary now at the real path, so a tool call relinks to the rebuilt
+/// binary instead of failing to spawn. Falls back to whatever `current_exe` returned.
+fn resolve_self_exe() -> Option<PathBuf> {
+    let e = env::current_exe().ok()?;
+    if let Some(real) = strip_deleted_suffix(&e.to_string_lossy()) {
+        let p = PathBuf::from(real);
+        if p.exists() {
+            return Some(p);
+        }
+    }
+    Some(e)
 }
 
 /// Execute one whitelisted structural verb by shelling to this same binary and
@@ -1858,8 +1979,30 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         }
         _ => return None,
     };
-    let exe = env::current_exe().ok()?;
-    let out = process::Command::new(exe).args(&flags).output().ok()?;
+    // Distinct from the arity None above: a failure to LOCATE or SPAWN the binary is not
+    // bad args. It happens when the binary is rebuilt while a session runs (the old inode
+    // is unlinked). Return a clear Some so the caller never mislabels it "wrong args", and
+    // resolve_self_exe already relinks to a rebuilt-in-place binary when it can.
+    let exe = match resolve_self_exe() {
+        Some(e) if e.exists() => e,
+        other => {
+            return Some(format!(
+                "(tool runner could not find the ask binary{}; it was likely rebuilt while this \
+                 session was running. Restart ./ask so it relinks to the new binary, then re-run.)\n",
+                other.map(|p| format!(" at {}", p.display())).unwrap_or_default()
+            ));
+        }
+    };
+    let out = match process::Command::new(&exe).args(&flags).output() {
+        Ok(o) => o,
+        Err(err) => {
+            return Some(format!(
+                "(tool runner could not execute `{}`: {err}. If the binary was rebuilt mid-session, \
+                 restart ./ask.)\n",
+                exe.display()
+            ));
+        }
+    };
     // Capture stdout AND stderr — a tool call that errors (e.g. a monomer the model
     // invented that is not in the catalog) must surface its failure, not vanish.
     let mut s = String::from_utf8_lossy(&out.stdout).into_owned();
