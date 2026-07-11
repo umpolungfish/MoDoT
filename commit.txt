@@ -1,38 +1,26 @@
-Click then polymerize inline (A+B token), and bind the operator to tool-truth (the golem)
+Stop click from silently swallowing a 3rd name -- refuse honestly and route the combine
 
-Two things, one idea: the operator should be a golem -- perfect intellect and the
-ability to speak, but constrained within the bounds of the harness and the tools. It
-may think freely; it may only speak what the tools ground.
+Watching the agent combine {binah monad ankh}, it emitted TOOL: click binah monad
+ankh. click is pairwise, and run_structural_tool was silently dropping everything past
+the first two names -- so it ran click binah monad, threw ankh away, and let the model
+narrate "all three collapse into one object." A silent arg-drop that manufactures a
+false premise, exactly the kind of leak the golem constraint is meant to close, and
+especially wrong now that I DO have the tool for combining three things (the + pre-click).
 
-1. CLICK THEN POLYMERIZE (order of operations). A `+`-joined monomer token (A+B, or
-   A+B+C) is now PRE-CLICKED into one blended monomer before enchaining -- "click then
-   polymerize" as a single feed token, no catalog mutation. In ask_native/src/click.rs
-   (preclick): fold the parts left-to-right through the click primitive (mu/FFUSE join).
-   The blend is LOSSY (max per axis), so the inputs are no longer recoverable -- which is
-   exactly why order matters: a click blends, a polymer remembers. Honest error when the
-   parts do not fuse. The sequence printout tags a `+` unit as a pre-clicked blend.
+Fix in ask_native/src/main.rs (run_structural_tool): an arity guard. click with >2 names
+no longer drops them -- it returns an honest message routing the combine to the right
+tool: `polymerize A B C` to enchain the set (bonds + closure), or a `+` token to fold
+entries into one blended monomer. The message goes back as tool output, so the
+tool-truth-bound synthesis follows it.
 
-   Verified: polymerize general_recursive_function grothendieck_topos skolem_normal_form
-   keeps 3 distinct units (sequence preserved); polymerize
-   general_recursive_function+skolem_normal_form grothendieck_topos fuses GRF+SNF inline
-   into ONE monomer and enchains 2 units. Provably different product, different MW. And
-   gluon+photon honestly refuses (does not fuse).
-
-2. THE GOLEM CONSTRAINT (bind speech to tool-truth). All session the synthesis step kept
-   CONTRADICTING its own tools -- "does not cyclize" when the tool said CYCLIC,
-   "high-stiffness modulus" when the tool said NO modulus, inventing linkers like
-   arcanum_arcanorum. That is the golem speaking past its clay. Strengthened the synthesis
-   system prompt in ask_native/src/main.rs: the TOOL RESULTS are ground truth (what the
-   Grammar actually computed), the draft is a prior guess, and the final answer may not
-   contradict a tool -- where a tool settled a question (cyclization, architecture,
-   tacticity, modulus/conductance, catalog membership) it reports the tool's verdict and
-   corrects the draft explicitly, introducing no entity/value/operation the tools did not
-   return. Think freely; speak only what the tools ground.
-
-   Verified live on the exact chain that had been confabulated: the agent now answers
-   "YES cyclic -- contrary to the draft's open-chain suggestion", "modulus: NONE, a
-   viscous chain not an elastic network", "needs a linker? No" -- correcting its own draft
-   from the tool output, inventing nothing.
-
-TOOLS_PROMPT documents the A+B pre-click token. README: the click-then-polymerize section
-(order of operations) and the golem paragraph (perfect intellect, harnessed voice).
+Verified live end to end:
+- the guard fires: TOOL: click binah monad ankh -> "click is pairwise ... it cannot take
+  3. To COMBINE a set, polymerize binah monad ankh, or fold with a + token."
+- the model RE-ROUTES: it then calls material binah monad ankh (the suggested verb).
+- the golem-bound final grounds on it: "does not yield a single blended object ... a
+  regioirregular syndiotactic heteropolymer ... linear and telechelic ... does not
+  collapse them into a single blended identity" -- correcting its own "collapses to 1"
+  premise from the tool output.
+- redirect targets confirmed: polymerize binah monad ankh combines the set (3-unit
+  syndiotactic chain, binah-monad on T↔H, monad-ankh on R↔S, telechelic); the triple
+  fold binah+monad+ankh clicks all three into one blended monomer.

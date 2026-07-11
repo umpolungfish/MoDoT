@@ -1296,6 +1296,18 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
 /// The whitelist never includes `ask`, so there is no recursion.
 fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
     let a = |i: usize| args.get(i).cloned();
+    // Arity guard: `click` is pairwise. Passing 3+ names used to silently drop all but
+    // the first two — which let the model claim it fused a whole set. Refuse honestly and
+    // route the combine to the right tool (the `+` pre-click / polymerize).
+    if verb == "click" && args.len() > 2 {
+        return Some(format!(
+            "click is pairwise: 1 name sweeps the catalog, 2 names click a pair — it cannot take {}. \
+             To COMBINE a set of entries, `polymerize {}` (enchains them, reports how they bond and \
+             whether they close into a ring), or fold entries into one blended monomer with a `+` token, \
+             e.g. `polymerize {}+{} {}`.\n",
+            args.len(), args.join(" "), args[0], args[1], args.get(2).cloned().unwrap_or_default()
+        ));
+    }
     let flags: Vec<String> = match verb {
         "click" => {
             let mut v = vec!["--click".to_string(), a(0)?];
