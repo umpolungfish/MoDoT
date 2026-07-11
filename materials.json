@@ -1,0 +1,59 @@
+{
+  "diophantine_ring": {
+    "branched": true,
+    "conductance": "CONDUCTIVE",
+    "energy": 5.4641,
+    "n": 3,
+    "rho": 2.7321,
+    "spectrum": [
+      2.7321,
+      -0.7321,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "ouroborus",
+      "iut_theory",
+      "uniqueness_diophantine_proof"
+    ],
+    "weakest": 1.0
+  },
+  "fundamental_covering_system": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "fundamental_group_of_circle",
+      "covering_space_theory"
+    ],
+    "weakest": 1.25
+  },
+  "iut_ouroborus_d12": {
+    "branched": true,
+    "conductance": "CONDUCTIVE",
+    "energy": 6.3246,
+    "n": 4,
+    "rho": 3.1623,
+    "spectrum": [
+      3.1623,
+      0.0,
+      -0.0,
+      -3.1623
+    ],
+    "strain": 0.0,
+    "units": [
+      "uniqueness_diophantine_proof",
+      "ouroborus",
+      "iut_theory",
+      "d_12_dual_link_sic_povm"
+    ],
+    "weakest": 1.0
+  }
+}

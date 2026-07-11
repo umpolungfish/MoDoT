@@ -1,0 +1,21 @@
+{
+  "branched": true,
+  "conductance": "CONDUCTIVE",
+  "energy": 6.3246,
+  "n": 4,
+  "rho": 3.1623,
+  "spectrum": [
+    3.1623,
+    0.0,
+    -0.0,
+    -3.1623
+  ],
+  "strain": 0.0,
+  "units": [
+    "uniqueness_diophantine_proof",
+    "ouroborus",
+    "iut_theory",
+    "d=12_dual_link_sic_povm"
+  ],
+  "weakest": 1.0
+}
