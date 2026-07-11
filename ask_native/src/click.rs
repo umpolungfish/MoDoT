@@ -3000,6 +3000,20 @@ fn sym_eigenvalues(mut a: Vec<Vec<f64>>) -> Vec<f64> {
 /// radius ρ (the principal ring-current mode), and the spectral gap. ρ = 2 exactly witnesses
 /// a pure unbranched cycle; ρ > 2 witnesses branching — the same fact the topology line
 /// reports, now as a computed number rather than an asserted adjective.
+/// The ring-adjacency spectral gap ρ − |λ₂|. Zero means a degenerate/flat top spectrum:
+/// no privileged mode (the symmetric, settled reading). Shared by the spectrum print and
+/// the clarity reading so both quote the same number.
+fn ring_spectral_gap(units: &[Tuple], theta: f32) -> f64 {
+    if units.len() < 2 {
+        return 0.0;
+    }
+    let ev = sym_eigenvalues(ring_adjacency(units, theta));
+    let mut mags: Vec<f64> = ev.iter().map(|x| x.abs()).collect();
+    mags.sort_by(|a, b| b.partial_cmp(a).unwrap_or(std::cmp::Ordering::Equal));
+    let rho = mags.first().copied().unwrap_or(0.0);
+    if mags.len() >= 2 { rho - mags[1] } else { rho }
+}
+
 fn print_ring_spectrum(units: &[Tuple], theta: f32) {
     let n = units.len();
     if n < 2 {
@@ -3024,7 +3038,7 @@ fn print_ring_spectrum(units: &[Tuple], theta: f32) {
     println!("    spectral radius ρ = {rho:.4}  ({verdict})");
     println!("    spectrum: [{}]", spec.join(", "));
     println!(
-        "    spectral gap (ρ − |λ₂|) = {gap:.4} — the wider the gap, the more a single ring-current mode dominates transport."
+        "    spectral gap (ρ − |λ₂|) = {gap:.4} — a wide gap means one mode dominates (the ring leans on a single strut); a gap of 0 is a flat/degenerate top spectrum, NO privileged mode (the symmetric, settled reading, not a deficiency)."
     );
     println!(
         "    graph energy Σ|λ| = {energy:.4} — the ring's total spectral weight; where ρ is stiffness (the dominant mode), this is toughness (the reserve carried across all modes)."
@@ -3085,13 +3099,29 @@ fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
             let d = if fwd { "→ reductive" } else { "← oxidative" };
             println!("    conductance: CONDUCTIVE — a winding quantum Ω circulates the whole ring one way ({d}); a persistent ring current is supported (∮ carrier closes). This ring SUSTAINS — it carries a modulus.");
         }
-        Cond::Frustrated => println!("    conductance: FRUSTRATED — every junction passes a carrier, but no single direction circulates the loop (no persistent global current; an ohmic/segmented conductor)."),
+        Cond::Frustrated => println!("    conductance: BALANCED (\"frustrated\") — every junction passes a carrier, but no single direction is privileged, so no net global current circulates. Not a defect on its own: a balanced ring with no leaning direction (read the clarity line below with the strain)."),
         Cond::Insulating { blocked } => {
             let js: Vec<String> = blocked.iter().map(|&i| format!("{}→{}", i + 1, (i + 1) % n + 1)).collect();
             println!("    conductance: INSULATING — no carrier can pass junction(s) {} in either direction; the ring cannot circulate a current (the units are Ω-saturated/empty, a static ring not a dynamic one).", js.join(", "));
         }
     }
     print_ring_spectrum(units, theta);
+    // Clarity / stability (Lando's principle): the settled, verifiable object is the one
+    // where BOTH the strain and the adjacency gap vanish — a relaxed ring (no stored stress)
+    // with a flat/degenerate top spectrum (no privileged mode the argument leans on). A
+    // residual gap is a leaning mode; residual strain is stored stress; only the joint zero
+    // is clarion. A zero gap alone is the GOAL, not a frontier.
+    let gap = ring_spectral_gap(units, theta);
+    let flat = gap < 0.05;
+    let relaxed = strain < 0.15;
+    println!("  ── clarity (strain + spectral gap, read jointly) ──");
+    let line = match (relaxed, flat) {
+        (true, true) => "    SETTLED / CLARION — relaxed and flat-spectrum (no stored strain, no privileged mode): fully symmetric, every statement it supports is unambiguous. The stabilized endpoint — a zero gap here is the goal, not a defect.".to_string(),
+        (true, false) => format!("    STABLE BUT LEANING — relaxed, but one mode dominates (gap {gap:.3}); the argument still leans on a single strut. Workable, not yet clarion."),
+        (false, true) => format!("    SYMMETRIC BUT STRESSED — flat-spectrum (no privileged mode), but strain remains (σ {strain:.3}); the ring is forced shut against reluctant junctions. Anneal to settle."),
+        (false, false) => format!("    SHAKY — a leaning mode (gap {gap:.3}) AND stored strain (σ {strain:.3}): workable but unstable, the state where proofs come out shaky."),
+    };
+    println!("{line}");
 }
 
 /// Ring strain: the population σ of clean-bond drive around the loop. Near zero when every

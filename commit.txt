@@ -1,29 +1,34 @@
-Add the purification/diagnostic bench: fpt, trap, stain — alchemical set complete
+Read strain and spectral gap jointly: the clarity/stability line
 
-The last alchemical family, and with it all eleven classical techniques
-from the ob3ect roadmap (alchemical_tools_roadmap) are in:
-  - fpt M1 M2...       freeze-pump-thaw degassing: keep the units that form
-    a real bond (drive >= theta) with at least one neighbor (the strongly-
-    held core, EVALT), shed the ones that bond with nothing (the weakly-
-    held filtrate, EVALF); a unit held only just at threshold is
-    metastable (B). Runs on bond_forms/theta directly.
-  - trap A [X]         ionic trapping: sequester A by its R<->S charge in a
-    potential well (EVALT trapped) vs near-neutral tunneling escape
-    (EVALF); a counter-partner X of opposite charge deepens the well, and
-    the barrier lip is resonance (B). A held charge state, distinct from
-    set (which moves an electron).
-  - stain R M1 M2...   a family of diagnostic reagents keyed to a primitive
-    (kmno4/uv -> Criticality, chiral -> Chirality, ninhydrin -> Recognition,
-    iodine -> any live center): the units carrying the feature light up
-    (EVALT revealed), the rest stay dark (EVALF), a borderline unit is a
-    partial match (B).
+Lando's observation, now encoded: a shaky-but-workable proof forges a ring
+with strain AND a non-zero spectral gap; as the object stabilizes the
+strain drains out, the gap collapses to 0, and the statements it supports
+go clarion. The material sheet was misreading that endpoint. It stamped a
+zero gap as FRUSTRATED and the agent took it as a B-frontier negative,
+which is the transport frame being pejorative about the exact state a proof
+reaches when it clarifies (a flat, degenerate top spectrum = no privileged
+mode = maximal symmetry, the SIC tight-frame geometry).
 
-That closes the bench begun with the volatility, crystallization, and
-chromatography families: eleven verbs, all the one FSPLIT/FFUSE
-fractionate shape the oracle typed (a feedstock into a kept and a rejected
-arm), each grounded on the existing ordinal / bond / charge / ring
-machinery. Wired through the Cli flags and the agent verb whitelist
-(run_structural_tool + verb_usage + STRUCTURAL_VERBS + TOOLS_PROMPT +
-no-op-prod cues). Verified live: a fully-bound assembly that outgasses
-nothing, an ion too shallow to trap, and a permanganate stain that lights
-only the high-Criticality unit.
+Fixes, all in the material sheet:
+  - the spectral-gap line now reads a zero gap as a flat/degenerate top
+    spectrum, NO privileged mode (the symmetric, settled reading), not a
+    deficiency;
+  - the "frustrated" conductance is relabeled BALANCED and marked not a
+    defect on its own (defer to the clarity line + strain);
+  - a new clarity line reads the (strain, gap) pair JOINTLY:
+      both ~ 0        -> SETTLED / CLARION (the stabilized endpoint, the goal)
+      relaxed, gap>0  -> STABLE BUT LEANING (leans on one mode)
+      flat, strain>0  -> SYMMETRIC BUT STRESSED (anneal to settle)
+      both > 0        -> SHAKY (where proofs come out shaky)
+    Only the joint zero is clarion, per the principle.
+
+ring_spectral_gap() shares the gap number between the spectrum print and
+the clarity reading. Verified live: the Erdos AP ring (sigma=0.167, gap=0)
+reads SYMMETRIC BUT STRESSED, and a tight pair (sigma=0, gap=0) reads
+SETTLED / CLARION.
+
+Aside (why this pair and not the SIC residual): the canonical SIC closure
+residual frobenius_closure_residual was tested and is identically 0 for
+every state, because a valid SIC reconstructs any density matrix exactly
+(informational completeness). It cannot discriminate per object. The
+(strain, gap) pair does, so that is the clarity certificate.
