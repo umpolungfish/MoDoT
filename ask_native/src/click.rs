@@ -2706,6 +2706,92 @@ pub fn run_seed(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f3
     0
 }
 
+/// CLI: `./ask --tlc M1 M2 …`. Analytical chromatography: spread the set by Rf =
+/// mobility (1 − norm(Ř), the inverse of retention to the stationary phase), group the
+/// units into bands, and report how many distinct bands appear and which co-elute at the
+/// same Rf (the B frontier). Diagnostic — it counts and places, it does not isolate.
+pub fn run_tlc(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else { eprintln!("tlc: no catalog loaded"); return 2; };
+    if monomers.len() < 2 { eprintln!("tlc needs at least two units"); return 2; }
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("tlc: {e}"); return 2; }
+    };
+    let eps = 0.06_f32;
+    let mut scored: Vec<(String, f32)> =
+        units.iter().map(|u| (u.name.clone(), 1.0 - u.norm(2).unwrap_or(0.0))).collect();
+    scored.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+    println!("TLC (spread by Rf = mobility, the inverse of retention Ř; count the bands):  {{{}}}", monomers.join(", "));
+    let mut bands: Vec<Vec<(String, f32)>> = Vec::new();
+    for (n, rf) in scored {
+        match bands.last() {
+            Some(b) if (b[0].1 - rf).abs() < eps => bands.last_mut().unwrap().push((n, rf)),
+            _ => bands.push(vec![(n, rf)]),
+        }
+    }
+    let mut co = 0;
+    for (bi, band) in bands.iter().enumerate() {
+        let rf = band[0].1;
+        let names: Vec<&str> = band.iter().map(|(n, _)| n.as_str()).collect();
+        if band.len() > 1 { co += band.len(); }
+        println!("  band {:>2} (Rf={rf:.2}): {}{}", bi + 1, names.join(", "),
+                 if band.len() > 1 { "   ⚠ co-elution (same Rf)" } else { "" });
+    }
+    println!("  {} distinct band(s) over {} unit(s).", bands.len(), units.len());
+    if co == 0 { println!("  ✓ every unit resolves to its own band."); }
+    else { println!("  ⚠ {co} unit(s) co-elute (B) — TLC cannot tell them apart at this Rf."); }
+    0
+}
+
+/// CLI: `./ask --column M1 M2 … [on S]`. Preparative chromatography: elute the set in
+/// order of retention, least-retained first, reporting the resolution gap between each
+/// neighboring pair (a gap below epsilon is co-elution into a shared fraction, B). With
+/// `on S`, retention is affinity to the stationary phase S (the bond drive to S);
+/// without, the intrinsic retention norm(Ř).
+pub fn run_column(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else { eprintln!("column: no catalog loaded"); return 2; };
+    let (sample_names, stat_name): (&[String], Option<&[String]>) =
+        match split_on(monomers, "on") { Some((s, st)) => (s, Some(st)), None => (monomers, None) };
+    if sample_names.len() < 2 { eprintln!("column needs at least two units (column M1 M2 … [on S])"); return 2; }
+    let sample = match load_monomers(cat, sample_names, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("column: {e}"); return 2; }
+    };
+    let stat = match stat_name {
+        Some(st) if st.len() == 1 => match load_monomers(cat, st, theta) {
+            Ok(u) => u.into_iter().next(),
+            Err(e) => { eprintln!("column: {e}"); return 2; }
+        },
+        Some(_) => { eprintln!("column: `on` takes exactly one stationary phase"); return 2; }
+        None => None,
+    };
+    let eps = 0.06_f32;
+    let retention = |u: &Tuple| -> f32 {
+        match &stat {
+            Some(s) => bond_forms(u, s, theta).unwrap_or(0.0),
+            None => u.norm(2).unwrap_or(0.0),
+        }
+    };
+    let mut scored: Vec<(String, f32)> = sample.iter().map(|u| (u.name.clone(), retention(u))).collect();
+    scored.sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal));
+    let phase = stat.as_ref().map(|s| format!("affinity to {}", s.name)).unwrap_or_else(|| "intrinsic retention Ř".to_string());
+    println!("column chromatography (elute by {phase}, least-retained first):  {{{}}}", sample_names.join(", "));
+    let mut co = 0;
+    for i in 0..scored.len() {
+        let (n, r) = (scored[i].0.clone(), scored[i].1);
+        if i + 1 < scored.len() {
+            let gap = scored[i + 1].1 - r;
+            let flag = if gap < eps { co += 1; "   ⚠ co-elutes with the next (shared fraction)" } else { "" };
+            println!("  fraction {:>2}: {n}   retention={r:.2}   Δ→next={gap:.2}{flag}", i + 1);
+        } else {
+            println!("  fraction {:>2}: {n}   retention={r:.2}   (most retained, last off)", i + 1);
+        }
+    }
+    if co == 0 { println!("  ✓ baseline resolution: every neighbor separates into its own fraction."); }
+    else { println!("  ⚠ {co} neighboring pair(s) co-elute (B) — overlap in a shared fraction."); }
+    0
+}
+
 /// Can a winding quantum Ω circulate the ring (units treated as a cycle)? A consistent
 /// one-way circulation is a persistent ring current (the loop SUSTAINS itself, μ∘δ=id
 /// around the cycle). Reuses the Ω-transfer primitive at each junction.

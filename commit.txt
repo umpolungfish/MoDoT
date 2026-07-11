@@ -1,30 +1,20 @@
-Add the crystallization bench: crystallize, cocrystallize, seed
+Add the chromatography bench: tlc, column
 
-The second alchemical family, ordering-to-a-solid, grounded on the ob3ect
-typings (alchemical_tools_roadmap) and built on the existing ring/charge
-machinery rather than new metrics:
-  - crystallize M1 M2...   grow the ordered lattice from a pool via
-    best_ordering: the units that enchain are lattice-bound (EVALT), the
-    rest are rejected into the mother-pool (EVALF). A closed ring is a
-    crystal (T), a partial fit is the interfacial layer (B), nothing
-    enchaining is amorphous (F). Distinct from anneal, which only relaxes
-    an already-closed loop; this forms one from a set and rejects the
-    supernatant, exactly as the oracle's stereochemical-filter typing.
-  - cocrystallize A B       one NON-covalent lattice of two components held
-    by best_weak_complement (opposite charge on a live pair) in 1:1
-    stoichiometry, no reaction center consumed. If they also click
-    covalently, that bond is the stronger option and the cocrystal is the
-    non-bonded co-lattice; no complement is charge frustration (B).
-    Distinct from click (covalent fusion).
-  - seed M1 M2 ... with S   template-directed: units whose handedness Ħ
-    (index 9) matches the seed copy its polymorph (EVALT, templated), the
-    rest take the default (EVALF, spontaneous), an even split is racemic
-    twinning (B). Non-conservative, the arms fuse to total crystalline
-    mass, the one op the oracle typed with a fuse_result different from the
-    input.
+The third alchemical family, separation by retention, on the axis the
+ob3ect typing put both under (retention factor / phase partition), which
+is Recognition Ř (index 2):
+  - tlc M1 M2...        analytical: spread the set by Rf = mobility
+    (1 - norm(Ř), the inverse of retention), group the units into bands,
+    and report how many distinct bands appear and which co-elute at the
+    same Rf (B). It counts and places, it does not isolate.
+  - column M1 M2 ... [on S]  preparative: elute least-retained first with
+    the resolution gap to each next fraction (a gap below epsilon is
+    co-elution into a shared fraction, B). With `on S`, retention is the
+    bond drive to the stationary phase S; without, the intrinsic
+    retention norm(Ř). TLC counts, column isolates, exactly the
+    analytical-vs-preparative split the oracle typed.
 
-Wired through the Cli flags and the agent verb whitelist (run_structural_tool
-+ verb_usage + STRUCTURAL_VERBS + TOOLS_PROMPT + no-op-prod cues), same as
-the volatility family. Verified live on real catalog entries across the T,
-B, and F paths (a closed crystal, a frustrated cocrystal and a formed one,
-a fully templated seed).
+Wired through the Cli flags and the agent verb whitelist as before.
+Verified live: TLC resolves a lone high-Rf band from a four-way
+co-elution, and column-on-S elutes a non-affine unit first while two
+S-binders co-elute at full retention.

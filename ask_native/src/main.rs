@@ -289,6 +289,14 @@ struct Cli {
     #[arg(long = "seed", num_args = 3.., value_names = ["MONOMERS"])]
     seed: Option<Vec<String>>,
 
+    /// TLC: analytical chromatography — spread a set by Rf and count the bands.
+    #[arg(long = "tlc", num_args = 2.., value_names = ["MONOMERS"])]
+    tlc: Option<Vec<String>>,
+
+    /// Column chromatography: elute a set by retention. `column M1 M2 … [on S]`.
+    #[arg(long = "column", num_args = 2.., value_names = ["MONOMERS"])]
+    column: Option<Vec<String>>,
+
     /// Recall a registered material by name: `--recall NAME`. Prints its stored sheet from the
     /// material registry without respecifying it from units. Pair with `--forge … --register`.
     #[arg(long = "recall", value_name = "NAME")]
@@ -1300,6 +1308,8 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: crystallize M1 M2… grow the ordered lattice from a set: the units that fit (lattice) vs the rejected mother-pool; a closed ring is a crystal, a partial fit is interfacial, none is amorphous
   TOOL: cocrystallize A B  one NON-covalent lattice of two complementary components (opposite charge on a live pair), 1:1, no bond consumed — distinct from click (covalent)
   TOOL: seed M1 M2… with S template the crystal on seed S's handedness Ħ: units matching S copy its polymorph (templated) vs the default (spontaneous); an even split is racemic twinning
+  TOOL: tlc M1 M2…         analytical chromatography: spread the set by Rf (mobility, inverse of retention Ř), count the bands, and flag units that co-elute at the same Rf. Counts, does not isolate
+  TOOL: column M1 M2… [on S]  preparative chromatography: elute the set least-retained first, with the resolution gap to each next fraction; `on S` ranks by affinity to stationary phase S, else intrinsic retention
   TOOL: register NAME M1 M2…  forge the set into a ring and store its full sheet in the material library under NAME (recall it later by name)
   TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
@@ -1782,6 +1792,7 @@ fn mentions_structural_work(text: &str) -> bool {
         "--recall", "recall", "register", "--register",
         "distill", "sublim", "volatility", "azeotrope",
         "crystalliz", "cocrystal", "polymorph", "lattice",
+        "chromatograph", "elut", "retention factor", " Rf ",
     ];
     let low = text.to_lowercase();
     CUES.iter().any(|c| low.contains(c))
@@ -2043,6 +2054,22 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             v.extend(args.iter().cloned());
             v
         }
+        "tlc" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--tlc".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "column" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--column".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
         _ => return None,
     };
     // Distinct from the arity None above: a failure to LOCATE or SPAWN the binary is not
@@ -2130,6 +2157,8 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "crystallize"   => "crystallize M1 M2...; 2+ names (grow the lattice, reject non-fitting)",
         "cocrystallize" => "cocrystallize A B; 2 names (non-covalent co-lattice)",
         "seed"          => "seed M1 M2 ... with S; a set, then `with`, then one seed",
+        "tlc"           => "tlc M1 M2...; 2+ names (spread by Rf, count bands)",
+        "column"        => "column M1 M2 ... [on S]; 2+ names, optional `on S` stationary phase",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         _ => return None,
     })
@@ -2143,6 +2172,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "compare", "dope", "fuse", "cleave", "anneal", "register", "recall", "imscribe",
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
+    "tlc", "column",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -2824,6 +2854,8 @@ impl CliClone for Cli {
             crystallize: self.crystallize.clone(),
             cocrystallize: self.cocrystallize.clone(),
             seed: self.seed.clone(),
+            tlc: self.tlc.clone(),
+            column: self.column.clone(),
             recall: self.recall.clone(),
             export: self.export.clone(),
             jam: self.jam,
@@ -2991,6 +3023,12 @@ fn main() {
     }
     if let Some(names) = &cli.seed {
         process::exit(click::run_seed(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.tlc {
+        process::exit(click::run_tlc(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.column {
+        process::exit(click::run_column(cat_ref, names, cli.theta));
     }
 
     // Imscriptive polymerization: `./ask --polymerize M1 M2 …` — chain the clicks.
