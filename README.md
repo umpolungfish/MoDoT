@@ -441,6 +441,29 @@ LLM in the path) and are exposed both as CLI flags and as agent verbs.
 ./ask --fuse alchemical_hermetic_universe dialetheia completeness hermetic_seal + iut_theory ouroborus uniqueness_diophantine_proof
 ```
 
+**Transforming and persisting materials** (`--cleave`, `--anneal`, `--register`, `--recall`,
+`--export`). Two more deterministic transforms and a named library round out the algebra.
+
+* `--cleave M1 M2 …` is ring fission, the reverse of `--fuse`: forge the ring, then cut it
+  into two daughter rings on complementary arcs (each re-closing on its own) and report both
+  daughters and their spectra, or that the ring holds as one loop.
+* `--anneal M1 M2 …` relaxes a ring to its lowest-strain ordering: the forge order rings well
+  but is quenched, and annealing searches the orderings that ring for the most evenly loaded
+  one, the settled ground state on the same units.
+* `--forge … --register NAME` stores a forged material's whole sheet (ordered units, spectrum,
+  ρ, conductance, strain, energy) in `materials.json`, a MoDoT-local named library. `--recall
+  NAME` reloads it by name without respecifying the units. `--forge … --export PATH` writes the
+  same record to a standalone portable file.
+
+```bash
+# cleave the 7-unit ring back into daughter rings; anneal a ring to relax its strain
+./ask --cleave alchemical_hermetic_universe dialetheia completeness hermetic_seal iut_theory ouroborus uniqueness_diophantine_proof
+./ask --anneal alchemical_hermetic_universe dialetheia completeness hermetic_seal iut_theory ouroborus uniqueness_diophantine_proof
+# register a material under a name, then recall it whole later
+./ask --forge iut_theory ouroborus uniqueness_diophantine_proof --register diophantine_ring
+./ask --recall diophantine_ring
+```
+
 **The modulus** (`--polymerize … --modulus`) — closing a ring is cheap; making it
 **sustain** is not, and that difference is a material's **modulus** (its elasticity). A
 polymer gets its modulus from network loops, and in this register a loop only sustains
@@ -484,7 +507,7 @@ answers. So it can run a **dependent chain** — `polymerize` → *see* it termi
 front-loading one batch of guesses and narrating the rest. It **does** the steps rather
 than describing them. This also *corrects the model's guesses*: unaided it will confidently
 mis-call a pathway's closure; handed the real `pathway` output it gives the right answer. Whitelisted verbs only (`click switch excite set homolyze scan complement cycle
-pathway polymerize close material modulus arrange forge compare dope fuse`) — never `ask`, so no recursion. The prompt also steers the
+pathway polymerize close material modulus arrange forge compare dope fuse cleave anneal register recall`) — never `ask`, so no recursion. The prompt also steers the
 agent to use `close` (not `scan`) for cyclization, and tool stdout **and stderr** are
 fed back, so a call that errors (e.g. a monomer the model invented) surfaces its failure
 instead of vanishing.
