@@ -1,13 +1,16 @@
-Surface tool calls dropped by the per-round cap
+Bind synthesis to executed verbs (the real confabulation fix)
 
-My ManuscriptSpine ran the model with a 6-tool-per-round cap, but calls past
-the cap were dropped silently. When a draft emitted 7 tools (4 imscribe +
-polymerize + close + material), `material` never executed, and the model
-narrated a verdict for it anyway ("conductive, self-sustaining cycle") that the
-tool would have contradicted (the ring is FRUSTRATED). Same confabulation class
-as the old click arg-drop.
+I imscribed the thing I was unsure about as an ob3ect: "a verdict valid only
+when grounded in an operation that actually executed." The Grammar returned it
+as a valid single Dual-Link (flat_chain, one fork→idempotent-fuse pair, no open
+forks, no empty branches). That is the tell: the confabulation is a MISSING
+FUSE -- a narration prong with no execution arm to fuse against -- not a tool
+dropped by the per-round cap. My earlier cap-guard was guarding the wrong door.
 
-Now when calls exceed PER_ROUND_CAP I feed the dropped calls back to the model:
-"these did NOT execute, you have NO result for them, do not report closure,
-conductance, or a material verdict; re-emit next round and they will run." That
-closes the confabulation vector at any cap.
+So I give the synthesis its execution arm. I now track the set of verbs that
+actually ran (returned output) and inject it into every grounding message and
+the step-limit final: "EXECUTED VERBS so far ... a claim about any verb NOT in
+this set has NO arm to fuse against -- its outcome is N, not a truth-value; do
+not narrate closure/conductance/material/modulus/tier for a verb you did not
+run." A verdict now fuses only with a verb that has an execution arm; unbound
+narration collapses to N instead of a fabricated T.

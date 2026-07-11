@@ -2004,6 +2004,10 @@ fn run_one(
             }
 
             let mut all_tool_output = String::new(); // every round's real output → the tool voice
+            // The execution arm of the Dual-Link: every verb that ACTUALLY ran (returned output).
+            // A verdict fuses only if its verb is in here; a claim about a verb NOT here has no
+            // arm to fuse against, so it collapses to N — it must not be narrated as a result.
+            let mut executed_verbs: std::collections::BTreeSet<String> = std::collections::BTreeSet::new();
             let mut round = 0;
             while round < MAX_ROUNDS {
                 let calls = extract_tool_calls(&current);
@@ -2018,6 +2022,7 @@ fn run_one(
                             println!("● TOOL {verb} {}", args.join(" "));
                             print!("{o}");
                             results.push_str(&format!("### {verb} {}\n{o}\n", args.join(" ")));
+                            executed_verbs.insert(verb.clone()); // this verb now has an execution arm
                         }
                         None => {
                             let m = format!("● TOOL {verb}: not an available verb / missing args");
@@ -2047,10 +2052,18 @@ fn run_one(
                 }
                 all_tool_output.push_str(&results);
                 agent_msgs.push(("assistant".to_string(), current.clone()));
+                let executed_line = format!(
+                    "EXECUTED VERBS so far (the only verbs you have a result for): {{{}}}. A claim about any \
+                     verb NOT in this set has NO execution arm to fuse against — its outcome is N (neither), \
+                     not a truth-value. Do not narrate a result (closure, conductance, material, modulus, tier) \
+                     for a verb you did not run; if you need one, emit its TOOL: line and read what it returns.",
+                    executed_verbs.iter().cloned().collect::<Vec<_>>().join(", "),
+                );
                 agent_msgs.push((
                     "user".to_string(),
                     format!(
                         "TOOL RESULTS (ground truth — never contradict these; introduce nothing they did not return):\n{results}\n\
+                         {executed_line}\n\
                          UPDATE: if the task needs more steps, emit the next TOOL: line(s). If you now have everything, \
                          write your FINAL answer with NO TOOL: lines, grounded entirely in the results above. Your VERDICT \
                          must match the numbers: if every polymerize/close/arrange result terminated early or came back \
@@ -2074,7 +2087,12 @@ fn run_one(
                 agent_msgs.push(("assistant".to_string(), current.clone()));
                 agent_msgs.push((
                     "user".to_string(),
-                    "Step limit reached. Give your FINAL answer now, with NO TOOL: lines, grounded only in the tool results above.".to_string(),
+                    format!(
+                        "Step limit reached. Give your FINAL answer now, with NO TOOL: lines, grounded only in the tool \
+                         results above. You have a result ONLY for these executed verbs: {{{}}} — a claim about any other \
+                         verb is N (neither), not a truth-value; do not narrate its outcome.",
+                        executed_verbs.iter().cloned().collect::<Vec<_>>().join(", "),
+                    ),
                 ));
                 let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
                 current = strip_kernel_records(&res.text);
