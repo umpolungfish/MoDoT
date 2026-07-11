@@ -2125,6 +2125,100 @@ pub fn run_fuse(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f3
     0
 }
 
+/// CLI entry: `./ask --cleave M1 M2 … Mn`. Ring fission, the δ-split reverse of `--fuse`.
+/// Forge the set into its best ring, then cut the loop at two junctions so it falls into two
+/// daughter rings on complementary arcs, each re-closing head-to-tail on its own. Reports the
+/// parent and the best fission (both daughters and their spectra), or that the ring will not
+/// cleave. Each daughter shares the parent's units — the fission conserves the vertex set.
+pub fn run_cleave(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("cleave: no catalog loaded");
+        return 2;
+    };
+    if monomers.len() < 4 {
+        eprintln!("cleave: need at least four monomers (two daughter rings of ≥2 units each)");
+        return 2;
+    }
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("cleave: {e}"); return 2; }
+    };
+    let arr = best_ordering(&units, theta);
+    let ring: Vec<Tuple> = arr.order.iter().map(|&i| units[i].clone()).collect();
+    let names: Vec<String> = arr.order.iter().map(|&i| monomers[i].clone()).collect();
+    let n = ring.len();
+
+    println!("cleave (fission a ring into two daughter rings):");
+    let parent_sig = ring_signature(&ring, theta);
+    match parent_sig {
+        Some((r, c, w)) => println!("  parent: [{}]\n          ρ={r:.4}  {c}  weakest Δ={w:.2}", names.join(" · ")),
+        None => {
+            println!("  parent: [{}]  — does NOT close into a ring; nothing to cleave (forge or --close it first).", names.join(" · "));
+            return 0;
+        }
+    }
+
+    // Search contiguous bipartitions of the cycle: daughter A = ring[a..a+l], daughter B = the
+    // complementary arc. A cut leaves two rings only if BOTH arcs re-close on their own head→tail
+    // bond. Canonicalize each partition by daughter-A's sorted indices so the two arcs of one cut
+    // are not counted twice; rank by the weaker daughter's stability (a ring is its weakest link).
+    let mut seen: Vec<Vec<usize>> = Vec::new();
+    let mut best: Option<(usize, usize, f32)> = None; // (start a, length l, score)
+    for l in 2..=(n - 2) {
+        for a in 0..n {
+            let idx_a: Vec<usize> = (0..l).map(|k| arr.order[(a + k) % n]).collect();
+            let idx_b: Vec<usize> = (0..(n - l)).map(|k| arr.order[(a + l + k) % n]).collect();
+            let da: Vec<Tuple> = (0..l).map(|k| ring[(a + k) % n].clone()).collect();
+            let db: Vec<Tuple> = (0..(n - l)).map(|k| ring[(a + l + k) % n].clone()).collect();
+            if click_pair(&da[l - 1], &da[0], theta).is_err()
+                || click_pair(&db[n - l - 1], &db[0], theta).is_err()
+            {
+                continue;
+            }
+            let mut canon = idx_a.clone();
+            canon.sort_unstable();
+            let mut canon_b = idx_b.clone();
+            canon_b.sort_unstable();
+            let key = canon.clone().min(canon_b); // the smaller-indexed arc labels the partition
+            if seen.contains(&key) {
+                continue;
+            }
+            seen.push(key);
+            let sa = ring_signature(&da, theta).map_or(0.0, |s| s.2);
+            let sb = ring_signature(&db, theta).map_or(0.0, |s| s.2);
+            let score = sa.min(sb);
+            if best.map_or(true, |(_, _, bs)| score > bs) {
+                best = Some((a, l, score));
+            }
+        }
+    }
+
+    match best {
+        None => println!("  fission: this ring does NOT cleave — no cut leaves both arcs closing into daughter rings. A single-bridge ring holds as one loop."),
+        Some((a, l, _)) => {
+            let da: Vec<Tuple> = (0..l).map(|k| ring[(a + k) % n].clone()).collect();
+            let db: Vec<Tuple> = (0..(n - l)).map(|k| ring[(a + l + k) % n].clone()).collect();
+            let na: Vec<String> = (0..l).map(|k| names[(a + k) % n].clone()).collect();
+            let nb: Vec<String> = (0..(n - l)).map(|k| names[(a + l + k) % n].clone()).collect();
+            let show = |tag: &str, units: &[Tuple], nm: &[String]| match ring_signature(units, theta) {
+                Some((r, c, w)) => println!("  {tag}: [{}]\n            ρ={r:.4}  {c}  weakest Δ={w:.2}", nm.join(" · ")),
+                None => println!("  {tag}: [{}]  — open", nm.join(" · ")),
+            };
+            println!("  best fission ({} distinct cut(s) leave both arcs closing):", seen.len());
+            show("daughter A", &da, &na);
+            show("daughter B", &db, &nb);
+            if let (Some((rp, _, _)), Some((ra, _, _)), Some((rb, _, _))) =
+                (parent_sig, ring_signature(&da, theta), ring_signature(&db, theta))
+            {
+                println!(
+                    "  reconstitution: parent ρ={rp:.4} splits into daughter modes {{{ra:.4}, {rb:.4}}}; fission divides the single principal ring-current into two smaller-ring modes (μ∘δ: re-fuse the daughters with --fuse to weld them back)."
+                );
+            }
+        }
+    }
+    0
+}
+
 /// The conductance verdict of a ring: does a winding quantum Ω circulate it?
 enum Cond {
     Conductive { fwd: bool },      // one consistent direction closes the loop — a persistent current

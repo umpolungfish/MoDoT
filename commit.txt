@@ -1,8 +1,15 @@
-Document the material verbs in the README
+Add --cleave: ring fission, the reverse of --fuse
 
-Brought the README up to date with what shipped: the spectral invariants now in
-every --props sheet (adjacency spectrum, spectral radius rho, gap, with the
-rho=2 pure-cycle vs rho>2 branched reading), and a new "Operating on materials"
-section for the four material-algebra verbs forge / compare / dope / fuse. Added
-a materials block to Quick Start so they are discoverable up front, and extended
-the agent whitelist line to the verbs the binary actually accepts.
+First op off the material-algebra roadmap ob3ect, which imscribed cleave as
+`edge_fission` over the shared vertex space of a parent ring and its daughter
+cycles. `--cleave M1 M2 ... Mn` (or the `cleave` agent verb) forges the set into
+its best ring, then searches every contiguous bipartition of the loop for a cut
+that leaves BOTH arcs re-closing into their own daughter ring. It reports the
+parent, the best fission (both daughters and their spectra, ranked by the weaker
+daughter's stability), and how the parent's principal mode splits into the two
+daughter modes -- with a pointer back to --fuse to weld them (mu after delta).
+Honest refusal when no cut leaves both arcs closed: the ring holds as one loop.
+
+Verified live: the 7-unit ring that --fuse welded cleaves back, 6 distinct cuts
+found, best splitting into a 2-unit daughter (rho=1.0) and a 5-unit daughter
+(rho=2.56).
