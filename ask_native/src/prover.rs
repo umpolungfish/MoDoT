@@ -652,6 +652,10 @@ pub struct LeanProver<'a> {
     /// full distance toward ~this many lines). The same kernel truth, dialed
     /// between its compressed and expanded forms; the B-lane vessel is unaffected.
     expand: u32,
+    /// Eagles: escalation rounds flown at the goal (0 = the default 3-round
+    /// schedule). --eagles raises the rounds/budget across the board so B (not
+    /// closed within cap) can be pushed further without touching the source.
+    eagles: u32,
 }
 
 /// Guard 2: the model must not author the goal's own meaning. If a closed proof
@@ -691,12 +695,18 @@ impl<'a> LeanProver<'a> {
             memo: HashMap::new(),
             scratch_slot: "A",
             expand: 0,
+            eagles: 0,
         }
     }
 
     /// Set the T/F-lane Witness expansion degree (0 = minimal, default).
     pub fn set_expand(&mut self, expand: u32) {
         self.expand = expand;
+    }
+
+    /// Set the eagle count — escalation rounds flown at the goal (0 = default schedule).
+    pub fn set_eagles(&mut self, eagles: u32) {
+        self.eagles = eagles;
     }
 
     pub fn available(&self) -> bool {
@@ -736,7 +746,16 @@ impl<'a> LeanProver<'a> {
             }
         }
 
-        let rounds: [(u32, u32, u32); 3] = [(2, 4, 3), (3, 5, 4), (4, 6, 4)];
+        // The escalation schedule — one eagle per round, each with a wider (depth,
+        // flat, fuse) budget. 0 keeps the default three; --eagles N flies N rounds of
+        // monotonically growing budget, so a B frontier can be pushed as far as asked.
+        let rounds: Vec<(u32, u32, u32)> = if self.eagles == 0 {
+            vec![(2, 4, 3), (3, 5, 4), (4, 6, 4)]
+        } else {
+            (0..self.eagles)
+                .map(|i| (2 + i, 4 + i, 3 + (i + 1) / 2))
+                .collect()
+        };
         let mut last = ProofResult {
             closed: false,
             source: String::new(),
@@ -761,7 +780,8 @@ impl<'a> LeanProver<'a> {
         }
         restore_placeholder(self.scratch_slot);
         last.note = "not closed within escalation cap — a resource frontier (B), \
-                     not a verdict of unprovability; raise the rounds/budget to push further"
+                     not a verdict of unprovability; raise the rounds/budget to push \
+                     further (--eagles N flies more escalation rounds, --cycles N re-flies the whole run)"
             .into();
         last
     }
@@ -795,6 +815,7 @@ impl<'a> LeanProver<'a> {
                 memo: HashMap::new(),
                 scratch_slot: "A",
                 expand,
+                eagles: 0,
             };
             p.prove_inner(&goal_std, "import Mathlib", 0)
         });
@@ -808,6 +829,7 @@ impl<'a> LeanProver<'a> {
                 memo: HashMap::new(),
                 scratch_slot: "B",
                 expand,
+                eagles: 0,
             };
             p.prove_inner(&goal_portal, "import Mathlib", 0)
         });

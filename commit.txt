@@ -1,14 +1,22 @@
-Make --cycles actually compound: each cycle builds on the last
+Add --eagles and take --cycles across the board
 
-Cycles already threaded the prior cycle's final answer into the next cycle's
-context, but nothing told the agent to BUILD on it -- it re-asked the same seed
-with the prior answer sitting passively in history, so it was as likely to
-re-derive as to continue. The compounding was in the data, not the instruction.
+The agentic round count -- the eagles flown out to run tools and read
+their results back as ground truth -- was hardcoded: 40 under --jam, 5
+otherwise, and the kernel-gated prover ran a fixed three-round escalation.
+There was no way to turn it up without editing the source, even though the
+prover's own "raise the rounds/budget" note begged for exactly that lever.
 
-Now every cycle after the first opens with an explicit directive: begin from
-where the last cycle ended, take its conclusions as the new starting point, push
-further (pursue what it left open, deepen or stress-test what it found, build the
-next layer), and do NOT re-derive what the last cycle already settled. Each cycle
-is a deeper breath, not a repeat. The original seed/question is kept below for
-reference, marked as reference rather than a fresh prompt. Works for both a normal
-answer and a jam (a jammed cycle 2 continues the threads cycle 1 opened).
+--eagles N now sets that count as a first-class knob, honored across the
+board: the ACT/OBSERVE loop in both jam and normal ask, and the prover's
+escalation schedule (N rounds of monotonically growing depth/flat/fuse
+budget). 0 keeps the old auto behaviour (40 jam, 5 normal, the default
+three prover rounds), so nothing changes unless the flag is set.
+
+--cycles now reaches the proof-intent route too. It re-flies the whole
+escalation up to N times, stopping the moment the kernel closes, so a
+stubborn B frontier gets more than one run at the wall. The "not closed
+within cap" messages now name both flags, so the advice to push deeper is
+actionable instead of abstract.
+
+Two knobs: --cycles is how many compounding breaths, --eagles is how far
+each breath flies. The options header and --help carry both.

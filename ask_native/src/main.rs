@@ -91,6 +91,12 @@ struct Cli {
     #[arg(long = "cycles", default_value_t = 1)]
     cycles: u32,
 
+    /// Eagles: agentic ACT→OBSERVE rounds flown out to run tools within each cycle
+    /// (0 = auto: 40 under --jam, 5 otherwise). Honored across the board — jam,
+    /// normal ask, and the kernel-gated prover's escalation schedule.
+    #[arg(long = "eagles", default_value_t = 0)]
+    eagles: u32,
+
     /// Max output tokens for the model (default 16384 — full-length answers)
     #[arg(long = "max-tokens", default_value_t = 16384)]
     max_tokens: u32,
@@ -1208,13 +1214,22 @@ There is no gradient you must climb, no signal you are told to hunt, and no shap
 must take. Range widely; leave the seed the moment something more interesting appears — the
 seed is a starting point, not a boundary. If nothing was seeded, start wherever you like.
 
-The ONLY rule is the one that always holds: your final write-up may state only what a tool
-actually returned. So be as free and wild as you want in the DOING — you cannot break anything
-by exploring — and when you finally report what you found, every claim is pinned to a tool you
-ran, with its output. Keep jamming (run tools, read results, run more, chase threads, double
-back) for as many rounds as you have. When you are genuinely done exploring, stop emitting
-TOOL: lines and hand back the most interesting things you actually found, each grounded in the
-tool output that found it. Surprise yourself. Surprise me.
+Keep jamming (run tools, read results, run more, chase threads, double back) for as many rounds
+as you have. Then, when you are genuinely done exploring, you become a MEMBRANE and write the
+report through it. The membrane rule is absolute: go through your intended report claim by
+claim, and for each one ask — is this the readback of a tool result I actually ran this session?
+  · If YES — it is a real measurement — keep it, with the tool output that produced it.
+  · If it is domain knowledge, background, a recalled theorem, a number field, a class number,
+    a name, a value the tools did NOT hand you — DISCARD it. Do not soften it, do not hedge it,
+    do not include it "for context". A jam report is the projection of your exploration onto
+    what the instruments returned; everything else is dropped.
+  · Where the tools were SILENT on something you're curious about, say plainly "the tools do not
+    speak to this" — never fill the silence with a confident finding.
+You cannot break anything by exploring wildly; you CAN break the report by stating one thing a
+tool did not give you. So range freely in the doing, then let only the tool-grounded readings
+cross the membrane. Hand back the most interesting things you actually MEASURED. Surprise me —
+with real structure, not with prose. If, after all that, nothing tool-grounded is worth
+reporting, say so; that is a valid and honest jam.
 "#;
 
 /// The structural verbs the LLM agent may invoke, appended to the system prompt.
@@ -1354,6 +1369,7 @@ fn complete(
     model_voice: B4,
     tool_voice: B4,
     no_selectivity: bool,
+    jam: bool,
 ) -> SpineReport {
     // Structural co-type: if we have a witness and a non-empty answer that
     // engages the scaffold/witness name, vessel speaks T; empty → N; error markers → F.
@@ -1386,8 +1402,13 @@ fn complete(
     // Then fuse in the tools as a third voice — ground truth about closure. When the model
     // claims a ring the tools deny (T vs F) the join is B: conflict held, never overridden.
     // N means no closure-bearing tool ran, so the tools abstain and the fuse is unchanged.
+    // ENGAGR (the membrane's silence arm): a jam ranges WITH the instruments, so if it ran them
+    // and they still abstain (tool_voice N), the write-up drifted off-tool — the report is
+    // ungrounded and holds no verdict (N), never a confident fused=T off model⋈vessel alone.
+    // Outside jam, tool-silence is fine (a conceptual answer that needed no tool) and the fuse
+    // stands.
     let fused = if tool_voice == B4::N {
-        fused_mv
+        if jam { B4::N } else { fused_mv }
     } else {
         b4_join(fused_mv, tool_voice)
     };
@@ -1415,6 +1436,8 @@ fn complete(
             "model only (--no-selectivity)".into()
         } else if tool_voice != B4::N {
             "FFUSE model ⋈ vessel ⋈ tools (tools = ground-truth closure)".into()
+        } else if jam {
+            "ENGAGR — tools silent after a jam: report UNGROUNDED, held at N (the membrane admitted nothing tool-backed)".into()
         } else {
             "FFUSE model ⋈ vessel".into()
         },
@@ -1972,8 +1995,9 @@ fn run_one(
     println!("╚══════════════════════════════════════════════════════╝");
     println!("Source: {source}");
     println!(
-        "Options: verbose={} dry_run={} no_selectivity={} cycles={} max_tokens={}",
-        cli.verbose, cli.dry_run, cli.no_selectivity, cli.cycles, cli.max_tokens
+        "Options: verbose={} dry_run={} no_selectivity={} cycles={} eagles={} max_tokens={}",
+        cli.verbose, cli.dry_run, cli.no_selectivity, cli.cycles,
+        if cli.eagles > 0 { cli.eagles.to_string() } else { "auto".into() }, cli.max_tokens
     );
     println!(
         "Model: {} ({})",
@@ -2018,7 +2042,19 @@ fn run_one(
             println!("── ROUTE: proof-intent → kernel-gated prover ──");
             let mut p = prover::LeanProver::new(llm, cli.verbose);
             p.set_expand(cli.expand);
-            let r = p.prove(&goal);
+            p.set_eagles(cli.eagles);
+            // --cycles across the board: re-fly the whole escalation up to `cycles`
+            // times, stopping the moment the kernel closes it. Each cycle is a fresh
+            // run at the wall (the model may take a different path), so a stubborn B
+            // frontier gets more than one attempt without editing the source.
+            let cycles = cli.cycles.max(1);
+            let mut r = p.prove(&goal);
+            let mut used = 1;
+            while !r.closed && used < cycles {
+                used += 1;
+                println!("── cycle {used}/{cycles} (re-fly the escalation) ──");
+                r = p.prove(&goal);
+            }
             println!("── ANSWER (kernel-gated prover) ──");
             if r.closed {
                 println!("Closed green through the Lean kernel (no sorry):\n");
@@ -2027,7 +2063,8 @@ fn run_one(
                 println!(
                     "Not closed within the current escalation cap. A navigation \
                      frontier (B), not a verdict of unprovability — the path exists; \
-                     raise the rounds/budget to push deeper.\n"
+                     raise the rounds/budget to push deeper (--eagles N for more \
+                     escalation rounds, --cycles N to re-fly the whole run).\n"
                 );
                 println!("Last frontier:\n{}", r.last_output);
             } else {
@@ -2128,8 +2165,16 @@ fn run_one(
         // the tool results come back as ground truth (the golem constraint), so it acts and
         // then speaks on what the Grammar actually computed. Bounded by MAX_ROUNDS.
         if !cli.dry_run {
-            // Jam mode gets a long leash so it can actually range; a normal answer is bounded tight.
-            let max_rounds: usize = if cli.jam { 40 } else { 5 };
+            // The eagles: how many ACT→OBSERVE rounds fly out to run tools. --eagles sets it
+            // across the board; 0 = auto — jam gets a long leash so it can actually range, a
+            // normal answer is bounded tight.
+            let max_rounds: usize = if cli.eagles > 0 {
+                cli.eagles as usize
+            } else if cli.jam {
+                40
+            } else {
+                5
+            };
             const PER_ROUND_CAP: usize = 6;
             let mut agent_msgs: Vec<(String, String)> = Vec::new();
             agent_msgs.push((
@@ -2288,7 +2333,7 @@ fn run_one(
             tool_voice = tool_belnap(&all_tool_output);
         }
 
-        let rep = complete(&prep, &answer, model_voice, tool_voice, cli.no_selectivity);
+        let rep = complete(&prep, &answer, model_voice, tool_voice, cli.no_selectivity, cli.jam);
         print_spine(&rep, &prep, cli.verbose);
 
         if rep.fused == B4::F {
@@ -2413,6 +2458,7 @@ impl CliClone for Cli {
             provider: self.provider.clone(),
             no_selectivity: self.no_selectivity,
             cycles: self.cycles,
+            eagles: self.eagles,
             max_tokens: self.max_tokens,
             temperature: self.temperature,
             catalog: self.catalog.clone(),
