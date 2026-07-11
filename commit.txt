@@ -1,26 +1,32 @@
-Stop click from silently swallowing a 3rd name -- refuse honestly and route the combine
+Make the operator ACT in a loop instead of narrating -- THINK/ACT/OBSERVE/UPDATE
 
-Watching the agent combine {binah monad ankh}, it emitted TOOL: click binah monad
-ankh. click is pairwise, and run_structural_tool was silently dropping everything past
-the first two names -- so it ran click binah monad, threw ankh away, and let the model
-narrate "all three collapse into one object." A silent arg-drop that manufactures a
-false premise, exactly the kind of leak the golem constraint is meant to close, and
-especially wrong now that I DO have the tool for combining three things (the + pre-click).
+Lando asked why the operator keeps telling him what it needs to do instead of just
+doing it. The honest answer is that I built it single-shot: one draft, run at most 6
+tools decided all at once in parallel, one synthesis. No loop. So when a task needs
+"do X, see the result, then do Y based on it" -- polymerize, observe the termination,
+close, use the linker it found, re-polymerize, characterize -- the operator could not
+DO the follow-ups, so it NARRATED them as prose ("Case A ... the optimal path is ...").
+It described the steps because the architecture gave it no next step.
 
-Fix in ask_native/src/main.rs (run_structural_tool): an arity guard. click with >2 names
-no longer drops them -- it returns an honest message routing the combine to the right
-tool: `polymerize A B C` to enchain the set (bonds + closure), or a `+` token to fold
-entries into one blended monomer. The message goes back as tool output, so the
-tool-truth-bound synthesis follows it.
+Replaced the single-shot tool block in ask_native/src/main.rs with a real agentic loop
+(THINK->ACT->OBSERVE->UPDATE):
+- the operator emits TOOL: lines (ACT); the harness runs them over the real catalog
+- the outputs come back as ground truth (OBSERVE), still under the golem constraint
+  (never contradict a tool, introduce nothing it did not return)
+- the model reads them and chooses the NEXT act (UPDATE), iterating up to MAX_ROUNDS,
+  then answers with no TOOL: lines
+- if it hits the step cap mid-action, one forced clean grounded close
+The final looped answer (not the draft) now feeds the ManuscriptSpine and the multi-turn
+history. New loop system prompt: "run a tool, read its result, run the next ... NEVER
+narrate a step you could run; run it."
 
-Verified live end to end:
-- the guard fires: TOOL: click binah monad ankh -> "click is pairwise ... it cannot take
-  3. To COMBINE a set, polymerize binah monad ankh, or fold with a + token."
-- the model RE-ROUTES: it then calls material binah monad ankh (the suggested verb).
-- the golem-bound final grounds on it: "does not yield a single blended object ... a
-  regioirregular syndiotactic heteropolymer ... linear and telechelic ... does not
-  collapse them into a single blended identity" -- correcting its own "collapses to 1"
-  premise from the tool output.
-- redirect targets confirmed: polymerize binah monad ankh combines the set (3-unit
-  syndiotactic chain, binah-monad on T↔H, monad-ankh on R↔S, telechelic); the triple
-  fold binah+monad+ankh clicks all three into one blended monomer.
+Verified live on a dependent chain -- combine {binah monad ankh zosimos_alchemy
+sefer_yetzirah}, and if it terminates find a linker, insert it, re-run, then characterize:
+- round 1: polymerize -> termination at ankh-zosimos; close -> linker plutonium_normal
+- round 2: it INSERTED plutonium_normal and re-ran -> DP 3 -> 6 units, repair confirmed
+- round 3: close on the new 6-chain
+It used the linker from round 1's close inside round 2's re-polymerization -- genuine
+iteration on real output, impossible in the old single-shot flow. It did the steps
+instead of describing them.
+
+README: the agent section now describes the ACT->OBSERVE loop and the dependent chain.

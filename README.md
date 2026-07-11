@@ -433,12 +433,16 @@ a different MW.
 ./ask --polymerize general_recursive_function+skolem_normal_form grothendieck_topos
 ```
 
-**Agent access to every verb.** The LLM agent (`./ask --ask …`) can invoke the whole
-engine. It emits `TOOL: <verb> <args>` lines (markdown-tolerant); the harness runs them
-against the **real catalog** by shelling to this same binary, then feeds the outputs back
-for a final grounded answer. This *corrects the model's guesses*: unaided it will
-confidently mis-call a pathway's closure; handed the real `pathway` output it gives the
-right answer. Whitelisted verbs only (`click switch excite set scan complement cycle
+**Agent access to every verb — an ACT→OBSERVE loop.** The LLM agent (`./ask --ask …`) can
+invoke the whole engine. It emits `TOOL: <verb> <args>` lines (markdown-tolerant); the
+harness runs them against the **real catalog** by shelling to this same binary, feeds the
+outputs back as ground truth, and lets the model **decide its next act** — iterating
+(THINK → ACT → OBSERVE → UPDATE, bounded rounds) until it has no more tool calls, then it
+answers. So it can run a **dependent chain** — `polymerize` → *see* it terminated →
+`close` → *use* the linker it found → re-`polymerize` → `material` — instead of
+front-loading one batch of guesses and narrating the rest. It **does** the steps rather
+than describing them. This also *corrects the model's guesses*: unaided it will confidently
+mis-call a pathway's closure; handed the real `pathway` output it gives the right answer. Whitelisted verbs only (`click switch excite set scan complement cycle
 pathway polymerize close material modulus`) — never `ask`, so no recursion. The prompt also steers the
 agent to use `close` (not `scan`) for cyclization, and tool stdout **and stderr** are
 fed back, so a call that errors (e.g. a monomer the model invented) surfaces its failure

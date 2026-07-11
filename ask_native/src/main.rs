@@ -1516,7 +1516,7 @@ fn run_one(
             println!("── cycle {cycle}/{} ──", cli.cycles);
         }
 
-        let answer;
+        let mut answer;
         let model_voice;
 
         if cli.dry_run {
@@ -1567,49 +1567,90 @@ fn run_one(
         println!("{answer}");
         println!();
 
-        // Agent structural tools: run any `TOOL: verb args` the model emitted over
-        // the real catalog (by shelling to this same binary), then feed the outputs
-        // back for a final grounded synthesis.
+        // Agentic loop (THINK → ACT → OBSERVE → UPDATE): the operator runs tools, sees the
+        // REAL output, and decides its next act — iterating until it has no more tool calls —
+        // instead of front-loading one batch of guesses and narrating the rest. Every round
+        // the tool results come back as ground truth (the golem constraint), so it acts and
+        // then speaks on what the Grammar actually computed. Bounded by MAX_ROUNDS.
         if !cli.dry_run {
-            let calls = extract_tool_calls(&answer);
-            if !calls.is_empty() {
-                println!("── STRUCTURAL TOOLS ({} call(s)) ──", calls.len().min(6));
+            const MAX_ROUNDS: usize = 5;
+            const PER_ROUND_CAP: usize = 6;
+            let mut agent_msgs: Vec<(String, String)> = Vec::new();
+            agent_msgs.push((
+                "system".to_string(),
+                format!(
+                    "{}\n{}\n{}\nYou are in an ACT→OBSERVE loop: emit TOOL: lines to run verbs over the real \
+                     catalog; their outputs return as ground truth and you choose the next step. Iterate — run a \
+                     tool, read its result, run the next — until the task is actually done, then give your FINAL \
+                     answer with NO TOOL: lines. NEVER narrate a step you could run; run it. Never contradict a \
+                     tool result or introduce anything the tools did not return.",
+                    prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, TOOLS_PROMPT
+                ),
+            ));
+            for (r, c) in conversation.iter().take(conversation.len().saturating_sub(2)) {
+                agent_msgs.push((r.clone(), c.clone()));
+            }
+            agent_msgs.push(("user".to_string(), build_user_packet(question, &prep)));
+
+            let mut current = answer.clone(); // the draft is round-0's action
+            let mut round = 0;
+            while round < MAX_ROUNDS {
+                let calls = extract_tool_calls(&current);
+                if calls.is_empty() {
+                    break; // the operator stopped acting — `current` is the answer
+                }
+                println!("── ACT round {} ({} tool call(s)) ──", round + 1, calls.len().min(PER_ROUND_CAP));
                 let mut results = String::new();
-                for (verb, args) in calls.iter().take(6) {
+                for (verb, args) in calls.iter().take(PER_ROUND_CAP) {
                     match run_structural_tool(verb, args) {
                         Some(o) => {
                             println!("● TOOL {verb} {}", args.join(" "));
                             print!("{o}");
                             results.push_str(&format!("### {verb} {}\n{o}\n", args.join(" ")));
                         }
-                        None => println!("● TOOL {verb}: not an available verb / missing args"),
+                        None => {
+                            let m = format!("● TOOL {verb}: not an available verb / missing args");
+                            println!("{m}");
+                            results.push_str(&format!("{m}\n"));
+                        }
                     }
                 }
-                if !results.is_empty() {
-                    let synth = vec![
-                        (
-                            "system".to_string(),
-                            "You invoked structural tools over the IG catalog; their real outputs follow. \
-                             These TOOL RESULTS are ground truth — what the Grammar actually computed. Your \
-                             draft was a guess made before you ran them. Write the final answer so it never \
-                             contradicts a tool result: where a tool settled a question (whether a chain \
-                             cyclizes, its architecture, tacticity, modulus/conductance, or whether a name is \
-                             even in the catalog), report the tool's verdict — not the draft's guess — and if \
-                             the draft disagreed, correct it explicitly. Do not introduce any entity, value, \
-                             ordinal, or operation the tools did not return. Think freely, but speak only what \
-                             the tools ground.".to_string(),
-                        ),
-                        (
-                            "user".to_string(),
-                            format!("QUESTION:\n{question}\n\nYOUR DRAFT (a prior guess — supersede it wherever a tool disagrees):\n{answer}\n\nTOOL RESULTS (ground truth):\n{results}\nFINAL ANSWER:"),
-                        ),
-                    ];
-                    let res2 = infer(llm, &synth, cli.max_tokens, cli.temperature);
-                    println!();
-                    println!("── FINAL (tools synthesized) ──");
-                    println!("{}", strip_kernel_records(&res2.text));
-                    println!();
-                }
+                agent_msgs.push(("assistant".to_string(), current.clone()));
+                agent_msgs.push((
+                    "user".to_string(),
+                    format!(
+                        "TOOL RESULTS (ground truth — never contradict these; introduce nothing they did not return):\n{results}\n\
+                         UPDATE: if the task needs more steps, emit the next TOOL: line(s). If you now have everything, \
+                         write your FINAL answer with NO TOOL: lines, grounded entirely in the results above."
+                    ),
+                ));
+                let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                current = strip_kernel_records(&res.text);
+                println!();
+                println!("── OBSERVE/UPDATE round {} ──", round + 1);
+                println!("{current}");
+                println!();
+                round += 1;
+            }
+
+            // If we hit the step cap mid-action, force one clean grounded close.
+            if round == MAX_ROUNDS && !extract_tool_calls(&current).is_empty() {
+                agent_msgs.push(("assistant".to_string(), current.clone()));
+                agent_msgs.push((
+                    "user".to_string(),
+                    "Step limit reached. Give your FINAL answer now, with NO TOOL: lines, grounded only in the tool results above.".to_string(),
+                ));
+                let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                current = strip_kernel_records(&res.text);
+                println!("── FINAL (step limit) ──");
+                println!("{current}");
+                println!();
+            }
+
+            // The final grounded answer feeds the spine and the multi-turn history.
+            answer = current;
+            if let Some(last) = conversation.last_mut() {
+                last.1 = answer.clone();
             }
         }
 
