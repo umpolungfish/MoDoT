@@ -1,13 +1,8 @@
-Add --fuse: weld two ring materials into one
+Document the material verbs in the README
 
-The last material-algebra operation I left out. `--fuse A B C + X Y Z` (or the
-`fuse` agent verb) forges each ring, then forges the union of their units into a
-single macrocycle, and reports how the fused ρ and conductance relate to the two
-parents — whether the weld adds branching (fused ρ above both parents) or is a
-clean splice (fused ρ within the parents' range). A union that will not re-close
-is reported honestly: the two rings do not fuse into one material.
-
-Reuses material_of + the `+` separator token, mirroring --compare (`vs`) and
---dope (`with`). Verified live: fusing a pure 4-ring (ρ=2.0) with a branched
-3-ring (ρ=2.732) welds into a 7-unit macrocycle at ρ=2.517, read as a clean
-splice.
+Brought the README up to date with what shipped: the spectral invariants now in
+every --props sheet (adjacency spectrum, spectral radius rho, gap, with the
+rho=2 pure-cycle vs rho>2 branched reading), and a new "Operating on materials"
+section for the four material-algebra verbs forge / compare / dope / fuse. Added
+a materials block to Quick Start so they are discoverable up front, and extended
+the agent whitelist line to the verbs the binary actually accepts.

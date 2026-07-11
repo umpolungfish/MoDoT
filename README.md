@@ -107,6 +107,12 @@ cd MoDoT
 ./ask --set the_sun_astrological the_moon_astrological --certify   # SET: Sol donates e⁻ to Luna (charge conserved)
 ./ask --set the_moon_astrological the_sun_astrological --excite    # photoinduced ET — excitation flips the donor
 
+# ── Materials algebra: forge a ring, read its spectrum, operate on it ──
+./ask --forge alchemical_hermetic_universe dialetheia completeness hermetic_seal  # set → best ring → full sheet (ρ, spectrum, conductance)
+./ask --compare A B C D vs W X Y Z                         # diff two materials (Δρ, conductance shift)
+./ask --dope A B C with D                                  # perturb a ring, read the ρ/conductance shift
+./ask --fuse A B C + X Y Z                                 # weld two rings into one macrocycle
+
 # ── Legacy Python agent (still available) ──
 # Interactive mode — the agent breathes with you
 python3 momonados_agent.py --interactive
@@ -400,6 +406,41 @@ however the narrative dresses it up.
 ./ask --polymerize the_moon_astrological the_logographic_system the_moon_astrological the_logographic_system --props
 ```
 
+**Spectral invariants** (part of every `--props` sheet). A ring is also a graph, and a
+graph has a spectrum. The engine builds the ring's adjacency matrix from the real bonds
+(a clean condensation bond weighs 1, a cross-link junction weighs its number of reaction
+centers), takes its eigenvalues with a built-in Jacobi solver, and reports the spectrum,
+the spectral radius **ρ**, and the spectral gap. ρ is the principal ring-current mode:
+**ρ = 2 exactly** witnesses a pure unbranched cycle, and **ρ > 2** witnesses branching. This
+turns the "branched macrocycle" the topology line asserts into a computed number rather
+than an adjective. A pure 4-ring returns spectrum `[+2, 0, 0, -2]` at ρ = 2; a branched
+3-ring with one 2-center cross-link returns `[+2.732, -0.732, -2]` at ρ = 2.732 (the roots
+of λ³ − 6λ − 4 = 0), so the branch is read off the ring, not asserted about it.
+
+**Operating on materials** (`--forge`, `--compare`, `--dope`, `--fuse`). Characterizing one
+ring is the start; the materials algebra operates on them. All four are deterministic (no
+LLM in the path) and are exposed both as CLI flags and as agent verbs.
+
+* `--forge M1 M2 …` is the one-shot characterize path: treat the monomers as a set, find
+  the order that rings best, and print the full sheet (topology, stability, conductance,
+  spectral invariants). It is `--arrange … --props` under a single flag.
+* `--compare A B vs X Y` forges two materials and diffs them by spectral radius, conductance
+  class, and weakest bond. The `vs` token separates the two sets.
+* `--dope A B with C` forges the base ring, re-forges it with the dopant unit mixed in, and
+  reports the shift in ρ and conductance. The `with` token separates base from dopant.
+* `--fuse A B + X Y` welds two rings into one: it forges each, then forges the union into a
+  single macrocycle, and reports whether the weld adds branching (fused ρ above both parents)
+  or is a clean splice (fused ρ within the parents' range). The `+` token separates the rings.
+
+```bash
+# forge a set into its best ring and read every property, spectrum included
+./ask --forge alchemical_hermetic_universe dialetheia completeness hermetic_seal
+# compare a pure cycle (ρ=2, FRUSTRATED) against a branched ring (ρ=2.732, CONDUCTIVE)
+./ask --compare alchemical_hermetic_universe dialetheia completeness hermetic_seal vs iut_theory ouroborus uniqueness_diophantine_proof
+# weld two rings into one larger macrocycle and read the fused ρ against the parents
+./ask --fuse alchemical_hermetic_universe dialetheia completeness hermetic_seal + iut_theory ouroborus uniqueness_diophantine_proof
+```
+
 **The modulus** (`--polymerize … --modulus`) — closing a ring is cheap; making it
 **sustain** is not, and that difference is a material's **modulus** (its elasticity). A
 polymer gets its modulus from network loops, and in this register a loop only sustains
@@ -442,8 +483,8 @@ answers. So it can run a **dependent chain** — `polymerize` → *see* it termi
 `close` → *use* the linker it found → re-`polymerize` → `material` — instead of
 front-loading one batch of guesses and narrating the rest. It **does** the steps rather
 than describing them. This also *corrects the model's guesses*: unaided it will confidently
-mis-call a pathway's closure; handed the real `pathway` output it gives the right answer. Whitelisted verbs only (`click switch excite set scan complement cycle
-pathway polymerize close material modulus`) — never `ask`, so no recursion. The prompt also steers the
+mis-call a pathway's closure; handed the real `pathway` output it gives the right answer. Whitelisted verbs only (`click switch excite set homolyze scan complement cycle
+pathway polymerize close material modulus arrange forge compare dope fuse`) — never `ask`, so no recursion. The prompt also steers the
 agent to use `close` (not `scan`) for cyclization, and tool stdout **and stderr** are
 fed back, so a call that errors (e.g. a monomer the model invented) surfaces its failure
 instead of vanishing.
