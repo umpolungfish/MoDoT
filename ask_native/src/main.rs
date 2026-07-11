@@ -2026,6 +2026,25 @@ fn run_one(
                         }
                     }
                 }
+                // Cap guard: calls past PER_ROUND_CAP did NOT run this round. Surface them so
+                // the operator cannot narrate a result for a tool that never executed (that is
+                // exactly how a "conductive cycle" gets asserted when `material` was dropped).
+                if calls.len() > PER_ROUND_CAP {
+                    let dropped: Vec<String> = calls[PER_ROUND_CAP..]
+                        .iter()
+                        .map(|(v, a)| format!("{v} {}", a.join(" ")))
+                        .collect();
+                    let note = format!(
+                        "### NOT RUN this round ({} tool call(s) over the {PER_ROUND_CAP}-per-round cap)\n{}\n\
+                         These did NOT execute — you have NO result for them. Do not report any outcome for \
+                         them (no closure, conductance, modulus, or material verdict). Re-emit the ones you \
+                         still need next round and they will run.\n",
+                        dropped.len(),
+                        dropped.iter().map(|d| format!("  TOOL: {d}")).collect::<Vec<_>>().join("\n"),
+                    );
+                    print!("{note}");
+                    results.push_str(&note);
+                }
                 all_tool_output.push_str(&results);
                 agent_msgs.push(("assistant".to_string(), current.clone()));
                 agent_msgs.push((

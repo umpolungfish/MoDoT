@@ -1,27 +1,13 @@
-Radical chemistry, the atom: homolyze -- homolytic cleavage into NEUTRAL radicals
+Surface tool calls dropped by the per-round cap
 
-Half of radical chemistry was already here: `set` is single-electron transfer, so it already
-makes radical IONS (D•⁺/A•⁻, one winding quantum Ω moved). The missing half is neutral-radical
-chemistry, and the Frobenius Lean already encodes its defining split -- Frobenius.lean's
-symmetric δ_A(a)=(a,a) is homolysis (two equal radicals), the asymmetric δ_D(a)=(⊥,a) is
-heterolysis (an ion pair). This surfaces the homolytic side as a verb.
+My ManuscriptSpine ran the model with a 6-tool-per-round cap, but calls past
+the cap were dropped silently. When a draft emitted 7 tools (4 imscribe +
+polymerize + close + material), `material` never executed, and the model
+narrated a verdict for it anyway ("conductive, self-sustaining cycle") that the
+tool would have contradicted (the ring is FRUSTRATED). Same confabulation class
+as the old click arg-drop.
 
-New `homolyze` (agent whitelist + TOOLS_PROMPT) and `--homolyze A [B]` CLI, in
-ask_native/src/click.rs::run_homolyze. It is the radical-generating REVERSE of click:
-- `homolyze A B` cleaves the A—B σ-bond. It must be a real bond -- click_pair has to fire on a
-  single live pair -- then homolysis splits that shared pair EVENLY (δ_A): each fragment keeps
-  one electron, the SOMO. Reports A• + B• (neutral radicals) with the SOMO axis, the μ
-  recombination (radical coupling, μ∘δ=id), and the heterolytic/SET alternative → `--set` for
-  the radical ions. Honest refusal when there is no single clean bond: NoComplementarity (no
-  reaction center, would not couple) and Ambiguous (>1 center -> a diradical/network, not two
-  clean radicals) are both reported, not faked.
-- `homolyze A` splits A symmetrically (δ_A diagonal) into two identical radicals A•.
-- Radical character is read from the winding quantum Ω (electron count): odd Ω = intrinsically
-  open-shell; even = a closed-shell parent whose SOMO is the freshly-opened bond center.
-
-Verified live: `--homolyze dark_matter wow_signal` cleaves their R↔S bond (Δ=1.50) into two
-neutral radicals; `--homolyze binah` splits symmetrically and flags binah Ω=𐑴 as odd/open-shell;
-`--homolyze sefer_ha_iyun thirteen_sefirot_ha_iyun` refuses honestly (co-typed, no bond).
-
-This is the foundation for radical chain-growth (addition) polymerization -- the propagating
-SOMO -- which is the next build on top.
+Now when calls exceed PER_ROUND_CAP I feed the dropped calls back to the model:
+"these did NOT execute, you have NO result for them, do not report closure,
+conductance, or a material verdict; re-emit next round and they will run." That
+closes the confabulation vector at any cap.
