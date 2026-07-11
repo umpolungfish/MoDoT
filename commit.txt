@@ -1,34 +1,35 @@
-Read strain and spectral gap jointly: the clarity/stability line
+Add a DeepSeek provider; abort on fatal LLM errors; warn on unknown provider
 
-Lando's observation, now encoded: a shaky-but-workable proof forges a ring
-with strain AND a non-zero spectral gap; as the object stabilizes the
-strain drains out, the gap collapses to 0, and the statements it supports
-go clarion. The material sheet was misreading that endpoint. It stamped a
-zero gap as FRUSTRATED and the agent took it as a B-frontier negative,
-which is the transport frame being pejorative about the exact state a proof
-reaches when it clarifies (a flat, degenerate top spectrum = no privileged
-mode = maximal symmetry, the SIC tight-frame geometry).
+Three problems surfaced when OpenRouter ran out of credits mid-jam:
 
-Fixes, all in the material sheet:
-  - the spectral-gap line now reads a zero gap as a flat/degenerate top
-    spectrum, NO privileged mode (the symmetric, settled reading), not a
-    deficiency;
-  - the "frustrated" conductance is relabeled BALANCED and marked not a
-    defect on its own (defer to the clarity line + strain);
-  - a new clarity line reads the (strain, gap) pair JOINTLY:
-      both ~ 0        -> SETTLED / CLARION (the stabilized endpoint, the goal)
-      relaxed, gap>0  -> STABLE BUT LEANING (leans on one mode)
-      flat, strain>0  -> SYMMETRIC BUT STRESSED (anneal to settle)
-      both > 0        -> SHAKY (where proofs come out shaky)
-    Only the joint zero is clarion, per the principle.
+1. The 402 flood was OpenRouter returning Payment Required. Nothing wrong
+   in the code, the account was empty.
 
-ring_spectral_gap() shares the gap number between the spectrum print and
-the clarity reading. Verified live: the Erdos AP ring (sigma=0.167, gap=0)
-reads SYMMETRIC BUT STRESSED, and a tight pair (sigma=0, gap=0) reads
-SETTLED / CLARION.
+2. `--provider deepseek` silently did nothing. parse_provider only knew
+   openrouter and gemini, so "deepseek" returned None and the resolver
+   fell through to key-based selection, which picked OpenRouter (the key
+   was set). The header even said "(openrouter)" while the flag said
+   deepseek. The run never left the dead provider.
 
-Aside (why this pair and not the SIC residual): the canonical SIC closure
-residual frobenius_closure_residual was tested and is identically 0 for
-every state, because a valid SIC reconstructs any density matrix exactly
-(informational completeness). It cannot discriminate per object. The
-(strain, gap) pair does, so that is the clarity certificate.
+3. The jam ground through all 40 cycles on a 402, each cycle re-calling
+   and failing identically, because a fatal auth/payment error was treated
+   like a transient one.
+
+Fixes:
+  - Provider::DeepSeek: base_url api.deepseek.com/v1, key DEEPSEEK_API_KEY
+    (then MODOT_API_KEY). DeepSeek's API is OpenAI-compatible, so it reuses
+    the OpenRouter inference path verbatim. parse_provider accepts
+    deepseek / ds / deepseek-direct, and key-based inference now considers
+    DEEPSEEK_API_KEY.
+  - An unrecognized explicit --provider / MODOT_PROVIDER value now prints a
+    warning naming the valid providers instead of silently falling back.
+  - is_fatal_llm_error: a 401/402/403/invalid-key/insufficient error aborts
+    the cycle loop immediately with a clear message (switch providers or top
+    up), rather than retrying every cycle.
+
+Verified: `--provider deepseek --model deepseek-chat` routes to DeepSeek
+(header shows "(deepseek)", a live call returns), and an OpenRouter 402
+aborts the run after cycle 1 instead of grinding all of them.
+
+Note: DeepSeek's API model ids are deepseek-chat and deepseek-reasoner;
+deepseek-v4-pro is not one, so pass a real id when using --provider deepseek.

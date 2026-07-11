@@ -894,6 +894,7 @@ struct Llm {
 enum Provider {
     OpenRouter,
     GeminiDirect,
+    DeepSeek,
 }
 
 fn env_first(keys: &[&str]) -> Option<String> {
@@ -907,10 +908,24 @@ fn env_first(keys: &[&str]) -> Option<String> {
     None
 }
 
+/// A non-retryable LLM failure — auth (401), payment (402), or forbidden (403). Retrying
+/// more cycles is pointless: every call fails identically (out of credits / bad key),
+/// unlike a transient network blip. The cycle loop aborts on this instead of grinding all
+/// 40 cycles printing the same error.
+fn is_fatal_llm_error(e: &str) -> bool {
+    let low = e.to_lowercase();
+    low.contains("status code 401")
+        || low.contains("status code 402")
+        || low.contains("status code 403")
+        || low.contains("invalid api key")
+        || low.contains("insufficient")
+}
+
 fn parse_provider(s: &str) -> Option<Provider> {
     match s.trim().to_ascii_lowercase().as_str() {
         "openrouter" | "or" | "router" => Some(Provider::OpenRouter),
         "gemini" | "google" | "gemini-direct" | "google-ai" => Some(Provider::GeminiDirect),
+        "deepseek" | "ds" | "deepseek-direct" => Some(Provider::DeepSeek),
         _ => None,
     }
 }
@@ -923,6 +938,13 @@ fn make_llm(model: Option<&str>, provider_flag: Option<&str>) -> Llm {
         .or_else(|| env_first(&["MODOT_MODEL", "MOMONADOS_MODEL"]))
         .unwrap_or_else(|| "google/gemini-3-flash-preview".into());
 
+    // Surface an unrecognized explicit provider instead of silently falling back to a
+    // key-based default (the trap: `--provider deepseek` quietly ran on openrouter).
+    if let Some(p) = provider_flag {
+        if parse_provider(p).is_none() {
+            eprintln!("[ask] unknown --provider/MODOT_PROVIDER '{p}'; use openrouter | gemini | deepseek. Falling back to key-based selection.");
+        }
+    }
     // Provider: CLI > MODOT_PROVIDER > infer from keys (openrouter preferred)
     let provider = provider_flag
         .and_then(parse_provider)
@@ -930,10 +952,13 @@ fn make_llm(model: Option<&str>, provider_flag: Option<&str>) -> Llm {
         .unwrap_or_else(|| {
             let has_or = env_first(&["OPENROUTER_API_KEY"]).is_some();
             let has_gem = env_first(&["GEMINI_API_KEY", "GOOGLE_API_KEY"]).is_some();
+            let has_ds = env_first(&["DEEPSEEK_API_KEY"]).is_some();
             if has_or {
                 Provider::OpenRouter
             } else if has_gem {
                 Provider::GeminiDirect
+            } else if has_ds {
+                Provider::DeepSeek
             } else {
                 Provider::OpenRouter // default target; will fail with clear missing-key msg
             }
@@ -945,6 +970,13 @@ fn make_llm(model: Option<&str>, provider_flag: Option<&str>) -> Llm {
             model,
             base_url: "https://openrouter.ai/api/v1".into(),
             provider: Provider::OpenRouter,
+        },
+        Provider::DeepSeek => Llm {
+            // DeepSeek's API is OpenAI-compatible, so it reuses the OpenRouter inference path.
+            api_key: env_first(&["DEEPSEEK_API_KEY", "MODOT_API_KEY"]),
+            model,
+            base_url: "https://api.deepseek.com/v1".into(),
+            provider: Provider::DeepSeek,
         },
         Provider::GeminiDirect => {
             let gem_model = if model.contains('/') {
@@ -990,6 +1022,7 @@ fn infer(
 
     match llm.provider {
         Provider::OpenRouter => infer_openrouter(llm, key, messages, max_tokens, temperature),
+        Provider::DeepSeek => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature),
     }
 }
@@ -2405,6 +2438,7 @@ fn run_one(
         match llm.provider {
             Provider::OpenRouter => "openrouter",
             Provider::GeminiDirect => "gemini-direct",
+            Provider::DeepSeek => "deepseek",
         }
     );
     println!("Question ({} chars):\n", question.chars().count());
@@ -2547,6 +2581,18 @@ fn run_one(
             if let Some(e) = res.err {
                 eprintln!("[warn] LLM: {e}");
                 last_code = 2;
+                if is_fatal_llm_error(&e) {
+                    let pname = match llm.provider {
+                        Provider::OpenRouter => "openrouter",
+                        Provider::GeminiDirect => "gemini",
+                        Provider::DeepSeek => "deepseek",
+                    };
+                    eprintln!(
+                        "[ask] fatal LLM error on provider '{pname}' — aborting the run (not transient: 402 = out of credits, 401 = bad key). \
+                         Switch providers (--provider deepseek | --provider gemini) or top up the account, then re-run."
+                    );
+                    break;
+                }
             }
 
             // Update multi-turn history with the raw question + answer
