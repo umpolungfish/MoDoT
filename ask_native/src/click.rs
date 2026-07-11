@@ -1923,6 +1923,151 @@ pub fn run_arrange(
     run_polymerize(catalog, &ordered, theta, certify, close, props, modulus)
 }
 
+/// Split a flat monomer list on a literal separator token (`vs`, `with`) into two sub-lists.
+/// None when the token is absent. The token itself is dropped.
+fn split_on<'a>(monomers: &'a [String], sep: &str) -> Option<(&'a [String], &'a [String])> {
+    monomers
+        .iter()
+        .position(|m| m == sep)
+        .map(|i| (&monomers[..i], &monomers[i + 1..]))
+}
+
+/// Resolve a name set, find the ordering that rings best, and read its material signature.
+/// Returns the ring-ordered names plus (ρ, conductance, weakest bond) — None if it will not
+/// close. The shared core of `--forge`, `--compare`, and `--dope`.
+fn material_of(
+    cat: &[CatalogEntry],
+    names: &[String],
+    theta: f32,
+) -> Result<(Vec<String>, Option<(f64, &'static str, f32)>), String> {
+    let units = load_monomers(cat, names, theta)?;
+    let arr = best_ordering(&units, theta);
+    let ordered_names: Vec<String> = arr.order.iter().map(|&i| names[i].clone()).collect();
+    let ordered_units: Vec<Tuple> = arr.order.iter().map(|&i| units[i].clone()).collect();
+    Ok((ordered_names, ring_signature(&ordered_units, theta)))
+}
+
+/// CLI entry: `./ask --forge M1 M2 … Mn`. The one-shot deterministic characterize path —
+/// treat the monomers as a set, find the best-ringing order, and print the full material
+/// sheet (topology, stability, conductance, spectral invariants). No LLM, no search verbs;
+/// just the material and its numbers. Equivalent to `--polymerize … --arrange --props`.
+pub fn run_forge(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    run_arrange(catalog, monomers, theta, false, false, true, false)
+}
+
+/// CLI entry: `./ask --compare A B C vs X Y Z`. Forge two materials and diff them — spectral
+/// radius, conductance class, weakest bond. The compare operation of the materials algebra:
+/// two rings side by side and the Δ between them.
+pub fn run_compare(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("compare: no catalog loaded");
+        return 2;
+    };
+    let Some((left, right)) = split_on(monomers, "vs") else {
+        eprintln!("compare needs two sets separated by `vs`:  --compare A B C vs X Y Z");
+        return 2;
+    };
+    if left.len() < 2 || right.len() < 2 {
+        eprintln!("compare: each side needs at least two monomers");
+        return 2;
+    }
+    let a = match material_of(cat, left, theta) {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("compare (left): {e}");
+            return 2;
+        }
+    };
+    let b = match material_of(cat, right, theta) {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("compare (right): {e}");
+            return 2;
+        }
+    };
+    let fmt = |name: &str, m: &(Vec<String>, Option<(f64, &'static str, f32)>)| match &m.1 {
+        Some((rho, cond, wk)) => println!(
+            "  {name}: [{}]\n       ρ={rho:.4}  {cond}  weakest Δ={wk:.2}",
+            m.0.join(" · ")
+        ),
+        None => println!("  {name}: [{}]  — does NOT close into a ring (no material)", m.0.join(" · ")),
+    };
+    println!("compare (two materials):");
+    fmt("A", &a);
+    fmt("B", &b);
+    match (a.1, b.1) {
+        (Some((ra, ca, _)), Some((rb, cb, _))) => {
+            let d = rb - ra;
+            println!(
+                "  Δ: ρ {ra:.4} → {rb:.4} ({d:+.4}); conductance {ca} → {cb}{}",
+                if ca == cb { " (unchanged)" } else { "" }
+            );
+            println!(
+                "  read: {}",
+                if d.abs() < 1e-3 {
+                    "same principal mode — the two rings are spectrally equivalent as materials."
+                } else if d > 0.0 {
+                    "B is the more branched/connected material (higher ρ = a stronger dominant ring-current mode)."
+                } else {
+                    "A is the more branched/connected material (higher ρ)."
+                }
+            );
+        }
+        _ => println!("  Δ: one side is not a ring — no material comparison."),
+    }
+    0
+}
+
+/// CLI entry: `./ask --dope A B C with D`. Forge the base ring, then forge it again with the
+/// dopant unit(s) mixed in, and report the shift in ρ and conductance. The dope operation of
+/// the materials algebra: perturb a material by a unit and read how its transport moves.
+pub fn run_dope(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("dope: no catalog loaded");
+        return 2;
+    };
+    let Some((base, dopant)) = split_on(monomers, "with") else {
+        eprintln!("dope needs a base set and a dopant separated by `with`:  --dope A B C with D");
+        return 2;
+    };
+    if base.len() < 2 || dopant.is_empty() {
+        eprintln!("dope: need at least two base monomers and at least one dopant");
+        return 2;
+    }
+    let before = match material_of(cat, base, theta) {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("dope (base): {e}");
+            return 2;
+        }
+    };
+    let doped_names: Vec<String> = base.iter().chain(dopant.iter()).cloned().collect();
+    let after = match material_of(cat, &doped_names, theta) {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("dope (doped): {e}");
+            return 2;
+        }
+    };
+    println!("dope (perturb a material):  base + {{{}}}", dopant.join(", "));
+    match &before.1 {
+        Some((r, c, w)) => println!("  before: [{}]\n          ρ={r:.4}  {c}  weakest Δ={w:.2}", before.0.join(" · ")),
+        None => println!("  before: [{}]  — base does not close into a ring", before.0.join(" · ")),
+    }
+    match &after.1 {
+        Some((r, c, w)) => println!("  after:  [{}]\n          ρ={r:.4}  {c}  weakest Δ={w:.2}", after.0.join(" · ")),
+        None => println!("  after:  [{}]  — doping BREAKS the ring (the dopant will not close)", after.0.join(" · ")),
+    }
+    if let (Some((ra, ca, _)), Some((rb, cb, _))) = (before.1, after.1) {
+        println!(
+            "  shift: ρ {ra:.4} → {rb:.4} ({:+.4}); conductance {ca} → {cb}{}",
+            rb - ra,
+            if ca == cb { " (held)" } else { " (CHANGED)" }
+        );
+    }
+    0
+}
+
 /// The conductance verdict of a ring: does a winding quantum Ω circulate it?
 enum Cond {
     Conductive { fwd: bool },      // one consistent direction closes the loop — a persistent current
@@ -1948,6 +2093,108 @@ fn ring_conductance(units: &[Tuple]) -> Cond {
             || transfer_electron(&units[(i + 1) % n].ord, &units[i].ord).is_ok())
     }).collect();
     if blocked.is_empty() { Cond::Frustrated } else { Cond::Insulating { blocked } }
+}
+
+/// The adjacency matrix of the ring's bond graph — the ring treated as a weighted graph so
+/// its spectral invariants can be computed. Convention (printed, so it is auditable): each
+/// ring edge (i, i+1) carries the weight of its junction — a clean condensation bond or an
+/// identical addition weighs 1; a cross-link junction weighs k, its number of reaction
+/// centers (k parallel bonds). A pure unbranched cycle is therefore all-1s and has spectral
+/// radius exactly 2; every extra reaction center a cross-link fires lifts ρ above 2. This is
+/// the honest graph behind the "branched macrocycle" the tools already report.
+fn ring_adjacency(units: &[Tuple], theta: f32) -> Vec<Vec<f64>> {
+    let n = units.len();
+    let mut m = vec![vec![0.0f64; n]; n];
+    for i in 0..n {
+        let j = (i + 1) % n;
+        let w = match click_pair(&units[i], &units[j], theta) {
+            Ok(_) => 1.0,                                                     // clean condensation bond
+            Err(ClickFail::Ambiguous(centers)) => centers.len() as f64,      // cross-link: k parallel reaction centers
+            Err(ClickFail::NoComplementarity) if units[i].ord == units[j].ord => 1.0, // identical addition (repeat unit)
+            Err(_) => 0.0,                                                    // no edge — a broken ring (should not occur once cyclic)
+        };
+        m[i][j] = w;
+        m[j][i] = w;
+    }
+    m
+}
+
+/// Eigenvalues of a real symmetric matrix via the classical (largest-off-diagonal) Jacobi
+/// rotation sweep. Exact to machine precision for the small rings these materials form
+/// (n ≲ a few dozen); no external linear-algebra dependency. Returns the diagonal once the
+/// off-diagonal mass is annihilated — i.e. the eigenvalues, in the matrix's own order.
+fn sym_eigenvalues(mut a: Vec<Vec<f64>>) -> Vec<f64> {
+    let n = a.len();
+    if n == 0 {
+        return vec![];
+    }
+    for _ in 0..(50 * n * n) {
+        // pivot on the largest off-diagonal element
+        let (mut p, mut q, mut off) = (0usize, 1usize, 0.0f64);
+        for i in 0..n {
+            for j in (i + 1)..n {
+                if a[i][j].abs() > off {
+                    off = a[i][j].abs();
+                    p = i;
+                    q = j;
+                }
+            }
+        }
+        if off < 1e-13 {
+            break;
+        }
+        // rotation that zeroes a[p][q] (numerically stable t-formula)
+        let theta = (a[q][q] - a[p][p]) / (2.0 * a[p][q]);
+        let t = if theta == 0.0 {
+            1.0
+        } else {
+            theta.signum() / (theta.abs() + (theta * theta + 1.0).sqrt())
+        };
+        let c = 1.0 / (t * t + 1.0).sqrt();
+        let s = t * c;
+        for k in 0..n {
+            let (akp, akq) = (a[k][p], a[k][q]);
+            a[k][p] = c * akp - s * akq;
+            a[k][q] = s * akp + c * akq;
+        }
+        for k in 0..n {
+            let (apk, aqk) = (a[p][k], a[q][k]);
+            a[p][k] = c * apk - s * aqk;
+            a[q][k] = s * apk + c * aqk;
+        }
+    }
+    (0..n).map(|i| a[i][i]).collect()
+}
+
+/// Spectral-invariant block for the ring material: the adjacency spectrum, the spectral
+/// radius ρ (the principal ring-current mode), and the spectral gap. ρ = 2 exactly witnesses
+/// a pure unbranched cycle; ρ > 2 witnesses branching — the same fact the topology line
+/// reports, now as a computed number rather than an asserted adjective.
+fn print_ring_spectrum(units: &[Tuple], theta: f32) {
+    let n = units.len();
+    if n < 2 {
+        return;
+    }
+    let mut ev = sym_eigenvalues(ring_adjacency(units, theta));
+    ev.sort_by(|a, b| b.partial_cmp(a).unwrap_or(std::cmp::Ordering::Equal));
+    let rho = ev.iter().fold(0.0f64, |m, &x| m.max(x.abs()));
+    let mut mags: Vec<f64> = ev.iter().map(|x| x.abs()).collect();
+    mags.sort_by(|a, b| b.partial_cmp(a).unwrap_or(std::cmp::Ordering::Equal));
+    let gap = if mags.len() >= 2 { rho - mags[1] } else { rho };
+    let spec: Vec<String> = ev.iter().map(|x| format!("{x:+.3}")).collect();
+    let verdict = if (rho - 2.0).abs() < 1e-3 {
+        "= 2 exactly ⟹ a pure unbranched cycle (every junction one clean bond)"
+    } else if rho > 2.0 {
+        "> 2 ⟹ branched: a cross-link lifts the principal mode above the bare ring"
+    } else {
+        "< 2 ⟹ a broken/open ring (a junction carries no bond)"
+    };
+    println!("    ── spectral invariants (adjacency of the ring graph; clean bond=1, cross-link=k centers) ──");
+    println!("    spectral radius ρ = {rho:.4}  ({verdict})");
+    println!("    spectrum: [{}]", spec.join(", "));
+    println!(
+        "    spectral gap (ρ − |λ₂|) = {gap:.4} — the wider the gap, the more a single ring-current mode dominates transport."
+    );
 }
 
 /// Material-property sheet for a CLOSED (cyclic) polymer — the ring treated as a
@@ -1995,6 +2242,33 @@ fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
             println!("    conductance: INSULATING — no carrier can pass junction(s) {} in either direction; the ring cannot circulate a current (the units are Ω-saturated/empty, a static ring not a dynamic one).", js.join(", "));
         }
     }
+    print_ring_spectrum(units, theta);
+}
+
+/// Compact one-line material signature — ρ, conductance, and weakest bond — for a cyclic
+/// ring. Used by the operate verbs (`--compare`, `--dope`) to diff two materials without
+/// reprinting the full sheet. Returns None when the units do not form a ring.
+fn ring_signature(units: &[Tuple], theta: f32) -> Option<(f64, &'static str, f32)> {
+    let n = units.len();
+    if n < 2 {
+        return None;
+    }
+    // must actually close head-to-tail to be a ring material
+    if click_pair(&units[n - 1], &units[0], theta).is_err() {
+        return None;
+    }
+    let mut ev = sym_eigenvalues(ring_adjacency(units, theta));
+    ev.sort_by(|a, b| b.partial_cmp(a).unwrap_or(std::cmp::Ordering::Equal));
+    let rho = ev.iter().fold(0.0f64, |m, &x| m.max(x.abs()));
+    let cond = match ring_conductance(units) {
+        Cond::Conductive { .. } => "CONDUCTIVE",
+        Cond::Frustrated => "FRUSTRATED",
+        Cond::Insulating { .. } => "INSULATING",
+    };
+    let weakest = (0..n)
+        .filter_map(|i| click_pair(&units[i], &units[(i + 1) % n], theta).ok().map(|p| p.drive))
+        .fold(f32::INFINITY, f32::min);
+    Some((rho, cond, if weakest.is_finite() { weakest } else { 0.0 }))
 }
 
 /// CLI entry: `./ask --polymerize M1 M2 … Mn [--certify] [--close] [--props]`. Chain the monomers into a

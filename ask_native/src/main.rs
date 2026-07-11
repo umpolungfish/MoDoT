@@ -226,6 +226,23 @@ struct Cli {
     #[arg(long = "arrange")]
     arrange: bool,
 
+    /// Forge a mathematical material: `--forge M1 M2 … Mn` treats the monomers as a set,
+    /// finds the best-ringing order, and prints the full material sheet — topology,
+    /// stability, conductance, and spectral invariants (adjacency spectrum, spectral radius
+    /// ρ, gap). The one-flag deterministic characterize path (no LLM); = `--arrange --props`.
+    #[arg(long = "forge", num_args = 2.., value_names = ["MONOMERS"])]
+    forge: Option<Vec<String>>,
+
+    /// Compare two materials: `--compare A B C vs X Y Z`. Forge both rings and diff them by
+    /// spectral radius, conductance class, and weakest bond.
+    #[arg(long = "compare", num_args = 3.., value_names = ["A..vs..B"])]
+    compare: Option<Vec<String>>,
+
+    /// Dope a material: `--dope A B C with D`. Forge the base ring, then re-forge it with the
+    /// dopant unit mixed in, and report the shift in ρ and conductance.
+    #[arg(long = "dope", num_args = 3.., value_names = ["BASE..with..DOPANT"])]
+    dope: Option<Vec<String>>,
+
     /// Create a missing catalog entry by imscribing it via the real generate pipeline
     /// (`imscribe generate … --name <NAME>`), writing to the live catalog MoDoT merges.
     /// Optionally pass a free-text description in --rest; defaults to the humanized name.
@@ -1162,9 +1179,12 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: pathway S C1 C2…  a metabolic pathway — does it close into a cycle (carrier + structure)?
   TOOL: polymerize M1 M2… chain monomers into a sequence-preserving polymer (architecture, tacticity, does it cyclize?)
   TOOL: close M1 M2…      polymerize, and if it does not cyclize, find the real monomer that CLOSES the ring or BRIDGES the break
-  TOOL: material M1 M2…    polymerize, and if the ring CLOSES, characterize it as a material: conductive / frustrated / insulating, and ring stability
+  TOOL: material M1 M2…    polymerize, and if the ring CLOSES, characterize it as a material: conductive / frustrated / insulating, ring stability, AND spectral invariants (adjacency spectrum, spectral radius ρ, gap)
   TOOL: modulus M1 M2…     find a monomer that generates a SUSTAINING loop (a conductive cycle) somewhere along the chain — the modulus (elasticity), NOT mere closure
   TOOL: arrange M1 M2…     treat the monomers as an UNORDERED SET and find the ordering that polymerizes best (a set has no order — do NOT assume the given sequence)
+  TOOL: forge M1 M2…       the one-shot deterministic material sheet: arrange the set into its best ring and print topology, stability, conductance, and spectral invariants (ρ, spectrum, gap). ρ=2 exactly ⟺ a pure cycle; ρ>2 ⟺ branched. NEVER assert ρ or conductance without forging — the numbers come only from this verb
+  TOOL: compare A B vs X Y  forge two materials and diff them (Δρ, conductance shift) — the `vs` token separates the two sets
+  TOOL: dope A B with C     forge the base ring, then re-forge with the dopant mixed in, and report the shift in ρ and conductance — the `with` token separates base from dopant
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
 NOTE: a name being "not found" in the catalog is NOT a dead end and NOT a reason to say you cannot do something. Imscribe it: `TOOL: imscribe NAME` (optionally with a short description), then re-run your verb — the new entry loads automatically on the next call. Never refuse a task for a missing imscription; make it.
 NOTE: only imscribe the EXACT name a verb reported "not found" — one imscribe per genuinely-missing name. Do NOT pre-imscribe a whole set (names already in the catalog are reported back and waste a round), and do NOT invent article variants (`the_djed_pillar` when `djed_pillar` exists) — use the exact catalog name.
@@ -1477,6 +1497,7 @@ fn mentions_structural_work(text: &str) -> bool {
     const CUES: &[&str] = &[
         "polymeriz", "arrange", "mediator", "excite", "enchain", "cycliz", "modulus",
         "pathway", "--scan", "--close", "--click", "--material", "--switch", "--excite",
+        "forge", "spectral radius", "conductance", "--compare", "--dope", "--forge",
     ];
     let low = text.to_lowercase();
     CUES.iter().any(|c| low.contains(c))
@@ -1612,6 +1633,32 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             let mut v = vec!["--polymerize".to_string()];
             v.extend(args.iter().cloned());
             v.push("--arrange".into());
+            v
+        }
+        "forge" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--forge".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "compare" => {
+            // needs both sides and the `vs` separator: compare A B vs X Y
+            if args.len() < 5 || !args.iter().any(|a| a == "vs") {
+                return None;
+            }
+            let mut v = vec!["--compare".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "dope" => {
+            // base + `with` + dopant: dope A B with C
+            if args.len() < 4 || !args.iter().any(|a| a == "with") {
+                return None;
+            }
+            let mut v = vec!["--dope".to_string()];
+            v.extend(args.iter().cloned());
             v
         }
         _ => return None,
@@ -2259,6 +2306,9 @@ impl CliClone for Cli {
             props: self.props,
             modulus: self.modulus,
             arrange: self.arrange,
+            forge: self.forge.clone(),
+            compare: self.compare.clone(),
+            dope: self.dope.clone(),
             imscribe: self.imscribe.clone(),
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
@@ -2380,6 +2430,17 @@ fn main() {
         };
         print!("{}", run_imscribe(name, &description));
         process::exit(0);
+    }
+
+    // Forge / compare / dope — the material-operation verbs (deterministic; no LLM).
+    if let Some(names) = &cli.forge {
+        process::exit(click::run_forge(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.compare {
+        process::exit(click::run_compare(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.dope {
+        process::exit(click::run_dope(cat_ref, names, cli.theta));
     }
 
     // Imscriptive polymerization: `./ask --polymerize M1 M2 …` — chain the clicks.
