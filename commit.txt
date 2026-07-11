@@ -1,23 +1,14 @@
-Add --jam: turn the agent loose on the catalog, no question
+Make --cycles actually compound: each cycle builds on the last
 
-The toolset is built out enough that the right move is to stop steering it. Jam
-mode hands the agent the full toolset and a seed (a lemma, a pile of context,
---file, or nothing) with NO question to answer and NO objective to climb -- it
-forges, fuses, cleaves, dopes, anneals, compares, clicks, follows its own
-curiosity, and combines tools in ways nobody asked for.
+Cycles already threaded the prior cycle's final answer into the next cycle's
+context, but nothing told the agent to BUILD on it -- it re-asked the same seed
+with the prior answer sitting passively in history, so it was as likely to
+re-derive as to continue. The compounding was in the data, not the instruction.
 
-The design rests on one principle, the golem rule scaled to free exploration:
-constrain the OUTPUT, free the PROCESS. The whole reason it is safe to unleash
-the process completely is that honesty is already enforced at the output boundary
--- the executed-verb binding means the final write-up can state only what a tool
-actually returned. So there is no interestingness gradient, no curated signal to
-hunt, no leash on where it wanders. Freedom in the doing, truth in the report.
-
-Reuses the entire ManuscriptSpine agentic loop; jam only swaps in JAM_PROMPT,
-reframes the seed as a starting point rather than a question, raises the round
-budget to 40 so it can actually range, and forces the act-prod so it jams rather
-than narrating. Everything that keeps it honest (executed-verb binding, cap
-guard, golem synthesis) is untouched.
-
-  ./ask --jam "some lemma or pile of context"
-  ./ask --jam --file context.md
+Now every cycle after the first opens with an explicit directive: begin from
+where the last cycle ended, take its conclusions as the new starting point, push
+further (pursue what it left open, deepen or stress-test what it found, build the
+next layer), and do NOT re-derive what the last cycle already settled. Each cycle
+is a deeper breath, not a repeat. The original seed/question is kept below for
+reference, marked as reference rather than a fresh prompt. Works for both a normal
+answer and a jam (a jammed cycle 2 continues the threads cycle 1 opened).

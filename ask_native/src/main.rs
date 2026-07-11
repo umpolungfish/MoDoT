@@ -1421,8 +1421,21 @@ fn complete(
     }
 }
 
-fn build_user_packet(question: &str, prep: &Prepare, jam: bool) -> String {
+fn build_user_packet(question: &str, prep: &Prepare, jam: bool, cycle: u32, total: u32) -> String {
     let mut parts = Vec::new();
+    // Compounding cycles: every cycle after the first begins from where the last one ENDED.
+    // The prior cycle's final result is already in the conversation above; this makes building
+    // on it an instruction, not a hope — so the agent deepens rather than re-derives.
+    if cycle > 1 {
+        parts.push(format!(
+            "## CYCLE {cycle} of {total} — COMPOUND, do not restart.\n\
+             Your previous cycle's final result is in the conversation above. Begin from that \
+             end-state: take its conclusions as your new starting point and push further — pursue \
+             what it left open, deepen or stress-test what it found, build the next layer on top. \
+             Re-run tools where you need fresh ground, but do NOT re-derive from scratch what the \
+             last cycle already settled. Each cycle is a deeper breath, not a repeat."
+        ));
+    }
     if !prep.scaffold_md.is_empty() {
         parts.push("## Grammatic witness scaffold (spine IMSCRIB — instantiate, do not ignore)".into());
         let mut sc = prep.scaffold_md.clone();
@@ -1432,13 +1445,15 @@ fn build_user_packet(question: &str, prep: &Prepare, jam: bool) -> String {
         }
         parts.push(sc);
     }
-    if jam {
-        parts.push(format!(
-            "## JAM SEED (a starting point to explore from, NOT a question to answer — leave it whenever something more interesting appears):\n{question}"
-        ));
+    let label = if cycle > 1 {
+        if jam { "## JAM SEED (the original starting point, for reference — you are continuing from your last cycle, not restarting here):" }
+        else { "## ORIGINAL QUESTION (for reference — answer by building on your last cycle):" }
+    } else if jam {
+        "## JAM SEED (a starting point to explore from, NOT a question to answer — leave it whenever something more interesting appears):"
     } else {
-        parts.push(format!("## USER QUESTION (answer this):\n{question}"));
-    }
+        "## USER QUESTION (answer this):"
+    };
+    parts.push(format!("{label}\n{question}"));
     parts.join("\n\n")
 }
 
@@ -2071,7 +2086,7 @@ fn run_one(
             );
             model_voice = B4::N;
         } else {
-            let user_packet = build_user_packet(question, &prep, cli.jam);
+            let user_packet = build_user_packet(question, &prep, cli.jam, cycle, cli.cycles.max(1));
             // conversation: system once, then history, then this turn
             let mut msgs: Vec<(String, String)> = Vec::new();
             if conversation.is_empty() {
@@ -2132,7 +2147,7 @@ fn run_one(
             for (r, c) in conversation.iter().take(conversation.len().saturating_sub(2)) {
                 agent_msgs.push((r.clone(), c.clone()));
             }
-            agent_msgs.push(("user".to_string(), build_user_packet(question, &prep, cli.jam)));
+            agent_msgs.push(("user".to_string(), build_user_packet(question, &prep, cli.jam, cycle, cli.cycles.max(1))));
 
             let mut current = answer.clone(); // the draft is round-0's action
 
