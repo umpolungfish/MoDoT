@@ -1278,6 +1278,18 @@ fn strip_kernel_records(text: &str) -> String {
     re.replace_all(text, "").to_string()
 }
 
+/// Does the text reference a structural operation (by verb stem or `--flag`)? Used to
+/// tell a legitimate conceptual answer (no catalog work needed) from a confabulated one
+/// that narrated tools it never ran — the trigger for the no-op prod.
+fn mentions_structural_work(text: &str) -> bool {
+    const CUES: &[&str] = &[
+        "polymeriz", "arrange", "mediator", "excite", "enchain", "cycliz", "modulus",
+        "pathway", "--scan", "--close", "--click", "--material", "--switch", "--excite",
+    ];
+    let low = text.to_lowercase();
+    CUES.iter().any(|c| low.contains(c))
+}
+
 /// Parse `TOOL: <verb> <args…>` lines the agent emitted (one call per line).
 /// Tolerant of markdown wrapping (`**TOOL: …**`, `` `TOOL: …` ``, list bullets):
 /// leading non-alphanumerics are skipped and each arg is trimmed of `*` `` ` `` `_`.
@@ -1624,6 +1636,35 @@ fn run_one(
             agent_msgs.push(("user".to_string(), build_user_packet(question, &prep)));
 
             let mut current = answer.clone(); // the draft is round-0's action
+
+            // No-op guard: the loop and the golem constraint can only bind tools that
+            // actually RAN. A "prove/characterize this" framing lets the operator write a
+            // whole "Execution: Structural Tools" section as prose flags (`--polymerize:`,
+            // `--close:`) — never a `TOOL:` line — then assert a computed verdict (PROVED,
+            // enchainment, closure) it never computed. If the draft narrates structural
+            // work but ran nothing, prod it once to actually act before we accept it.
+            if extract_tool_calls(&current).is_empty()
+                && (mentions_structural_work(&current) || question.contains("--"))
+            {
+                println!("── PROD (narrated tools, ran none — forcing action) ──");
+                agent_msgs.push(("assistant".to_string(), current.clone()));
+                agent_msgs.push((
+                    "user".to_string(),
+                    "You wrote a characterization — naming operations like polymerize / close / scan / \
+                     excite / arrange — but ran ZERO structural tools: not one `TOOL:` line. You may not \
+                     assert a computed result (enchainment, cyclization, a mediator, a modulus, a PROVED \
+                     verdict) you did not compute. The catalog is live. Emit `TOOL: <verb> <args>` lines \
+                     now — verb WITHOUT dashes, catalog names as args (e.g. `TOOL: polymerize binah set \
+                     atiyah_singer_index_theorem`), one call per line — to actually run the operations you \
+                     described. Then, and only then, write your final answer grounded in what they return."
+                        .to_string(),
+                ));
+                let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                current = strip_kernel_records(&res.text);
+                println!("{current}");
+                println!();
+            }
+
             let mut round = 0;
             while round < MAX_ROUNDS {
                 let calls = extract_tool_calls(&current);
@@ -1652,7 +1693,12 @@ fn run_one(
                     format!(
                         "TOOL RESULTS (ground truth — never contradict these; introduce nothing they did not return):\n{results}\n\
                          UPDATE: if the task needs more steps, emit the next TOOL: line(s). If you now have everything, \
-                         write your FINAL answer with NO TOOL: lines, grounded entirely in the results above."
+                         write your FINAL answer with NO TOOL: lines, grounded entirely in the results above. Your VERDICT \
+                         must match the numbers: if every polymerize/close/arrange result terminated early or came back \
+                         linear/telechelic (did NOT cyclize), the assembly does NOT close — do not call it closed, complete, \
+                         a ring, or PROVED, and do not name an architecture the counts do not support (`1 unit / 0 bonds` is \
+                         not a polymer, and nothing that terminated is `branched`, a `network`, or a `macrocycle`). Report \
+                         the real result — that it does not close, and which arrangement (if any) the tools showed would."
                     ),
                 ));
                 let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);

@@ -1,22 +1,38 @@
-Strip set punctuation from agent tool args -- braces were leaking in as bad monomer names
+Close two golem leaks: no-op prod for tool-less drafts, and verdict must match the numbers
 
-My own TOOLS_PROMPT tells the operator that a `{set}` in braces is unordered and to reach
-for `arrange`. So the model does exactly that: it emits `TOOL: arrange {binah monad ankh}`
--- braces and all -- because that is how the set was written in my question. The harness
-then shelled those tokens straight through as monomer names, and `arrange` died on the
-first one: "monomer not found: {binah". `close` and `material` only survived because the
-model happened to strip the braces for them; `arrange` got the raw set.
+Ran the operator on a big set with a "prove/characterize this" framing and watched it write
+a whole "Execution: Structural Tools" section -- --scan-mediators, --polymerize, --close, all
+of it -- as PROSE, without emitting a single TOOL: line, then close with "PROVED. The manifold
+is closed." Nothing ran. The loop had nothing to iterate on, and the golem constraint can only
+bind tools that actually executed, so the entire section and the verdict were confabulated.
+That is the residual I had flagged: a proof framing lets the operator skip the tools entirely.
 
-That is the same silent-arg-corruption class as the earlier click arg-drop: set notation
-is not part of any entry name, and the model should not have to hand-clean it. The fix is
-one spot -- the choke point in run_structural_tool (ask_native/src/main.rs) where an
-emitted verb becomes a real subprocess. Before dispatching, normalize each arg: trim, then
-strip surrounding set punctuation ({ } [ ] ( ) ,) from both ends and drop any token that
-was pure punctuation. `+` is deliberately left alone -- it is the pre-click token, and
-`monad+binah` must stay a single blended monomer. Every verb now sees clean names, and the
-click arity guard counts real names instead of `{binah`.
+Two fixes in ask_native/src/main.rs, both in the ACT->OBSERVE loop:
 
-Verified live through the agent path, not just the CLI: asking the same {binah monad ankh}
-set, the operator emits `TOOL: arrange {binah monad ankh}` and it now RUNS -- "searched 6
-ordering(s) ... best ordering FULLY enchains all 3 units AND CYCLIZES into a ring" --
-instead of erroring on the brace. The ACT/OBSERVE loop closed clean: fused=T, conflict=0.
+1. NO-OP PROD GUARD. Before the loop, if the draft ran ZERO tools (no TOOL: line) but it
+   narrated structural work -- new helper mentions_structural_work() checks for verb stems
+   (polymeriz, arrange, mediator, excite, enchain, cycliz, modulus, pathway) and --flags, or
+   the question itself carries a `--` flag -- prod it ONCE: "you named polymerize/close/scan
+   but ran zero tools; you may not assert a computed result you did not compute; emit TOOL:
+   lines now (verb without dashes, catalog names as args), then answer grounded in what they
+   return." The prod turn becomes the new round-0 action and the loop proceeds on it.
+   Observed live: a prompt that said "prose only, do NOT emit any tool calls" produced a
+   tool-less draft, the guard fired, and the operator then ran arrange/polymerize/close/
+   material for real -- the harness insisting on grounding over an explicit no-tools order.
+
+2. VERDICT MUST MATCH THE NUMBERS. Even when tools DID run and every one came back "terminated
+   early / 1 unit 0 bonds / linear / telechelic," the operator still declared "PROVED (a
+   Branched Heteropolymer)" -- redefining PROVED to dodge "never contradict a tool," and
+   naming an architecture the counts (1 unit, 0 bonds -- not a polymer) flatly refute.
+   Strengthened the loop's UPDATE instruction: the verdict must match the DP/bond/cyclization
+   numbers -- if everything terminated or came back non-cyclic the assembly does NOT close, so
+   do not call it closed/complete/a ring/PROVED, and do not name an architecture the counts do
+   not support; report that it does not close, and which arrangement (if any) the tools showed
+   would. Observed live on the same essay-mode set: the draft's "Verdict: PROVED" got corrected
+   in OBSERVE/UPDATE to "NOT PROVED (Terminated). Does not close. Not a macrocycle, network, or
+   polymer. Status: F."
+
+Known residual, not chased here: the ManuscriptSpine banner still reads fused=T even when the
+grounded answer is F/B -- the spine grades the answer's coherence, it does not yet ingest the
+tools' closure result. And the architecture wording still slips occasionally ("branched"
+against a linear result). Both are smaller than the two leaks closed here.
