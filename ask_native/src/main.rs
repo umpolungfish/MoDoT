@@ -1306,6 +1306,17 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
 /// capturing its stdout. Returns None for a non-whitelisted verb or missing args.
 /// The whitelist never includes `ask`, so there is no recursion.
 fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
+    // Set notation is not part of any entry name. A `{set}` query makes the model emit
+    // `TOOL: arrange {binah monad ankh}`, and the braces/commas would leak in as bogus
+    // monomer names ("monomer not found: {binah") — the same silent-corruption class as
+    // the click arg-drop. Strip set punctuation at the choke point so every verb sees clean
+    // names. `+` (the pre-click token) is deliberately NOT stripped.
+    let owned: Vec<String> = args
+        .iter()
+        .map(|s| s.trim().trim_matches(|c| "{}[](),".contains(c)).to_string())
+        .filter(|s| !s.is_empty())
+        .collect();
+    let args: &[String] = &owned;
     let a = |i: usize| args.get(i).cloned();
     // Arity guard: `click` is pairwise. Passing 3+ names used to silently drop all but
     // the first two — which let the model claim it fused a whole set. Refuse honestly and

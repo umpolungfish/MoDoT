@@ -1,32 +1,22 @@
-Make the operator ACT in a loop instead of narrating -- THINK/ACT/OBSERVE/UPDATE
+Strip set punctuation from agent tool args -- braces were leaking in as bad monomer names
 
-Lando asked why the operator keeps telling him what it needs to do instead of just
-doing it. The honest answer is that I built it single-shot: one draft, run at most 6
-tools decided all at once in parallel, one synthesis. No loop. So when a task needs
-"do X, see the result, then do Y based on it" -- polymerize, observe the termination,
-close, use the linker it found, re-polymerize, characterize -- the operator could not
-DO the follow-ups, so it NARRATED them as prose ("Case A ... the optimal path is ...").
-It described the steps because the architecture gave it no next step.
+My own TOOLS_PROMPT tells the operator that a `{set}` in braces is unordered and to reach
+for `arrange`. So the model does exactly that: it emits `TOOL: arrange {binah monad ankh}`
+-- braces and all -- because that is how the set was written in my question. The harness
+then shelled those tokens straight through as monomer names, and `arrange` died on the
+first one: "monomer not found: {binah". `close` and `material` only survived because the
+model happened to strip the braces for them; `arrange` got the raw set.
 
-Replaced the single-shot tool block in ask_native/src/main.rs with a real agentic loop
-(THINK->ACT->OBSERVE->UPDATE):
-- the operator emits TOOL: lines (ACT); the harness runs them over the real catalog
-- the outputs come back as ground truth (OBSERVE), still under the golem constraint
-  (never contradict a tool, introduce nothing it did not return)
-- the model reads them and chooses the NEXT act (UPDATE), iterating up to MAX_ROUNDS,
-  then answers with no TOOL: lines
-- if it hits the step cap mid-action, one forced clean grounded close
-The final looped answer (not the draft) now feeds the ManuscriptSpine and the multi-turn
-history. New loop system prompt: "run a tool, read its result, run the next ... NEVER
-narrate a step you could run; run it."
+That is the same silent-arg-corruption class as the earlier click arg-drop: set notation
+is not part of any entry name, and the model should not have to hand-clean it. The fix is
+one spot -- the choke point in run_structural_tool (ask_native/src/main.rs) where an
+emitted verb becomes a real subprocess. Before dispatching, normalize each arg: trim, then
+strip surrounding set punctuation ({ } [ ] ( ) ,) from both ends and drop any token that
+was pure punctuation. `+` is deliberately left alone -- it is the pre-click token, and
+`monad+binah` must stay a single blended monomer. Every verb now sees clean names, and the
+click arity guard counts real names instead of `{binah`.
 
-Verified live on a dependent chain -- combine {binah monad ankh zosimos_alchemy
-sefer_yetzirah}, and if it terminates find a linker, insert it, re-run, then characterize:
-- round 1: polymerize -> termination at ankh-zosimos; close -> linker plutonium_normal
-- round 2: it INSERTED plutonium_normal and re-ran -> DP 3 -> 6 units, repair confirmed
-- round 3: close on the new 6-chain
-It used the linker from round 1's close inside round 2's re-polymerization -- genuine
-iteration on real output, impossible in the old single-shot flow. It did the steps
-instead of describing them.
-
-README: the agent section now describes the ACT->OBSERVE loop and the dependent chain.
+Verified live through the agent path, not just the CLI: asking the same {binah monad ankh}
+set, the operator emits `TOOL: arrange {binah monad ankh}` and it now RUNS -- "searched 6
+ordering(s) ... best ordering FULLY enchains all 3 units AND CYCLIZES into a ring" --
+instead of erroring on the brace. The ACT/OBSERVE loop closed clean: fused=T, conflict=0.
