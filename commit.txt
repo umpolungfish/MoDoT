@@ -1,14 +1,33 @@
-arrange now reports closure MULTIPLICITY -- kills the "only sequence" overclaim
+The agent can imscribe: a TOOL: imscribe verb so a missing name is never a dead end
 
-Watching a "design a computer from {grothendieck_topos, general_recursive_function,
-skolem_normal_form}" run, the agent declared its best order "the only configuration that
-achieves closure" -- and its own close call had just cyclized a DIFFERENT order. The
-overclaim traces to arrange: it searched all 6 orderings but printed only the single best,
-so a reader (or the model) reads "best" as "only."
+Lando's complaint: it was getting tiresome to have the agent say it "cannot do" something
+because a name is not in the catalog. Now it makes what it lacks. New `imscribe` verb (agent
+whitelist + TOOLS_PROMPT) and a `--imscribe NAME [description]` CLI flag.
 
-Fix in ask_native/src/click.rs: best_ordering now returns an Arrangement struct that also
-tallies how many searched orderings fully enchain (n_full) and how many cyclize (n_cyclic).
-run_arrange reports it: closure is order-ROBUST ("N/M searched orderings cyclize ... NOT the
-only sequence that closes -- do not call it unique") vs order-SPECIFIC ("the only ordering
-that cyclizes") when exactly one closes. Verified: the exact set now prints "order-ROBUST:
-4/6 searched orderings cyclize," so the uniqueness claim can no longer be confabulated.
+How it works, traced through the real pipeline (I reviewed p4rakernel's Lean and
+`imscribe generate` first, so this rides the actual stack, never a hand-written tuple):
+- imscribe shells the venv `imscribe generate "<description>" --name <name>` -- the default
+  guided stack (openrouter/deepseek-v4-pro from IG_PROVIDER), one primitive at a time from
+  numbered canonical choices. It auto-registers to the LIVE catalog (~/.imscrbgrmr/catalog.json).
+- MoDoT already merges that live catalog on load (merge_live_catalog) and the live entries
+  carry the same Ð Þ Ř … glyph fields Tuple::from_entry reads. And every TOOL: call shells a
+  fresh subprocess, so it reloads the catalog -- meaning a name imscribed mid-run is visible
+  to the NEXT tool call automatically. No reload plumbing needed.
+- The Lean side (IGFunctor.lean igFrobAlg_self_fusion, 0 sorrys) is the cert MoDoT can apply
+  to any well-formed Imscription; the one axiom (igProtoCopy_isDagger) is off the cert path.
+
+Self-healing wired in run_structural_tool: when a verb reports "not found: X", the output now
+appends "→ 'X' is not in the catalog YET -- create it: TOOL: imscribe X, then re-run." So the
+agent routes to making the entry instead of concluding it cannot proceed.
+
+Guards (learned from a live 18-monomer run):
+- catalog_has_name pre-check: an existing name short-circuits, no wasted generate/LLM call.
+- catalog_near_match: normalize away a leading article + underscores; `the_djed_pillar` when
+  `djed_pillar` exists is redirected to the real entry instead of generating a near-duplicate.
+- TOOLS_PROMPT: imscribe the EXACT missing name only, one at a time; no pre-imscribing a whole
+  set, no `the_` variants.
+
+Verified end to end: `--imscribe adjoint_functor_theorem` generated a glyph-complete entry
+(⟨𐑦𐑸𐑽𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑴⟩) and `--complement adjoint_functor_theorem` then operated on it; a live
+agent run hit "not found: the_djed_pillar", imscribed it, and re-ran arrange to enchain all 18
+units; and `--imscribe the_ankh` now redirects to `ankh` with no generate call.

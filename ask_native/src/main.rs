@@ -219,6 +219,12 @@ struct Cli {
     #[arg(long = "arrange")]
     arrange: bool,
 
+    /// Create a missing catalog entry by imscribing it via the real generate pipeline
+    /// (`imscribe generate … --name <NAME>`), writing to the live catalog MoDoT merges.
+    /// Optionally pass a free-text description in --rest; defaults to the humanized name.
+    #[arg(long = "imscribe", value_name = "NAME")]
+    imscribe: Option<String>,
+
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
@@ -1151,6 +1157,9 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: material M1 M2…    polymerize, and if the ring CLOSES, characterize it as a material: conductive / frustrated / insulating, and ring stability
   TOOL: modulus M1 M2…     find a monomer that generates a SUSTAINING loop (a conductive cycle) somewhere along the chain — the modulus (elasticity), NOT mere closure
   TOOL: arrange M1 M2…     treat the monomers as an UNORDERED SET and find the ordering that polymerizes best (a set has no order — do NOT assume the given sequence)
+  TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
+NOTE: a name being "not found" in the catalog is NOT a dead end and NOT a reason to say you cannot do something. Imscribe it: `TOOL: imscribe NAME` (optionally with a short description), then re-run your verb — the new entry loads automatically on the next call. Never refuse a task for a missing imscription; make it.
+NOTE: only imscribe the EXACT name a verb reported "not found" — one imscribe per genuinely-missing name. Do NOT pre-imscribe a whole set (names already in the catalog are reported back and waste a round), and do NOT invent article variants (`the_djed_pillar` when `djed_pillar` exists) — use the exact catalog name.
 NOTE: a `{set}` in braces is UNORDERED. Do not assume the listed order is meaningful — use `arrange`
 to let the engine find the best ordering, rather than polymerizing the given sequence and reporting it
 "terminated". Only `polymerize` in a fixed order when the order is genuinely given as a sequence.
@@ -1517,6 +1526,17 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             args.len(), args.join(" "), args[0], args[1], args.get(2).cloned().unwrap_or_default()
         ));
     }
+    // `imscribe` is the one verb that does NOT shell to this binary: it CREATES a missing
+    // entry by running the real generate pipeline, which writes to the live catalog MoDoT
+    // already merges on load. So the agent can MAKE what it needs instead of concluding the
+    // imscription is lacking. `TOOL: imscribe <name> [free-text description]`.
+    if verb == "imscribe" {
+        let Some(name) = a(0) else {
+            return Some("imscribe needs a name: TOOL: imscribe <name> [description]\n".into());
+        };
+        let description = if args.len() > 1 { args[1..].join(" ") } else { name.replace('_', " ") };
+        return Some(run_imscribe(&name, &description));
+    }
     let flags: Vec<String> = match verb {
         "click" => {
             let mut v = vec!["--click".to_string(), a(0)?];
@@ -1593,7 +1613,135 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         s.push_str(err.trim_end());
         s.push('\n');
     }
+    // If a verb failed on a missing name, don't leave the agent to conclude it cannot
+    // proceed — route it to MAKE the entry. This is the whole point: the imscription being
+    // absent is a fixable state, not a wall.
+    if let Some(missing) = s
+        .split("not found: ")
+        .nth(1)
+        .and_then(|t| t.split_whitespace().next())
+    {
+        s.push_str(&format!(
+            "\n→ '{missing}' is not in the catalog YET — this is not a dead end. Create it: \
+             TOOL: imscribe {missing}\n   (imscribes it via the real generate pipeline; then re-run this verb — the new entry loads automatically.)\n"
+        ));
+    }
     Some(s)
+}
+
+/// Is a name already registered — in the base IG_catalog.json OR the live
+/// ~/.imscrbgrmr/catalog.json? Cheap `"name": "…"` substring check, matching the guard in
+/// register_chimera. Used to skip a wasted generate call for an entry that already exists.
+fn catalog_has_name(name: &str) -> bool {
+    let needle = format!("\"name\": \"{name}\"");
+    let live = PathBuf::from(expand_user("~/.imscrbgrmr/catalog.json"));
+    [resolve_catalog_path(), Some(live)]
+        .into_iter()
+        .flatten()
+        .any(|p| fs::read_to_string(&p).map(|t| t.contains(&needle)).unwrap_or(false))
+}
+
+/// All entry names across the base and live catalogs.
+fn catalog_names() -> Vec<String> {
+    let live = PathBuf::from(expand_user("~/.imscrbgrmr/catalog.json"));
+    let mut names = Vec::new();
+    for p in [resolve_catalog_path(), Some(live)].into_iter().flatten() {
+        let Ok(text) = fs::read_to_string(&p) else { continue };
+        let Ok(v) = serde_json::from_str::<Value>(&text) else { continue };
+        let arr = v.get("imscriptions").cloned().unwrap_or(v);
+        if let Some(a) = arr.as_array() {
+            for item in a {
+                if let Some(n) = item.get("name").and_then(|x| x.as_str()) {
+                    names.push(n.to_string());
+                }
+            }
+        }
+    }
+    names
+}
+
+/// Normalize a name for near-duplicate comparison: lowercase, drop surrounding underscores,
+/// and shed a leading article. `the_djed_pillar`, `djed_pillar`, `Djed_Pillar` all collapse.
+fn normalize_name(n: &str) -> String {
+    let n = n.trim_matches('_').to_lowercase();
+    for art in ["the_", "a_", "an_"] {
+        if let Some(rest) = n.strip_prefix(art) {
+            return rest.trim_matches('_').to_string();
+        }
+    }
+    n
+}
+
+/// If `name` is a variant of an entry that already exists (same normalized form, different
+/// spelling), return that entry's real name. The agent tends to invent `the_djed_pillar`
+/// when `djed_pillar` exists; this catches it before a redundant entry is generated.
+fn catalog_near_match(name: &str) -> Option<String> {
+    let target = normalize_name(name);
+    if target.is_empty() {
+        return None;
+    }
+    catalog_names()
+        .into_iter()
+        .find(|existing| existing != name && normalize_name(existing) == target)
+}
+
+/// Create a missing catalog entry by running the REAL imscription pipeline — the default
+/// `imscribe generate "<description>" --name <name>` guided stack (never a hand-written
+/// tuple; the tuple is sourced procedurally by the generator). It writes to the live catalog
+/// (~/.imscrbgrmr/catalog.json) that MoDoT already merges on load, so the next tool-call
+/// subprocess sees the new entry. Success is judged by whether the entry actually landed,
+/// not by the rich CLI's exit code.
+fn run_imscribe(name: &str, description: &str) -> String {
+    if catalog_has_name(name) {
+        return format!(
+            "'{name}' is already in the catalog — use it directly (e.g. TOOL: polymerize {name} …). No imscription needed.\n"
+        );
+    }
+    // Near-duplicate guard: don't generate `the_djed_pillar` when `djed_pillar` exists.
+    if let Some(existing) = catalog_near_match(name) {
+        return format!(
+            "'{name}' is a variant of '{existing}', which is ALREADY in the catalog. Use '{existing}' \
+             directly (e.g. TOOL: polymerize {existing} …) — do not imscribe a near-duplicate.\n"
+        );
+    }
+    let Some(cat) = resolve_catalog_path() else {
+        return "imscribe: could not locate the IG catalog / imscribing_grammar package.\n".into();
+    };
+    let Some(ig_dir) = cat.parent().map(|d| d.to_path_buf()) else {
+        return "imscribe: catalog path has no parent directory.\n".into();
+    };
+    let venv_imscribe = ig_dir.join(".venv/bin/imscribe");
+    let mut cmd = if venv_imscribe.is_file() {
+        process::Command::new(&venv_imscribe)
+    } else {
+        process::Command::new("imscribe") // fall back to PATH
+    };
+    cmd.args(["generate", description, "--name", name])
+        .current_dir(&ig_dir);
+    // The generate stack needs a provider; the user's env sets IG_PROVIDER=openrouter, but
+    // default it defensively so a bare environment still produces an entry.
+    if env::var("IG_PROVIDER").is_err() {
+        cmd.env("IG_PROVIDER", "openrouter");
+    }
+    let out = match cmd.output() {
+        Ok(o) => o,
+        Err(e) => return format!("imscribe: could not run the generate pipeline: {e}\n"),
+    };
+    if catalog_has_name(name) {
+        format!(
+            "✓ imscribed '{name}' via the generate pipeline (guided). It is now in the live catalog — \
+             use it in your next TOOL line (e.g. TOOL: polymerize {name} …); it loads fresh automatically.\n"
+        )
+    } else {
+        let combined = format!(
+            "{}{}",
+            String::from_utf8_lossy(&out.stdout),
+            String::from_utf8_lossy(&out.stderr)
+        );
+        let lines: Vec<&str> = combined.lines().filter(|l| !l.trim().is_empty()).collect();
+        let tail = lines[lines.len().saturating_sub(8)..].join("\n");
+        format!("imscribe '{name}' did not register. Generator output (tail):\n{tail}\n")
+    }
 }
 
 fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
@@ -2060,6 +2208,7 @@ impl CliClone for Cli {
             props: self.props,
             modulus: self.modulus,
             arrange: self.arrange,
+            imscribe: self.imscribe.clone(),
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -2160,6 +2309,18 @@ fn main() {
             eprintln!("--pathway needs a substrate and at least one catalyst");
             process::exit(2);
         }
+    }
+
+    // Imscribe a missing entry: `./ask --imscribe NAME [free-text description]`.
+    // Runs the real generate pipeline and writes to the live catalog.
+    if let Some(name) = &cli.imscribe {
+        let description = if cli.rest.is_empty() {
+            name.replace('_', " ")
+        } else {
+            cli.rest.join(" ")
+        };
+        print!("{}", run_imscribe(name, &description));
+        process::exit(0);
     }
 
     // Imscriptive polymerization: `./ask --polymerize M1 M2 …` — chain the clicks.
