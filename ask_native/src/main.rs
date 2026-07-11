@@ -1044,14 +1044,55 @@ fn model_self_belnap(text: &str) -> char {
     if let Some(c) = re.captures(text) {
         return c[1].chars().next().unwrap_or('T').to_ascii_uppercase();
     }
-    let low = text.to_lowercase();
-    if low.contains("both") && low.contains("neither") {
+    // Otherwise read the model's STATED verdict. Default was 'T', which made a confident
+    // "PROVED" and an honest "Status: F" grade identically — so the spine could never see
+    // the model deny closure. Strip markdown so `**Status:** **F**` and `### Verdict: NOT
+    // PROVED` both read cleanly.
+    let low = text
+        .to_lowercase()
+        .replace(['*', '#', '`'], "");
+    if low.contains("status: f")
+        || low.contains("verdict: f")
+        || low.contains("not proved")
+        || low.contains("does not close")
+        || low.contains("refuted")
+    {
+        return 'F';
+    }
+    if low.contains("status: b")
+        || low.contains("verdict: b")
+        || (low.contains("both") && low.contains("neither"))
+    {
         return 'B';
     }
     if text.trim().is_empty() {
         return 'F';
     }
     'T'
+}
+
+/// Belnap voice of the structural TOOLS: what the catalog actually computed about the
+/// assembly's closure, read off the canonical phrases the verbs emit. T = a chain cyclized
+/// (a ring/macrocycle formed); F = every attempt terminated or came back linear/telechelic
+/// (no closure); B = both happened (e.g. it closes only under a reordering); N = no
+/// closure-bearing tool ran. This is ground truth — it enters the fuse as a real voice, so
+/// a model that claims closure the tools deny lands on B (conflict held), not a smug T.
+fn tool_belnap(tool_output: &str) -> B4 {
+    let low = tool_output.to_lowercase();
+    let closed = low.contains("✓ cyclic")
+        || low.contains("cyclizes into a ring")
+        || low.contains("closes head-to-tail");
+    let open = low.contains("telechelic")
+        || low.contains("no head-to-tail closure")
+        || low.contains("cannot close into a ring")
+        || low.contains("terminated early")
+        || low.contains("did not cyclize");
+    match (closed, open) {
+        (true, false) => B4::T,
+        (false, true) => B4::F,
+        (true, true) => B4::B,
+        (false, false) => B4::N,
+    }
 }
 
 // ── System prompt + spine ───────────────────────────────────────────────────
@@ -1176,6 +1217,7 @@ struct SpineReport {
     fused: B4,
     model_voice: B4,
     vessel_voice: B4,
+    tool_voice: B4,
     conflict: u8,
     riding: bool,
     prove_balance: bool,
@@ -1205,6 +1247,7 @@ fn complete(
     prep: &Prepare,
     answer_text: &str,
     model_voice: B4,
+    tool_voice: B4,
     no_selectivity: bool,
 ) -> SpineReport {
     // Structural co-type: if we have a witness and a non-empty answer that
@@ -1227,14 +1270,27 @@ fn complete(
     };
 
     let riding = !no_selectivity && vessel == B4::T && prep.witness_ready;
-    let fused = if no_selectivity {
+    // Fuse the model's stated verdict with the vessel co-type (Belnap join).
+    let fused_mv = if no_selectivity {
         model_voice
     } else if vessel == B4::N {
         model_voice
     } else {
         b4_join(model_voice, vessel)
     };
-    let conflict = if no_selectivity {
+    // Then fuse in the tools as a third voice — ground truth about closure. When the model
+    // claims a ring the tools deny (T vs F) the join is B: conflict held, never overridden.
+    // N means no closure-bearing tool ran, so the tools abstain and the fuse is unchanged.
+    let fused = if tool_voice == B4::N {
+        fused_mv
+    } else {
+        b4_join(fused_mv, tool_voice)
+    };
+    // Headline conflict: if the tools spoke, it is model-vs-tools (did the answer's verdict
+    // match what the catalog computed?); otherwise the old model-vs-vessel co-type check.
+    let conflict = if tool_voice != B4::N {
+        b4_conflict(model_voice, tool_voice)
+    } else if no_selectivity {
         0
     } else {
         b4_conflict(model_voice, vessel)
@@ -1244,6 +1300,7 @@ fn complete(
         fused,
         model_voice,
         vessel_voice: vessel,
+        tool_voice,
         conflict,
         riding,
         prove_balance: true, // μ∘δ face: harness closed on successful emit/verify
@@ -1251,6 +1308,8 @@ fn complete(
         answer_text: answer_text.to_string(),
         note: if no_selectivity {
             "model only (--no-selectivity)".into()
+        } else if tool_voice != B4::N {
+            "FFUSE model ⋈ vessel ⋈ tools (tools = ground-truth closure)".into()
         } else {
             "FFUSE model ⋈ vessel".into()
         },
@@ -1426,10 +1485,11 @@ fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
     println!("{}", "=".repeat(60));
     println!("MANUSCRIPT SPINE REPORT");
     println!(
-        "  fused={}  model={}  vessel={}  conflict={}",
+        "  fused={}  model={}  vessel={}  tools={}  conflict={}",
         b4_name(rep.fused),
         b4_name(rep.model_voice),
         b4_name(rep.vessel_voice),
+        b4_name(rep.tool_voice),
         rep.conflict
     );
     println!(
@@ -1560,7 +1620,8 @@ fn run_one(
         }
 
         let mut answer;
-        let model_voice;
+        let mut model_voice;
+        let mut tool_voice = B4::N;
 
         if cli.dry_run {
             answer = format!(
@@ -1665,6 +1726,7 @@ fn run_one(
                 println!();
             }
 
+            let mut all_tool_output = String::new(); // every round's real output → the tool voice
             let mut round = 0;
             while round < MAX_ROUNDS {
                 let calls = extract_tool_calls(&current);
@@ -1687,6 +1749,7 @@ fn run_one(
                         }
                     }
                 }
+                all_tool_output.push_str(&results);
                 agent_msgs.push(("assistant".to_string(), current.clone()));
                 agent_msgs.push((
                     "user".to_string(),
@@ -1729,9 +1792,13 @@ fn run_one(
             if let Some(last) = conversation.last_mut() {
                 last.1 = answer.clone();
             }
+            // Grade the FINAL answer (not the draft) and let the tools speak: the spine now
+            // fuses the model's stated verdict with what the catalog actually computed.
+            model_voice = b4_from_char(model_self_belnap(&answer));
+            tool_voice = tool_belnap(&all_tool_output);
         }
 
-        let rep = complete(&prep, &answer, model_voice, cli.no_selectivity);
+        let rep = complete(&prep, &answer, model_voice, tool_voice, cli.no_selectivity);
         print_spine(&rep, &prep, cli.verbose);
 
         if rep.fused == B4::F {

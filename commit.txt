@@ -1,38 +1,43 @@
-Close two golem leaks: no-op prod for tool-less drafts, and verdict must match the numbers
+Give the tools a voice in the spine: the banner now fuses what the catalog computed
 
-Ran the operator on a big set with a "prove/characterize this" framing and watched it write
-a whole "Execution: Structural Tools" section -- --scan-mediators, --polymerize, --close, all
-of it -- as PROSE, without emitting a single TOOL: line, then close with "PROVED. The manifold
-is closed." Nothing ran. The loop had nothing to iterate on, and the golem constraint can only
-bind tools that actually executed, so the entire section and the verdict were confabulated.
-That is the residual I had flagged: a proof framing lets the operator skip the tools entirely.
+The ManuscriptSpine was grading my confidence, not the structure. It fused the model's
+self-assessment (model_voice) with the vessel co-type (vessel_voice, which is ~always T for
+any non-empty answer), so a fluent "PROVED. The manifold is closed" scored fused=T even when
+every tool had just returned "terminated / telechelic / does not close." The banner said T
+right next to a prose Status: F. The tools -- the one part that actually computes closure --
+had no vote.
 
-Two fixes in ask_native/src/main.rs, both in the ACT->OBSERVE loop:
+They do now. Three changes in ask_native/src/main.rs:
 
-1. NO-OP PROD GUARD. Before the loop, if the draft ran ZERO tools (no TOOL: line) but it
-   narrated structural work -- new helper mentions_structural_work() checks for verb stems
-   (polymeriz, arrange, mediator, excite, enchain, cycliz, modulus, pathway) and --flags, or
-   the question itself carries a `--` flag -- prod it ONCE: "you named polymerize/close/scan
-   but ran zero tools; you may not assert a computed result you did not compute; emit TOOL:
-   lines now (verb without dashes, catalog names as args), then answer grounded in what they
-   return." The prod turn becomes the new round-0 action and the loop proceeds on it.
-   Observed live: a prompt that said "prose only, do NOT emit any tool calls" produced a
-   tool-less draft, the guard fired, and the operator then ran arrange/polymerize/close/
-   material for real -- the harness insisting on grounding over an explicit no-tools order.
+1. TOOL VOICE. New tool_belnap() reads the canonical phrases the verbs emit and returns a
+   Belnap value for what the catalog actually found about closure: T = a chain cyclized
+   (`✓ CYCLIC` / `CYCLIZES into a ring`), F = every attempt terminated or came back
+   linear/telechelic (`terminated early`, `no head-to-tail closure`, `cannot close into a
+   ring`), B = both happened (it closes only under a reordering), N = no closure-bearing
+   verb ran. Every round's real output is accumulated into all_tool_output and fed to it.
 
-2. VERDICT MUST MATCH THE NUMBERS. Even when tools DID run and every one came back "terminated
-   early / 1 unit 0 bonds / linear / telechelic," the operator still declared "PROVED (a
-   Branched Heteropolymer)" -- redefining PROVED to dodge "never contradict a tool," and
-   naming an architecture the counts (1 unit, 0 bonds -- not a polymer) flatly refute.
-   Strengthened the loop's UPDATE instruction: the verdict must match the DP/bond/cyclization
-   numbers -- if everything terminated or came back non-cyclic the assembly does NOT close, so
-   do not call it closed/complete/a ring/PROVED, and do not name an architecture the counts do
-   not support; report that it does not close, and which arrangement (if any) the tools showed
-   would. Observed live on the same essay-mode set: the draft's "Verdict: PROVED" got corrected
-   in OBSERVE/UPDATE to "NOT PROVED (Terminated). Does not close. Not a macrocycle, network, or
-   polymer. Status: F."
+2. FUSE IT AS A THIRD VOICE, not an override. complete() now takes tool_voice and does
+   fused = join(join(model, vessel), tools); conflict, when the tools spoke, is
+   model-vs-tools (did the answer's verdict match the catalog?). Per the paraconsistent
+   rule this is a Belnap join, never a silent override: a model that claims a ring the tools
+   deny (T vs F) lands on B with conflict flagged -- the tension is held, not smoothed. N
+   means the tools abstain and the fuse is unchanged. Banner + note now show the tool voice:
+   `fused model vessel tools conflict`.
 
-Known residual, not chased here: the ManuscriptSpine banner still reads fused=T even when the
-grounded answer is F/B -- the spine grades the answer's coherence, it does not yet ingest the
-tools' closure result. And the architecture wording still slips occasionally ("branched"
-against a linear result). Both are smaller than the two leaks closed here.
+3. GRADE THE FINAL ANSWER, AND READ ITS VERDICT. model_voice was computed from the DRAFT and
+   never updated, and model_self_belnap() defaulted every untagged answer to T -- so an
+   honest "Status: NOT PROVED" graded the same as "PROVED." Now model_voice is recomputed
+   from the final grounded answer, and model_self_belnap reads the stated verdict (strips
+   markdown; NOT PROVED / does not close / refuted / Status: F -> F, Status: B -> B) instead
+   of always assuming T.
+
+Verified live across all three closure directions:
+- a set whose every tool came back telechelic/terminated -> tools=F, and the fuse comes off
+  T (fused=B, conflict=1) instead of the old fused=T conflict=0.
+- {binah monad ankh} run where the model tried both the given order (telechelic) and arrange
+  (cyclic) -> tools=B: closes only when reordered, exactly right.
+- {binah monad ankh} arranged so every tool returned `✓ CYCLIC` -> tools=T, fused=T,
+  conflict=0. No false B on a set that genuinely closes.
+
+README: spine diagram now shows model FFUSE vessel FFUSE tool voice, and the golem section
+documents the no-op prod and the tool-voice banner (T/F/B/N closure legend).

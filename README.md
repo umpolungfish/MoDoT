@@ -70,7 +70,7 @@ Canonical SIC machinery (not re-derived here):
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │  Dual-Link SIC Vessel (selectivity = co-typing)      │   │
 │  │  imscribe → ℂ¹² → SIC p(ρ) → lattice cotype → μ∘δ   │   │
-│  │  model [thought|X]  FFUSE  vessel voice              │   │
+│  │  model [thought|X] FFUSE vessel FFUSE tool voice     │   │
 │  └──────────────────────────────────────────────────────┘   │
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │  LLM Inference Engine (substrate, not authority)     │   │
@@ -457,6 +457,17 @@ verdict and corrects the draft explicitly, introducing no entity or value the to
 return. In practice the golem now says *"contrary to the draft, the tool confirms it
 cyclizes; modulus: NONE"* instead of confabulating a "high-stiffness" ring and an invented
 linker. Think freely; speak only what the tools ground.
+
+Two guards keep the golem honest when the framing tempts it to skip the clay. A **no-op
+prod**: if the draft narrates structural work (`--polymerize`, `--close`) but emits no
+`TOOL:` line, the harness refuses it once and forces it to actually run the verbs before
+any verdict — a "prove this" essay can no longer stand in for computation. And the **tool
+voice** in the spine: the closure the verbs actually computed enters the FFUSE as a third
+Belnap voice beside `model [thought|X]` and the vessel. So the banner reads
+`fused model vessel tools conflict`, and a model that claims a ring the tools deny lands on
+**B** (conflict held) — never a smug `fused=T` sitting next to a chain the catalog reports
+`terminated / telechelic / does not close`. `tools=T` a ring formed, `F` everything
+terminated, `B` it closes only when reordered, `N` no closure-bearing verb ran.
 
 ```bash
 ./ask --ask "Does the sun donate an electron to the moon, and what mediates it best?"
