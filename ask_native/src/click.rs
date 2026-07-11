@@ -2601,6 +2601,111 @@ pub fn run_sublime(catalog: Option<&[CatalogEntry]>, name: &str) -> i32 {
     0
 }
 
+/// CLI: `./ask --crystallize M1 M2 …`. Grow the ordered lattice from the pool: the
+/// units that enchain into the best ring are lattice-bound (EVALT); the rest are
+/// rejected into the mother-pool (EVALF). A clean closed ring is a crystal (T),
+/// nothing enchaining is amorphous (F), a partial fit is the interfacial layer (B).
+/// Distinct from `anneal`, which only relaxes an already-closed loop.
+pub fn run_crystallize(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else { eprintln!("crystallize: no catalog loaded"); return 2; };
+    if monomers.len() < 2 { eprintln!("crystallize needs at least two units"); return 2; }
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("crystallize: {e}"); return 2; }
+    };
+    let n = units.len();
+    let arr = best_ordering(&units, theta);
+    let (dp, cyclic, _) = walk_score(&units, &arr.order, theta);
+    let lattice: Vec<String> = arr.order[..dp].iter().map(|&i| monomers[i].clone()).collect();
+    let supernatant: Vec<String> = arr.order[dp..].iter().map(|&i| monomers[i].clone()).collect();
+    println!("crystallization (grow the ordered lattice from the pool; reject what will not fit):  {{{}}}", monomers.join(", "));
+    println!("  ── lattice (EVALT — the units that fit the ordered lattice) ──");
+    println!("    [{}]{}", lattice.join(" · "), if cyclic { "   (closed crystal, O∞)" } else { "   (open lattice, did not close)" });
+    println!("  ── mother-pool (EVALF — rejected supernatant, co-typed, will not join) ──");
+    if supernatant.is_empty() { println!("    (none — the whole pool crystallized)"); }
+    else { println!("    {}", supernatant.join(", ")); }
+    if dp == n && cyclic {
+        println!("  ✓ T: a clean crystal — every unit fits and the lattice closes.");
+    } else if dp <= 1 {
+        println!("  ✗ F: amorphous — nothing crystallizes (the units are mutually co-typed; no lattice forms).");
+    } else {
+        println!("  ~ B: an interfacial layer — part of the pool orders, the rest stays in the mother-pool.");
+    }
+    0
+}
+
+/// CLI: `./ask --cocrystallize A B`. One lattice of two components held by NON-covalent
+/// complementarity (opposite charge on a live pair) in 1:1 stoichiometry, never a bond
+/// between them. If they also click covalently, that bond is the stronger option and the
+/// cocrystal is the non-bonded co-lattice. No complement at all is charge frustration.
+pub fn run_cocrystallize(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: &str, theta: f32) -> i32 {
+    let Some(cat) = catalog else { eprintln!("cocrystallize: no catalog loaded"); return 2; };
+    let names = [name_a.to_string(), name_b.to_string()];
+    let units = match load_monomers(cat, &names, theta) {
+        Ok(u) => u,
+        Err(e) => { eprintln!("cocrystallize: {e}"); return 2; }
+    };
+    let (a, b) = (&units[0], &units[1]);
+    println!("co-crystallization (one lattice of two components held by non-covalent complementarity):  {name_a} + {name_b}");
+    let covalent = click_pair(a, b, theta).is_ok();
+    match best_weak_complement(a, b) {
+        Some((pi, drive)) => {
+            println!("  ✓ cocrystal (EVALT): {name_a} and {name_b} recognize each other on {} (Δ={drive:.2}), a non-covalent adduct in 1:1 stoichiometry.", LIVE_LABELS[pi]);
+            if covalent {
+                println!("  note: they also click covalently on a live pair — a true bond (--click) is the stronger option; the cocrystal is the non-bonded co-lattice.");
+            } else {
+                println!("  held by recognition across the gap, no reaction center consumed — distinct from --click (covalent fusion).");
+            }
+        }
+        None => {
+            println!("  ✗ B / charge frustration: no oppositely-charged live pair — {name_a} and {name_b} are co-typed / same-handed and will not co-crystallize (no complementary sites to align the lattice).");
+        }
+    }
+    0
+}
+
+/// CLI: `./ask --seed M1 M2 … with S`. Template-directed crystallization: units whose
+/// handedness Ħ (index 9) matches the seed S copy its polymorph (EVALT, templated
+/// fraction); the rest take the default polymorph (EVALF, spontaneous). An even split
+/// is racemic twinning (B). Non-conservative — the arms fuse to total crystalline mass.
+pub fn run_seed(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else { eprintln!("seed: no catalog loaded"); return 2; };
+    let Some((pool_names, seed_names)) = split_on(monomers, "with") else {
+        eprintln!("seed needs the `with` token: seed M1 M2 … with S"); return 2;
+    };
+    if pool_names.is_empty() || seed_names.len() != 1 {
+        eprintln!("seed: seed M1 M2 … with S  (one seed after `with`)"); return 2;
+    }
+    let pool = match load_monomers(cat, pool_names, theta) { Ok(u) => u, Err(e) => { eprintln!("seed: {e}"); return 2; } };
+    let seed = match load_monomers(cat, seed_names, theta) {
+        Ok(u) => match u.into_iter().next() { Some(t) => t, None => { eprintln!("seed: no seed"); return 2; } },
+        Err(e) => { eprintln!("seed: {e}"); return 2; }
+    };
+    let Some(seed_h) = seed.ord[9] else {
+        eprintln!("seed: {} has no Ħ (chirality) to template with", seed_names[0]); return 2;
+    };
+    println!("seeding (template the crystal on {}'s handedness Ħ={}):  {{{}}}", seed_names[0], glyph_of(9, seed_h), pool_names.join(", "));
+    let mut templated = Vec::new();
+    let mut spontaneous = Vec::new();
+    for u in &pool {
+        match u.ord[9] {
+            Some(h) if h == seed_h => templated.push(u.name.clone()),
+            _ => spontaneous.push(u.name.clone()),
+        }
+    }
+    println!("  ── templated fraction (EVALT — matches the seed's handedness, copies the polymorph) ──");
+    println!("    {}", if templated.is_empty() { "(none)".to_string() } else { templated.join(", ") });
+    println!("  ── spontaneous fraction (EVALF — off-template, takes the default polymorph) ──");
+    println!("    {}", if spontaneous.is_empty() { "(none)".to_string() } else { spontaneous.join(", ") });
+    let (t, s) = (templated.len(), spontaneous.len());
+    if s == 0 { println!("  ✓ T: the seed fully directs the crystal — every unit copies the template."); }
+    else if t == 0 { println!("  ✗ F: the seed takes hold on nothing — the pool ignores the template."); }
+    else if t == s { println!("  ~ B: racemic twinning — templated and spontaneous domains coexist in equal measure."); }
+    else { println!("  ~ B: mixed — {t} templated vs {s} spontaneous domains (partial templating)."); }
+    println!("  FFUSE → total crystalline mass (seeding transforms the pool, not a pure conservative split).");
+    0
+}
+
 /// Can a winding quantum Ω circulate the ring (units treated as a cycle)? A consistent
 /// one-way circulation is a persistent ring current (the loop SUSTAINS itself, μ∘δ=id
 /// around the cycle). Reuses the Ω-transfer primitive at each junction.

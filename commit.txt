@@ -1,29 +1,30 @@
-Add the alchemical volatility bench: distill, fdistill, sublime
+Add the crystallization bench: crystallize, cocrystallize, seed
 
-The modern bench (click, set, scan, polymerize, forge, arrange, anneal,
-cleave, fuse, dope) went in without the classical alchemists' separation
-tools. This starts filling that gap. The semantics were fixed first by an
-ob3ect batch (alchemical_tools_roadmap): every classical technique typed
-as the SAME Frobenius shape, a feedstock FSPLITs into a kept arm (EVALT)
-and a rejected arm (EVALF) and the arms FFUSE back to the feedstock (mass
-balance), verdict PASS, tier O1. So the whole bench is one fractionate
-core parameterized by a per-unit axis, not eleven unrelated verbs.
+The second alchemical family, ordering-to-a-solid, grounded on the ob3ect
+typings (alchemical_tools_roadmap) and built on the existing ring/charge
+machinery rather than new metrics:
+  - crystallize M1 M2...   grow the ordered lattice from a pool via
+    best_ordering: the units that enchain are lattice-bound (EVALT), the
+    rest are rejected into the mother-pool (EVALF). A closed ring is a
+    crystal (T), a partial fit is the interfacial layer (B), nothing
+    enchaining is amorphous (F). Distinct from anneal, which only relaxes
+    an already-closed loop; this forms one from a set and rejects the
+    supernatant, exactly as the oracle's stereochemical-filter typing.
+  - cocrystallize A B       one NON-covalent lattice of two components held
+    by best_weak_complement (opposite charge on a live pair) in 1:1
+    stoichiometry, no reaction center consumed. If they also click
+    covalently, that bond is the stronger option and the cocrystal is the
+    non-bonded co-lattice; no complement is charge frustration (B).
+    Distinct from click (covalent fusion).
+  - seed M1 M2 ... with S   template-directed: units whose handedness Ħ
+    (index 9) matches the seed copy its polymorph (EVALT, templated), the
+    rest take the default (EVALF, spontaneous), an even split is racemic
+    twinning (B). Non-conservative, the arms fuse to total crystalline
+    mass, the one op the oracle typed with a fuse_result different from the
+    input.
 
-This commit lands the volatility family, all three on Criticality (the
-index-8 axis the oracle put the EVALT gate on, the readiness to leave):
-  - distill M1 M2...   cut the set at the midpoint of the volatility range
-    into the volatile head (distillate) and the involatile residue
-    (bottoms); a pair tied on the axis within epsilon is an azeotrope
-    (the B frontier) the cut cannot resolve.
-  - fdistill M1 M2...  the fractional, higher-resolution version: rank the
-    whole column plate by plate with the resolution gap to each next
-    fraction, flagging neighbors too close to resolve (they co-distill;
-    more plates will not split an azeotrope).
-  - sublime A          purify one unit by a two-state skip across the axis,
-    omitting the middle register; reports whether it sublimes or is
-    entrapped within a step of the ceiling and must climb stepwise (excite).
-
-Shared fractionate() core in click.rs, wired through the Cli flags, the
-agent verb whitelist (run_structural_tool + verb_usage + STRUCTURAL_VERBS
-+ TOOLS_PROMPT + the no-op-prod cues), with unit tests for the cut and the
-azeotrope frontier. Verified live on real catalog entries.
+Wired through the Cli flags and the agent verb whitelist (run_structural_tool
++ verb_usage + STRUCTURAL_VERBS + TOOLS_PROMPT + no-op-prod cues), same as
+the volatility family. Verified live on real catalog entries across the T,
+B, and F paths (a closed crystal, a frustrated cocrystal and a formed one,
+a fully templated seed).

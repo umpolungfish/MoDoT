@@ -277,6 +277,18 @@ struct Cli {
     #[arg(long = "sublime", num_args = 1, value_name = "A")]
     sublime: Option<String>,
 
+    /// Crystallization: grow the ordered lattice from a set, rejecting units that do not fit.
+    #[arg(long = "crystallize", num_args = 2.., value_names = ["MONOMERS"])]
+    crystallize: Option<Vec<String>>,
+
+    /// Co-crystallization: one non-covalent lattice of two complementary components.
+    #[arg(long = "cocrystallize", num_args = 2, value_names = ["A", "B"])]
+    cocrystallize: Option<Vec<String>>,
+
+    /// Seeding: template a set's crystal on a seed's handedness. `seed M1 M2 … with S`.
+    #[arg(long = "seed", num_args = 3.., value_names = ["MONOMERS"])]
+    seed: Option<Vec<String>>,
+
     /// Recall a registered material by name: `--recall NAME`. Prints its stored sheet from the
     /// material registry without respecifying it from units. Pair with `--forge … --register`.
     #[arg(long = "recall", value_name = "NAME")]
@@ -1285,6 +1297,9 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: distill M1 M2…     separate a set by volatility (Criticality ⊙): the volatile head (distillate) vs the involatile residue (bottoms); a pair tied on ⊙ is an azeotrope it cannot resolve
   TOOL: fdistill M1 M2…    fractional distillation: rank the whole set by ⊙ plate by plate with the resolution gap to each next fraction (flags azeotropic neighbors that co-distill)
   TOOL: sublime A          purify one unit by a two-state skip across ⊙, omitting the middle state; reports whether it sublimes or is entrapped and must climb stepwise (excite)
+  TOOL: crystallize M1 M2… grow the ordered lattice from a set: the units that fit (lattice) vs the rejected mother-pool; a closed ring is a crystal, a partial fit is interfacial, none is amorphous
+  TOOL: cocrystallize A B  one NON-covalent lattice of two complementary components (opposite charge on a live pair), 1:1, no bond consumed — distinct from click (covalent)
+  TOOL: seed M1 M2… with S template the crystal on seed S's handedness Ħ: units matching S copy its polymorph (templated) vs the default (spontaneous); an even split is racemic twinning
   TOOL: register NAME M1 M2…  forge the set into a ring and store its full sheet in the material library under NAME (recall it later by name)
   TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
@@ -1766,6 +1781,7 @@ fn mentions_structural_work(text: &str) -> bool {
         "--cleave", "cleave", "fission", "--anneal", "anneal", "strain",
         "--recall", "recall", "register", "--register",
         "distill", "sublim", "volatility", "azeotrope",
+        "crystalliz", "cocrystal", "polymorph", "lattice",
     ];
     let low = text.to_lowercase();
     CUES.iter().any(|c| low.contains(c))
@@ -2010,6 +2026,23 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             v
         }
         "sublime" => vec!["--sublime".into(), a(0)?],
+        "crystallize" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--crystallize".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "cocrystallize" => vec!["--cocrystallize".into(), a(0)?, a(1)?],
+        "seed" => {
+            if args.len() < 3 {
+                return None;
+            }
+            let mut v = vec!["--seed".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
         _ => return None,
     };
     // Distinct from the arity None above: a failure to LOCATE or SPAWN the binary is not
@@ -2094,6 +2127,9 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "distill"    => "distill M1 M2...; 2+ names (separate by volatility ⊙)",
         "fdistill"   => "fdistill M1 M2...; 2+ names (fractional: ranked column by ⊙)",
         "sublime"    => "sublime A; 1 name (skip-path purify across ⊙)",
+        "crystallize"   => "crystallize M1 M2...; 2+ names (grow the lattice, reject non-fitting)",
+        "cocrystallize" => "cocrystallize A B; 2 names (non-covalent co-lattice)",
+        "seed"          => "seed M1 M2 ... with S; a set, then `with`, then one seed",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         _ => return None,
     })
@@ -2106,6 +2142,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "pathway", "polymerize", "close", "material", "modulus", "arrange", "forge",
     "compare", "dope", "fuse", "cleave", "anneal", "register", "recall", "imscribe",
     "distill", "fdistill", "sublime",
+    "crystallize", "cocrystallize", "seed",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -2784,6 +2821,9 @@ impl CliClone for Cli {
             distill: self.distill.clone(),
             fdistill: self.fdistill.clone(),
             sublime: self.sublime.clone(),
+            crystallize: self.crystallize.clone(),
+            cocrystallize: self.cocrystallize.clone(),
+            seed: self.seed.clone(),
             recall: self.recall.clone(),
             export: self.export.clone(),
             jam: self.jam,
@@ -2942,6 +2982,15 @@ fn main() {
     }
     if let Some(name) = &cli.sublime {
         process::exit(click::run_sublime(cat_ref, name));
+    }
+    if let Some(names) = &cli.crystallize {
+        process::exit(click::run_crystallize(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.cocrystallize {
+        process::exit(click::run_cocrystallize(cat_ref, &names[0], &names[1], cli.theta));
+    }
+    if let Some(names) = &cli.seed {
+        process::exit(click::run_seed(cat_ref, names, cli.theta));
     }
 
     // Imscriptive polymerization: `./ask --polymerize M1 M2 …` — chain the clicks.
