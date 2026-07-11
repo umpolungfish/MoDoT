@@ -1,26 +1,13 @@
-Make the ring materials operable: spectral invariants + forge/compare/dope
+Add --fuse: weld two ring materials into one
 
-The materials my ring verbs produce (conductance CONDUCTIVE/FRUSTRATED/INSULATING,
-modulus, stability) were missing the one invariant that actually discriminates
-structure — the spectral radius. I was computing it by hand in Python. Now the
-engine computes it.
+The last material-algebra operation I left out. `--fuse A B C + X Y Z` (or the
+`fuse` agent verb) forges each ring, then forges the union of their units into a
+single macrocycle, and reports how the fused ρ and conductance relate to the two
+parents — whether the weld adds branching (fused ρ above both parents) or is a
+clean splice (fused ρ within the parents' range). A union that will not re-close
+is reported honestly: the two rings do not fuse into one material.
 
-Characterize. The material sheet now carries spectral invariants: I build the
-ring's adjacency graph from the real bonds (clean bond = 1, a cross-link
-junction = k, its number of reaction centers), take its eigenvalues with a
-hand-rolled Jacobi solver (no linalg dependency), and print the spectrum, the
-spectral radius ρ, and the spectral gap. ρ = 2 exactly witnesses a pure
-unbranched cycle; ρ > 2 witnesses branching — the same fact the topology line
-asserts, now as a computed number. Verified exact: the pure 4-ring gives
-[+2, 0, 0, -2], and the branched 3-ring (one 2-center cross-link) gives
-[+2.732, -0.732, -2], matching lambda^3 - 6 lambda - 4 = 0 by hand.
-
-Operate. Three material-algebra verbs, deterministic (no LLM), as CLI flags and
-agent tools:
-  forge M1 M2...        one-shot: arrange the set into its best ring and print the
-                        full sheet incl. spectral invariants (= --arrange --props)
-  compare A B vs X Y    forge two materials and diff them (delta-rho, conductance shift)
-  dope A B with C       forge the base, re-forge with the dopant, report the shift
-
-Also told the operator (TOOLS_PROMPT) never to assert rho or conductance without
-forging — the numbers come only from the verb, not from narration.
+Reuses material_of + the `+` separator token, mirroring --compare (`vs`) and
+--dope (`with`). Verified live: fusing a pure 4-ring (ρ=2.0) with a branched
+3-ring (ρ=2.732) welds into a 7-unit macrocycle at ρ=2.517, read as a clean
+splice.

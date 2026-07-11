@@ -2068,6 +2068,63 @@ pub fn run_dope(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f3
     0
 }
 
+/// CLI entry: `./ask --fuse A B C + X Y Z`. Weld two rings into one: forge each parent, then
+/// forge the union of their units into a single macrocycle, and report how the fused ring's
+/// ρ and conductance relate to the two parents'. The fuse operation of the materials algebra
+/// — the μ that takes two loops and returns one (when they close together). A fusion that
+/// will not re-close is reported honestly: the two rings do not merge into one material.
+pub fn run_fuse(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("fuse: no catalog loaded");
+        return 2;
+    };
+    let Some((left, right)) = split_on(monomers, "+") else {
+        eprintln!("fuse needs two rings separated by `+`:  --fuse A B C + X Y Z");
+        return 2;
+    };
+    if left.len() < 2 || right.len() < 2 {
+        eprintln!("fuse: each ring needs at least two monomers");
+        return 2;
+    }
+    let a = match material_of(cat, left, theta) {
+        Ok(v) => v,
+        Err(e) => { eprintln!("fuse (ring A): {e}"); return 2; }
+    };
+    let b = match material_of(cat, right, theta) {
+        Ok(v) => v,
+        Err(e) => { eprintln!("fuse (ring B): {e}"); return 2; }
+    };
+    let union: Vec<String> = left.iter().chain(right.iter()).cloned().collect();
+    let fused = match material_of(cat, &union, theta) {
+        Ok(v) => v,
+        Err(e) => { eprintln!("fuse (fused): {e}"); return 2; }
+    };
+    let show = |tag: &str, m: &(Vec<String>, Option<(f64, &'static str, f32)>)| match &m.1 {
+        Some((r, c, w)) => println!("  {tag}: [{}]\n       ρ={r:.4}  {c}  weakest Δ={w:.2}", m.0.join(" · ")),
+        None => println!("  {tag}: [{}]  — does NOT close into a ring", m.0.join(" · ")),
+    };
+    println!("fuse (weld two rings into one):");
+    show("ring A", &a);
+    show("ring B", &b);
+    show("fused ", &fused);
+    match (a.1, b.1, fused.1) {
+        (Some((ra, _, _)), Some((rb, _, _)), Some((rf, cf, _))) => {
+            println!(
+                "  fusion: parents ρ {{{ra:.4}, {rb:.4}}} → fused ρ={rf:.4} ({cf}); the two loops weld into a single {}-unit macrocycle.",
+                fused.0.len()
+            );
+            if rf > ra.max(rb) + 1e-3 {
+                println!("  read: fusion RAISES the principal mode above either parent — the weld adds connectivity (a more branched material).");
+            } else {
+                println!("  read: the fused ring's ρ sits within the parents' range — a clean splice, no new branching from the weld.");
+            }
+        }
+        (_, _, None) => println!("  fusion: the combined units do NOT re-close — these two rings do not fuse into one material (the union stays open)."),
+        _ => println!("  fusion: a parent is not itself a ring — forge each side first."),
+    }
+    0
+}
+
 /// The conductance verdict of a ring: does a winding quantum Ω circulate it?
 enum Cond {
     Conductive { fwd: bool },      // one consistent direction closes the loop — a persistent current
