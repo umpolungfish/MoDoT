@@ -182,6 +182,15 @@ struct Cli {
     #[arg(long = "pathway", num_args = 2.., value_names = ["SUBSTRATE", "CATALYSTS"])]
     pathway: Option<Vec<String>>,
 
+    /// Imscriptive polymerization: `--polymerize M1 M2 … Mn` — chain the clicks. Each
+    /// bond is a Coagula link between complementary partners (step-growth) or an
+    /// addition where a monomer repeats (chain-growth); the monomer SEQUENCE stays
+    /// losslessly readable off the chain (R∧W∧X). Reports degree of polymerization,
+    /// regioregularity, copolymer architecture, tacticity (the Ħ chirality sequence),
+    /// and whether it cyclizes head-to-tail into a macrocycle. --certify closes each unit.
+    #[arg(long = "polymerize", num_args = 2.., value_names = ["MONOMERS"])]
+    polymerize: Option<Vec<String>>,
+
     /// Spring-loaded offset threshold for --click (default 0.5).
     #[arg(long = "theta", default_value_t = 0.5)]
     theta: f32,
@@ -1061,6 +1070,7 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: complement A      the bidirectional ligand⇌catalytic-site complement (its own inverse)
   TOOL: cycle C S         the catalytic cycle: C turns over S, certified a fixed point (μ∘δ=id)
   TOOL: pathway S C1 C2…  a metabolic pathway — does it close into a cycle (carrier + structure)?
+  TOOL: polymerize M1 M2… chain monomers into a sequence-preserving polymer (architecture, tacticity, does it cyclize?)
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -1272,6 +1282,14 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
                 return None;
             }
             let mut v = vec!["--pathway".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "polymerize" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--polymerize".to_string()];
             v.extend(args.iter().cloned());
             v
         }
@@ -1650,6 +1668,7 @@ impl CliClone for Cli {
             scan_mediators: self.scan_mediators,
             cycle: self.cycle.clone(),
             pathway: self.pathway.clone(),
+            polymerize: self.polymerize.clone(),
             catalyst: self.catalyst.clone(),
             rest: self.rest.clone(),
         }
@@ -1748,6 +1767,17 @@ fn main() {
             process::exit(code);
         } else {
             eprintln!("--pathway needs a substrate and at least one catalyst");
+            process::exit(2);
+        }
+    }
+
+    // Imscriptive polymerization: `./ask --polymerize M1 M2 …` — chain the clicks.
+    if let Some(names) = &cli.polymerize {
+        if names.len() >= 2 {
+            let code = click::run_polymerize(cat_ref, names, cli.theta, cli.certify);
+            process::exit(code);
+        } else {
+            eprintln!("--polymerize needs at least two monomers");
             process::exit(2);
         }
     }

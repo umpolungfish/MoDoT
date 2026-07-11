@@ -335,13 +335,41 @@ catalyst regenerates through `lake build`.
 ./ask --pathway dark_energy graviton gluon electron photon
 ```
 
+**Imscriptive polymerization** (`--polymerize M1 M2 … Mn`) — where `pathway` chained
+the catalytic loops, **polymerize chains the clicks.** A `click` *fuses* two monomers
+(join/max) and forgets which was which; a polymer must **remember** — so imscriptive
+polymerization enchains the monomers at reaction centers while the monomer **sequence
+stays losslessly readable off the chain** (R∧W∧X). That is the whole point: a click
+blends, a polymer imscribes a long chain from monomeric glyphic units (a text, a genome).
+
+Each adjacent bond is a **Coagula click between complementary partners** (step-growth
+condensation) or, where a monomer repeats, an **addition** enchained by the propagating
+center (chain-growth); a non-complementary, non-identical neighbor **terminates** the
+chain (honest, like a stalled pathway). The chain then reads out its **degree of
+polymerization**, **regioregularity** (all condensation bonds on one live pair = a clean
+head-to-tail repeat unit), **copolymer architecture** (homopolymer / alternating / block
+/ random), **tacticity** (the chirality **Ħ** sequence — isotactic / syndiotactic /
+atactic), and whether it **cyclizes head-to-tail into a macrocycle** (a ring polymer, O∞).
+The polymer-chemistry correspondence falls out of the tuples, not a lookup: alternating
+two *opposite-handed* monomers comes back **syndiotactic**, an even chain **cyclizes**.
+`--certify` closes each unique repeat unit through `lake build`.
+
+```bash
+# alternating copolymer, syndiotactic, cyclizes into a macrocycle (both monomers valid imscriptions)
+./ask --polymerize the_moon_astrological the_logographic_system the_moon_astrological the_logographic_system --certify
+# a homopolymer: addition (chain-growth) throughout, isotactic, linear
+./ask --polymerize the_moon_astrological the_moon_astrological the_moon_astrological
+# no complementary handle between neighbors — the chain terminates
+./ask --polymerize gluon photon
+```
+
 **Agent access to every verb.** The LLM agent (`./ask --ask …`) can invoke the whole
 engine. It emits `TOOL: <verb> <args>` lines (markdown-tolerant); the harness runs them
 against the **real catalog** by shelling to this same binary, then feeds the outputs back
 for a final grounded answer. This *corrects the model's guesses*: unaided it will
 confidently mis-call a pathway's closure; handed the real `pathway` output it gives the
 right answer. Whitelisted verbs only (`click switch excite set scan complement cycle
-pathway`) — never `ask`, so no recursion.
+pathway polymerize`) — never `ask`, so no recursion.
 
 ```bash
 ./ask --ask "Does the sun donate an electron to the moon, and what mediates it best?"

@@ -1502,3 +1502,216 @@ fn working_stroke(
     let imprint = structural_imprint(catalyst, &mut product);
     Ok((c_star, product, dir, imprint))
 }
+
+// ── Imscriptive polymerization: chain the clicks into a sequence-preserving polymer ──
+// A click FUSES two monomers (join/max on every axis) — it forgets which was which.
+// A polymer must REMEMBER. Imscriptive polymerization enchains monomers at reaction
+// centers while the monomer SEQUENCE stays losslessly readable off the chain (R∧W∧X):
+// the Grammar building a long imscription (a text, a genome) from monomeric glyphic
+// units. Each bond is a Coagula click on one live pair — step-growth condensation
+// between complementary partners — or, where the same monomer repeats, an addition
+// (chain-growth) enchainment by the propagating active center. The chain then reads
+// out its degree of polymerization, regioregularity, copolymer architecture, tacticity
+// (the chirality Ħ sequence), and whether it cyclizes head-to-tail into a macrocycle (O∞).
+
+const CHIR: usize = 9; // Ħ Chirality — the stereochemistry axis; its ordered sequence IS the polymer's tacticity
+
+/// One enchainment bond in the polymer walk.
+enum Bond {
+    Condensation(usize),   // click between complementary partners (step-growth); live-pair index
+    Addition,              // identical monomer enchained by the propagating center (chain-growth)
+    CrossLink,             // >1 reaction center — a branch/network junction, not a linear bond
+}
+
+/// Copolymer architecture from the enchained monomer-name sequence.
+fn classify_architecture(seq: &[String]) -> String {
+    let mut distinct: Vec<&str> = Vec::new();
+    for s in seq {
+        if !distinct.contains(&s.as_str()) {
+            distinct.push(s.as_str());
+        }
+    }
+    if distinct.len() <= 1 {
+        return "homopolymer (a single repeat unit)".into();
+    }
+    let changes = (1..seq.len()).filter(|&i| seq[i] != seq[i - 1]).count();
+    if changes == seq.len() - 1 {
+        return format!("alternating copolymer ({} types, every adjacent unit differs — an …ABAB… sequence)", distinct.len());
+    }
+    if changes + 1 == distinct.len() {
+        return format!("block copolymer ({} contiguous blocks of {} monomer types)", changes + 1, distinct.len());
+    }
+    format!("random / statistical copolymer ({} monomer types)", distinct.len())
+}
+
+/// Tacticity from the chirality Ħ sequence over the enchained units.
+fn classify_tacticity(chir: &[Option<u8>]) -> String {
+    let glyphs: String = chir.iter().map(|o| o.map(|v| glyph_of(CHIR, v)).unwrap_or("?")).collect();
+    if chir.iter().any(|o| o.is_none()) {
+        return format!("{glyphs} — incomplete (a unit lacks Ħ)");
+    }
+    let v: Vec<u8> = chir.iter().map(|o| o.unwrap()).collect();
+    if v.iter().all(|&x| x == v[0]) {
+        return format!("isotactic ({glyphs}) — one chirality throughout, a single stereo-configuration");
+    }
+    let mut vals: Vec<u8> = Vec::new();
+    for &x in &v {
+        if !vals.contains(&x) {
+            vals.push(x);
+        }
+    }
+    if vals.len() == 2 {
+        let other = if vals[0] == v[0] { vals[1] } else { vals[0] };
+        let syndio = (0..v.len()).all(|i| v[i] == if i % 2 == 0 { v[0] } else { other });
+        if syndio {
+            return format!("syndiotactic ({glyphs}) — chirality strictly inverts each unit, a regular alternation");
+        }
+    }
+    format!("atactic ({glyphs}) — irregular chirality, no stereo-regular pattern")
+}
+
+/// CLI entry: `./ask --polymerize M1 M2 … Mn [--certify]`. Chain the monomers into a
+/// polymer — each adjacent bond a click (step-growth condensation) or an addition
+/// (chain-growth, where a monomer repeats) — while the sequence stays losslessly
+/// readable off the chain. Reports degree of polymerization, regioregularity,
+/// architecture, tacticity, and head-to-tail cyclization. --certify closes each unit.
+pub fn run_polymerize(
+    catalog: Option<&[CatalogEntry]>,
+    monomers: &[String],
+    theta: f32,
+    certify: bool,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("polymerize: no catalog loaded");
+        return 2;
+    };
+    if monomers.len() < 2 {
+        eprintln!("polymerize needs at least two monomers (repeat one to show homopolymerization, e.g. --polymerize M M M)");
+        return 2;
+    }
+    let mut units: Vec<Tuple> = Vec::with_capacity(monomers.len());
+    for m in monomers {
+        let Some(e) = cat.iter().find(|e| e.name == *m) else {
+            eprintln!("polymerize: monomer not found: {m}");
+            return 2;
+        };
+        units.push(Tuple::from_entry(e));
+    }
+    let n = units.len();
+
+    println!("polymerization (imscriptive):  [{}]   ({n} monomers)", monomers.join(" · "));
+    println!("  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.");
+    if n <= 8 {
+        println!("  sequence (read back off the chain, unit by unit):");
+        for (i, t) in units.iter().enumerate() {
+            println!("    {}. {}  {}", i + 1, monomers[i], fmt_tuple(&t.ord));
+        }
+    }
+
+    println!("  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):");
+    let mut bonds: Vec<Bond> = Vec::new();
+    let mut terminated: Option<usize> = None;
+    for i in 0..n - 1 {
+        let (a, b) = (&units[i], &units[i + 1]);
+        let tag = format!("    {}–{}  {} ⋈ {}", i + 1, i + 2, monomers[i], monomers[i + 1]);
+        match click_pair(a, b, theta) {
+            Ok(p) => {
+                println!("{tag}  → condensation on {} (Δ={:.2})", LIVE_LABELS[p.pair_idx], p.drive);
+                bonds.push(Bond::Condensation(p.pair_idx));
+            }
+            Err(ClickFail::Ambiguous(pairs)) => {
+                let labels: Vec<&str> = pairs.iter().map(|&i| LIVE_LABELS[i]).collect();
+                println!("{tag}  → cross-link ({} reaction centers: {}) — a branch/network junction", pairs.len(), labels.join(", "));
+                bonds.push(Bond::CrossLink);
+            }
+            Err(ClickFail::NoComplementarity) => {
+                if a.ord == b.ord {
+                    println!("{tag}  → addition (chain-growth: identical unit enchained by the propagating center)");
+                    bonds.push(Bond::Addition);
+                } else {
+                    println!("{tag}  → ✗ termination: no complementary handle — the chain ends here.");
+                    terminated = Some(i);
+                    break;
+                }
+            }
+            Err(ClickFail::Missing) => {
+                println!("{tag}  → ✗ a monomer lacks a live-pair primitive — no bond forms; the chain ends here.");
+                terminated = Some(i);
+                break;
+            }
+        }
+    }
+
+    let dp = terminated.map(|i| i + 1).unwrap_or(n);
+    let n_bonds = bonds.len();
+    println!(
+        "  degree of polymerization: {dp} unit(s), {n_bonds} bond(s){}",
+        if terminated.is_some() { " (terminated early)" } else { "" }
+    );
+
+    // regioregularity of the condensation backbone
+    let cond_pairs: Vec<usize> = bonds.iter().filter_map(|b| match b {
+        Bond::Condensation(p) => Some(*p),
+        _ => None,
+    }).collect();
+    if !cond_pairs.is_empty() {
+        let first = cond_pairs[0];
+        if cond_pairs.iter().all(|&p| p == first) {
+            println!("  backbone: regioregular — every condensation bond on {} (a clean head-to-tail repeat unit).", LIVE_LABELS[first]);
+        } else {
+            let mut seen: Vec<&str> = Vec::new();
+            for &p in &cond_pairs {
+                if !seen.contains(&LIVE_LABELS[p]) {
+                    seen.push(LIVE_LABELS[p]);
+                }
+            }
+            println!("  backbone: regioirregular — bonds on {} (head-to-head/tail-to-tail defects).", seen.join(", "));
+        }
+    }
+    if n_bonds > 0 && bonds.iter().all(|b| matches!(b, Bond::Addition)) {
+        println!("  backbone: addition (chain-growth) throughout — one repeat unit enchained by the propagating center.");
+    }
+    if bonds.iter().any(|b| matches!(b, Bond::CrossLink)) {
+        println!("  topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.");
+    }
+
+    println!("  architecture: {}", classify_architecture(&monomers[..dp]));
+    let chir: Vec<Option<u8>> = units[..dp].iter().map(|t| t.ord[CHIR]).collect();
+    println!("  tacticity (Ħ chirality per unit): {}", classify_tacticity(&chir));
+
+    // cyclization: only a fully enchained chain (both original ends still live) can close head-to-tail
+    if terminated.is_none() && dp >= 2 {
+        match click_pair(&units[dp - 1], &units[0], theta) {
+            Ok(p) => println!(
+                "  cyclization: {} ⋈ {} → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on {} (O∞).",
+                monomers[dp - 1], monomers[0], LIVE_LABELS[p.pair_idx]
+            ),
+            Err(_) => println!(
+                "  cyclization: {} ⋈ {} → linear (telechelic — two free ends, no head-to-tail closure).",
+                monomers[dp - 1], monomers[0]
+            ),
+        }
+    } else {
+        println!("  cyclization: linear — the chain terminated, so it cannot close into a ring.");
+    }
+
+    if certify {
+        println!("  certifying each repeat unit is a valid Imscription (Frobenius closure, lake build)…");
+        let mut seen: Vec<[Option<u8>; 12]> = Vec::new();
+        let mut all_green = true;
+        for t in &units[..dp] {
+            if seen.iter().any(|o| *o == t.ord) {
+                continue;
+            }
+            let (green, _) = certify_click(&t.ord);
+            println!("    {} {} closes", if green { "✓" } else { "✗" }, t.name);
+            all_green &= green;
+            seen.push(t.ord);
+        }
+        println!(
+            "  {} every repeat unit Frobenius-closes — the polymer is a chain of valid imscriptions.",
+            if all_green { "✓" } else { "✗ NOT" }
+        );
+    }
+    0
+}

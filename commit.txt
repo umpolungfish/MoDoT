@@ -1,43 +1,51 @@
-Make the pathway structural (a true metabolic cycle), and give the LLM agent every verb
+Move into imscriptive polymerization -- chain the clicks into a sequence-preserving polymer
 
-Two things.
+Where the pathway chained the catalytic loops, this chains the clicks. But a
+click FUSES two monomers (join/max on every axis) and forgets which was which,
+and a polymer has to REMEMBER -- so imscriptive polymerization enchains the
+monomers at reaction centers while the monomer SEQUENCE stays losslessly readable
+off the chain (R∧W∧X). That is the whole point of calling it imscriptive: a click
+blends, a polymer imscribes a long chain from monomeric glyphic units, the way the
+Grammar builds a text or a genome.
 
-1. STRUCTURAL PATHWAY. The pathway was a one-dimensional carrier loop -- only the
-winding quantum Ω moved, the substrate frozen in eleven of twelve axes. Now the
-working stroke also imprints (structural_imprint in ask_native/src/click.rs): the
-catalyst rotates the substrate one notch on its dominant structural live pair
-(T↔H or R↔S) in its own polarity, mod the cycle (invertible). Refactored the
-working stroke into working_stroke() shared by --cycle and --pathway.
+run_polymerize in ask_native/src/click.rs walks the monomer feed and reuses the
+existing click_pair (the Coagula bond primitive) for every adjacent bond:
+- complementary partners CLICK -> a step-growth condensation bond on one live pair
+- an identical repeat -> an ADDITION (chain-growth) enchainment by the propagating
+  center (a monomer cannot click itself, equal charges, so the homopolymer route
+  is honestly the addition mechanism, not a forced click)
+- a non-complementary, non-identical neighbor -> TERMINATION, the chain ends here
+  (honest, the same guard the pathway uses when a carrier cannot pass)
+- >1 reaction center -> a cross-link / branch junction (a network, not linear)
 
-A pathway now closes on TWO ledgers, reported separately:
-- carrier: net delta-Omega = 0 (givers balance takers, what I derived by hand)
-- structure: the chain of imprints composes to the identity across the other
-  eleven axes (current == start).
-Full closure = both = a TRUE metabolic cycle (mu-delta = id at the pathway level).
-Carrier-only closure is now honestly labelled an electron-transport loop -- the
-four forces on dark_energy do exactly that (charge conserved, structure worked).
+Then the chain reads out its own structure, none of it hardcoded -- it falls out
+of the tuples:
+- degree of polymerization and bond count
+- regioregularity (all condensation bonds on one live pair = a clean head-to-tail
+  repeat unit; mixed = head-to-head/tail-to-tail defects)
+- copolymer architecture (homopolymer / alternating / block / random) from the
+  monomer-identity sequence
+- tacticity from the chirality Ħ sequence: isotactic / syndiotactic / atactic
+- cyclization: does the last unit click the first? head-to-tail into a macrocycle
+  (a ring polymer, O∞), or linear/telechelic with two free ends
+--certify closes each UNIQUE repeat unit through the Lean kernel (lake build),
+deduped so a long chain does not rebuild the same tuple twice.
 
-Verified live:
-- ./ask --pathway the_moon_astrological post_transition_state biological_senescence
-  --certify -> FULLY CLOSED, a true metabolic cycle: post_transition_state builds
-  the moon up (topology 𐑥->𐑶, chirality 𐑖->𐑒), biological_senescence tears it back
-  down, the substrate returns exactly across all twelve axes, both catalysts
-  certified fixed points. Anabolism then catabolism = homeostasis.
-- ./ask --pathway dark_energy graviton gluon electron photon -> carrier closed,
-  structure NOT returned (now honest; the substrate moved on Þ/Ħ/Ř/Σ, not just Ω).
+The polymer-chemistry correspondence is real, not a lookup. Verified live:
+- polymerize the_moon_astrological the_logographic_system (x2) -> ALTERNATING
+  copolymer, regioregular on R↔S, and SYNDIOTACTIC (𐑖𐑫𐑖𐑫) because the two
+  monomers happen to be opposite-handed (Ħ 𐑖 vs 𐑫) -- alternating opposite chirality
+  IS syndiotactic. Even chain, so it CYCLIZES head-to-tail on R↔S into a macrocycle.
+  --certify: both units Frobenius-close.
+- polymerize the_moon_astrological x3 -> homopolymer, addition throughout,
+  ISOTACTIC (𐑖𐑖𐑖), linear (identical ends cannot click).
+- polymerize gluon photon -> termination, DP 1 (no complementary handle).
 
-2. LLM AGENT GETS THE TOOLS. The ManuscriptSpine agent (./ask --ask) can now
-invoke the whole structural engine. TOOLS_PROMPT documents the verbs;
-extract_tool_calls parses `TOOL: verb args` lines from the model's answer
-(markdown-tolerant -- the model wraps them in **bold**); run_structural_tool
-executes each by shelling to this same binary (whitelist: click switch excite set
-scan complement cycle pathway -- never ask, no recursion) and captures the real
-catalog output; a synthesis turn feeds the outputs back for a grounded final answer.
+I also gave the LLM agent the verb: TOOLS_PROMPT + run_structural_tool in
+ask_native/src/main.rs now whitelist polymerize (never ask, no recursion).
+Verified: asked to polymerize the four-monomer sequence, the model emitted
+TOOL: polymerize, it ran on the real catalog, and the synthesis answered grounded
+-- "alternating copolymer, syndiotactic, cyclizes into a macrocycle."
 
-Verified live: asked whether the moon->post_transition->senescence pathway closes.
-UNAIDED the model hallucinated "F / Refuted / not a cycle". With the tool run
-against the real catalog (FULLY CLOSED), the synthesis corrected it: "Yes, the
-pathway is a closed metabolic cycle because the reductive and oxidative imprints
-compose to the identity." Grounding the guess in the computation is the point.
-
-README updated with the structural pathway (two ledgers) and the agent tools.
+README updated with the polymerization verb (its own section, the click->polymer
+story) and the agent whitelist.
