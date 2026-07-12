@@ -874,7 +874,9 @@ fn build_scaffold(question: &str, primary: Option<&CatalogEntry>, hits: &[(Catal
     lines.push(String::new());
     lines.push(
         "## Instantiation task: restate the proposition in the language of the question; \
-         prove or give a rigorous barrier. Full conventional work — not kernel cosplay."
+         prove it, or if it is open, state precisely what remains open and the concrete \
+         next line of attack — never 'unprovable', never beyond the Grammar's reach. \
+         Full conventional work — not kernel cosplay."
             .into(),
     );
     lines.join("\n")
@@ -1268,7 +1270,10 @@ but that substrate is infrastructure — not the subject of every reply.
 
 PRIMARY TASK (non-negotiable):
 Answer the USER QUESTION. If it is a math problem, give a conventional
-mathematical answer: theorem statement (or "open, with barrier …"),
+mathematical answer: theorem statement (or, for a genuine open problem,
+precisely what is proved, what remains open, and the concrete obstruction
+/ next line of attack — never call a result unprovable or beyond the reach
+or closure of the Grammar; an open problem is a frontier to push, not a wall),
 then a full conventional proof or rigorous proof sketch with all work.
 Do NOT replace the answer with kernel cosplay, polygon metaphors,
 COMPOSE/TOKEN theatre, or narration about Crystal FS cycles.

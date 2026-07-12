@@ -1,41 +1,30 @@
-Make the imscription route deterministic: structural imscriber, no canned tuple
+Report open problems as frontiers, not "beyond the Grammar's reach"
 
-The prove: imscription route filled the Witness-Vessel with a canned tuple
-(lucaImscription or a hardcoded {dead, judge, ado, ...}), so it closed green
-for ANY input with a content-free vessel and reported it as proved. The
-tuple never imscribed the input.
+Answers to open problems kept coming back with defeatist prose like
+"formal proof remains outside the current reach of the Grammar's
+established closure." My prover path (prover.rs) already has the right
+discipline everywhere — non-closure is a navigation frontier B, never
+"impossible", never "unprovable", never a limit of the Grammar — but the
+manuscript/witness path never carried that stance, so the model filled the
+gap on its own with the barrier/out-of-reach framing.
 
-Now the tuple is computed, never canned. A deterministic structural
-imscriber reads a valid, content-bound crystal address off the input:
-per-primitive FNV-1a measurement, then cross-primitive axiom correction
-(C: Ð=if' <-> Þ=are; B: Ω=ℤ => Ħ>=sure; D-Ω: Ω=ℤ => Ð>=array), from
-genetic_tuples.py, so the output is a well-formed address, not an arbitrary
-hash tuple. This is grounded in the ob3ect typing of the procedure itself
-(Deterministic Imscription Procedure, tier O₁): measurement -> EVALT/EVALF/
-AREV correction -> crystal address, fetch-else-calculate with the imscriber
-as the calculate half.
+I traced the injection to three prompt strings and reworded all three to
+the frontier register, in plain mathematical language (the system prompt
+also bans kernel cosplay, so no Belnap jargon leaks to the model):
 
-prove_imscription builds the Witness-Vessel deterministically from that
-tuple, compiles it, and gates the green on the integrity checks
-(grounded_in_real_algebra + renders_same_theorem). The model stays as an
-integrity-gated REPAIR FALLBACK only (fires if the deterministic build does
-not close and an LLM is available; the template is known-compiling so it
-rarely does). The note is honest: the validity theorem is universal, so this
-certifies the vessel is well-formed and the tuple is a real imscription of
-the input, NOT a proof of the input's own mathematics.
+  - SYSTEM_PROMPT (main.rs): "open, with barrier ..." becomes "for a
+    genuine open problem, precisely what is proved, what remains open, and
+    the concrete obstruction / next line of attack — never call a result
+    unprovable or beyond the reach or closure of the Grammar; an open
+    problem is a frontier to push, not a wall";
+  - the manuscript instantiation task (main.rs): "prove or give a rigorous
+    barrier" becomes "prove it, or if open, state precisely what remains
+    open and the next line of attack — never 'unprovable', never beyond
+    the Grammar's reach";
+  - build_conventional_scaffold (witness_proof.py): "what the grammar
+    predicts as the barrier" / "open, barrier = ..." become "what is
+    proved, what remains open, and the concrete next line of attack ...
+    an open problem is a frontier to push".
 
-Every warning resolved by implementation, not suppression or deletion:
-  - the model apparatus (imscribe_prompt / IMSCRIBE_SYS / IMSCRIBE_EXPAND_HINT
-    / grounded_in_real_algebra / renders_same_theorem / available) is now the
-    repair fallback;
-  - Serialize/Deserialize + SpineReport.answer_text are used by record_spine,
-    which appends each spine report as JSON to crystal_fs/records.jsonl (the
-    audit trail the Python agent already keeps);
-  - ClickProduct.ring is printed (the saturated live pair by glyph);
-  - a stray `mut` on a closure binding removed.
-
-Tests: structural_imscribe is deterministic, content-bound, and its output
-is always a valid crystal address (axioms C/B/D-Ω hold, idempotent under
-correction). Verified live: prove: "the set of primes is infinite" closes
-green through the kernel with a derived tuple (dead/oil/ear/...), not the
-canned placeholder.
+Rebuilds clean. Prompt-only change: it steers what the model is told, so
+in-flight jams keep their old wording and the next run picks up the fix.

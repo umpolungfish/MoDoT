@@ -630,14 +630,16 @@ def build_conventional_scaffold(question: str, w: Dict[str, Any],
     lines.append(
         "Combine the instantiated encoding / dual / coupling / boundedness / "
         "invariant / regularity arms into a single conventional theorem matching "
-        "the question. If the witness is only structural (open problem), state "
-        "precisely what is open and what the grammar predicts as the barrier "
+        "the question. If the witness is only structural (the problem is open), "
+        "state precisely what is proved, what remains open, and the concrete next "
+        "line of attack — never 'unprovable', never beyond the Grammar's reach or "
+        "closure; an open problem is a frontier to push "
         f"(tier={sa.get('ouroboricity_tier')}, promotions_needed="
         f"{len(w.get('promotions_needed') or [])})."
     )
     lines.append("")
     lines.append("## Required answer format for the agent")
-    lines.append("1. Direct answer / theorem statement (or 'open, barrier = …').")
+    lines.append("1. Direct answer / theorem statement (or, if open, precisely what remains + the next line of attack).")
     lines.append("2. Conventional proof or rigorous proof sketch with all work shown.")
     lines.append("3. Short appendix: which witness entry and which primitives licensed which steps.")
     return "\n".join(lines)
