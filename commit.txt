@@ -1,27 +1,15 @@
-Guard the degenerate n=2 ring: a dimer is not a macrocycle
+Loosen answer_is_proof so the lane guard fires on real proofs
 
-A jam run exploited two-entity forges: imscribe two conclusion-named
-entities (set_covering_dense, set_covering_sparse), forge each with a base
-(set_squares), and read the identical ρ=1 / gap=0 / SETTLED-CLARION back as
-a covering-theory proof (that liminf could be refuted). But a 2-node ring
-graph is degenerate: its "head-to-tail" bond is the single enchainment bond
-counted twice, and the spectrum is trivially [+d, -d], so gap and strain
-are ALWAYS 0 and every pair auto-reads as a ρ=1 "settled/clarion
-macrocycle" regardless of content. The sheet even self-contradicted,
-printing both "✓ CYCLIC — a macrocycle" and "ρ < 2 => a broken/open ring".
+A jam produced a proof-shaped answer that wrote "### The Proposition" (no
+colon) and "Conventional Proof", but answer_is_proof required "proposition:"
+WITH a colon AND a separate proof word, so it returned false. The lane
+guard therefore did not abstain the material non-closure (tools=F) on that
+proof, and the spine held fused=B (conflict=2) where it should have read
+the tools as N (a forge that terminated does not deny an analytic proof).
 
-The clarity line (strain + gap read jointly) made this worse: for any n=2
-input both are 0, so it always fired SETTLED/CLARION, which the agent then
-cited as verification.
-
-Guard n < 3 in the three places the invariants surface:
-  - ring_signature returns None for n<3, so compare/dope/fuse/cleave report
-    "not a ring" instead of a dimer's ρ;
-  - print_ring_material prints a DIMER note and skips the conductance,
-    spectral invariants, and clarity verdict;
-  - the cyclization line labels an n=2 closure "DIMER, NOT a macrocycle".
-A real ring material needs n >= 3.
-
-Test: a 2-unit pair that DOES click head-to-tail still has no ring
-signature. Verified live: the exploit forge now reads DIMER with invariants
-marked undefined, and compare of two dimers reports one side is not a ring.
+Loosen the detector to any single strong proof-structure marker:
+proposition / theorem / lemma / conventional proof / proof: / q.e.d / ∎.
+This is the conservative direction (it only ever abstains a material F on a
+proof, never the reverse), so a casual "proof" mention at worst declines to
+let a forge veto an answer. Regression test added for the no-colon
+"Proposition" / "Conventional Proof" shape that slipped through.

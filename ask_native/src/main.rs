@@ -1249,8 +1249,16 @@ fn tool_belnap(tool_output: &str) -> B4 {
 /// close"). The kernel `prove:` route is the real closure test for a proposition.
 fn answer_is_proof(text: &str) -> bool {
     let low = text.to_lowercase();
-    (low.contains("proposition:") || low.contains("theorem") || low.contains("lemma"))
-        && (low.contains("proof") || low.contains("q.e.d") || low.contains('∎'))
+    // Any one strong proof-structure marker. Was an over-strict AND that required
+    // "proposition:" WITH a colon, so a real proof writing "The Proposition" (no colon)
+    // and "Conventional Proof" slipped through and the guard left tools=F on a proof.
+    low.contains("proposition")
+        || low.contains("theorem")
+        || low.contains("lemma")
+        || low.contains("conventional proof")
+        || low.contains("proof:")
+        || low.contains("q.e.d")
+        || low.contains('∎')
 }
 
 // ── System prompt + spine ───────────────────────────────────────────────────
@@ -1783,6 +1791,14 @@ mod lane_guard_tests {
     fn structural_forge_answer_is_not_a_proof() {
         let a = "I forged the set into a 5-membered macrocycle; spectral radius ρ = 3.41, conductive.";
         assert!(!answer_is_proof(a), "forge answer wrongly tagged as a proof");
+    }
+
+    // Regression: a proof written "The Proposition" (no colon) + "Conventional Proof" must
+    // still register (the strict colon form missed it, leaving tools=F on a proof).
+    #[test]
+    fn recognizes_proof_without_colon() {
+        let a = "### 1. The Proposition\n**YES.**\n### 2. Conventional Proof\nStep 1: random selection...";
+        assert!(answer_is_proof(a), "no-colon Proposition / Conventional Proof must count as a proof");
     }
 
     fn prep() -> Prepare {
