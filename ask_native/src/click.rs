@@ -636,7 +636,7 @@ pub fn run_click(
                     None => print!("?"),
                 }
             }
-            println!("⟩  (ring saturated on {})", LIVE_LABELS[p.pair_idx]);
+            println!("⟩  (ring saturated on {} = {}↔{})", LIVE_LABELS[p.pair_idx], PRIMS[p.ring.0], PRIMS[p.ring.1]);
             if !p.inherited.is_empty() {
                 let names: Vec<&str> = p.inherited.iter().map(|&i| PRIMS[i]).collect();
                 println!(
@@ -2320,7 +2320,7 @@ pub fn run_anneal(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: 
     let mut best_order = quenched.clone();
     let mut best_strain = quenched_strain;
     let exhaustive = n <= 9;
-    let mut consider = |order: &[usize], best_order: &mut Vec<usize>, best_strain: &mut f32| {
+    let consider = |order: &[usize], best_order: &mut Vec<usize>, best_strain: &mut f32| {
         let (dp, cyc, _) = walk_score(&units, order, theta);
         if dp == n && cyc {
             let u: Vec<Tuple> = order.iter().map(|&i| units[i].clone()).collect();

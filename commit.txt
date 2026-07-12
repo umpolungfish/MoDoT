@@ -1,22 +1,41 @@
-Document the alchemical bench, jam mode, cycles/eagles, and providers
+Make the imscription route deterministic: structural imscriber, no canned tuple
 
-The README covered click and the materials algebra but predated this
-session's additions. Brought it current:
+The prove: imscription route filled the Witness-Vessel with a canned tuple
+(lucaImscription or a hardcoded {dead, judge, ado, ...}), so it closed green
+for ANY input with a content-free vessel and reported it as proved. The
+tuple never imscribed the input.
 
-  - Quick Start gains the alchemical bench (distill / fdistill / sublime,
-    crystallize / cocrystallize / seed, tlc / column, fpt / trap / stain),
-    a jam invocation with --cycles / --eagles, and the provider/model flags
-    (openrouter default, deepseek + gemini wired).
-  - A prose section groups the bench into its four families (volatility,
-    crystallization, chromatography, purification/diagnostic) and notes
-    each is the same fractionate / Frobenius shape, typed by an ob3ect
-    before it was coded.
-  - The clarity line is documented: strain and spectral gap read jointly,
-    a zero gap is symmetry not a defect, and a two-unit forge is a dimer
-    (n >= 3 for a real ring).
-  - A jam-mode paragraph: the membrane, the two register notes (a closure
-    verifies in its own lane; a non-closure does not deny a proof), and the
-    limit that it never checks the mathematics, only refuses to certify what
-    the tools did not ground.
-  - Refreshed the stale agent verb whitelist (added imscribe and the eleven
-    alchemical verbs) and the questions/ description; bumped the date.
+Now the tuple is computed, never canned. A deterministic structural
+imscriber reads a valid, content-bound crystal address off the input:
+per-primitive FNV-1a measurement, then cross-primitive axiom correction
+(C: Ð=if' <-> Þ=are; B: Ω=ℤ => Ħ>=sure; D-Ω: Ω=ℤ => Ð>=array), from
+genetic_tuples.py, so the output is a well-formed address, not an arbitrary
+hash tuple. This is grounded in the ob3ect typing of the procedure itself
+(Deterministic Imscription Procedure, tier O₁): measurement -> EVALT/EVALF/
+AREV correction -> crystal address, fetch-else-calculate with the imscriber
+as the calculate half.
+
+prove_imscription builds the Witness-Vessel deterministically from that
+tuple, compiles it, and gates the green on the integrity checks
+(grounded_in_real_algebra + renders_same_theorem). The model stays as an
+integrity-gated REPAIR FALLBACK only (fires if the deterministic build does
+not close and an LLM is available; the template is known-compiling so it
+rarely does). The note is honest: the validity theorem is universal, so this
+certifies the vessel is well-formed and the tuple is a real imscription of
+the input, NOT a proof of the input's own mathematics.
+
+Every warning resolved by implementation, not suppression or deletion:
+  - the model apparatus (imscribe_prompt / IMSCRIBE_SYS / IMSCRIBE_EXPAND_HINT
+    / grounded_in_real_algebra / renders_same_theorem / available) is now the
+    repair fallback;
+  - Serialize/Deserialize + SpineReport.answer_text are used by record_spine,
+    which appends each spine report as JSON to crystal_fs/records.jsonl (the
+    audit trail the Python agent already keeps);
+  - ClickProduct.ring is printed (the saturated live pair by glyph);
+  - a stray `mut` on a closure binding removed.
+
+Tests: structural_imscribe is deterministic, content-bound, and its output
+is always a valid crystal address (axioms C/B/D-Ω hold, idempotent under
+correction). Verified live: prove: "the set of primes is infinite" closes
+green through the kernel with a derived tuple (dead/oil/ear/...), not the
+canned placeholder.

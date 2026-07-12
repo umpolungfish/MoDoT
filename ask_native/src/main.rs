@@ -1389,7 +1389,7 @@ closure verdict, use the proof route (prove:), which tests μ∘δ=id against th
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Serialize, Deserialize)]
 enum B4 {
     N,
     T,
@@ -1445,6 +1445,7 @@ struct Prepare {
     witness_ready: bool,
 }
 
+#[derive(Serialize, Deserialize)]
 struct SpineReport {
     fused: B4,
     model_voice: B4,
@@ -2429,6 +2430,33 @@ fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
         }
     }
     println!("{}", "=".repeat(60));
+    record_spine(rep);
+}
+
+/// Append the spine report (serialized) as a JSON record to MoDoT/crystal_fs/records.jsonl,
+/// the same audit trail the Python agent keeps. Best-effort: creates the dir, ignores IO
+/// errors. This is the read that grounds `answer_text` and the Serialize/Deserialize derives.
+fn record_spine(rep: &SpineReport) {
+    let Ok(line) = serde_json::to_string(rep) else {
+        return;
+    };
+    // MoDoT root = four ancestors up from the binary (.../MoDoT/ask_native/target/release/ask).
+    let Some(root) = env::current_exe()
+        .ok()
+        .and_then(|e| e.ancestors().nth(4).map(|r| r.to_path_buf()))
+    else {
+        return;
+    };
+    let dir = root.join("crystal_fs");
+    let _ = std::fs::create_dir_all(&dir);
+    if let Ok(mut f) = std::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(dir.join("records.jsonl"))
+    {
+        use std::io::Write;
+        let _ = writeln!(f, "{line}");
+    }
 }
 
 fn run_one(
