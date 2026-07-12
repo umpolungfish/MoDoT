@@ -1,23 +1,23 @@
-Collapse degenerate reasoning loops before they become the answer
+Remove the 6-per-round tool-call cap: every call in a round runs
 
-Live telemetry from the last jam showed the PROD round derail: instead of
-emitting a TOOL: line the model returned the same two lines alternating
-forty times ("Wait: output the TOOL lines / Okay: write the final answer").
-That text carries no TOOL: line, so the ACT loop breaks immediately and the
-loop itself becomes the answer — and if it lands mid-round it bloats
-agent_msgs on top of that. The membrane still held (fused=N, nothing
-ungrounded got a truth-value), but a wall of repetition reached the operator
-as the visible reply.
+I asked for this a while back and it lingered. The ACT loop capped each round
+at 6 tool calls and shunted the rest into a "NOT RUN this round" note, telling
+the operator to re-emit them next round. That was a budget wall dressed up as
+pacing, and it did the same thing the round ceiling did before I dropped that:
+it interrupted an investigation the operator had already reasoned out. If it
+wants to run a dozen verbs in one round, it has the results it needs to reason
+over sooner, not string them across three padded rounds.
 
-Fixed at the one choke point every provider passes through: infer() now runs
-collapse_degenerate() on the returned text. If the output is dominated by a
-tiny set of lines — four or fewer distinct, or distinct lines under a quarter
-of the total across 12+ lines — it is a loop, not prose, and collapses to its
-distinct lines in order with a marker. The test is on the distinct-to-total
-ratio, not adjacency, because the derailment alternates A/B/A/B and a
-consecutive-dup pass would sail right past it. Short or varied answers are
-returned untouched, so an honest reply never trips the guard.
+Gone now: the PER_ROUND_CAP const, the `.take(PER_ROUND_CAP)` on the call
+loop, and the whole "NOT RUN / over the cap" surfacing block. Every deduped
+call in a round executes; the ACT-round header prints the true count.
 
-Two unit tests lock it: the exact alternating loop reduces to its two lines,
-and a varied verdict passes through byte-for-byte. Builds clean, 23 tests
-pass.
+What stays, because it is real pacing and correctness, not budget:
+  - within-round dedupe — running an identical verb+args twice just burns a
+    request for a result already coming back;
+  - stall detection — three rounds of nothing but already-run calls still
+    closes the loop;
+  - the executed-verbs ground truth — a verdict still fuses only against a
+    verb that actually ran, so nothing narrated over an unrun tool survives.
+
+Builds clean, 23 tests pass.

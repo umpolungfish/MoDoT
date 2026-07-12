@@ -2790,7 +2790,6 @@ fn run_one(
             // infinite loop, not the task.
             let max_rounds: usize = if cli.eagles > 0 { cli.eagles as usize } else { 400 };
             const STALL_ROUNDS: usize = 3;
-            const PER_ROUND_CAP: usize = 6;
             let mut agent_msgs: Vec<(String, String)> = Vec::new();
             agent_msgs.push((
                 "system".to_string(),
@@ -2855,8 +2854,8 @@ fn run_one(
                     break; // the operator stopped acting — `current` is the answer
                 }
                 // Dedupe within the round: the operator emits the same call twice in one
-                // batch (seen live: `anneal A B` listed twice in a single round's overflow).
-                // A duplicate burns a per-round slot for a result already coming back.
+                // batch (seen live: `anneal A B` listed twice in a single round). Running an
+                // identical call twice just burns a request for a result already coming back.
                 let mut seen_this_round = std::collections::BTreeSet::new();
                 let calls: Vec<(String, Vec<String>)> = raw_calls
                     .into_iter()
@@ -2874,9 +2873,9 @@ fn run_one(
                 } else {
                     stalled_rounds = 0;
                 }
-                println!("── ACT round {} ({} tool call(s)) ──", round + 1, calls.len().min(PER_ROUND_CAP));
+                println!("── ACT round {} ({} tool call(s)) ──", round + 1, calls.len());
                 let mut results = String::new();
-                for (verb, args) in calls.iter().take(PER_ROUND_CAP) {
+                for (verb, args) in calls.iter() {
                     match run_structural_tool(verb, args) {
                         Some(o) => {
                             println!("● TOOL {verb} {}", args.join(" "));
@@ -2894,25 +2893,6 @@ fn run_one(
                             results.push_str(&format!("{m}\n"));
                         }
                     }
-                }
-                // Cap guard: calls past PER_ROUND_CAP did NOT run this round. Surface them so
-                // the operator cannot narrate a result for a tool that never executed (that is
-                // exactly how a "conductive cycle" gets asserted when `material` was dropped).
-                if calls.len() > PER_ROUND_CAP {
-                    let dropped: Vec<String> = calls[PER_ROUND_CAP..]
-                        .iter()
-                        .map(|(v, a)| format!("{v} {}", a.join(" ")))
-                        .collect();
-                    let note = format!(
-                        "### NOT RUN this round ({} tool call(s) over the {PER_ROUND_CAP}-per-round cap)\n{}\n\
-                         These did NOT execute — you have NO result for them. Do not report any outcome for \
-                         them (no closure, conductance, modulus, or material verdict). Re-emit the ones you \
-                         still need next round and they will run.\n",
-                        dropped.len(),
-                        dropped.iter().map(|d| format!("  TOOL: {d}")).collect::<Vec<_>>().join("\n"),
-                    );
-                    print!("{note}");
-                    results.push_str(&note);
                 }
                 all_tool_output.push_str(&results);
                 agent_msgs.push(("assistant".to_string(), current.clone()));
