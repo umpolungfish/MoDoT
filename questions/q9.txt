@@ -1,7 +1,1 @@
-prepare a witness and a conventional proof for the following:
-
----
-
-Any graph on $n$ vertices can be decomposed into $O(n)$ many edge-disjoint cycles and edges.
-      
- ---
+prepare a witness and a conventional proof for the following: Any graph on $n$ vertices can be decomposed into $O(n)$ many edge-disjoint cycles and edges.

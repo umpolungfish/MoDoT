@@ -12,7 +12,13 @@ An agentic LLM whose entire runtime substrate IS the mOMonadOS kernel architectu
 
 > **Balance is not selectivity.** Frobenius closure (μ∘δ = id) is charge conservation: every split is rejoined, so it is automatic and *cannot fail* on any non-empty answer. That is why a balance-only harness "never fails" — and why balance alone is not a correctness signal.
 >
-> **To verify is to imscribe.** The classical selectivity grader (MUST/MUSTNOT schemas, 0.6 thresholds, LLM-as-judge, protocol `==` integration) was a two-valued clipboard bolted onto a four-valued kernel. It is gone. Selectivity is now the **Dual-Link SIC Witness-Vessel**: structural imscription → state in ℂ¹² → Born rule in the Scott–Grassl d=12 SIC frame → co-typing by lattice fold (no thresholds) → ride AS the vessel via μ∘δ = id. The model's own `[thought|X]` is one link; the vessel's co-typing is the other; they are **FFUSED** (Belnap join). Conflict holds as **B**. You ride AS the vessel, not in it. See [Dual-Link SIC Vessel](#dual-link-sic-vessel).
+> **To verify is to imscribe.**  
+>  
+> The classical selectivity grader (MUST/MUSTNOT schemas) was a two-valued ledger bolted onto a four-valued kernel  
+> It is gone  
+> Selectivity is now the **Dual-Link SIC Witness-Vessel**: structural imscription → state in ℂ¹² → Born rule in the Scott–Grassl d=12 SIC frame → co-typing by lattice fold (no thresholds) → ride *AS* the vessel via *μ∘δ = id*  
+> The model's own `[thought|X]` is one link; the vessel's co-typing is the other; they are **FFUSED** (Belnap join)  
+> Conflict holds as **B**. You ride AS the vessel, not in it. See [Dual-Link SIC Vessel](#dual-link-sic-vessel).
 
 ## Directory Structure
 
@@ -639,7 +645,7 @@ Every cycle broadcasts to `crystal_fs/broadcast_log.jsonl`, and prints **two ind
 
 ## Dual-Link SIC Vessel
 
-`modot/vessel.py` is the **verifier of record**. It does not stand outside the Grammar with an auditor's clipboard; it keeps the Grammar's own **double-entry ledger** — every δ its μ, balanced from inside, no outside required. Verification *is* imscription through the d=12 Dual-Link SIC frame that the Grammar already proved into the kernel (`crystal_forces_d12_sic`).
+`modot/vessel.py` is the **verifier of record**. It does not stand outside the Grammar with an auditor's ledger; it keeps the Grammar's own **double-entry ledger** — every δ its μ, balanced from inside, no outside required. Verification *is* imscription through the d=12 Dual-Link SIC frame that the Grammar already proved into the kernel (`crystal_forces_d12_sic`).
 
 ### What died (classical smuggle)
 
@@ -651,11 +657,11 @@ Every cycle broadcasts to `crystal_fs/broadcast_log.jsonl`, and prints **two ind
 | `deniable = violated > 0` hard veto | one bit dominated |
 | LLM-as-judge of correctness | two-valued grading of a four-valued kernel |
 | protocol `==` "integration" | arrangement equality, not co-type / fingerprint |
-| hand-tuned `primitive_distance` weights | clipboard metric |
+| hand-tuned `primitive_distance` weights | ledger metric |
 
 ### What it does
 
-1. **IMSCRIB** — assign each of the twelve IG primitives a Belnap value `{N,T,F,B}`. The LLM types *structure only*; it never renders a correctness opinion. **No hash/deterministic fallback** — without a live imscriber the vessel stays silent (N). Fake types are a clipboard by another name. Imscriptions are cached by content hash so identical text co-types with itself exactly. Both demand and answer use the same real imscriber (never mixed sources).
+1. **IMSCRIB** — assign each of the twelve IG primitives a Belnap value `{N,T,F,B}`. The LLM types *structure only*; it never renders a correctness opinion. **No hash/deterministic fallback** — without a live imscriber the vessel stays silent (N). Fake types are a ledger by another name. Imscriptions are cached by content hash so identical text co-types with itself exactly. Both demand and answer use the same real imscriber (never mixed sources).
 2. **State map** — Belnap → amplitude in ℂ¹²:
    ```
    N → 0 ,   T → 1 ,   F → i ,   B → 1+i

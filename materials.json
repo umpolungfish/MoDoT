@@ -18,6 +18,29 @@
     ],
     "weakest": 1.0
   },
+  "five_ring": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 7.9515,
+    "n": 5,
+    "rho": 2.5616,
+    "spectrum": [
+      2.5616,
+      1.0,
+      0.4142,
+      -1.5616,
+      -2.4142
+    ],
+    "strain": 0.2976,
+    "units": [
+      "sunflower_conjecture",
+      "sidon_set",
+      "infinite_set_mappings",
+      "graph_cycle_basis",
+      "chromatic_number_omega1"
+    ],
+    "weakest": 0.5
+  },
   "fundamental_covering_system": {
     "branched": false,
     "conductance": "FRUSTRATED",
@@ -53,6 +76,50 @@
       "ouroborus",
       "iut_theory",
       "d_12_dual_link_sic_povm"
+    ],
+    "weakest": 1.0
+  },
+  "macrocycle5": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 7.9515,
+    "n": 5,
+    "rho": 2.5616,
+    "spectrum": [
+      2.5616,
+      1.0,
+      0.4142,
+      -1.5616,
+      -2.4142
+    ],
+    "strain": 0.2976,
+    "units": [
+      "sunflower_conjecture",
+      "sidon_set",
+      "infinite_set_mappings",
+      "graph_cycle_basis",
+      "chromatic_number_omega1"
+    ],
+    "weakest": 0.5
+  },
+  "pure_four_ring": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "chromatic_number_omega1",
+      "erdos_sidon_liminf_zero",
+      "infinite_set_mappings",
+      "ordinal_ramsey_omega_power"
     ],
     "weakest": 1.0
   }
