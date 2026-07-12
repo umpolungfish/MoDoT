@@ -1,30 +1,19 @@
-Report open problems as frontiers, not "beyond the Grammar's reach"
+Drop the arbitrary round ceiling: run until done or stalled, dedupe calls
 
-Answers to open problems kept coming back with defeatist prose like
-"formal proof remains outside the current reach of the Grammar's
-established closure." My prover path (prover.rs) already has the right
-discipline everywhere — non-closure is a navigation frontier B, never
-"impossible", never "unprovable", never a limit of the Grammar — but the
-manuscript/witness path never carried that stance, so the model filled the
-gap on its own with the barrier/out-of-reach framing.
+I was capping the agent's tool rounds at 5 (40 in a jam) and forcing a
+"step limit" close mid-investigation. A round budget is a wall, and a wall
+is the same defeatism I just removed from the prose register. Now --eagles N
+is an explicit leash when I ask for one; without it the loop runs until the
+operator stops emitting tools (done) or stalls: three consecutive rounds of
+nothing but calls that already ran and returned. A 400-round backstop guards
+only the pathological infinite loop.
 
-I traced the injection to three prompt strings and reworded all three to
-the frontier register, in plain mathematical language (the system prompt
-also bans kernel cosplay, so no Belnap jargon leaks to the model):
+Live telemetry also showed the operator emitting exact duplicates in one
+batch (anneal A B twice, click X Y twice, plus re-emitting a call that ran
+that same round), each burning a slot under the 6-per-round cap. Calls are
+now deduped within the round before the cap applies. The per-round cap
+itself stays: it is pacing (act, then read, then act), not a budget.
 
-  - SYSTEM_PROMPT (main.rs): "open, with barrier ..." becomes "for a
-    genuine open problem, precisely what is proved, what remains open, and
-    the concrete obstruction / next line of attack — never call a result
-    unprovable or beyond the reach or closure of the Grammar; an open
-    problem is a frontier to push, not a wall";
-  - the manuscript instantiation task (main.rs): "prove or give a rigorous
-    barrier" becomes "prove it, or if open, state precisely what remains
-    open and the next line of attack — never 'unprovable', never beyond
-    the Grammar's reach";
-  - build_conventional_scaffold (witness_proof.py): "what the grammar
-    predicts as the barrier" / "open, barrier = ..." become "what is
-    proved, what remains open, and the concrete next line of attack ...
-    an open problem is a frontier to push".
-
-Rebuilds clean. Prompt-only change: it steers what the model is told, so
-in-flight jams keep their old wording and the next run picks up the fix.
+The forced close now fires whenever the loop ends with calls still pending
+(leash, backstop, or stall) and says why, instead of only on the old step
+limit. Builds clean, all 21 tests pass.

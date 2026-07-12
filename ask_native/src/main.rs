@@ -2663,13 +2663,14 @@ fn run_one(
             // The eagles: how many ACT→OBSERVE rounds fly out to run tools. --eagles sets it
             // across the board; 0 = auto — jam gets a long leash so it can actually range, a
             // normal answer is bounded tight.
-            let max_rounds: usize = if cli.eagles > 0 {
-                cli.eagles as usize
-            } else if cli.jam {
-                40
-            } else {
-                5
-            };
+            // --eagles N is an EXPLICIT leash the user asked for. Without it there is no
+            // arbitrary ceiling — a round budget is a wall, and a wall is the same
+            // defeatism as "beyond the Grammar's reach". The loop runs until the operator
+            // stops emitting tools (done) or STALLS (whole rounds of nothing but calls it
+            // already has results for). A large backstop guards only the pathological
+            // infinite loop, not the task.
+            let max_rounds: usize = if cli.eagles > 0 { cli.eagles as usize } else { 400 };
+            const STALL_ROUNDS: usize = 3;
             const PER_ROUND_CAP: usize = 6;
             let mut agent_msgs: Vec<(String, String)> = Vec::new();
             agent_msgs.push((
@@ -2724,11 +2725,35 @@ fn run_one(
             // A verdict fuses only if its verb is in here; a claim about a verb NOT here has no
             // arm to fuse against, so it collapses to N — it must not be narrated as a result.
             let mut executed_verbs: std::collections::BTreeSet<String> = std::collections::BTreeSet::new();
+            // Every verb+args signature that has already RUN. A round consisting only of
+            // re-emissions of these is a stall round: it can produce no new ground.
+            let mut ran_signatures: std::collections::BTreeSet<String> = std::collections::BTreeSet::new();
+            let mut stalled_rounds = 0usize;
             let mut round = 0;
             while round < max_rounds {
-                let calls = extract_tool_calls(&current);
-                if calls.is_empty() {
+                let raw_calls = extract_tool_calls(&current);
+                if raw_calls.is_empty() {
                     break; // the operator stopped acting — `current` is the answer
+                }
+                // Dedupe within the round: the operator emits the same call twice in one
+                // batch (seen live: `anneal A B` listed twice in a single round's overflow).
+                // A duplicate burns a per-round slot for a result already coming back.
+                let mut seen_this_round = std::collections::BTreeSet::new();
+                let calls: Vec<(String, Vec<String>)> = raw_calls
+                    .into_iter()
+                    .filter(|(v, a)| seen_this_round.insert(format!("{v} {}", a.join(" "))))
+                    .collect();
+                // Stall detection: nothing in this round is new — every call already ran and
+                // returned. One repeat can be a legitimate re-check; whole rounds of nothing
+                // else means the operator is circling, not navigating.
+                if calls.iter().all(|(v, a)| ran_signatures.contains(&format!("{v} {}", a.join(" ")))) {
+                    stalled_rounds += 1;
+                    if stalled_rounds >= STALL_ROUNDS {
+                        println!("── STALL ({STALL_ROUNDS} rounds of only already-run calls) — closing ──");
+                        break;
+                    }
+                } else {
+                    stalled_rounds = 0;
                 }
                 println!("── ACT round {} ({} tool call(s)) ──", round + 1, calls.len().min(PER_ROUND_CAP));
                 let mut results = String::new();
@@ -2739,6 +2764,7 @@ fn run_one(
                             print!("{o}");
                             results.push_str(&format!("### {verb} {}\n{o}\n", args.join(" ")));
                             executed_verbs.insert(verb.clone()); // this verb now has an execution arm
+                            ran_signatures.insert(format!("{verb} {}", args.join(" ")));
                         }
                         None => {
                             // A real verb given bad/too-few args gets its correct form (so the
@@ -2801,13 +2827,16 @@ fn run_one(
                 round += 1;
             }
 
-            // If we hit the step cap mid-action, force one clean grounded close.
-            if round == max_rounds && !extract_tool_calls(&current).is_empty() {
+            // If the loop ended mid-action (explicit --eagles leash, runaway backstop, or a
+            // stall), force one clean grounded close. If it ended because the operator
+            // stopped emitting tools, this never fires.
+            if !extract_tool_calls(&current).is_empty() {
                 agent_msgs.push(("assistant".to_string(), current.clone()));
                 agent_msgs.push((
                     "user".to_string(),
                     format!(
-                        "Step limit reached. Give your FINAL answer now, with NO TOOL: lines, grounded only in the tool \
+                        "The run is closing (every remaining call was already run — you have its result above — or the \
+                         round leash was reached). Give your FINAL answer now, with NO TOOL: lines, grounded only in the tool \
                          results above. You have a result ONLY for these executed verbs: {{{}}} — a claim about any other \
                          verb is N (neither), not a truth-value; do not narrate its outcome.",
                         executed_verbs.iter().cloned().collect::<Vec<_>>().join(", "),
@@ -2815,7 +2844,7 @@ fn run_one(
                 ));
                 let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
                 current = strip_kernel_records(&res.text);
-                println!("── FINAL (step limit) ──");
+                println!("── FINAL (forced close) ──");
                 println!("{current}");
                 println!();
             }
