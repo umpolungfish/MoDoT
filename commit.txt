@@ -1,19 +1,23 @@
-Give the agent on-the-fly ob3ect creation: TOOL: ob3ect <description>
+Collapse degenerate reasoning loops before they become the answer
 
-The agent could imscribe a missing catalog entry but had no way to type a
-procedure or entity through the real Ob3ect Auto-Designer. Now `TOOL:
-ob3ect <free-text description>` shells to ~/ob3ect/auto.py (its own venv,
-cwd ~/ob3ect, --no-diagram --no-scaffold, retries bounded at 3 so the
-pipeline's retry-forever default cannot hang a round) and returns the full
-report: opcodes, Frobenius split/fuse verdict, registers, bootstrap
-sequence, topology. The artifact persists to ~/ob3ect/digital/<slug>/ like
-every ob3ect, so it is durable, not a throwaway.
+Live telemetry from the last jam showed the PROD round derail: instead of
+emitting a TOOL: line the model returned the same two lines alternating
+forty times ("Wait: output the TOOL lines / Okay: write the final answer").
+That text carries no TOOL: line, so the ACT loop breaks immediately and the
+loop itself becomes the answer — and if it lands mid-round it bloats
+agent_msgs on top of that. The membrane still held (fused=N, nothing
+ungrounded got a truth-value), but a wall of repetition reached the operator
+as the visible reply.
 
-The system prompt tells the agent to describe the entity neutrally (what it
-is and does, naming no candidates) and to use the verb to ground a protocol
-or structure it is about to rely on. Registered in STRUCTURAL_VERBS and
-verb_usage so misses get actionable feedback.
+Fixed at the one choke point every provider passes through: infer() now runs
+collapse_degenerate() on the returned text. If the output is dominated by a
+tiny set of lines — four or fewer distinct, or distinct lines under a quarter
+of the total across 12+ lines — it is a loop, not prose, and collapses to its
+distinct lines in order with a marker. The test is on the distinct-to-total
+ratio, not adjacency, because the derailment alternates A/B/A/B and a
+consecutive-dup pass would sail right past it. Short or varied answers are
+returned untouched, so an honest reply never trips the guard.
 
-Verified live with the exact command the runner issues: a split/recombine
-description came back mu o delta = id PASS, Valid: True, saved to digital/.
-Builds clean, all 21 tests pass.
+Two unit tests lock it: the exact alternating loop reduces to its two lines,
+and a varied verdict passes through byte-for-byte. Builds clean, 23 tests
+pass.

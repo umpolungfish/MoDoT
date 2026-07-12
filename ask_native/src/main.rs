@@ -1022,11 +1022,56 @@ fn infer(
         };
     };
 
-    match llm.provider {
+    let mut res = match llm.provider {
         Provider::OpenRouter => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::DeepSeek => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature),
+    };
+    // A model can derail into a runaway reasoning loop — the same one or two lines emitted
+    // dozens of times ("Wait / Okay / Wait / Okay …") — and return that as its content. With
+    // no TOOL: lines in it, the driver breaks the ACT loop immediately and the loop-text
+    // becomes the answer, while also bloating agent_msgs if it lands mid-round. Collapse it
+    // to its distinct lines here, once, so no call site can inherit a loop.
+    res.text = collapse_degenerate(&res.text);
+    res
+}
+
+/// If `text` is dominated by a tiny set of lines repeated many times (an A/B/A/B reasoning
+/// loop, or one paragraph echoed dozens of times), keep the first occurrence of each distinct
+/// line in order and mark the collapse. A genuine answer never repeats a line dozens of times,
+/// so the guard only fires on the degenerate case; short or varied outputs pass through
+/// untouched. Consecutive-dup collapse alone misses the alternating A/B loop, so the test is on
+/// the ratio of distinct-to-total lines, not adjacency.
+fn collapse_degenerate(text: &str) -> String {
+    let lines: Vec<&str> = text.lines().collect();
+    let nonempty: Vec<&str> = lines
+        .iter()
+        .map(|l| l.trim())
+        .filter(|l| !l.is_empty())
+        .collect();
+    if nonempty.len() < 12 {
+        return text.to_string();
     }
+    let distinct: std::collections::BTreeSet<&str> = nonempty.iter().copied().collect();
+    // Fewer than ~4 distinct lines carrying 12+ total, or under a quarter of the lines being
+    // distinct, is a loop, not prose.
+    let looping = distinct.len() <= 4 || distinct.len() * 4 < nonempty.len();
+    if !looping {
+        return text.to_string();
+    }
+    let mut seen = std::collections::BTreeSet::new();
+    let mut kept: Vec<&str> = Vec::new();
+    for l in &nonempty {
+        if seen.insert(*l) {
+            kept.push(l);
+        }
+    }
+    format!(
+        "{}\n\n[degenerate repetition collapsed: {} lines reduced to {} distinct]",
+        kept.join("\n"),
+        nonempty.len(),
+        kept.len(),
+    )
 }
 
 fn infer_openrouter(
@@ -1722,6 +1767,32 @@ mod delatex_tests {
         let got = delatex(r"$\mu \circ \delta = \text{id}$, $\frac{a}{b} \geq \Omega \leftrightarrow \Sigma$");
         assert!(got.contains("μ ∘ δ = id"), "{got}");
         assert!(got.contains("a/b ≥ Ω ↔ Σ"), "{got}");
+    }
+}
+
+#[cfg(test)]
+mod collapse_tests {
+    use super::collapse_degenerate;
+
+    // The exact derailment seen live: two lines alternating dozens of times. Consecutive-dup
+    // collapse would miss the A/B/A/B shape, so this must reduce to the two distinct lines.
+    #[test]
+    fn collapses_alternating_reasoning_loop() {
+        let loop_txt = "Wait: I should output the TOOL lines.\nOkay: I will write the final answer.\n"
+            .repeat(30);
+        let got = collapse_degenerate(&loop_txt);
+        assert!(got.contains("degenerate repetition collapsed"), "{got}");
+        assert_eq!(got.matches("Wait: I should output the TOOL lines.").count(), 1, "{got}");
+        assert_eq!(got.matches("Okay: I will write the final answer.").count(), 1, "{got}");
+    }
+
+    // A normal, varied answer must pass through byte-for-byte — no false positive.
+    #[test]
+    fn leaves_varied_prose_untouched() {
+        let prose = "The assembly does not close.\nEvery polymerize came back telechelic.\n\
+                     Sidon density cyclizes via yhhw_word.\nRamsey terminates at one unit.\n\
+                     The honest verdict is F for the bipartite exponent.";
+        assert_eq!(collapse_degenerate(prose), prose);
     }
 }
 
