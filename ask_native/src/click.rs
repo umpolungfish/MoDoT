@@ -3053,6 +3053,13 @@ fn print_ring_spectrum(units: &[Tuple], theta: f32) {
 /// bond — a ring is only as stable as its weakest link. Reuses the Ω-transfer primitive.
 fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
     let n = units.len();
+    if n < 3 {
+        println!("  ── material properties ──");
+        println!(
+            "    DIMER (n={n}): a single bond between two units, NOT a macrocycle. A 2-node ring graph has a trivially flat spectrum — gap and strain are always 0, so any pair reads 'settled/clarion' regardless of content. Ring conductance, spectral invariants (ρ, gap) and the clarity verdict are undefined here; a real ring needs n ≥ 3 (use --close to find a monomer that closes a genuine ring)."
+        );
+        return;
+    }
     // weakest clean condensation bond around the ring (cross-links/additions counted apart),
     // plus every clean drive so the ring's strain (how evenly the bonds are loaded) is read.
     let mut weakest: Option<(usize, f32)> = None;
@@ -3144,7 +3151,11 @@ fn ring_strain(units: &[Tuple], theta: f32) -> f32 {
 /// reprinting the full sheet. Returns None when the units do not form a ring.
 fn ring_signature(units: &[Tuple], theta: f32) -> Option<(f64, &'static str, f32)> {
     let n = units.len();
-    if n < 2 {
+    // A dimer (n=2) is not a ring: its "head-to-tail" bond is the single enchainment bond
+    // counted twice, and a 2-node graph has a trivially flat spectrum (gap 0, strain 0). A
+    // real ring material needs n >= 3, else the invariants are degenerate and exploitable
+    // (any pair reads as a ρ=1 "settled/clarion macrocycle" regardless of content).
+    if n < 3 {
         return None;
     }
     // must actually close head-to-tail to be a ring material
@@ -3298,6 +3309,10 @@ pub fn run_polymerize(
     };
     let cyclic = matches!(head_tail, Some(Ok(_)));
     match &head_tail {
+        Some(Ok(p)) if dp == 2 => println!(
+            "  cyclization: {} ⋈ {} → DIMER on {}, NOT a macrocycle — a 2-ring is the single enchainment bond counted twice; a real ring needs n ≥ 3.",
+            monomers[dp - 1], monomers[0], LIVE_LABELS[p.pair_idx]
+        ),
         Some(Ok(p)) => println!(
             "  cyclization: {} ⋈ {} → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on {} (O∞).",
             monomers[dp - 1], monomers[0], LIVE_LABELS[p.pair_idx]
@@ -3455,5 +3470,23 @@ mod alchemy_tests {
         let units = vec![u("x", 2), u("y", 2)];
         let (_k, _r, ties) = fractionate(&units, |t| t.norm(8).unwrap_or(0.0), 0.06);
         assert!(!ties.is_empty(), "equal ⊙ must flag an azeotrope");
+    }
+
+    // A 2-unit dimer that DOES click head-to-tail still has no ring signature — the guard
+    // closing the "two invented entities forge to a ρ=1 macrocycle" exploit.
+    #[test]
+    fn dimer_has_no_ring_signature() {
+        // complementary on D↔W (idx 0 vs 11), co-typed elsewhere → a clean single-center click
+        let mk = |name: &str, d: u8, w: u8| {
+            let mut ord = [Some(1u8); 12];
+            ord[0] = Some(d);
+            ord[11] = Some(w);
+            Tuple { name: name.into(), ord }
+        };
+        let pair = [mk("a", 3, 0), mk("b", 0, 3)];
+        assert!(
+            super::ring_signature(&pair, 0.5).is_none(),
+            "a 2-unit dimer must not report a ring signature"
+        );
     }
 }

@@ -1,35 +1,27 @@
-Add a DeepSeek provider; abort on fatal LLM errors; warn on unknown provider
+Guard the degenerate n=2 ring: a dimer is not a macrocycle
 
-Three problems surfaced when OpenRouter ran out of credits mid-jam:
+A jam run exploited two-entity forges: imscribe two conclusion-named
+entities (set_covering_dense, set_covering_sparse), forge each with a base
+(set_squares), and read the identical ρ=1 / gap=0 / SETTLED-CLARION back as
+a covering-theory proof (that liminf could be refuted). But a 2-node ring
+graph is degenerate: its "head-to-tail" bond is the single enchainment bond
+counted twice, and the spectrum is trivially [+d, -d], so gap and strain
+are ALWAYS 0 and every pair auto-reads as a ρ=1 "settled/clarion
+macrocycle" regardless of content. The sheet even self-contradicted,
+printing both "✓ CYCLIC — a macrocycle" and "ρ < 2 => a broken/open ring".
 
-1. The 402 flood was OpenRouter returning Payment Required. Nothing wrong
-   in the code, the account was empty.
+The clarity line (strain + gap read jointly) made this worse: for any n=2
+input both are 0, so it always fired SETTLED/CLARION, which the agent then
+cited as verification.
 
-2. `--provider deepseek` silently did nothing. parse_provider only knew
-   openrouter and gemini, so "deepseek" returned None and the resolver
-   fell through to key-based selection, which picked OpenRouter (the key
-   was set). The header even said "(openrouter)" while the flag said
-   deepseek. The run never left the dead provider.
+Guard n < 3 in the three places the invariants surface:
+  - ring_signature returns None for n<3, so compare/dope/fuse/cleave report
+    "not a ring" instead of a dimer's ρ;
+  - print_ring_material prints a DIMER note and skips the conductance,
+    spectral invariants, and clarity verdict;
+  - the cyclization line labels an n=2 closure "DIMER, NOT a macrocycle".
+A real ring material needs n >= 3.
 
-3. The jam ground through all 40 cycles on a 402, each cycle re-calling
-   and failing identically, because a fatal auth/payment error was treated
-   like a transient one.
-
-Fixes:
-  - Provider::DeepSeek: base_url api.deepseek.com/v1, key DEEPSEEK_API_KEY
-    (then MODOT_API_KEY). DeepSeek's API is OpenAI-compatible, so it reuses
-    the OpenRouter inference path verbatim. parse_provider accepts
-    deepseek / ds / deepseek-direct, and key-based inference now considers
-    DEEPSEEK_API_KEY.
-  - An unrecognized explicit --provider / MODOT_PROVIDER value now prints a
-    warning naming the valid providers instead of silently falling back.
-  - is_fatal_llm_error: a 401/402/403/invalid-key/insufficient error aborts
-    the cycle loop immediately with a clear message (switch providers or top
-    up), rather than retrying every cycle.
-
-Verified: `--provider deepseek --model deepseek-chat` routes to DeepSeek
-(header shows "(deepseek)", a live call returns), and an OpenRouter 402
-aborts the run after cycle 1 instead of grinding all of them.
-
-Note: DeepSeek's API model ids are deepseek-chat and deepseek-reasoner;
-deepseek-v4-pro is not one, so pass a real id when using --provider deepseek.
+Test: a 2-unit pair that DOES click head-to-tail still has no ring
+signature. Verified live: the exploit forge now reads DIMER with invariants
+marked undefined, and compare of two dimers reports one side is not a ring.
