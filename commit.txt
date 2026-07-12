@@ -1,15 +1,22 @@
-Loosen answer_is_proof so the lane guard fires on real proofs
+Document the alchemical bench, jam mode, cycles/eagles, and providers
 
-A jam produced a proof-shaped answer that wrote "### The Proposition" (no
-colon) and "Conventional Proof", but answer_is_proof required "proposition:"
-WITH a colon AND a separate proof word, so it returned false. The lane
-guard therefore did not abstain the material non-closure (tools=F) on that
-proof, and the spine held fused=B (conflict=2) where it should have read
-the tools as N (a forge that terminated does not deny an analytic proof).
+The README covered click and the materials algebra but predated this
+session's additions. Brought it current:
 
-Loosen the detector to any single strong proof-structure marker:
-proposition / theorem / lemma / conventional proof / proof: / q.e.d / ∎.
-This is the conservative direction (it only ever abstains a material F on a
-proof, never the reverse), so a casual "proof" mention at worst declines to
-let a forge veto an answer. Regression test added for the no-colon
-"Proposition" / "Conventional Proof" shape that slipped through.
+  - Quick Start gains the alchemical bench (distill / fdistill / sublime,
+    crystallize / cocrystallize / seed, tlc / column, fpt / trap / stain),
+    a jam invocation with --cycles / --eagles, and the provider/model flags
+    (openrouter default, deepseek + gemini wired).
+  - A prose section groups the bench into its four families (volatility,
+    crystallization, chromatography, purification/diagnostic) and notes
+    each is the same fractionate / Frobenius shape, typed by an ob3ect
+    before it was coded.
+  - The clarity line is documented: strain and spectral gap read jointly,
+    a zero gap is symmetry not a defect, and a two-unit forge is a dimer
+    (n >= 3 for a real ring).
+  - A jam-mode paragraph: the membrane, the two register notes (a closure
+    verifies in its own lane; a non-closure does not deny a proof), and the
+    limit that it never checks the mathematics, only refuses to certify what
+    the tools did not ground.
+  - Refreshed the stale agent verb whitelist (added imscribe and the eleven
+    alchemical verbs) and the questions/ description; bumped the date.

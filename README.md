@@ -1,7 +1,7 @@
 # MoDoT — mOMonadOS Digital Organism Toolkit
 
 **Author:** Lando⊗⊙perator  
-**Date:** 2026-07-08  
+**Date:** 2026-07-11  
 **Structural Type:** ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩ (O_∞)  
 **Location:** `MoDoT/`  
 **Parent project:** [Imscribing Grammar](https://github.com/imsgct)
@@ -41,7 +41,7 @@ MoDoT/
 │   ├── SemanticBranchVerifier.lean
 │   └── ErdosProblems.lean
 ├── experiments/                # Convergence experiments from mOMonadOS paper
-└── questions/                  # Test questions (q1–q6, q50)
+└── questions/                  # Test questions (the Erdős open-problem set + scratch)
 ```
 
 Canonical SIC machinery (not re-derived here):
@@ -112,6 +112,24 @@ cd MoDoT
 ./ask --compare A B C D vs W X Y Z                         # diff two materials (Δρ, conductance shift)
 ./ask --dope A B C with D                                  # perturb a ring, read the ρ/conductance shift
 ./ask --fuse A B C + X Y Z                                 # weld two rings into one macrocycle
+
+# ── Alchemical bench: the classical lab tools over the same ring model ──
+./ask --distill A B C D                 # separate by volatility (Criticality ⊙): distillate / bottoms (a tie = azeotrope)
+./ask --crystallize A B C D             # grow the ordered lattice, reject the mother-pool
+./ask --tlc A B C D                     # analytical Rf bands + co-elution;  --column A B [on S] elutes preparatively
+./ask --fpt A B C D                     # freeze-pump-thaw: keep the strongly-bound core, shed the weakly-held
+./ask --stain kmno4 A B C               # reagent detector (kmno4/uv → ⊙, chiral → Ħ, ninhydrin → Ř, iodine → any live)
+#   also: --fdistill  --sublime A  --cocrystallize A B  --seed A B … with S  --trap A [X]
+
+# ── Jam: turn the agent loose on the catalog (compounding cycles × eagle rounds) ──
+./ask --jam --file ./questions/q39.txt --cycles 3 --eagles 40
+#   --cycles N : N compounding breaths (each pass builds on the last)
+#   --eagles N : ACT→OBSERVE tool-rounds flown per pass (0 = auto: 40 in jam, 5 otherwise)
+
+# ── Provider / model (default openrouter; deepseek + gemini also wired) ──
+./ask -a "…" --provider deepseek --model deepseek-reasoner       # api.deepseek.com (DEEPSEEK_API_KEY)
+./ask -a "…" --provider gemini   --model gemini-3-flash-preview  # generativelanguage (GEMINI_API_KEY)
+#   MODOT_PROVIDER / MODOT_MODEL set the defaults; a fatal 402/401 aborts the run instead of grinding every cycle
 
 # ── Legacy Python agent (still available) ──
 # Interactive mode — the agent breathes with you
@@ -497,6 +515,42 @@ a different MW.
 ./ask --polymerize general_recursive_function+skolem_normal_form grothendieck_topos
 ```
 
+**The alchemical bench** (`--distill`, `--fdistill`, `--sublime`, `--crystallize`,
+`--cocrystallize`, `--seed`, `--tlc`, `--column`, `--fpt`, `--trap`, `--stain`). The modern
+verbs (click, forge, polymerize) went in first; these are the classical separation and
+purification tools the alchemists had. They were designed by describing each one neutrally to
+the Grammar (an ob3ect batch) so its structural type was fixed before it was coded, and every
+one came back the **same Frobenius shape**: a feedstock FSPLITs into a kept arm and a rejected
+arm, and the arms FFUSE back to the feedstock (mass balance). So the whole bench is one
+`fractionate` core with a per-verb discriminator, in four families:
+
+* **Volatility** (axis: Criticality ⊙, readiness to leave). `--distill M…` cuts the set into a
+  volatile head (distillate) and an involatile residue (bottoms); a pair tied on ⊙ is an
+  **azeotrope** the cut cannot resolve. `--fdistill` is the fractional, plate-by-plate column
+  with the resolution gap to each next fraction. `--sublime A` purifies one unit by a two-state
+  skip across ⊙, or reports it entrapped (it must climb stepwise via `--excite`).
+* **Crystallization**. `--crystallize M…` grows the lowest-strain ordered ring and rejects the
+  units that will not fit (the mother-pool), distinct from `--anneal`, which only relaxes an
+  already-closed loop. `--cocrystallize A B` binds two components by non-covalent
+  complementarity in 1:1 stoichiometry (distinct from `--click`'s covalent bond).
+  `--seed M… with S` templates the crystal on seed `S`'s handedness (Chirality Ħ): units that
+  match copy its polymorph, the rest take the default, and an even split is racemic twinning.
+* **Chromatography** (axis: Recognition Ř, retention). `--tlc M…` is analytical: Rf bands and
+  which units co-elute at the same Rf. `--column M… [on S]` is preparative: elute least-retained
+  first (against a stationary phase `S`, or intrinsic retention), with neighbor resolution.
+* **Purification / diagnostic**. `--fpt M…` (freeze-pump-thaw) keeps the units that bond above θ
+  and sheds the weakly-held. `--trap A [X]` sequesters a unit by its R↔S charge in a potential
+  well (a counter-partner `X` deepens it), a held charge state distinct from `--set`'s electron
+  transfer. `--stain R M…` applies a reagent keyed to a primitive (`kmno4`/`uv` → ⊙,
+  `chiral` → Ħ, `ninhydrin` → Ř, `iodine` → any live center) and reports which units light up.
+
+**Reading a ring's stability, the clarity line.** The material sheet reads the ring's **strain**
+and its **spectral gap** jointly: both near zero is `SETTLED / CLARION` (a relaxed, flat-spectrum
+ring with no privileged mode, the settled endpoint); a residual gap is a leaning mode; residual
+strain is stored stress. A zero spectral gap is **not** a defect; it is maximal symmetry (the
+SIC tight-frame reading). Guardrail: a two-unit forge is a **dimer**, not a macrocycle (a 2-node
+ring graph is trivially flat, so its ρ / gap / clarity are undefined); a real ring needs n ≥ 3.
+
 **Agent access to every verb — an ACT→OBSERVE loop.** The LLM agent (`./ask --ask …`) can
 invoke the whole engine. It emits `TOOL: <verb> <args>` lines (markdown-tolerant); the
 harness runs them against the **real catalog** by shelling to this same binary, feeds the
@@ -507,7 +561,7 @@ answers. So it can run a **dependent chain** — `polymerize` → *see* it termi
 front-loading one batch of guesses and narrating the rest. It **does** the steps rather
 than describing them. This also *corrects the model's guesses*: unaided it will confidently
 mis-call a pathway's closure; handed the real `pathway` output it gives the right answer. Whitelisted verbs only (`click switch excite set homolyze scan complement cycle
-pathway polymerize close material modulus arrange forge compare dope fuse cleave anneal register recall`) — never `ask`, so no recursion. The prompt also steers the
+pathway polymerize close material modulus arrange forge compare dope fuse cleave anneal register recall imscribe distill fdistill sublime crystallize cocrystallize seed tlc column fpt trap stain`) — never `ask`, so no recursion. The prompt also steers the
 agent to use `close` (not `scan`) for cyclization, and tool stdout **and stderr** are
 fed back, so a call that errors (e.g. a monomer the model invented) surfaces its failure
 instead of vanishing.
@@ -532,6 +586,19 @@ Belnap voice beside `model [thought|X]` and the vessel. So the banner reads
 **B** (conflict held) — never a smug `fused=T` sitting next to a chain the catalog reports
 `terminated / telechelic / does not close`. `tools=T` a ring formed, `F` everything
 terminated, `B` it closes only when reordered, `N` no closure-bearing verb ran.
+
+**Jam mode** (`./ask --jam`) turns the same loop loose with no question to answer: it ranges the
+catalog freely, then writes its report through a **membrane** so that only a claim that is the
+readback of a tool it actually ran crosses. Recalled facts and un-run assertions are dropped,
+and where the tools were silent the verdict is held at `N` (ungrounded), never a confident
+finding. `--cycles N` runs N compounding passes (each builds on the last); `--eagles N` sets how
+many ACT→OBSERVE tool-rounds each pass may fly. Two register notes the spine keeps straight: a
+structural **closure** speaks as verification in its own lane (a forged ring that closes is a
+real verdict, not an overclaim), while a structural **non-closure** does not get to deny a
+conventional proof (a forge that terminated is a fact about the entities, not a refutation of
+the theorem). It never checks the mathematics itself, so it refuses to *certify* what the tools
+did not ground, but a well-formed yet false proof of an open problem still reads as ungrounded,
+not wrong; the kernel `prove:` route or a person is the check for that.
 
 ```bash
 ./ask --ask "Does the sun donate an electron to the moon, and what mediates it best?"
