@@ -1,19 +1,19 @@
-Drop the arbitrary round ceiling: run until done or stalled, dedupe calls
+Give the agent on-the-fly ob3ect creation: TOOL: ob3ect <description>
 
-I was capping the agent's tool rounds at 5 (40 in a jam) and forcing a
-"step limit" close mid-investigation. A round budget is a wall, and a wall
-is the same defeatism I just removed from the prose register. Now --eagles N
-is an explicit leash when I ask for one; without it the loop runs until the
-operator stops emitting tools (done) or stalls: three consecutive rounds of
-nothing but calls that already ran and returned. A 400-round backstop guards
-only the pathological infinite loop.
+The agent could imscribe a missing catalog entry but had no way to type a
+procedure or entity through the real Ob3ect Auto-Designer. Now `TOOL:
+ob3ect <free-text description>` shells to ~/ob3ect/auto.py (its own venv,
+cwd ~/ob3ect, --no-diagram --no-scaffold, retries bounded at 3 so the
+pipeline's retry-forever default cannot hang a round) and returns the full
+report: opcodes, Frobenius split/fuse verdict, registers, bootstrap
+sequence, topology. The artifact persists to ~/ob3ect/digital/<slug>/ like
+every ob3ect, so it is durable, not a throwaway.
 
-Live telemetry also showed the operator emitting exact duplicates in one
-batch (anneal A B twice, click X Y twice, plus re-emitting a call that ran
-that same round), each burning a slot under the 6-per-round cap. Calls are
-now deduped within the round before the cap applies. The per-round cap
-itself stays: it is pacing (act, then read, then act), not a budget.
+The system prompt tells the agent to describe the entity neutrally (what it
+is and does, naming no candidates) and to use the verb to ground a protocol
+or structure it is about to rely on. Registered in STRUCTURAL_VERBS and
+verb_usage so misses get actionable feedback.
 
-The forced close now fires whenever the loop ends with calls still pending
-(leash, backstop, or stall) and says why, instead of only on the old step
-limit. Builds clean, all 21 tests pass.
+Verified live with the exact command the runner issues: a split/recombine
+description came back mu o delta = id PASS, Valid: True, saved to digital/.
+Builds clean, all 21 tests pass.

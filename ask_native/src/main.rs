@@ -1374,6 +1374,7 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: register NAME M1 M2…  forge the set into a ring and store its full sheet in the material library under NAME (recall it later by name)
   TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
+  TOOL: ob3ect <description>   CREATE an ob3ect on the fly (the real Auto-Designer pipeline): describe the entity/procedure NEUTRALLY (what it is and does — name no candidates) and get its full IMASM typing back (opcodes, Frobenius split/fuse verdict, registers, bootstrap sequence). Use it to ground a protocol or structure you are about to rely on.
 NOTE: a name being "not found" in the catalog is NOT a dead end and NOT a reason to say you cannot do something. Imscribe it: `TOOL: imscribe NAME` (optionally with a short description), then re-run your verb — the new entry loads automatically on the next call. Never refuse a task for a missing imscription; make it.
 NOTE: only imscribe the EXACT name a verb reported "not found" — one imscribe per genuinely-missing name. Do NOT pre-imscribe a whole set (names already in the catalog are reported back and waste a round), and do NOT invent article variants (`the_djed_pillar` when `djed_pillar` exists) — use the exact catalog name.
 NOTE: a `{set}` in braces is UNORDERED. Do not assume the listed order is meaningful — use `arrange`
@@ -1954,6 +1955,16 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         let description = if args.len() > 1 { args[1..].join(" ") } else { name.replace('_', " ") };
         return Some(run_imscribe(&name, &description));
     }
+    // `ob3ect` also shells to a real external pipeline: the Ob3ect Auto-Designer
+    // (~/ob3ect/auto.py), which types a neutral description through all 8 IMASM phases
+    // and persists the artifact. The agent can CREATE an ob3ect on the fly whenever it
+    // needs a grounded IMASM typing of a procedure, protocol, or entity.
+    if verb == "ob3ect" {
+        if args.is_empty() {
+            return Some("ob3ect needs a description: TOOL: ob3ect <free-text description of the entity>\n".into());
+        }
+        return Some(run_ob3ect(&args.join(" ")));
+    }
     let flags: Vec<String> = match verb {
         "click" => {
             let mut v = vec!["--click".to_string(), a(0)?];
@@ -2257,6 +2268,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "trap"          => "trap A [X]; 1 unit, optional counter X (ionic sequester)",
         "stain"         => "stain R M1 M2...; a reagent (kmno4/uv/chiral/ninhydrin/iodine) then 1+ units",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
+        "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
         _ => return None,
     })
 }
@@ -2266,7 +2278,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
 const STRUCTURAL_VERBS: &[&str] = &[
     "click", "switch", "excite", "set", "homolyze", "scan", "complement", "cycle",
     "pathway", "polymerize", "close", "material", "modulus", "arrange", "forge",
-    "compare", "dope", "fuse", "cleave", "anneal", "register", "recall", "imscribe",
+    "compare", "dope", "fuse", "cleave", "anneal", "register", "recall", "imscribe", "ob3ect",
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
@@ -2406,6 +2418,42 @@ fn run_imscribe(name: &str, description: &str) -> String {
         let tail = lines[lines.len().saturating_sub(8)..].join("\n");
         format!("imscribe '{name}' did not register. Generator output (tail):\n{tail}\n")
     }
+}
+
+/// Design an ob3ect on the fly via the real Auto-Designer (~/ob3ect/auto.py): neutral
+/// description in, full IMASM typing out (opcodes, Frobenius verdict, registers,
+/// bootstrap sequence). Persists to ~/ob3ect/digital/<slug>/ as every ob3ect does.
+/// Bounded retries — the pipeline's default is retry-forever, which would hang a round.
+fn run_ob3ect(description: &str) -> String {
+    let ob3_dir = PathBuf::from(expand_user("~/ob3ect"));
+    if !ob3_dir.join("auto.py").is_file() {
+        return "ob3ect: ~/ob3ect/auto.py not found — the Auto-Designer pipeline is not present.\n".into();
+    }
+    let venv_py = ob3_dir.join(".venv/bin/python");
+    let mut cmd = if venv_py.is_file() {
+        process::Command::new(&venv_py)
+    } else {
+        process::Command::new("python3")
+    };
+    cmd.args(["auto.py", description, "--no-diagram", "--no-scaffold", "--retries", "3"])
+        .current_dir(&ob3_dir);
+    if env::var("IG_PROVIDER").is_err() {
+        cmd.env("IG_PROVIDER", "openrouter");
+    }
+    let out = match cmd.output() {
+        Ok(o) => o,
+        Err(e) => return format!("ob3ect: could not run the Auto-Designer: {e}\n"),
+    };
+    let mut s = String::from_utf8_lossy(&out.stdout).into_owned();
+    let err = String::from_utf8_lossy(&out.stderr);
+    if !out.status.success() && !err.trim().is_empty() {
+        s.push_str(err.trim_end());
+        s.push('\n');
+    }
+    if s.trim().is_empty() {
+        s = "ob3ect: the Auto-Designer produced no output.\n".into();
+    }
+    s
 }
 
 fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
