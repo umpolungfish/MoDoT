@@ -1,13 +1,18 @@
-Add the CL8NK navigator; drop the ZFC/domain navigators it subsumes
+Cache tool results so a repeated batch never re-executes
 
-cl8nk is now a live verb shelling to imscribing_grammar/navigators/
-cl8nk_navigator.py (CLINK Layer 8, O∞): cl8nk <action> [name] with action
-∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|
-systems|stats. Wired into run_structural_tool, STRUCTURAL_VERBS,
-verb_usage, and the TOOLS_PROMPT.
+The loop re-ran identical calls every round until the stall guard broke it
+after 3 rounds — the transcript shows rounds 3/4/5 executing the same
+close/sublime/filter/ascend batch three times. A structural verb is a pure
+function of its args, so re-running only burns work and duplicates output.
 
-Removed the redundant navigators it subsumes from the IG tool corpus:
-zfc_formula, zfc_probe, zfc_catalog_probe, navigator_info, domain_info,
-domain_verify, domain_nearest — dropped from IG_TOOLS and the prompt.
-CL8NK is the one navigator now. Verified it runs (tier O_∞, distance
-0.6576 on K19_ray_class_field); suite green (32 passed).
+ran_signatures is now ran_results (signature -> output): a call whose exact
+signature already ran returns the CACHED result and is not re-executed;
+only genuinely new calls hit run_structural_tool. Stall detection now keys
+off the cache, so an all-cached round still closes the loop.
+
+Also: prose guard on extract_tool_calls. The model narrates next-steps as
+TOOL: lines ("TOOL: primitive_peel on the 6 survivors", "TOOL: ascend
+again", "TOOL: dope operation (format …)"), which were run on garbage args
+("the", "again", "operation"). A call is skipped when its first arg is an
+English stopword or any arg carries prose punctuation ( ( ) ` : ), so only
+real catalog-token calls run. Tests pin both. Suite green (33 passed).

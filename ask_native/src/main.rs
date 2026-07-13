@@ -2176,6 +2176,21 @@ mod lane_guard_tests {
     }
 
     #[test]
+    fn tool_extraction_skips_narrated_prose_calls() {
+        // The exact garbage from the transcript: next-step prose written as TOOL: lines.
+        let t = "TOOL: primitive_peel on the 6 survivors using valid primitives\n\
+                 TOOL: excite to reach the next resonance\n\
+                 TOOL: ascend again\n\
+                 TOOL: dope operation (format: dope A B with C)\n\
+                 TOOL: filter reduced_character_orbit_computation norm_sieve_execution";
+        let calls = super::extract_tool_calls(t);
+        // only the one real call survives
+        assert_eq!(calls.len(), 1);
+        assert_eq!(calls[0].0, "filter");
+        assert_eq!(calls[0].1[0], "reduced_character_orbit_computation");
+    }
+
+    #[test]
     fn tool_extraction_ignores_lowercase_prose() {
         // prose "tool:" must not be read as a directive
         assert!(super::extract_tool_calls("Use the right tool: pick carefully.").is_empty());
@@ -2399,7 +2414,26 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
                 .map(trim_md)
                 .filter(|s| !s.is_empty())
                 .collect();
-            out.push((verb.to_lowercase(), args));
+            // Prose guard: the model narrates next-steps as `TOOL: verb <english sentence>`
+            // ("TOOL: primitive_peel on the 6 survivors…", "TOOL: ascend again", "TOOL: dope
+            // operation (format …)"). Those are narration, not calls — running the verb on
+            // "the"/"again"/"operation" yields garbage. A real arg is a catalog token, never an
+            // English connective and never carrying sentence punctuation, so skip the line when
+            // the first arg is a stopword or any arg holds prose punctuation. Zero-arg verbs
+            // (crystal_count, cl8nk stats) have no args and pass through.
+            const STOPWORD_ARGS: &[&str] = &[
+                "on", "to", "the", "a", "an", "with", "using", "for", "from", "of", "in", "and",
+                "or", "this", "that", "it", "again", "before", "after", "then", "now", "next",
+                "by", "as", "into", "via", "use", "attempt", "reach", "onto", "at", "so",
+            ];
+            let is_prose = args
+                .first()
+                .map(|a| STOPWORD_ARGS.contains(&a.to_lowercase().as_str()))
+                .unwrap_or(false)
+                || args.iter().any(|a| a.contains('(') || a.contains(')') || a.contains('`') || a.contains(':'));
+            if !is_prose {
+                out.push((verb.to_lowercase(), args));
+            }
         }
         from = start; // advance past this marker so the next TOOL: (same line or later) is found
     }
@@ -3506,9 +3540,12 @@ fn run_one(
             // A verdict fuses only if its verb is in here; a claim about a verb NOT here has no
             // arm to fuse against, so it collapses to N — it must not be narrated as a result.
             let mut executed_verbs: std::collections::BTreeSet<String> = std::collections::BTreeSet::new();
-            // Every verb+args signature that has already RUN. A round consisting only of
-            // re-emissions of these is a stall round: it can produce no new ground.
-            let mut ran_signatures: std::collections::BTreeSet<String> = std::collections::BTreeSet::new();
+            // Every verb+args signature that has already RUN, mapped to its output. A repeated
+            // call returns this CACHED result instead of re-executing — the model re-emits the
+            // same batch across rounds (seen: rounds 3/4/5 identical), and a tool is a pure
+            // function of its args, so running it again only burns work and duplicates output.
+            let mut ran_results: std::collections::BTreeMap<String, String> =
+                std::collections::BTreeMap::new();
             let mut stalled_rounds = 0usize;
             let mut phantom_prods = 0usize;
             let mut round = 0;
@@ -3566,7 +3603,7 @@ fn run_one(
                 // Stall detection: nothing in this round is new — every call already ran and
                 // returned. One repeat can be a legitimate re-check; whole rounds of nothing
                 // else means the operator is circling, not navigating.
-                if calls.iter().all(|(v, a)| ran_signatures.contains(&format!("{v} {}", a.join(" ")))) {
+                if calls.iter().all(|(v, a)| ran_results.contains_key(&format!("{v} {}", a.join(" ")))) {
                     stalled_rounds += 1;
                     if stalled_rounds >= STALL_ROUNDS {
                         println!("── STALL ({STALL_ROUNDS} rounds of only already-run calls) — closing ──");
@@ -3578,13 +3615,20 @@ fn run_one(
                 println!("── ACT round {} ({} tool call(s)) ──", round + 1, calls.len());
                 let mut results = String::new();
                 for (verb, args) in calls.iter() {
+                    let sig = format!("{verb} {}", args.join(" "));
+                    // Already ran this exact call — return the cached result, do NOT re-execute.
+                    if let Some(cached) = ran_results.get(&sig) {
+                        println!("● TOOL {verb} {} (cached — already ran this run)", args.join(" "));
+                        results.push_str(&format!("### {verb} {} (cached)\n{cached}\n", args.join(" ")));
+                        continue;
+                    }
                     match run_structural_tool(verb, args) {
                         Some(o) => {
                             println!("● TOOL {verb} {}", args.join(" "));
                             print!("{o}");
                             results.push_str(&format!("### {verb} {}\n{o}\n", args.join(" ")));
                             executed_verbs.insert(verb.clone()); // this verb now has an execution arm
-                            ran_signatures.insert(format!("{verb} {}", args.join(" ")));
+                            ran_results.insert(sig, o);
                         }
                         None => {
                             // A real verb given bad/too-few args gets its correct form (so the
