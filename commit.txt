@@ -1,24 +1,23 @@
-Directory input (submission or context), and order-insensitive flags
+Teach the agent star polymers (block copolymers were already covered)
 
-Two things.
+The architecture classifier already names block copolymers (contiguous
+blocks), plus alternating / random / homo / heteropolymer — so block
+awareness was there. Star polymers were not: the whole polymerize/forge
+model is a linear walk (chain → ring), with no hub-and-arms topology.
 
-1. Order-insensitive flags. The positional `rest` was `trailing_var_arg +
-   allow_hyphen_values`, so any flag placed AFTER the question text was
-   swallowed into the positional as literal words (`ask "q" --eagles 5`
-   never parsed --eagles). Dropped both attributes; clap now interleaves
-   options and positional words freely — flags work before, after, or
-   between the words.
+New `star M1 M2 M3 …` verb: picks the highest-functionality monomer as the
+CORE (most click bonds), attaches every unit that clicks with it as an
+ARM, and reports the topology honestly:
+  - pure star K(1,f): f≥3 arms that do NOT bond each other → adjacency
+    spectral radius ρ=√f, spectrum {+√f, 0×(f−1), −√f}, vs the ρ=2 of a
+    ring;
+  - f<3 → not a star (linear/isolated), said plainly;
+  - arm–arm bonds → a branched network, not a hub-and-spoke star (ρ>√f),
+    deferring to `forge` for the full spectrum;
+  - lists the unattached units that never reach the core.
 
-2. Directory input. New read_path reads a FILE or a DIRECTORY: a directory
-   is walked (sorted, recursive, skipping .git/target/node_modules/.lake/…
-   and binary extensions, capped at 2M chars) and its text files
-   concatenated under `===== relative/path =====` headers. Wired into
-   --file, --ask, and a bare positional path, so a whole corpus can be the
-   submission in one shot. New --context PATH (repeatable, file or dir)
-   loads a corpus as BACKGROUND, prepended under a CONTEXT header ahead of
-   the SUBMISSION — the "as context" vs "as the submission" distinction.
-
-Verified live: dir as submission, --context dir + question, --file dir,
-and flags after/between positional words all resolve correctly. read_path
-unit-tested (file, dir concat with headers, binary excluded). Removed the
-now-dead content_len_label. Suite green (32 passed).
+Wired end to end: CLI --star, handler, run_structural_tool dispatch,
+STRUCTURAL_VERBS, verb_usage, TOOLS_PROMPT (with the block-copolymer note
+made explicit on polymerize), and verb_isomorphism (star = K(1,f), ρ=√f).
+Smoke-tested on real entries (correctly reports a branched network, not a
+fake star). Suite green (32 passed).

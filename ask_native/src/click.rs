@@ -3653,6 +3653,90 @@ pub fn run_phase_reconstruct(
     0
 }
 
+/// CLI: `./ask --star M1 M2 …`. Assemble a STAR polymer: pick the highest-functionality
+/// monomer as the CORE and attach every monomer that clicks with it as an ARM. A pure star
+/// K(1,f) is a hub with f arms that do NOT bond to each other — adjacency spectral radius
+/// ρ = √f, spectrum {+√f, 0×(f−1), −√f}, distinct from a linear chain and from a ρ=2 ring.
+/// Honest about degenerate cases: a star needs f≥3 arms (f=2 is a linear chain, f≤1 is an
+/// isolated bond), and arm–arm bonds make it a branched network, not a pure star.
+pub fn run_star(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("star: no catalog loaded");
+        return 2;
+    };
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => {
+            eprintln!("star: {e}");
+            return 2;
+        }
+    };
+    let n = units.len();
+    if n < 4 {
+        println!("star: a star needs a core + ≥3 arms (≥4 units); got {n}. Use `polymerize`/`forge` for a chain or ring.");
+        return 0;
+    }
+    // Functionality = degree in the click graph: how many other units a unit bonds with.
+    let deg = |i: usize| -> usize {
+        (0..n).filter(|&j| j != i && bond_forms(&units[i], &units[j], theta).is_some()).count()
+    };
+    let (mut core, mut best) = (0usize, deg(0));
+    for i in 1..n {
+        let d = deg(i);
+        if d > best {
+            best = d;
+            core = i;
+        }
+    }
+    let arms: Vec<usize> = (0..n)
+        .filter(|&j| j != core && bond_forms(&units[core], &units[j], theta).is_some())
+        .collect();
+    let f = arms.len();
+    println!("star (hub-and-arms assembly):");
+    println!(
+        "  core (highest functionality): {}  — bonds with {} of {} others",
+        units[core].name, best, n - 1
+    );
+    if f < 3 {
+        println!("  ✗ only {f} arm(s) reach the core — NOT a star. A star needs f≥3 arms; f=2 is a linear chain, f≤1 an isolated bond. (Try `forge` for the ring/chain reading.)");
+        return 0;
+    }
+    println!("  arms ({f}):");
+    for &j in &arms {
+        let d = bond_forms(&units[core], &units[j], theta).unwrap_or(0.0);
+        println!("    — {}  (core bond Δ={:.2})", units[j].name, d);
+    }
+    let unattached: Vec<usize> =
+        (0..n).filter(|&j| j != core && !arms.contains(&j)).collect();
+    if !unattached.is_empty() {
+        println!(
+            "  unattached (do not reach the core): {}",
+            unattached.iter().map(|&j| units[j].name.as_str()).collect::<Vec<_>>().join(", ")
+        );
+    }
+    // Purity: a pure star has NO arm–arm bonds.
+    let mut arm_bonds = 0usize;
+    for a in 0..arms.len() {
+        for b in (a + 1)..arms.len() {
+            if bond_forms(&units[arms[a]], &units[arms[b]], theta).is_some() {
+                arm_bonds += 1;
+            }
+        }
+    }
+    let rho = (f as f64).sqrt();
+    if arm_bonds == 0 {
+        println!("  ✓ PURE STAR K(1,{f}) — the {f} arms radiate from the core and do NOT bond to each other.");
+        println!(
+            "  spectral radius ρ = {rho:.4}  (= √{f}; star spectrum {{+{rho:.3}, 0×{}, −{rho:.3}}})",
+            f - 1
+        );
+        println!("  contrast: a ρ=2 ring is a pure cycle (circulates); a ρ=√{f} star is a hub with one dominant central mode and no circulation.");
+    } else {
+        println!("  ⚠ NOT a pure star — {arm_bonds} arm–arm bond(s): the arms interconnect, so this is a BRANCHED NETWORK, not a hub-and-spoke star. Its ρ exceeds √{f}; `forge` the set to read the full network spectrum.");
+    }
+    0
+}
+
 #[cfg(test)]
 mod alchemy_tests {
     use super::{fractionate, Tuple};

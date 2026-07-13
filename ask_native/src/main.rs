@@ -356,6 +356,11 @@ struct Cli {
     #[arg(long = "no-think", default_value_t = false)]
     no_think: bool,
 
+    /// Assemble a STAR polymer: `--star M1 M2 …` picks the highest-functionality monomer as
+    /// the core and attaches every unit that clicks with it as an arm (pure star K(1,f), ρ=√f).
+    #[arg(long = "star", num_args = 4.., value_names = ["MONOMERS"])]
+    star: Vec<String>,
+
     /// Narrow the catalog to the structural floor of a reference set: `--filter A B [C …]`
     /// keeps every entry matching all the primitive values the references share.
     #[arg(long = "filter", num_args = 2.., value_names = ["REFS"])]
@@ -1624,7 +1629,8 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: complement A      the bidirectional ligand⇌catalytic-site complement (its own inverse)
   TOOL: cycle C S         the catalytic cycle: C turns over S, certified a fixed point (μ∘δ=id)
   TOOL: pathway S C1 C2…  a metabolic pathway — does it close into a cycle (carrier + structure)?
-  TOOL: polymerize M1 M2… chain monomers into a sequence-preserving polymer (architecture, tacticity, does it cyclize?)
+  TOOL: polymerize M1 M2… chain monomers into a sequence-preserving polymer (architecture — homo/hetero/alternating/BLOCK/random copolymer — tacticity, does it cyclize?)
+  TOOL: star M1 M2 M3…    assemble a STAR polymer: pick the highest-functionality monomer as the CORE, attach every unit that clicks with it as an ARM; a pure star K(1,f) is a hub of f≥3 non-interbonding arms with ρ=√f (vs a ρ=2 ring). Reports core, arms, purity, and the unattached pool
   TOOL: close M1 M2…      polymerize, and if it does not cyclize, find the real monomer that CLOSES the ring or BRIDGES the break
   TOOL: material M1 M2…    polymerize, and if the ring CLOSES, characterize it as a material: conductive / frustrated / insulating, ring stability, AND spectral invariants (adjacency spectrum, spectral radius ρ, gap)
   TOOL: modulus M1 M2…     find a monomer that generates a SUSTAINING loop (a conductive cycle) somewhere along the chain — the modulus (elasticity), NOT mere closure
@@ -2198,7 +2204,7 @@ mod lane_guard_tests {
         // The verbs the operator narrates in a synthesis must read both ways.
         for v in [
             "excite", "cycle", "polymerize", "close", "forge", "distill", "set", "click",
-            "filter", "ascend", "phase_reconstruct",
+            "filter", "ascend", "phase_reconstruct", "star",
         ] {
             let (chem, math) = verb_isomorphism(v).unwrap_or_else(|| panic!("no isomorphism for {v}"));
             assert!(!chem.is_empty() && !math.is_empty(), "empty face for {v}");
@@ -2488,6 +2494,11 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         "switch" => vec!["--switch".into(), a(0)?, a(1)?],
         "excite" => vec!["--excite".into(), a(0)?],
         "ascend" => vec!["--ascend".into(), a(0)?],
+        "star" => {
+            let mut v = vec!["--star".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
         "filter" => {
             let mut v = vec!["--filter".to_string()];
             v.extend(args.iter().cloned());
@@ -2795,6 +2806,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "filter"     => "filter A B [C …]; 2+ reference names (narrow the catalog to their shared structural floor)",
         "ascend"     => "ascend A; 1 name (construct the next ramified tower level from A's excited state)",
         "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
+        "star"       => "star M1 M2 M3 …; 4+ names (hub-and-arms star polymer: auto core + arms, ρ=√f)",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
         _ => return None,
@@ -2859,6 +2871,10 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         "phase_reconstruct" => (
             "read the relative phases off a closed ring — fixed up to one global phase",
             "recover the relative phase word from cyclization (the flat-autocorrelation constraint); determined modulo a global gauge, exactly as C_m = 1/(d+1) fixes ψ up to a global phase",
+        ),
+        "star" => (
+            "a multifunctional core with f arms radiating out — a hub-and-spoke star polymer, no arm–arm bonds",
+            "the star graph K(1,f): one hub adjacent to f independent leaves; adjacency spectral radius ρ = √f with spectrum {+√f, 0×(f−1), −√f} — contrast the ρ=2 of a pure cycle",
         ),
         _ => return None,
     })
@@ -2925,7 +2941,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
-    "filter", "ascend", "phase_reconstruct",
+    "filter", "ascend", "phase_reconstruct", "star",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -3705,6 +3721,7 @@ impl CliClone for Cli {
             no_selectivity: self.no_selectivity,
             think: self.think,
             no_think: self.no_think,
+            star: self.star.clone(),
             filter: self.filter.clone(),
             ascend: self.ascend.clone(),
             phase_reconstruct: self.phase_reconstruct.clone(),
@@ -3954,6 +3971,11 @@ fn main() {
 
     // Excited-state analysis: `./ask --excite A` (standalone verb — a value present
     // and no --set). On a --set line the flag is consumed above as photoinduced.
+    if !cli.star.is_empty() {
+        let code = click::run_star(cat_ref, &cli.star, cli.theta);
+        process::exit(code);
+    }
+
     if !cli.filter.is_empty() {
         let code = click::run_filter(cat_ref, &cli.filter);
         process::exit(code);
