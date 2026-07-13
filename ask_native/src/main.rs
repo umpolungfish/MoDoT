@@ -582,8 +582,41 @@ fn merge_live_catalog(out: &mut Vec<CatalogEntry>) -> usize {
 }
 
 fn load_catalog(path: &Path) -> Result<Vec<CatalogEntry>, String> {
-    let text = fs::read_to_string(path).map_err(|e| format!("catalog read: {e}"))?;
-    let v: Value = serde_json::from_str(&text).map_err(|e| format!("catalog json: {e}"))?;
+    // The catalog file is rewritten in place by other processes (imscribe, the live
+    // updater). A shelled verb that reads it mid-write sees an empty or truncated file and
+    // fails with "catalog json: EOF at line 1 column 0" — which spuriously drops a real
+    // result to "no catalog loaded" (seen: `material` failing while `forge` a moment earlier
+    // loaded fine). An empty/truncated read is transient: retry a few times with a short
+    // backoff so the concurrent write can finish. A genuinely malformed catalog persists
+    // across the retries and still errors honestly.
+    let mut last_err = String::new();
+    for attempt in 0..6u32 {
+        if attempt > 0 {
+            std::thread::sleep(std::time::Duration::from_millis(40 * attempt as u64));
+        }
+        let text = match fs::read_to_string(path) {
+            Ok(t) => t,
+            Err(e) => {
+                last_err = format!("catalog read: {e}");
+                continue;
+            }
+        };
+        if text.trim().is_empty() {
+            last_err = "catalog json: empty file (mid-write?)".to_string();
+            continue;
+        }
+        match serde_json::from_str::<Value>(&text) {
+            Ok(v) => return load_catalog_value(v),
+            Err(e) => {
+                last_err = format!("catalog json: {e}");
+                continue;
+            }
+        }
+    }
+    Err(last_err)
+}
+
+fn load_catalog_value(v: Value) -> Result<Vec<CatalogEntry>, String> {
     let arr = v
         .as_array()
         .ok_or_else(|| "catalog root must be array".to_string())?;

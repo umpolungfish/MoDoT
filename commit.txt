@@ -1,23 +1,18 @@
-Clear the stale-verb cache across cycles: re-assert live verbs each cycle
+Make catalog load survive a mid-write truncated read
 
-The real carryover: in a multi-cycle run the conversation vec accumulates
-every cycle's text, but the system prompt with the live tool list is
-injected only in cycle 1 (when conversation is empty). So cycles 2..N
-inherit an early cycle's "ascend unavailable / phase_reconstruct does not
-exist" — written when those verbs genuinely weren't there — and parrot it
-even though the ACT loop's tool list now includes them. The conflicting
-signal (11 cycles of "unavailable" vs one tool list) let the stale claim
-win, and the node stayed parked at B/N.
+The cache-clear landed — the agent now runs filter / ascend /
+phase_reconstruct and discards the stale "unavailable" claim. But the
+same cycle exposed a race: `material` failed with "catalog json: EOF at
+line 1 column 0 / no catalog loaded" while `forge` a moment earlier
+loaded the catalog fine. The catalog file is rewritten in place by other
+processes (imscribe, the live updater); a shelled verb that reads it
+mid-write sees an empty/truncated file and spuriously drops a real result
+to N.
 
-Fix: build_user_packet now, for every cycle after the first, appends an
-AUTHORITATIVE tool-availability block that lists all live STRUCTURAL_VERBS
-and explicitly overrides the conversation — any prior-cycle "unavailable /
-does not exist" claim is declared stale and must be re-checked by calling
-the verb, and a node may not be parked on a missing-verb premise. Injected
-into both the draft and the ACT loop, so the override travels with the
-turn. Backstops the phantom-verb PROD guard already in place.
-
-Verified the persistent stores (crystal_fs/records.jsonl, broadcast_log)
-are append-only telemetry — nothing reads them back into context, so a
-fresh invocation starts from an empty conversation with no stale cache.
-Build green.
+load_catalog now retries the read+parse up to six times with a short
+backoff, so a concurrent write can finish before we give up. An
+empty/truncated read is treated as transient; a genuinely malformed
+catalog persists across the retries and still errors honestly. Parsing is
+split into load_catalog_value so the retry wraps only the volatile
+read+decode. Verified `material` now loads and forges (ρ=2.0000); suite
+green (29 passed).
