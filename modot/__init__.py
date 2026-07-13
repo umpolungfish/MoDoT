@@ -79,6 +79,14 @@ from modot.natures import (
     KERNEL_FAMILIES,
     kernel_constructor,
 )
+from modot import ig_tools
+from modot.ig_tools import (
+    IG_TOOL_ARGS,
+    tool_names as ig_tool_names,
+    available as ig_tools_available,
+    call as ig_call,
+    parse_and_call as ig_parse_and_call,
+)
 
 __all__ = [
     "main",
@@ -126,4 +134,10 @@ __all__ = [
     "FAMILY_TO_VESSEL_KEY",
     "KERNEL_FAMILIES",
     "kernel_constructor",
+    "ig_tools",
+    "IG_TOOL_ARGS",
+    "ig_tool_names",
+    "ig_tools_available",
+    "ig_call",
+    "ig_parse_and_call",
 ]

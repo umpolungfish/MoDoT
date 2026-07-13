@@ -864,6 +864,24 @@ class MomonadosAgent:
             ),
         }
     
+    def _run_ig_tool(self, line: str) -> str:
+        """Ground a `TOOL:`/`ACTION:` line through the live IG tool corpus.
+
+        If the line names an IG catalog tool (compute_distance, primitive_peel,
+        crystal_decode, zfc_probe, aleph_encode, ...) it is executed against the
+        live IG_inquiry dispatcher and the real result returned. Lines that name
+        a non-IG tool (e.g. the ask_native chemistry verbs) are passed through
+        unchanged, so this only adds grounding and removes nothing.
+        """
+        try:
+            from modot import ig_tools
+            result = ig_tools.parse_and_call(line)
+        except Exception as exc:
+            return f"{line}  => [ig_tools error: {exc}]"
+        if isinstance(result, dict) and result.get("status") == "skip":
+            return line
+        return f"{line}  => {result}"
+
     def _act(self, thought):
         """Extract and execute any tool calls from the thought, including TOKEN: commands."""
         content = thought.get("content", "")
@@ -876,8 +894,8 @@ class MomonadosAgent:
             if line.startswith("TOKEN:") or line.startswith("COMPOSE:") or line.startswith("CANONICAL:"):
                 token_results.append(self._handle_token_command(line))
             elif line.startswith("TOOL:") or line.startswith("ACTION:"):
-                tool_calls.append(line)
-        
+                tool_calls.append(self._run_ig_tool(line))
+
         if token_results or tool_calls:
             action_content = "; ".join(token_results + tool_calls)
             self.crystal.commit(CrystalRecord(

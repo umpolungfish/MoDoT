@@ -1,29 +1,32 @@
-Anchor the natures to their kernel constructors; nothing is invented
+Give MoDoT the full IG tool corpus, grounded not narrated
 
-I had been hedging that grounding a nature's Belnap imscription would
-need a value-to-code rule I mustn't invent. That was wrong: the whole
-thing stands on a Lean kernel, so the rule is a kernel fact, not a guess.
-p4rakernel Core.lean defines the twelve families as inductives, and the
-49 primitive types ARE their 49 constructors: KineticChar is
-yea < loll < egg < on < air, so egg is that inductive's ordinal-2
-constructor, and 3^3 * 4^5 * 5^4 is the crystal. The value-to-Belnap
-character is delivered by the kernel (Paradice.lean δ/μ with μ∘δ = id,
-OrbitalBelnap.orbToB4, TupleCodec's tuple↔address roundtrip), and the
-paradice is a kernel object: depth × Frobenius-verified windings, not the
-Hamming count I sketched in Python.
+The agent already recognized `TOOL:`/`ACTION:` lines the model emits, but
+for the IG catalog it only recorded them, so those calls narrated
+instead of running. This wires the whole corpus in.
 
-So natures.py now binds each Nature to its real kernel family, vessel
-key, and constructor ordinal, taken from Core.lean rather than guessed by
-gloss. KERNEL_FAMILIES carries the twelve inductives with their ordered
-constructors; the three TYPES-directory spellings that differ from the
-Lean ones (if→if', or→or', ha-ha→haha) are normalized in
-kernel_constructor(). Registry.tiles_crystal() proves the 49 types are
-exactly the 49 constructors, each once, and by_kernel_family() returns an
-axis in kernel order. Self-test asserts the tiling and that egg is
-KineticChar ordinal 2.
+modot/ig_tools.py loads the live IG_inquiry.ToolDispatcher from
+~/imsgct/imscribing_grammar (one manifold, R/W/X, not a reimplementation)
+and exposes all 43 catalog tools: lookup_catalog, compute_distance /
+conflict_distance / meet / join / tensor, find_analogies, phi_c_probe,
+primitive_peel, principal_decomp, retrosynthetic_path, compute_promotions,
+crystal_encode / decode / navigate / nearest / tier_census, domain_info /
+verify / nearest, zfc_formula / probe, aleph_encode / distance, and the
+rest. call() runs one by name; parse_and_call() runs a bare
+`TOOL: name arg1 arg2` line matching the agent's own convention.
 
-The correction to the record: the vessel imscription of a known type is
-grounded by evaluating through the kernel (the prover bridge), not by an
-LLM and not by a fabricated table. The natures now hold the kernel
-coordinate needed to do that. Exposed KERNEL_FAMILIES and
-kernel_constructor at package level.
+Loading it surfaced a real shadowing bug: witness_proof puts
+imscribing_grammar/navigators on sys.path so it can import the cl8nk
+navigator directly, which made the stray navigators/navigators.py shadow
+the navigators PACKAGE that IG_inquiry needs, silently disabling every
+crystal tool (CrystalNavigator not available). _deshadow_navigators()
+puts IG_ROOT ahead of the shadow and drops the mis-cached file-version
+module before importing, without touching witness_proof's entry.
+
+agent._run_ig_tool routes each TOOL: line through the bridge: IG catalog
+tools execute and return their real result; a line naming a non-IG verb
+(the ask_native chemistry ones like close/forge/scan) passes through
+unchanged, so this only adds grounding and removes nothing. Verified end
+to end: crystal_count -> 17280000, crystal_decode -> real tuple,
+consciousness_score -> real gate booleans, close a b c -> passthrough.
+Exposed ig_tools, ig_call, ig_parse_and_call, ig_tool_names,
+ig_tools_available at package level.
