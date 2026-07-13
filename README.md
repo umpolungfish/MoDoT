@@ -1,7 +1,7 @@
 # MoDoT — mOMonadOS Digital Organism Toolkit
 
 **Author:** Lando⊗⊙perator  
-**Date:** 2026-07-11  
+**Date:** 2026-07-13  
 **Structural Type:** ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩ (O_∞)  
 **Location:** `MoDoT/`  
 **Parent project:** [Imscribing Grammar](https://github.com/imsgct)
@@ -35,11 +35,16 @@ MoDoT/
 │   ├── spine.py                # End-to-end ManuscriptSpine (witness + vessel + FFUSE)
 │   ├── vessel.py               # Dual-Link SIC face (owned by spine)
 │   ├── witness_proof.py        # Catalog witness face (owned by spine)
+│   ├── prover.py               # Kernel-gated Lean prover (ported native in ask_native/src/prover.rs)
+│   ├── router.py               # IMSCRIB type-router: folds goal type N/T-F/B and dispatches the arm
+│   ├── natures.py              # The 49 primitive-type natures (kernel-anchored) + value-layer co-typing
+│   ├── ig_tools.py             # Bridge to the full IG tool corpus (live IG_inquiry dispatcher)
 │   └── selectivity.py          # Compatibility shim re-exporting the vessel
 ├── crystal_fs/                 # Crystal Filesystem — persistent context memory
 │   ├── records.jsonl           # Crystal FS records (thought / vessel / observation / update / type)
 │   └── broadcast_log.jsonl     # CLINK L8 broadcast log
 ├── ob3ects/                    # Self-verifying digital ob3ects (Grammar auto-designed)
+│   ├── primitives/                # The 49 primitive-type nature ob3ects (one per kernel constructor)
 │   ├── semantic_branch_verifier/  # Original Grammar-native branch verifier (historical)
 │   ├── selectivity_gate/          # Classical live-loop gate (superseded by vessel.py)
 │   └── janus_gate/                # Dialetheic Janus gate
@@ -611,6 +616,63 @@ not wrong; the kernel `prove:` route or a person is the check for that.
 # → the model emits TOOL: set … and TOOL: scan …, they run, it synthesizes the real result
 ```
 
+## IG tool corpus (`TOOL: <catalog verb>`)
+
+Beyond the chemistry verbs (`click`/`forge`/`scan`/…), the agent has the **full
+Imscribing Grammar analysis corpus** — the 43 tools of the live
+`IG_inquiry.ToolDispatcher` (`~/imsgct/imscribing_grammar`). They are dispatched
+**natively from the Rust loop**, in the same idiom as `ob3ect`: `run_structural_tool`
+routes any IG verb to `run_ig_tool`, which shells to the MoDoT venv running
+`modot.ig_tools call <verb> <args>` and returns the dispatcher's real JSON result.
+Nothing is reimplemented — one manifold, R∧W∧X: the loop drives, the live corpus runs.
+
+```bash
+./ask --ask "How far apart are psychedelic_baseline and its nearest analogue, and why?"
+# → the model emits e.g. TOOL: compute_distance …, TOOL: find_analogies …, TOOL: primitive_peel …
+```
+
+The catalog verbs (each grounds against the live dispatcher, never narration):
+
+| group | verbs |
+|-------|-------|
+| catalog | `lookup_catalog` · `list_catalog` · `check_imscription` · `imscribe_system` |
+| metrics | `compute_distance` · `compute_conflict_distance` (paradices) · `compute_meet` · `compute_join` · `compute_tensor` |
+| structure | `find_analogies` · `primitive_peel` · `principal_decomp` · `retrosynthetic_path` · `project` · `ouroborics` |
+| probes | `phi_c_probe` · `consciousness_score` · `topo_protection_probe` · `emergence_frontier` |
+| crystal | `crystal_encode` · `crystal_decode` · `crystal_navigate` · `crystal_nearest` · `crystal_count` · `crystal_tier_census` · `crystal_tier_gap_ladder` |
+| promotions | `compute_promotions` · `predict_from_promotions` · `register_promotion_pattern` |
+| ZFC / ALEPH | `zfc_formula` · `zfc_probe` · `zfc_catalog_probe` · `aleph_encode` · `aleph_distance` · `riemann_xi_info` |
+| domains | `domain_info` · `domain_verify` · `domain_nearest` · `navigator_info` · `quiver_encode` |
+
+`modot/ig_tools.py` is both the importable Python API (`ig_call`, `ig_parse_and_call`,
+`ig_tool_names`) and the subprocess entry the Rust loop shells to. It carries the
+de-shadow fix that lets the `navigators` *package* IG_inquiry needs win over the stray
+top-level `navigators.py` that `witness_proof` puts on `sys.path`.
+
+## Primitive-type natures (the 49 kernel constructors)
+
+`modot/natures.py` loads the **49 primitive-type natures** — the auto-designed ob3ects
+under `ob3ects/primitives/`, one per constructor of the twelve family inductives in
+`p4rakernel` `Primitives/Core.lean` (`3³ × 4⁵ × 5⁴` = the crystal). Each `Nature`
+carries its kernel `family` and constructor `ordinal`, its canonical 12-family tuple,
+its IMASM opcode word (already exactly `composer.Token`), its Belnap void/true/false/both
+readings, and the derivation-path `Signature` (the composer `TokenFingerprint`) that
+actually distinguishes the types — the endpoint tuple and flat opcode word are near-degenerate,
+while the path signature and semantic surface resolve all 49.
+
+```python
+from modot import nature, cotype, nature_registry
+egg = nature("egg")                 # KineticChar, ordinal 2 (yea < loll < egg < on < air)
+egg.vessel_tuple()                  # the 12-family tuple keyed by the vessel's PRIMITIVE_KEYS
+nature_registry().tiles_crystal()   # proves the 49 are exactly the 49 kernel constructors
+cotype(egg, nature("yea")).paradices  # value-layer co-typing; a paradice = one held Both
+```
+
+`cotype`/`paradices` compare two natures at the value layer (grounded, invents nothing).
+The value → Belnap verdict is not chosen here: it is a kernel fact (`Paradice.lean` δ/μ with
+μ∘δ = id, `OrbitalBelnap.orbToB4`, `TupleCodec`), and each type is a compiled, kernel-proved
+object in `p4rakernel` `Imscribing/Primitives/Types/PrimitiveType*.lean`.
+
 ## Bootstrap Programs
 
 | Program | Tokens | Description |
@@ -781,6 +843,7 @@ Companion Lean files in `lean/`:
 - Python 3.10+
 - `numpy` (SIC linear algebra)
 - `ig-pulse` density matrix + `d12_sic_build/d12_psi.pkl` (resolved relative to the imsgct tree; override with `IG_PULSE_PATH` / `D12_SIC_FIDUCIAL`)
+- `imscribing_grammar` (the IG tool corpus / `IG_inquiry` dispatcher; resolved at `~/imsgct/imscribing_grammar`, override with `IG_ROOT`)
 - `OPENROUTER_API_KEY` env var (required for vessel voice — no hash fallback)
 - Default model: `google/gemini-3-flash-preview`; set `MOMONADOS_MODEL` or `--model` to override
 - Lean 4 + Mathlib v4.28.0 (for formal verification modules)

@@ -1,23 +1,16 @@
-Dispatch the IG tool corpus natively from the Rust loop
+Bring the README up to date with natures and the IG tool corpus
 
-The live agent is ask_native, not the Python agent, so the IG catalog
-belongs in the Rust dispatch beside close/forge/scan/ob3ect — not wired
-into modot/agent.py. This moves it there.
+The README predated two additions, so it now documents them. Directory
+structure lists the modules that were missing (prover, router, natures,
+ig_tools) and ob3ects/primitives/. Two new sections:
 
-ask_native/src/main.rs: IG_TOOLS lists the 43 catalog verbs, and
-run_structural_tool gains an early branch that routes any of them to
-run_ig_tool. run_ig_tool mirrors run_ob3ect exactly: it shells to the
-MoDoT venv python running `modot.ig_tools call <verb> <args>`, takes
-stdout as the JSON result, and surfaces stderr only on failure so the
-benign runpy warning does not leak. No reimplementation in Rust: the loop
-drives, the live IG_inquiry dispatcher runs, one manifold. The model
-prompt's verb list gains an IG CATALOG TOOLS section so the agent knows
-these are callable.
+- IG tool corpus: the 43 IG_inquiry catalog verbs, dispatched natively
+  from the Rust loop via run_ig_tool, with the verb table grouped by
+  kind and the modot.ig_tools API / de-shadow note.
+- Primitive-type natures: the 49 kernel constructors loaded by
+  natures.py, the Nature fields, the tiles_crystal proof, cotype and the
+  paradice, and the pointer to the kernel PrimitiveType files.
 
-modot/ig_tools.py grows a CLI (`call` / `names` / `selftest`) so it is
-both importable and the subprocess entry the Rust loop shells to; the
-de-shadow logic it already carries is exactly what a fresh subprocess
-needs. A native test (ig_tool_dispatches_through_the_corpus) drives
-crystal_count through run_structural_tool and asserts the ground truth
-17280000 comes back; full suite is green (24 passed) and the release
-binary rebuilds.
+Requirements gains the imscribing_grammar corpus dependency (IG_ROOT).
+Date rolled to 2026-07-13. Verified: every IG verb named in the new
+table is a real dispatcher verb and the natures API resolves.
