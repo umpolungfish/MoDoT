@@ -1,4 +1,96 @@
 {
+  "Cosmic_Semiotic_Athanor": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "athanor",
+      "cosmic_origin",
+      "fibonacci_anyon_o2",
+      "cosmic_death"
+    ],
+    "weakest": 1.3333
+  },
+  "Cosmic_Semiotic_Athanor_Complete": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 12.2156,
+    "n": 6,
+    "rho": 3.7627,
+    "spectrum": [
+      3.7627,
+      1.3871,
+      0.958,
+      -0.958,
+      -1.3871,
+      -3.7627
+    ],
+    "strain": 0.5465,
+    "units": [
+      "than",
+      "hodge_conjecture",
+      "athanor",
+      "evocation",
+      "hodge_conjecture",
+      "semiotic"
+    ],
+    "weakest": 0.6667
+  },
+  "Cosmic_Semiotic_Athanor_Cycle8": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 12.2156,
+    "n": 6,
+    "rho": 3.7627,
+    "spectrum": [
+      3.7627,
+      1.3871,
+      0.958,
+      -0.958,
+      -1.3871,
+      -3.7627
+    ],
+    "strain": 0.5465,
+    "units": [
+      "than",
+      "hodge_conjecture",
+      "athanor",
+      "evocation",
+      "hodge_conjecture",
+      "semiotic"
+    ],
+    "weakest": 0.6667
+  },
+  "Cosmic_Semiotic_Athanor_with_Semiotic": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.0833,
+    "units": [
+      "Cosmic_Semiotic_Athanor",
+      "hodge_conjecture",
+      "semiotic",
+      "hodge_conjecture"
+    ],
+    "weakest": 1.5
+  },
   "Final_Closed_Fusion": {
     "branched": true,
     "conductance": "FRUSTRATED",
@@ -36,6 +128,75 @@
       "chemical_graph_category",
       "chokhmah",
       "ring_closure_monomer"
+    ],
+    "weakest": 1.3333
+  },
+  "Than_Bound_Athanor": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 6.4721,
+    "n": 5,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.618,
+      0.618,
+      -1.618,
+      -1.618
+    ],
+    "strain": 0.0,
+    "units": [
+      "athanor",
+      "poincare_conjecture",
+      "than",
+      "than",
+      "poincare_conjecture"
+    ],
+    "weakest": 1.4167
+  },
+  "Than_Bound_Athanor_Complete": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 12.2156,
+    "n": 6,
+    "rho": 3.7627,
+    "spectrum": [
+      3.7627,
+      1.3871,
+      0.958,
+      -0.958,
+      -1.3871,
+      -3.7627
+    ],
+    "strain": 0.5465,
+    "units": [
+      "than",
+      "hodge_conjecture",
+      "athanor",
+      "evocation",
+      "hodge_conjecture",
+      "semiotic"
+    ],
+    "weakest": 0.6667
+  },
+  "chaos_magic_ring": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.0833,
+    "units": [
+      "chaos_magic",
+      "hodge_conjecture",
+      "Cosmic_Semiotic_Athanor",
+      "hodge_conjecture"
     ],
     "weakest": 1.3333
   },
@@ -82,6 +243,59 @@
       "gaussian_moat_problem"
     ],
     "weakest": 1.3333
+  },
+  "cycle2_join_prediction": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 4.0,
+    "n": 3,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      -1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "knowing_trajectory_33_3",
+      "wormwood",
+      "sage"
+    ],
+    "weakest": 0.5
+  },
+  "d2048_SIC_moduli": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "2048",
+      "ray_class_field_Qsqrt"
+    ],
+    "weakest": 1.0
+  },
+  "d2048_SIC_moduli_complete_final": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "d2048_SIC_moduli_complete",
+      "ray_class_field_Qsqrt"
+    ],
+    "weakest": 0.6667
   },
   "diophantine_ring": {
     "branched": true,
@@ -206,5 +420,49 @@
       "ordinal_ramsey_omega_power"
     ],
     "weakest": 1.0
+  },
+  "ring_1": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 8.0,
+    "n": 6,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -2.0
+    ],
+    "strain": 0.2187,
+    "units": [
+      "Ground",
+      "fibonacci_anyon_o2",
+      "False",
+      "tokamak_fusion",
+      "True",
+      "geomancy"
+    ],
+    "weakest": 1.0
+  },
+  "ring_2": {
+    "branched": true,
+    "conductance": "INSULATING",
+    "energy": 5.4641,
+    "n": 3,
+    "rho": 2.7321,
+    "spectrum": [
+      2.7321,
+      -0.7321,
+      -2.0
+    ],
+    "strain": 0.0833,
+    "units": [
+      "Boolean",
+      "Logic",
+      "platonic_archetype"
+    ],
+    "weakest": 1.5
   }
 }
