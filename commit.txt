@@ -1,23 +1,21 @@
-Teach the agent star polymers (block copolymers were already covered)
+Stop the ascend/imscribe runaway: refuse decorated name-ladders
 
-The architecture classifier already names block copolymers (contiguous
-blocks), plus alternating / random / homo / heteropolymer — so block
-awareness was there. Star polymers were not: the whole polymerize/forge
-model is a linear walk (chain → ring), with no hub-and-arms topology.
+A cycle went runaway: the agent iterated `ascend` on K19 and imscribed
+each "tower level" — K19⁺, K19⁺⁺, K19⁺⁺⁺, … — 87 calls in one round,
+registering a ladder of near-duplicate catalog entries. A derived state
+(excited / ascended / radical) is a TRANSFORM of its base, not a new
+catalog entity, so enumerating levels into the catalog is both pollution
+and non-terminating.
 
-New `star M1 M2 M3 …` verb: picks the highest-functionality monomer as the
-CORE (most click bonds), attaches every unit that clicks with it as an
-ARM, and reports the topology honestly:
-  - pure star K(1,f): f≥3 arms that do NOT bond each other → adjacency
-    spectral radius ρ=√f, spectrum {+√f, 0×(f−1), −√f}, vs the ρ=2 of a
-    ring;
-  - f<3 → not a star (linear/isolated), said plainly;
-  - arm–arm bonds → a branched network, not a hub-and-spoke star (ρ>√f),
-    deferring to `forge` for the full spectrum;
-  - lists the unattached units that never reach the core.
+run_imscribe now has a decoration-ladder guard: if a name is some base
+plus a trailing run of decoration marks (⁺ • * + † …) and that base
+already exists (case-insensitively), it refuses to register and tells the
+agent the derived state is a transform of its base — the verb that built
+it already returned the tuple, and a tower that only climbs by
+re-imscription is a B frontier, not a catalog to enumerate.
 
-Wired end to end: CLI --star, handler, run_structural_tool dispatch,
-STRUCTURAL_VERBS, verb_usage, TOOLS_PROMPT (with the block-copolymer note
-made explicit on polymerize), and verb_isomorphism (star = K(1,f), ρ=√f).
-Smoke-tested on real entries (correctly reports a branched network, not a
-fake star). Suite green (32 passed).
+Also cleaned the ladder junk already written: 11 decorated entries from
+imscribing_grammar/IG_catalog.json and 18 (both cases) from the live
+~/.imscrbgrmr/catalog.json (backups saved as *.bak_ladder). Verified the
+base K19_ray_class_field still resolves and ascend still runs; suite green
+(32 passed).

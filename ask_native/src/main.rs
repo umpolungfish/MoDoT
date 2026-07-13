@@ -2968,6 +2968,21 @@ fn tool_miss_message(verb: &str, args: &[String]) -> String {
 /// Is a name already registered — in the base IG_catalog.json OR the live
 /// ~/.imscrbgrmr/catalog.json? Cheap `"name": "…"` substring check, matching the guard in
 /// register_chimera. Used to skip a wasted generate call for an entry that already exists.
+/// Trailing "decoration" marks the model stacks to name a DERIVED state (K19⁺, K19⁺⁺, X•,
+/// Y*). A derived state — excited / ascended / radical — is a TRANSFORM of its base, not a new
+/// catalog entity; imscribing each level is a runaway that pollutes the catalog (seen: an
+/// 87-call round registering k19_ray_class_field⁺⁺⁺⁺⁺…). If `name` is some base plus a run of
+/// these marks and that base already exists (case-insensitively), return the base.
+fn decoration_ladder_base(name: &str) -> Option<String> {
+    const DECO: &[char] = &['⁺', '•', '*', '+', '★', '†', '‡', '′', '″', '·', '∗', '°'];
+    let base = name.trim_end_matches(|c: char| DECO.contains(&c) || c == ' ');
+    if base.is_empty() || base == name {
+        return None;
+    }
+    let bl = base.to_lowercase();
+    catalog_names().into_iter().find(|n| n.to_lowercase() == bl)
+}
+
 fn catalog_has_name(name: &str) -> bool {
     let needle = format!("\"name\": \"{name}\"");
     let live = PathBuf::from(expand_user("~/.imscrbgrmr/catalog.json"));
@@ -3038,6 +3053,18 @@ fn run_imscribe(name: &str, description: &str) -> String {
         return format!(
             "'{name}' is a variant of '{existing}', which is ALREADY in the catalog. Use '{existing}' \
              directly (e.g. TOOL: polymerize {existing} …) — do not imscribe a near-duplicate.\n"
+        );
+    }
+    // Decoration-ladder guard: refuse to register a derived state named as base + trailing
+    // marks (K19⁺, K19⁺⁺, X•). Imscribing each level is a non-terminating catalog-polluting
+    // runaway; the derived state is a transform of its base, not a new entity.
+    if let Some(base) = decoration_ladder_base(name) {
+        return format!(
+            "'{name}' is a decorated derivative of '{base}' (a name-ladder of trailing marks like ⁺ • *). \
+             A derived state — an excited, ascended, or radical form — is a TRANSFORM of its base, not a new \
+             catalog entity; imscribing each level pollutes the catalog and never terminates. NOT registered. \
+             The verb that built it (`ascend` / `excite` / `homolyze`) already returned its tuple — use that. \
+             A tower that only climbs by re-imscription is a B frontier, not a catalog to enumerate.\n"
         );
     }
     let Some(cat) = resolve_catalog_path() else {
