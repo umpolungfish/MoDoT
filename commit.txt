@@ -1,16 +1,20 @@
-Retry transient LLM read-timeouts instead of poisoning a grounded cycle
+Bound the transient-retry so it can't churn, and add a --think toggle
 
-A long synthesis (the cycle-12 SIC report) can outrun the socket read
-deadline: the body is arriving but slowly, and into_json() returns
-"timed out reading response". That is transient transport, not a
-malformed reply, but the code collapsed it straight to voice:'F' with a
-parse-error text. Downstream that F trips the "narrated tools, ran none"
-prod and the ENGAGR fusion reports UNGROUNDED, holding an otherwise fully
-tool-grounded cycle at N. The tools had run; only the final read hiccuped.
+Two things.
 
-infer() now wraps the provider call in a short retry (two attempts, 0.5s
-and 1.0s backoff) gated on is_transient_llm_error, which fires on read/
-connect timeouts and dropped connections but NOT on a genuine malformed
-body or an API error payload (retrying those just resends a bad request,
-so they keep their F). Two unit tests pin both directions; full suite
-green (26 passed).
+1. Stop the "stuck churning". My previous retry-on-transient change could
+   turn one slow call into several: a read that hung its way to the 300s
+   socket deadline returns "timed out reading response", which counts as
+   transient, so it retried up to twice more — ~15 minutes of hanging on a
+   single prod step. The retry now only fires when the failure came back
+   FAST (under ~45s * attempt): a quick connection reset still retries, but
+   a call that hung to a timeout is let stand instead of being tripled.
+
+2. Add the ability to toggle model reasoning. New `--think` (on by
+   default, `--think false` / `--no-think` to disable, MODOT_THINK env to
+   set the default). When off it sends the provider's real disable-
+   reasoning parameter: OpenRouter `reasoning.enabled=false`, Gemini
+   `thinkingConfig.thinkingBudget=0`. Threaded through Llm.think and both
+   inference bodies; no-op on models that don't support reasoning.
+
+Full suite green (26 passed); all flag forms parse.

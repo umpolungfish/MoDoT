@@ -33,6 +33,18 @@ mod prover;
 
 // ── CLI ─────────────────────────────────────────────────────────────────────
 
+/// Default for `--think`: on, unless MODOT_THINK is set to a falsey value (0/false/off/no).
+/// Clap's own bool env parse rejects "0", so the env is read here instead.
+fn default_think() -> bool {
+    match env::var("MODOT_THINK") {
+        Ok(v) => !matches!(
+            v.trim().to_lowercase().as_str(),
+            "0" | "false" | "off" | "no" | "n" | ""
+        ),
+        Err(_) => true,
+    }
+}
+
 #[derive(Parser, Debug)]
 #[command(
     name = "ask",
@@ -326,6 +338,23 @@ struct Cli {
     /// returned. Runs a long agentic loop before it writes up what it actually found.
     #[arg(long = "jam")]
     jam: bool,
+
+    /// Toggle model reasoning ("thinking") tokens. On by default; `--think false` (or
+    /// `--no-think`) turns it off, sending the provider's disable-reasoning parameter
+    /// (OpenRouter `reasoning.enabled=false`, Gemini `thinkingConfig.thinkingBudget=0`).
+    /// Env: MODOT_THINK=0/false to default it off. Bare `--think` forces it on.
+    #[arg(
+        long = "think",
+        num_args = 0..=1,
+        default_value_t = default_think(),
+        default_missing_value = "true",
+        action = clap::ArgAction::Set,
+    )]
+    think: bool,
+
+    /// Alias for `--think false`: disable model reasoning tokens outright.
+    #[arg(long = "no-think", default_value_t = false)]
+    no_think: bool,
 
     /// Create a missing catalog entry by imscribing it via the real generate pipeline
     /// (`imscribe generate … --name <NAME>`), writing to the live catalog MoDoT merges.
@@ -890,6 +919,9 @@ struct Llm {
     model: String,
     base_url: String,
     provider: Provider,
+    /// Whether to request model reasoning ("thinking") tokens. False sends the
+    /// provider's explicit disable-reasoning parameter.
+    think: bool,
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -933,7 +965,7 @@ fn parse_provider(s: &str) -> Option<Provider> {
 }
 
 /// Resolve model + provider from CLI / MODOT_* env / key presence.
-fn make_llm(model: Option<&str>, provider_flag: Option<&str>) -> Llm {
+fn make_llm(model: Option<&str>, provider_flag: Option<&str>, think: bool) -> Llm {
     // Model: CLI > MODOT_MODEL > legacy MOMONADOS_MODEL > default
     let model = model
         .map(|s| s.to_string())
@@ -972,6 +1004,7 @@ fn make_llm(model: Option<&str>, provider_flag: Option<&str>) -> Llm {
             model,
             base_url: "https://openrouter.ai/api/v1".into(),
             provider: Provider::OpenRouter,
+            think,
         },
         Provider::DeepSeek => Llm {
             // DeepSeek's API is OpenAI-compatible, so it reuses the OpenRouter inference path.
@@ -979,6 +1012,7 @@ fn make_llm(model: Option<&str>, provider_flag: Option<&str>) -> Llm {
             model,
             base_url: "https://api.deepseek.com/v1".into(),
             provider: Provider::DeepSeek,
+            think,
         },
         Provider::GeminiDirect => {
             let gem_model = if model.contains('/') {
@@ -996,6 +1030,7 @@ fn make_llm(model: Option<&str>, provider_flag: Option<&str>) -> Llm {
                 model: gem_model,
                 base_url: "https://generativelanguage.googleapis.com/v1beta".into(),
                 provider: Provider::GeminiDirect,
+                think,
             }
         }
     }
@@ -1040,20 +1075,23 @@ fn infer(
         };
     };
 
-    // A long synthesis can outrun the socket read deadline: the body arrives but slowly, and
-    // `into_json()` returns "timed out reading response". That is transient transport, not a
-    // malformed reply — yet it collapses to a hard voice:'F' parse-error that then trips the
-    // "narrated tools, ran none" prod and poisons an already-grounded cycle to N. Retry the
-    // transient case a couple of times with backoff before letting the F stand; a genuinely
-    // malformed body (real parse error, empty content) is not retried.
+    // A dropped/reset connection is transient and worth retrying — but ONLY if it failed
+    // fast. A full read-timeout that hung near the socket deadline must NOT be retried: doing
+    // so multiplies one slow call into several, which is the "stuck churning" the operator
+    // sees. So gate the retry on elapsed time: a sub-threshold transient failure (a quick
+    // connection reset) retries; a call that hung its way to a timeout is let stand. A
+    // genuinely malformed body (real parse error, empty content) is never retried either.
+    const FAST_FAIL_SECS: u64 = 45;
     let call = || match llm.provider {
         Provider::OpenRouter => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::DeepSeek => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature),
     };
+    let t0 = std::time::Instant::now();
     let mut res = call();
     for attempt in 1..=2u32 {
-        if !is_transient_llm_error(&res) {
+        let fast = t0.elapsed().as_secs() < FAST_FAIL_SECS * attempt as u64;
+        if !is_transient_llm_error(&res) || !fast {
             break;
         }
         std::thread::sleep(std::time::Duration::from_millis(500 * attempt as u64));
@@ -1117,12 +1155,17 @@ fn infer_openrouter(
         .iter()
         .map(|(role, content)| json!({"role": role, "content": content}))
         .collect();
-    let body = json!({
+    let mut body = json!({
         "model": llm.model,
         "messages": msgs,
         "max_tokens": max_tokens,
         "temperature": temperature,
     });
+    // Reasoning toggle: OpenRouter takes a `reasoning` object; `enabled: false` suppresses
+    // thinking tokens on models that support it (no-op on models that don't).
+    if !llm.think {
+        body["reasoning"] = json!({ "enabled": false });
+    }
     let url = format!("{}/chat/completions", llm.base_url);
     match ureq::post(&url)
         .set("Authorization", &format!("Bearer {key}"))
@@ -1210,13 +1253,18 @@ fn infer_gemini(
             );
         }
     }
-    let body = json!({
+    let mut body = json!({
         "contents": contents,
         "generationConfig": {
             "maxOutputTokens": max_tokens,
             "temperature": temperature,
         }
     });
+    // Reasoning toggle: Gemini 2.5/3 thinking models take `thinkingConfig.thinkingBudget`;
+    // 0 disables thinking (no-op / ignored on models without it).
+    if !llm.think {
+        body["generationConfig"]["thinkingConfig"] = json!({ "thinkingBudget": 0 });
+    }
     let url = format!(
         "{}/models/{}:generateContent?key={}",
         llm.base_url, llm.model, key
@@ -3225,6 +3273,8 @@ impl CliClone for Cli {
             model: self.model.clone(),
             provider: self.provider.clone(),
             no_selectivity: self.no_selectivity,
+            think: self.think,
+            no_think: self.no_think,
             cycles: self.cycles,
             eagles: self.eagles,
             max_tokens: self.max_tokens,
@@ -3278,7 +3328,10 @@ impl CliClone for Cli {
 
 fn main() {
     let cli = Cli::parse();
-    let llm = make_llm(cli.model.as_deref(), cli.provider.as_deref());
+    // Effective reasoning state: on by default (or per MODOT_THINK / --think), with --no-think
+    // as an explicit override that always wins.
+    let think = cli.think && !cli.no_think;
+    let llm = make_llm(cli.model.as_deref(), cli.provider.as_deref(), think);
 
     let catalog_path = find_catalog(&cli);
     let catalog = match &catalog_path {
