@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "modot"
 version = "0.1.0"
-description = "mOMonadOS Agent Framework — agentic LLM running within the Frobenius Kernel"
+description = "MoDoT — Mathematical Orthogonalization & Dialetheic Ontological Theorem Prover. Types mathematical goals into the 12-primitive Imscribing Grammar, dispatches via Belnap FOUR to kernel prover or Witness arm, and verifies in Lean 4."
 readme = "README.md"
 license = {text = "Unlicense"}
 authors = [{name = "Lando⊗⊙perator"}]
@@ -14,6 +14,7 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
     "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Mathematics",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 
@@ -28,7 +29,7 @@ dev = ["pytest", "black", "ruff"]
 modot = "modot.agent:main"
 
 [project.urls]
-Repository = "https://github.com/landon/momod"
+Repository = "https://github.com/umpolungfish/MoDoT"
 
 [tool.setuptools]
 packages = ["modot"]

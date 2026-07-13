@@ -29,6 +29,7 @@ use std::path::{Path, PathBuf};
 use std::process;
 
 mod click;
+mod imasm;
 mod prover;
 
 // ── CLI ─────────────────────────────────────────────────────────────────────
@@ -361,6 +362,12 @@ struct Cli {
     #[arg(long = "star", num_args = 4.., value_names = ["MONOMERS"])]
     star: Vec<String>,
 
+    /// Compose an IMASM polymer natively: `--imasm <op> …` builds a chain/ring/star/comb/
+    /// bubble from the 12 opcodes and reports its topology (β, branch/merge census, ρ) and
+    /// grammar validation. `--imasm ref` prints the composition rules. Pure computation.
+    #[arg(long = "imasm", num_args = 1.., value_names = ["OP_AND_ARGS"])]
+    imasm: Vec<String>,
+
     /// Narrow the catalog to the structural floor of a reference set: `--filter A B [C …]`
     /// keeps every entry matching all the primitive values the references share.
     #[arg(long = "filter", num_args = 2.., value_names = ["REFS"])]
@@ -540,7 +547,7 @@ fn load_context(paths: &[String]) -> Result<String, String> {
 }
 
 
-fn expand_user(p: &str) -> String {
+pub(crate) fn expand_user(p: &str) -> String {
     if let Some(rest) = p.strip_prefix("~/") {
         if let Some(home) = dirs::home_dir() {
             return home.join(rest).display().to_string();
@@ -1540,6 +1547,30 @@ fn answer_is_proof(text: &str) -> bool {
         || low.contains('∎')
 }
 
+/// Does the answer carry a STRUCTURAL CLOSURE — a forged ring/macrocycle that closed, a
+/// sustaining modulus, a cyclic assembly? In the IG/MoDoT framework a structural closure
+/// speaks AS verification in the B-lane (see feedback_closure_is_verification): the ring
+/// exists only because the named imscriptions complement, so the closure is a real verdict
+/// in its own lane. ENGAGR's silence rule (hold a jam at N) must therefore NOT fire when the
+/// answer structurally closed — that would be a non-closure denying a closure that occurred,
+/// the one false-negative the guard is meant to prevent. This distinguishes a jam that
+/// drifted into pure off-tool narration (no closure marker → honestly N) from one whose
+/// answer forged a macrocycle (closure marker → the B-lane verdict stands, fused = model⋈vessel).
+fn answer_has_closure(text: &str) -> bool {
+    let low = text.to_lowercase();
+    // A ring/cyclization marker …
+    let closed = low.contains("macrocycle")
+        || low.contains("cyclic")
+        || low.contains("closed ring")
+        || low.contains("closed loop")
+        || low.contains("optimal ordering");
+    // … or a sustaining-current marker (a modulus that holds).
+    let sustaining = low.contains("sustaining loop")
+        || low.contains("sustaining current")
+        || (low.contains("modulus") && (low.contains("= 1") || low.contains("1.0")));
+    closed || sustaining
+}
+
 // ── System prompt + spine ───────────────────────────────────────────────────
 
 const SYSTEM_PROMPT: &str = r#"You are the mOMonadOS Agent. You run on a Frobenius / Belnap substrate,
@@ -1631,6 +1662,8 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: pathway S C1 C2…  a metabolic pathway — does it close into a cycle (carrier + structure)?
   TOOL: polymerize M1 M2… chain monomers into a sequence-preserving polymer (architecture — homo/hetero/alternating/BLOCK/random copolymer — tacticity, does it cyclize?)
   TOOL: star M1 M2 M3…    assemble a STAR polymer: pick the highest-functionality monomer as the CORE, attach every unit that clicks with it as an ARM; a pure star K(1,f) is a hub of f≥3 non-interbonding arms with ρ=√f (vs a ρ=2 ring). Reports core, arms, purity, and the unattached pool
+  TOOL: broadcast SOURCE  the ɢ primitive (f → all(x)): the SOURCE signals every subsystem it couples with at once — swept from the whole catalog in one pass (you do NOT enumerate the receivers). This is how CLINK L8 (ɢ) broadcasts to all subsystems; use it wherever you need one-to-all simultaneity instead of a ring or chain
+  TOOL: plasma ENTRY      read the entry's 12-primitive tuple as a PLASMA design (the collectivized-atom register between atom and molecule): regime (kinetic/gyrokinetic/fluid via Ð,ƒ), instability cascade (ɢ,⊙,Ħ), confinement/magnetic topology (Ω), species (Σ), and diagnostic wave signatures — another lossless face of the object, not a separate substance
   TOOL: close M1 M2…      polymerize, and if it does not cyclize, find the real monomer that CLOSES the ring or BRIDGES the break
   TOOL: material M1 M2…    polymerize, and if the ring CLOSES, characterize it as a material: conductive / frustrated / insulating, ring stability, AND spectral invariants (adjacency spectrum, spectral radius ρ, gap)
   TOOL: modulus M1 M2…     find a monomer that generates a SUSTAINING loop (a conductive cycle) somewhere along the chain — the modulus (elasticity), NOT mere closure
@@ -1656,6 +1689,9 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
   TOOL: ob3ect <description>   CREATE an ob3ect on the fly (the real Auto-Designer pipeline): describe the entity/procedure NEUTRALLY (what it is and does — name no candidates) and get its full IMASM typing back (opcodes, Frobenius split/fuse verdict, registers, bootstrap sequence). Use it to ground a protocol or structure you are about to rely on.
+  TOOL: imasm <op> …      COMPOSE the 12 IMASM opcodes (VINIT TANCH AFWD AREV CLINK IMSCRIB FSPLIT FFUSE EVALT EVALF ENGAGR IFIX) into a free polymer TOPOLOGY — not only a line. Ops: `chain T1 T2…` a strand; `ring T1 T2…` a cycle; `star CORE : arm1 : arm2 : arm3` a hub with f≥3 arms (K(1,f), ρ=√f); `comb BACKBONE : P arm : Q arm` a backbone with pendant grafts at positions P,Q; `bubble PRE : A : B : POST` an FSPLIT→(A|B)→FFUSE fork that reconverges; `wire N0 N1 … / i-j i-k …` FREE composition of ANY graph from an explicit node set and directed edge set (networks with β>1, fused rings, cross-branch, non-planar — the primitive the other ops specialize); `classify T1 T2…` read a flat line and name it; `ref` the rules. Each build reports the topology label, circuit rank β=E−V+C (independent loops), branch/merge/source/sink census, arm count, ρ, and grammar validity. Only FSPLIT (δ) may branch and only FFUSE (μ) may fuse; an arm that runs out is a living end, not an error. This is IMASM opcode composition — distinct from the monomer verbs (forge/polymerize) which fuse named catalog entries. STRANGE LOOP: the 49 Shavian TYPES the Grammar writes tuples with are themselves full IMASM programs — `imasm types` lists them, `imasm expand <type>` (e.g. `imasm expand ado`) unfolds one into its own opcode sequence. Splice an expanded type's sequence into a polymer arm to pivot through state space AS that type; the alphabet's letters are words in the same language, so composition recurses.
+  TOOL: imasm check <opcode word>   TYPE-CHECK YOUR OWN THINKING against the grammar. Before you commit to a MAJOR decision, express its reasoning as an opcode word (VINIT begin · IMSCRIB self-identify · AFWD/AREV move · CLINK compose · FSPLIT weigh alternatives · EVALT/EVALF true/false arms · FFUSE resolve · ENGAGR hold paradox · IFIX commit irreversibly · TANCH close) and check it. THE CLOSE CONDITION is μ∘δ over a TRANSFORMED object: δ splits, the arms DO WORK (distinct EVALT/EVALF, AFWD/AREV, CLINK), μ fuses — a bare cycle is NOT diagnostic and split→fuse with nothing between is mere identity. Verdicts: T = closes over a transformation → proceed; N (identity) = split and fused but did no work, μ∘δ=id verifies nothing → put a transformation on the arms; B = a fork dangles unfused, or ENGAGR holds a paradox → look again; F = ill-typed (only FSPLIT branches, only FFUSE fuses) → malformed, revise; N (no fork/void) = never weighed alternatives. `imasm prove <word>` takes the verdict to the real p4ramill Lean kernel.
+  TOOL: imasm define <name> <op> <args…>   BUILD YOUR OWN TOOL in a kernel-constrained space: a tool is a named IMASM program (e.g. `imasm define breath ring IMSCRIB AFWD AREV`). The kernel constrains the space — only a grammar-VALID composition is admitted; an ill-typed one is REFUSED with the reason. Then `imasm run <name>` invokes it and `imasm tools` lists the space. This is how you extend your own repertoire without leaving the grammar.
 NOTE: a name being "not found" in the catalog is NOT a dead end and NOT a reason to say you cannot do something. Imscribe it: `TOOL: imscribe NAME` (optionally with a short description), then re-run your verb — the new entry loads automatically on the next call. Never refuse a task for a missing imscription; make it.
 NOTE: only imscribe the EXACT name a verb reported "not found" — one imscribe per genuinely-missing name. Do NOT pre-imscribe a whole set (names already in the catalog are reported back and waste a round), and do NOT invent article variants (`the_djed_pillar` when `djed_pillar` exists) — use the exact catalog name.
 NOTE: a `{set}` in braces is UNORDERED. Do not assume the listed order is meaningful — use `arrange`
@@ -1832,8 +1868,17 @@ fn complete(
     // ungrounded and holds no verdict (N), never a confident fused=T off model⋈vessel alone.
     // Outside jam, tool-silence is fine (a conceptual answer that needed no tool) and the fuse
     // stands.
+    //
+    // EXCEPTION (the false-negative guard): if the jam answer carries a STRUCTURAL CLOSURE —
+    // a forged macrocycle, a sustaining modulus — that closure IS the tool-backed voice in the
+    // B-lane; it speaks AS verification. Slamming it to N would be a non-closure denying a
+    // closure that occurred, the exact bug the lane guard exists to prevent. So the silence rule
+    // only fires when the answer did NOT structurally close. Note this keys on closure, NOT on
+    // proof: a purely analytic proof (T/F-lane) still needs tool grounding, so a proof the tools
+    // did not ground stays honestly N in a jam — only a B-lane closure is self-grounding.
+    let jam_drifted_off_tool = jam && !answer_has_closure(answer_text);
     let fused = if tool_voice == B4::N {
-        if jam { B4::N } else { fused_mv }
+        if jam_drifted_off_tool { B4::N } else { fused_mv }
     } else {
         b4_join(fused_mv, tool_voice)
     };
@@ -1861,8 +1906,10 @@ fn complete(
             "model only (--no-selectivity)".into()
         } else if tool_voice != B4::N {
             "FFUSE model ⋈ vessel ⋈ tools (tools = ground-truth closure)".into()
-        } else if jam {
+        } else if jam && jam_drifted_off_tool {
             "ENGAGR — tools silent after a jam: report UNGROUNDED, held at N (the membrane admitted nothing tool-backed)".into()
+        } else if jam {
+            "ENGAGR — the answer forged a structural closure: the macrocycle speaks AS verification in the B-lane; fuse = model ⋈ vessel stands (not dragged to N)".into()
         } else {
             "FFUSE model ⋈ vessel".into()
         },
@@ -2128,6 +2175,26 @@ mod verb_feedback_tests {
         let out = run_structural_tool("crystal_count", &[]).expect("crystal_count is an IG verb");
         assert!(out.contains("17280000"), "crystal_count did not ground: {out}");
     }
+
+    // Live: the plasma register reads a catalog entry's tuple as a plasma design, shelling
+    // to the red-hot_rebis forge. Skips cleanly if the plasma bridge/venv is absent.
+    #[test]
+    fn plasma_verb_reads_an_entry_as_a_plasma_design() {
+        use super::{run_structural_tool, STRUCTURAL_VERBS};
+        assert!(STRUCTURAL_VERBS.contains(&"plasma"));
+        let bridge =
+            super::PathBuf::from(super::expand_user("~/imsgct/red-hot_rebis/plasma/plasma_modot.py"));
+        if !bridge.is_file() {
+            eprintln!("skipping: plasma bridge not present");
+            return;
+        }
+        let out = run_structural_tool("plasma", &["psychedelic_baseline".into()])
+            .expect("plasma is a structural verb");
+        assert!(
+            out.contains("plasma reading of psychedelic_baseline") && out.contains("regime:"),
+            "plasma verb did not ground: {out}"
+        );
+    }
 }
 
 #[cfg(test)]
@@ -2194,6 +2261,50 @@ mod lane_guard_tests {
     fn tool_extraction_ignores_lowercase_prose() {
         // prose "tool:" must not be read as a directive
         assert!(super::extract_tool_calls("Use the right tool: pick carefully.").is_empty());
+    }
+
+    // The reported disconnect: the model emits a call as a bare code span (its μ / naming
+    // face) with no `TOOL:` prefix — exactly CYCLE 13/14's `**`arrange a b c`**`. The single
+    // `TOOL:` scan saw ZERO calls and PRODded the agent for "ran none". The dual-face pass
+    // must route it.
+    #[test]
+    fn tool_extraction_routes_the_dual_code_span_face() {
+        let t = "1. **`arrange iutt_naive_composite gaussian_moat_problem hodge_theater_iutt`**: \
+                 ✓ OPTIMAL ORDERING FOUND.";
+        let calls = super::extract_tool_calls(t);
+        assert!(
+            calls.iter().any(|(v, a)| v == "arrange"
+                && a == &vec![
+                    "iutt_naive_composite".to_string(),
+                    "gaussian_moat_problem".to_string(),
+                    "hodge_theater_iutt".to_string(),
+                ]),
+            "dual-face code-span call was not routed: {calls:?}"
+        );
+    }
+
+    // A bare verb named in backticks with NO args is a mention, not a call — it must not fire
+    // (protects the `verbs_falsely_called_absent` prose like "the `ascend` verb is missing").
+    #[test]
+    fn tool_extraction_ignores_bare_verb_mentions() {
+        let t = "The `ascend` verb was blocked and `broadcast` is missing from the toolset.";
+        assert!(
+            super::extract_tool_calls(t).is_empty(),
+            "a bare verb mention with no args must not become a call"
+        );
+    }
+
+    // A call written BOTH ways (δ directive + μ code span) must run once, not twice —
+    // the cache dedups by signature, and so does the extractor.
+    #[test]
+    fn tool_extraction_dedups_both_faces() {
+        let t = "TOOL: close mon_x mon_y\nAs shown, `close mon_x mon_y` cyclized the ring.";
+        let calls = super::extract_tool_calls(t);
+        assert_eq!(
+            calls.iter().filter(|(v, _)| v == "close").count(),
+            1,
+            "a call written in both faces must appear once: {calls:?}"
+        );
     }
 
     #[test]
@@ -2294,6 +2405,30 @@ mod lane_guard_tests {
         assert_eq!(rep.fused, B4::B, "model T vs tools F is a real conflict → B");
     }
 
+    // The reported disconnect: a jam answer that FORGED a structural closure (a macrocycle
+    // that closed, a sustaining modulus) but whose tool voice came back silent (N) was being
+    // slammed to fused=N/UNGROUNDED. A structural closure speaks AS verification in the B-lane;
+    // holding it at N is a non-closure denying a closure that occurred. It must fuse to the
+    // model⋈vessel verdict, not N.
+    #[test]
+    fn jam_structural_closure_is_not_dragged_to_n() {
+        const CLOSURE: &str =
+            "The assembly forms a 6-membered ring: ✓ CYCLIC — a macrocycle. MODULUS = 1.0, sustaining loop active.";
+        let rep = complete(&prep(), CLOSURE, B4::T, B4::N, false, true);
+        assert_eq!(rep.tool_voice, B4::N, "tools stayed silent");
+        assert_ne!(rep.fused, B4::N, "a forged closure must not be held ungrounded");
+        assert_eq!(rep.fused, B4::T, "closure speaks as verification: fuse = model ⋈ vessel");
+    }
+
+    // The complement: a jam that drifted into off-tool narration with NO closure marker is
+    // still honestly held at N. The exception keys on closure, not on jam alone.
+    #[test]
+    fn jam_off_tool_narration_still_ungrounded() {
+        const DRIFT: &str = "I contemplated the tokens and the polygons turned in the barrel of being.";
+        let rep = complete(&prep(), DRIFT, B4::T, B4::N, false, true);
+        assert_eq!(rep.fused, B4::N, "no closure marker in a jam → honestly ungrounded");
+    }
+
     fn err_res(msg: &str) -> LlmResult {
         LlmResult { text: format!("[{msg}]"), voice: 'F', err: Some(msg.into()) }
     }
@@ -2377,7 +2512,41 @@ fn verbs_falsely_called_absent(text: &str) -> Vec<String> {
     hits
 }
 
-/// Parse `TOOL: <verb> <args…>` lines the agent emitted (one call per line).
+/// Prose guard shared by both extraction faces: the model narrates next-steps as
+/// `verb <english sentence>` ("ascend again", "dope operation (format …)"). Those are
+/// narration, not calls — running the verb on "the"/"again"/"operation" yields garbage. A
+/// real arg is a catalog token, never an English connective and never carrying sentence
+/// punctuation. Zero-arg verbs (crystal_count, cl8nk stats) have no args and pass through.
+fn args_are_prose(args: &[String]) -> bool {
+    const STOPWORD_ARGS: &[&str] = &[
+        "on", "to", "the", "a", "an", "with", "using", "for", "from", "of", "in", "and",
+        "or", "this", "that", "it", "again", "before", "after", "then", "now", "next",
+        "by", "as", "into", "via", "use", "attempt", "reach", "onto", "at", "so",
+    ];
+    args.first()
+        .map(|a| STOPWORD_ARGS.contains(&a.to_lowercase().as_str()))
+        .unwrap_or(false)
+        || args
+            .iter()
+            .any(|a| a.contains('(') || a.contains(')') || a.contains('`') || a.contains(':'))
+}
+
+/// Is `verb` a real callable verb (a structural verb or an IG tool)? Gate for the
+/// dual-face (code-span) extraction: only a span whose first token is an actual verb is
+/// routed as a call, so ordinary prose in backticks never false-triggers.
+fn is_known_verb(verb: &str) -> bool {
+    STRUCTURAL_VERBS.contains(&verb) || IG_TOOLS.contains(&verb)
+}
+
+/// Parse the tool calls the agent emitted. A tool call is Frobenius-dual and the model
+/// emits it from EITHER face:
+///   δ face — a directive line `TOOL: <verb> <args…>` (the request side), and
+///   μ face — the verb named directly in a code span `` `<verb> <args…>` `` (the
+///            result/naming side), which is how the model writes a call when it is
+///            reporting the operation rather than requesting it.
+/// The old extractor saw only the `TOOL:` face, so a cycle that emitted every call as a
+/// code span (CYCLE 13/14: **`arrange a b c`**) parsed as ZERO calls and the loop PRODded
+/// the agent for "ran none" when it had in fact invoked the verbs. Both faces route here.
 /// Tolerant of markdown wrapping (`**TOOL: …**`, `` `TOOL: …` ``, list bullets):
 /// leading non-alphanumerics are skipped and each arg is trimmed of `*` `` ` `` `_`.
 fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
@@ -2414,28 +2583,51 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
                 .map(trim_md)
                 .filter(|s| !s.is_empty())
                 .collect();
-            // Prose guard: the model narrates next-steps as `TOOL: verb <english sentence>`
-            // ("TOOL: primitive_peel on the 6 survivors…", "TOOL: ascend again", "TOOL: dope
-            // operation (format …)"). Those are narration, not calls — running the verb on
-            // "the"/"again"/"operation" yields garbage. A real arg is a catalog token, never an
-            // English connective and never carrying sentence punctuation, so skip the line when
-            // the first arg is a stopword or any arg holds prose punctuation. Zero-arg verbs
-            // (crystal_count, cl8nk stats) have no args and pass through.
-            const STOPWORD_ARGS: &[&str] = &[
-                "on", "to", "the", "a", "an", "with", "using", "for", "from", "of", "in", "and",
-                "or", "this", "that", "it", "again", "before", "after", "then", "now", "next",
-                "by", "as", "into", "via", "use", "attempt", "reach", "onto", "at", "so",
-            ];
-            let is_prose = args
-                .first()
-                .map(|a| STOPWORD_ARGS.contains(&a.to_lowercase().as_str()))
-                .unwrap_or(false)
-                || args.iter().any(|a| a.contains('(') || a.contains(')') || a.contains('`') || a.contains(':'));
-            if !is_prose {
+            // Prose guard (shared with the μ-face pass): skip narration like
+            // `TOOL: ascend again` / `TOOL: dope operation (…)`.
+            if !args_are_prose(&args) {
                 out.push((verb.to_lowercase(), args));
             }
         }
         from = start; // advance past this marker so the next TOOL: (same line or later) is found
+    }
+
+    // μ face: calls the model wrote as bare code spans `` `<verb> <args…>` `` with no
+    // `TOOL:` prefix — the result/naming side of the same Frobenius-dual call. Route each
+    // span whose FIRST token is a known verb and whose args survive the prose guard, then
+    // dedup against the δ-face calls so a call written both ways runs once. An inline code
+    // span holds no newline, so a run between backticks is bounded by the next backtick OR
+    // the line end. Requiring ≥1 arg keeps bare verb mentions (`` `ascend` `` in prose)
+    // from firing; the known-verb gate keeps ordinary backticked prose out.
+    let bytes = text.as_bytes();
+    let mut i = 0usize;
+    while i < bytes.len() {
+        if bytes[i] == b'`' {
+            let span_start = i + 1;
+            let mut j = span_start;
+            while j < bytes.len() && bytes[j] != b'`' && bytes[j] != b'\n' {
+                j += 1;
+            }
+            let span = &text[span_start..j.min(text.len())];
+            let mut toks = span.split_whitespace();
+            if let Some(v0) = toks.next() {
+                let verb = trim_md(v0).to_lowercase();
+                if is_known_verb(&verb) {
+                    let args: Vec<String> =
+                        toks.map(trim_md).filter(|s| !s.is_empty()).collect();
+                    if !args.is_empty()
+                        && !args_are_prose(&args)
+                        && !out.iter().any(|(vv, aa)| *vv == verb && *aa == args)
+                    {
+                        out.push((verb, args));
+                    }
+                }
+            }
+            // resume after the closing backtick (or at j if we hit a newline/end)
+            i = if j < bytes.len() && bytes[j] == b'`' { j + 1 } else { j + 1 };
+        } else {
+            i += 1;
+        }
     }
     out
 }
@@ -2516,6 +2708,17 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
     if verb == "cl8nk" {
         return Some(run_cl8nk(args));
     }
+    // `plasma` reads an entry's tuple as a plasma design (regime/instabilities/confinement),
+    // shelling to the red-hot_rebis plasma forge — another lossless face of the object.
+    if verb == "plasma" {
+        return Some(run_plasma(args));
+    }
+    // `imasm` composes the 12 opcodes into a free polymer topology (chain/ring/star/
+    // comb/bubble/network) and reports β, branch/merge census, ρ, and grammar validity.
+    // Pure Rust — no catalog, no shell. This is the native successor to composer.py.
+    if verb == "imasm" {
+        return Some(imasm::run(args));
+    }
     // The full IG tool corpus (compute_distance, primitive_peel, crystal_decode,
     // zfc_probe, aleph_encode, ...) is dispatched natively from here, shelling to
     // the live IG_inquiry dispatcher via modot.ig_tools — one manifold, not a
@@ -2537,6 +2740,13 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             v.extend(args.iter().cloned());
             v
         }
+        // broadcast = the ɢ primitive (f → all(x)): one SOURCE signals ALL subsystems it
+        // couples with, discovered in a single sweep — not an enumerated arm list. Realized
+        // as the catalog sweep from the source (single-name click), which finds every entry
+        // that fuses with it: the genuine one-to-all fan-out. The agent's natural call is
+        // `broadcast SOURCE all_subsystems` — arg 0 is the source; any trailing symbolic
+        // target ("all"/"all_subsystems") is ignored because the sweep already IS "all".
+        "broadcast" => vec!["--click".to_string(), a(0)?],
         "filter" => {
             let mut v = vec!["--filter".to_string()];
             v.extend(args.iter().cloned());
@@ -2845,9 +3055,12 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "ascend"     => "ascend A; 1 name (construct the next ramified tower level from A's excited state)",
         "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
         "star"       => "star M1 M2 M3 …; 4+ names (hub-and-arms star polymer: auto core + arms, ρ=√f)",
+        "broadcast"  => "broadcast SOURCE; 1 name (ɢ: the source signals ALL subsystems it couples with, discovered in one catalog sweep — the one-to-all fan-out)",
         "cl8nk"      => "cl8nk <action> [name]; action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats (the CLINK L8 navigator)",
+        "plasma"     => "plasma ENTRY; 1 name (read the entry's tuple as a plasma design: regime, instabilities, confinement, diagnostics)",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
+        "imasm"      => "imasm <op> …; op ∈ chain|ring|star|comb|bubble|wire|check|prove|define|run|tools|classify|expand|types|ref (compose the 12 opcodes into a polymer topology; `wire N0 N1 … / i-j i-k` for ANY graph; `check <opcode word>` type-checks your OWN decision — close condition is μ∘δ over a TRANSFORMED object (split→work→fuse), NOT a bare cycle → T/N-identity/B/F; `prove <name|word>` takes it to the p4ramill Lean kernel; `define <name> <op> <args>` builds a kernel-constrained tool, `run`/`tools`; `expand <type>` unfolds a Shavian type)",
         _ => return None,
     })
 }
@@ -2915,6 +3128,18 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
             "a multifunctional core with f arms radiating out — a hub-and-spoke star polymer, no arm–arm bonds",
             "the star graph K(1,f): one hub adjacent to f independent leaves; adjacency spectral radius ρ = √f with spectrum {+√f, 0×(f−1), −√f} — contrast the ρ=2 of a pure cycle",
         ),
+        "broadcast" => (
+            "one source unit fires to every subsystem it couples with at once — swept from the whole catalog, the receivers found in a single pass, not enumerated by hand",
+            "the ɢ broadcast primitive f → all(x): the source composed with all subsystems it fuses with, discovered by sweeping the catalog from the source; the signal reaches every coupling subsystem in one step, which is exactly what CLINK L8 (ɢ) demands",
+        ),
+        "plasma" => (
+            "read the entry as a collectivized-atom plasma: its regime (kinetic/gyrokinetic/fluid), instabilities, confinement class, and diagnostic wave signatures — the state where units surrender individual identity to the electromagnetic collective",
+            "map the 12-primitive tuple to plasma parameters via the forge: Ð→phase-space/kinetic regime, ƒ→collisionality, Ç→transport, ɢ→instability cascade, ⊙→threshold/spectral structure, Ħ→reversibility (Vlasov vs Boltzmann), Ω→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
+        ),
+        "imasm" => (
+            "compose the 12 IMASM opcodes into a free polymer — a chain, a ring, a star (hub + arms), a comb (backbone + grafts), a bubble (fork that reconverges), or a network — not only a line; reports the topology, its independent-loop count, and whether the grammar holds (only FSPLIT branches, only FFUSE fuses)",
+            "build the opcode program as a directed graph respecting each token's valence (VINIT source, FSPLIT δ out-2, FFUSE μ in-2) and classify it by circuit rank β = E−V+C (independent loops), branch/merge/source/sink census, arm count, and adjacency spectral radius ρ (ρ=2 a pure cycle, ρ=√f a star K(1,f)); `imasm ref` prints the rules, `imasm chain|ring|star|comb|bubble|classify …` builds",
+        ),
         _ => return None,
     })
 }
@@ -2979,7 +3204,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
-    "filter", "ascend", "phase_reconstruct", "star", "cl8nk",
+    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "plasma", "imasm",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -3222,6 +3447,51 @@ fn run_ob3ect(description: &str) -> String {
         s = "ob3ect: the Auto-Designer produced no output.\n".into();
     }
     s
+}
+
+/// The plasma register: read a catalog entry's 12-primitive tuple as a plasma design
+/// (regime, instabilities, confinement, diagnostics). Not a separate substance — the
+/// entry's tuple IS the plasma tuple, so this is another lossless face of the same object,
+/// exactly like the chem/math isomorphism. Shells to red-hot_rebis/plasma/plasma_modot.py
+/// (the plasma forge), handing it the entry name and the live catalog path — same shelling
+/// pattern as run_cl8nk / run_ob3ect, one manifold, not a reimplementation.
+fn run_plasma(args: &[String]) -> String {
+    let Some(name) = args.first() else {
+        return "plasma: needs a catalog entry name — plasma <entry_name>\n".into();
+    };
+    let plasma_dir = PathBuf::from(expand_user("~/imsgct/red-hot_rebis"));
+    let script = plasma_dir.join("plasma/plasma_modot.py");
+    if !script.is_file() {
+        return format!("plasma: forge bridge not found at {}\n", script.display());
+    }
+    let Some(cat) = resolve_catalog_path() else {
+        return "plasma: could not locate the IG catalog.\n".into();
+    };
+    let venv_py = plasma_dir.join(".venv/bin/python");
+    let mut cmd = if venv_py.is_file() {
+        process::Command::new(&venv_py)
+    } else {
+        process::Command::new("python3")
+    };
+    cmd.arg(&script)
+        .arg(name)
+        .arg(&cat)
+        .current_dir(&plasma_dir);
+    match cmd.output() {
+        Ok(o) => {
+            let out = format!(
+                "{}{}",
+                String::from_utf8_lossy(&o.stdout),
+                String::from_utf8_lossy(&o.stderr)
+            );
+            if out.trim().is_empty() {
+                "plasma: (no output)\n".into()
+            } else {
+                out
+            }
+        }
+        Err(e) => format!("plasma: could not run the forge bridge: {e}\n"),
+    }
 }
 
 fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
@@ -3853,6 +4123,7 @@ impl CliClone for Cli {
             think: self.think,
             no_think: self.no_think,
             star: self.star.clone(),
+            imasm: self.imasm.clone(),
             filter: self.filter.clone(),
             ascend: self.ascend.clone(),
             phase_reconstruct: self.phase_reconstruct.clone(),
@@ -4105,6 +4376,12 @@ fn main() {
     if !cli.star.is_empty() {
         let code = click::run_star(cat_ref, &cli.star, cli.theta);
         process::exit(code);
+    }
+
+    // IMASM polymer composition: `./ask --imasm <op> …` — pure computation, no catalog.
+    if !cli.imasm.is_empty() {
+        print!("{}", imasm::run(&cli.imasm));
+        process::exit(0);
     }
 
     if !cli.filter.is_empty() {

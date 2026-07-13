@@ -1,0 +1,149 @@
+--close
+```
+𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧⁡(𝐄𝐫𝐝⁢ő⁢𝐬𝐏𝐫𝐨𝐛𝐥𝐞𝐦𝟒𝟒)
+Let 𝑁 ≥1
+and let 𝐴 ⊂{1,…,𝑁}
+be a Sidon set.
+
+For every 𝜀 >0
+there exist 𝑀
+and a set 𝐵 ⊂{𝑁 +1,…,𝑀}
+such that 𝐴 ∪𝐵 ⊂{1,…,𝑀}
+is a Sidon set with
+|𝐴∪𝐵|≥(1−𝜀)⁢√𝑀.
+𝐏𝐫𝐨𝐨𝐟
+Let 𝑞
+be a prime power with 𝑞 ≥max⁡(𝑁2,1/𝜀)
+.
+
+Let 𝑀0 =𝑞2 +𝑞 +1
+and let 𝑆 ⊂ℤ/𝑀0⁢ℤ
+be a Singer difference set of cardinality 𝑞 +1
+.
+
+Thus every nonzero residue appears exactly once as a difference 𝑠 −𝑠′
+(𝑠 ≠𝑠′
+) and 𝑆
+is itself a Sidon set.
+
+Define:
+𝐷={|𝑎−𝑎′|:𝑎,𝑎′∈𝐴, 𝑎≠𝑎′},Σ={𝑎+𝑎′:𝑎,𝑎′∈𝐴}.
+Both have size 𝑂⁡(𝑁2)
+.
+
+Because 𝑆
+is a perfect difference set, for each 𝑑 ∈𝐷
+there is exactly one unordered pair {𝑠,𝑠′} ⊂𝑆
+with |𝑠 −𝑠′| ≡𝑑⁡(mod⁡𝑀0)
+.
+
+Because 𝑆
+is Sidon, each possible sum collides with at most one pair in 𝑆
+.
+
+Remove from 𝑆
+all elements that participate in any such conflicting pair.
+
+At most 2⁢(|𝐷| +|Σ|)
+elements are removed.
+
+The surviving subset 𝑆′ ⊂𝑆
+therefore satisfies
+|𝑆′|≥𝑞+1−𝑂⁡(𝑁2)=𝑞−𝑂⁡(𝑁2)
+and, by construction,
+Δ⁡(𝑆′)∩𝐷=∅andΣ⁡(𝑆′)∩Σ=∅,
+where Δ
+denotes the set of positive differences.
+
+Choose an integer shift 𝑡 >𝑁
+large enough that the interval [𝑡 +1,𝑡 +𝑀0]
+lies inside {1,…,𝑀}
+with 𝑀 =𝑡 +𝑀0
+.
+
+Define
+𝐵=𝑆′+𝑡={𝑠+𝑡:𝑠∈𝑆′}.
+Then 𝐴 ∩𝐵 =∅
+.
+
+It remains to verify that 𝐶 =𝐴 ∪𝐵
+is a Sidon set.
+
+- Sums entirely within 𝐴
+are distinct by hypothesis
+
+- Sums entirely within 𝐵
+are distinct because 𝐵
+is a translate of a Sidon set
+
+- Suppose 𝑎 +𝑏 =𝑎′ +𝑏′
+with 𝑎,𝑎′ ∈𝐴
+and 𝑏,𝑏′ ∈𝐵
+, not both pairs identical
+
+- Then 𝑎 −𝑎′ =𝑏′ −𝑏
+
+- The left side lies in 𝐷 ∪{0}
+while the right side lies in Δ⁡(𝐵) =Δ⁡(𝑆′)
+
+- The sets are disjoint by construction of 𝑆′
+, so necessarily 𝑎 =𝑎′
+and 𝑏 =𝑏′
+
+
+- Suppose 𝑎 +𝑎′ =𝑏 +𝑏′
+with 𝑎,𝑎′ ∈𝐴
+and 𝑏,𝑏′ ∈𝐵
+
+
+- Then the left side lies in Σ
+while the right side lies in Σ⁡(𝑆′)
+
+- These sets are disjoint by construction of 𝑆′
+.
+
+All other potential equalities reduce to one of the above cases.
+
+Hence 𝐶
+is Sidon.
+
+Finally,
+|𝐶|=𝑁+|𝑆′|≥𝑁+𝑞−𝑂⁡(𝑁2).
+With the choice of 𝑡
+, we have 𝑀 ≤𝑁 +1 +𝑞2 +𝑞 +1 ≤𝑞2 +𝑂⁡(𝑞) +𝑂⁡(𝑁)
+.
+
+Thus √𝑀 =𝑞⁢(1 +𝑜⁡(1))
+as 𝑞 →∞
+.
+
+Therefore
+|𝐶|
+√𝑀
+≥
+𝑞−𝑂⁡(𝑁2)
+𝑞⁢(1+𝑜⁡(1))
+=1−𝑂⁡(
+𝑁2
+𝑞
+)+𝑜⁡(1).
+Choosing 𝑞
+larger than a constant depending only on 𝑁
+and 𝜀
+makes the right-hand side at least 1 −𝜀
+.
+𝐏𝐫𝐨𝐨𝐟𝐂𝐨𝐦𝐩𝐥𝐞𝐭𝐞
+---
+
+The argument works verbatim in the integers {1,…,𝑀}
+after the integer shift 𝑡
+; the modular nature of the Singer set is used only to guarantee the perfect difference property inside each copy. The same construction yields a Sidon set inside any sufficiently large interval.
+
+---
+umpolungfish
+```
+```
+04:02 on 12 Jul 2026
+
+This does not work since it does not rule out solutions such as 𝑎 −𝑏1 =𝑏2 −𝑏3 . (This comment could also be a lot shorter, since there is nothing special about the Singer construction used here, so you could just quote the existence of a Sidon set 𝐵 of size (1 −𝑜⁡(1))⁢𝑀1/2 as a black box. The translation also seems unnecessary, since you can just delete the first 𝑁 elements of 𝐵 . Similarly you can delete ≪𝑁3/2 elements (an acceptable loss, if 𝑀 is large enough depending on 𝜖 and 𝑁 ) to destroy all solutions of the shape 𝑎1 ±𝑎2 =𝑏1 ±𝑏2 or 𝑎1 ±𝑎2 =𝑎3 ±𝑏 , beginning with any Sidon set 𝐵 ⊂[1,𝑀] . The hard part of this problem seems to be to rule out solutions like 𝑎 −𝑏1 =𝑏2 −𝑏3 .) Thomas Bloom — 08:15 on 13 Jul 2026 |
+```

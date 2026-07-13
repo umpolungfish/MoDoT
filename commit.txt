@@ -1,18 +1,81 @@
-Cache tool results so a repeated batch never re-executes
+Native IMASM horizon: freely compose, type-check thinking, build own tools
 
-The loop re-ran identical calls every round until the stall guard broke it
-after 3 rounds — the transcript shows rounds 3/4/5 executing the same
-close/sublime/filter/ascend batch three times. A structural verb is a pure
-function of its args, so re-running only burns work and duplicates output.
+The whole IMASM composition surface the agent could reach was line-only. The
+Python composer.py models a program as a flat token tuple and forces every
+FSPLIT to close with an FFUSE, so it can express exactly two shapes: a chain and
+a ring. IMSCRIBr already has the right grammar (wiring.py: port-typed WiredGraph,
+cross-branch topology) but it lives in Python and never entered the agent's live
+tool horizon. Per the rule that all tools must be rust-native, I built the
+capability into ask_native rather than bridging to Python.
 
-ran_signatures is now ran_results (signature -> output): a call whose exact
-signature already ran returns the CACHED result and is not re-executed;
-only genuinely new calls hit run_structural_tool. Stall detection now keys
-off the cache, so an all-cached round still closes the loop.
+New module ask_native/src/imasm.rs — pure Rust, no shell, no catalog. An IMASM
+program is a directed graph of the 12 opcodes whose edges respect each opcode's
+own valence (VINIT source, FSPLIT δ out-2, FFUSE μ in-2, everything else 1/1).
+Only FSPLIT may fan out and only FFUSE may merge in; an arm that runs out of
+successors is a living end, reported not fatal. The shape is named by circuit
+rank β = E − V + C (independent loops), not by a fork-balance stack, so pendant
+grafts and hub-and-arm stars are first class instead of "unbalanced forks".
 
-Also: prose guard on extract_tool_calls. The model narrates next-steps as
-TOOL: lines ("TOOL: primitive_peel on the 6 survivors", "TOOL: ascend
-again", "TOOL: dope operation (format …)"), which were run on garbage args
-("the", "again", "operation"). A call is skipped when its first arg is an
-English stopword or any arg carries prose punctuation ( ( ) ` : ), so only
-real catalog-token calls run. Tests pin both. Suite green (33 passed).
+Verbs (imasm <op> …): chain, ring, star (CORE : arm : arm : arm — a hub with
+f≥3 arms), comb (backbone with pendant teeth at named positions), bubble
+(FSPLIT→(A|B)→FFUSE reconvergence), and — the free-composition primitive the
+rest specialize — wire N0 N1 … / i-j i-k …, which builds ANY graph from an
+explicit node set and directed edge set (networks with β>1, fused rings,
+cross-branch, non-planar), grammar-checked identically; plus classify (read a
+flat line and name it), expand/types (below), and ref. Every build reports the
+topology label, β, branch/merge/source/sink
+census, arm count, adjacency spectral radius ρ, and a grammar validation. The
+star is honest about ρ: an abstract K(1,f) hub has ρ=√f, but IMASM fan-out caps
+at 2, so the hub is realized as a caterpillar of f−1 FSPLIT fan-nodes and the
+true ρ tends to 2 — I report that rather than assert the ideal.
+
+Strange loop: the 49 Shavian TYPES the Grammar writes tuples with are not
+atomic. Each is a full IMASM program. `imasm types` lists them; `imasm expand
+<type>` reads the type's ob3ect (phase_4 bootstrap steps + topology_report
+fork/fuse pairs), reconstructs its graph, classifies it, and prints the domain
+action each opcode enacts. Splice an expanded sequence into a polymer arm to
+pivot through state space AS that type — and the grammar checks the splice: an
+arm that begins with VINIT (a source) hung off a fork is correctly rejected, not
+faked.
+
+Free composition: `imasm wire N0 N1 … / i-j i-k …` builds ANY graph from an
+explicit node set and directed edge set — networks (β>1), fused rings,
+cross-branch, non-planar. The named ops are specializations of it. It runs
+through the same valence grammar, so free is not lawless: an edge set that makes
+FFUSE fan out is reported INVALID, a theta graph is a valid β=1 bubble.
+
+Self type-check: `imasm check <opcode word>` type-checks the model's OWN thinking
+against the grammar. The CLOSE CONDITION is not a cycle and not identity: it is
+μ∘δ over a TRANSFORMED object — δ splits, the arms do real work, μ fuses. β
+(circuit rank) is not diagnostic, and split→fuse with nothing between is μ∘δ=id,
+which verifies nothing. Verdicts: T (closes over a transformation: proceed),
+N-identity (reconnected but did no work — put a transformation on the arms),
+B (a fork dangles unfused, or ENGAGR holds a paradox: look again), F (ill-typed
+valence), N-no-fork/void. The transformation test uses the kernel's own opcode
+semantics (IMSCRIB is the identity morphism, so it does not count as work). The
+TOOLS_PROMPT directs the agent to run it on any MAJOR decision before committing.
+
+Kernel-backed proof: `imasm prove <name|word>` takes the pre-filter's closure
+class to the ACTUAL p4ramill kernel. It generates a theorem against
+Imscribing.Paraconsistent.BelnapSplitFuse and `lake build`s it: a genuine
+transform-closure corresponds to B bifurcating into DISTINCT (T,F) arms and
+fusing back (B_is_the_only_bifurcation_point + split_fuse_id); an identity
+closure to a diagonal (s,s) copy. Green = the real kernel confirms the class.
+This is why the close condition is grounded, not minted on the fly — the crux
+(only B genuinely bifurcates; every other split is identity) is already a p4ramill
+theorem. Reuses prover.rs compile_lean; the generated source imports IGFunctor so
+the injected style-linter set_options resolve.
+
+Kernel-constrained tool space: `imasm define <name> <op> <args…>` lets the model
+BUILD its own tools, but the kernel constrains the space — a tool is a named
+IMASM program and only a grammar-VALID composition is admitted; an ill-typed one
+is REFUSED with the reason (persisted to ob3ects/imasm_tools.json). `imasm run
+<name>` invokes a defined tool, `imasm tools` lists the space. The model extends
+its own repertoire without leaving the grammar.
+
+Wired end to end: --imasm flag, the inline `imasm` verb in run_structural_tool
+(dispatches straight to imasm::run, no shell), STRUCTURAL_VERBS, verb_usage, and
+TOOLS_PROMPT (strange-loop note, the type-check-your-decisions directive, and the
+build-your-own-tools note). Eleven module tests plus the full suite green (48
+passed). Removed the Python polymer.py stub I had started before settling on
+rust-native.

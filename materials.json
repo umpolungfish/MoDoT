@@ -179,6 +179,27 @@
     ],
     "weakest": 0.6667
   },
+  "abc_conjecture_proof_structure": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "iutt_naive_composite",
+      "gaussian_moat_problem",
+      "inter_universal_teichmuller_theory",
+      "langlands_program"
+    ],
+    "weakest": 1.3333
+  },
   "chaos_magic_ring": {
     "branched": false,
     "conductance": "FRUSTRATED",
@@ -376,6 +397,27 @@
       "d_12_dual_link_sic_povm"
     ],
     "weakest": 1.0
+  },
+  "iutt_closed_ring_4": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "iutt_naive_composite",
+      "gaussian_moat_problem",
+      "hodge_theater_iutt",
+      "gaussian_moat_problem"
+    ],
+    "weakest": 1.3333
   },
   "macrocycle5": {
     "branched": true,
