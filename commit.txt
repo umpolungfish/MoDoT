@@ -1,7 +1,13 @@
-Fix imscribe case-mismatch and cap calls per round
+Add the CL8NK navigator; drop the ZFC/domain navigators it subsumes
 
-catalog_has_name is now case-insensitive (via catalog_names), so imscribe
-no longer reports "did not register" for a name the generator wrote in a
-different case. And the ACT loop caps calls at 24 per round, running the
-first 24 and deferring the rest, so no single round can flood (the 87-call
-ladder round could not recur).
+cl8nk is now a live verb shelling to imscribing_grammar/navigators/
+cl8nk_navigator.py (CLINK Layer 8, O∞): cl8nk <action> [name] with action
+∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|
+systems|stats. Wired into run_structural_tool, STRUCTURAL_VERBS,
+verb_usage, and the TOOLS_PROMPT.
+
+Removed the redundant navigators it subsumes from the IG tool corpus:
+zfc_formula, zfc_probe, zfc_catalog_probe, navigator_info, domain_info,
+domain_verify, domain_nearest — dropped from IG_TOOLS and the prompt.
+CL8NK is the one navigator now. Verified it runs (tier O_∞, distance
+0.6576 on K19_ray_class_field); suite green (32 passed).

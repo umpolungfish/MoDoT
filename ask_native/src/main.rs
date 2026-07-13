@@ -1685,9 +1685,8 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the structural typ
   TOOL: phi_c_probe A / consciousness_score A / topo_protection_probe A   probe criticality / C-score gates / topological protection
   TOOL: crystal_decode ADDRESS / crystal_encode A / crystal_nearest A / crystal_count / crystal_tier_census   crystal address <-> tuple, tier census
   TOOL: compute_promotions SRC TGT / predict_from_promotions VAL...   promotion analysis
-  TOOL: zfc_formula A / zfc_probe A   the ZFC_fe formula and probe for A
   TOOL: aleph_encode TEXT / aleph_distance A B   Hebrew-letter (ALEPH) tensor encode/distance
-  TOOL: domain_info DOMAIN / domain_verify DOMAIN / domain_nearest A   domain (language|civilization|ecology|consciousness) info
+  TOOL: cl8nk <action> [name]   the CL8NK navigator (CLINK Layer 8, O∞) — THE reference navigator (subsumes the ZFC/domain navigators). action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -2478,6 +2477,11 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         }
         return Some(run_ob3ect(&args.join(" ")));
     }
+    // The CL8NK navigator (CLINK L8, O∞) is THE navigator — it subsumes the ZFC/domain
+    // navigators, which were removed. Shells to imscribing_grammar/navigators/cl8nk_navigator.py.
+    if verb == "cl8nk" {
+        return Some(run_cl8nk(args));
+    }
     // The full IG tool corpus (compute_distance, primitive_peel, crystal_decode,
     // zfc_probe, aleph_encode, ...) is dispatched natively from here, shelling to
     // the live IG_inquiry dispatcher via modot.ig_tools — one manifold, not a
@@ -2807,6 +2811,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "ascend"     => "ascend A; 1 name (construct the next ramified tower level from A's excited state)",
         "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
         "star"       => "star M1 M2 M3 …; 4+ names (hub-and-arms star polymer: auto core + arms, ρ=√f)",
+        "cl8nk"      => "cl8nk <action> [name]; action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats (the CLINK L8 navigator)",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
         _ => return None,
@@ -2892,9 +2897,8 @@ const IG_TOOLS: &[&str] = &[
     "principal_decomp", "retrosynthetic_path", "emergence_frontier", "compute_promotions",
     "predict_from_promotions", "register_promotion_pattern", "crystal_encode",
     "crystal_decode", "crystal_navigate", "crystal_count", "crystal_tier_census",
-    "crystal_nearest", "crystal_tier_gap_ladder", "quiver_encode", "domain_info",
-    "domain_verify", "domain_nearest", "navigator_info", "zfc_formula", "zfc_probe",
-    "zfc_catalog_probe", "aleph_encode", "aleph_distance", "riemann_xi_info",
+    "crystal_nearest", "crystal_tier_gap_ladder", "quiver_encode",
+    "aleph_encode", "aleph_distance", "riemann_xi_info",
     "ask_question", "record_insight",
 ];
 
@@ -2941,7 +2945,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
-    "filter", "ascend", "phase_reconstruct", "star",
+    "filter", "ascend", "phase_reconstruct", "star", "cl8nk",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -3110,6 +3114,50 @@ fn run_imscribe(name: &str, description: &str) -> String {
 /// description in, full IMASM typing out (opcodes, Frobenius verdict, registers,
 /// bootstrap sequence). Persists to ~/ob3ect/digital/<slug>/ as every ob3ect does.
 /// Bounded retries — the pipeline's default is retry-forever, which would hang a round.
+/// Shell to the CL8NK navigator (CLINK Layer 8, O∞) — the canonical reference navigator that
+/// subsumes the ZFC/domain navigators. `cl8nk <action> [name]`, action ∈ entry | distance |
+/// tensor | meet | join | tier | promotions | transcendence | chain | systems | stats.
+fn run_cl8nk(args: &[String]) -> String {
+    let Some(cat) = resolve_catalog_path() else {
+        return "cl8nk: could not locate the IG catalog / imscribing_grammar package.\n".into();
+    };
+    let Some(ig_dir) = cat.parent().map(|d| d.to_path_buf()) else {
+        return "cl8nk: catalog path has no parent directory.\n".into();
+    };
+    let script = ig_dir.join("navigators/cl8nk_navigator.py");
+    if !script.is_file() {
+        return format!("cl8nk: navigator not found at {}\n", script.display());
+    }
+    let venv_py = ig_dir.join(".venv/bin/python");
+    let mut cmd = if venv_py.is_file() {
+        process::Command::new(&venv_py)
+    } else {
+        process::Command::new("python3")
+    };
+    cmd.arg(&script);
+    if args.is_empty() {
+        cmd.arg("stats");
+    } else {
+        cmd.args(args);
+    }
+    cmd.current_dir(&ig_dir);
+    match cmd.output() {
+        Ok(o) => {
+            let out = format!(
+                "{}{}",
+                String::from_utf8_lossy(&o.stdout),
+                String::from_utf8_lossy(&o.stderr)
+            );
+            if out.trim().is_empty() {
+                "cl8nk: (no output)\n".into()
+            } else {
+                out
+            }
+        }
+        Err(e) => format!("cl8nk: could not run the navigator: {e}\n"),
+    }
+}
+
 fn run_ob3ect(description: &str) -> String {
     let ob3_dir = PathBuf::from(expand_user("~/ob3ect"));
     if !ob3_dir.join("auto.py").is_file() {
