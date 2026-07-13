@@ -1,23 +1,24 @@
-Remove the 6-per-round tool-call cap: every call in a round runs
+Land the 49 primitive-type natures in the vessel
 
-I asked for this a while back and it lingered. The ACT loop capped each round
-at 6 tool calls and shunted the rest into a "NOT RUN this round" note, telling
-the operator to re-emit them next round. That was a budget wall dressed up as
-pacing, and it did the same thing the round ceiling did before I dropped that:
-it interrupted an investigation the operator had already reasoned out. If it
-wants to run a dozen verbs in one round, it has the results it needs to reason
-over sooner, not string them across three padded rounds.
+I uncovered the primitive types, which revealed IMASM, which I used to
+elaborate the types back into their full natures. Those elaborations are
+the auto-designed ob3ects: each one carries a completed 12-family
+Imscription tuple whose values are themselves drawn from the same 49
+names, so the alphabet is its own value set and the natures close into
+an ouroboric algebra. This brings them into MoDoT.
 
-Gone now: the PER_ROUND_CAP const, the `.take(PER_ROUND_CAP)` on the call
-loop, and the whole "NOT RUN / over the cap" surfacing block. Every deduped
-call in a round executes; the ACT-round header prints the true count.
+ob3ects/primitives/ holds the 49 nature ob3ects (the type_called set;
+the prototype egg is left out). modot/natures.py loads each into a
+Nature: its canonical 12-family tuple, its phase_1 opcode word (which is
+already exactly the MoDoT Token algebra), its Belnap void/true/false/both
+readings, its Frobenius verdict and entropy ledger. FAMILY_TO_VESSEL_KEY
+bridges the twelve scaffold families onto the vessel's PRIMITIVE_KEYS, so
+Nature.vessel_tuple() hands the vessel a grounded imscription for any of
+the 49 types by table lookup instead of an LLM round trip.
 
-What stays, because it is real pacing and correctness, not budget:
-  - within-round dedupe — running an identical verb+args twice just burns a
-    request for a result already coming back;
-  - stall detection — three rounds of nothing but already-run calls still
-    closes the loop;
-  - the executed-verbs ground truth — a verdict still fuses only against a
-    verb that actually ran, so nothing narrated over an unrun tool survives.
-
-Builds clean, 23 tests pass.
+The registry verifies the algebra is closed on load: every value in
+every tuple is one of the 49 known types, no open references. Exposed at
+package level as nature(), nature_registry(), Nature, NatureRegistry.
+Self-test passes: all 49 load, closed, egg maps cleanly onto the twelve
+vessel keys. This is the first plank: the natures are now operators the
+vessel and composer can act with, not just glyphs.

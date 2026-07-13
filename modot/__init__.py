@@ -66,6 +66,13 @@ from modot.router import (
     RouterVerdict,
     fold_goal_type,
 )
+from modot.natures import (
+    Nature,
+    NatureRegistry,
+    registry as nature_registry,
+    nature,
+    FAMILY_TO_VESSEL_KEY,
+)
 
 __all__ = [
     "main",
@@ -102,4 +109,9 @@ __all__ = [
     "TypeRouter",
     "RouterVerdict",
     "fold_goal_type",
+    "Nature",
+    "NatureRegistry",
+    "nature_registry",
+    "nature",
+    "FAMILY_TO_VESSEL_KEY",
 ]
