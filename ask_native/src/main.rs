@@ -388,12 +388,106 @@ struct Cli {
     #[arg(long = "catalyst")]
     catalyst: Option<String>,
 
-    /// Positional fallback: treated as --ask if --ask/--file omitted
-    #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
+    /// Load a file or DIRECTORY as background context, prepended to the question (repeatable).
+    /// A directory is walked and its text files concatenated. Distinct from the submission:
+    /// `--context ./refs --ask "…"` answers the question WITH the corpus as background.
+    #[arg(long = "context", value_name = "PATH")]
+    context: Vec<String>,
+
+    /// Positional fallback: treated as --ask if --ask/--file omitted. A single positional that
+    /// is a FILE or DIRECTORY path is read as the submission (a directory is concatenated).
+    /// No longer trailing: flags may appear before, after, or between positional words.
+    #[arg(value_name = "TEXT")]
     rest: Vec<String>,
 }
 
 // ── Input resolution (MoDoT resolve_input parity) ───────────────────────────
+
+/// Directories skipped when walking a submission/context tree (VCS + build noise), and file
+/// extensions treated as binary (not read as text).
+const WALK_SKIP_DIRS: &[&str] = &[
+    ".git", "target", "node_modules", ".lake", "__pycache__", ".venv", "build", ".mypy_cache",
+];
+const WALK_BIN_EXTS: &[&str] = &[
+    "png", "jpg", "jpeg", "gif", "bmp", "pdf", "zip", "gz", "tar", "olean", "oleanpart", "bin",
+    "exe", "so", "o", "a", "wasm", "ico", "woff", "woff2", "ttf", "otf", "mp4", "mp3", "wav",
+    "class", "pyc", "lock",
+];
+/// Cap on how much a directory submission/context may pull in, so a huge tree cannot blow up
+/// the prompt. Files are added in sorted order until the cap is reached.
+const WALK_CHAR_CAP: usize = 2_000_000;
+
+fn collect_text_files(dir: &Path, out: &mut Vec<PathBuf>) {
+    let Ok(entries) = fs::read_dir(dir) else {
+        return;
+    };
+    let mut items: Vec<PathBuf> = entries.flatten().map(|e| e.path()).collect();
+    items.sort();
+    for p in items {
+        let name = p.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+        if p.is_dir() {
+            if name.starts_with('.') || WALK_SKIP_DIRS.contains(&name.as_str()) {
+                continue;
+            }
+            collect_text_files(&p, out);
+        } else if p.is_file() {
+            let is_bin = p
+                .extension()
+                .and_then(|x| x.to_str())
+                .map(|e| WALK_BIN_EXTS.contains(&e.to_lowercase().as_str()))
+                .unwrap_or(false);
+            if !is_bin {
+                out.push(p);
+            }
+        }
+    }
+}
+
+/// Read a path that may be a FILE or a DIRECTORY. A file returns its text; a directory is
+/// walked (sorted, recursive, skipping VCS/build noise and binaries) and its text files
+/// concatenated with `===== relative/path =====` headers, capped at WALK_CHAR_CAP — so a whole
+/// corpus can be submitted or supplied as context in one shot. Returns (content, label).
+fn read_path(raw: &str) -> Result<(String, String), String> {
+    let p = expand_user(raw);
+    let path = Path::new(&p);
+    if path.is_file() {
+        let content = fs::read_to_string(path).map_err(|e| format!("read {p}: {e}"))?;
+        let label = format!("file:{raw} ({} chars)", content.chars().count());
+        return Ok((content, label));
+    }
+    if path.is_dir() {
+        let mut files = Vec::new();
+        collect_text_files(path, &mut files);
+        if files.is_empty() {
+            return Err(format!("directory has no readable text files: {raw}"));
+        }
+        let mut out = String::new();
+        let mut n = 0usize;
+        let mut truncated = false;
+        for f in &files {
+            if out.len() >= WALK_CHAR_CAP {
+                truncated = true;
+                break;
+            }
+            if let Ok(text) = fs::read_to_string(f) {
+                let rel = f.strip_prefix(path).unwrap_or(f);
+                out.push_str(&format!("\n===== {} =====\n", rel.display()));
+                out.push_str(&text);
+                out.push('\n');
+                n += 1;
+            }
+        }
+        if n == 0 {
+            return Err(format!("directory has no readable UTF-8 text files: {raw}"));
+        }
+        if truncated {
+            out.push_str(&format!("\n===== [truncated at {WALK_CHAR_CAP} chars] =====\n"));
+        }
+        let label = format!("dir:{raw} ({n} files, {} chars{})", out.chars().count(), if truncated { ", truncated" } else { "" });
+        return Ok((out, label));
+    }
+    Err(format!("path not found: {raw}"))
+}
 
 fn resolve_input(ask: Option<&str>, file: Option<&str>, rest: &[String]) -> Result<(String, String), String> {
     if let Some(fp) = file {
@@ -401,9 +495,8 @@ fn resolve_input(ask: Option<&str>, file: Option<&str>, rest: &[String]) -> Resu
     }
     if let Some(a) = ask {
         let p = expand_user(a);
-        if Path::new(&p).is_file() {
-            let content = fs::read_to_string(&p).map_err(|e| format!("read {p}: {e}"))?;
-            return Ok((content, format!("file:{a} ({} chars)", content_len_label(&fs::read_to_string(&p).unwrap_or_default()))));
+        if Path::new(&p).exists() {
+            return read_path(a);
         }
         if a == "-" {
             return read_file_or_stdin("-");
@@ -411,23 +504,36 @@ fn resolve_input(ask: Option<&str>, file: Option<&str>, rest: &[String]) -> Resu
         return Ok((a.to_string(), format!("literal ({} chars)", a.chars().count())));
     }
     if !rest.is_empty() {
-        let joined = rest.join(" ");
-        let p = expand_user(&joined);
-        if Path::new(&p).is_file() {
-            let content = fs::read_to_string(&p).map_err(|e| format!("read {p}: {e}"))?;
-            return Ok((
-                content.clone(),
-                format!("file:{joined} ({} chars)", content.chars().count()),
-            ));
+        // A single positional that is a real path (file or dir) is read as the submission;
+        // otherwise the positionals are joined into a literal question.
+        if rest.len() == 1 {
+            let p = expand_user(&rest[0]);
+            if Path::new(&p).exists() {
+                return read_path(&rest[0]);
+            }
         }
+        let joined = rest.join(" ");
         return Ok((joined.clone(), format!("literal ({} chars)", joined.chars().count())));
     }
-    Err("no question: use --ask, --file, positional text, or -i".into())
+    Err("no question: use --ask, --file, positional text/path, or -i".into())
 }
 
-fn content_len_label(s: &str) -> usize {
-    s.chars().count()
+/// Load one or more `--context` paths (files or directories) into a single background block,
+/// each under its own header, for prepending to the submission.
+fn load_context(paths: &[String]) -> Result<String, String> {
+    if paths.is_empty() {
+        return Ok(String::new());
+    }
+    let mut out = String::new();
+    for raw in paths {
+        let (content, label) = read_path(raw)?;
+        out.push_str(&format!("\n========== CONTEXT: {label} ==========\n"));
+        out.push_str(&content);
+        out.push('\n');
+    }
+    Ok(out)
 }
+
 
 fn expand_user(p: &str) -> String {
     if let Some(rest) = p.strip_prefix("~/") {
@@ -446,15 +552,8 @@ fn read_file_or_stdin(fp: &str) -> Result<(String, String), String> {
             .map_err(|e| format!("stdin: {e}"))?;
         return Ok((buf.clone(), format!("stdin ({} chars)", buf.chars().count())));
     }
-    let p = expand_user(fp);
-    if !Path::new(&p).is_file() {
-        return Err(format!("--file path not found: {fp}"));
-    }
-    let content = fs::read_to_string(&p).map_err(|e| format!("read {p}: {e}"))?;
-    Ok((
-        content.clone(),
-        format!("file:{fp} ({} chars)", content.chars().count()),
-    ))
+    // A file or a DIRECTORY (read_path concatenates a directory tree).
+    read_path(fp)
 }
 
 // ── Catalog / scaffold (IMSCRIB witness face) ───────────────────────────────
@@ -2034,6 +2133,31 @@ mod lane_guard_tests {
     };
 
     #[test]
+    fn read_path_handles_file_and_directory() {
+        use std::fs;
+        let base = std::env::temp_dir().join(format!("ask_rp_{}", std::process::id()));
+        let sub = base.join("sub");
+        fs::create_dir_all(&sub).unwrap();
+        fs::write(base.join("a.txt"), "alpha").unwrap();
+        fs::write(sub.join("b.md"), "beta").unwrap();
+        fs::write(base.join("skip.png"), &[0u8, 1, 2]).unwrap(); // binary ext: excluded
+
+        // a single file → its text
+        let (c, label) = super::read_path(base.join("a.txt").to_str().unwrap()).unwrap();
+        assert_eq!(c, "alpha");
+        assert!(label.starts_with("file:"));
+
+        // a directory → both text files concatenated with headers, binary skipped
+        let (c, label) = super::read_path(base.to_str().unwrap()).unwrap();
+        assert!(c.contains("alpha") && c.contains("beta"), "both files present");
+        assert!(c.contains("===== a.txt =====") && c.contains("b.md"), "path headers present");
+        assert!(!c.contains("\u{1}"), "binary file excluded");
+        assert!(label.starts_with("dir:") && label.contains("2 files"));
+
+        let _ = fs::remove_dir_all(&base);
+    }
+
+    #[test]
     fn extracts_multiple_tool_calls_on_one_line_and_zero_arg() {
         // The exact drop from the transcript: two raw directives collapsed onto one line.
         let t = "TOOL: crystal_count TOOL: excite K19_ray_class_field";
@@ -3584,6 +3708,7 @@ impl CliClone for Cli {
             filter: self.filter.clone(),
             ascend: self.ascend.clone(),
             phase_reconstruct: self.phase_reconstruct.clone(),
+            context: self.context.clone(),
             cycles: self.cycles,
             eagles: self.eagles,
             max_tokens: self.max_tokens,
@@ -3896,6 +4021,18 @@ fn main() {
     // If only -i with also a question, run question then enter interactive? Keep simple: one-shot if ask/file/rest.
     match resolve_input(cli.ask.as_deref(), cli.file.as_deref(), &cli.rest) {
         Ok((content, source)) => {
+            // Prepend any --context (files or directories) as a labeled background block.
+            let (content, source) = match load_context(&cli.context) {
+                Ok(ctx) if !ctx.is_empty() => (
+                    format!("{ctx}\n========== SUBMISSION ==========\n{content}"),
+                    format!("{source} + context[{}]", cli.context.len()),
+                ),
+                Ok(_) => (content, source),
+                Err(e) => {
+                    eprintln!("error: --context: {e}");
+                    process::exit(2);
+                }
+            };
             let mut conversation = Vec::new();
             let code = run_one(&content, &source, &cli, &llm, cat_ref, &mut conversation);
             if cli.interactive {

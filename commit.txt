@@ -1,16 +1,24 @@
-Extract every TOOL: directive, including multiples per line and zero-arg
+Directory input (submission or context), and order-insensitive flags
 
-The tool-call parser was line-anchored and required at least one arg, so
-two directives on one line collapsed — the second was swallowed as the
-first's args and silently dropped (seen in the transcript: crystal_count
-absorbed the following excite call, 19 of 20 emitted calls ran). Zero-arg
-verbs like crystal_count only matched by accident when they absorbed the
-next directive.
+Two things.
 
-extract_tool_calls now splits on the literal TOOL: marker anywhere it
-appears: each call runs to end-of-line or the next TOOL:, whichever comes
-first, and zero-arg verbs are captured cleanly. The marker is case-
-sensitive (the model emits TOOL: uppercase for a real directive), so prose
-"tool:" does not false-trigger. Two tests pin it: the exact one-line
-double-directive from the transcript, and lowercase-prose immunity. Suite
-green (31 passed).
+1. Order-insensitive flags. The positional `rest` was `trailing_var_arg +
+   allow_hyphen_values`, so any flag placed AFTER the question text was
+   swallowed into the positional as literal words (`ask "q" --eagles 5`
+   never parsed --eagles). Dropped both attributes; clap now interleaves
+   options and positional words freely — flags work before, after, or
+   between the words.
+
+2. Directory input. New read_path reads a FILE or a DIRECTORY: a directory
+   is walked (sorted, recursive, skipping .git/target/node_modules/.lake/…
+   and binary extensions, capped at 2M chars) and its text files
+   concatenated under `===== relative/path =====` headers. Wired into
+   --file, --ask, and a bare positional path, so a whole corpus can be the
+   submission in one shot. New --context PATH (repeatable, file or dir)
+   loads a corpus as BACKGROUND, prepended under a CONTEXT header ahead of
+   the SUBMISSION — the "as context" vs "as the submission" distinction.
+
+Verified live: dir as submission, --context dir + question, --file dir,
+and flags after/between positional words all resolve correctly. read_path
+unit-tested (file, dir concat with headers, binary excluded). Removed the
+now-dead content_len_label. Suite green (32 passed).
