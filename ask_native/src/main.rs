@@ -2034,6 +2034,25 @@ mod lane_guard_tests {
     };
 
     #[test]
+    fn extracts_multiple_tool_calls_on_one_line_and_zero_arg() {
+        // The exact drop from the transcript: two raw directives collapsed onto one line.
+        let t = "TOOL: crystal_count TOOL: excite K19_ray_class_field";
+        let calls = super::extract_tool_calls(t);
+        assert_eq!(calls.len(), 2, "both directives must be extracted");
+        assert_eq!(calls[0], ("crystal_count".to_string(), vec![]));
+        assert_eq!(
+            calls[1],
+            ("excite".to_string(), vec!["K19_ray_class_field".to_string()])
+        );
+    }
+
+    #[test]
+    fn tool_extraction_ignores_lowercase_prose() {
+        // prose "tool:" must not be read as a directive
+        assert!(super::extract_tool_calls("Use the right tool: pick carefully.").is_empty());
+    }
+
+    #[test]
     fn catches_a_real_verb_declared_absent() {
         let t = "The `ascend` verb is not available. The tower cannot be built.\n\
                  The `phase_reconstruct` tool does not exist.";
@@ -2218,22 +2237,42 @@ fn verbs_falsely_called_absent(text: &str) -> Vec<String> {
 /// Tolerant of markdown wrapping (`**TOOL: …**`, `` `TOOL: …` ``, list bullets):
 /// leading non-alphanumerics are skipped and each arg is trimmed of `*` `` ` `` `_`.
 fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
-    let re = Regex::new(r"(?im)^[^A-Za-z0-9\n]*TOOL:\s*([A-Za-z][A-Za-z0-9_-]*)\s+(.+)$").unwrap();
     let trim_md = |s: &str| {
         s.trim_matches(|c: char| c == '*' || c == '`' || c == '_' || c == ' ' || c == '.')
             .to_string()
     };
+    // Split on the literal `TOOL:` marker anywhere it appears, so MULTIPLE directives on one
+    // line each become their own call (the old line-anchored regex swallowed the second one
+    // as the first's args — silently dropping a call). Case-sensitive marker: the model emits
+    // `TOOL:` uppercase for a real directive, so prose "tool:" does not false-trigger. A call
+    // runs to end-of-line OR the next `TOOL:`, whichever comes first; zero-arg verbs (e.g.
+    // `crystal_count`) are now captured instead of requiring a bogus argument.
+    const MARK: &str = "TOOL:";
     let mut out = Vec::new();
-    for cap in re.captures_iter(text) {
-        let verb = cap[1].to_lowercase();
-        let args: Vec<String> = cap[2]
-            .split_whitespace()
-            .map(trim_md)
-            .filter(|s| !s.is_empty())
+    let mut from = 0usize;
+    while let Some(rel) = text[from..].find(MARK) {
+        let start = from + rel + MARK.len();
+        let line_end = text[start..].find('\n').map(|i| start + i).unwrap_or(text.len());
+        // stop this call at the next TOOL: on the same line, if any
+        let seg_end = text[start..line_end]
+            .find(MARK)
+            .map(|i| start + i)
+            .unwrap_or(line_end);
+        let seg = text[start..seg_end].trim_start();
+        let verb: String = seg
+            .chars()
+            .take_while(|c| c.is_ascii_alphanumeric() || *c == '_' || *c == '-')
             .collect();
-        if !args.is_empty() {
-            out.push((verb, args));
+        if !verb.is_empty() {
+            let rest = &seg[verb.len()..];
+            let args: Vec<String> = rest
+                .split_whitespace()
+                .map(trim_md)
+                .filter(|s| !s.is_empty())
+                .collect();
+            out.push((verb.to_lowercase(), args));
         }
+        from = start; // advance past this marker so the next TOOL: (same line or later) is found
     }
     out
 }
