@@ -1437,6 +1437,21 @@ NOTE: forging/clicking/polymerizing named entities measures whether their TUPLES
 terminated / no ring) is not disproof, and a closure is not a proof; never say a proven theorem
 "does not close" or "does not exist" because its named parts do not click. For a theorem's real
 closure verdict, use the proof route (prove:), which tests μ∘δ=id against the kernel.
+IG CATALOG TOOLS (the analysis corpus — these query/measure the structural type of catalog entries; they run the live IG_inquiry dispatcher):
+  TOOL: lookup_catalog KEYWORD        search the catalog for entries matching a term
+  TOOL: compute_distance A B          structural distance between two entries (SIC Born-rule + Mahalanobis)
+  TOOL: compute_conflict_distance A B  paraconsistent conflict distance (how live the contradiction is, in paradices)
+  TOOL: compute_meet A B / compute_join A B / compute_tensor A B   lattice meet, join, tensor of two entries
+  TOOL: find_analogies A              nearest structural analogues of A
+  TOOL: primitive_peel A PRIM         peel one primitive axis off A
+  TOOL: principal_decomp A            principal-component decomposition of A's type
+  TOOL: retrosynthetic_path A         a retrosynthetic construction path to A
+  TOOL: phi_c_probe A / consciousness_score A / topo_protection_probe A   probe criticality / C-score gates / topological protection
+  TOOL: crystal_decode ADDRESS / crystal_encode A / crystal_nearest A / crystal_count / crystal_tier_census   crystal address <-> tuple, tier census
+  TOOL: compute_promotions SRC TGT / predict_from_promotions VAL...   promotion analysis
+  TOOL: zfc_formula A / zfc_probe A   the ZFC_fe formula and probe for A
+  TOOL: aleph_encode TEXT / aleph_distance A B   Hebrew-letter (ALEPH) tensor encode/distance
+  TOOL: domain_info DOMAIN / domain_verify DOMAIN / domain_nearest A   domain (language|civilization|ecology|consciousness) info
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -1850,6 +1865,21 @@ mod verb_feedback_tests {
         assert_eq!(strip_deleted_suffix("/x/target/release/ask (deleted)"), Some("/x/target/release/ask"));
         assert_eq!(strip_deleted_suffix("/x/target/release/ask"), None);
     }
+
+    // An IG catalog verb dispatches natively through the live corpus. Needs the MoDoT
+    // bridge + IG_inquiry present; skips cleanly if the environment lacks them.
+    #[test]
+    fn ig_tool_dispatches_through_the_corpus() {
+        use super::{run_structural_tool, IG_TOOLS};
+        assert!(IG_TOOLS.contains(&"crystal_count"));
+        let bridge = super::PathBuf::from(super::expand_user("~/imsgct/MoDoT/modot/ig_tools.py"));
+        if !bridge.is_file() {
+            eprintln!("skipping: IG bridge not present");
+            return;
+        }
+        let out = run_structural_tool("crystal_count", &[]).expect("crystal_count is an IG verb");
+        assert!(out.contains("17280000"), "crystal_count did not ground: {out}");
+    }
 }
 
 #[cfg(test)]
@@ -2035,6 +2065,13 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             return Some("ob3ect needs a description: TOOL: ob3ect <free-text description of the entity>\n".into());
         }
         return Some(run_ob3ect(&args.join(" ")));
+    }
+    // The full IG tool corpus (compute_distance, primitive_peel, crystal_decode,
+    // zfc_probe, aleph_encode, ...) is dispatched natively from here, shelling to
+    // the live IG_inquiry dispatcher via modot.ig_tools — one manifold, not a
+    // reimplementation. Same pattern as ob3ect: the loop drives it, the corpus runs.
+    if IG_TOOLS.contains(&verb) {
+        return Some(run_ig_tool(verb, args));
     }
     let flags: Vec<String> = match verb {
         "click" => {
@@ -2342,6 +2379,58 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
         _ => return None,
     })
+}
+
+/// The IG tool corpus, dispatched natively via `run_ig_tool` (shells to the live
+/// IG_inquiry dispatcher through modot.ig_tools). Kept separate from
+/// STRUCTURAL_VERBS because these do not shell to the ask binary and are not part
+/// of the chemistry verb_usage coverage; they are the catalog/analysis tools.
+const IG_TOOLS: &[&str] = &[
+    "lookup_catalog", "list_catalog", "encode_system", "imscribe_system",
+    "check_imscription", "ouroborics", "compute_distance", "compute_conflict_distance",
+    "compute_meet", "compute_join", "compute_tensor", "find_analogies", "phi_c_probe",
+    "topo_protection_probe", "consciousness_score", "project", "primitive_peel",
+    "principal_decomp", "retrosynthetic_path", "emergence_frontier", "compute_promotions",
+    "predict_from_promotions", "register_promotion_pattern", "crystal_encode",
+    "crystal_decode", "crystal_navigate", "crystal_count", "crystal_tier_census",
+    "crystal_nearest", "crystal_tier_gap_ladder", "quiver_encode", "domain_info",
+    "domain_verify", "domain_nearest", "navigator_info", "zfc_formula", "zfc_probe",
+    "zfc_catalog_probe", "aleph_encode", "aleph_distance", "riemann_xi_info",
+    "ask_question", "record_insight",
+];
+
+/// Run one IG catalog tool by shelling to the live corpus (modot.ig_tools call ...).
+/// Mirrors run_ob3ect: MoDoT venv python if present, stdout is the JSON result, and
+/// stderr is surfaced only on failure so the benign runpy warning does not pollute.
+fn run_ig_tool(verb: &str, args: &[String]) -> String {
+    let modot_dir = PathBuf::from(expand_user("~/imsgct/MoDoT"));
+    if !modot_dir.join("modot/ig_tools.py").is_file() {
+        return format!("{verb}: modot/ig_tools.py not found — the IG tool bridge is not present.\n");
+    }
+    let venv_py = modot_dir.join(".venv/bin/python");
+    let mut cmd = if venv_py.is_file() {
+        process::Command::new(&venv_py)
+    } else {
+        process::Command::new("python3")
+    };
+    cmd.arg("-m").arg("modot.ig_tools").arg("call").arg(verb).args(args)
+        .current_dir(&modot_dir);
+    let out = match cmd.output() {
+        Ok(o) => o,
+        Err(e) => return format!("{verb}: could not run the IG tool bridge: {e}\n"),
+    };
+    let mut s = String::from_utf8_lossy(&out.stdout).into_owned();
+    if !out.status.success() {
+        let err = String::from_utf8_lossy(&out.stderr);
+        if !err.trim().is_empty() {
+            s.push_str(err.trim_end());
+            s.push('\n');
+        }
+    }
+    if s.trim().is_empty() {
+        s = format!("{verb}: the IG tool produced no output.\n");
+    }
+    s
 }
 
 /// Every structural verb the agent may call. Single source of truth for the

@@ -1,32 +1,23 @@
-Give MoDoT the full IG tool corpus, grounded not narrated
+Dispatch the IG tool corpus natively from the Rust loop
 
-The agent already recognized `TOOL:`/`ACTION:` lines the model emits, but
-for the IG catalog it only recorded them, so those calls narrated
-instead of running. This wires the whole corpus in.
+The live agent is ask_native, not the Python agent, so the IG catalog
+belongs in the Rust dispatch beside close/forge/scan/ob3ect — not wired
+into modot/agent.py. This moves it there.
 
-modot/ig_tools.py loads the live IG_inquiry.ToolDispatcher from
-~/imsgct/imscribing_grammar (one manifold, R/W/X, not a reimplementation)
-and exposes all 43 catalog tools: lookup_catalog, compute_distance /
-conflict_distance / meet / join / tensor, find_analogies, phi_c_probe,
-primitive_peel, principal_decomp, retrosynthetic_path, compute_promotions,
-crystal_encode / decode / navigate / nearest / tier_census, domain_info /
-verify / nearest, zfc_formula / probe, aleph_encode / distance, and the
-rest. call() runs one by name; parse_and_call() runs a bare
-`TOOL: name arg1 arg2` line matching the agent's own convention.
+ask_native/src/main.rs: IG_TOOLS lists the 43 catalog verbs, and
+run_structural_tool gains an early branch that routes any of them to
+run_ig_tool. run_ig_tool mirrors run_ob3ect exactly: it shells to the
+MoDoT venv python running `modot.ig_tools call <verb> <args>`, takes
+stdout as the JSON result, and surfaces stderr only on failure so the
+benign runpy warning does not leak. No reimplementation in Rust: the loop
+drives, the live IG_inquiry dispatcher runs, one manifold. The model
+prompt's verb list gains an IG CATALOG TOOLS section so the agent knows
+these are callable.
 
-Loading it surfaced a real shadowing bug: witness_proof puts
-imscribing_grammar/navigators on sys.path so it can import the cl8nk
-navigator directly, which made the stray navigators/navigators.py shadow
-the navigators PACKAGE that IG_inquiry needs, silently disabling every
-crystal tool (CrystalNavigator not available). _deshadow_navigators()
-puts IG_ROOT ahead of the shadow and drops the mis-cached file-version
-module before importing, without touching witness_proof's entry.
-
-agent._run_ig_tool routes each TOOL: line through the bridge: IG catalog
-tools execute and return their real result; a line naming a non-IG verb
-(the ask_native chemistry ones like close/forge/scan) passes through
-unchanged, so this only adds grounding and removes nothing. Verified end
-to end: crystal_count -> 17280000, crystal_decode -> real tuple,
-consciousness_score -> real gate booleans, close a b c -> passthrough.
-Exposed ig_tools, ig_call, ig_parse_and_call, ig_tool_names,
-ig_tools_available at package level.
+modot/ig_tools.py grows a CLI (`call` / `names` / `selftest`) so it is
+both importable and the subprocess entry the Rust loop shells to; the
+de-shadow logic it already carries is exactly what a fresh subprocess
+needs. A native test (ig_tool_dispatches_through_the_corpus) drives
+crystal_count through run_structural_tool and asserts the ground truth
+17280000 comes back; full suite is green (24 passed) and the release
+binary rebuilds.

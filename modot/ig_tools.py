@@ -194,5 +194,37 @@ def _selftest() -> None:
     print(f"  crystal_decode 0 -> {str(dec)[:120]}")
 
 
+def _main(argv: List[str]) -> int:
+    """CLI entry so the native (Rust) loop can shell one IG tool per call.
+
+        python3 -m modot.ig_tools call <verb> <arg> <arg> ...
+        python3 -m modot.ig_tools names
+        python3 -m modot.ig_tools selftest
+
+    `call` prints the tool's real result as JSON and exits nonzero on error, so
+    ask_native can capture it exactly as it captures close/forge/ob3ect.
+    """
+    import json
+    if not argv or argv[0] in ("selftest", "--selftest"):
+        _selftest()
+        return 0
+    if argv[0] == "names":
+        print("\n".join(tool_names()))
+        return 0
+    if argv[0] == "call":
+        if len(argv) < 2:
+            print(json.dumps({"status": "error", "error": "call needs a verb"}))
+            return 2
+        verb, rest = argv[1], argv[2:]
+        if verb not in IG_TOOL_ARGS:
+            print(json.dumps({"status": "skip", "reason": f"{verb!r} not an IG catalog tool"}))
+            return 3
+        result = call(verb, _coerce(verb, rest))
+        print(json.dumps(result, ensure_ascii=False, default=str))
+        return 0 if result.get("status") not in ("error",) else 1
+    print(json.dumps({"status": "error", "error": f"unknown subcommand {argv[0]!r}"}))
+    return 2
+
+
 if __name__ == "__main__":
-    _selftest()
+    sys.exit(_main(sys.argv[1:]))
