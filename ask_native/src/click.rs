@@ -3444,6 +3444,215 @@ pub fn run_polymerize(
     0
 }
 
+// ── Three verbs the agent kept reaching for and finding absent ───────────────
+// filter (narrow a candidate pool by the structural floor), ascend (construct the
+// next ramified level of a tower from the excited state), and phase_reconstruct
+// (recover the relative phase word from a closed ring). Each does a REAL, defined
+// operation over the tuples and reports the honest result — including when the
+// honest result is "still open".
+
+/// ⊙ = 𐑮 (roar): complex-axis criticality — the analytically-continued constructed
+/// fixed point (Lee-Yang edge / ζ zeros), one step past the exceptional-point branch.
+const CONTINUED_FIXED: u8 = 2;
+
+/// CLI: `./ask --filter A B [C …]`. Narrow the catalog to the entries lying on the
+/// STRUCTURAL FLOOR of the reference set — the primitives all references share (their
+/// common value). Every entry matching ALL those shared values passes; the rest are
+/// filtered out. The honest cardinality-narrowing a raw scan pool needs: it reports the
+/// REAL surviving count and lists members, and is explicit that the floor is a NECESSARY
+/// (upper-bound) condition, not a claim of the exact target set.
+pub fn run_filter(catalog: Option<&[CatalogEntry]>, refs: &[String]) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("filter: no catalog loaded");
+        return 2;
+    };
+    if refs.len() < 2 {
+        eprintln!("filter needs ≥2 reference names to define the floor: TOOL: filter A B [C …]");
+        return 2;
+    }
+    let mut rtuples = Vec::new();
+    for r in refs {
+        match cat.iter().find(|e| e.name == *r) {
+            Some(e) => rtuples.push(Tuple::from_entry(e)),
+            None => {
+                eprintln!("filter: reference not found: {r} (imscribe it first)");
+                return 2;
+            }
+        }
+    }
+    let mut floor: [Option<u8>; 12] = [None; 12];
+    let mut shared: Vec<usize> = Vec::new();
+    for p in 0..12 {
+        let v0 = rtuples[0].ord[p];
+        if v0.is_some() && rtuples.iter().all(|t| t.ord[p] == v0) {
+            floor[p] = v0;
+            shared.push(p);
+        }
+    }
+    println!("filter (narrow to the structural floor of {{{}}}):", refs.join(", "));
+    if shared.is_empty() {
+        println!("  the references share NO common primitive value — the floor is empty, so every entry trivially passes (no narrowing). The refs are too dissimilar to define a floor.");
+        return 0;
+    }
+    let shared_names: Vec<String> = shared
+        .iter()
+        .map(|&p| format!("{}={}", PRIMS[p], glyph_of(p, floor[p].unwrap())))
+        .collect();
+    let pass: Vec<&CatalogEntry> = cat
+        .iter()
+        .filter(|e| {
+            let t = Tuple::from_entry(e);
+            shared.iter().all(|&p| t.ord[p] == floor[p])
+        })
+        .collect();
+    println!("  floor = {} shared primitive(s): {}", shared.len(), shared_names.join("  "));
+    println!(
+        "  {} of {} catalog entries lie on this floor (match ALL shared values).",
+        pass.len(),
+        cat.len()
+    );
+    let show = pass.len().min(15);
+    for e in pass.iter().take(show) {
+        println!("    · {}", e.name);
+    }
+    if pass.len() > show {
+        println!("    … and {} more", pass.len() - show);
+    }
+    println!("  (the floor is a NECESSARY condition — it bounds the candidate set from above; a tighter invariant narrows further. Reporting the real survivor count, not asserting it equals a target.)");
+    0
+}
+
+/// CLI: `./ask --ascend A [--register [NAME]]`. Construct the next ramified level of the
+/// tower FROM the excited state. `excite` raises ⊙ to the exceptional-point resonance (a
+/// metastable √-branch point, NOT a constructed object); `ascend` FIXES (IFIX) that
+/// resonance into a constructed extension by analytically continuing ⊙ past the branch to
+/// the complex-axis fixed point (𐑮) and adding one winding quantum Ω — the new ramified
+/// layer. Builds ONE level and reports its tier; iterate for the full tower. Honest: it
+/// yields a definite extension tuple, and reports honestly when Ω is saturated (the tower
+/// caps here) or the tier did not climb.
+pub fn run_ascend(
+    catalog: Option<&[CatalogEntry]>,
+    name: &str,
+    register: Option<&str>,
+    catalog_path: Option<&Path>,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("ascend: no catalog loaded");
+        return 2;
+    };
+    let Some(e) = cat.iter().find(|e| e.name == name) else {
+        eprintln!("ascend: catalog entry not found: {name}");
+        return 2;
+    };
+    let ground = Tuple::from_entry(e).ord;
+    println!("ascend:  {name}  →excite→ {name}*  →IFIX→ {name}⁺ (constructed extension)");
+    let Some((_excited, already)) = excite_tuple(&ground) else {
+        println!("  ✗ {name} has no Criticality ⊙ — cannot seed the ascent (nothing to excite).");
+        return 0;
+    };
+    let mut ext = ground;
+    ext[CRIT] = Some(CONTINUED_FIXED);
+    let raised = match ext[WIND] {
+        Some(w) if w < max_ord(WIND) => {
+            ext[WIND] = Some(w + 1);
+            true
+        }
+        _ => false,
+    };
+    let seed_note = if already { "already excited — seed ready" } else { "excited fresh" };
+    println!(
+        "  seed {name}* ({seed_note}): ⊙={} (exceptional-point resonance — metastable √-branch point, not yet constructed)",
+        glyph_of(CRIT, EP_RESONANCE)
+    );
+    println!(
+        "  IFIX (analytic continuation past the branch): ⊙ {}→{} (complex-axis fixed point 𐑮 — the Lee-Yang/ζ constructed criticality)",
+        glyph_of(CRIT, EP_RESONANCE),
+        glyph_of(CRIT, CONTINUED_FIXED)
+    );
+    if raised {
+        println!(
+            "  ramified layer added: Ω +1 → {} (one new floor of the tower — a winding quantum)",
+            glyph_of(WIND, ext[WIND].unwrap())
+        );
+    } else {
+        println!("  ⚠ Ω saturated — this vertex cannot carry another ramified layer; the tower CAPS here (report the cap honestly, do not force it).");
+    }
+    println!("  {name}⁺  {}   — the constructed extension (one level up)", fmt_tuple(&ext));
+    let (sc0, sc1) = (tier_score(&ground), tier_score(&ext));
+    println!("  tier: {} → {}  ({sc0} → {sc1})", tier_label(sc0), tier_label(sc1));
+    if sc1 > sc0 {
+        println!("  ✓ the ascent RAISED the tier — a genuine construction, not a lingering resonance. Iterate to build further.");
+    } else {
+        println!("  the ascent HELD the tier — the extension is constructed but did not climb; the frontier above needs a different seed (report as B, not done).");
+    }
+    if let (Some(reg), Some(path)) = (register, catalog_path) {
+        let nm = if reg.is_empty() { format!("{name}_ascended") } else { reg.to_string() };
+        let desc = format!(
+            "constructed extension {name}⁺ — {name} excited then IFIX-continued past the exceptional point to the complex-axis fixed point (⊙→𐑮) with one added winding quantum Ω: one ramified level of the tower."
+        );
+        match register_chimera(path, &nm, &desc, &ext) {
+            Ok(()) => println!("  ✓ registered '{nm}' — the constructed level is now a navigable object."),
+            Err(e) => println!("  ✗ register failed: {e}"),
+        }
+    }
+    0
+}
+
+/// CLI: `./ask --phase-reconstruct M1 M2 …`. Recover the structural PHASE WORD of a set from
+/// its closed ring. Structurally, the flat-autocorrelation constraint IS ring closure: a set
+/// whose best order cyclizes fixes a relative phase word — the per-unit chirality Ħ sequence —
+/// up to ONE global phase (the ring's rotational gauge). This reads that word off the closed
+/// ring. Honest: it recovers the STRUCTURAL phase sequence (the Ħ word), not numeric Cᵈ phases;
+/// and if the set does not close, it reports the phases as UNDERDETERMINED (N), not invented.
+pub fn run_phase_reconstruct(
+    catalog: Option<&[CatalogEntry]>,
+    monomers: &[String],
+    theta: f32,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("phase_reconstruct: no catalog loaded");
+        return 2;
+    };
+    let units = match load_monomers(cat, monomers, theta) {
+        Ok(u) => u,
+        Err(e) => {
+            eprintln!("phase_reconstruct: {e}");
+            return 2;
+        }
+    };
+    if units.len() < 2 {
+        eprintln!("phase_reconstruct needs ≥2 units: TOOL: phase_reconstruct M1 M2 …");
+        return 2;
+    }
+    let arr = best_ordering(&units, theta);
+    let ordered: Vec<&Tuple> = arr.order.iter().map(|&i| &units[i]).collect();
+    let (_dp, cyclic, _d) = walk_score(&units, &arr.order, theta);
+    println!("phase reconstruction (recover the phase word from the closed ring — flat autocorrelation ⟺ cyclization):");
+    println!(
+        "  best order: [{}]",
+        ordered.iter().map(|t| t.name.as_str()).collect::<Vec<_>>().join(" · ")
+    );
+    if !cyclic {
+        println!("  ✗ the set does NOT close into a ring — the flat-autocorrelation constraint is unsatisfied, so the relative phases are UNDERDETERMINED (N): none are fixed. Use `close` to find a ring-closing unit first, then reconstruct.");
+        return 0;
+    }
+    let n = ordered.len();
+    let word: String = ordered
+        .iter()
+        .map(|t| t.ord[CHIR].map(|c| glyph_of(CHIR, c)).unwrap_or("·"))
+        .collect();
+    println!("  ✓ ring closes — the relative phase word is FIXED (modulo one global phase):");
+    for (k, t) in ordered.iter().enumerate() {
+        let ph = t.ord[CHIR].map(|c| glyph_of(CHIR, c)).unwrap_or("·");
+        println!("    ψ[{k}] = {}   Ħ-phase {ph}", t.name);
+    }
+    println!("  reconstructed phase word Ħ: {word}");
+    println!(
+        "  residual freedom: ONE global phase (the ring's rotational symmetry over {n} units) — the flat autocorrelation fixes every RELATIVE phase but not the overall gauge, exactly as C_m = 1/(d+1) fixes ψ modulo a global phase."
+    );
+    0
+}
+
 #[cfg(test)]
 mod alchemy_tests {
     use super::{fractionate, Tuple};

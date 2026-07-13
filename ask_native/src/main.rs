@@ -356,6 +356,21 @@ struct Cli {
     #[arg(long = "no-think", default_value_t = false)]
     no_think: bool,
 
+    /// Narrow the catalog to the structural floor of a reference set: `--filter A B [C …]`
+    /// keeps every entry matching all the primitive values the references share.
+    #[arg(long = "filter", num_args = 2.., value_names = ["REFS"])]
+    filter: Vec<String>,
+
+    /// Construct the next ramified level of a tower from the excited state: `--ascend A`
+    /// excites A, then IFIX-continues it past the exceptional point and adds one winding Ω.
+    #[arg(long = "ascend", value_name = "NAME")]
+    ascend: Option<String>,
+
+    /// Recover the relative phase word of a set from its closed ring:
+    /// `--phase-reconstruct M1 M2 …` reads back the per-unit Ħ phase sequence (or reports N).
+    #[arg(long = "phase-reconstruct", num_args = 2.., value_names = ["MONOMERS"])]
+    phase_reconstruct: Vec<String>,
+
     /// Create a missing catalog entry by imscribing it via the real generate pipeline
     /// (`imscribe generate … --name <NAME>`), writing to the live catalog MoDoT merges.
     /// Optionally pass a free-text description in --rest; defaults to the humanized name.
@@ -1468,6 +1483,9 @@ answer. Available verbs (args are catalog entry names, snake_case):
   TOOL: click A B         fuse two entries on a live conjugate pair (or `click A` to sweep the catalog)
   TOOL: switch A B        analyze a reversible bistable toggle (the DASA archetype)
   TOOL: excite A          the excited state (Criticality ⊙ raised to the exceptional-point resonance)
+  TOOL: ascend A          construct the NEXT ramified level of the tower FROM A's excited state: continue ⊙ past the exceptional point to the complex-axis fixed point and add one winding Ω (one floor; iterate for more). Reports honestly if Ω saturates (tower caps) or the tier does not climb
+  TOOL: filter A B [C…]   narrow the catalog to the structural FLOOR of the references (the primitives they all share): reports how many entries match ALL shared values — the honest way to cut a raw candidate pool down (a necessary, upper-bound condition)
+  TOOL: phase_reconstruct M1 M2…  recover the relative PHASE WORD from the closed ring (flat autocorrelation ⟺ cyclization): reads back the per-unit Ħ phase sequence, fixed modulo one global phase; if the set does not close it reports the phases as N (underdetermined), never invented
   TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum Ω moved) → radical IONS A•⁺/B•⁻
   TOOL: homolyze A [B]     homolytic cleavage → NEUTRAL radicals (δ_A symmetric split, the reverse of click): `homolyze A B` breaks the A—B bond into A•+B•; `homolyze A` splits A into two A•
   TOOL: scan A B          rank the catalog for the best mediators of the A→B transfer
@@ -1972,7 +1990,10 @@ mod lane_guard_tests {
     #[test]
     fn isomorphism_states_both_faces_for_key_verbs() {
         // The verbs the operator narrates in a synthesis must read both ways.
-        for v in ["excite", "cycle", "polymerize", "close", "forge", "distill", "set", "click"] {
+        for v in [
+            "excite", "cycle", "polymerize", "close", "forge", "distill", "set", "click",
+            "filter", "ascend", "phase_reconstruct",
+        ] {
             let (chem, math) = verb_isomorphism(v).unwrap_or_else(|| panic!("no isomorphism for {v}"));
             assert!(!chem.is_empty() && !math.is_empty(), "empty face for {v}");
             assert_ne!(chem, math, "the two faces of {v} must differ");
@@ -2198,6 +2219,17 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         }
         "switch" => vec!["--switch".into(), a(0)?, a(1)?],
         "excite" => vec!["--excite".into(), a(0)?],
+        "ascend" => vec!["--ascend".into(), a(0)?],
+        "filter" => {
+            let mut v = vec!["--filter".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "phase_reconstruct" => {
+            let mut v = vec!["--phase-reconstruct".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
         "homolyze" => {
             let mut v = vec!["--homolyze".to_string(), a(0)?];
             if let Some(b) = a(1) { v.push(b); }
@@ -2492,6 +2524,9 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "fpt"           => "fpt M1 M2...; 2+ names (degas: shed weakly-held units)",
         "trap"          => "trap A [X]; 1 unit, optional counter X (ionic sequester)",
         "stain"         => "stain R M1 M2...; a reagent (kmno4/uv/chiral/ninhydrin/iodine) then 1+ units",
+        "filter"     => "filter A B [C …]; 2+ reference names (narrow the catalog to their shared structural floor)",
+        "ascend"     => "ascend A; 1 name (construct the next ramified tower level from A's excited state)",
+        "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
         _ => return None,
@@ -2544,6 +2579,18 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         "homolyze" | "cleave" => (
             "homolytic bond cleavage into neutral radicals / ring fission into two daughters",
             "the reverse of fusion: a symmetric split δ undoing μ, cutting the object on a complementary arc",
+        ),
+        "filter" => (
+            "keep only the species sharing the reference floor; the rest are washed out",
+            "restrict to the sublevel set where the shared invariants match — a necessary (upper-bound) condition on the candidate set, not an exact solution",
+        ),
+        "ascend" => (
+            "take the excited resonance and fix it into a constructed higher state (build one floor of the tower)",
+            "analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum Ω — one ramified level of the extension tower",
+        ),
+        "phase_reconstruct" => (
+            "read the relative phases off a closed ring — fixed up to one global phase",
+            "recover the relative phase word from cyclization (the flat-autocorrelation constraint); determined modulo a global gauge, exactly as C_m = 1/(d+1) fixes ψ up to a global phase",
         ),
         _ => return None,
     })
@@ -2610,6 +2657,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
+    "filter", "ascend", "phase_reconstruct",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -3363,6 +3411,9 @@ impl CliClone for Cli {
             no_selectivity: self.no_selectivity,
             think: self.think,
             no_think: self.no_think,
+            filter: self.filter.clone(),
+            ascend: self.ascend.clone(),
+            phase_reconstruct: self.phase_reconstruct.clone(),
             cycles: self.cycles,
             eagles: self.eagles,
             max_tokens: self.max_tokens,
@@ -3608,6 +3659,21 @@ fn main() {
 
     // Excited-state analysis: `./ask --excite A` (standalone verb — a value present
     // and no --set). On a --set line the flag is consumed above as photoinduced.
+    if !cli.filter.is_empty() {
+        let code = click::run_filter(cat_ref, &cli.filter);
+        process::exit(code);
+    }
+
+    if let Some(name) = &cli.ascend {
+        let code = click::run_ascend(cat_ref, name, cli.register.as_deref(), catalog_path.as_deref());
+        process::exit(code);
+    }
+
+    if !cli.phase_reconstruct.is_empty() {
+        let code = click::run_phase_reconstruct(cat_ref, &cli.phase_reconstruct, cli.theta);
+        process::exit(code);
+    }
+
     if let Some(ex) = &cli.excite {
         if !ex.is_empty() {
             let code = click::run_excite(
