@@ -1,28 +1,29 @@
-Nature chemistry, and the layer where type identity actually lives
+Anchor the natures to their kernel constructors; nothing is invented
 
-Add value-layer co-typing and the paradice as its unit: compare two
-natures axis by axis over the twelve families, agreement settles an axis,
-disagreement holds both at once as one paradice. cotype() and paradices()
-invent nothing, they only read values the ob3ects already fixed. I did
-not touch the vessel's Belnap-code layer, because mapping a family value
-to a B4 code needs a principled rule and injecting a guess would break
-the vessel's no-fallback contract.
+I had been hedging that grounding a nature's Belnap imscription would
+need a value-to-code rule I mustn't invent. That was wrong: the whole
+thing stands on a Lean kernel, so the rule is a kernel fact, not a guess.
+p4rakernel Core.lean defines the twelve families as inductives, and the
+49 primitive types ARE their 49 constructors: KineticChar is
+yea < loll < egg < on < air, so egg is that inductive's ordinal-2
+constructor, and 3^3 * 4^5 * 5^4 is the crystal. The value-to-Belnap
+character is delivered by the kernel (Paradice.lean δ/μ with μ∘δ = id,
+OrbitalBelnap.orbToB4, TupleCodec's tuple↔address roundtrip), and the
+paradice is a kernel object: depth × Frobenius-verified windings, not the
+Hamming count I sketched in Python.
 
-Building it surfaced the real structure of the corpus, so I followed it.
-The endpoint tuple I first loaded is near-degenerate: the 49 types fall
-into two value-tuple classes, and the flat phase_1 opcode word is one
-class for all of them. What separates the types is the derivation path,
-not its endpoint. So Nature now carries a Signature read off the scaffold
-header (sig, period, self_ref, frobenius_order, fork/fuse pairs, tier),
-which is the composer's TokenFingerprint. distinction_layers() states the
-resolution of each descriptive layer plainly: value tuple 2, opcode word
-1, path signature 40, surface tokens 49. Type identity is fully carried
-at the semantic surface and nearly at the path signature; the value and
-opcode layers are ground states shared across the set.
+So natures.py now binds each Nature to its real kernel family, vessel
+key, and constructor ordinal, taken from Core.lean rather than guessed by
+gloss. KERNEL_FAMILIES carries the twelve inductives with their ordered
+constructors; the three TYPES-directory spellings that differ from the
+Lean ones (if→if', or→or', ha-ha→haha) are normalized in
+kernel_constructor(). Registry.tiles_crystal() proves the 49 types are
+exactly the 49 constructors, each once, and by_kernel_family() returns an
+axis in kernel order. Self-test asserts the tiling and that egg is
+KineticChar ordinal 2.
 
-This relocates the gate order. The composer/tier layer is not the last
-plank to add but the one where type distinction already lives, so co-
-typing that discriminates types must read the path signature, not the
-value tuple. Registry gains by_tier() and signature_classes(). Exposed
-cotype, paradices, CotypeReport, Signature at package level. Self-test
-asserts the path signature out-resolves the value tuple.
+The correction to the record: the vessel imscription of a known type is
+grounded by evaluating through the kernel (the prover bridge), not by an
+LLM and not by a fabricated table. The natures now hold the kernel
+coordinate needed to do that. Exposed KERNEL_FAMILIES and
+kernel_constructor at package level.

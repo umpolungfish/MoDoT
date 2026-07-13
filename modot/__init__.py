@@ -76,6 +76,8 @@ from modot.natures import (
     registry as nature_registry,
     nature,
     FAMILY_TO_VESSEL_KEY,
+    KERNEL_FAMILIES,
+    kernel_constructor,
 )
 
 __all__ = [
@@ -122,4 +124,6 @@ __all__ = [
     "nature_registry",
     "nature",
     "FAMILY_TO_VESSEL_KEY",
+    "KERNEL_FAMILIES",
+    "kernel_constructor",
 ]

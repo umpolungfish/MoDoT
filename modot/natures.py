@@ -42,6 +42,42 @@ FAMILY_TO_VESSEL_KEY: Dict[str, str] = {
 
 FAMILY_ORDER = list(FAMILY_TO_VESSEL_KEY.keys())
 
+# ── the twelve family inductives and their ordered constructors ──────────────
+# Ground truth: p4rakernel `p4ramill/Primitives/Core.lean`. Each of the 49
+# primitive types IS one constructor of one family; the ordinal is the kernel's
+# constructor order (its `Ord` derivation). The crystal is 3^3 * 4^5 * 5^4.
+# The value -> Belnap character is a kernel fact (Paradice.lean δ/μ, OrbitalBelnap
+# orbToB4, TupleCodec), not a rule to invent here.
+KERNEL_FAMILIES: Dict[str, tuple] = {
+    # scaffold field : (vessel key, Lean inductive, ordered constructors)
+    "dim":  ("D",  "Dimensionality", ("dead", "ash", "array", "if'")),
+    "top":  ("T",  "Topology",       ("judge", "eat", "mime", "oil", "are")),
+    "rel":  ("R",  "Relational",      ("ado", "tot", "ear", "ian")),
+    "pol":  ("P",  "Polarity",        ("church", "yew", "out", "nun", "or'")),
+    "fid":  ("F",  "Fidelity",        ("age", "they", "peep")),
+    "kin":  ("K",  "KineticChar",     ("yea", "loll", "egg", "on", "air")),
+    "gram": ("G",  "Grammar",         ("vow", "gag", "measure", "ooze")),
+    "gran": ("Gm", "Granularity",     ("bib", "thigh", "ice")),
+    "crit": ("Ph", "Criticality",     ("woe", "monad", "roar", "err", "haha")),
+    "chir": ("H",  "Chirality",       ("fee", "kick", "sure", "wool")),
+    "stoi": ("S",  "Stoichiometry",   ("hung", "so", "up")),
+    "prot": ("W",  "Protection",      ("awe", "oak", "ah", "zoo")),
+}
+
+# TYPES-directory names differ from kernel constructors by three normalizations.
+_NAME_TO_KERNEL = {"if": "if'", "or": "or'", "ha-ha": "haha"}
+
+# constructor name -> (scaffold field, vessel key, Lean inductive, ordinal)
+_CTOR_INDEX: Dict[str, tuple] = {}
+for _field, (_vk, _ind, _ctors) in KERNEL_FAMILIES.items():
+    for _i, _c in enumerate(_ctors):
+        _CTOR_INDEX[_c] = (_field, _vk, _ind, _i)
+
+
+def kernel_constructor(name: str) -> str:
+    """The Lean constructor spelling for a TYPES-directory name."""
+    return _NAME_TO_KERNEL.get(name, name)
+
 _DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "ob3ects", "primitives")
 
 _TUPLE_RE = re.compile(r"\{ dim :=.*?\}")
@@ -95,7 +131,10 @@ def _signature(lean_scaffold: str) -> Signature:
 class Nature:
     """The elaborated nature of one primitive type."""
 
-    name: str                              # e.g. "egg"
+    name: str                              # e.g. "egg" (TYPES-directory spelling)
+    family: str                            # Lean inductive, e.g. "KineticChar"
+    vessel_key: str                        # vessel PRIMITIVE_KEYS symbol, e.g. "K"
+    ordinal: int                           # kernel constructor order within family
     domain_type: str                       # "computational" | "topological"
     surface_tokens: List[str]              # the type's physical handles
     tuple: Dict[str, str]                  # scaffold field -> value name (12 families)
@@ -144,8 +183,14 @@ def _load_one(path: str) -> Nature:
     p2 = d.get("phases", {}).get("phase_2", {})
     p3 = d.get("phases", {}).get("phase_3", {})
     p6 = d.get("phases", {}).get("phase_6", {})
+    name = _name_from(d)
+    ctor = kernel_constructor(name)
+    field, vkey, family, ordinal = _CTOR_INDEX.get(ctor, ("", "", "", -1))
     return Nature(
-        name=_name_from(d),
+        name=name,
+        family=family,
+        vessel_key=vkey,
+        ordinal=ordinal,
         domain_type=p0.get("domain_type", ""),
         surface_tokens=list(p0.get("surface_tokens", [])),
         tuple=_final_tuple(d.get("lean_scaffold", "")),
@@ -200,6 +245,31 @@ class NatureRegistry:
     def by_tier(self, tier: str) -> List[Nature]:
         """Every nature that folds to `tier` (e.g. 'O₁')."""
         return [n for n in self if n.signature.tier == tier]
+
+    def by_kernel_family(self, family: str) -> List[Nature]:
+        """The natures that are constructors of one Lean inductive, in kernel order."""
+        return sorted((n for n in self if n.family == family),
+                      key=lambda n: n.ordinal)
+
+    def tiles_crystal(self) -> Dict[str, object]:
+        """Verify the 49 types are exactly the 49 kernel constructors of the twelve
+        families, each once (i.e. they tile the crystal's family axes)."""
+        by_fam: Dict[str, List[int]] = {}
+        unbound = []
+        for n in self:
+            if n.ordinal < 0:
+                unbound.append(n.name)
+            else:
+                by_fam.setdefault(n.family, []).append(n.ordinal)
+        complete = {}
+        for field, (_vk, ind, ctors) in KERNEL_FAMILIES.items():
+            got = sorted(by_fam.get(ind, []))
+            complete[ind] = (got == list(range(len(ctors))))
+        return {
+            "unbound": unbound,
+            "families_complete": complete,
+            "tiles": not unbound and all(complete.values()),
+        }
 
     def signature_classes(self) -> Dict[tuple, List[str]]:
         """Partition the types by derivation-path signature (the real fingerprint)."""
@@ -324,11 +394,20 @@ def _selftest() -> None:
     yea = reg.get("yea")
     rep = cotype(egg, yea)
     assert rep.paradices == len(rep.diverge)
+    tiling = reg.tiles_crystal()
+    assert tiling["tiles"], f"49 types do not tile the kernel families: {tiling}"
+    assert egg.family == "KineticChar" and egg.ordinal == 2, \
+        f"egg should be KineticChar ordinal 2, got {egg.family}/{egg.ordinal}"
     layers = reg.distinction_layers()
     assert layers["path_signature"] > layers["value_tuple"], \
         "path signature should out-resolve the near-degenerate value tuple"
     print(f"natures: {len(reg)} loaded, closed algebra, "
           f"{chk['distinct_values_used']} distinct values in use")
+    print(f"tiles the twelve kernel families: {tiling['tiles']}")
+    print(f"egg is kernel {egg.family}.{kernel_constructor(egg.name)} "
+          f"(ordinal {egg.ordinal}, vessel key {egg.vessel_key})")
+    print(f"KineticChar axis in kernel order: "
+          f"{[n.name for n in reg.by_kernel_family('KineticChar')]}")
     print(f"distinction layers (classes / 49): {layers}")
     print(f"egg signature: sig={egg.signature.sig} period={egg.signature.period} "
           f"tier={egg.signature.tier} pairs={egg.signature.pairs}")
