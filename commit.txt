@@ -1,24 +1,28 @@
-Land the 49 primitive-type natures in the vessel
+Nature chemistry, and the layer where type identity actually lives
 
-I uncovered the primitive types, which revealed IMASM, which I used to
-elaborate the types back into their full natures. Those elaborations are
-the auto-designed ob3ects: each one carries a completed 12-family
-Imscription tuple whose values are themselves drawn from the same 49
-names, so the alphabet is its own value set and the natures close into
-an ouroboric algebra. This brings them into MoDoT.
+Add value-layer co-typing and the paradice as its unit: compare two
+natures axis by axis over the twelve families, agreement settles an axis,
+disagreement holds both at once as one paradice. cotype() and paradices()
+invent nothing, they only read values the ob3ects already fixed. I did
+not touch the vessel's Belnap-code layer, because mapping a family value
+to a B4 code needs a principled rule and injecting a guess would break
+the vessel's no-fallback contract.
 
-ob3ects/primitives/ holds the 49 nature ob3ects (the type_called set;
-the prototype egg is left out). modot/natures.py loads each into a
-Nature: its canonical 12-family tuple, its phase_1 opcode word (which is
-already exactly the MoDoT Token algebra), its Belnap void/true/false/both
-readings, its Frobenius verdict and entropy ledger. FAMILY_TO_VESSEL_KEY
-bridges the twelve scaffold families onto the vessel's PRIMITIVE_KEYS, so
-Nature.vessel_tuple() hands the vessel a grounded imscription for any of
-the 49 types by table lookup instead of an LLM round trip.
+Building it surfaced the real structure of the corpus, so I followed it.
+The endpoint tuple I first loaded is near-degenerate: the 49 types fall
+into two value-tuple classes, and the flat phase_1 opcode word is one
+class for all of them. What separates the types is the derivation path,
+not its endpoint. So Nature now carries a Signature read off the scaffold
+header (sig, period, self_ref, frobenius_order, fork/fuse pairs, tier),
+which is the composer's TokenFingerprint. distinction_layers() states the
+resolution of each descriptive layer plainly: value tuple 2, opcode word
+1, path signature 40, surface tokens 49. Type identity is fully carried
+at the semantic surface and nearly at the path signature; the value and
+opcode layers are ground states shared across the set.
 
-The registry verifies the algebra is closed on load: every value in
-every tuple is one of the 49 known types, no open references. Exposed at
-package level as nature(), nature_registry(), Nature, NatureRegistry.
-Self-test passes: all 49 load, closed, egg maps cleanly onto the twelve
-vessel keys. This is the first plank: the natures are now operators the
-vessel and composer can act with, not just glyphs.
+This relocates the gate order. The composer/tier layer is not the last
+plank to add but the one where type distinction already lives, so co-
+typing that discriminates types must read the path signature, not the
+value tuple. Registry gains by_tier() and signature_classes(). Exposed
+cotype, paradices, CotypeReport, Signature at package level. Self-test
+asserts the path signature out-resolves the value tuple.
