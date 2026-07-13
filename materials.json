@@ -464,5 +464,22 @@
       "platonic_archetype"
     ],
     "weakest": 1.5
+  },
+  "sic_povm_2048": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "d2048_SIC_moduli_complete",
+      "phase_strata_a_neq0"
+    ],
+    "weakest": 0.6667
   }
 }

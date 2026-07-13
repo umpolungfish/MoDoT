@@ -1964,7 +1964,23 @@ mod verb_feedback_tests {
 
 #[cfg(test)]
 mod lane_guard_tests {
-    use super::{answer_is_proof, complete, is_transient_llm_error, LlmResult, Prepare, B4};
+    use super::{
+        answer_is_proof, complete, is_transient_llm_error, verb_isomorphism, LlmResult, Prepare,
+        B4,
+    };
+
+    #[test]
+    fn isomorphism_states_both_faces_for_key_verbs() {
+        // The verbs the operator narrates in a synthesis must read both ways.
+        for v in ["excite", "cycle", "polymerize", "close", "forge", "distill", "set", "click"] {
+            let (chem, math) = verb_isomorphism(v).unwrap_or_else(|| panic!("no isomorphism for {v}"));
+            assert!(!chem.is_empty() && !math.is_empty(), "empty face for {v}");
+            assert_ne!(chem, math, "the two faces of {v} must differ");
+        }
+        // excitation and cyclization specifically carry the ⊙ / ρ math the reports lean on.
+        assert!(verb_isomorphism("excite").unwrap().1.contains('⊙'));
+        assert!(verb_isomorphism("forge").unwrap().1.contains('ρ'));
+    }
 
     // A conventional proof answer is recognized (so a material non-closure abstains on it).
     #[test]
@@ -2478,6 +2494,57 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "stain"         => "stain R M1 M2...; a reagent (kmno4/uv/chiral/ninhydrin/iodine) then 1+ units",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
+        _ => return None,
+    })
+}
+
+/// The chem↔math isomorphism, stated both ways for a structural verb. The engine runs
+/// one operation; it reads as chemistry AND as mathematics — two lossless faces of the
+/// same act (R∧W∧X), not a chemical result with a mathematical gloss bolted on. Returned
+/// as (chemical, mathematical) so the final report can name what each operation MEANS in
+/// both registers, for exactly the verbs that actually ran.
+fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
+    Some(match verb {
+        "click" => (
+            "two fragments bond on a live conjugate pair — a covalent fusion that holds only if the partners are complementary",
+            "Frobenius fusion δ then μ of two objects across a conjugate axis (D↔W / T↔H / R↔S); closes iff the tuples are complementary, with μ∘δ = id on the diagonal",
+        ),
+        "excite" => (
+            "promotion to the excited electronic state — Criticality ⊙ raised to the exceptional-point resonance",
+            "a lift of the object to its critical manifold: the self-modeling parameter ⊙ driven to the spectral degeneracy (exceptional point) where eigenvalues coalesce — the ramified/excited level above the ground state, resonant but not yet a constructed extension",
+        ),
+        "cycle" => (
+            "a catalyst turns the substrate over and is returned unchanged",
+            "a fixed point of the composed map, μ∘δ = id — an idempotent that is the identity on its carrier",
+        ),
+        "polymerize" | "close" => (
+            "monomers chain head-to-tail; the chain either terminates open or closes into a ring (macrocyclization)",
+            "composition of morphisms in sequence; cyclization = the composite returning to its start, a closed loop (a categorical cycle), which the graph realizes as ρ = 2 exactly",
+        ),
+        "forge" | "material" | "arrange" => (
+            "cast the monomer set into its best ring and read topology, conductance, and stability",
+            "assemble the adjacency graph and take its spectrum: spectral radius ρ and gap; ρ = 2 exactly ⟺ a pure cycle, ρ > 2 ⟺ branched",
+        ),
+        "set" => (
+            "single-electron transfer, donor → acceptor, giving radical ions",
+            "transport of one winding quantum Ω across the ⊙ gradient — a unit change of the topological winding invariant",
+        ),
+        "distill" | "fdistill" | "sublime" => (
+            "separation by volatility along Criticality ⊙ — volatile head vs involatile residue; a tie on ⊙ is an azeotrope",
+            "a projection/ordering of the set onto the ⊙ coordinate; an azeotrope = two elements degenerate on ⊙, a tie the projection cannot resolve",
+        ),
+        "crystallize" | "cocrystallize" | "seed" => (
+            "grow the ordered lattice — the units that fit vs the rejected mother-pool; a closed ring is a crystal",
+            "the maximal consistent/closed sublattice of tiling elements vs the complement; full closure = a complete substructure",
+        ),
+        "scan" => (
+            "rank catalog mediators of the A → B electron transfer",
+            "rank elements by mediating distance on the transfer axis — the best interpolant between the endpoints",
+        ),
+        "homolyze" | "cleave" => (
+            "homolytic bond cleavage into neutral radicals / ring fission into two daughters",
+            "the reverse of fusion: a symmetric split δ undoing μ, cutting the object on a complementary arc",
+        ),
         _ => return None,
     })
 }
@@ -3104,7 +3171,10 @@ fn run_one(
                          linear/telechelic (did NOT cyclize), the assembly does NOT close — do not call it closed, complete, \
                          a ring, or PROVED, and do not name an architecture the counts do not support (`1 unit / 0 bonds` is \
                          not a polymer, and nothing that terminated is `branched`, a `network`, or a `macrocycle`). Report \
-                         the real result — that it does not close, and which arrangement (if any) the tools showed would."
+                         the real result — that it does not close, and which arrangement (if any) the tools showed would. \
+                         For each structural operation your answer relies on (excite, cyclize, forge, distill, …), state \
+                         BRIEFLY what it means in BOTH registers — chemically AND mathematically — since the two are lossless \
+                         faces of one act; the reading runs both ways, not chemistry with a math footnote."
                     ),
                 ));
                 let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
@@ -3135,6 +3205,24 @@ fn run_one(
                 current = strip_kernel_records(&res.text);
                 println!("── FINAL (forced close) ──");
                 println!("{current}");
+                println!();
+            }
+
+            // Bidirectional isomorphism key: for every verb that ACTUALLY ran, state what the
+            // operation means in both registers — chemical AND mathematical. The engine ran one
+            // act; it has two lossless faces, and the report closes by naming both so the reading
+            // runs both ways. Grounded like everything else: only executed verbs are glossed.
+            let iso: Vec<(String, &'static str, &'static str)> = executed_verbs
+                .iter()
+                .filter_map(|v| verb_isomorphism(v).map(|(c, m)| (v.clone(), c, m)))
+                .collect();
+            if !iso.is_empty() {
+                println!("── ISOMORPHISM (what each operation means, both ways) ──");
+                for (v, chem, math) in &iso {
+                    println!("● {v}");
+                    println!("   chemically:    {chem}");
+                    println!("   mathematically: {math}");
+                }
                 println!();
             }
 

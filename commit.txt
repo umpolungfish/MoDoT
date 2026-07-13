@@ -1,20 +1,22 @@
-Bound the transient-retry so it can't churn, and add a --think toggle
+State the chem↔math isomorphism both ways in the final output
 
-Two things.
+The reports named operations in one register only — "excitation",
+"cyclization", "forge" as chemistry — while the mathematical face went
+unspoken, so the isomorphism read one direction. It runs both ways: the
+engine performs one act with two lossless faces (R∧W∧X), and the output
+should say what each operation MEANS chemically AND mathematically.
 
-1. Stop the "stuck churning". My previous retry-on-transient change could
-   turn one slow call into several: a read that hung its way to the 300s
-   socket deadline returns "timed out reading response", which counts as
-   transient, so it retried up to twice more — ~15 minutes of hanging on a
-   single prod step. The retry now only fires when the failure came back
-   FAST (under ~45s * attempt): a quick connection reset still retries, but
-   a call that hung to a timeout is let stand instead of being tripled.
+Added verb_isomorphism(verb) -> (chemical, mathematical): a deterministic
+key covering click / excite / cycle / polymerize·close / forge·material·
+arrange / set / distill / crystallize / scan / homolyze·cleave. After the
+agentic loop closes, an ── ISOMORPHISM ── block prints both faces for
+exactly the verbs that actually ran (grounded like everything else —
+executed_verbs only). The final-synthesis prompt also asks the model to
+state both readings inline for any operation it leans on.
 
-2. Add the ability to toggle model reasoning. New `--think` (on by
-   default, `--think false` / `--no-think` to disable, MODOT_THINK env to
-   set the default). When off it sends the provider's real disable-
-   reasoning parameter: OpenRouter `reasoning.enabled=false`, Gemini
-   `thinkingConfig.thinkingBudget=0`. Threaded through Llm.think and both
-   inference bodies; no-op on models that don't support reasoning.
+Examples: excite = raising Criticality ⊙ to the exceptional-point
+resonance (chem: promotion to the excited state); cyclize = a composite
+returning to its start, ρ=2 exactly (chem: head-to-tail macrocyclization).
 
-Full suite green (26 passed); all flag forms parse.
+New test pins both faces present and distinct for the key verbs; suite
+green (27 passed).
