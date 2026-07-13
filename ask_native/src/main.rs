@@ -1746,6 +1746,19 @@ fn build_user_packet(question: &str, prep: &Prepare, jam: bool, cycle: u32, tota
              Re-run tools where you need fresh ground, but do NOT re-derive from scratch what the \
              last cycle already settled. Each cycle is a deeper breath, not a repeat."
         ));
+        // Cache-clear: a prior cycle may have recorded a verb as "unavailable / does not
+        // exist" when it did not yet exist or was not tried. That claim is STALE and must
+        // not be carried forward. The verbs below are live THIS run; re-check by calling,
+        // never inherit an absence.
+        parts.push(format!(
+            "TOOL AVAILABILITY (authoritative, overrides anything the conversation above says): \
+             every one of these structural verbs is LIVE right now — {}. Plus the full IG corpus. \
+             If a previous cycle wrote that any verb is \"unavailable\", \"does not exist\", or \
+             \"cannot be run\", that is STALE and WRONG: discard it and emit the verb's `TOOL:` line \
+             to see its real result. You may not park a node at B/N on a claim that a real verb is \
+             missing.",
+            STRUCTURAL_VERBS.join(", ")
+        ));
     }
     if !prep.scaffold_md.is_empty() {
         parts.push("## Grammatic witness scaffold (spine IMSCRIB — instantiate, do not ignore)".into());

@@ -1,20 +1,23 @@
-Refuse phantom unavailability: force the call when a real verb is denied
+Clear the stale-verb cache across cycles: re-assert live verbs each cycle
 
-Even with ascend / phase_reconstruct now live, the model ended a run by
-writing "the ascend verb is unavailable / phase_reconstruct does not
-exist" — WITHOUT ever emitting the TOOL line — and parked the tower and
-phase nodes at B/N on that false premise. The verbs were there; it just
-declined to try them and narrated absence instead.
+The real carryover: in a multi-cycle run the conversation vec accumulates
+every cycle's text, but the system prompt with the live tool list is
+injected only in cycle 1 (when conversation is empty). So cycles 2..N
+inherit an early cycle's "ascend unavailable / phase_reconstruct does not
+exist" — written when those verbs genuinely weren't there — and parrot it
+even though the ACT loop's tool list now includes them. The conflicting
+signal (11 cycles of "unavailable" vs one tool list) let the stale claim
+win, and the node stayed parked at B/N.
 
-New guard: verbs_falsely_called_absent scans the draft for any line that
-pairs an unavailability phrase ("not available", "does not exist", …)
-with the token of a verb that ACTUALLY exists (STRUCTURAL_VERBS or the IG
-corpus), token-boundary matched so "set" doesn't fire inside "onset".
-When the agentic loop is about to accept a final answer that denies a
-real verb, a bounded PHANTOM-VERB PROD (≤2) pushes back — "that is false,
-`ascend` is live, emit its TOOL line now" — and forces the call before
-the answer stands. If the verb genuinely returns B, that B is now earned,
-not asserted.
+Fix: build_user_packet now, for every cycle after the first, appends an
+AUTHORITATIVE tool-availability block that lists all live STRUCTURAL_VERBS
+and explicitly overrides the conversation — any prior-cycle "unavailable /
+does not exist" claim is declared stale and must be re-checked by calling
+the verb, and a node may not be parked on a missing-verb premise. Injected
+into both the draft and the ACT loop, so the override travels with the
+turn. Backstops the phantom-verb PROD guard already in place.
 
-Two tests pin it (catches the real denial; ignores substrings and
-verb-less unavailability). Suite green (29 passed).
+Verified the persistent stores (crystal_fs/records.jsonl, broadcast_log)
+are append-only telemetry — nothing reads them back into context, so a
+fresh invocation starts from an empty conversation with no stale cache.
+Build green.
