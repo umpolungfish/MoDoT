@@ -1008,6 +1008,24 @@ struct LlmResult {
     err: Option<String>,
 }
 
+/// A transient transport failure worth retrying: a read/connect timeout or a dropped
+/// connection while reading the body — the body was coming, the socket just outran its
+/// deadline. A real malformed-JSON parse or an explicit API `error` payload is not
+/// transient (retrying resends the same bad request), so those keep their F.
+fn is_transient_llm_error(res: &LlmResult) -> bool {
+    let Some(err) = res.err.as_deref() else {
+        return false;
+    };
+    let e = err.to_lowercase();
+    e.contains("timed out")
+        || e.contains("timeout")
+        || e.contains("connection")
+        || e.contains("connreset")
+        || e.contains("reset by peer")
+        || e.contains("broken pipe")
+        || e.contains("io: ")
+}
+
 fn infer(
     llm: &Llm,
     messages: &[(String, String)],
@@ -1022,11 +1040,25 @@ fn infer(
         };
     };
 
-    let mut res = match llm.provider {
+    // A long synthesis can outrun the socket read deadline: the body arrives but slowly, and
+    // `into_json()` returns "timed out reading response". That is transient transport, not a
+    // malformed reply — yet it collapses to a hard voice:'F' parse-error that then trips the
+    // "narrated tools, ran none" prod and poisons an already-grounded cycle to N. Retry the
+    // transient case a couple of times with backoff before letting the F stand; a genuinely
+    // malformed body (real parse error, empty content) is not retried.
+    let call = || match llm.provider {
         Provider::OpenRouter => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::DeepSeek => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature),
     };
+    let mut res = call();
+    for attempt in 1..=2u32 {
+        if !is_transient_llm_error(&res) {
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(500 * attempt as u64));
+        res = call();
+    }
     // A model can derail into a runaway reasoning loop — the same one or two lines emitted
     // dozens of times ("Wait / Okay / Wait / Okay …") — and return that as its content. With
     // no TOOL: lines in it, the driver breaks the ACT loop immediately and the loop-text
@@ -1884,7 +1916,7 @@ mod verb_feedback_tests {
 
 #[cfg(test)]
 mod lane_guard_tests {
-    use super::{answer_is_proof, complete, Prepare, B4};
+    use super::{answer_is_proof, complete, is_transient_llm_error, LlmResult, Prepare, B4};
 
     // A conventional proof answer is recognized (so a material non-closure abstains on it).
     #[test]
@@ -1949,6 +1981,27 @@ mod lane_guard_tests {
         let rep = complete(&prep(), FORGE, B4::T, B4::F, false, true);
         assert_eq!(rep.tool_voice, B4::F, "forge non-closure keeps its F");
         assert_eq!(rep.fused, B4::B, "model T vs tools F is a real conflict → B");
+    }
+
+    fn err_res(msg: &str) -> LlmResult {
+        LlmResult { text: format!("[{msg}]"), voice: 'F', err: Some(msg.into()) }
+    }
+
+    #[test]
+    fn read_timeout_is_transient_and_retried() {
+        // The exact jam from the cycle-12 report: a slow body read on a long synthesis.
+        assert!(is_transient_llm_error(&err_res("timed out reading response")));
+        assert!(is_transient_llm_error(&err_res("connection reset by peer")));
+    }
+
+    #[test]
+    fn malformed_reply_is_not_retried() {
+        // A genuine bad body / API error payload keeps its F — retrying resends a bad request.
+        assert!(!is_transient_llm_error(&err_res("expected value at line 1 column 1")));
+        assert!(!is_transient_llm_error(&err_res("empty content")));
+        assert!(!is_transient_llm_error(&LlmResult {
+            text: "ok".into(), voice: 'T', err: None,
+        }));
     }
 }
 

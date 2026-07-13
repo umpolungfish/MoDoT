@@ -1,16 +1,16 @@
-Bring the README up to date with natures and the IG tool corpus
+Retry transient LLM read-timeouts instead of poisoning a grounded cycle
 
-The README predated two additions, so it now documents them. Directory
-structure lists the modules that were missing (prover, router, natures,
-ig_tools) and ob3ects/primitives/. Two new sections:
+A long synthesis (the cycle-12 SIC report) can outrun the socket read
+deadline: the body is arriving but slowly, and into_json() returns
+"timed out reading response". That is transient transport, not a
+malformed reply, but the code collapsed it straight to voice:'F' with a
+parse-error text. Downstream that F trips the "narrated tools, ran none"
+prod and the ENGAGR fusion reports UNGROUNDED, holding an otherwise fully
+tool-grounded cycle at N. The tools had run; only the final read hiccuped.
 
-- IG tool corpus: the 43 IG_inquiry catalog verbs, dispatched natively
-  from the Rust loop via run_ig_tool, with the verb table grouped by
-  kind and the modot.ig_tools API / de-shadow note.
-- Primitive-type natures: the 49 kernel constructors loaded by
-  natures.py, the Nature fields, the tiles_crystal proof, cotype and the
-  paradice, and the pointer to the kernel PrimitiveType files.
-
-Requirements gains the imscribing_grammar corpus dependency (IG_ROOT).
-Date rolled to 2026-07-13. Verified: every IG verb named in the new
-table is a real dispatcher verb and the natures API resolves.
+infer() now wraps the provider call in a short retry (two attempts, 0.5s
+and 1.0s backoff) gated on is_transient_llm_error, which fires on read/
+connect timeouts and dropped connections but NOT on a genuine malformed
+body or an API error payload (retrying those just resends a bad request,
+so they keep their F). Two unit tests pin both directions; full suite
+green (26 passed).
