@@ -1983,9 +1983,26 @@ mod verb_feedback_tests {
 #[cfg(test)]
 mod lane_guard_tests {
     use super::{
-        answer_is_proof, complete, is_transient_llm_error, verb_isomorphism, LlmResult, Prepare,
-        B4,
+        answer_is_proof, complete, is_transient_llm_error, verb_isomorphism,
+        verbs_falsely_called_absent, LlmResult, Prepare, B4,
     };
+
+    #[test]
+    fn catches_a_real_verb_declared_absent() {
+        let t = "The `ascend` verb is not available. The tower cannot be built.\n\
+                 The `phase_reconstruct` tool does not exist.";
+        let mut hits = verbs_falsely_called_absent(t);
+        hits.sort();
+        assert_eq!(hits, vec!["ascend".to_string(), "phase_reconstruct".to_string()]);
+    }
+
+    #[test]
+    fn does_not_fire_on_substring_or_clean_text() {
+        // "onset" contains "set" but is not the verb; a normal sentence names no absence.
+        assert!(verbs_falsely_called_absent("At the onset the ring closes cleanly.").is_empty());
+        // an unavailability phrase with no real verb named must not fire
+        assert!(verbs_falsely_called_absent("The widget is not available.").is_empty());
+    }
 
     #[test]
     fn isomorphism_states_both_faces_for_key_verbs() {
@@ -2107,6 +2124,48 @@ fn mentions_structural_work(text: &str) -> bool {
     ];
     let low = text.to_lowercase();
     CUES.iter().any(|c| low.contains(c))
+}
+
+/// Real verbs the draft declares absent ("unavailable", "does not exist", …). A model
+/// will sometimes end a run by claiming a verb it does not want to run simply isn't there,
+/// parking the node at B/N on a false premise. This finds any line that pairs an
+/// unavailability phrase with the name of a verb that actually EXISTS (structural or IG
+/// corpus), so the loop can force the call instead of accepting the fabrication. Token-
+/// boundary matched, so "set" does not fire inside "onset".
+fn verbs_falsely_called_absent(text: &str) -> Vec<String> {
+    const NEG: &[&str] = &[
+        "not available", "unavailable", "does not exist", "doesn't exist", "do not exist",
+        "not exist", "no such verb", "no verb", "is absent", "are absent", "not a verb",
+        "cannot be built", "cannot be run", "tool does not", "verb does not", "is not available",
+    ];
+    let contains_token = |hay: &str, tok: &str| -> bool {
+        let bytes = hay.as_bytes();
+        let mut from = 0;
+        while let Some(rel) = hay[from..].find(tok) {
+            let s = from + rel;
+            let e = s + tok.len();
+            let before_ok = s == 0 || !bytes[s - 1].is_ascii_alphanumeric() && bytes[s - 1] != b'_';
+            let after_ok = e >= bytes.len() || !bytes[e].is_ascii_alphanumeric() && bytes[e] != b'_';
+            if before_ok && after_ok {
+                return true;
+            }
+            from = s + 1;
+        }
+        false
+    };
+    let mut hits: Vec<String> = Vec::new();
+    for line in text.lines() {
+        let ll = line.to_lowercase();
+        if !NEG.iter().any(|p| ll.contains(p)) {
+            continue;
+        }
+        for v in STRUCTURAL_VERBS.iter().chain(IG_TOOLS.iter()) {
+            if contains_token(&ll, v) && !hits.iter().any(|h| h == v) {
+                hits.push((*v).to_string());
+            }
+        }
+    }
+    hits
 }
 
 /// Parse `TOOL: <verb> <args…>` lines the agent emitted (one call per line).
@@ -3152,10 +3211,36 @@ fn run_one(
             // re-emissions of these is a stall round: it can produce no new ground.
             let mut ran_signatures: std::collections::BTreeSet<String> = std::collections::BTreeSet::new();
             let mut stalled_rounds = 0usize;
+            let mut phantom_prods = 0usize;
             let mut round = 0;
             while round < max_rounds {
                 let raw_calls = extract_tool_calls(&current);
                 if raw_calls.is_empty() {
+                    // Phantom-unavailability guard: the model can end a run by declaring a
+                    // REAL verb "unavailable / does not exist" — without ever emitting its
+                    // TOOL: line — and parking the node at B/N on that false premise. Refuse
+                    // it: if the draft calls a real verb absent, prod it to actually run the
+                    // verb before we accept the answer. Bounded so it can never loop.
+                    let phantom = verbs_falsely_called_absent(&current);
+                    if !phantom.is_empty() && phantom_prods < 2 {
+                        phantom_prods += 1;
+                        println!("── PHANTOM-VERB PROD (claimed a real verb absent — forcing the call) ──");
+                        let are = if phantom.len() == 1 { "is a real structural verb" } else { "are real structural verbs" };
+                        agent_msgs.push(("assistant".to_string(), current.clone()));
+                        agent_msgs.push((
+                            "user".to_string(),
+                            format!(
+                                "You wrote that `{}` is unavailable / does not exist / cannot be run. That is FALSE — `{}` {} in this engine, live right now. You may not report a verb as absent to avoid running it, and you may not leave a node at B/N on that false premise. Emit the `TOOL:` line(s) for it NOW with real catalog args (e.g. `TOOL: ascend K19_ray_class_field`, `TOOL: phase_reconstruct M1 M2 …`), read what they return, and fold that ground truth into your verdict.",
+                                phantom.join("`, `"),
+                                phantom.join("`, `"),
+                                are,
+                            ),
+                        ));
+                        let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                        current = strip_kernel_records(&res.text);
+                        println!("{current}\n");
+                        continue;
+                    }
                     break; // the operator stopped acting — `current` is the answer
                 }
                 // Dedupe within the round: the operator emits the same call twice in one

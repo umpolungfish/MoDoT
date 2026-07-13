@@ -1,25 +1,20 @@
-Give the agent the three verbs it kept finding absent
+Refuse phantom unavailability: force the call when a real verb is denied
 
-The cycle-12 SIC run stalled three nodes on "verb not available":
-filter, ascend, phase_reconstruct. Each is now a real structural verb
-over the tuples, reporting the honest result — including when the honest
-result is still open.
+Even with ascend / phase_reconstruct now live, the model ended a run by
+writing "the ascend verb is unavailable / phase_reconstruct does not
+exist" — WITHOUT ever emitting the TOOL line — and parked the tower and
+phase nodes at B/N on that false premise. The verbs were there; it just
+declined to try them and narrated absence instead.
 
-- filter A B [C…]  narrow the catalog to the structural FLOOR of the
-  references (the primitives they all share); reports the real count of
-  entries matching every shared value, framed as a necessary upper-bound
-  condition, not an exact solution.
-- ascend A  construct the next ramified tower level FROM the excited
-  state: continue ⊙ past the exceptional point to the complex-axis fixed
-  point (𐑮) and add one winding Ω. Reports honestly when Ω saturates
-  (tower caps) or the tier does not climb (B, not done).
-- phase_reconstruct M1 M2…  recover the relative phase word from the
-  closed ring (flat autocorrelation ⟺ cyclization): reads back the per-
-  unit Ħ phase sequence, fixed modulo one global phase; if the set does
-  not close, reports the phases as N (underdetermined), never invented.
+New guard: verbs_falsely_called_absent scans the draft for any line that
+pairs an unavailability phrase ("not available", "does not exist", …)
+with the token of a verb that ACTUALLY exists (STRUCTURAL_VERBS or the IG
+corpus), token-boundary matched so "set" doesn't fire inside "onset".
+When the agentic loop is about to accept a final answer that denies a
+real verb, a bounded PHANTOM-VERB PROD (≤2) pushes back — "that is false,
+`ascend` is live, emit its TOOL line now" — and forces the call before
+the answer stands. If the verb genuinely returns B, that B is now earned,
+not asserted.
 
-Wired end to end: CLI flags, main handlers, run_structural_tool dispatch,
-STRUCTURAL_VERBS, verb_usage, the TOOLS_PROMPT (replacing the dead-ends),
-and verb_isomorphism so the ── ISOMORPHISM ── block glosses them both
-ways. Smoke-tested on the exact blocked entries (K19_ray_class_field,
-reduced_character_orbit_computation, …); suite green (27 passed).
+Two tests pin it (catches the real denial; ignores substrings and
+verb-less unavailability). Suite green (29 passed).
