@@ -1,4 +1,88 @@
 {
+  "Final_Closed_Fusion": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 5.4641,
+    "n": 3,
+    "rho": 2.7321,
+    "spectrum": [
+      2.7321,
+      -0.7321,
+      -2.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "Full_Fusion",
+      "gaussian_moat_problem",
+      "environment_affected_by_kozyrev"
+    ],
+    "weakest": 1.6667
+  },
+  "Ring_1_Static": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "isomorphism_verification_protocol",
+      "chemical_graph_category",
+      "chokhmah",
+      "ring_closure_monomer"
+    ],
+    "weakest": 1.3333
+  },
+  "chrysopoeia_2048": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 6.4721,
+    "n": 5,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.618,
+      0.618,
+      -1.618,
+      -1.618
+    ],
+    "strain": 0.2769,
+    "units": [
+      "cohomology_class_MixedSignature",
+      "fibonacci_anyon_o2",
+      "stark_unit_mixed_signature_open",
+      "connes_embedding_problem",
+      "witness_vessel"
+    ],
+    "weakest": 1.3333
+  },
+  "closed_ring_3": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "valence_constraint_layer",
+      "gaussian_moat_problem",
+      "stereochemistry_augmenter",
+      "gaussian_moat_problem"
+    ],
+    "weakest": 1.3333
+  },
   "diophantine_ring": {
     "branched": true,
     "conductance": "CONDUCTIVE",
