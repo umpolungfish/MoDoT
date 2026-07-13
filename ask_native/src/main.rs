@@ -2984,12 +2984,11 @@ fn decoration_ladder_base(name: &str) -> Option<String> {
 }
 
 fn catalog_has_name(name: &str) -> bool {
-    let needle = format!("\"name\": \"{name}\"");
-    let live = PathBuf::from(expand_user("~/.imscrbgrmr/catalog.json"));
-    [resolve_catalog_path(), Some(live)]
-        .into_iter()
-        .flatten()
-        .any(|p| fs::read_to_string(&p).map(|t| t.contains(&needle)).unwrap_or(false))
+    // Case-insensitive: the generate pipeline lowercases names, so an exact-case substring
+    // match falsely reported "did not register" for a name the generator had actually written
+    // (e.g. requested `K19…`, stored `k19…`).
+    let nl = name.to_lowercase();
+    catalog_names().into_iter().any(|n| n.to_lowercase() == nl)
 }
 
 /// All entry names across the base and live catalogs.
@@ -3499,10 +3498,23 @@ fn run_one(
                 // batch (seen live: `anneal A B` listed twice in a single round). Running an
                 // identical call twice just burns a request for a result already coming back.
                 let mut seen_this_round = std::collections::BTreeSet::new();
-                let calls: Vec<(String, Vec<String>)> = raw_calls
+                let mut calls: Vec<(String, Vec<String>)> = raw_calls
                     .into_iter()
                     .filter(|(v, a)| seen_this_round.insert(format!("{v} {}", a.join(" "))))
                     .collect();
+                // Per-round ceiling: a runaway can emit dozens of calls in one round (seen: 87
+                // imscribe calls building a name-ladder). Cap what runs per round so no single
+                // round can flood; the loop continues, so legitimate large batches still finish
+                // over successive rounds.
+                const MAX_CALLS_PER_ROUND: usize = 24;
+                if calls.len() > MAX_CALLS_PER_ROUND {
+                    println!(
+                        "── CAP: {} calls this round, running the first {} (emit the rest next round) ──",
+                        calls.len(),
+                        MAX_CALLS_PER_ROUND
+                    );
+                    calls.truncate(MAX_CALLS_PER_ROUND);
+                }
                 // Stall detection: nothing in this round is new — every call already ran and
                 // returned. One repeat can be a legitimate re-check; whole rounds of nothing
                 // else means the operator is circling, not navigating.

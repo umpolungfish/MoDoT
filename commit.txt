@@ -1,21 +1,7 @@
-Stop the ascend/imscribe runaway: refuse decorated name-ladders
+Fix imscribe case-mismatch and cap calls per round
 
-A cycle went runaway: the agent iterated `ascend` on K19 and imscribed
-each "tower level" — K19⁺, K19⁺⁺, K19⁺⁺⁺, … — 87 calls in one round,
-registering a ladder of near-duplicate catalog entries. A derived state
-(excited / ascended / radical) is a TRANSFORM of its base, not a new
-catalog entity, so enumerating levels into the catalog is both pollution
-and non-terminating.
-
-run_imscribe now has a decoration-ladder guard: if a name is some base
-plus a trailing run of decoration marks (⁺ • * + † …) and that base
-already exists (case-insensitively), it refuses to register and tells the
-agent the derived state is a transform of its base — the verb that built
-it already returned the tuple, and a tower that only climbs by
-re-imscription is a B frontier, not a catalog to enumerate.
-
-Also cleaned the ladder junk already written: 11 decorated entries from
-imscribing_grammar/IG_catalog.json and 18 (both cases) from the live
-~/.imscrbgrmr/catalog.json (backups saved as *.bak_ladder). Verified the
-base K19_ray_class_field still resolves and ascend still runs; suite green
-(32 passed).
+catalog_has_name is now case-insensitive (via catalog_names), so imscribe
+no longer reports "did not register" for a name the generator wrote in a
+different case. And the ACT loop caps calls at 24 per round, running the
+first 24 and deferring the rest, so no single round can flood (the 87-call
+ladder round could not recur).
