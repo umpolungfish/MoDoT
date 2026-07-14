@@ -73,6 +73,41 @@ is REFUSED with the reason (persisted to ob3ects/imasm_tools.json). `imasm run
 <name>` invokes a defined tool, `imasm tools` lists the space. The model extends
 its own repertoire without leaving the grammar.
 
+Closure speaks through structure, not prose. The spine's jam closure exception
+keyed on answer_has_closure(answer_text) — the words "macrocycle" / "cyclic" /
+"ρ=2.0" in the model's prose — so a write-up that ran no closing tool could still
+rescue itself into the B-lane. In the Grammar the closure IS the μ∘δ reconnection
+read back R∧W∧X (the measured structure), not its name; a signature without an
+imscription is no closure. So closure now enters the fuse only through tool_voice
+(tool_belnap on real tool output, or a measured imasm T-closure): a jam whose
+tools stayed silent is held at N regardless of what the prose claims. A real
+forged ring already raises tool_voice to T and stays grounded via the join —
+unchanged. Removed answer_has_closure; replaced its two tests with the structural
+pair (tool_measured_closure_grounds, prose_closure_without_structure_is_ungrounded).
+
+Added the CL9NK navigator to the toolset. `TOOL: cl9nk <action> [name]` shells the
+live cl9nk_navigator.py the same way cl8nk does (one manifold, loaded live) —
+refactored both onto a shared run_navigator(nav, args). Actions mirror cl8nk plus
+`moat` (the Gaussian-Moat resolution), and each entry is read against its CLINK L9
+reference typing (μ∘δ=id closure, the eternal fixed point, the moat/bridge type).
+Wired into run_structural_tool, STRUCTURAL_VERBS, verb_usage, and TOOLS_PROMPT.
+
+Univocal voice + constitutive Frobenius dual. The spine spoke with two voices —
+the model's self-declared [thought|X] AND the fused verdict — and the μ∘δ dual was
+post-hoc bookkeeping (prove_balance hardcoded true, the model free to continue
+with the μ left open). Both are now one fault fixed one way:
+  - UNIVOCAL: the single verdict is the STRUCTURAL close (Dual-Link vessel co-type
+    ⋈ the tool-call dual that ran). The model's [thought|X] is a PROPOSAL (a δ),
+    reported raw and used only for conflict — never a second authoritative voice
+    (a model grading itself is the bias the Grammar removes). print_spine now
+    leads with one VERDICT (univocal) and frames the rest as its provenance.
+  - CONSTITUTIVE DUAL: a verdict IS the μ that closed a δ. With no tool-call dual
+    closed (tool_voice N) there is NO verdict — held at N — in EVERY mode, not
+    only jam. prove_balance now reports the real dual, not a hardcoded true. A
+    proof whose closing μ never ran (no tool, no kernel prove:) is a frontier held
+    at N, never spoken T on the model's word. Updated the lane-guard test to the
+    Grammar's verdict (proof_without_closing_dual_is_ungrounded_not_b).
+
 Wired end to end: --imasm flag, the inline `imasm` verb in run_structural_tool
 (dispatches straight to imasm::run, no shell), STRUCTURAL_VERBS, verb_usage, and
 TOOLS_PROMPT (strange-loop note, the type-check-your-decisions directive, and the

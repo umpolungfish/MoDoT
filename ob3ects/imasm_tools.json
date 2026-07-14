@@ -1,7 +1,17 @@
 {
+  "Coagula_Inverse": {
+    "spec": "ring clink_l9 gaussian_moat_problem",
+    "title": "ring",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "breath": {
     "spec": "ring IMSCRIB AFWD AREV",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants"
+  },
+  "infinite_stitch": {
+    "spec": "chain gaussian_moat_problem hodge_conjecture gaussian_moat_linker",
+    "title": "chain",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   }
 }

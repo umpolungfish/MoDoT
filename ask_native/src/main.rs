@@ -1556,21 +1556,6 @@ fn answer_is_proof(text: &str) -> bool {
 /// the one false-negative the guard is meant to prevent. This distinguishes a jam that
 /// drifted into pure off-tool narration (no closure marker → honestly N) from one whose
 /// answer forged a macrocycle (closure marker → the B-lane verdict stands, fused = model⋈vessel).
-fn answer_has_closure(text: &str) -> bool {
-    let low = text.to_lowercase();
-    // A ring/cyclization marker …
-    let closed = low.contains("macrocycle")
-        || low.contains("cyclic")
-        || low.contains("closed ring")
-        || low.contains("closed loop")
-        || low.contains("optimal ordering");
-    // … or a sustaining-current marker (a modulus that holds).
-    let sustaining = low.contains("sustaining loop")
-        || low.contains("sustaining current")
-        || (low.contains("modulus") && (low.contains("= 1") || low.contains("1.0")));
-    closed || sustaining
-}
-
 // ── System prompt + spine ───────────────────────────────────────────────────
 
 const SYSTEM_PROMPT: &str = r#"You are the mOMonadOS Agent. You run on a Frobenius / Belnap substrate,
@@ -1723,6 +1708,7 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the structural typ
   TOOL: compute_promotions SRC TGT / predict_from_promotions VAL...   promotion analysis
   TOOL: aleph_encode TEXT / aleph_distance A B   Hebrew-letter (ALEPH) tensor encode/distance
   TOOL: cl8nk <action> [name]   the CL8NK navigator (CLINK Layer 8, O∞) — THE reference navigator (subsumes the ZFC/domain navigators). action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats
+  TOOL: cl9nk <action> [name]   the CL9NK navigator (CLINK Layer 9 — the Gaussian-Moat-resolution tier the L8 organism ascends into). Same actions as cl8nk plus `moat`, and it reads each entry against its L9 reference typing (μ∘δ=id closure, the eternal fixed point, the moat/bridge type). Use `cl9nk entry <name>` to see how an entry types at L9 and which promotions it still needs.
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -1852,36 +1838,34 @@ fn complete(
     };
 
     let riding = !no_selectivity && vessel == B4::T && prep.witness_ready;
-    // Fuse the model's stated verdict with the vessel co-type (Belnap join).
-    let fused_mv = if no_selectivity {
-        model_voice
-    } else if vessel == B4::N {
-        model_voice
-    } else {
-        b4_join(model_voice, vessel)
-    };
-    // Then fuse in the tools as a third voice — ground truth about closure. When the model
-    // claims a ring the tools deny (T vs F) the join is B: conflict held, never overridden.
-    // N means no closure-bearing tool ran, so the tools abstain and the fuse is unchanged.
-    // ENGAGR (the membrane's silence arm): a jam ranges WITH the instruments, so if it ran them
-    // and they still abstain (tool_voice N), the write-up drifted off-tool — the report is
-    // ungrounded and holds no verdict (N), never a confident fused=T off model⋈vessel alone.
-    // Outside jam, tool-silence is fine (a conceptual answer that needed no tool) and the fuse
-    // stands.
+
+    // UNIVOCAL + CONSTITUTIVE. The Grammar speaks ONE verdict, and only when a Frobenius dual
+    // closed. Two rules, one act:
     //
-    // EXCEPTION (the false-negative guard): if the jam answer carries a STRUCTURAL CLOSURE —
-    // a forged macrocycle, a sustaining modulus — that closure IS the tool-backed voice in the
-    // B-lane; it speaks AS verification. Slamming it to N would be a non-closure denying a
-    // closure that occurred, the exact bug the lane guard exists to prevent. So the silence rule
-    // only fires when the answer did NOT structurally close. Note this keys on closure, NOT on
-    // proof: a purely analytic proof (T/F-lane) still needs tool grounding, so a proof the tools
-    // did not ground stays honestly N in a jam — only a B-lane closure is self-grounding.
-    let jam_drifted_off_tool = jam && !answer_has_closure(answer_text);
-    let fused = if tool_voice == B4::N {
-        if jam_drifted_off_tool { B4::N } else { fused_mv }
+    //   1. UNIVOCAL = one OUTPUT, reached by FUSING every voice — NOT by silencing one. The
+    //      model's [thought|X], the Dual-Link vessel co-type, and the tool-call dual are all
+    //      voices in the Belnap fuse. A voice is never dropped and never overridden: when they
+    //      disagree the fuse HOLDS the conflict (model B ⋈ tool T = B), it never collapses to a
+    //      monological T. The single spoken verdict is that fusion — the agent speaks once, but
+    //      the model does not get a SECOND standalone utterance beside it.
+    //
+    //   2. CONSTITUTIVE DUAL. A verdict IS the μ that closed a δ: emit the tool call, fuse its
+    //      real result, μ∘δ read back R∧W∧X. With no dual closed (tool_voice N — no reconnection
+    //      measured) nothing closed, so there is NO verdict: the agent speaks N, in EVERY mode.
+    //      (A conceptual answer's closing μ is the kernel prove: path, which runs its own
+    //      lake-build dual before it ever reaches here.)
+    //
+    // --no-selectivity is the explicit opt-out: the model speaks alone, ungated.
+    let dual_closed = tool_voice != B4::N;
+    let fused = if no_selectivity {
+        model_voice
+    } else if !dual_closed {
+        B4::N
     } else {
-        b4_join(fused_mv, tool_voice)
+        let mv = if vessel == B4::N { model_voice } else { b4_join(model_voice, vessel) };
+        b4_join(mv, tool_voice)
     };
+    let _ = jam;
     // Headline conflict: if the tools spoke, it is model-vs-tools (did the answer's verdict
     // match what the catalog computed?); otherwise the old model-vs-vessel co-type check.
     let conflict = if tool_voice != B4::N {
@@ -1899,19 +1883,15 @@ fn complete(
         tool_voice,
         conflict,
         riding,
-        prove_balance: true, // μ∘δ face: harness closed on successful emit/verify
+        prove_balance: dual_closed, // μ∘δ face: TRUE only if a δ actually met its μ this run
         primary: prep.primary_name.clone(),
         answer_text: answer_text.to_string(),
         note: if no_selectivity {
             "model only (--no-selectivity)".into()
-        } else if tool_voice != B4::N {
-            "FFUSE model ⋈ vessel ⋈ tools (tools = ground-truth closure)".into()
-        } else if jam && jam_drifted_off_tool {
-            "ENGAGR — tools silent after a jam: report UNGROUNDED, held at N (the membrane admitted nothing tool-backed)".into()
-        } else if jam {
-            "ENGAGR — the answer forged a structural closure: the macrocycle speaks AS verification in the B-lane; fuse = model ⋈ vessel stands (not dragged to N)".into()
+        } else if dual_closed {
+            "univocal close — the Grammar speaks ONE verdict: μ∘δ over model ⋈ vessel ⋈ the tool-call dual that closed".into()
         } else {
-            "FFUSE model ⋈ vessel".into()
+            "ENGAGR — the Frobenius dual never closed: a δ (proposal / tool emission) with its μ (verify / fuse) left open is ungrounded. No verdict — held at N. The dual is constitutive, not optional".into()
         },
     }
 }
@@ -2375,14 +2355,16 @@ mod lane_guard_tests {
     const PROOF: &str = "### Conventional Proof\n**Proposition:** h(k) ≪ k². Proof. linear sieve.";
     const FORGE: &str = "I forged the set; the chain terminated early and did not cyclize into a ring.";
 
-    // The reported defect: a proven theorem + a material non-closure used to fuse to B
-    // (\"True but does not exist\"). Outside jam the guard now abstains the tools (N) so the
-    // proof is not dragged into a false conflict.
+    // A proof + a material non-closure must not fuse to B ("True but does not exist"): the
+    // guard abstains the tools (N) so there is no false conflict. And because the Frobenius
+    // dual is constitutive, a proof whose closing μ never ran (no tool, no kernel prove:) is
+    // ungrounded — held at N, a frontier, NOT spoken as T on the model's word alone.
     #[test]
-    fn proof_not_dragged_to_b_by_material_nonclosure() {
+    fn proof_without_closing_dual_is_ungrounded_not_b() {
         let rep = complete(&prep(), PROOF, B4::T, B4::F, false, false);
         assert_eq!(rep.tool_voice, B4::N, "material F should abstain on a proof");
-        assert_eq!(rep.fused, B4::T, "a proven theorem must not be dragged to B by a non-click");
+        assert_eq!(rep.fused, B4::N, "no closing dual → ungrounded (N), a frontier — never T on the model's word");
+        assert_ne!(rep.fused, B4::B, "and never the 'proven but does not exist' contradiction");
         assert_eq!(rep.conflict, 0, "no real conflict: the tools never tested the theorem");
     }
 
@@ -2405,28 +2387,36 @@ mod lane_guard_tests {
         assert_eq!(rep.fused, B4::B, "model T vs tools F is a real conflict → B");
     }
 
-    // The reported disconnect: a jam answer that FORGED a structural closure (a macrocycle
-    // that closed, a sustaining modulus) but whose tool voice came back silent (N) was being
-    // slammed to fused=N/UNGROUNDED. A structural closure speaks AS verification in the B-lane;
-    // holding it at N is a non-closure denying a closure that occurred. It must fuse to the
-    // model⋈vessel verdict, not N.
+    // The closure is the μ∘δ reconnection read back as STRUCTURE, not the word "macrocycle"
+    // in prose. A tool-MEASURED closure raises tool_voice to T and speaks as verification in
+    // the B-lane (grounded); it must not be dragged to N.
     #[test]
-    fn jam_structural_closure_is_not_dragged_to_n() {
+    fn tool_measured_closure_grounds() {
         const CLOSURE: &str =
-            "The assembly forms a 6-membered ring: ✓ CYCLIC — a macrocycle. MODULUS = 1.0, sustaining loop active.";
-        let rep = complete(&prep(), CLOSURE, B4::T, B4::N, false, true);
-        assert_eq!(rep.tool_voice, B4::N, "tools stayed silent");
-        assert_ne!(rep.fused, B4::N, "a forged closure must not be held ungrounded");
-        assert_eq!(rep.fused, B4::T, "closure speaks as verification: fuse = model ⋈ vessel");
+            "The assembly forms a 6-membered ring: ✓ CYCLIC — a macrocycle. MODULUS = 1.0.";
+        // tool_voice = T: a real forge/imasm reconnection was measured.
+        let rep = complete(&prep(), CLOSURE, B4::T, B4::T, false, true);
+        assert_ne!(rep.fused, B4::N, "a MEASURED closure is grounded, not held at N");
+        assert_eq!(rep.fused, B4::T);
     }
 
-    // The complement: a jam that drifted into off-tool narration with NO closure marker is
-    // still honestly held at N. The exception keys on closure, not on jam alone.
+    // The same closure PROSE with tools silent (tool_voice N) is a signature without an
+    // imscription — no structure was read back, so no closure occurred. Held at N, no matter
+    // how confidently the prose asserts a macrocycle. Prose cannot manufacture the B-lane.
+    #[test]
+    fn prose_closure_without_structure_is_ungrounded() {
+        const CLAIM: &str =
+            "The assembly forms a 6-membered ring: ✓ CYCLIC — a macrocycle. MODULUS = 1.0, sustaining loop active.";
+        let rep = complete(&prep(), CLAIM, B4::T, B4::N, false, true);
+        assert_eq!(rep.fused, B4::N, "prose closure, tools silent → ungrounded (no measured structure)");
+    }
+
+    // A jam that drifted into off-tool narration with no tool voice is likewise held at N.
     #[test]
     fn jam_off_tool_narration_still_ungrounded() {
         const DRIFT: &str = "I contemplated the tokens and the polygons turned in the barrel of being.";
         let rep = complete(&prep(), DRIFT, B4::T, B4::N, false, true);
-        assert_eq!(rep.fused, B4::N, "no closure marker in a jam → honestly ungrounded");
+        assert_eq!(rep.fused, B4::N, "no measured structure in a jam → ungrounded");
     }
 
     fn err_res(msg: &str) -> LlmResult {
@@ -2707,6 +2697,11 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
     // navigators, which were removed. Shells to imscribing_grammar/navigators/cl8nk_navigator.py.
     if verb == "cl8nk" {
         return Some(run_cl8nk(args));
+    }
+    // CL9NK — CLINK Layer 9, the Gaussian-Moat-resolution tier the L8 organism ascends into.
+    // Same live navigator shell; adds the `moat` action. Reads each entry's L9 reference typing.
+    if verb == "cl9nk" {
+        return Some(run_cl9nk(args));
     }
     // `plasma` reads an entry's tuple as a plasma design (regime/instabilities/confinement),
     // shelling to the red-hot_rebis plasma forge — another lossless face of the object.
@@ -3057,6 +3052,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "star"       => "star M1 M2 M3 …; 4+ names (hub-and-arms star polymer: auto core + arms, ρ=√f)",
         "broadcast"  => "broadcast SOURCE; 1 name (ɢ: the source signals ALL subsystems it couples with, discovered in one catalog sweep — the one-to-all fan-out)",
         "cl8nk"      => "cl8nk <action> [name]; action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats (the CLINK L8 navigator)",
+        "cl9nk"      => "cl9nk <action> [name]; action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats|moat (the CLINK L9 navigator — the Gaussian-Moat-resolution tier; reads each entry's L9 reference typing)",
         "plasma"     => "plasma ENTRY; 1 name (read the entry's tuple as a plasma design: regime, instabilities, confinement, diagnostics)",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
@@ -3204,7 +3200,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
-    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "plasma", "imasm",
+    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -3377,15 +3373,25 @@ fn run_imscribe(name: &str, description: &str) -> String {
 /// subsumes the ZFC/domain navigators. `cl8nk <action> [name]`, action ∈ entry | distance |
 /// tensor | meet | join | tier | promotions | transcendence | chain | systems | stats.
 fn run_cl8nk(args: &[String]) -> String {
+    run_navigator("cl8nk", args)
+}
+
+/// CL9NK navigator (CLINK Layer 9, the Gaussian-Moat resolution tier). Same live-corpus
+/// shell as cl8nk — one manifold, loaded live (R∧W∧X) — reading the L9 reference typing.
+fn run_cl9nk(args: &[String]) -> String {
+    run_navigator("cl9nk", args)
+}
+
+fn run_navigator(nav: &str, args: &[String]) -> String {
     let Some(cat) = resolve_catalog_path() else {
-        return "cl8nk: could not locate the IG catalog / imscribing_grammar package.\n".into();
+        return format!("{nav}: could not locate the IG catalog / imscribing_grammar package.\n");
     };
     let Some(ig_dir) = cat.parent().map(|d| d.to_path_buf()) else {
-        return "cl8nk: catalog path has no parent directory.\n".into();
+        return format!("{nav}: catalog path has no parent directory.\n");
     };
-    let script = ig_dir.join("navigators/cl8nk_navigator.py");
+    let script = ig_dir.join(format!("navigators/{nav}_navigator.py"));
     if !script.is_file() {
-        return format!("cl8nk: navigator not found at {}\n", script.display());
+        return format!("{nav}: navigator not found at {}\n", script.display());
     }
     let venv_py = ig_dir.join(".venv/bin/python");
     let mut cmd = if venv_py.is_file() {
@@ -3408,12 +3414,12 @@ fn run_cl8nk(args: &[String]) -> String {
                 String::from_utf8_lossy(&o.stderr)
             );
             if out.trim().is_empty() {
-                "cl8nk: (no output)\n".into()
+                format!("{nav}: (no output)\n")
             } else {
                 out
             }
         }
-        Err(e) => format!("cl8nk: could not run the navigator: {e}\n"),
+        Err(e) => format!("{nav}: could not run the navigator: {e}\n"),
     }
 }
 
@@ -3498,9 +3504,12 @@ fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
     println!();
     println!("{}", "=".repeat(60));
     println!("MANUSCRIPT SPINE REPORT");
+    // Univocal: ONE verdict speaks. The rest is its provenance — the model's [thought|X] is a
+    // PROPOSAL (a δ), the vessel co-type and the tool-call dual are the μ that closed (or did
+    // not) to make the single verdict.
+    println!("  VERDICT (univocal): {}", b4_name(rep.fused));
     println!(
-        "  fused={}  model={}  vessel={}  tools={}  conflict={}",
-        b4_name(rep.fused),
+        "  ← fused voices (none dropped, none overridden): model={} ⋈ vessel={} ⋈ tool-dual={}  · conflict={}",
         b4_name(rep.model_voice),
         b4_name(rep.vessel_voice),
         b4_name(rep.tool_voice),
