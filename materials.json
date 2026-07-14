@@ -419,6 +419,27 @@
     ],
     "weakest": 1.3333
   },
+  "iutt_ring_4": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.3246,
+    "n": 4,
+    "rho": 3.1623,
+    "spectrum": [
+      3.1623,
+      0.0,
+      -0.0,
+      -3.1623
+    ],
+    "strain": 0.1667,
+    "units": [
+      "log_theta_lattice_iutt",
+      "complementary_galois_dual",
+      "non_abelian_braid",
+      "gaussian_moat_problem"
+    ],
+    "weakest": 1.3333
+  },
   "macrocycle5": {
     "branched": true,
     "conductance": "FRUSTRATED",
@@ -523,5 +544,28 @@
       "phase_strata_a_neq0"
     ],
     "weakest": 0.6667
+  },
+  "witness_ring": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 7.9515,
+    "n": 5,
+    "rho": 2.5616,
+    "spectrum": [
+      2.5616,
+      1.0,
+      0.4142,
+      -1.5616,
+      -2.4142
+    ],
+    "strain": 0.2976,
+    "units": [
+      "sunflower_conjecture",
+      "sidon_set",
+      "infinite_set_mappings",
+      "graph_cycle_basis",
+      "chromatic_number_omega1"
+    ],
+    "weakest": 0.5
   }
 }

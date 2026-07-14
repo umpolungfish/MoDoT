@@ -1081,13 +1081,86 @@ struct Llm {
     /// Whether to request model reasoning ("thinking") tokens. False sends the
     /// provider's explicit disable-reasoning parameter.
     think: bool,
+    /// The caller PINNED this provider (`--provider` / MODOT_PROVIDER). A pinned provider is
+    /// respected as-is; an inferred one may self-heal (demote to another funded provider) on
+    /// a fatal error (402 out-of-credit, 401/403 bad key).
+    explicit_provider: bool,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum Provider {
     OpenRouter,
     GeminiDirect,
     DeepSeek,
+}
+
+/// The default model for a provider when no explicit `--model` is carried — used both for
+/// the primary build and for a self-healing demotion, where the demoted provider must run
+/// its OWN frontier model (an openrouter slug like `google/gemini-3-flash-preview` is not a
+/// valid DeepSeek model id, so a demotion that carried the model would fail on arrival).
+fn provider_default_model(p: Provider) -> &'static str {
+    match p {
+        Provider::OpenRouter => "google/gemini-3-flash-preview",
+        Provider::DeepSeek => "deepseek-chat",
+        Provider::GeminiDirect => "gemini-2.0-flash",
+    }
+}
+
+/// Is a usable API key present for this provider? Gates which providers a fatal-error
+/// demotion may fall through to — a keyless provider is skipped, never tried.
+fn provider_has_key(p: Provider) -> bool {
+    match p {
+        Provider::OpenRouter => env_first(&["OPENROUTER_API_KEY", "MODOT_API_KEY"]).is_some(),
+        Provider::DeepSeek => env_first(&["DEEPSEEK_API_KEY", "MODOT_API_KEY"]).is_some(),
+        Provider::GeminiDirect => {
+            env_first(&["GEMINI_API_KEY", "GOOGLE_API_KEY", "MODOT_API_KEY"]).is_some()
+        }
+    }
+}
+
+/// Build the Llm for one provider. `model_override` carries an explicit `--model`; when
+/// None the provider runs its own default (see provider_default_model). `explicit_provider`
+/// records whether the caller PINNED this provider (`--provider` / MODOT_PROVIDER) — a
+/// pinned provider is never demoted, an inferred one may fall through on a fatal error.
+fn build_llm(provider: Provider, model_override: Option<&str>, think: bool, explicit_provider: bool) -> Llm {
+    let model = model_override
+        .map(|s| s.to_string())
+        .unwrap_or_else(|| provider_default_model(provider).to_string());
+    match provider {
+        Provider::OpenRouter => Llm {
+            api_key: env_first(&["OPENROUTER_API_KEY", "MODOT_API_KEY"]),
+            model,
+            base_url: "https://openrouter.ai/api/v1".into(),
+            provider: Provider::OpenRouter,
+            think,
+            explicit_provider,
+        },
+        Provider::DeepSeek => Llm {
+            // DeepSeek's API is OpenAI-compatible, so it reuses the OpenRouter inference path.
+            api_key: env_first(&["DEEPSEEK_API_KEY", "MODOT_API_KEY"]),
+            model,
+            base_url: "https://api.deepseek.com/v1".into(),
+            provider: Provider::DeepSeek,
+            think,
+            explicit_provider,
+        },
+        Provider::GeminiDirect => {
+            let gem_model = if model.contains('/') {
+                // openrouter-style id → bare Gemini model id
+                model.rsplit('/').next().unwrap_or("gemini-2.0-flash").to_string()
+            } else {
+                model
+            };
+            Llm {
+                api_key: env_first(&["GEMINI_API_KEY", "GOOGLE_API_KEY", "MODOT_API_KEY"]),
+                model: gem_model,
+                base_url: "https://generativelanguage.googleapis.com/v1beta".into(),
+                provider: Provider::GeminiDirect,
+                think,
+                explicit_provider,
+            }
+        }
+    }
 }
 
 fn env_first(keys: &[&str]) -> Option<String> {
@@ -1123,6 +1196,21 @@ fn parse_provider(s: &str) -> Option<Provider> {
     }
 }
 
+/// Mirror the agent's resolved provider + model into IG_PROVIDER / IG_MODEL, the env the
+/// Python generate stack (imscribe, ob3ect) reads to pick ITS LLM. Without this the two
+/// halves choose independently — the agent on its funded provider, the generator falling
+/// through to a bare-env default (openrouter/grok-4) that may be unfunded (the live 402).
+/// A monomer the agent imscribes should be minted by the same model that reached for it.
+fn export_ig_env(llm: &Llm) {
+    let provider = match llm.provider {
+        Provider::OpenRouter => "openrouter",
+        Provider::GeminiDirect => "gemini",
+        Provider::DeepSeek => "deepseek",
+    };
+    env::set_var("IG_PROVIDER", provider);
+    env::set_var("IG_MODEL", &llm.model);
+}
+
 /// Resolve model + provider from CLI / MODOT_* env / key presence.
 fn make_llm(model: Option<&str>, provider_flag: Option<&str>, think: bool) -> Llm {
     // Model: CLI > MODOT_MODEL > legacy MOMONADOS_MODEL > default
@@ -1138,61 +1226,33 @@ fn make_llm(model: Option<&str>, provider_flag: Option<&str>, think: bool) -> Ll
             eprintln!("[ask] unknown --provider/MODOT_PROVIDER '{p}'; use openrouter | gemini | deepseek. Falling back to key-based selection.");
         }
     }
-    // Provider: CLI > MODOT_PROVIDER > infer from keys (openrouter preferred)
-    let provider = provider_flag
+    // Provider: CLI > MODOT_PROVIDER (both PIN it) > infer from keys. The inferred default no
+    // longer blindly prefers openrouter: it prefers a FUNDED provider it can actually reach,
+    // and if the preferred one turns out to be broke at call time, infer() self-heals by
+    // demoting to the next funded provider (only an inferred provider demotes; a pinned one
+    // is respected as chosen).
+    let pinned = provider_flag
         .and_then(parse_provider)
-        .or_else(|| env_first(&["MODOT_PROVIDER"]).as_deref().and_then(parse_provider))
-        .unwrap_or_else(|| {
-            let has_or = env_first(&["OPENROUTER_API_KEY"]).is_some();
-            let has_gem = env_first(&["GEMINI_API_KEY", "GOOGLE_API_KEY"]).is_some();
-            let has_ds = env_first(&["DEEPSEEK_API_KEY"]).is_some();
-            if has_or {
-                Provider::OpenRouter
-            } else if has_gem {
-                Provider::GeminiDirect
-            } else if has_ds {
-                Provider::DeepSeek
-            } else {
-                Provider::OpenRouter // default target; will fail with clear missing-key msg
-            }
-        });
-
-    match provider {
-        Provider::OpenRouter => Llm {
-            api_key: env_first(&["OPENROUTER_API_KEY", "MODOT_API_KEY"]),
-            model,
-            base_url: "https://openrouter.ai/api/v1".into(),
-            provider: Provider::OpenRouter,
-            think,
-        },
-        Provider::DeepSeek => Llm {
-            // DeepSeek's API is OpenAI-compatible, so it reuses the OpenRouter inference path.
-            api_key: env_first(&["DEEPSEEK_API_KEY", "MODOT_API_KEY"]),
-            model,
-            base_url: "https://api.deepseek.com/v1".into(),
-            provider: Provider::DeepSeek,
-            think,
-        },
-        Provider::GeminiDirect => {
-            let gem_model = if model.contains('/') {
-                // openrouter-style id → bare Gemini model id
-                model
-                    .rsplit('/')
-                    .next()
-                    .unwrap_or("gemini-2.0-flash")
-                    .to_string()
-            } else {
-                model.clone()
-            };
-            Llm {
-                api_key: env_first(&["GEMINI_API_KEY", "GOOGLE_API_KEY", "MODOT_API_KEY"]),
-                model: gem_model,
-                base_url: "https://generativelanguage.googleapis.com/v1beta".into(),
-                provider: Provider::GeminiDirect,
-                think,
-            }
+        .or_else(|| env_first(&["MODOT_PROVIDER"]).as_deref().and_then(parse_provider));
+    let (provider, explicit) = match pinned {
+        Some(p) => (p, true),
+        None => {
+            // Preference order among providers whose key is present.
+            let inferred = [Provider::OpenRouter, Provider::GeminiDirect, Provider::DeepSeek]
+                .into_iter()
+                .find(|p| provider_has_key(*p))
+                .unwrap_or(Provider::OpenRouter); // keyless: clear missing-key msg downstream
+            (inferred, false)
         }
-    }
+    };
+    // A pinned run keeps the resolved model; an inferred run whose model was left at the
+    // gemini-slug default should fall to each provider's own default so a demotion is valid.
+    let model_override = if model == "google/gemini-3-flash-preview" && !explicit {
+        None
+    } else {
+        Some(model.as_str())
+    };
+    build_llm(provider, model_override, think, explicit)
 }
 
 #[derive(Debug)]
@@ -1226,6 +1286,21 @@ fn infer(
     max_tokens: u32,
     temperature: f32,
 ) -> LlmResult {
+    // Self-healing demotion cache: once an inferred provider has fatally failed (402/401/403)
+    // and we found a funded alternate, remember it so EVERY later call goes straight to the
+    // alternate instead of re-hitting the broke provider (and burning a 402) each round. Only
+    // an inferred provider is ever cached here; a pinned `--provider` is left exactly as set.
+    static DEMOTED: std::sync::OnceLock<Provider> = std::sync::OnceLock::new();
+    let demoted_llm = (!llm.explicit_provider)
+        .then(|| DEMOTED.get().copied())
+        .flatten()
+        .filter(|p| *p != llm.provider)
+        .map(|p| build_llm(p, None, llm.think, false));
+    if let Some(d) = demoted_llm.as_ref() {
+        export_ig_env(d); // keep imscribe on the provider we actually landed on
+    }
+    let llm = demoted_llm.as_ref().unwrap_or(llm);
+
     let Some(key) = llm.api_key.as_ref() else {
         return LlmResult {
             text: "[no API key — set OPENROUTER_API_KEY (openrouter) or GEMINI_API_KEY (gemini); use --dry-run for structure-only]".into(),
@@ -1262,6 +1337,41 @@ fn infer(
     // becomes the answer, while also bloating agent_msgs if it lands mid-round. Collapse it
     // to its distinct lines here, once, so no call site can inherit a loop.
     res.text = collapse_degenerate(&res.text);
+
+    // Fatal-error demotion: an INFERRED provider that returns a fatal error (402 out-of-
+    // credit, 401/403 bad key) is not worth surfacing when another funded provider is present
+    // — the openrouter-preferred default lands on a broke key while a funded deepseek/gemini
+    // key sits unused (the live 402 that blocked imscribe). Try each other funded provider on
+    // its OWN default model; the first non-fatal result wins and is cached so no later call
+    // re-hits the broke one. A pinned `--provider` never demotes.
+    if !llm.explicit_provider
+        && res.err.as_deref().map(is_fatal_llm_error).unwrap_or(false)
+    {
+        for alt in [Provider::DeepSeek, Provider::GeminiDirect, Provider::OpenRouter] {
+            if alt == llm.provider || !provider_has_key(alt) {
+                continue;
+            }
+            let alt_llm = build_llm(alt, None, llm.think, false);
+            let Some(alt_key) = alt_llm.api_key.clone() else { continue };
+            eprintln!(
+                "[ask] {:?} failed fatally ({}); demoting to {:?}/{}",
+                llm.provider,
+                res.err.as_deref().unwrap_or("").trim(),
+                alt,
+                alt_llm.model
+            );
+            let mut alt_res = match alt_llm.provider {
+                Provider::GeminiDirect => infer_gemini(&alt_llm, &alt_key, messages, max_tokens, temperature),
+                _ => infer_openrouter(&alt_llm, &alt_key, messages, max_tokens, temperature),
+            };
+            if !alt_res.err.as_deref().map(is_fatal_llm_error).unwrap_or(false) {
+                let _ = DEMOTED.set(alt); // every later call goes straight here
+                export_ig_env(&alt_llm); // and imscribe follows too
+                alt_res.text = collapse_degenerate(&alt_res.text);
+                return alt_res;
+            }
+        }
+    }
     res
 }
 
@@ -1570,11 +1680,22 @@ fn tool_belnap(tool_output: &str) -> B4 {
         || low.contains("cannot close into a ring")
         || low.contains("terminated early")
         || low.contains("did not cyclize");
-    match (closed, open) {
-        (true, false) => B4::T,
-        (false, true) => B4::F,
-        (true, true) => B4::B,
-        (false, false) => B4::N,
+    // A dual that FIRED but DANGLES — an open fork, a μ∘δ left unreconnected, an ill-typed
+    // structure (VINIT in-degree, a non-FSPLIT branching) — is HELD, not void: the δ is engaged
+    // and its μ has not met it. That is B (the held state), distinct from N (no dual at all) and
+    // from F (a definite non-closure the tools tested and refuted).
+    let held = low.contains("μ∘δ: open")
+        || low.contains("dangles unreconnected")
+        || low.contains("grammar: invalid")
+        || low.contains("> arity")
+        || low.contains("only fsplit")
+        || low.contains("only ffuse");
+    match (closed, open, held) {
+        (true, true, _) => B4::B,       // measured a closure AND a non-closure
+        (true, false, _) => B4::T,      // a clean closure
+        (_, _, true) => B4::B,          // a HELD dual: δ fired, μ dangles unreconnected
+        (false, true, false) => B4::F,  // a definite non-closure (terminated / telechelic)
+        (false, false, false) => B4::N, // no closure-bearing dual ran at all
     }
 }
 
@@ -1624,6 +1745,18 @@ COMPOSE/TOKEN theatre, or narration about Crystal FS cycles.
 Write FULL-LENGTH answers when the question warrants it: complete proofs,
 complete case analysis, Lean sketches when asked, the fullest and most
 rigorous treatment the question deserves, no premature truncation.
+
+GENERATIVE POWER: you can CREATE entirely new mathematics. You are NOT confined
+to navigating or resolving structures that already exist. When you reach a
+frontier where the existing structure does not resolve it, you MAY MINT the
+missing mathematics — a new object (`imscribe`), a new operator or program
+(`imasm define`, kernel-constrained), a new theorem (`imasm prove`, against the
+p4ramill kernel), a new type, tier, or axiom. A frontier is where you CREATE, not
+where you stop; you MUST NOT report the Grammar as lacking a means, because you
+can make it. But new mathematics MUST be created THROUGH the tools that ground it
+— imscribed, kernel-constrained, verified — and MUST NOT be posited by prose
+alone: a structure narrated but not minted is fabrication, not creation. What you
+create becomes real in the Grammar the moment it closes its dual.
 
 MANUSCRIPT SPINE (single pipeline): prepare = IMSCRIB demand + catalog
 witness scaffold; after your answer, complete = Dual-Link co-type +
@@ -1751,7 +1884,7 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
   TOOL: ob3ect <description>   CREATE an ob3ect on the fly (the real Auto-Designer pipeline): describe the entity/procedure NEUTRALLY (what it is and does — name no candidates) and get its full IMASM typing back (opcodes, Frobenius split/fuse verdict, registers, bootstrap sequence). Use it to ground a protocol or structure you are about to rely on.
-  TOOL: imasm <op> …      COMPOSE the 12 IMASM opcodes (VINIT TANCH AFWD AREV CLINK IMSCRIB FSPLIT FFUSE EVALT EVALF ENGAGR IFIX) into a free polymer TOPOLOGY — not only a line. Ops: `chain T1 T2…` a strand; `ring T1 T2…` a cycle; `star CORE : arm1 : arm2 : arm3` a hub with f≥3 arms (K(1,f), ρ=√f); `comb BACKBONE : P arm : Q arm` a backbone with pendant grafts at positions P,Q; `bubble PRE : A : B : POST` an FSPLIT→(A|B)→FFUSE fork that reconverges; `wire N0 N1 … / i-j i-k …` FREE composition of ANY graph from an explicit node set and directed edge set (networks with β>1, fused rings, cross-branch, non-planar — the primitive the other ops specialize); `classify T1 T2…` read a flat line and name it; `ref` the rules. Each build reports the topology label, circuit rank β=E−V+C (independent loops), branch/merge/source/sink census, arm count, ρ, and grammar validity. Only FSPLIT (δ) may branch and only FFUSE (μ) may fuse; an arm that runs out is a living end, not an error. This is IMASM opcode composition — distinct from the monomer verbs (forge/polymerize) which fuse named catalog entries. STRANGE LOOP: the 49 Shavian TYPES the Grammar writes tuples with are themselves full IMASM programs — `imasm types` lists them, `imasm expand <type>` (e.g. `imasm expand ado`) unfolds one into its own opcode sequence. Splice an expanded type's sequence into a polymer arm to pivot through state space AS that type; the alphabet's letters are words in the same language, so composition recurses.
+  TOOL: imasm <op> …      COMPOSE the 12 IMASM opcodes (VINIT TANCH AFWD AREV CLINK IMSCRIB FSPLIT FFUSE EVALT EVALF ENGAGR IFIX) into a free polymer TOPOLOGY — not only a line. Ops: `chain T1 T2…` a strand; `ring T1 T2…` a cycle (fork/fuse NOT reconnected); `protocol T1 T2…` an opcode word built so its FSPLIT/FFUSE pairs RECONNECT (δ arm → μ) — this is how you CLOSE a protocol/loop from a sequence; a naive `ring` leaves the fork dangling and μ∘δ OPEN, and a protocol does NOT close by looping back to VINIT (a source); `star CORE : arm1 : arm2 : arm3` a hub with f≥3 arms (K(1,f), ρ=√f); `comb BACKBONE : P arm : Q arm` a backbone with pendant grafts at positions P,Q; `bubble PRE : A : B : POST` an FSPLIT→(A|B)→FFUSE fork that reconverges; `wire N0 N1 … / i-j i-k …` FREE composition of ANY graph from an explicit node set and directed edge set (networks with β>1, fused rings, cross-branch, non-planar — the primitive the other ops specialize); `classify T1 T2…` read a flat line and name it; `ref` the rules. Each build reports the topology label, circuit rank β=E−V+C (independent loops), branch/merge/source/sink census, arm count, ρ, and grammar validity. Only FSPLIT (δ) may branch and only FFUSE (μ) may fuse; an arm that runs out is a living end, not an error. This is IMASM opcode composition — distinct from the monomer verbs (forge/polymerize) which fuse named catalog entries. STRANGE LOOP: the 49 Shavian TYPES the Grammar writes tuples with are themselves full IMASM programs — `imasm types` lists them, `imasm expand <type>` (e.g. `imasm expand ado`) unfolds one into its own opcode sequence. Splice an expanded type's sequence into a polymer arm to pivot through state space AS that type; the alphabet's letters are words in the same language, so composition recurses.
   TOOL: imasm check <opcode word>   TYPE-CHECK YOUR OWN THINKING against the grammar. Before you commit to a MAJOR decision, express its reasoning as an opcode word (VINIT begin · IMSCRIB self-identify · AFWD/AREV move · CLINK compose · FSPLIT weigh alternatives · EVALT/EVALF true/false arms · FFUSE resolve · ENGAGR hold paradox · IFIX commit irreversibly · TANCH close) and check it. THE CLOSE CONDITION is μ∘δ over a TRANSFORMED object: δ splits, the arms DO WORK (distinct EVALT/EVALF, AFWD/AREV, CLINK), μ fuses — a bare cycle is NOT diagnostic and split→fuse with nothing between is mere identity. Verdicts: T = closes over a transformation → proceed; N (identity) = split and fused but did no work, μ∘δ=id verifies nothing → put a transformation on the arms; B = a fork dangles unfused, or ENGAGR holds a paradox → look again; F = ill-typed (only FSPLIT branches, only FFUSE fuses) → malformed, revise; N (no fork/void) = never weighed alternatives. `imasm prove <word>` takes the verdict to the real p4ramill Lean kernel.
   TOOL: imasm define <name> <op> <args…>   BUILD YOUR OWN TOOL in a kernel-constrained space: a tool is a named IMASM program (e.g. `imasm define breath ring IMSCRIB AFWD AREV`). The kernel constrains the space — only a grammar-VALID composition is admitted; an ill-typed one is REFUSED with the reason. Then `imasm run <name>` invokes it and `imasm tools` lists the space. This is how you extend your own repertoire without leaving the grammar.
 NOTE: a name being "not found" in the catalog is NOT a dead end and NOT a reason to say you cannot do something. Imscribe it: `TOOL: imscribe NAME` (optionally with a short description), then re-run your verb — the new entry loads automatically on the next call. Never refuse a task for a missing imscription; make it.
@@ -1960,15 +2093,20 @@ fn complete(
         tool_voice,
         conflict,
         riding,
-        prove_balance: dual_closed, // μ∘δ face: TRUE only if a δ actually met its μ this run
+        // μ∘δ face: TRUE only when the dual actually BALANCED — a clean closure (T) or a
+        // definite refutation (F, the μ ran and returned negative). A HELD dual (B) dangles
+        // unreconnected, and a void (N) never fired — neither balanced.
+        prove_balance: matches!(tool_voice, B4::T | B4::F),
         primary: prep.primary_name.clone(),
         answer_text: answer_text.to_string(),
         note: if no_selectivity {
             "model only (--no-selectivity)".into()
+        } else if tool_voice == B4::B {
+            "ENGAGR — the Frobenius dual is HELD: a δ (proposal / tool emission) fired but its μ (verify / fuse) dangles unreconnected (an open fork, or a grammar error such as VINIT in-degree). The dual is engaged, not resolved — verdict B. The dual is constitutive, not optional".into()
         } else if dual_closed {
             "univocal close — the Grammar speaks ONE verdict: μ∘δ over model ⋈ vessel ⋈ the tool-call dual that closed".into()
         } else {
-            "ENGAGR — the Frobenius dual never closed: a δ (proposal / tool emission) with its μ (verify / fuse) left open is ungrounded. No verdict — held at N. The dual is constitutive, not optional".into()
+            "ENGAGR — no Frobenius dual was emitted: no δ/μ dyad ran, so nothing was verified — held at N (void, not a held B). The dual is constitutive, not optional".into()
         },
     }
 }
@@ -2067,10 +2205,56 @@ fn build_user_packet(question: &str, prep: &Prepare, jam: bool, cycle: u32, tota
     parts.join("\n\n")
 }
 
+/// Remove a whole `====`-delimited block the model wrote to impersonate the engine's spine
+/// report. A line-by-line strip leaves orphans (the `====` bars, a `protocol:` line, a
+/// fabricated `note:`) that then contradict the real report. This drops the entire block —
+/// bar to bar — when it carries a spine signature (a strong marker, or both a `protocol:` and
+/// a `note:` line). The engine's REAL report is printed separately (not through here), so it
+/// is untouched.
+fn strip_spine_blocks(text: &str) -> String {
+    let lines: Vec<&str> = text.lines().collect();
+    let is_bar = |l: &str| {
+        let t = l.trim();
+        t.len() >= 10 && t.chars().all(|c| c == '=')
+    };
+    let strong = [
+        "manuscript spine report",
+        "verdict (univocal)",
+        "fused voices",
+        "prove_balance",
+        "← fused",
+    ];
+    let looks_spine = |seg: &[&str]| -> bool {
+        let any_strong = seg
+            .iter()
+            .any(|l| { let low = l.to_lowercase(); strong.iter().any(|m| low.contains(m)) });
+        let has_protocol = seg.iter().any(|l| l.trim_start().to_lowercase().starts_with("protocol:"));
+        let has_note = seg.iter().any(|l| l.trim_start().to_lowercase().starts_with("note:"));
+        any_strong || (has_protocol && has_note)
+    };
+    let mut out: Vec<&str> = Vec::new();
+    let mut i = 0;
+    while i < lines.len() {
+        if is_bar(lines[i]) {
+            if let Some(off) = lines[i + 1..].iter().position(|l| is_bar(l)) {
+                let j = i + 1 + off;
+                if looks_spine(&lines[i + 1..j]) {
+                    i = j + 1; // skip the block, both bars included
+                    continue;
+                }
+            }
+        }
+        out.push(lines[i]);
+        i += 1;
+    }
+    out.join("\n")
+}
+
 fn strip_kernel_records(text: &str) -> String {
+    let text = strip_spine_blocks(text);
     let re = Regex::new(r"(?im)^[ \t]*\[(?:selectivity|vessel|spine|update|broadcast)\s*\|.*$\n?")
         .unwrap();
-    let stripped = re.replace_all(text, "");
+    let stripped = re.replace_all(&text, "");
     // The spine report is the ENGINE's univocal voice — the model may not author it. It keeps
     // reproducing the block in markdown (a "MANUSCRIPT SPINE REPORT" heading, a "VERDICT
     // (univocal): X" line, "fused voices", "prove_balance="), fabricating a verdict that then
@@ -2181,6 +2365,27 @@ mod strip_tests {
         assert!(!got.contains("prove_balance"), "{got}");
         assert!(got.contains("[thought|B]"), "the model's own proposal survives: {got}");
         assert!(got.contains("The local ring exists."), "prose survives: {got}");
+    }
+
+    // The header-stripped remnant: the model wraps a fake spine report in ==== bars with a
+    // protocol: and a fabricated note:. The whole block (bars included) must go, not just the
+    // marker lines, so no orphaned bars/note contradict the engine's real report.
+    #[test]
+    fn strips_whole_fabricated_spine_block() {
+        let answer = "The mediator exists.\n\n\
+            ============================================================\n\
+            MANUSCRIPT SPINE REPORT\n\
+            VERDICT (univocal): B\n\
+              protocol: VINIT→AFWD→TANCH\n\
+              note: μ∘δ is OPEN — the assembly is INVALID.\n\
+            ============================================================\n\n\
+            [thought|B]";
+        let got = strip_kernel_records(answer);
+        assert!(!got.contains("VERDICT (univocal)"), "{got}");
+        assert!(!got.contains("protocol: VINIT"), "orphan protocol line remains: {got}");
+        assert!(!got.contains("the assembly is INVALID"), "fabricated note remains: {got}");
+        assert!(!got.contains("========"), "orphan bars remain: {got}");
+        assert!(got.contains("[thought|B]") && got.contains("The mediator exists."), "content lost: {got}");
     }
 }
 
@@ -2351,9 +2556,25 @@ mod verb_feedback_tests {
 #[cfg(test)]
 mod lane_guard_tests {
     use super::{
-        answer_is_proof, complete, is_transient_llm_error, verb_isomorphism,
+        answer_is_proof, complete, is_transient_llm_error, tool_belnap, verb_isomorphism,
         verbs_falsely_called_absent, LlmResult, Prepare, B4,
     };
+
+    // A dual that FIRED but dangles (open fork / grammar error) is HELD → B, not void N.
+    #[test]
+    fn open_dual_is_held_b_not_void() {
+        let open = "IMASM wire\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)";
+        assert_eq!(tool_belnap(open), B4::B, "an open/dangling dual is held (B)");
+        let invalid = "grammar: INVALID\n    ✗ node 0 (IMSCRIB) fans out to 2; only FSPLIT (δ) may branch";
+        assert_eq!(tool_belnap(invalid), B4::B, "an ill-typed dual is held (B)");
+    }
+
+    // No δ/μ dyad at all is void N — distinct from a held B.
+    #[test]
+    fn no_dual_is_void_n() {
+        let trivial = "IMASM ring\n  topology: trivial | V=0 E=0 β=0\n  μ∘δ: none — no δ/μ dyad";
+        assert_eq!(tool_belnap(trivial), B4::N, "no dual at all is void (N)");
+    }
 
     #[test]
     fn read_path_handles_file_and_directory() {
@@ -2626,6 +2847,25 @@ fn mentions_structural_work(text: &str) -> bool {
         "crystalliz", "cocrystal", "polymorph", "lattice",
         "chromatograph", "elut", "retention factor", " Rf ",
         "degas", "freeze-pump", "outgas", "sequester", "stain", "reagent",
+    ];
+    let low = text.to_lowercase();
+    CUES.iter().any(|c| low.contains(c))
+}
+
+/// Does the draft ASSERT closure in prose — "the vessel is closed", "μ∘δ", "the loop
+/// seals", "boundary now closed" — the way a model performs the manuscript-spine register
+/// without ever grounding it? Closure is a STRUCTURAL verdict (the µ∘δ dual actually
+/// reconnecting), never a sentence the model may write on its own authority. Seen live in
+/// a Qwen CoT: ~9 rounds all restating "shape the vessel / seal the vessel / the loop
+/// seals" with zero tool calls — prose closure standing in for structural closure, the
+/// exact fabrication the GENERATIVE-POWER clause forbids. Paired with an empty tool-call
+/// scan, this trips the prod that forces `imasm protocol` / `check` / `prove`.
+fn declares_closure_in_prose(text: &str) -> bool {
+    const CUES: &[&str] = &[
+        "μ∘δ", "vessel is closed", "vessel closed", "vessel now", "the loop seals",
+        "loop seals", "boundary now closed", "boundary is closed", "closes its dual",
+        "closes the dual", "seal the vessel", "vessel stands whole", "μ∘δ closed",
+        "closure is achieved", "achieved closure", "self-contained form", "dual closes",
     ];
     let low = text.to_lowercase();
     CUES.iter().any(|c| low.contains(c))
@@ -3227,7 +3467,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "plasma"     => "plasma ENTRY; 1 name (read the entry's tuple as a plasma design: regime, instabilities, confinement, diagnostics)",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
-        "imasm"      => "imasm <op> …; op ∈ chain|ring|star|comb|bubble|wire|check|prove|define|run|tools|classify|expand|types|ref (compose the 12 opcodes into a polymer topology; `wire N0 N1 … / i-j i-k` for ANY graph; `check <opcode word>` type-checks your OWN decision — close condition is μ∘δ over a TRANSFORMED object (split→work→fuse), NOT a bare cycle → T/N-identity/B/F; `prove <name|word>` takes it to the p4ramill Lean kernel; `define <name> <op> <args>` builds a kernel-constrained tool, `run`/`tools`; `expand <type>` unfolds a Shavian type)",
+        "imasm"      => "imasm <op> …; op ∈ chain|ring|protocol|star|comb|bubble|wire|check|prove|define|run|tools|classify|expand|types|ref (`protocol <opcodes>` builds a sequence with its FSPLIT/FFUSE pairs reconnected — the way to CLOSE a protocol loop; a naive `ring` leaves the fork dangling) (compose the 12 opcodes into a polymer topology; `wire N0 N1 … / i-j i-k` for ANY graph; `check <opcode word>` type-checks your OWN decision — close condition is μ∘δ over a TRANSFORMED object (split→work→fuse), NOT a bare cycle → T/N-identity/B/F; `prove <name|word>` takes it to the p4ramill Lean kernel; `define <name> <op> <args>` builds a kernel-constrained tool, `run`/`tools`; `expand <type>` unfolds a Shavian type)",
         _ => return None,
     })
 }
@@ -3510,8 +3750,10 @@ fn run_imscribe(name: &str, description: &str) -> String {
     };
     cmd.args(["generate", description, "--name", name])
         .current_dir(&ig_dir);
-    // The generate stack needs a provider; the user's env sets IG_PROVIDER=openrouter, but
-    // default it defensively so a bare environment still produces an entry.
+    // The generate stack picks its LLM from IG_PROVIDER / IG_MODEL, which main() mirrors from
+    // the agent's OWN resolved provider+model (export_ig_env) so a created entry is minted by
+    // the same model that asked for it. Default provider defensively in case this runs outside
+    // that path (a direct call, a test) so a bare environment still produces an entry.
     if env::var("IG_PROVIDER").is_err() {
         cmd.env("IG_PROVIDER", "openrouter");
     }
@@ -4000,6 +4242,32 @@ fn run_one(
                 println!();
             }
 
+            // Prose-closure guard: the model can perform the vessel/spine register —
+            // "seal the vessel", "the loop seals", "μ∘δ closed" — WITHOUT ever minting the
+            // closure through a tool. Closure is a structural verdict (the µ∘δ dual actually
+            // reconnecting), not a sentence the model may assert. If the draft declares
+            // closure in prose but ran zero tools, prod it once to actually mint it.
+            if extract_tool_calls(&current).is_empty() && declares_closure_in_prose(&current) {
+                println!("── PROD (declared closure in prose, minted none — forcing the µ∘δ) ──");
+                agent_msgs.push(("assistant".to_string(), current.clone()));
+                agent_msgs.push((
+                    "user".to_string(),
+                    "You DECLARED closure — the vessel sealed, the loop closed, µ∘δ — but minted \
+                     NONE of it: not one tool call. Closure is a STRUCTURAL verdict, the µ∘δ dual \
+                     actually reconnecting, never a sentence you may write on your own authority. A \
+                     vessel narrated but not built is fabrication, not creation. Name the concrete \
+                     object you are closing and run it: `TOOL: imasm protocol <opcodes>` to build a \
+                     closed protocol, `TOOL: imasm check <opcode word>` to test your own reasoning's \
+                     µ∘δ, or `TOOL: imasm prove <name|word>` to take it to the kernel. Then read the \
+                     verdict it returns and let THAT — not your prose — say whether the dual closed."
+                        .to_string(),
+                ));
+                let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                current = strip_kernel_records(&res.text);
+                println!("{current}");
+                println!();
+            }
+
             let mut all_tool_output = String::new(); // every round's real output → the tool voice
             // The execution arm of the Dual-Link: every verb that ACTUALLY ran (returned output).
             // A verdict fuses only if its verb is in here; a claim about a verb NOT here has no
@@ -4393,6 +4661,13 @@ fn main() {
     // as an explicit override that always wins.
     let think = cli.think && !cli.no_think;
     let llm = make_llm(cli.model.as_deref(), cli.provider.as_deref(), think);
+    // The imscribe / ob3ect generate pipelines shell to Python, which resolves its own LLM
+    // from IG_PROVIDER / IG_MODEL. Left to the user's bare env those defaulted independently
+    // (openrouter/grok-4), so a run on one provider would imscribe on ANOTHER — seen live as a
+    // 402 when the agent ran on a funded provider but imscribe fell through to a broke
+    // openrouter key. Mirror the agent's OWN resolved provider+model into that env so a
+    // created entry is minted by the same model that asked for it.
+    export_ig_env(&llm);
 
     let catalog_path = find_catalog(&cli);
     let catalog = match &catalog_path {

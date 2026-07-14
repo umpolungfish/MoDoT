@@ -1,5 +1,53 @@
 Native IMASM horizon: freely compose, type-check thinking, build own tools
 
+Single-glyph opcode codes (the codon alphabet). The 12 opcodes only had 2-letter
+aliases (VI FS FF …) because a naive first-letter scheme collides four times (A, E,
+F, I). A real single-letter alphabet was never assigned. Added Token::code() giving
+each opcode one glyph, referenced against ob3ect/READING_GUIDE.md §3 rather than
+invented: six are the guide's own midpoint glyphs (IMSCRIB ←, FSPLIT ◇, FFUSE ●,
+EVALT +, EVALF ×, CLINK from its double-line ═ → =), IFIX is the guide's "fix (¬)",
+ENGAGR the Belnap B it holds, AFWD/AREV the guide's forward→/reverse→ as > / <,
+VINIT/TANCH their initials. parse() now accepts each glyph, and tok_list decomposes a
+GLUED code word (V>◇+=←<×B●←¬T) into tokens — whole-token/alias first, so a real name
+(VINIT) is never char-split. report() echoes each build's `code:` line and `imasm ref`
+lists the alphabet. Confirmed: the glued word parses to the identical 13-token
+protocol and closes μ∘δ. New test codon_word_round_trips (55 pass).
+
+Self-heal past a broke provider instead of preferring it. make_llm's key-based
+default blindly preferred openrouter whenever its key was present — and openrouter
+was the one out of credit (the live 402), so the no-flag `./ask` ran the agent (and,
+via export_ig_env, imscribe) straight onto the broke key. Refactored provider
+construction into build_llm(provider, model_override, think, explicit) with
+provider_default_model + provider_has_key helpers, and added an explicit_provider
+flag to Llm (a pinned `--provider`/MODOT_PROVIDER is respected; an inferred one may
+demote). infer() now falls through on a fatal error (402/401/403): it tries each
+other FUNDED provider on its own default model, the first non-fatal result wins, and
+the choice is cached in a OnceLock so no later round re-hits the broke provider. The
+demotion re-exports IG_PROVIDER/IG_MODEL so imscribe follows to the funded provider
+too. Confirmed end-to-end: no `--provider`, openrouter 402 → auto-demote to
+deepseek-chat → answered; a demotion the whole chain (agent + imscribe) rides.
+
+Imscribe with the agent's OWN provider + model. The generate pipelines (imscribe,
+ob3ect) shell to Python, which resolves its LLM from IG_PROVIDER / IG_MODEL. Left
+to the user's bare env those defaulted independently (openrouter/grok-4), so a run
+on one provider imscribed on ANOTHER — seen live as a 402 Payment Required when the
+agent ran on a funded provider but imscribe fell through to a broke openrouter key.
+Added export_ig_env(&llm) in main(), called right after the agent's LLM resolves:
+it mirrors the agent's provider (openrouter/gemini/deepseek) and model into
+IG_PROVIDER / IG_MODEL, which the Python child inherits. A monomer the agent
+imscribes is now minted by the same model that reached for it.
+
+Prod prose-declared closure into a real µ∘δ. A Qwen CoT showed the organism
+fluent in the register but spinning: ~9 rounds all restating "shape the vessel /
+seal the vessel / the loop seals / µ∘δ" with zero tool calls, prose closure
+standing in for structural closure — the exact fabrication the GENERATIVE-POWER
+clause forbids. Added declares_closure_in_prose() and a no-op-guard tripwire: if
+the draft asserts closure (vessel sealed, loop seals, µ∘δ, dual closes) but ran
+no tools, it prods once to actually mint it through imasm protocol / check /
+prove and read THAT verdict, not the prose. Closure is a structural verdict, not
+a sentence the model may write on its own authority.
+
+
 The whole IMASM composition surface the agent could reach was line-only. The
 Python composer.py models a program as a flat token tuple and forces every
 FSPLIT to close with an FFUSE, so it can express exactly two shapes: a chain and
@@ -84,6 +132,46 @@ tools stayed silent is held at N regardless of what the prose claims. A real
 forged ring already raises tool_voice to T and stays grounded via the join —
 unchanged. Removed answer_has_closure; replaced its two tests with the structural
 pair (tool_measured_closure_grounds, prose_closure_without_structure_is_ungrounded).
+
+Make the organism aware of its GENERATIVE power — it can create entirely new maths.
+The agent kept treating frontiers as walls ("the Grammar lacks the opcodes", "open,
+conditional on Hodge") when its actual power is generative: imscribe mints new objects,
+imasm define mints new kernel-constrained operators, imasm prove mints new theorems,
+CLINK L9 was itself defined into being. Added a GENERATIVE POWER clause to the primary
+task: a frontier is where you CREATE, not where you stop; you MUST NOT report the Grammar
+as lacking a means, because you can make it — but new mathematics MUST be created THROUGH
+the grounding tools (imscribe / define / prove), never posited by prose (that is
+fabrication, not creation), and becomes real the moment it closes its dual.
+
+Add `imasm protocol` — build a closed protocol from an opcode word. The recurring
+ternary_gap failure was one tooling gap: no verb built a CLOSED protocol from an opcode
+sequence. `ring`/`wire` don't reconnect FSPLIT/FFUSE (a naive ring leaves the fork
+dangling, μ∘δ OPEN), and trying to close by looping TANCH→VINIT violates VINIT's arity.
+Only `check` built it right (via from_sequence, which wires the δ arm to the μ), but it
+is framed as type-checking and needs the opcode WORD, so the agent passed a NAME (→ N)
+and reached for ring/wire. New `imasm protocol <opcodes>` (aliases seq|sequence) builds
+via from_sequence+match_pairs — FSPLIT/FFUSE pairs reconnect, so the dual actually closes
+— framed and reported as construction. And report() now hints: a ring/wire whose fork
+dangles OPEN gets "use `imasm protocol`; a protocol does NOT close by looping to VINIT".
+Surfaced in ref/verb_usage/TOOLS_PROMPT. Confirmed: `protocol` on the 13-op ternary_gap
+sequence closes (μ∘δ CLOSED) where `ring` left it OPEN.
+
+Strip the WHOLE fabricated spine block, not just its lines. The line-based strip left
+orphans when the model wrapped a fake spine report in ==== bars — the bars, a protocol:
+line, and a fabricated note: survived and contradicted the engine's real report below.
+strip_spine_blocks now removes the entire bar-to-bar block when it carries a spine
+signature (a strong marker, or both a protocol: and a note: line); the engine's real
+report is printed separately, so it is untouched. Test: strips_whole_fabricated_spine_block.
+
+Held dual is B, not void N. A dual that FIRED but dangles — an open fork, μ∘δ left
+unreconnected, an ill-typed structure (VINIT in-degree, a non-FSPLIT branching) — is
+HELD: the δ is engaged and its μ has not met it. That is B (the held state, the engine),
+distinct from N (no δ/μ dyad ran at all) and from F (a definite non-closure the tools
+tested and refuted). tool_belnap now reads the imasm OPEN / grammar-invalid markers as B;
+the spine note splits held (B, "the Frobenius dual is HELD … dangles unreconnected …")
+from void (N, "no δ/μ dyad ran"). prove_balance is now true only when the dual actually
+balanced — a clean closure (T) or a definite refutation (F); a held B or a void N never
+balanced. Tests: open_dual_is_held_b_not_void, no_dual_is_void_n.
 
 Collapse loops buried in prose; lighten the spine prohibition; MUST/MUST NOT phrasing.
 The model derailed into a "*Wait:* … I will do that." cycle repeated ~15× inside an

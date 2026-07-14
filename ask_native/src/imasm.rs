@@ -58,6 +58,32 @@ impl Token {
         }
     }
 
+    /// Single-glyph code — one symbol per opcode, so an opcode word reads as a
+    /// sequence (a codon string) instead of a space-delimited token list. The alphabet
+    /// is not invented: it references the per-token glyph vocabulary the IMSCRIBr pen-mode
+    /// READING_GUIDE already fixes (ob3ect/READING_GUIDE.md §3). Six are the guide's own
+    /// midpoint glyphs (IMSCRIB ←, FSPLIT ◇, FFUSE ●, EVALT +, EVALF ×, CLINK from its
+    /// double-line ═ → =); IFIX is the guide's stated meaning "fix (¬)"; ENGAGR is the
+    /// Belnap B it holds; AFWD/AREV are the guide's forward→/reverse→ as > / <; VINIT/TANCH
+    /// keep their initials. Distinct by construction (letter V/T/B never collide with the
+    /// symbol codes), so `parse` round-trips every code back to its token.
+    fn code(self) -> &'static str {
+        match self {
+            Token::Vinit => "V",
+            Token::Tanch => "T",
+            Token::Afwd => ">",
+            Token::Arev => "<",
+            Token::Clink => "=",
+            Token::Imscrib => "←",
+            Token::Fsplit => "◇",
+            Token::Ffuse => "●",
+            Token::Evalt => "+",
+            Token::Evalf => "×",
+            Token::Engagr => "B",
+            Token::Ifix => "¬",
+        }
+    }
+
     /// Does this opcode TRANSFORM the object (do work), as opposed to being an
     /// identity/structural node? IMSCRIB is the identity morphism, VINIT/TANCH are
     /// source/sink, FSPLIT/FFUSE are the split/fuse themselves — none transform.
@@ -85,18 +111,18 @@ impl Token {
     fn parse(s: &str) -> Option<Token> {
         let u = s.trim().to_ascii_uppercase();
         Some(match u.as_str() {
-            "VINIT" | "VI" => Token::Vinit,
-            "TANCH" | "TA" => Token::Tanch,
-            "AFWD" | "AF" => Token::Afwd,
-            "AREV" | "AR" => Token::Arev,
-            "CLINK" | "CL" => Token::Clink,
-            "IMSCRIB" | "IMSCRIBE" | "IM" => Token::Imscrib,
-            "FSPLIT" | "FS" | "SPLIT" | "DELTA" => Token::Fsplit,
-            "FFUSE" | "FF" | "FUSE" | "MU" => Token::Ffuse,
-            "EVALT" | "ET" => Token::Evalt,
-            "EVALF" | "EF" => Token::Evalf,
-            "ENGAGR" | "EG" => Token::Engagr,
-            "IFIX" | "IX" | "FIX" => Token::Ifix,
+            "VINIT" | "VI" | "V" => Token::Vinit,
+            "TANCH" | "TA" | "T" => Token::Tanch,
+            "AFWD" | "AF" | ">" => Token::Afwd,
+            "AREV" | "AR" | "<" => Token::Arev,
+            "CLINK" | "CL" | "=" | "═" => Token::Clink,
+            "IMSCRIB" | "IMSCRIBE" | "IM" | "←" => Token::Imscrib,
+            "FSPLIT" | "FS" | "SPLIT" | "DELTA" | "◇" | "δ" => Token::Fsplit,
+            "FFUSE" | "FF" | "FUSE" | "MU" | "●" | "μ" => Token::Ffuse,
+            "EVALT" | "ET" | "+" => Token::Evalt,
+            "EVALF" | "EF" | "×" => Token::Evalf,
+            "ENGAGR" | "EG" | "B" => Token::Engagr,
+            "IFIX" | "IX" | "FIX" | "¬" => Token::Ifix,
             _ => return None,
         })
     }
@@ -552,6 +578,14 @@ impl Graph {
             .collect::<Vec<_>>()
             .join("  ;  ")
     }
+
+    /// The compact codon string: every node as its single-glyph code() in node order, no
+    /// separators — the opcode word as a sequence. Round-trips through parse (each glyph is
+    /// its own alias). This is the "single-letter code" form the READING_GUIDE's glyph
+    /// vocabulary underwrites.
+    fn code_str(&self) -> String {
+        self.nodes.iter().map(|t| t.code()).collect()
+    }
 }
 
 // ── constructors ─────────────────────────────────────────────────────────────
@@ -762,14 +796,35 @@ fn segments(args: &[String]) -> Vec<Vec<Token>> {
         .collect()
 }
 
+/// Decompose a glued single-glyph code word (`V>◇+×●¬T`) into its tokens. Every char must
+/// be a valid code, else None — so a real name (VINIT) is never mangled into letters.
+fn parse_codons(chunk: &str) -> Option<Vec<Token>> {
+    let mut out = Vec::new();
+    for c in chunk.chars() {
+        out.push(Token::parse(&c.to_string())?);
+    }
+    (!out.is_empty()).then_some(out)
+}
+
 fn tok_list(args: &[String]) -> Vec<Token> {
-    args.iter().flat_map(|s| s.split_whitespace().filter_map(Token::parse)).collect()
+    args.iter()
+        .flat_map(|s| s.split_whitespace())
+        // Whole-token/alias first (VINIT, FS, →); only a chunk that is NOT a known token is
+        // tried as a glued codon string, so multi-letter names are never char-split.
+        .flat_map(|chunk| {
+            Token::parse(chunk)
+                .map(|t| vec![t])
+                .or_else(|| parse_codons(chunk))
+                .unwrap_or_default()
+        })
+        .collect()
 }
 
 fn report(title: &str, g: &Graph) -> String {
     let mut s = String::new();
     let _ = writeln!(s, "IMASM {title}");
     let _ = writeln!(s, "  program: {}", g.program_str());
+    let _ = writeln!(s, "  code: {}", g.code_str());
     let _ = writeln!(s, "{}", g.classify());
     let errs = g.validate();
     if errs.is_empty() {
@@ -779,6 +834,20 @@ fn report(title: &str, g: &Graph) -> String {
         for e in &errs {
             let _ = writeln!(s, "    ✗ {e}");
         }
+    }
+    // Hint: a naive ring/chain/wire whose FSPLIT/FFUSE pair dangles OPEN was meant to be a
+    // PROTOCOL, which wires the δ arms to the μ so the dual closes. Point the caller there.
+    if title != "protocol"
+        && matches!(g.closure_state(), ClosureState::Open)
+        && g.nodes.iter().any(|&t| t == Token::Fsplit)
+        && g.nodes.iter().any(|&t| t == Token::Ffuse)
+    {
+        let _ = writeln!(
+            s,
+            "  hint: this FSPLIT/FFUSE pair does not reconnect — `imasm protocol <opcodes>` wires \
+             the δ fork arms to the μ fuse (the μ∘δ closure a naive ring/wire leaves open). A \
+             protocol does NOT close by looping back to VINIT (a source) — it closes at the fuse."
+        );
     }
     s
 }
@@ -792,7 +861,10 @@ FFUSE may merge in. An arm that runs out of successors is a living end (open
 out-port), reported not fatal. The shape is named by circuit rank β = E−V+C
 (independent loops): β=0 tree, β=1 one ring/bubble, β>1 network.
   imasm chain  T1 T2 …               a single strand (the classic line)
-  imasm ring   T1 T2 …               a cycle (β=1)
+  imasm ring   T1 T2 …               a cycle (β=1), fork/fuse NOT reconnected
+  imasm protocol T1 T2 …             an opcode word built so its FSPLIT/FFUSE pairs
+                                      RECONNECT (δ arm → μ) — the way to CLOSE a
+                                      protocol/loop; a naive ring leaves the fork open
   imasm star   CORE : arm1 : arm2 …  hub with f arms; K(1,f), ρ=√f (f≥3)
   imasm comb   BACKBONE : p arm : …  backbone with pendant teeth at position p
   imasm bubble PRE : A : B : POST     FSPLIT→(A|B)→FFUSE reconvergence (β=1)
@@ -820,6 +892,11 @@ STRANGE LOOP: the 49 types the Grammar writes tuples with are not atomic — eac
 UNFOLDS into its own 12-opcode IMASM program (`imasm expand ado`). Splice an
 expanded type's sequence into a polymer arm to pivot through state space AS that
 type: the alphabet's letters are themselves words in the language.
+SINGLE-GLYPH CODES: each opcode has a one-symbol code (READING_GUIDE §3 glyphs), so
+a word can be written glued, no spaces — `V>◇+=←<×B●←¬T` is the same protocol as the
+13 spelled-out tokens. Every build echoes the word's `code:`. The alphabet:
+  V VINIT   T TANCH   > AFWD   < AREV   = CLINK   ← IMSCRIB
+  ◇ FSPLIT  ● FFUSE   + EVALT  × EVALF  B ENGAGR  ¬ IFIX
 Every build reports topology label, β, branch/merge/source/sink census, arm
 count, spectral radius ρ, and a grammar validation.";
 
@@ -847,6 +924,15 @@ fn build_graph(op: &str, rest: &[String]) -> Result<(&'static str, Graph), Strin
     match op {
         "chain" => Ok(("chain", chain(&tok_list(rest)))),
         "ring" | "cycle" | "loop" => Ok(("ring", ring(&tok_list(rest)))),
+        // A PROTOCOL is an opcode word built so its FSPLIT/FFUSE pairs RECONNECT (the δ arm is
+        // wired to the μ) — the correct way to close a protocol/loop. A naive `ring` leaves the
+        // fork dangling; `protocol` closes the μ∘δ. This is the builder to reach for when you
+        // have an opcode sequence with a fork that must fuse.
+        "protocol" | "seq" | "sequence" => {
+            let ops = tok_list(rest);
+            let pairs = match_pairs(&ops);
+            Ok(("protocol", from_sequence(&ops, &pairs)))
+        }
         "classify" | "read" => Ok(("classify", chain(&tok_list(rest)))),
         "wire" | "graph" | "free" => {
             let joined = rest.join(" ");
@@ -1206,11 +1292,13 @@ pub fn run(args: &[String]) -> String {
         "run" | "invoke" => run_tool(rest),
         "prove" | "kernel" => prove_tool(rest),
         "tools" => list_tools(),
-        "chain" | "ring" | "cycle" | "loop" | "classify" | "read" | "wire" | "graph" | "free"
-        | "star" | "bubble" | "fork" | "comb" | "graft" => match build_graph(&op, rest) {
-            Ok((title, g)) => report(title, &g),
-            Err(e) => e,
-        },
+        "chain" | "ring" | "cycle" | "loop" | "protocol" | "seq" | "sequence" | "classify"
+        | "read" | "wire" | "graph" | "free" | "star" | "bubble" | "fork" | "comb" | "graft" => {
+            match build_graph(&op, rest) {
+                Ok((title, g)) => report(title, &g),
+                Err(e) => e,
+            }
+        }
         "types" | "list" => {
             let ts = list_types();
             format!(
@@ -1308,6 +1396,26 @@ mod tests {
         assert_eq!(g.circuit_rank(), 0);
         assert!(g.classify().contains("linear"));
         assert!(g.validate().is_empty());
+    }
+
+    #[test]
+    fn codon_word_round_trips() {
+        // every opcode's code() re-parses to itself
+        for t in [
+            Token::Vinit, Token::Tanch, Token::Afwd, Token::Arev, Token::Clink,
+            Token::Imscrib, Token::Fsplit, Token::Ffuse, Token::Evalt, Token::Evalf,
+            Token::Engagr, Token::Ifix,
+        ] {
+            assert_eq!(Token::parse(t.code()), Some(t), "code {} lost {:?}", t.code(), t);
+        }
+        // a glued code word parses to the same tokens as the spelled-out names, and a
+        // multi-letter name is never char-split
+        let glued = tok_list(&["V>◇+←¬T".to_string()]);
+        let named = tok_list(&[
+            "VINIT AFWD FSPLIT EVALT IMSCRIB IFIX TANCH".to_string(),
+        ]);
+        assert_eq!(glued, named);
+        assert_eq!(tok_list(&["VINIT".to_string()]), vec![Token::Vinit]);
     }
 
     #[test]
