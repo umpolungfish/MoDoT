@@ -1262,12 +1262,35 @@ pub fn run(args: &[String]) -> String {
                 }
             }
         }
+        // Construction / verification intent under a name the engine does not have. The
+        // capability EXISTS — the agent just reached for the wrong word. Redirect it to the
+        // real closing verbs instead of a flat "unknown", so it completes the dual rather than
+        // concluding (falsely) that the Grammar lacks the opcode. The Grammar is never missing
+        // the means; only the name was wrong.
+        "simulate" | "instantiate" | "construct" | "build" | "create" | "make" | "encode" | "compile" => {
+            format!(
+                "imasm has no '{op}' — but the capability is here, under its real name. To CONSTRUCT \
+                 (encode an algorithm as a kernel-constrained program): `imasm define <name> <op> \
+                 <args…>` (op ∈ chain|ring|star|comb|bubble|wire). To VERIFY it: `imasm check \
+                 <opcode word>` (Belnap type-check) or `imasm prove <name>` (the real p4ramill \
+                 kernel). Emit those TOOL: lines now — do not report the Grammar as lacking an \
+                 opcode; it is not.\n"
+            )
+        }
+        "verify" | "typecheck" | "test" => {
+            format!(
+                "imasm has no '{op}' — use `imasm check <opcode word>` (Belnap type-check of a \
+                 decision/program) or `imasm prove <name|word>` (the p4ramill kernel). Run it now.\n"
+            )
+        }
         _ => {
             // treat the whole arg list as a raw token chain
             let toks = tok_list(args);
             if toks.is_empty() {
                 return format!(
-                    "imasm: unknown op '{op}' and no tokens recognized.\n{REFERENCE}\n"
+                    "imasm: no op '{op}'. To build: chain|ring|star|comb|bubble|wire. To construct a \
+                     named tool: define. To verify: check | prove. To read a type: expand | types. \
+                     Full rules: imasm ref.\n"
                 );
             }
             report("chain", &chain(&toks))

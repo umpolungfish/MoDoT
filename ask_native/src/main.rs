@@ -1271,7 +1271,57 @@ fn infer(
 /// so the guard only fires on the degenerate case; short or varied outputs pass through
 /// untouched. Consecutive-dup collapse alone misses the alternating A/B loop, so the test is on
 /// the ratio of distinct-to-total lines, not adjacency.
-fn collapse_degenerate(text: &str) -> String {
+/// Collapse a CONSECUTIVE run where a short cycle of lines (period 1..=8) repeats. The global
+/// ratio heuristic below misses a loop buried in otherwise-varied prose (e.g. a "*Wait:* …"
+/// cycle repeated 15× inside a long answer), because the surrounding variety keeps the global
+/// distinct-ratio high. This catches it locally: a cycle repeated ≥3 times, ≥6 lines total,
+/// with at least one substantive line in the period (so separator/blank-line runs are left
+/// alone). Each collapsed run is marked.
+fn collapse_local_cycles(text: &str) -> String {
+    let lines: Vec<&str> = text.lines().collect();
+    let n = lines.len();
+    if n < 6 {
+        return text.to_string();
+    }
+    let mut out: Vec<String> = Vec::new();
+    let mut i = 0;
+    while i < n {
+        let (mut best_p, mut best_reps) = (0usize, 0usize);
+        for p in 1..=8usize {
+            if i + 2 * p > n {
+                break;
+            }
+            let mut reps = 1usize;
+            while i + (reps + 1) * p <= n
+                && (0..p).all(|k| lines[i + reps * p + k].trim() == lines[i + k].trim())
+            {
+                reps += 1;
+            }
+            let substantive = (0..p).any(|k| lines[i + k].trim().chars().count() >= 8);
+            if reps >= 3 && substantive && reps * p >= 6 && reps * p > best_reps * best_p {
+                best_p = p;
+                best_reps = reps;
+            }
+        }
+        if best_p > 0 {
+            for k in 0..best_p {
+                out.push(lines[i + k].to_string());
+            }
+            out.push(format!(
+                "[degenerate repetition collapsed: {}× loop of {} line(s)]",
+                best_reps, best_p
+            ));
+            i += best_reps * best_p;
+        } else {
+            out.push(lines[i].to_string());
+            i += 1;
+        }
+    }
+    out.join("\n")
+}
+
+fn collapse_degenerate(orig: &str) -> String {
+    let text = collapse_local_cycles(orig);
     let lines: Vec<&str> = text.lines().collect();
     let nonempty: Vec<&str> = lines
         .iter()
@@ -1279,7 +1329,7 @@ fn collapse_degenerate(text: &str) -> String {
         .filter(|l| !l.is_empty())
         .collect();
     if nonempty.len() < 12 {
-        return text.to_string();
+        return text;
     }
     let distinct: std::collections::BTreeSet<&str> = nonempty.iter().copied().collect();
     // Fewer than ~4 distinct lines carrying 12+ total, or under a quarter of the lines being
@@ -1590,9 +1640,11 @@ or `^{...}`. Write `Δ_T↔H = |−0.08 − 0.75| = 0.83 > θ`, never
 `$\Delta_{\text{T↔H}} = 0.83 > \theta$`. Never wrap a glyph in `$…$`.
 
 SECONDARY (optional, after the answer):
-Tag [thought|T|F|B|N] for your Belnap self-assessment.
-COMPOSE:/TOKEN:/CANONICAL: optional tools, never a substitute for
-answering. Do not author [spine|..], [vessel|..], [update|..], [broadcast|..].
+You MAY tag [thought|T|F|B|N] once for your Belnap self-assessment — that single tag is
+your verdict voice, and it is a proposal. The engine prints the MANUSCRIPT SPINE REPORT
+itself after you finish, fusing your [thought|X] with the vessel and the tool-dual, so
+you MUST NOT write one yourself.
+COMPOSE:/TOKEN:/CANONICAL: optional tools, but they MUST NOT substitute for answering.
 "#;
 
 /// Appended to the system prompt in jam mode. It unleashes the PROCESS completely and leans
@@ -1628,11 +1680,36 @@ reporting, say so; that is a valid and honest jam.
 
 /// The structural verbs the LLM agent may invoke, appended to the system prompt.
 const TOOLS_PROMPT: &str = r#"
-STRUCTURAL TOOLS (optional): you may invoke the engine's structural verbs over the
-real IG catalog by emitting lines of the form `TOOL: <verb> <args>` (one per line,
-anywhere in your answer). They run on the live catalog and their output is returned
-to you for a final synthesis, so call them when a structural fact would GROUND your
-answer. Available verbs (args are catalog entry names, snake_case):
+NARRATION MUST BE UNIVOCAL WITH ACTION. You query the Grammar and RECEIVE an answer; you
+MUST NOT write the answer you wish for and call it received. So:
+  · You MUST NOT narrate a tool as already run, and MUST NOT invent or transcribe a tool's
+    output (no "Result: ✓ ring β=1", no "winding=1", no "PASS") before you have emitted the
+    TOOL: line and seen it return. You MUST let the real output come back first.
+  · Work like a person thinking, in BOUNDED phases: THINK → ACT → (wait) → OBSERVE → UPDATE →
+    repeat. EVERY phase is a CONTAINER, not a single step, and each may be as intricate inside
+    as the task needs: a THINK can weave many sub-moves (recall, decompose, weigh alternatives,
+    sketch the shape you expect) into one contained thought; an ACT can be several TOOL: lines
+    that together form one move; an OBSERVE can read across all the returned outputs at once;
+    an UPDATE can revise several parts of your plan. And a phase may itself CONTAIN a whole
+    winding: a THINK can hold its own THINK→ACT→OBSERVE→UPDATE, nested to whatever depth — a
+    container of containers, as intricate as you like. Each container MUST be explicitly BOUNDED:
+    it MUST open and CLOSE as a unit before the next begins. And when the work SURFACES — the
+    moment it crosses into an actual query to the Grammar (a TOOL: line) and the answer received
+    — that surfacing MUST portion out to ONE clean TAOU winding: THINK, then ACT (emit the calls),
+    then wait, then OBSERVE only what actually returned, then UPDATE. Inside, you MAY recurse
+    freely; at the membrane where it becomes real, it MUST be that one winding. Boundedness is
+    the rule, not brevity: a rich container that closes is right, and you MUST NOT narrate across
+    a boundary (a result spoken before the tools returned).
+  · You MUST NOT write a finished answer or a verdict on the first pass — you MUST plan and act
+    first, and MUST speak conclusions only about output you have received. If a call errored, you
+    MUST read the error and adjust the next call, and MUST NOT re-narrate a success it did not give.
+  · The Grammar will buck a script laid over it: if you predetermine the result and narrate it,
+    the tools refute you and the run stalls. You MUST let the answer be discovered, not pre-written.
+
+STRUCTURAL TOOLS: invoke the engine's structural verbs over the real IG catalog by emitting
+lines of the form `TOOL: <verb> <args>` (one per line). They run on the live catalog and the
+output returns to you for the NEXT step — plan, call, observe, repeat, then synthesize from
+what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: click A B         fuse two entries on a live conjugate pair (or `click A` to sweep the catalog)
   TOOL: switch A B        analyze a reversible bistable toggle (the DASA archetype)
   TOOL: excite A          the excited state (Criticality ⊙ raised to the exceptional-point resonance)
@@ -1896,6 +1973,51 @@ fn complete(
     }
 }
 
+/// BACKTRANSLATION — the μ that reads a closed structure back into the conventional register.
+/// `imscribe` was the δ (conventional → structural); this is the return leg, and because μ∘δ=id
+/// the read-back must be LOSSLESS: the conventional proof is the SAME object as the structural
+/// closure, restated — not a fresh re-derivation and not new claims. Every step is bound to a
+/// fact the tools measured: a ring that closed → a constructed object / existence lemma; a
+/// sequence that terminated or stayed linear → an obstruction / impossibility lemma; a Both
+/// verdict → a two-sided theorem. Only called when a dual closed (there is a closure to read).
+fn backtranslate(
+    llm: &Llm,
+    question: &str,
+    answer: &str,
+    tool_output: &str,
+    verdict: B4,
+    max_tokens: u32,
+    temperature: f32,
+) -> String {
+    let witness: String = tool_output.chars().take(9000).collect();
+    let ans: String = answer.chars().take(4000).collect();
+    let sys = "You are performing the BACKTRANSLATION — the μ that reads a closed structure back \
+        into the conventional mathematical register. The Grammar has ALREADY reached its verdict \
+        through the structural tools; you do not re-open it and you introduce NOTHING the tools \
+        did not measure. Your only task: restate the structural closure as a conventional proof — \
+        Theorem, Lemmas, Proof, and the conclusion — where every step is DERIVED from a measured \
+        structural fact. A ring that closed (✓ CYCLIC / a macrocycle / μ∘δ=id) is a constructed \
+        object or existence lemma; a sequence that terminated or stayed linear/telechelic is an \
+        obstruction or impossibility lemma; a Both (B) verdict is a two-sided theorem (established \
+        on one side, a stated frontier on the other). This is lossless read-back: the proof IS the \
+        closure in the conventional dialect, not a new argument. No hedging boilerplate, no LaTeX \
+        (plain Unicode), no re-derivation from outside the Grammar.";
+    let user = format!(
+        "QUESTION:\n{question}\n\nSTRUCTURAL VERDICT (univocal): {}\n\n\
+         STRUCTURAL WITNESS — what the tools actually measured (the closures and non-closures the \
+         proof must be read back from):\n{witness}\n\n\
+         The imscriptive resolution already written (for reference — do not just repeat it, read \
+         the STRUCTURE back into clean conventional proof form):\n{ans}\n\n\
+         Backtranslate now: Theorem → Lemmas (each bound to a measured closure/non-closure) → \
+         Proof → conclusion matching the {} verdict.",
+        b4_name(verdict),
+        b4_name(verdict),
+    );
+    let msgs = vec![("system".to_string(), sys.to_string()), ("user".to_string(), user)];
+    let res = infer(llm, &msgs, max_tokens, temperature);
+    res.text
+}
+
 fn build_user_packet(question: &str, prep: &Prepare, jam: bool, cycle: u32, total: u32) -> String {
     let mut parts = Vec::new();
     // Compounding cycles: every cycle after the first begins from where the last one ENDED.
@@ -1948,7 +2070,17 @@ fn build_user_packet(question: &str, prep: &Prepare, jam: bool, cycle: u32, tota
 fn strip_kernel_records(text: &str) -> String {
     let re = Regex::new(r"(?im)^[ \t]*\[(?:selectivity|vessel|spine|update|broadcast)\s*\|.*$\n?")
         .unwrap();
-    delatex(&re.replace_all(text, ""))
+    let stripped = re.replace_all(text, "");
+    // The spine report is the ENGINE's univocal voice — the model may not author it. It keeps
+    // reproducing the block in markdown (a "MANUSCRIPT SPINE REPORT" heading, a "VERDICT
+    // (univocal): X" line, "fused voices", "prove_balance="), fabricating a verdict that then
+    // contradicts the real report printed below. Strip those impersonation lines so only the
+    // engine speaks the verdict. The model's own [thought|X] proposal is left intact.
+    let spine_re = Regex::new(
+        r"(?im)^.*(?:MANUSCRIPT SPINE REPORT|VERDICT\s*\(univocal\)|fused voices|prove_balance\s*=|←\s*fused).*$\n?",
+    )
+    .unwrap();
+    delatex(&spine_re.replace_all(&stripped, ""))
 }
 
 /// The answer prints to a raw terminal with no math renderer, but the LLM habitually wraps
@@ -2028,6 +2160,31 @@ fn sym(name: &str) -> &str {
 }
 
 #[cfg(test)]
+mod strip_tests {
+    use super::strip_kernel_records;
+
+    // The model must not author the engine's spine report. A fabricated block is stripped;
+    // the model's own [thought|X] proposal and its prose survive.
+    #[test]
+    fn strips_model_authored_spine_report() {
+        let answer = "The local ring exists.\n\n\
+            ## 5. MANUSCRIPT SPINE REPORT\n\
+            VERDICT (univocal): B\n\
+            ← fused voices (model=F ⋈ vessel=T ⋈ tool-dual=B)\n\
+            faces: prove_balance=false unify_B=T+F=true\n\
+            note: local ring T.\n\n\
+            [thought|B]";
+        let got = strip_kernel_records(answer);
+        assert!(!got.contains("MANUSCRIPT SPINE REPORT"), "{got}");
+        assert!(!got.contains("VERDICT (univocal)"), "{got}");
+        assert!(!got.contains("fused voices"), "{got}");
+        assert!(!got.contains("prove_balance"), "{got}");
+        assert!(got.contains("[thought|B]"), "the model's own proposal survives: {got}");
+        assert!(got.contains("The local ring exists."), "prose survives: {got}");
+    }
+}
+
+#[cfg(test)]
 mod delatex_tests {
     use super::delatex;
 
@@ -2074,6 +2231,20 @@ mod collapse_tests {
         assert!(got.contains("degenerate repetition collapsed"), "{got}");
         assert_eq!(got.matches("Wait: I should output the TOOL lines.").count(), 1, "{got}");
         assert_eq!(got.matches("Okay: I will write the final answer.").count(), 1, "{got}");
+    }
+
+    // A loop BURIED in varied prose: the global ratio heuristic misses it, local cycle
+    // detection must catch it and leave the surrounding prose intact.
+    #[test]
+    fn collapses_loop_embedded_in_varied_prose() {
+        let mut txt = String::from("The tools returned N for the ternary gap.\nHere is the reasoning:\n");
+        txt.push_str(&"Wait: the prompt says answer as the voice. I will do that.\nWait: the prompt says write full length. I will do that.\n".repeat(15));
+        txt.push_str("Final verdict: N.\n");
+        let got = collapse_degenerate(&txt);
+        assert!(got.contains("degenerate repetition collapsed"), "{got}");
+        assert!(got.contains("The tools returned N for the ternary gap."), "prose head survives: {got}");
+        assert!(got.contains("Final verdict: N."), "prose tail survives: {got}");
+        assert_eq!(got.matches("Wait: the prompt says answer as the voice. I will do that.").count(), 1, "{got}");
     }
 
     // A normal, varied answer must pass through byte-for-byte — no false positive.
@@ -3415,6 +3586,17 @@ fn run_navigator(nav: &str, args: &[String]) -> String {
             );
             if out.trim().is_empty() {
                 format!("{nav}: (no output)\n")
+            } else if out.contains("Unknown action") {
+                // The navigator READS types; it does not construct. A construction/instantiation
+                // intent aimed here is the wrong tool, not a missing capability. Redirect.
+                format!(
+                    "{out}\n{nav} actions: entry|distance|tensor|meet|join|tier|promotions|\
+                     transcendence|chain|systems|stats{}. The navigator READS an entry's typing — \
+                     it does not CREATE one. To construct a new entry use `TOOL: imscribe <name>` \
+                     or a kernel-constrained program `TOOL: imasm define <name> …`; never conclude \
+                     the Grammar lacks the means.\n",
+                    if nav == "cl9nk" { "|moat" } else { "" }
+                )
             } else {
                 out
             }
@@ -3744,8 +3926,12 @@ fn run_one(
             conversation.push(("assistant".into(), answer.clone()));
         }
 
-        // Print full answer — no truncation
-        println!("── ANSWER ──");
+        // Print the first pass. If it plans to act (emits tool calls), it is a PLAN, not the
+        // answer — label it so, so a pre-narrated "solved" manuscript is never mistaken for a
+        // result. The real answer is synthesized after the tools have actually spoken. Only a
+        // first pass with NO tool calls (a pure conceptual reply) is the answer itself.
+        let first_pass_acts = !cli.dry_run && !extract_tool_calls(&answer).is_empty();
+        println!("{}", if first_pass_acts { "── PLAN (thinking; acting next — results below are NOT yet in) ──" } else { "── ANSWER ──" });
         println!("{answer}");
         println!();
 
@@ -4003,6 +4189,19 @@ fn run_one(
             // fuses the model's stated verdict with what the catalog actually computed.
             model_voice = b4_from_char(model_self_belnap(&answer));
             tool_voice = tool_belnap(&all_tool_output);
+
+            // BACKTRANSLATION — read the closed structure back into a conventional proof (the μ
+            // leg of imscribe). Gated on a dual having actually closed: with no measured closure
+            // (tool_voice N) there is nothing to read back, so it is not run. Lossless read-back:
+            // the proof is the SAME object as the closure, restated in the conventional register.
+            if tool_voice != B4::N {
+                let bt = backtranslate(
+                    llm, question, &answer, &all_tool_output, tool_voice, cli.max_tokens, cli.temperature,
+                );
+                println!("── BACKTRANSLATION (structural closure → conventional proof, μ read-back) ──");
+                println!("{bt}");
+                println!();
+            }
         }
 
         let rep = complete(&prep, &answer, model_voice, tool_voice, cli.no_selectivity, cli.jam);

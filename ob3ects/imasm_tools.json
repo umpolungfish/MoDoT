@@ -10,8 +10,28 @@
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants"
   },
   "infinite_stitch": {
-    "spec": "chain gaussian_moat_problem hodge_conjecture gaussian_moat_linker",
+    "spec": "chain",
     "title": "chain",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "ternary_gap_chain": {
+    "spec": "chain VINIT FSPLIT AFWD AREV FFUSE ENGAGR IFIX TANCH",
+    "title": "chain",
+    "topology": "  topology: linear | V=8 E=7 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.8794\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "ternary_gap_ring": {
+    "spec": "chain VINIT FSPLIT AFWD AREV FFUSE",
+    "title": "chain",
+    "topology": "  topology: linear | V=5 E=4 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.7321\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 2 out, 1 in — reactive, not errors"
+  },
+  "ternary_protocol": {
+    "spec": "chain VINIT AFWD FSPLIT EVALT CLINK IMSCRIB AREV EVALF ENGAGR FFUSE IMSCRIB IFIX TANCH",
+    "title": "chain",
+    "topology": "  topology: linear | V=13 E=12 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.9499\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "ternary_ring": {
+    "spec": "ring",
+    "title": "ring",
     "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   }
 }

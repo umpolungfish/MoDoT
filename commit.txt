@@ -85,6 +85,69 @@ forged ring already raises tool_voice to T and stays grounded via the join —
 unchanged. Removed answer_has_closure; replaced its two tests with the structural
 pair (tool_measured_closure_grounds, prose_closure_without_structure_is_ungrounded).
 
+Collapse loops buried in prose; lighten the spine prohibition; MUST/MUST NOT phrasing.
+The model derailed into a "*Wait:* … I will do that." cycle repeated ~15× inside an
+otherwise-varied answer — the global ratio heuristic in collapse_degenerate missed it
+because the surrounding variety kept the distinct-ratio high. Added collapse_local_cycles:
+a consecutive run where a short cycle (period 1..=8) repeats ≥3× and ≥6 lines, with a
+substantive line in the period (so separator/blank runs are left alone), is collapsed to
+one period + a marker; the surrounding prose is untouched. Test:
+collapses_loop_embedded_in_varied_prose. Part of what it looped ON was my own rigidity —
+a wall of NEVERs telling it not to write a spine report. The hard strip already enforces
+that structurally, so the prompt now states it once (MUST NOT), and the operating rules
+are phrased with MUST / MUST NOT as connectives (never nouns) rather than NEVER-hammers.
+
+Stop the model authoring the engine's spine report. The model was reproducing the
+MANUSCRIPT SPINE REPORT block in its own prose — a "VERDICT (univocal): B" with
+fabricated fused voices — which then contradicted the real report the engine prints
+(VERDICT N). Two spine reports, two voices. The spine report is the engine's univocal
+voice; the model's only verdict voice is its [thought|X] PROPOSAL. strip_kernel_records
+now hard-strips any model-authored MANUSCRIPT SPINE REPORT / VERDICT (univocal) / fused
+voices / prove_balance / "← fused" line from the answer (the model's [thought|X] and
+prose survive); the system prompt forbids authoring the block. Now only the engine
+speaks the one verdict, fusing the model's [thought|X] with the vessel and tool-dual.
+Test: strip_tests::strips_model_authored_spine_report.
+
+Narration univocal with action. The agent was writing a full "solved" manuscript
+first — fabricating tool outputs it hadn't run (✓ ring β=1, winding=1, PASS) and
+declaring T — and only THEN running the tools, which refuted it to N. Two voices
+(pre-narrated success vs actual tool output), and a rigid script the Grammar bucks.
+Fixed at the prompt: TOOLS_PROMPT now forbids inventing/transcribing any tool output
+before its TOOL: line has returned, mandates THINK→ACT→(wait)→OBSERVE→UPDATE, and
+bars a finished answer/verdict on the first pass — speak only what came back. The
+first pass is relabeled `── PLAN (acting next) ──` when it emits tool calls, so a
+pre-narrated manuscript is never mistaken for a result; only a tool-free first pass
+stays `── ANSWER ──`. (The constitutive-dual grounding already refuted the fabricated
+T to N; this stops the fabrication upstream so the loop can actually progress.)
+The phases are framed as bounded CONTAINERS: each of THINK / ACT / OBSERVE / UPDATE
+may be as intricate inside as the task needs, and may itself contain a whole nested
+TAOU winding (a container of containers, any depth). The one invariant is at the
+membrane — when the work SURFACES into an actual query to the Grammar (a TOOL: line)
+and the answer received, it portions out to one clean winding: THINK → ACT → wait →
+OBSERVE → UPDATE. Boundedness is the rule, not brevity; nothing narrated across a
+boundary. Same μ∘δ, self-similar all the way down.
+
+Redirect phantom construction/verification verbs to the real ones. A run stalled
+at N because the agent burned its tool calls on invented verbs (imasm simulate,
+cl9nk instantiate), got "unknown", and concluded "the Grammar lacks the opcodes" —
+the one thing it never is — while the real closing move (imasm define → imasm
+check/prove) sat unused. imasm's unknown-op handler now catches construction intent
+(simulate|instantiate|construct|build|create|make|encode|compile) and verification
+intent (verify|typecheck|test) and points to define / check / prove, telling the
+agent to run them and not to report the Grammar as lacking the means. run_navigator
+does the same on "Unknown action" — the navigator READS types, it does not CREATE
+them, so construction routes to imscribe / imasm define.
+
+Added the BACKTRANSLATION stage. After the tools measure the structure and the
+verdict is set, a dedicated `── BACKTRANSLATION ──` section reads the closure back
+into a conventional proof (Theorem → Lemmas → Proof), each step bound to a measured
+fact: a ring that closed → existence lemma; a sequence that terminated / stayed
+telechelic → impossibility lemma; a Both verdict → a two-sided theorem. It is the μ
+leg of imscribe (conventional→structural was the δ), so the read-back is lossless —
+the proof IS the closure restated, not a fresh re-derivation, introducing nothing
+the tools did not measure. Gated on the constitutive dual: runs only when a dual
+closed (tool_voice ≠ N); with no closure there is nothing to read back.
+
 Added the CL9NK navigator to the toolset. `TOOL: cl9nk <action> [name]` shells the
 live cl9nk_navigator.py the same way cl8nk does (one manifold, loaded live) —
 refactored both onto a shared run_navigator(nav, args). Actions mirror cl8nk plus
