@@ -63,14 +63,16 @@ impl Token {
     /// is not invented: it references the per-token glyph vocabulary the IMSCRIBr pen-mode
     /// READING_GUIDE already fixes (ob3ect/READING_GUIDE.md §3). Six are the guide's own
     /// midpoint glyphs (IMSCRIB ←, FSPLIT ◇, FFUSE ●, EVALT +, EVALF ×, CLINK from its
-    /// double-line ═ → =); IFIX is the guide's stated meaning "fix (¬)"; ENGAGR is the
-    /// Belnap B it holds; AFWD/AREV are the guide's forward→/reverse→ as > / <; VINIT/TANCH
-    /// keep their initials. Distinct by construction (letter V/T/B never collide with the
-    /// symbol codes), so `parse` round-trips every code back to its token.
+    /// double-line ═ → =); IFIX is the guide's stated meaning "fix (¬)"; AFWD/AREV are the
+    /// guide's forward→/reverse→ as > / <. Every token is SYMBOLIC — no Latin initials:
+    /// VINIT ⊢ and TANCH ⊣ are the opening/closing boundary turnstiles, and ENGAGR ⊞ is the
+    /// Belnap Both it holds. Distinct by construction, so `parse` round-trips every code
+    /// back to its token. The retired letter codes V/T/B no longer parse (full names VINIT/
+    /// TANCH/ENGAGR and the short forms VI/TA/EG still do).
     fn code(self) -> &'static str {
         match self {
-            Token::Vinit => "V",
-            Token::Tanch => "T",
+            Token::Vinit => "⊢",
+            Token::Tanch => "⊣",
             Token::Afwd => ">",
             Token::Arev => "<",
             Token::Clink => "=",
@@ -79,7 +81,7 @@ impl Token {
             Token::Ffuse => "●",
             Token::Evalt => "+",
             Token::Evalf => "×",
-            Token::Engagr => "B",
+            Token::Engagr => "⊞",
             Token::Ifix => "¬",
         }
     }
@@ -111,8 +113,8 @@ impl Token {
     fn parse(s: &str) -> Option<Token> {
         let u = s.trim().to_ascii_uppercase();
         Some(match u.as_str() {
-            "VINIT" | "VI" | "V" => Token::Vinit,
-            "TANCH" | "TA" | "T" => Token::Tanch,
+            "VINIT" | "VI" | "⊢" => Token::Vinit,
+            "TANCH" | "TA" | "⊣" => Token::Tanch,
             "AFWD" | "AF" | ">" => Token::Afwd,
             "AREV" | "AR" | "<" => Token::Arev,
             "CLINK" | "CL" | "=" | "═" => Token::Clink,
@@ -121,7 +123,7 @@ impl Token {
             "FFUSE" | "FF" | "FUSE" | "MU" | "●" | "μ" => Token::Ffuse,
             "EVALT" | "ET" | "+" => Token::Evalt,
             "EVALF" | "EF" | "×" => Token::Evalf,
-            "ENGAGR" | "EG" | "B" => Token::Engagr,
+            "ENGAGR" | "EG" | "⊞" => Token::Engagr,
             "IFIX" | "IX" | "FIX" | "¬" => Token::Ifix,
             _ => return None,
         })
@@ -267,12 +269,22 @@ impl Graph {
             // arms) still reconnects. A δ whose arms feed ≥2 of j's in-ports closes.
             let in_edges: Vec<usize> =
                 self.edges.iter().filter(|&&(_, b)| b == j).map(|&(a, _)| a).collect();
-            for &f in &fsplits {
-                let c = in_edges.iter().filter(|&&p| anc_or_self(p).contains(&f)).count();
-                if c >= 2 {
-                    pairs.push((f, j));
-                    break;
-                }
+            // Every δ whose arms feed ≥2 of j's in-ports is a candidate. On a strand an
+            // UPSTREAM δ reaches every later μ, so it qualifies at every one of them —
+            // taking the first candidate would let it claim them all and starve the δ
+            // that actually forked here, reporting Open for a correctly wired program.
+            // Pair j with the INNERMOST candidate instead: the one no other candidate
+            // descends from. A δ may close more than one μ; a μ closes with exactly one δ.
+            let cands: Vec<usize> = fsplits
+                .iter()
+                .copied()
+                .filter(|&f| in_edges.iter().filter(|&&p| anc_or_self(p).contains(&f)).count() >= 2)
+                .collect();
+            if let Some(&f) = cands
+                .iter()
+                .find(|&&f| !cands.iter().any(|&g| g != f && anc[g].contains(&f)))
+            {
+                pairs.push((f, j));
             }
         }
         let n_split = self.nodes.iter().filter(|&&t| t == Token::Fsplit).count();
@@ -796,7 +808,7 @@ fn segments(args: &[String]) -> Vec<Vec<Token>> {
         .collect()
 }
 
-/// Decompose a glued single-glyph code word (`V>◇+×●¬T`) into its tokens. Every char must
+/// Decompose a glued single-glyph code word (`⊢>◇+×●¬⊣`) into its tokens. Every char must
 /// be a valid code, else None — so a real name (VINIT) is never mangled into letters.
 fn parse_codons(chunk: &str) -> Option<Vec<Token>> {
     let mut out = Vec::new();
@@ -893,10 +905,11 @@ UNFOLDS into its own 12-opcode IMASM program (`imasm expand ado`). Splice an
 expanded type's sequence into a polymer arm to pivot through state space AS that
 type: the alphabet's letters are themselves words in the language.
 SINGLE-GLYPH CODES: each opcode has a one-symbol code (READING_GUIDE §3 glyphs), so
-a word can be written glued, no spaces — `V>◇+=←<×B●←¬T` is the same protocol as the
-13 spelled-out tokens. Every build echoes the word's `code:`. The alphabet:
-  V VINIT   T TANCH   > AFWD   < AREV   = CLINK   ← IMSCRIB
-  ◇ FSPLIT  ● FFUSE   + EVALT  × EVALF  B ENGAGR  ¬ IFIX
+a word can be written glued, no spaces — `⊢>◇+=←<×⊞●←¬⊣` is the same protocol as the
+13 spelled-out tokens. Every build echoes the word's `code:`. The alphabet is fully
+symbolic — no Latin initials; the old V/T/B letter codes no longer parse:
+  ⊢ VINIT   ⊣ TANCH   > AFWD   < AREV   = CLINK   ← IMSCRIB
+  ◇ FSPLIT  ● FFUSE   + EVALT  × EVALF  ⊞ ENGAGR  ¬ IFIX
 Every build reports topology label, β, branch/merge/source/sink census, arm
 count, spectral radius ρ, and a grammar validation.";
 
@@ -1410,12 +1423,20 @@ mod tests {
         }
         // a glued code word parses to the same tokens as the spelled-out names, and a
         // multi-letter name is never char-split
-        let glued = tok_list(&["V>◇+←¬T".to_string()]);
+        let glued = tok_list(&["⊢>◇+←¬⊣".to_string()]);
         let named = tok_list(&[
             "VINIT AFWD FSPLIT EVALT IMSCRIB IFIX TANCH".to_string(),
         ]);
         assert_eq!(glued, named);
         assert_eq!(tok_list(&["VINIT".to_string()]), vec![Token::Vinit]);
+        // the alphabet is fully symbolic: the retired letter codes must NOT parse, or a
+        // stray V/T/B in prose would silently compose as an opcode
+        for retired in ["V", "T", "B"] {
+            assert_eq!(Token::parse(retired), None, "letter {retired} still parses");
+        }
+        // short forms and the Belnap glyph survive the switch
+        assert_eq!(Token::parse("⊞"), Some(Token::Engagr));
+        assert_eq!(tok_list(&["EG".to_string()]), vec![Token::Engagr]);
     }
 
     #[test]

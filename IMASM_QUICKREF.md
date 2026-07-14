@@ -5,12 +5,13 @@ token codes. Semantics here track `ask_native/src/imasm.rs` (the tool that answe
 `imasm check`). Where this file and the tool ever disagree, the tool is right.
 
 ```
-IMASM — a program is a DIRECTED GRAPH of 12 opcodes (not a line). One glyph each.
-WORK? = does the opcode TRANSFORM the object (do real work)?
+IMASM — a program is a DIRECTED GRAPH of 12 opcodes (not a line). One glyph each; the
+alphabet is fully SYMBOLIC (no Latin initials, so no token collides with a verdict
+letter). WORK? = does the opcode TRANSFORM the object (do real work)?
 
  GLYPH NAME     MEANING                         VALENCE (in→out)  WORK?
-  V   VINIT    begin / source                   0→1  the only source  no
-  T   TANCH    terminal anchor / close boundary 1→1  (sink)           no
+  ⊢   VINIT    begin / source boundary         0→1  the only source  no
+  ⊣   TANCH    terminal anchor / close boundary 1→1  (sink)          no
   >   AFWD     forward morphism                 1→1                   YES
   <   AREV     reverse morphism                 1→1                   YES
   =   CLINK    compose / link                   1→1                   YES
@@ -19,14 +20,17 @@ WORK? = does the opcode TRANSFORM the object (do real work)?
   ●   FFUSE    fuse (μ) — ONLY opcode that may merge    2→1           no
   +   EVALT    evaluate TRUE arm               1→1                    YES
   ×   EVALF    evaluate FALSE arm              1→1                    YES
-  B   ENGAGR   hold a paradox (Belnap Both)    1→1                    YES
+  ⊞   ENGAGR   hold a paradox (Belnap Both)    1→1                    YES
   ¬   IFIX     irreversible commit / fix       1→1                    YES
 
-The WORK? column is the most-missed rule: V T ← ◇ ● do NOT transform. An arm carrying
+The WORK? column is the most-missed rule: ⊢ ⊣ ← ◇ ● do NOT transform. An arm carrying
 only ← (or nothing) is an identity arm, and a closure over identity arms verifies
 nothing. ← is self-reference, not work.
 
-WORDS: tokens glued as one string, no spaces, e.g.  V>◇+←●¬T
+RETIRED: the letter codes V/T/B no longer parse. Full names (VINIT/TANCH/ENGAGR) and
+short forms (VI/TA/EG) still do. Old letter words now read as empty → N (void).
+
+WORDS: tokens glued as one string, no spaces, e.g.  ⊢>◇+←●¬⊣
 (space-separated full names like VINIT AFWD … parse identically; so do the short forms
 VI TA AF AR CL IM FS FF ET EF EG IX, and δ μ ═ for ◇ ● =.)
 
@@ -41,9 +45,9 @@ A word is only the node list. The EDGES are supplied by the verb you build with:
   comb BACKBONE:p arm:q arm   backbone + grafts
   wire N0 N1 … / i-j i-k …    free graph: node set / edge set
 
-Same word + different verb = different graph = different verdict. `chain V◇+×●T` and
-`protocol V◇+×●T` are not the same program. To CLOSE, use `protocol`, never a bare
-`ring`, and never close by looping back to V (a source, in-arity 0).
+Same word + different verb = different graph = different verdict. `chain ⊢◇+×●⊣` and
+`protocol ⊢◇+×●⊣` are not the same program. To CLOSE, use `protocol`, never a bare
+`ring`, and never close by looping back to ⊢ (a source, in-arity 0).
 
 ── WHICH ◇ PAIRS WITH WHICH ● ─────────────────────────────────────────────────
 By ANCESTRY, not by text position and not by a fork-balance stack. A (◇,●) pair
@@ -56,11 +60,15 @@ was undone by the fuse, HOWEVER IT ROUTED. Consequences:
     multiplicity, and a ◇ is its own ancestor.
   · Arms are the nodes strictly between ◇ and ●: forward-reachable from the fork AND
     backward-reachable from the fuse. That set is what gets checked for WORK.
+  · A ● may have SEVERAL qualifying ◇ (upstream forks reach downstream fuses on any
+    strand). It pairs with the INNERMOST: the candidate no other candidate descends
+    from. So a ◇ may close more than one ●, but a ● closes with exactly one ◇, and an
+    upstream fork cannot claim the fuse that a nearer fork actually forked.
   · fully_closed means EVERY ◇ and EVERY ● participates in some pair. One dangler and
     the whole program is Open.
 
 For a plain strand the stack reading (each ● takes the nearest unfused ◇) happens to
-agree, and such words may be bracketed for READING BY EYE: V←=[◇>+<B×●]¬¬T, nesting as
+agree, and such words may be bracketed for READING BY EYE: ⊢←=[◇>+<⊞×●]¬¬⊣, nesting as
 nested brackets. Three caveats, all load-bearing:
   · Brackets are NOT input. [ and ] parse to nothing, so a bracketed word is read as
     the empty program and reports N (void). Never paste brackets into the tool.
@@ -82,7 +90,7 @@ between is μ∘δ=id, which type-checks nothing.
   N (void)          no committed opcodes: nothing parsed → write a real word
   B (open)          well-typed, but a ◇ or ● dangles unreconnected → fuse it (●)
                     or commit one arm (¬)
-  B (paradox held)  closes over a transformation AND a B is present → genuinely
+  B (paradox held)  closes over a transformation AND a ⊞ is present → genuinely
                     both. Sound to hold; do NOT read it as a clean T; look again
                     before an irreversible ¬.
   F (ill-typed)     grammar violated → revise
@@ -95,7 +103,7 @@ node exceeding its own arity. Nothing else is fatal.
 
 OPEN VALENCES ARE NOT ERRORS. An arm that runs out of successors is a living /
 telechelic end: reported as "open valences (living ends): n out, m in — reactive, not
-errors". T may end with its out-port open; V may start with its in-port open.
+errors". ⊣ may end with its out-port open; ⊢ may start with its in-port open.
 
 ── TOPOLOGY NAMES (from `classify`) ───────────────────────────────────────────
 Named by invariants, not by fork balance. β = E − V + C (independent loops):
@@ -123,8 +131,8 @@ to 2, not √f.
   imasm run <name> / imasm tools     invoke / list forged tools
 
 ── RULE OF THUMB ──────────────────────────────────────────────────────────────
-Express a decision as a word (V begin · ← self-identify · > move · ◇ weigh options ·
-+/× the true/false arms · ● resolve · B hold paradox · ¬ commit · T close), then
+Express a decision as a word (⊢ begin · ← self-identify · > move · ◇ weigh options ·
++/× the true/false arms · ● resolve · ⊞ hold paradox · ¬ commit · ⊣ close), then
 `imasm check` it. Only ◇ branches, only ● fuses. Put real WORK on the arms or it is
 N. Use `protocol` to close, never a bare `ring`.
 
@@ -132,14 +140,17 @@ N. Use `protocol` to close, never a bare `ring`.
   · Reading a word as a line. It is a graph; the verb supplies the edges.
   · Pairing ◇/● by counting or by nearest-match. Pairing is ancestry over edges.
   · Putting only ← between ◇ and ● and expecting T. That is N (identity).
-  · Expecting T from a word containing B. That is B (paradox held).
+  · Expecting T from a word containing ⊞. That is B (paradox held).
   · Treating an open arm as a failure. It is a living end, reported not fatal.
-  · Closing a loop back to V. V has in-arity 0 and cannot be a target.
+  · Closing a loop back to ⊢. It has in-arity 0 and cannot be a target.
+  · Writing V/T/B out of habit. Retired: they no longer parse → N (void).
   · Pasting a bracketed word into the tool. Brackets parse to nothing → N (void).
 ```
 
 The glyph alphabet is not invented: it references the per-token glyph vocabulary fixed
 in `../ob3ect/READING_GUIDE.md` §3 (six are the guide's own midpoint glyphs; IFIX is its
-stated "fix (¬)"; ENGAGR is the Belnap B it holds; AFWD/AREV are its forward/reverse
-arrows; VINIT/TANCH keep their initials). Valences follow IMSCRIBr `tokens.py::TOKEN_ARITY`.
-Run `imasm ref` for the live rules.
+stated "fix (¬)"; AFWD/AREV are its forward/reverse arrows). The three remaining tokens
+are symbolic by the same principle rather than initials: VINIT ⊢ and TANCH ⊣ are the
+opening and closing boundary turnstiles, and ENGAGR ⊞ is the Belnap Both it holds.
+Valences follow IMSCRIBr `tokens.py::TOKEN_ARITY`. Run `imasm ref` for the live rules.
+The tool-independent spec is `../IMASM_REFERENCE.md`.

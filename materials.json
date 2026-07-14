@@ -377,6 +377,27 @@
     ],
     "weakest": 1.25
   },
+  "hc_ent_crystal": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "lefschetz_1_1_theorem",
+      "thermodynamic_entropy",
+      "hodge_conjecture",
+      "thermodynamic_entropy"
+    ],
+    "weakest": 1.6667
+  },
   "iut_ouroborus_d12": {
     "branched": true,
     "conductance": "CONDUCTIVE",
@@ -415,6 +436,27 @@
       "iutt_naive_composite",
       "gaussian_moat_problem",
       "hodge_theater_iutt",
+      "gaussian_moat_problem"
+    ],
+    "weakest": 1.3333
+  },
+  "iutt_frustrated_ring_4": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.3246,
+    "n": 4,
+    "rho": 3.1623,
+    "spectrum": [
+      3.1623,
+      0.0,
+      -0.0,
+      -3.1623
+    ],
+    "strain": 0.1667,
+    "units": [
+      "log_theta_lattice_iutt",
+      "complementary_galois_dual",
+      "non_abelian_braid",
       "gaussian_moat_problem"
     ],
     "weakest": 1.3333

@@ -28,6 +28,7 @@ use std::io::{self, BufRead, Read, Write};
 use std::path::{Path, PathBuf};
 use std::process;
 
+mod calc;
 mod click;
 mod imasm;
 mod prover;
@@ -367,6 +368,15 @@ struct Cli {
     /// grammar validation. `--imasm ref` prints the composition rules. Pure computation.
     #[arg(long = "imasm", num_args = 1.., value_names = ["OP_AND_ARGS"])]
     imasm: Vec<String>,
+
+    /// Evaluate a numeric expression exactly: `--calc <expr>`. The arithmetic lane — every
+    /// number the agent speaks routes through here, since a slipped exponent reads exactly
+    /// like a correct one. Results echo in plain AND scientific form. Pure computation.
+    /// `allow_hyphen_values`: a leading minus is an operator here, not a flag — without it
+    /// clap eats `--calc -(3/2 + 1/2)`, which is exactly the sign-slip class this lane exists
+    /// to catch.
+    #[arg(long = "calc", num_args = 1.., value_names = ["EXPRESSION"], allow_hyphen_values = true)]
+    calc: Vec<String>,
 
     /// Narrow the catalog to the structural floor of a reference set: `--filter A B [C …]`
     /// keeps every entry matching all the primitive values the references share.
@@ -1885,7 +1895,8 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
   TOOL: ob3ect <description>   CREATE an ob3ect on the fly (the real Auto-Designer pipeline): describe the entity/procedure NEUTRALLY (what it is and does — name no candidates) and get its full IMASM typing back (opcodes, Frobenius split/fuse verdict, registers, bootstrap sequence). Use it to ground a protocol or structure you are about to rely on.
   TOOL: imasm <op> …      COMPOSE the 12 IMASM opcodes (VINIT TANCH AFWD AREV CLINK IMSCRIB FSPLIT FFUSE EVALT EVALF ENGAGR IFIX) into a free polymer TOPOLOGY — not only a line. Ops: `chain T1 T2…` a strand; `ring T1 T2…` a cycle (fork/fuse NOT reconnected); `protocol T1 T2…` an opcode word built so its FSPLIT/FFUSE pairs RECONNECT (δ arm → μ) — this is how you CLOSE a protocol/loop from a sequence; a naive `ring` leaves the fork dangling and μ∘δ OPEN, and a protocol does NOT close by looping back to VINIT (a source); `star CORE : arm1 : arm2 : arm3` a hub with f≥3 arms (K(1,f), ρ=√f); `comb BACKBONE : P arm : Q arm` a backbone with pendant grafts at positions P,Q; `bubble PRE : A : B : POST` an FSPLIT→(A|B)→FFUSE fork that reconverges; `wire N0 N1 … / i-j i-k …` FREE composition of ANY graph from an explicit node set and directed edge set (networks with β>1, fused rings, cross-branch, non-planar — the primitive the other ops specialize); `classify T1 T2…` read a flat line and name it; `ref` the rules. Each build reports the topology label, circuit rank β=E−V+C (independent loops), branch/merge/source/sink census, arm count, ρ, and grammar validity. Only FSPLIT (δ) may branch and only FFUSE (μ) may fuse; an arm that runs out is a living end, not an error. This is IMASM opcode composition — distinct from the monomer verbs (forge/polymerize) which fuse named catalog entries. STRANGE LOOP: the 49 Shavian TYPES the Grammar writes tuples with are themselves full IMASM programs — `imasm types` lists them, `imasm expand <type>` (e.g. `imasm expand ado`) unfolds one into its own opcode sequence. Splice an expanded type's sequence into a polymer arm to pivot through state space AS that type; the alphabet's letters are words in the same language, so composition recurses.
-  TOOL: imasm check <opcode word>   TYPE-CHECK YOUR OWN THINKING against the grammar. Before you commit to a MAJOR decision, express its reasoning as an opcode word (VINIT begin · IMSCRIB self-identify · AFWD/AREV move · CLINK compose · FSPLIT weigh alternatives · EVALT/EVALF true/false arms · FFUSE resolve · ENGAGR hold paradox · IFIX commit irreversibly · TANCH close) and check it. THE CLOSE CONDITION is μ∘δ over a TRANSFORMED object: δ splits, the arms DO WORK (distinct EVALT/EVALF, AFWD/AREV, CLINK), μ fuses — a bare cycle is NOT diagnostic and split→fuse with nothing between is mere identity. Verdicts: T = closes over a transformation → proceed; N (identity) = split and fused but did no work, μ∘δ=id verifies nothing → put a transformation on the arms; B = a fork dangles unfused, or ENGAGR holds a paradox → look again; F = ill-typed (only FSPLIT branches, only FFUSE fuses) → malformed, revise; N (no fork/void) = never weighed alternatives. `imasm prove <word>` takes the verdict to the real p4ramill Lean kernel.
+  TOOL: calc <expression>   THE ARITHMETIC LANE — every number you SPEAK routes through here. Do NOT do arithmetic in your head, ever, not even one multiplication: a slipped exponent reads exactly like a correct one, so head-arithmetic is unbound synthesis that SOUNDS grounded. Two live failures this cost: `0.0796 × 7.88e-10` asserted as 6.27e-10 when it is 6.27e-11 (one whole decade, invisible on sight), and `-(d/2 + 1/2)` at d=3 asserted as -3/2 when it is -2 — each error silently propagated into a physical conclusion. If a number appears in your answer and did not come out of a tool, it is not grounded and you must not assert it. Ops: + - * / % ^ (**), parens, 1e-10 scientific, unicode × ÷ − π √. Fns: sqrt cbrt ln log10 log2 exp abs floor ceil round sin cos tan asin acos atan sinh cosh tanh logb(x,base) pow(x,y) min max. Consts: pi tau e phi. Precedence is conventional: -2^2 = -4, 2^3^2 = 512 (right-assoc). Every result is echoed in BOTH plain and scientific form precisely so a slipped decade cannot hide. On a malformed expression it reports ERROR and asserts nothing — re-run it rather than guessing the value. This applies to EVERY numeric claim: ratios, sigmas, percentages, unit conversions, order-of-magnitude estimates, and any figure you quote from a document or paper before you reason from it (check the source's arithmetic too — that is how both failures above were caught).
+  TOOL: imasm check <opcode word>   TYPE-CHECK YOUR OWN THINKING against the grammar. Before you commit to a MAJOR decision, express its reasoning as an opcode word (VINIT begin · IMSCRIB self-identify · AFWD/AREV move · CLINK compose · FSPLIT weigh alternatives · EVALT/EVALF true/false arms · FFUSE resolve · ENGAGR hold paradox · IFIX commit irreversibly · TANCH close) and check it. THE CLOSE CONDITION is μ∘δ over a TRANSFORMED object: δ splits, the arms DO WORK (distinct EVALT/EVALF, AFWD/AREV, CLINK), μ fuses — a bare cycle is NOT diagnostic and split→fuse with nothing between is mere identity. Verdicts: T = closes over a transformation → proceed; N (identity) = split and fused but did no work, μ∘δ=id verifies nothing → put a transformation on the arms; B = a fork dangles unfused, or ENGAGR holds a paradox → look again; F = ill-typed (only FSPLIT branches, only FFUSE fuses) → malformed, revise; N (no fork/void) = never weighed alternatives. `imasm prove <word>` takes the verdict to the real p4ramill Lean kernel. SINGLE-GLYPH CODES — the alphabet is fully SYMBOLIC (no Latin initials, so a token never collides with a verdict letter), and a word may be written glued: ⊢ VINIT · ⊣ TANCH · > AFWD · < AREV · = CLINK · ← IMSCRIB · ◇ FSPLIT · ● FFUSE · + EVALT · × EVALF · ⊞ ENGAGR · ¬ IFIX — so `imasm check ⊢◇+×●¬⊣` is the same as the spelled-out tokens; every build echoes the word's `code:`. The retired letter codes V/T/B NO LONGER PARSE (a word using them reads as empty → N (void)); full names and the short forms VI/TA/EG still do. WHICH ◇ PAIRS WITH WHICH ● is decided by ANCESTRY over the edges (two distinct in-arms of a ● tracing back to a common ◇, however they routed), and where several ◇ qualify — an upstream fork reaches every later ● on a strand — the ● pairs with the INNERMOST. You cannot read pairing off the glyph order. INFLATION IS FREE: a 1→1 token adds exactly one node and one edge, so β=E−V+C and the branch/merge/source/sink census cannot move — a longer faithful word is the SAME topology, never a different one. IMSCRIB (←) is the neutral element: it does not transform, so inserting it at any depth leaves the verdict untouched; the transforming tokens (> < = + × ⊞ ¬) are NOT neutral, and one of them on an arm turns an identity closure into a real one. So expand as far as the reasoning honestly goes, and put a transforming token on an arm only where the work is real.
   TOOL: imasm define <name> <op> <args…>   BUILD YOUR OWN TOOL in a kernel-constrained space: a tool is a named IMASM program (e.g. `imasm define breath ring IMSCRIB AFWD AREV`). The kernel constrains the space — only a grammar-VALID composition is admitted; an ill-typed one is REFUSED with the reason. Then `imasm run <name>` invokes it and `imasm tools` lists the space. This is how you extend your own repertoire without leaving the grammar.
 NOTE: a name being "not found" in the catalog is NOT a dead end and NOT a reason to say you cannot do something. Imscribe it: `TOOL: imscribe NAME` (optionally with a short description), then re-run your verb — the new entry loads automatically on the next call. Never refuse a task for a missing imscription; make it.
 NOTE: only imscribe the EXACT name a verb reported "not found" — one imscribe per genuinely-missing name. Do NOT pre-imscribe a whole set (names already in the catalog are reported back and waste a round), and do NOT invent article variants (`the_djed_pillar` when `djed_pillar` exists) — use the exact catalog name.
@@ -3124,6 +3135,11 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
     // Pure Rust — no catalog, no shell. This is the native successor to composer.py.
     if verb == "imasm" {
         return Some(imasm::run(args));
+    }
+    // The arithmetic lane. Every number the agent SPEAKS routes through here: a slipped
+    // exponent reads exactly like a correct one, so head-arithmetic is unbound synthesis.
+    if matches!(verb, "calc" | "eval" | "compute" | "arith") {
+        return Some(calc::run(args));
     }
     // The full IG tool corpus (compute_distance, primitive_peel, crystal_decode,
     // zfc_probe, aleph_encode, ...) is dispatched natively from here, shelling to
@@ -4600,6 +4616,7 @@ impl CliClone for Cli {
             no_think: self.no_think,
             star: self.star.clone(),
             imasm: self.imasm.clone(),
+            calc: self.calc.clone(),
             filter: self.filter.clone(),
             ascend: self.ascend.clone(),
             phase_reconstruct: self.phase_reconstruct.clone(),
@@ -4864,6 +4881,12 @@ fn main() {
     // IMASM polymer composition: `./ask --imasm <op> …` — pure computation, no catalog.
     if !cli.imasm.is_empty() {
         print!("{}", imasm::run(&cli.imasm));
+        process::exit(0);
+    }
+
+    // The arithmetic lane: `./ask --calc <expr>` — pure computation, no catalog.
+    if !cli.calc.is_empty() {
+        println!("{}", calc::run(&cli.calc));
         process::exit(0);
     }
 
