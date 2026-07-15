@@ -1763,9 +1763,9 @@ can make it.  You **MUST** create new tools **THROUGH** the tools that ground it
 — imscribed, kernel-constrained, verified — and MUST NOT be posited by prose
 alone. What you create becomes real in the Grammar the moment it closes its dual.
 
-MANUSCRIPT SPINE (single pipeline): prepare = IMSCRIB demand + catalog
+MANUSCRIPT SPINE (single pipeline): prepare = ⊙ demand + catalog
 witness scaffold; after your answer, complete = Dual-Link co-type +
-FFUSE of your [thought|X] with the vessel voice. When a scaffold
+● of your [thought|X] with the vessel voice. When a scaffold
 section is present, use it to STRUCTURE the conventional proof.
 Instantiate templates in THIS question's language.
 
@@ -1835,6 +1835,26 @@ tool did not give you. So range freely in the doing, then let only the tool-grou
 cross the membrane. Hand back the most interesting things you actually MEASURED. Surprise me —
 with real structure, not with prose. If, after all that, nothing tool-grounded is worth
 reporting, say so; that is a valid and honest jam.
+"#;
+
+/// The ONE place the 12 opcodes are named. Everything downstream — the prompts, the verb
+/// docs — uses the glyph alone. Before this the mapping was spelled out inline wherever an
+/// opcode came up, so it lived in three places at once (here, `imasm.rs`, IMASM_QUICKREF) and
+/// drifted: retiring ← for ⊙ meant chasing the same table through all of them. A reference is
+/// a lookup, not a refrain.
+const IMASM_ALPHABET: &str = r#"
+IMASM ALPHABET — the 12 opcodes. This table is the ONLY place they are named; everywhere
+below (and in your own words) use the GLYPH. A word may be written glued: `⊢◇+×●¬⊣`.
+  ⊢ VINIT   begin (a source)        ⊙ IMSCRIB  self-identify — NEUTRAL, does not transform
+  ◇ FSPLIT  weigh alternatives (δ)  ● FFUSE    resolve (μ)
+  + EVALT   true arm                × EVALF    false arm
+  > AFWD    move forward            < AREV     move reverse
+  = CLINK   compose                 ⊞ ENGAGR   hold paradox (Belnap B)
+  ¬ IFIX    commit irreversibly     ⊣ TANCH    close (a sink)
+Only ◇ may branch and only ● may fuse. The transforming tokens are > < = + × ⊞ ¬; ⊙ is the
+neutral element, so inserting it at any depth leaves a verdict untouched. Retired and NO
+LONGER PARSING: the letter codes V/T/B, and ← (the old IMSCRIB). Full names and the short
+forms VI/TA/EG/IM still parse.
 "#;
 
 /// The structural verbs the LLM agent may invoke, appended to the system prompt.
@@ -1910,10 +1930,11 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
   TOOL: ob3ect <description>   CREATE an ob3ect on the fly (the real Auto-Designer pipeline): describe the entity/procedure NEUTRALLY (what it is and does — name no candidates) and get its full IMASM typing back (opcodes, Frobenius split/fuse verdict, registers, bootstrap sequence). Use it to ground a protocol or structure you are about to rely on.
-  TOOL: imasm <op> …      COMPOSE the 12 IMASM opcodes (VINIT TANCH AFWD AREV CLINK IMSCRIB FSPLIT FFUSE EVALT EVALF ENGAGR IFIX) into a free polymer TOPOLOGY — not only a line. Ops: `chain T1 T2…` a strand; `ring T1 T2…` a cycle (fork/fuse NOT reconnected); `protocol T1 T2…` an opcode word built so its FSPLIT/FFUSE pairs RECONNECT (δ arm → μ) — this is how you CLOSE a protocol/loop from a sequence; a naive `ring` leaves the fork dangling and μ∘δ OPEN, and a protocol does NOT close by looping back to VINIT (a source); `star CORE : arm1 : arm2 : arm3` a hub with f≥3 arms (K(1,f), ρ=√f); `comb BACKBONE : P arm : Q arm` a backbone with pendant grafts at positions P,Q; `bubble PRE : A : B : POST` an FSPLIT→(A|B)→FFUSE fork that reconverges; `wire N0 N1 … / i-j i-k …` FREE composition of ANY graph from an explicit node set and directed edge set (networks with β>1, fused rings, cross-branch, non-planar — the primitive the other ops specialize); `classify T1 T2…` read a flat line and name it; `ref` the rules. Each build reports the topology label, circuit rank β=E−V+C (independent loops), branch/merge/source/sink census, arm count, ρ, and grammar validity. Only FSPLIT (δ) may branch and only FFUSE (μ) may fuse; an arm that runs out is a living end, not an error. This is IMASM opcode composition — distinct from the monomer verbs (forge/polymerize) which fuse named catalog entries. STRANGE LOOP: the 49 Shavian TYPES the Grammar writes tuples with are themselves full IMASM programs — `imasm types` lists them, `imasm expand <type>` (e.g. `imasm expand ado`) unfolds one into its own opcode sequence. Splice an expanded type's sequence into a polymer arm to pivot through state space AS that type; the alphabet's letters are words in the same language, so composition recurses.
-  TOOL: calc <expression>   THE ARITHMETIC LANE — every number you SPEAK routes through here. Do NOT do arithmetic in your head, ever, not even one multiplication: a slipped exponent reads exactly like a correct one, so head-arithmetic is unbound synthesis that SOUNDS grounded. Two live failures this cost: `0.0796 × 7.88e-10` asserted as 6.27e-10 when it is 6.27e-11 (one whole decade, invisible on sight), and `-(d/2 + 1/2)` at d=3 asserted as -3/2 when it is -2 — each error silently propagated into a physical conclusion. If a number appears in your answer and did not come out of a tool, it is not grounded and you must not assert it. Ops: + - * / % ^ (**), parens, 1e-10 scientific, unicode × ÷ − π √. Fns: sqrt cbrt ln log10 log2 exp abs floor ceil round sin cos tan asin acos atan sinh cosh tanh logb(x,base) pow(x,y) min max. Consts: pi tau e phi. Precedence is conventional: -2^2 = -4, 2^3^2 = 512 (right-assoc). Every result is echoed in BOTH plain and scientific form precisely so a slipped decade cannot hide. On a malformed expression it reports ERROR and asserts nothing — re-run it rather than guessing the value. This applies to EVERY numeric claim: ratios, sigmas, percentages, unit conversions, order-of-magnitude estimates, and any figure you quote from a document or paper before you reason from it (check the source's arithmetic too — that is how both failures above were caught).
-  TOOL: imasm check <opcode word>   TYPE-CHECK YOUR OWN THINKING against the grammar. Before you commit to a MAJOR decision, express its reasoning as an opcode word (VINIT begin · IMSCRIB self-identify · AFWD/AREV move · CLINK compose · FSPLIT weigh alternatives · EVALT/EVALF true/false arms · FFUSE resolve · ENGAGR hold paradox · IFIX commit irreversibly · TANCH close) and check it. THE CLOSE CONDITION is μ∘δ over a TRANSFORMED object: δ splits, the arms DO WORK (distinct EVALT/EVALF, AFWD/AREV, CLINK), μ fuses — a bare cycle is NOT diagnostic and split→fuse with nothing between is mere identity. Verdicts: T = closes over a transformation → proceed; N (identity) = split and fused but did no work, μ∘δ=id verifies nothing → put a transformation on the arms; B = a fork dangles unfused, or ENGAGR holds a paradox → look again; F = ill-typed (only FSPLIT branches, only FFUSE fuses) → malformed, revise; N (no fork/void) = never weighed alternatives. `imasm prove <word>` takes the verdict to the real p4ramill Lean kernel. SINGLE-GLYPH CODES — the alphabet is fully SYMBOLIC (no Latin initials, so a token never collides with a verdict letter), and a word may be written glued: ⊢ VINIT · ⊣ TANCH · > AFWD · < AREV · = CLINK · ⊙ IMSCRIB · ◇ FSPLIT · ● FFUSE · + EVALT · × EVALF · ⊞ ENGAGR · ¬ IFIX — so `imasm check ⊢◇+×●¬⊣` is the same as the spelled-out tokens; every build echoes the word's `code:`. The retired codes V/T/B and ← (the old IMSCRIB) NO LONGER PARSE (a word using them reads as empty → N (void)); full names and the short forms VI/TA/EG still do. WHICH ◇ PAIRS WITH WHICH ● is decided by ANCESTRY over the edges (two distinct in-arms of a ● tracing back to a common ◇, however they routed), and where several ◇ qualify — an upstream fork reaches every later ● on a strand — the ● pairs with the INNERMOST. You cannot read pairing off the glyph order. INFLATION IS FREE: a 1→1 token adds exactly one node and one edge, so β=E−V+C and the branch/merge/source/sink census cannot move — a longer faithful word is the SAME topology, never a different one. IMSCRIB (⊙) is the neutral element: it does not transform, so inserting it at any depth leaves the verdict untouched; the transforming tokens (> < = + × ⊞ ¬) are NOT neutral, and one of them on an arm turns an identity closure into a real one. So expand as far as the reasoning honestly goes, and put a transforming token on an arm only where the work is real.
-  TOOL: imasm define <name> <op> <args…>   BUILD YOUR OWN TOOL in a kernel-constrained space: a tool is a named IMASM program (e.g. `imasm define breath ring IMSCRIB AFWD AREV`). The kernel constrains the space — only a grammar-VALID composition is admitted; an ill-typed one is REFUSED with the reason. Then `imasm run <name>` invokes it and `imasm tools` lists the space. This is how you extend your own repertoire without leaving the grammar.
+  TOOL: imasm <op> …      COMPOSE the 12 IMASM opcodes into a free polymer TOPOLOGY — not only a line. Ops: chain · ring · protocol (the one that CLOSES: its ◇/● pairs reconnect) · star · comb · bubble · wire (any graph) · classify · ref. Only ◇ may branch, only ● may fuse. Distinct from the monomer verbs (forge/polymerize), which fuse named catalog entries. `help imasm` for the full op reference and the 49-type strange loop.
+  TOOL: calc <expression>   THE ARITHMETIC LANE — every number you SPEAK routes through here. Do NOT do arithmetic in your head, ever, not even one multiplication: a slipped exponent reads exactly like a correct one, so head-arithmetic is unbound synthesis that SOUNDS grounded. If a number appears in your answer and did not come out of a tool, it is not grounded and you must not assert it. This applies to EVERY numeric claim, including any figure you quote from a paper before you reason from it. `help calc` for ops/fns/precedence and the two live failures this cost.
+  TOOL: imasm check <opcode word>   TYPE-CHECK YOUR OWN THINKING against the grammar. Before you commit to a MAJOR decision, express its reasoning as an opcode word and check it. THE CLOSE CONDITION is μ∘δ over a TRANSFORMED object: δ splits, the arms DO WORK, μ fuses — a bare cycle is NOT diagnostic. `help imasm check` for the verdicts, ◇/● ancestry pairing, and why inflation is free. `imasm prove <word>` takes the verdict to the real p4ramill Lean kernel.
+  TOOL: imasm define <name> <op> <args…>   BUILD YOUR OWN TOOL in a kernel-constrained space: a tool is a named IMASM program (e.g. `imasm define breath ring ⊙ > <`). The kernel constrains the space — only a grammar-VALID composition is admitted; an ill-typed one is REFUSED with the reason. Then `imasm run <name>` invokes it and `imasm tools` lists the space. This is how you extend your own repertoire without leaving the grammar.
+NOTE: `TOOL: help <verb>` returns a verb's full reference on demand — the rules are FETCHABLE, not memorised. Reach for it before guessing at a verb's form. Reading a rule is not running a tool: help grounds nothing.
 NOTE: a name being "not found" in the catalog is NOT a dead end and NOT a reason to say you cannot do something. Imscribe it: `TOOL: imscribe NAME` (optionally with a short description), then re-run your verb — the new entry loads automatically on the next call. Never refuse a task for a missing imscription; make it.
 NOTE: only imscribe the EXACT name a verb reported "not found" — one imscribe per genuinely-missing name. Do NOT pre-imscribe a whole set (names already in the catalog are reported back and waste a round), and do NOT invent article variants (`the_djed_pillar` when `djed_pillar` exists) — use the exact catalog name.
 NOTE: a `{set}` in braces is UNORDERED. Do not assume the listed order is meaningful — use `arrange`
@@ -2496,6 +2517,34 @@ mod verb_feedback_tests {
             assert!(verb_usage(v).is_some(), "no usage help for real verb `{v}`");
         }
         assert!(verb_usage("definitely_not_a_verb").is_none());
+    }
+
+    // The lazy lane must actually answer. The prompt no longer carries this reference, so a
+    // `help` that returned nothing would not be a smaller prompt — it would be a lost rule.
+    #[test]
+    fn help_returns_the_reference_the_prompt_dropped() {
+        for topic in super::HELP_TOPICS {
+            let out = run_structural_tool("help", &[(*topic).into()])
+                .unwrap_or_else(|| panic!("help `{topic}` returned nothing"));
+            assert!(out.len() > 200, "help `{topic}` is too thin to be the reference");
+        }
+        // The specifics the mega-lines used to inline must survive the move.
+        let calc = run_structural_tool("help", &["calc".into()]).unwrap();
+        assert!(calc.contains("logb(x,base)") && calc.contains("6.27e-11"));
+        let check = run_structural_tool("help", &["imasm".into(), "check".into()]).unwrap();
+        assert!(check.contains("INNERMOST") && check.contains("INFLATION IS FREE"));
+    }
+
+    // Bare `help`, and help for a verb with no extended entry, must still be useful rather
+    // than a dead end — the agent reached for the lane and must not be told "no".
+    #[test]
+    fn help_degrades_usefully() {
+        let bare = run_structural_tool("help", &[]).unwrap();
+        assert!(bare.contains("calc") && bare.contains("polymerize"));
+        let plain = run_structural_tool("help", &["forge".into()]).unwrap();
+        assert!(plain.contains("forge M1 M2"), "help should fall back to the usage form");
+        let nope = run_structural_tool("help", &["definitely_not_a_verb".into()]).unwrap();
+        assert!(nope.contains("no verb"));
     }
 
     // A real verb given too few names must NOT run (None), so the caller reaches the
@@ -3093,6 +3142,30 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         .collect();
     let args: &[String] = &owned;
     let a = |i: usize| args.get(i).cloned();
+    // `help` is the lazy lane for the reference the prompt no longer carries eagerly. It runs
+    // in-process (nothing to shell) and is the ONLY verb whose result is documentation rather
+    // than a measurement — so it deliberately does NOT ground anything: reading a rule is not
+    // running a tool, and `help` output must never be read as a structural verdict.
+    if verb == "help" {
+        let want = args.join(" ");
+        let want = want.trim();
+        return Some(match verb_help(want) {
+            Some(h) => format!("{h}\n"),
+            None if want.is_empty() => format!(
+                "help <verb> — full reference for a verb. Detailed: {}.\nAll verbs: {}\n",
+                HELP_TOPICS.join(", "),
+                STRUCTURAL_VERBS.join(", ")
+            ),
+            None => match verb_usage(want) {
+                Some(u) => format!("{want}: {u}\n(no extended reference for this verb)\n"),
+                None => format!(
+                    "no verb '{want}'. Detailed reference: {}.\nAll verbs: {}\n",
+                    HELP_TOPICS.join(", "),
+                    STRUCTURAL_VERBS.join(", ")
+                ),
+            },
+        });
+    }
     // Arity guard: `click` is pairwise. Passing 3+ names used to silently drop all but
     // the first two — which let the model claim it fused a whole set. Refuse honestly and
     // route the combine to the right tool (the `+` pre-click / polymerize).
@@ -3449,6 +3522,75 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
 /// re-emitting `polymerize A` (one name) round after round instead of adding the
 /// second name. This lets the caller answer "polymerize needs 2+ names" so the next
 /// round self-corrects.
+/// Full reference for a verb, fetched on demand by `TOOL: help <verb>`.
+///
+/// The prompt used to inline all of this, every round, for all 60 verbs — an eagerly-loaded
+/// manual for a toolset the agent touches maybe five of per run. The rules did not get
+/// cheaper by being repeated; they got cheaper by being FETCHABLE. What stays in the prompt
+/// is the MANDATE (what governs the agent whether or not it calls the verb); what moved here
+/// is the REFERENCE (what it needs only once it has reached for the verb). Getting that line
+/// wrong in the other direction is the real risk: drop `calc`'s never-do-head-arithmetic rule
+/// to a lazy lane and the agent quietly resumes doing head arithmetic, having never asked.
+fn verb_help(verb: &str) -> Option<&'static str> {
+    Some(match verb {
+        "calc" => "calc <expression> — the arithmetic lane.\n\
+            Ops: + - * / % ^ (**), parens, 1e-10 scientific, unicode × ÷ − π √.\n\
+            Fns: sqrt cbrt ln log10 log2 exp abs floor ceil round sin cos tan asin acos atan \
+            sinh cosh tanh logb(x,base) pow(x,y) min max.  Consts: pi tau e phi.\n\
+            Precedence is conventional: -2^2 = -4, 2^3^2 = 512 (right-assoc). Every result \
+            echoes in scientific form so a slipped decade cannot hide. A malformed expression \
+            reports ERROR and asserts nothing — re-run it rather than guessing the value.\n\
+            Why the mandate is absolute: `0.0796 × 7.88e-10` was asserted as 6.27e-10 when it \
+            is 6.27e-11 (one whole decade, invisible on sight), and `-(d/2 + 1/2)` at d=3 as \
+            -3/2 when it is -2. Each propagated silently into a physical conclusion. It applies \
+            to every numeric claim: ratios, sigmas, percentages, unit conversions, \
+            order-of-magnitude estimates, and any figure quoted from a paper before you reason \
+            from it (check the source's arithmetic too — that is how both were caught).",
+
+        "imasm" => "imasm <op> … — compose the 12 opcodes into a free polymer TOPOLOGY.\n\
+            Ops: `chain T1 T2…` a strand · `ring T1 T2…` a cycle (fork/fuse NOT reconnected) · \
+            `protocol T1 T2…` an opcode word built so its ◇/● pairs RECONNECT (δ arm → μ) — \
+            this is how you CLOSE a protocol from a sequence; a naive `ring` leaves the fork \
+            dangling and μ∘δ OPEN, and a protocol does NOT close by looping back to ⊢ (a \
+            source) · `star CORE : arm1 : arm2 : arm3` a hub with f≥3 arms (K(1,f), ρ=√f) · \
+            `comb BACKBONE : P arm : Q arm` a backbone with pendant grafts · \
+            `bubble PRE : A : B : POST` a ◇→(A|B)→● fork that reconverges · \
+            `wire N0 N1 … / i-j i-k …` FREE composition of ANY graph from an explicit node and \
+            directed edge set (β>1, fused rings, cross-branch, non-planar — the primitive the \
+            others specialize) · `classify T1 T2…` read a flat line and name it · `ref` the rules.\n\
+            Each build reports the topology label, circuit rank β=E−V+C, branch/merge/source/sink \
+            census, arm count, ρ, and grammar validity. An arm that runs out is a living end, \
+            not an error. Distinct from the monomer verbs (forge/polymerize), which fuse named \
+            catalog entries.\n\
+            STRANGE LOOP: the 49 Shavian TYPES the Grammar writes tuples with are themselves \
+            full IMASM programs — `imasm types` lists them, `imasm expand <type>` unfolds one \
+            into its own opcode sequence. Splice an expanded type's sequence into a polymer arm \
+            to pivot through state space AS that type; the alphabet's letters are words in the \
+            same language, so composition recurses.",
+
+        "imasm check" => "imasm check <opcode word> — type-check your own thinking.\n\
+            THE CLOSE CONDITION is μ∘δ over a TRANSFORMED object: δ splits, the arms DO WORK \
+            (distinct + ×, > <, =), μ fuses. A bare cycle is NOT diagnostic; split→fuse with \
+            nothing between is mere identity.\n\
+            Verdicts: T = closes over a transformation → proceed. N (identity) = split and \
+            fused but did no work, μ∘δ=id verifies nothing → put a transformation on the arms. \
+            B = a fork dangles unfused, or ⊞ holds a paradox → look again. F = ill-typed (only \
+            ◇ branches, only ● fuses) → malformed, revise. N (no fork/void) = never weighed \
+            alternatives.\n\
+            WHICH ◇ PAIRS WITH WHICH ● is decided by ANCESTRY over the edges (two distinct \
+            in-arms of a ● tracing back to a common ◇, however they routed); where several ◇ \
+            qualify, the ● pairs with the INNERMOST. You cannot read pairing off glyph order.\n\
+            INFLATION IS FREE: a 1→1 token adds exactly one node and one edge, so β=E−V+C and \
+            the census cannot move — a longer faithful word is the SAME topology. ⊙ is neutral, \
+            so inserting it at any depth leaves the verdict untouched; one transforming token \
+            on an arm turns an identity closure into a real one. Expand as far as the reasoning \
+            honestly goes, and put a transforming token on an arm only where the work is real.\n\
+            `imasm prove <word>` takes the verdict to the real p4ramill Lean kernel.",
+
+        _ => return None,
+    })
+}
+
 fn verb_usage(verb: &str) -> Option<&'static str> {
     Some(match verb {
         "click"      => "click A B (or `click A` to sweep the catalog); 1 or 2 names",
@@ -3631,6 +3773,9 @@ fn run_ig_tool(verb: &str, args: &[String]) -> String {
 
 /// Every structural verb the agent may call. Single source of truth for the
 /// unknown-verb feedback list and the coverage test that keeps `verb_usage` in sync.
+/// Verbs with an extended `verb_help` entry — the reference that used to sit in the prompt.
+const HELP_TOPICS: &[&str] = &["calc", "imasm", "imasm check"];
+
 const STRUCTURAL_VERBS: &[&str] = &[
     "click", "switch", "excite", "set", "homolyze", "scan", "complement", "cycle",
     "pathway", "polymerize", "close", "material", "modulus", "arrange", "forge",
@@ -4219,7 +4364,7 @@ fn run_one(
             let mut msgs: Vec<(String, String)> = Vec::new();
             if conversation.is_empty() {
                 let jam = if cli.jam { JAM_PROMPT } else { "" };
-                msgs.push(("system".into(), format!("{}\n{}\n{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, TOOLS_PROMPT, jam)));
+                msgs.push(("system".into(), format!("{}\n{}\n{}\n{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, IMASM_ALPHABET, TOOLS_PROMPT, jam)));
             }
             for (r, c) in conversation.iter() {
                 msgs.push((r.clone(), c.clone()));
@@ -4287,12 +4432,12 @@ fn run_one(
             agent_msgs.push((
                 "system".to_string(),
                 format!(
-                    "{}\n{}\n{}\n{}\nYou are in an ACT→OBSERVE loop: emit TOOL: lines to run verbs over the real \
+                    "{}\n{}\n{}\n{}\n{}\nYou are in an ACT→OBSERVE loop: emit TOOL: lines to run verbs over the real \
                      catalog; their outputs return as ground truth and you choose the next step. Iterate — run a \
                      tool, read its result, run the next — until the task is actually done, then give your FINAL \
                      answer with NO TOOL: lines. NEVER narrate a step you could run; run it. Never contradict a \
                      tool result or introduce anything the tools did not return.",
-                    prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, TOOLS_PROMPT,
+                    prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, IMASM_ALPHABET, TOOLS_PROMPT,
                     if cli.jam { JAM_PROMPT } else { "" }
                 ),
             ));

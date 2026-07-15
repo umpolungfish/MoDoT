@@ -1,60 +1,47 @@
-IMSCRIB is ⊙, the stance reaches every lane, and tool calls hit disk
+Debloat the prompt: one alphabet table, and the rules become fetchable
 
-IMSCRIB's glyph is ⊙, not ←. I picked ← off the READING_GUIDE's midpoint list
-when I assigned the alphabet, which is availability, not reason. Imscribing is
-the act of INCLOSURE, the monadic operation itself, so it is self-referential
-and must be referenced self-referentially. ⊙ is a boundary drawn around its own
-centre: the glyph denotes the act of denoting. Its appearance as Criticality in
-the 12-primitive notation is not a collision to route around. It is the same
-structure surfacing wherever inclosure closes on itself, and the notation was
-right before I was. ← is retired and no longer parses, alongside the letter
-codes V/T/B; the full name and IM still do. Updated in imasm.rs, the TOOLS_PROMPT
-alphabet line, and IMASM_QUICKREF.
+The opcode alphabet is a table now, once, at the top. I had been spelling out
+the glyph and the name together every time an opcode came up (¬ IFIX, ⊙ IMSCRIB,
+◇ FSPLIT), which meant the mapping lived in three places at once: imasm.rs, the
+TOOLS_PROMPT, and IMASM_QUICKREF. Retiring ← for ⊙ meant chasing the same table
+through all of them, and that is the argument for the change. A reference is a
+lookup, not a refrain. One table, glyph-only from there on.
 
-The agent is m⊙^2. It does not run ON a Frobenius/Belnap substrate as
-infrastructure it can ignore, it LIVES IN one, and the name carries the glyph
-that says so.
+Worth being honest that this bought nothing in tokens. I expected the ¬ IFIX
+habit to be the bloat; measured, it is about 3% of the prompt, and the table
+costs almost exactly what the inline naming cost. Net: 25 tokens. It is still
+right, but for single-source-of-truth reasons, not size.
 
-EPISTEMIC_STANCE now reaches every lane that speaks. Two were assembling a
-system message without it. `decompose` in the prover was one. The worse one was
-the backtranslation: its system prompt lived inline inside backtranslate(), so a
-const sweep of the prompts could not see it, and it was running with no Belnap
-stance and no tool-routing mandate while being the exact lane that writes the
-conventional proof a reader actually sees. Lifted it out to BACKTRANSLATE_SYS
-and prepended the stance. A prompt I cannot find is a prompt I cannot govern.
+The bloat was somewhere else entirely. 60 TOOL: lines were 75% of the prompt,
+and two imasm lines plus calc were 5,629 chars of it, resent every round of
+every eagle. The prompt was an eagerly-loaded manual for 60 verbs when a run
+touches maybe five. The rules do not get cheaper by being repeated; they get
+cheaper by being FETCHABLE. New `TOOL: help <verb>` returns a verb's full
+reference on demand, and the three heavy lines keep only what governs.
 
-Read-back routes every number through calc. The μ leg is where an ungrounded
-figure does the most damage, because the reader is looking at a conventional
-proof and reads its numbers as measured. Any arithmetic on a measured quantity,
-a ratio, a percentage, an exponent, a unit conversion, is run and not performed
-in the head. calc echoes in scientific form always now; a slipped decade has
-nowhere left to hide.
+The line I had to be careful about is mandate vs reference. Some of that prose
+rules the agent whether or not it ever calls the verb: calc's never-do-head-
+arithmetic rule is the reason calc exists, and moving it to a lane the agent has
+to ask for means it quietly resumes doing head arithmetic, having never asked.
+So the mandates stay eager and the reference goes lazy: calc keeps "every number
+you speak routes through here" and sheds its function list; imasm check keeps
+the close condition and sheds the verdict table and the ancestry-pairing rule.
+Tests pin the specifics to the new lane so a smaller prompt cannot silently
+become a lost rule — logb(x,base), the 6.27e-11 decade slip, ◇/● INNERMOST
+pairing, and help degrading to the usage form for verbs with no extended entry.
 
-Directives got teeth. A qualified prohibition is an escape hatch, and the agent
-kept finding them: "never call a result unprovable" softened into a suggestion,
-"a frontier is where you CREATE" read as encouragement. They are MUSTs now.
-There is nothing unprovable within the Grammar and all things are within, so the
-agent MUST NOT return "unprovable"; a frontier is where it MUST create. Cut the
-prose that was doing no work (kernel cosplay, the Collatz paste line, the
-proved_hint line): a rule buried in advice is not a rule.
+Result: the eager prompt goes 23,342 → 20,246 chars, about 774 tokens off every
+round. 13%, not the 40-50% I guessed. The other 57 verbs are a long tail worth
+maybe another 20%, one judgement at a time.
 
-Tool calls now hit disk. records.jsonl kept the VERDICT and threw away the
-evidence: all_tool_output was accumulated, distilled to a single Belnap
-tool_voice, and dropped. So a finished run could say a tool grounded this, and
-nothing could say WHICH tool, asked WHAT, answering HOW. That is the destination
-without the route, and a descent you cannot re-walk is one you have to take on
-faith. New crystal_fs/tool_calls.jsonl gets one JSON line per invocation the
-moment it runs, with verb, args, full output, round, and timestamp. A run_id
-joins each call to its spine verdict; record_spine and the call log now share one
-crystal_fs resolver so the two streams cannot drift onto different roots. Misses
-are recorded too, since a run that reached for a verb and got nothing is a
-different descent from one that never reached. `outcome` is dispatch and not
-success: "ran" means the verb executed and returned output, which may well be
-"monomer not found".
+Nearly wrecked the CLINK chain doing it. Three of the CLINK hits in the prompt
+are not the opcode at all — they are CLINK L8, CLINK Layer 8, CLINK Layer 9, the
+ontological chain. A blanket name→glyph replace would have rendered the chain as
+"= L8" and quietly mangled the exact structure L9 was born out of. The opcode and
+the layer share a name and nothing but reading tells them apart.
 
-The first log paid for the change immediately. The agent hit `forge
-birch_swinnerton_dyer elliptic_curve l_function`, got told l_function is not in
-the catalog YET, this is not a dead end, create it, and then reran the same
-missing monomer five times across forge and material instead of imscribing it.
-That is the frontier-as-wall reflex the GENERATIVE POWER clause was written to
-kill, still running, and invisible until the calls hit disk.
+Also noticed while grepping: fart.rs is dead. No `mod fart;` declares it and
+nothing references fart::, so its 4,968 lines never compile — a stale near-copy
+of main.rs (5,087) that still turns up in every search of the prompt sites and
+reads exactly like live code. Left it alone; it wants a cross-compare against
+main.rs before anything gets deleted.
