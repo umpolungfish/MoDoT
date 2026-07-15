@@ -1,33 +1,31 @@
-The model may not wear the engine's voice: strip forged tool records
+Surface what the API actually said, and stop --no-think killing a run
 
-strip_kernel_records already guards the spine — "the spine report is the ENGINE's
-univocal voice, the model may not author it" — because the model kept fabricating
-a verdict block that contradicted the real one printed below. The same thing was
-happening one level down and nothing stopped it.
+A jam died on `status code 400` and the abort blamed credit: "not transient:
+402 = out of credits, 401 = bad key". Both wrong, and undiagnosable by
+construction — ureq::Error::Status(code, resp) stringifies to a bare status line
+and DROPS the response, so the server's answer was sitting inside the error and we
+printed the number. is_fatal_llm_error did not know 400 either, so the loop kept
+re-sending a request that would refuse forever.
 
-Seen live. After a phantom prod the model emitted an entire forged ACT block: the
-engine's own `── ACT round 1 (7 tool call(s)) ──` header, `● TOOL ascend …`
-bullets, and invented output under them — "✓ SUCCESS: ascended to Tier O₁", a
-made-up 12-glyph tuple for f3_block_max_topo, a ✓ CYCLIC ring at ρ=2.0000, a tier
-of O₂. The prod's println rendered all of it verbatim. Every number was false: the
-real ascend is deterministic and says `tier: O₀ → O₀ … the ascent HELD … report as
-B, not done`; the catalog says f3_block_max_topo is ⟨𐑛𐑡𐑩𐑗𐑐𐑘𐑲𐑝⊙𐑓𐑳𐑭⟩; the real
-forge is telechelic; the real tier is O₀.
+Read the body. It said exactly what was wrong, first time:
+  {"error":{"message":"Reasoning is mandatory for this endpoint and cannot be
+   disabled.","code":400}}
 
-That is worse than confabulating in prose. It is confabulating in the ENGINE'S
-VOICE, where every convention the reader trusts says a tool measured this. The
-model proposes with `TOOL:`; only the engine reports with `● TOOL` and prints the
-section headers. A model writing `● TOOL` is forging provenance.
+It was --no-think. google/gemini-3.5-flash mandates reasoning and rejects the
+request over `reasoning: {enabled:false}`. Nothing to do with money.
 
-So the engine's markers are now the engine's alone: `● TOOL` lines and the
-`── ACT|OBSERVE|PLAN|THINK|FINAL|ISOMORPHISM|BACKTRANSLATION|PHANTOM-VERB|cycle`
-headers are stripped from model text, as is the OUTER SPINE block I added this
-morning (same rule, new target). A forgery now reads as unattributed prose and can
-never carry the engine's provenance. Tests use the verbatim forgery from the run,
-and pin that the model's OWN `TOOL:` proposal and `[thought|X]` still survive —
-this strips provenance, not voice.
+My own note on that switch said it was a "no-op on models that don't support it".
+That is false in both directions and I had already seen the other half today:
+DeepSeek's native API 400s on the field's mere PRESENCE (so it stays
+OpenRouter-only), and this endpoint 400s on its VALUE. The switch is not harmless;
+it is a request some endpoints refuse.
 
-Worth recording that the harness caught this itself. The phantom prod fired,
-forced the real calls, and every one contradicted the fabrication — and the model
-then revised to B on its own and reported the true numbers. The muzzle worked. It
-just had no rule against wearing the uniform.
+--no-think is an OPTIMISATION and must never be able to end a run. Where the
+endpoint mandates reasoning we now drop the switch and proceed, saying so. 400
+also joins the fatal set: a malformed request will not un-malform on retry, so
+abort with the body rather than grind.
+
+Verified against the model from the failing run: gemini-3.5-flash now prints
+"this endpoint mandates reasoning — dropping --no-think" and completes the jam.
+gemini-3-flash-preview accepts the switch; the run used both, which is why one arm
+worked and one killed it.

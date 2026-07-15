@@ -1190,7 +1190,8 @@ fn env_first(keys: &[&str]) -> Option<String> {
 /// 40 cycles printing the same error.
 fn is_fatal_llm_error(e: &str) -> bool {
     let low = e.to_lowercase();
-    low.contains("status code 401")
+    low.contains("status code 400")
+        || low.contains("status code 401")
         || low.contains("status code 402")
         || low.contains("status code 403")
         || low.contains("invalid api key")
@@ -1473,6 +1474,29 @@ fn collapse_degenerate(orig: &str) -> String {
     )
 }
 
+/// Turn a ureq error into a message that says what the SERVER said.
+///
+/// `ureq::Error::Status(code, resp)` stringifies to "…: status code 400" and drops the
+/// response, so a 400 printed as a bare status line and the run had no way to learn why:
+/// the API had answered precisely (bad model slug, malformed field, context overflow) and
+/// we discarded the answer. Read the body — it is already in the error.
+fn llm_err_text(e: ureq::Error) -> String {
+    match e {
+        ureq::Error::Status(code, resp) => {
+            let body = resp.into_string().unwrap_or_default();
+            let body = body.trim();
+            if body.is_empty() {
+                format!("status code {code} (no body)")
+            } else {
+                let short: String = body.chars().take(600).collect();
+                format!("status code {code}: {short}")
+            }
+        }
+        other => other.to_string(),
+    }
+}
+
+
 fn infer_openrouter(
     llm: &Llm,
     key: &str,
@@ -1491,19 +1515,51 @@ fn infer_openrouter(
         "temperature": temperature,
     });
     // Reasoning toggle: OpenRouter takes a `reasoning` object; `enabled: false` suppresses
-    // thinking tokens on models that support it (no-op on models that don't).
+    // thinking tokens. This was documented as a "no-op on models that don't support it" and
+    // that is false: an endpoint may REFUSE the request over it. Live 400 —
+    //   {"error":{"message":"Reasoning is mandatory for this endpoint and cannot be
+    //    disabled.","code":400}}
+    // — killed a whole --no-think jam, and the abort even blamed credit, because until the
+    // body was surfaced a 400 was indistinguishable from a 402. `--no-think` is an
+    // OPTIMISATION; it must never be able to end a run. Where the endpoint mandates
+    // reasoning we drop the switch and proceed. (DeepSeek's native API is the other face of
+    // this: it 400s on the field's mere presence, so the field stays OpenRouter-only.)
     if !llm.think {
         body["reasoning"] = json!({ "enabled": false });
     }
     let url = format!("{}/chat/completions", llm.base_url);
-    match ureq::post(&url)
-        .set("Authorization", &format!("Bearer {key}"))
-        .set("Content-Type", "application/json")
-        .set("HTTP-Referer", "momonad-ask")
-        .set("X-Title", "momonad-ask")
-        .timeout(std::time::Duration::from_secs(300))
-        .send_json(body)
-    {
+    let send = |b: Value| {
+        ureq::post(&url)
+            .set("Authorization", &format!("Bearer {key}"))
+            .set("Content-Type", "application/json")
+            .set("HTTP-Referer", "momonad-ask")
+            .set("X-Title", "momonad-ask")
+            .timeout(std::time::Duration::from_secs(300))
+            .send_json(b)
+    };
+    let mut result = send(body.clone());
+    if let Err(e) = result {
+        let msg = llm_err_text(e);
+        let mandated = msg.contains("Reasoning is mandatory")
+            || (msg.contains("reasoning") && msg.contains("cannot be disabled"));
+        if mandated && body.get("reasoning").is_some() {
+            eprintln!(
+                "[ask] this endpoint mandates reasoning — dropping --no-think for it and \
+                 proceeding (the switch is an optimisation, not a requirement)"
+            );
+            if let Some(o) = body.as_object_mut() {
+                o.remove("reasoning");
+            }
+            result = send(body.clone());
+        } else {
+            return LlmResult {
+                text: format!("[LLM error: {msg}]"),
+                voice: 'F',
+                err: Some(msg),
+            };
+        }
+    }
+    match result {
         Ok(resp) => {
             let v: Value = match resp.into_json() {
                 Ok(v) => v,
@@ -1539,10 +1595,13 @@ fn infer_openrouter(
                 }
             }
         }
-        Err(e) => LlmResult {
-            text: format!("[LLM error: {e}]"),
-            voice: 'F',
-            err: Some(e.to_string()),
+        Err(e) => {
+            let msg = llm_err_text(e);
+            LlmResult {
+                text: format!("[LLM error: {msg}]"),
+                voice: 'F',
+                err: Some(msg),
+            }
         },
     }
 }
@@ -1633,10 +1692,13 @@ fn infer_gemini(
                 }
             }
         }
-        Err(e) => LlmResult {
-            text: format!("[Gemini error: {e}]"),
-            voice: 'F',
-            err: Some(e.to_string()),
+        Err(e) => {
+            let msg = llm_err_text(e);
+            LlmResult {
+                text: format!("[Gemini error: {msg}]"),
+                voice: 'F',
+                err: Some(msg),
+            }
         },
     }
 }
