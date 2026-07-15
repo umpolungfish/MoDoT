@@ -3277,6 +3277,22 @@ fn is_known_verb(verb: &str) -> bool {
 /// the agent for "ran none" when it had in fact invoked the verbs. Both faces route here.
 /// Tolerant of markdown wrapping (`**TOOL: …**`, `` `TOOL: …` ``, list bullets):
 /// leading non-alphanumerics are skipped and each arg is trimmed of `*` `` ` `` `_`.
+/// Is this argument list the tool MANUAL being quoted rather than a call being made?
+///
+/// The prompt documents `TOOL: imscribe <name> [description]`, the model restates that line
+/// while explaining itself, and the extractor cannot tell a citation from a directive. The
+/// placeholders are the tell: a real argument is never `<name>`, `[description]`, or a bare
+/// `NAME`/`ARGS` shout. Refusing these costs nothing (no real call looks like one) and stops
+/// the harness minting the manual's own placeholder into the catalog.
+fn is_template_echo(args: &[String]) -> bool {
+    args.iter().any(|a| {
+        let a = a.trim();
+        (a.starts_with('<') && a.ends_with('>') && a.len() > 2)
+            || (a.starts_with('[') && a.ends_with(']') && a.len() > 2)
+            || matches!(a, "NAME" | "ARGS" | "ARG" | "DESCRIPTION" | "ENTRY" | "ACTION")
+    })
+}
+
 fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
     // Strip markdown, but ONLY when it is markdown. `*` and `_` are PAIRED emphasis, so trim
     // them from an end only when the other end carries the same mark. A bare trailing `*` is
@@ -3331,6 +3347,16 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
             // `TOOL: ascend again` / `TOOL: dope operation (…)`. Free-text verbs are exempt:
             // for them the prose IS the argument.
             let v = verb.to_lowercase();
+            // Template guard: the model quotes the tool syntax back in prose
+            // (`TOOL: imscribe NAME [description]`) and we DISPATCHED the placeholder — a live
+            // run spent a real mint trying to imscribe an entry named `NAME`, and had the
+            // generator been healthy it would have written `NAME` into the catalog. An echo of
+            // the manual is not a call. This must be checked before the FREETEXT bypass, since
+            // `imscribe` is exactly the verb whose template gets quoted.
+            if is_template_echo(&args) {
+                from = start;
+                continue;
+            }
             if FREETEXT_VERBS.contains(&v.as_str()) || !args_are_prose(&args) {
                 out.push((v, args));
             }
@@ -5776,5 +5802,27 @@ ascend:  at_you_forgot_your_floaties  (tier O₀)
         assert!(out.contains("TOOL: ascend"), "the model's own proposal must survive");
         assert!(out.contains("[thought|B]"), "the model's verdict proposal must survive");
         assert!(out.contains("I think this holds."), "prose must survive");
+    }
+}
+
+#[cfg(test)]
+mod template_echo_tests {
+    use super::*;
+    #[test]
+    fn manual_echo_is_not_a_call() {
+        let t = "Use TOOL: imscribe <name> [description] to mint.\n\
+                 TOOL: imscribe NAME [description]\n\
+                 TOOL: cl9nk entry epr_paradox_promoted\n";
+        let calls = extract_tool_calls(t);
+        assert_eq!(calls.len(), 1, "only the real call should dispatch: {calls:?}");
+        assert_eq!(calls[0].0, "cl9nk");
+        assert_eq!(calls[0].1, vec!["entry", "epr_paradox_promoted"]);
+    }
+    #[test]
+    fn real_imscribe_with_prose_description_still_runs() {
+        let t = "TOOL: imscribe epr_paradox_promoted the EPR paradox promoted to an exhaustive construction\n";
+        let calls = extract_tool_calls(t);
+        assert_eq!(calls.len(), 1, "free-text imscribe must survive the guard: {calls:?}");
+        assert_eq!(calls[0].0, "imscribe");
     }
 }

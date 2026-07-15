@@ -1,23 +1,15 @@
-MoDoT: a stall closes a framing, not the series
+MoDoT: an echo of the manual is not a call
 
-A stall broke the whole series. I justified it as "more rounds only circle"
--- true of a round, false of a cycle. A round repeats the prompt; a cycle
-REPLACES it with a condensate of what was measured. So a stall is the exact
-condition the condensate is worth most against: the operator is circling
-inside one framing, and the next cycle opens on a transform of it. I carried
-the old loop's logic into a design where it had stopped applying.
+The prompt documents `TOOL: imscribe <name> [description]`. The model quoted
+that line back while explaining itself, and the extractor could not tell a
+citation from a directive -- so it DISPATCHED the placeholder. A live run
+spent a real mint trying to imscribe an entry named `NAME`, and had the
+generator been healthy it would have written `NAME` into the catalog: the
+manual's own placeholder, minted as an object.
 
-Now a stall condenses and winds again. Two stalls running does close the
-series: the condensate had its chance to move the reach and did not, so the
-ground is exhausted rather than the framing.
-
-Also: the outer TAOU printed its THINK before the arms wound but gated its
-close on len() > 1, so a single-cycle run was opened and never shut -- and
-that gate took the FRONTIER line with it, so a run that stalled reported no
-stall anywhere. A frontier that only prints in company is a silent drop. The
-bracket now closes whatever it opened.
-
-And the outer close no longer says "the arms agreed". The cycles are a CHAIN
--- each opens on the previous one's condensate -- so agreement is not
-corroboration by independent witnesses. It is a verdict that survived a
-transform: a fixed point of the winding. Say what it is.
+The placeholders are the tell. A real argument is never `<name>`,
+`[description]`, or a bare `NAME` shout. Refusing them costs nothing, since
+no real call looks like one -- checked before the FREETEXT bypass, because
+imscribe is precisely the verb whose template gets quoted. Tests cover both
+directions: the echo does not dispatch, and a real free-text imscribe with a
+prose description still runs.
