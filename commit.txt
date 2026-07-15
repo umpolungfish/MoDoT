@@ -1,15 +1,21 @@
-MoDoT: an echo of the manual is not a call
+MoDoT: tell the agent what it can actually type
 
-The prompt documents `TOOL: imscribe <name> [description]`. The model quoted
-that line back while explaining itself, and the extractor could not tell a
-citation from a directive -- so it DISPATCHED the placeholder. A live run
-spent a real mint trying to imscribe an entry named `NAME`, and had the
-generator been healthy it would have written `NAME` into the catalog: the
-manual's own placeholder, minted as an object.
+`close` found the closing monomer, printed the exact next step, and the agent
+spent eagle after eagle never running it. It was not blind. The next step was
+printed as `./ask --polymerize clink_l9 sixteen_3_trilattice
+bootstrap_stage_2_topology_corrected turbulent_flow` -- a SHELL command. The
+agent's only way to act is a `TOOL:` line; there is no path from its interface
+to that string. So the tool handed it the answer in a language it cannot
+speak, and the run that followed read as the agent ignoring what it was shown.
+A human ran that one line and the ring closed.
 
-The placeholders are the tell. A real argument is never `<name>`,
-`[description]`, or a bare `NAME` shout. Refusing them costs nothing, since
-no real call looks like one -- checked before the FREETEXT bypass, because
-imscribe is precisely the verb whose template gets quoted. Tests cover both
-directions: the echo does not dispatch, and a real free-text imscribe with a
-prose description still runs.
+Five sites printed shell dialect into agent-facing output: three polymerize
+next-steps and two SET/radical-ion routes.
+
+Now the suggestion renders in the dialect of whoever is reading it --
+`TOOL: polymerize a b c` for the agent, `./ask --polymerize a b c` at a shell.
+Same act, two registers. run_structural_tool arms it: everything reached
+through the dispatcher is being read by the agent. Tests cover both
+directions, plus that the dispatcher arms the flag.
+
+A next step the reader cannot execute is not a suggestion.

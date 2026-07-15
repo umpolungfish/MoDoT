@@ -3430,6 +3430,10 @@ fn resolve_self_exe() -> Option<PathBuf> {
 /// capturing its stdout. Returns None for a non-whitelisted verb or missing args.
 /// The whitelist never includes `ask`, so there is no recursion.
 fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
+    // Everything below this line is being read by the AGENT, whose only way to act is a
+    // `TOOL:` line. Any next-step a tool prints must therefore be printed in that dialect —
+    // a `./ask --…` suggestion is unreachable from where it is standing.
+    click::AGENT_MODE.store(true, std::sync::atomic::Ordering::Relaxed);
     // Set notation is not part of any entry name. A `{set}` query makes the model emit
     // `TOOL: arrange {binah monad ankh}`, and the braces/commas would leak in as bogus
     // monomer names ("monomer not found: {binah") — the same silent-corruption class as
@@ -5824,5 +5828,37 @@ mod template_echo_tests {
         let calls = extract_tool_calls(t);
         assert_eq!(calls.len(), 1, "free-text imscribe must survive the guard: {calls:?}");
         assert_eq!(calls[0].0, "imscribe");
+    }
+}
+
+#[cfg(test)]
+mod dialect_tests {
+    use super::*;
+    use std::sync::atomic::Ordering;
+
+    /// The agent can ONLY act via a `TOOL:` line. A next-step printed as `./ask --…` is
+    /// unreachable from its interface — it was handed the answer in a language it cannot
+    /// speak, then judged for not acting on it.
+    #[test]
+    fn suggestions_render_in_the_readers_dialect() {
+        click::AGENT_MODE.store(false, Ordering::Relaxed);
+        let human = click::next_step("polymerize", "polymerize", "a b c");
+        assert_eq!(human, "./ask --polymerize a b c");
+
+        click::AGENT_MODE.store(true, Ordering::Relaxed);
+        let agent = click::next_step("polymerize", "polymerize", "a b c");
+        assert_eq!(agent, "TOOL: polymerize a b c");
+        assert!(!agent.contains("./ask"), "agent must never be told to run a shell command");
+        click::AGENT_MODE.store(false, Ordering::Relaxed);
+    }
+
+    /// Arming is the dispatcher's job: anything reached through run_structural_tool is being
+    /// read by the agent.
+    #[test]
+    fn dispatch_arms_agent_mode() {
+        click::AGENT_MODE.store(false, Ordering::Relaxed);
+        let _ = run_structural_tool("cl9nk", &["entry".into(), "clink_l9".into()]);
+        assert!(click::AGENT_MODE.load(Ordering::Relaxed), "dispatch must arm agent dialect");
+        click::AGENT_MODE.store(false, Ordering::Relaxed);
     }
 }

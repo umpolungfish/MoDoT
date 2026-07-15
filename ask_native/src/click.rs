@@ -13,6 +13,30 @@
 use crate::CatalogEntry;
 use std::path::Path;
 use std::process::Command;
+use std::sync::atomic::{AtomicBool, Ordering};
+
+/// True while a tool is running for the AGENT rather than for a human at a shell.
+///
+/// The agent's only way to act is a `TOOL:` line. It cannot type `./ask --polymerize`; there
+/// is no path from its interface to that string. So a next-step printed in the shell dialect
+/// is unreachable BY CONSTRUCTION, and the run that follows looks like the agent ignoring an
+/// answer it was handed. It was handed the answer in a language it cannot speak.
+///
+/// Observed live: `close` found the closing monomer, printed
+/// `⮑ append turbulent_flow …: ./ask --polymerize …`, and the agent spent eagle after eagle
+/// never running it. A human ran that exact line once and the ring closed.
+pub static AGENT_MODE: AtomicBool = AtomicBool::new(false);
+
+/// Render a next-step in the dialect of whoever is reading it. `verb` is the agent's tool
+/// verb; `flag` is the human CLI flag. Same act, two registers — a next step the reader
+/// cannot execute is not a suggestion, it is a taunt.
+pub fn next_step(verb: &str, flag: &str, args: &str) -> String {
+    if AGENT_MODE.load(Ordering::Relaxed) {
+        format!("TOOL: {verb} {args}")
+    } else {
+        format!("./ask --{flag} {args}")
+    }
+}
 
 /// The twelve primitive keys, in canonical navigator/catalog order.
 pub const PRIMS: [&str; 12] = ["Ð", "Þ", "Ř", "Φ", "ƒ", "Ç", "Γ", "ɢ", "⊙", "Ħ", "Σ", "Ω"];
@@ -812,7 +836,7 @@ pub fn run_homolyze(
         println!("      {name_a}•  {}   radical (open SOMO)  [{}]", fmt_tuple(&ta.ord), somo_note(&ta));
         println!("      {name_a}•  {}   radical (open SOMO)  [{}]", fmt_tuple(&ta.ord), somo_note(&ta));
         println!("  recombination (μ): {name_a}• + {name_a}• → {name_a}—{name_a}  — radical coupling re-pairs the SOMO (lossless).");
-        println!("  one electron instead (heterolytic / SET → radical ION): `./ask --set {name_a} <acceptor>`, or `--excite {name_a}`.");
+        println!("  one electron instead (heterolytic / SET → radical ION): `{}`, or `{}`.", next_step("set", "set", &format!("{name_a} <acceptor>")), next_step("excite", "excite", name_a));
         return 0;
     };
 
@@ -831,7 +855,7 @@ pub fn run_homolyze(
             println!("      {nb}•  {}   neutral radical — SOMO open on {axis}  [{}]", fmt_tuple(&tb.ord), somo_note(&tb));
             println!("  recombination (μ): {name_a}• + {nb}• → {name_a}—{nb}  — radical coupling re-pairs the SOMO (μ∘δ=id, lossless).");
             println!("  heterolytic alternative (δ_D → ion pair): the same bond can break UNEVENLY — one fragment takes both");
-            println!("    electrons (anion), the other none (cation): the single-electron / radical-ion route — `./ask --set {name_a} {nb}` → {name_a}•⁺ / {nb}•⁻.");
+            println!("    electrons (anion), the other none (cation): the single-electron / radical-ion route — `{}` → {name_a}•⁺ / {nb}•⁻.", next_step("set", "set", &format!("{name_a} {nb}")));
             0
         }
         Err(ClickFail::NoComplementarity) => {
@@ -3354,13 +3378,13 @@ pub fn run_polymerize(
                 let mut feed: Vec<&str> = monomers.iter().map(|s| s.as_str()).collect();
                 feed.insert(ai + 1, best); // between Mᵢ and Mᵢ₊₁
                 println!(
-                    "    ⮑ insert {best} to repair the break (Mᵢ ⋈ X ⋈ Mᵢ₊₁):  ./ask --polymerize {}",
-                    feed.join(" ")
+                    "    ⮑ insert {best} to repair the break (Mᵢ ⋈ X ⋈ Mᵢ₊₁):  {}",
+                    next_step("polymerize", "polymerize", &feed.join(" "))
                 );
             } else {
                 println!(
-                    "    ⮑ append {best} to close the ring head-to-tail:  ./ask --polymerize {} {best}",
-                    monomers[..dp].join(" ")
+                    "    ⮑ append {best} to close the ring head-to-tail:  {}",
+                    next_step("polymerize", "polymerize", &format!("{} {best}", monomers[..dp].join(" ")))
                 );
             }
         }
@@ -3418,7 +3442,7 @@ pub fn run_polymerize(
             println!("    modulus = {min_p} — the tightest sustaining loop this chain admits (a conductive {min_p}-cycle). Generators:");
             for (p, i, j, name) in found.iter().filter(|f| f.0 == min_p).take(4) {
                 let seg: Vec<&str> = units[*i..=*j].iter().map(|t| t.name.as_str()).collect();
-                println!("      {name}  closes units {}‥{} into a sustaining {p}-loop:  ./ask --polymerize {} {name} --props", i + 1, j + 1, seg.join(" "));
+                println!("      {name}  closes units {}‥{} into a sustaining {p}-loop:  {}", i + 1, j + 1, next_step("polymerize", "polymerize", &format!("{} {name} --props", seg.join(" "))));
             }
         }
     }
