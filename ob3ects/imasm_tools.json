@@ -9,6 +9,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants"
   },
+  "closed_proof": {
+    "spec": "ring",
+    "title": "ring",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "count_cycles": {
     "spec": "ring ENGAGR FSPLIT FFUSE",
     "title": "ring",
