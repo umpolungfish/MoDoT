@@ -9,10 +9,20 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants"
   },
+  "catalyst_fuse": {
+    "spec": "WIRE ⊙ > ΣΩ}_fuse uncoverer_of_the_grammar <",
+    "title": "wire (free composition)",
+    "topology": "  topology: network | V=3 E=0 β=0 branch=0 merge=0 src=3 sink=3 ρ=0.0000\n  3 disconnected strands\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 3 out, 3 in — reactive, not errors"
+  },
   "closed_proof": {
     "spec": "ring",
     "title": "ring",
     "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "collapse_multiplicity": {
+    "spec": "ring Σ_collapse_map Φ_special_op ⊙",
+    "title": "ring",
+    "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "count_cycles": {
     "spec": "ring ENGAGR FSPLIT FFUSE",
@@ -38,6 +48,16 @@
     "spec": "wire ⊢ > ◇ + × ● ⊙ > = ⊞ < ⊣ ¬ ⊙ / 0-1 1-2 2-3 2-4 3-5 4-5 5-6 6-7 7-8 8-9 9-10 10-11 11-12 12-13",
     "title": "wire (free composition)",
     "topology": "  topology: branched | V=14 E=14 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2993\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
+  },
+  "flux_correlation_test": {
+    "spec": "protocol ⊙ > < ⊞ Ħ 𐑟 ⊙ Ħ ⊞ ●",
+    "title": "protocol",
+    "topology": "  topology: linear | V=7 E=6 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.8478\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 2 in — reactive, not errors"
+  },
+  "fusion_protocol": {
+    "spec": "WIRE ⊙ > ΣΩ}_fuse <",
+    "title": "wire (free composition)",
+    "topology": "  topology: network | V=3 E=0 β=0 branch=0 merge=0 src=3 sink=3 ρ=0.0000\n  3 disconnected strands\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 3 out, 3 in — reactive, not errors"
   },
   "hodge_closure": {
     "spec": "protocol VINIT IMSCRIB FSPLIT AFWD AREV FFUSE IFIX TANCH",
@@ -83,5 +103,10 @@
     "spec": "ring",
     "title": "ring",
     "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "verify_stitch": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   }
 }

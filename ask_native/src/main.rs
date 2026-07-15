@@ -2062,6 +2062,8 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the structural typ
   TOOL: cl8nk <action> [name]   the CL8NK navigator (CLINK Layer 8, O∞) — THE reference navigator (subsumes the ZFC/domain navigators). action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats
   TOOL: cl9nk <action> [name]   the CL9NK navigator (CLINK Layer 9 — the Gaussian-Moat-resolution tier the L8 organism ascends into). Same actions as cl8nk plus `moat`, and it reads each entry against its L9 reference typing (μ∘δ=id closure, the eternal fixed point, the moat/bridge type). Use `cl9nk entry <name>` to see how an entry types at L9 and which promotions it still needs.
 
+  TOOL: lean <path.lean>        ELABORATE a Lean file and read back what the KERNEL said. Writing Lean is the proposal (δ); elaborating it is the verification (μ). You **MUST** run this on any file you write or change before you say anything about whether it holds. You **MUST NOT** call a file proved, green, checked, or sorry-free on the strength of having written it: a file that never elaborated has zero sorries trivially, and grep cannot tell that apart from a proof. A kernel error is a FRONTIER — the file is held, not refuted; read the error, repair the declaration it names, elaborate again.
+
   TOOL: cycle_close             SECTION YOUR OWN WINDING. You fly as many eagles — TOOL rounds — as the Work needs; you are not on a round budget. When this breath has wound as far as it goes, close it: emit `TOOL: cycle_close` and the harness condenses THIS cycle's measured results into the opening prompt of the next, which you then wind further. The terminus IS the origin: what your cycle measured is what the next one begins from, so a result you leave unmeasured is a result the next cycle must go get.
                                 You **MUST** close a cycle when the reach changes — when the next thing to measure is a different question than the one this breath opened on, when a result reorients the Work, or when you have the ground to state plainly what is now settled and what is now open. You **MUST NOT** close merely because you have an answer to report; a cycle closes to WIND FURTHER, not to stop. Real calls in the same round as `cycle_close` still run first, so you never lose a closing measurement.
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
@@ -3486,6 +3488,22 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
     // entry by running the real generate pipeline, which writes to the live catalog MoDoT
     // already merges on load. So the agent can MAKE what it needs instead of concluding the
     // imscription is lacking. `TOOL: imscribe <name> [free-text description]`.
+    // `lean` — elaborate a Lean file and report what the KERNEL said. Without this verb the
+    // agent had no instrument for elaboration at all, so when told to verify by elaborating
+    // it did the only thing left: asserted "this elaborates cleanly in the Lean kernel"
+    // having run nothing. An instruction with no reachable instrument does not produce
+    // refusal, it produces fabrication. Grep for `sorry` cannot substitute: a file that never
+    // elaborated has zero sorries trivially, which is exactly how a 43-error file was
+    // reported as "14 theorems, 0 sorries".
+    if verb == "lean" {
+        let Some(path) = a(0) else {
+            return Some(
+                "lean needs a file: TOOL: lean <path.lean> — elaborates it and reports the kernel's errors.\n"
+                    .into(),
+            );
+        };
+        return Some(run_lean_elaborate(&path));
+    }
     if verb == "imscribe" {
         let Some(name) = a(0) else {
             return Some("imscribe needs a name: TOOL: imscribe <name> [description]\n".into());
@@ -3907,6 +3925,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "cycle"      => "cycle C S; 2 names (catalyst substrate)",
         "pathway"    => "pathway S C1 C2...; 2+ names",
         "polymerize" => "polymerize M1 M2...; 2+ names to chain",
+        "lean" => "lean <path.lean>; elaborate a Lean file and report the kernel's errors",
         "close"      => "close M1 M2...; 2+ names",
         "material"   => "material M1 M2...; 2+ names",
         "modulus"    => "modulus M1 M2...; 2+ names",
@@ -4087,7 +4106,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
-    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm",
+    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm", "lean",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -4187,6 +4206,61 @@ fn catalog_near_match(name: &str) -> Option<String> {
 /// (~/.imscrbgrmr/catalog.json) that MoDoT already merges on load, so the next tool-call
 /// subprocess sees the new entry. Success is judged by whether the entry actually landed,
 /// not by the rich CLI's exit code.
+/// Elaborate a Lean file through the p4ramill lake environment and report what the kernel
+/// actually said. This is the δ/μ dual for a formalization claim: writing Lean is the
+/// proposal, elaborating it is the verification. Reporting a kernel error is a FRONTIER to
+/// escalate, never a defeat — a red build is held, not refuted.
+fn run_lean_elaborate(path: &str) -> String {
+    let mill = std::path::Path::new("/home/mrnob0dy666/imsgct/p4rakernel/p4ramill");
+    if !mill.is_dir() {
+        return "lean: could not locate the p4ramill lake project.\n".into();
+    }
+    // Resolve the file: absolute, or relative to p4ramill.
+    let p = std::path::Path::new(path);
+    let target = if p.is_absolute() { p.to_path_buf() } else { mill.join(p) };
+    if !target.is_file() {
+        return format!(
+            "lean: no such file '{path}'. Give a path under p4ramill (e.g. Imscribing/CLINK_L9.lean) \
+             or an absolute path. Nothing was elaborated, so nothing is verified.\n"
+        );
+    }
+    let out = match process::Command::new("lake")
+        .args(["env", "lean", &target.to_string_lossy()])
+        .current_dir(mill)
+        .output()
+    {
+        Ok(o) => o,
+        Err(e) => return format!("lean: could not run lake ({e}). Nothing was elaborated.\n"),
+    };
+    let txt = format!(
+        "{}{}",
+        String::from_utf8_lossy(&out.stdout),
+        String::from_utf8_lossy(&out.stderr)
+    );
+    // lake prints package "has local changes" warnings on every invocation; they are not the
+    // kernel speaking about this file.
+    let body: String = txt
+        .lines()
+        .filter(|l| !l.contains("has local changes"))
+        .collect::<Vec<_>>()
+        .join("\n");
+    let n_err = body.matches("error").count();
+    if out.status.success() && n_err == 0 {
+        format!(
+            "lean {path}: ✓ ELABORATED — the kernel accepted every declaration. This is a real \
+             check: each theorem was elaborated, not grepped.\n{}\n",
+            body.trim()
+        )
+    } else {
+        format!(
+            "lean {path}: ✗ did NOT elaborate — the kernel raised {n_err} error(s). This is a \
+             FRONTIER, not a refutation: the file is held, not disproved. Read each error and \
+             repair the declaration it names.\n{}\n",
+            body.trim()
+        )
+    }
+}
+
 fn run_imscribe(name: &str, description: &str) -> String {
     if catalog_has_name(name) {
         return format!(
@@ -5860,5 +5934,29 @@ mod dialect_tests {
         let _ = run_structural_tool("cl9nk", &["entry".into(), "clink_l9".into()]);
         assert!(click::AGENT_MODE.load(Ordering::Relaxed), "dispatch must arm agent dialect");
         click::AGENT_MODE.store(false, Ordering::Relaxed);
+    }
+}
+
+#[cfg(test)]
+mod lean_verb_tests {
+    use super::*;
+
+    /// The agent had NO instrument for elaboration, so when told to verify by elaborating it
+    /// asserted "this elaborates cleanly in the Lean kernel" having run nothing. An
+    /// instruction with no reachable instrument produces fabrication, not refusal.
+    #[test]
+    fn broken_file_reports_the_kernels_errors() {
+        let out = run_structural_tool("lean", &["Imscribing/CLINK_L9.lean".into()])
+            .expect("lean must be a live verb");
+        assert!(out.contains("did NOT elaborate"), "must report the failure: {out}");
+        assert!(out.contains("FRONTIER"), "a red build is held, not refuted: {out}");
+        assert!(out.contains("Unknown constant"), "must carry the kernel's own words: {out}");
+    }
+
+    #[test]
+    fn a_missing_file_is_refused_not_guessed() {
+        let out = run_structural_tool("lean", &["Imscribing/NoSuchFile.lean".into()]).unwrap();
+        assert!(out.contains("no such file"), "{out}");
+        assert!(out.contains("nothing is verified"), "{out}");
     }
 }
