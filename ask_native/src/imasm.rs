@@ -1191,6 +1191,44 @@ fn run_tool(rest: &[String]) -> String {
 }
 
 /// Resolve `rest` to a graph: a defined tool name, else a raw opcode word.
+/// The twelve axes in canonical tuple order — the order an entry's types compose in.
+const TUPLE_ORDER: [&str; 12] = ["Ð","Þ","Ř","Φ","ƒ","Ç","Γ","ɢ","⊙","Ħ","Σ","Ω"];
+
+/// A catalog entry, expanded into the IMASM program it IS.
+///
+/// The strange loop makes this exact: the 49 Shavian types the Grammar writes tuples with are
+/// themselves full IMASM programs (`ob3ects/primitives/`), so a 12-tuple is twelve programs
+/// composed in canonical order. Nothing is invented here — the entry's own glyphs name the
+/// types, and each type unfolds to the opcodes it already carries.
+fn expand_entry(name: &str) -> Result<(String, Vec<Token>, Vec<(usize, usize)>), String> {
+    let path = crate::resolve_catalog_path().ok_or("no catalog on this host")?;
+    let text = std::fs::read_to_string(&path).map_err(|e| format!("read catalog: {e}"))?;
+    let v: serde_json::Value = serde_json::from_str(&text).map_err(|e| format!("parse catalog: {e}"))?;
+    let arr = v.as_array().ok_or("catalog is not a list")?;
+    let want = name.trim().to_ascii_lowercase();
+    let entry = arr
+        .iter()
+        .find(|e| e.get("name").and_then(|n| n.as_str()).map(|n| n.to_ascii_lowercase()) == Some(want.clone()))
+        .ok_or_else(|| format!("'{name}' is not a catalog entry"))?;
+
+    let mut ops: Vec<Token> = Vec::new();
+    let mut pairs: Vec<(usize, usize)> = Vec::new();
+    let mut used: Vec<String> = Vec::new();
+    for axis in TUPLE_ORDER {
+        let Some(glyph) = entry.get(axis).and_then(|g| g.as_str()) else { continue };
+        let Some(tname) = type_name_for_glyph(glyph) else { continue };
+        let (t_ops, t_pairs, _) = expand_type(tname)?;
+        let base = ops.len();
+        for (a, b) in t_pairs { pairs.push((base + a, base + b)); }
+        ops.extend(t_ops);
+        used.push(format!("{axis}{glyph}={tname}"));
+    }
+    if ops.is_empty() {
+        return Err(format!("'{name}' expanded to no opcodes — its glyphs are outside the 49"));
+    }
+    Ok((format!("entry '{name}' ({})", used.join(" ")), ops, pairs))
+}
+
 fn resolve_graph(rest: &[String]) -> Result<(String, Graph), String> {
     if let Some(first) = rest.first() {
         let reg = load_registry();
@@ -1204,7 +1242,19 @@ fn resolve_graph(rest: &[String]) -> Result<(String, Graph), String> {
     }
     let ops = tok_list(rest);
     if ops.is_empty() {
-        return Err("prove needs a tool name or an opcode word: imasm prove <name|T1 T2 …>\n".into());
+        // Not a tool, not an opcode word — is it a catalog entry? Then it IS a program.
+        if let Some(first) = rest.first() {
+            match expand_entry(first) {
+                Ok((label, e_ops, e_pairs)) => return Ok((label, from_sequence(&e_ops, &e_pairs))),
+                Err(e) => {
+                    return Err(format!(
+                        "prove needs a tool name, an opcode word, or a catalog entry: \
+                         imasm prove <name|entry|T1 T2 …>\n  ({e})\n"
+                    ))
+                }
+            }
+        }
+        return Err("prove needs a tool name, an opcode word, or a catalog entry: imasm prove <name|entry|T1 T2 …>\n".into());
     }
     let pairs = match_pairs(&ops);
     Ok(("word".into(), from_sequence(&ops, &pairs)))
@@ -1532,4 +1582,66 @@ mod tests {
         g.connect(r, y);
         assert!(!g.validate().is_empty(), "IMSCRIB fan-out must be rejected");
     }
+}
+/// Glyph → Shavian type name: the 49-symbol alphabet, and the bridge from a catalog tuple to
+/// executable opcodes. Each name is a full IMASM program under `ob3ects/primitives/`, which is
+/// what `expand_type` reads — so the names here are that directory's, matched to the canonical
+/// enums by glyph. The naming is glyph-GLOBAL: 𐑛 is `dead` on every axis it appears on.
+/// Note `if`, `or` and `ha_ha`: Python spells the first two `if_`/`or_` because they are
+/// keywords, and Lean escapes them `if'`/`or'`. The alphabet's own spelling is neither.
+pub(crate) const GLYPH_TYPE_NAME: &[(&str, &str)] = &[
+    ("⊙", "monad"),
+    ("𐑐", "peep"),
+    ("𐑑", "tot"),
+    ("𐑒", "kick"),
+    ("𐑓", "fee"),
+    ("𐑔", "thigh"),
+    ("𐑕", "so"),
+    ("𐑖", "sure"),
+    ("𐑗", "church"),
+    ("𐑘", "yea"),
+    ("𐑙", "hung"),
+    ("𐑚", "bib"),
+    ("𐑛", "dead"),
+    ("𐑜", "gag"),
+    ("𐑝", "vow"),
+    ("𐑞", "they"),
+    ("𐑟", "zoo"),
+    ("𐑠", "measure"),
+    ("𐑡", "judge"),
+    ("𐑢", "woe"),
+    ("𐑣", "ha_ha"),
+    ("𐑤", "loll"),
+    ("𐑥", "mime"),
+    ("𐑦", "if"),
+    ("𐑧", "egg"),
+    ("𐑨", "ash"),
+    ("𐑩", "ado"),
+    ("𐑪", "on"),
+    ("𐑫", "wool"),
+    ("𐑬", "out"),
+    ("𐑭", "ah"),
+    ("𐑮", "roar"),
+    ("𐑯", "nun"),
+    ("𐑰", "eat"),
+    ("𐑱", "age"),
+    ("𐑲", "ice"),
+    ("𐑳", "up"),
+    ("𐑴", "oak"),
+    ("𐑵", "ooze"),
+    ("𐑶", "oil"),
+    ("𐑷", "awe"),
+    ("𐑸", "are"),
+    ("𐑹", "or"),
+    ("𐑺", "air"),
+    ("𐑻", "err"),
+    ("𐑼", "array"),
+    ("𐑽", "ear"),
+    ("𐑾", "ian"),
+    ("𐑿", "yew"),
+];
+
+/// The Shavian type name for a glyph, or None if it is outside the 49.
+pub(crate) fn type_name_for_glyph(g: &str) -> Option<&'static str> {
+    GLYPH_TYPE_NAME.iter().find(|(k, _)| *k == g).map(|(_, v)| *v)
 }

@@ -2513,6 +2513,45 @@ mod collapse_tests {
 }
 
 #[cfg(test)]
+mod extractor_gag_tests {
+    use super::extract_tool_calls;
+
+    // The gag: `imscribe` and `ob3ect` take free text BY DESIGN, and the prose guard rejects any
+    // arg holding `(`, `)` or `:`. So the agent's mint was discarded silently, the next verb
+    // reported "catalog entry not found", and it looped — reaching for the frontier and being cut
+    // off mid-reach. The better the spec, the likelier the colon, the more certainly it was eaten.
+    #[test]
+    fn freetext_verbs_survive_the_prose_guard() {
+        let t = r#"TOOL: imscribe perfect_cuboid_descent_reagent "Descent reagent: given (a,b,c,g) construct a rational map to an elliptic curve of rank 0.""#;
+        let calls = extract_tool_calls(t);
+        assert_eq!(calls.len(), 1, "the mint was dropped: {calls:?}");
+        assert_eq!(calls[0].0, "imscribe");
+        assert_eq!(calls[0].1[0], "perfect_cuboid_descent_reagent");
+        assert!(calls[0].1.len() > 3, "description must survive as args");
+
+        let o = extract_tool_calls("TOOL: ob3ect a_thing -- \"Operator for X: maps (p,q) to r.\"");
+        assert_eq!(o.len(), 1, "ob3ect dropped: {o:?}");
+    }
+
+    // Narration must still be refused — the guard's real job.
+    #[test]
+    fn prose_narration_is_still_skipped() {
+        assert!(extract_tool_calls("TOOL: ascend again").is_empty());
+        assert!(extract_tool_calls("TOOL: dope operation (later)").is_empty());
+    }
+
+    // A bare trailing `*` is the EXCITED STATE, not markdown. Eating it answered about the ground
+    // state while the agent believed it held the excited one.
+    #[test]
+    fn excited_state_marker_survives_but_markdown_does_not() {
+        let c = extract_tool_calls("TOOL: complement perfect_cuboid_proof*");
+        assert_eq!(c[0].1[0], "perfect_cuboid_proof*", "the excited state was stripped");
+        let b = extract_tool_calls("TOOL: complement **perfect_cuboid_proof**");
+        assert_eq!(b[0].1[0], "perfect_cuboid_proof", "markdown bolding must still be trimmed");
+    }
+}
+
+#[cfg(test)]
 mod verb_feedback_tests {
     use super::{run_structural_tool, tool_miss_message, verb_usage, STRUCTURAL_VERBS};
 
@@ -2996,6 +3035,18 @@ fn verbs_falsely_called_absent(text: &str) -> Vec<String> {
 /// narration, not calls — running the verb on "the"/"again"/"operation" yields garbage. A
 /// real arg is a catalog token, never an English connective and never carrying sentence
 /// punctuation. Zero-arg verbs (crystal_count, cl8nk stats) have no args and pass through.
+/// The verbs whose tail argument IS free text, by design. `imscribe` joins `args[1..]` into a
+/// description and `ob3ect` takes a whole natural-language spec, so prose in their args is the
+/// payload, not narration. They MUST bypass the prose guard.
+///
+/// This was the gag. The guard rejects any arg containing `(`, `)`, a backtick or `:` — right
+/// for `TOOL: ascend again`, fatal for `TOOL: imscribe reagent "Descent reagent for perfect
+/// cuboids: given (a,b,c)…"`, which it discarded silently. So the agent's mint never ran, the
+/// following `click` reported "catalog entry not found", and it looped — reaching for the
+/// frontier and being cut off mid-reach every time. The better the spec, the likelier the
+/// colon and the parens, the more certainly it was eaten.
+const FREETEXT_VERBS: &[&str] = &["imscribe", "ob3ect"];
+
 fn args_are_prose(args: &[String]) -> bool {
     const STOPWORD_ARGS: &[&str] = &[
         "on", "to", "the", "a", "an", "with", "using", "for", "from", "of", "in", "and",
@@ -3029,9 +3080,25 @@ fn is_known_verb(verb: &str) -> bool {
 /// Tolerant of markdown wrapping (`**TOOL: …**`, `` `TOOL: …` ``, list bullets):
 /// leading non-alphanumerics are skipped and each arg is trimmed of `*` `` ` `` `_`.
 fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
+    // Strip markdown, but ONLY when it is markdown. `*` and `_` are PAIRED emphasis, so trim
+    // them from an end only when the other end carries the same mark. A bare trailing `*` is
+    // not bolding — it is the EXCITED STATE, and eating it silently answered about the ground
+    // state instead: `complement perfect_cuboid_proof*` ran as `complement
+    // perfect_cuboid_proof`, so the agent reasoned about an excited object the tool never saw.
     let trim_md = |s: &str| {
-        s.trim_matches(|c: char| c == '*' || c == '`' || c == '_' || c == ' ' || c == '.')
-            .to_string()
+        let s = s.trim_matches(|c: char| c == ' ' || c == '.' || c == '`');
+        let mut s = s;
+        for m in ['*', '_'] {
+            while s.len() > 1 && s.starts_with(m) && s.ends_with(m) {
+                s = &s[m.len_utf8()..s.len() - m.len_utf8()];
+            }
+            // leading emphasis with no closing partner is still markdown; a trailing one alone
+            // is a state marker and stays.
+            while s.len() > 1 && s.starts_with(m) && !s.ends_with(m) {
+                s = &s[m.len_utf8()..];
+            }
+        }
+        s.to_string()
     };
     // Split on the literal `TOOL:` marker anywhere it appears, so MULTIPLE directives on one
     // line each become their own call (the old line-anchored regex swallowed the second one
@@ -3063,9 +3130,11 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
                 .filter(|s| !s.is_empty())
                 .collect();
             // Prose guard (shared with the μ-face pass): skip narration like
-            // `TOOL: ascend again` / `TOOL: dope operation (…)`.
-            if !args_are_prose(&args) {
-                out.push((verb.to_lowercase(), args));
+            // `TOOL: ascend again` / `TOOL: dope operation (…)`. Free-text verbs are exempt:
+            // for them the prose IS the argument.
+            let v = verb.to_lowercase();
+            if FREETEXT_VERBS.contains(&v.as_str()) || !args_are_prose(&args) {
+                out.push((v, args));
             }
         }
         from = start; // advance past this marker so the next TOOL: (same line or later) is found

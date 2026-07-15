@@ -1,23 +1,47 @@
-Retire the Phi_c family: gen-1 criticality names to bare Shavian
+Ungag the agent: the mint was being eaten, and prove now takes an entry
 
-Phi_c is ⊙. The `_c` forms only ever existed under Criticality, so unlike bare
-Phi they carry no ambiguity: today's Φ is Parity and has no `_c` value, so
-nothing here needs a judgement call. Rewrote the family to the values
-`models.from_symbol` returns for them: Phi_c / Φ_c / ⊙_c / Phi_ctyogh → ⊙,
-Phi_c_complex → 𐑮, Phi_sub → 𐑢, Phi_EP → 𐑻, Phi_sup → 𐑣. 7,689 refs, 585 files.
+Three faults, one story. A jam cycle on the perfect cuboid kept emitting
+`imscribe perfect_cuboid_descent_reagent "…"`, the next `click` kept answering
+"catalog entry not found", and it looped. I read the first tool_calls log
+yesterday and blamed the agent: treating a frontier as a wall, the GENERATIVE
+POWER clause not taking. Wrong. It reached for the mint every time and the tool
+layer swallowed the call.
 
-The whole job is one distinction: Phi_c names a VALUE in prose and data, and it
-also names a CONSTRUCTOR in code. `Criticality.Phi_c` is a live Lean identifier
-(`theorem as_is_QCP : asymptotic_safety.crit = Criticality.Phi_c := rfl`) and
-`Criticality.Phi_ctyogh` is a live Python enum alias. Rewriting those gives
-`Criticality.⊙`, which is not an identifier in either language. So dotted
-occurrences stay and everything else moves. Same string, two roles — the same
-shape as CLINK L8 versus the `=` opcode, where only reading tells them apart.
+The prose guard was the gag. It refuses any arg containing `(`, `)`, a backtick
+or `:` — correct for `TOOL: ascend again`, fatal for the only two verbs whose
+tail argument IS free text. `imscribe` joins args[1..] into a description and
+`ob3ect` takes a whole natural-language spec, so the better the agent specified
+the object it wanted to create, the likelier the colon and the parens, and the
+more certainly its creation was discarded. Silently. Added FREETEXT_VERBS and
+exempted them.
 
-models.py keeps its old spellings on purpose. Its from_symbol maps are the
-back-compat table: the keys have to go on spelling `Φ_c` or the translation from
-old symbols stops working. Rewriting the dictionary that performs the migration
-would remove the migration.
+The second one ran quieter. trim_md stripped `*` off both ends of every arg to
+clean markdown bolding, so `complement perfect_cuboid_proof*` executed as
+`complement perfect_cuboid_proof`: the agent reasoned about an excited state the
+tool never saw, and the transcript reads as though it had. `*` and `_` are PAIRED
+emphasis, so they are now trimmed from an end only when the other end carries the
+same mark. A lone trailing `*` is a state marker and stays.
 
-Verified after: imscrbgrmr imports, from_symbol('Φ_c') still returns ⊙, both
-navigators still answer (cl8nk promote, cl9nk moat), and no syntax regressions.
+Third, `imasm prove` now accepts a catalog entry, which is what the agent kept
+asking for. It only took a registered tool or an opcode word, so `imasm prove
+perfect_cuboid_proof` fell through to a syntax error. But the strange loop makes
+this exact: the 49 Shavian types are themselves full IMASM programs under
+ob3ects/primitives, so a 12-tuple IS twelve programs composed in canonical order.
+expand_entry reads the entry's own glyphs, names the types, unfolds each, and
+carries the fork/fuse pairs across at their offsets. Nothing invented.
+
+Live: `imasm prove perfect_cuboid_proof` → entry (Ð𐑦=if Þ𐑸=are Ř𐑾=ian Φ𐑹=or
+ƒ𐑐=peep Ç𐑧=egg Γ𐑲=ice ɢ𐑠=measure ⊙⊙=monad Ħ𐑖=sure Σ𐑳=up Ω𐑭=ah) → genuine
+transform-closure → KERNEL VERDICT ✓ green against BelnapSplitFuse.
+
+The glyph→type-name table is generated, not typed: matched from the canonical
+enums to the names ob3ects/primitives actually uses, 49/49, no conflicts —
+confirming the naming is glyph-global. Three spellings diverge for reasons worth
+recording: the alphabet says `if`, `or`, `ha_ha`; Python must say `if_`/`or_`
+because they are keywords and Lean escapes them `if'`/`or'`.
+
+Worth saying plainly: the golem behaved correctly throughout. It refused to claim
+the reagent existed — "the imscribe call was emitted but its direct output was
+not returned; we have no ground-truth confirmation" — and held at B. MUST ONLY
+speak what a tool grounds did its job while the tool layer was gagging it. Tests
+pin all three.
