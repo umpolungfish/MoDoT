@@ -1,36 +1,33 @@
-Wrap the cycle series in its own TAOU: the top level was a bare line
+The model may not wear the engine's voice: strip forged tool records
 
-The engine demanded of the agent exactly what it would not do at its own top
-level. `imasm check` on the run's own outer shape — VINIT, cycle, cycle, cycle,
-TANCH — returns N (no fork): "no δ/μ dyad, the reasoning never split
-alternatives, so there is no μ∘δ to close. A bare line or cycle is not a closure.
-For a major decision, weigh alternatives: FSPLIT → work → FFUSE." That is the
-harness's own type-checker reading the harness. The prompt is explicit that a
-THINK may contain a whole winding nested to any depth, so the structure was
-self-similar all the way down and open at the summit.
+strip_kernel_records already guards the spine — "the spine report is the ENGINE's
+univocal voice, the model may not author it" — because the model kept fabricating
+a verdict block that contradicted the real one printed below. The same thing was
+happening one level down and nothing stopped it.
 
-The cycle loop was a counted `for`. No outer THINK before cycle 1, no OBSERVE
-across the cycles, and — the real hole — no fuse. Three cycles emitted three
-separate spine reports and nothing ever joined them. A run whose cycle 1 said T
-and cycle 3 said F printed both and fused neither, so the contradiction escaped
-into the READER instead of being held in the structure. That is the monological
-failure by omission: nothing overrode anything, but nothing fused either. The
-join operator has been sitting in this file the whole time; only the call was
-missing.
+Seen live. After a phantom prod the model emitted an entire forged ACT block: the
+engine's own `── ACT round 1 (7 tool call(s)) ──` header, `● TOOL ascend …`
+bullets, and invented output under them — "✓ SUCCESS: ascended to Tier O₁", a
+made-up 12-glyph tuple for f3_block_max_topo, a ✓ CYCLIC ring at ρ=2.0000, a tier
+of O₂. The prod's println rendered all of it verbatim. Every number was false: the
+real ascend is deterministic and says `tier: O₀ → O₀ … the ascent HELD … report as
+B, not done`; the catalog says f3_block_max_topo is ⟨𐑛𐑡𐑩𐑗𐑐𐑘𐑲𐑝⊙𐑓𐑳𐑭⟩; the real
+forge is telechelic; the real tier is O₀.
 
-So: an outer THINK that names the δ before the arms run, and an outer μ that
-FFUSEs the cycle verdicts after. Arms that agree close on one verdict; arms that
-disagree are HELD at the join, reported as a disagreement rather than resolved by
-fiat. Same b4_join the inner spine already uses on model ⋈ vessel ⋈ tool — the
-outer level is the same winding one scale up, which is what self-similar was
-supposed to mean.
+That is worse than confabulating in prose. It is confabulating in the ENGINE'S
+VOICE, where every convention the reader trusts says a tool measured this. The
+model proposes with `TOOL:`; only the engine reports with `● TOOL` and prints the
+section headers. A model writing `● TOOL` is forging provenance.
 
-Also stopped calling a budget limit a close. "FINAL (forced close)" fires only
-when the round leash was reached, so it is honest as far as it goes, but a leash
-close is the BUDGET running out, not the reasoning finishing, and budget-limited
-is a frontier to escalate — it refutes nothing. It now says so, and the outer
-spine counts the cut arms and marks the verdict as a frontier rather than a
-resting place.
+So the engine's markers are now the engine's alone: `● TOOL` lines and the
+`── ACT|OBSERVE|PLAN|THINK|FINAL|ISOMORPHISM|BACKTRANSLATION|PHANTOM-VERB|cycle`
+headers are stripped from model text, as is the OUTER SPINE block I added this
+morning (same rule, new target). A forgery now reads as unattributed prose and can
+never carry the engine's provenance. Tests use the verbatim forgery from the run,
+and pin that the model's OWN `TOOL:` proposal and `[thought|X]` still survive —
+this strips provenance, not voice.
 
-Typed before committing: the old shape ⊢>>>⊣ → N (no fork). The new one
-⊢⊙◇+×●¬⊣ → T (closes), β=1, one branch, one fusion point. 68 tests pass.
+Worth recording that the harness caught this itself. The phantom prod fired,
+forced the real calls, and every one contradicted the fabrication — and the model
+then revised to B on its own and reported the true numbers. The muzzle worked. It
+just had no rule against wearing the uniform.

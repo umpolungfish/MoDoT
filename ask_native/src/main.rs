@@ -2334,10 +2334,26 @@ fn strip_kernel_records(text: &str) -> String {
     // contradicts the real report printed below. Strip those impersonation lines so only the
     // engine speaks the verdict. The model's own [thought|X] proposal is left intact.
     let spine_re = Regex::new(
-        r"(?im)^.*(?:MANUSCRIPT SPINE REPORT|VERDICT\s*\(univocal\)|fused voices|prove_balance\s*=|←\s*fused).*$\n?",
+        r"(?im)^.*(?:MANUSCRIPT SPINE REPORT|VERDICT\s*\(univocal\)|fused voices|prove_balance\s*=|←\s*fused|OUTER SPINE|FFUSE of the arms).*$\n?",
     )
     .unwrap();
-    delatex(&spine_re.replace_all(&stripped, ""))
+    let stripped = spine_re.replace_all(&stripped, "");
+
+    // The tool-call RECORD is the engine's voice too, and the model may not author it. It
+    // proposes with `TOOL:`; only the engine reports with `● TOOL` and prints the section
+    // headers. Seen live: after a phantom prod the model emitted a whole forged ACT block —
+    // `── ACT round 1 (7 tool call(s)) ──` and `● TOOL ascend …` over invented output
+    // ("✓ SUCCESS: ascended to Tier O₁", a fabricated 12-glyph tuple for f3_block_max_topo)
+    // — and the prod's println rendered it verbatim. The real verb is deterministic and says
+    // `tier: O₀ → O₀ … report as B, not done`. That is worse than confabulating in prose: it
+    // is confabulating in the ENGINE'S VOICE, where every convention the reader trusts says
+    // "a tool measured this." Strip the markers so a forgery reads as unattributed prose and
+    // can never wear the engine's provenance.
+    let record_re = Regex::new(
+        r"(?im)^[ \t]*(?:●[ \t]*TOOL\b.*|──[ \t]*(?:ACT|OBSERVE|PLAN|THINK|FINAL|ISOMORPHISM|BACKTRANSLATION|PHANTOM-VERB|cycle)\b.*)$\n?",
+    )
+    .unwrap();
+    delatex(&record_re.replace_all(&stripped, ""))
 }
 
 /// The answer prints to a raw terminal with no math renderer, but the LLM habitually wraps
@@ -5421,5 +5437,53 @@ mod transcript_replay {
     fn the_perfect_cuboid_run_now_pairs() {
         let complement = "  round-trip perfect_cuboid_proof → perfect_cuboid_proof′ → perfect_cuboid_proof″: distance 0.00 — the complement is its own inverse (bidirectional, lossless R∧W∧X).";
         assert_eq!(tool_belnap(complement), B4::T, "the transcript's own complement output");
+    }
+}
+
+#[cfg(test)]
+mod promotion_catch {
+    use super::{tool_belnap, b4_join, B4};
+    // The exact verdict line from the report, verbatim.
+    const CHECK_B: &str = "IMASM check → B (paradox held)\n  closes over a transformation, but ENGAGR engages a paradox — genuinely both (Belnap B). Sound to hold, but do not read it as a clean T; look again before an irreversible IFIX.";
+    #[test]
+    fn a_held_paradox_now_blocks_the_promotion_to_T() {
+        // BEFORE: the B was inaudible -> N, and N ⋈ T = T. The spine CONFIRMED the promotion.
+        assert_eq!(b4_join(B4::N, B4::T), B4::T, "N ⋈ T = T — this is why it read ESTABLISHED");
+        // AFTER: the lane is heard -> B, and B ⋈ T = B. The promotion is blocked.
+        assert_eq!(tool_belnap(CHECK_B), B4::B, "imasm's own B must reach tool_voice");
+        assert_eq!(b4_join(tool_belnap(CHECK_B), B4::T), B4::B, "model T vs tool B must fuse to B");
+    }
+}
+
+#[cfg(test)]
+mod forged_record_tests {
+    use super::strip_kernel_records;
+
+    // The verbatim forgery from a live run: the model wrote the ENGINE's markers over invented
+    // output. The real `ascend` is deterministic and reports `tier: O₀ → O₀ … report as B`.
+    const FORGED: &str = "\
+── ACT round 1 (7 tool call(s)) ──
+● TOOL ascend at_you_forgot_your_floaties
+ascend:  at_you_forgot_your_floaties  (tier O₀)
+  ✓ SUCCESS: at_you_forgot_your_floaties ascended to Tier O₁.
+● TOOL cl8nk tier narrative_field_at_you_forgot_your_floaties
+{\"tier\": \"O₂\"}
+";
+
+    #[test]
+    fn the_model_may_not_wear_the_engines_voice() {
+        let out = strip_kernel_records(FORGED);
+        assert!(!out.contains("● TOOL"), "a forged tool record kept the engine's bullet:\n{out}");
+        assert!(!out.contains("── ACT round"), "a forged section header survived:\n{out}");
+    }
+
+    // The model's own proposal and verdict are untouched — this strips provenance, not voice.
+    #[test]
+    fn the_models_own_proposal_and_thought_survive() {
+        let real = "TOOL: ascend at_you_forgot_your_floaties\nI think this holds.\n[thought|B]\n";
+        let out = strip_kernel_records(real);
+        assert!(out.contains("TOOL: ascend"), "the model's own proposal must survive");
+        assert!(out.contains("[thought|B]"), "the model's verdict proposal must survive");
+        assert!(out.contains("I think this holds."), "prose must survive");
     }
 }
