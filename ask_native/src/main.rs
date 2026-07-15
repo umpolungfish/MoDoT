@@ -1682,14 +1682,29 @@ fn model_self_belnap(text: &str) -> char {
 /// a model that claims closure the tools deny lands on B (conflict held), not a smug T.
 fn tool_belnap(tool_output: &str) -> B4 {
     let low = tool_output.to_lowercase();
+    // The polymer lane (forge/polymerize/close) — a ring that shuts head-to-tail.
+    //
+    // These three markers used to be the WHOLE test, which meant the spine could only hear one
+    // lane. Every other closure-bearing verb reported into silence: `imasm check` answering
+    // "T (closes)", `imasm prove` returning the p4ramill KERNEL VERDICT itself, `complement`
+    // measuring a lossless involution. The tools ran, measured real closures, and tool_voice
+    // came back N because nothing said the word "cyclic". The verdict could never pair.
     let closed = low.contains("✓ cyclic")
         || low.contains("cyclizes into a ring")
-        || low.contains("closes head-to-tail");
+        || low.contains("closes head-to-tail")
+        // the IMASM lane: μ∘δ over a transformed object, which IS the close condition
+        || low.contains("imasm check → t (closes)")
+        || low.contains("μ∘δ closes over")
+        // the kernel lane: p4ramill confirming the closure class. The strongest voice there is.
+        || low.contains("kernel verdict: ✓ green")
+        // the ligand lane: a complement that is its own inverse is μ∘δ = id, read back R∧W∧X
+        || low.contains("the complement is its own inverse");
     let open = low.contains("telechelic")
         || low.contains("no head-to-tail closure")
         || low.contains("cannot close into a ring")
         || low.contains("terminated early")
-        || low.contains("did not cyclize");
+        || low.contains("did not cyclize")
+        || low.contains("imasm check → f (ill-typed)");
     // A dual that FIRED but DANGLES — an open fork, a μ∘δ left unreconnected, an ill-typed
     // structure (VINIT in-degree, a non-FSPLIT branching) — is HELD, not void: the δ is engaged
     // and its μ has not met it. That is B (the held state), distinct from N (no dual at all) and
@@ -1699,7 +1714,15 @@ fn tool_belnap(tool_output: &str) -> B4 {
         || low.contains("grammar: invalid")
         || low.contains("> arity")
         || low.contains("only fsplit")
-        || low.contains("only ffuse");
+        || low.contains("only ffuse")
+        // IMASM's own held verdicts: a fork left unfused, or ENGAGR holding a dialetheia
+        || low.contains("imasm check → b (open)")
+        || low.contains("imasm check → b (paradox held)")
+        // A kernel that could not BUILD has not refuted anything. Budget-limited is a
+        // FRONTIER to escalate, never F, so a red lake build is held, not a non-closure.
+        || low.contains("kernel verdict: ✗")
+        // a near-involutive complement: the bidirection holds only up to ordinal granularity
+        || low.contains("near-involutive");
     match (closed, open, held) {
         (true, true, _) => B4::B,       // measured a closure AND a non-closure
         (true, false, _) => B4::T,      // a clean closure
@@ -2907,6 +2930,39 @@ mod lane_guard_tests {
         let rep = complete(&prep(), CLOSURE, B4::T, B4::T, false, true);
         assert_ne!(rep.fused, B4::N, "a MEASURED closure is grounded, not held at N");
         assert_eq!(rep.fused, B4::T);
+    }
+
+    // Every closure-bearing lane must reach tool_voice, not just the polymer one. These are
+    // verbatim tool outputs; before this the spine heard only "✓ CYCLIC" and read all of them
+    // as N — tools ran, closures were measured, and the verdict could never pair.
+    #[test]
+    fn every_closure_lane_raises_tool_voice() {
+        use super::{tool_belnap, B4};
+        for out in [
+            "The assembly forms a 6-membered ring: ✓ CYCLIC — a macrocycle.",
+            "IMASM check → T (closes)\n  μ∘δ closes over 1 transformed reconnection(s): the decision split alternatives.",
+            "  KERNEL VERDICT: ✓ green — p4ramill confirms the closure class against BelnapSplitFuse.",
+            "  round-trip x → x′ → x″: distance 0.00 — the complement is its own inverse (bidirectional, lossless R∧W∧X).",
+        ] {
+            assert_eq!(tool_belnap(out), B4::T, "closure lane read as non-T: {out}");
+        }
+    }
+
+    // A held dual stays held, and a kernel that could not BUILD has refuted nothing —
+    // budget-limited is a frontier to escalate, never F.
+    #[test]
+    fn held_lanes_and_budget_failures_are_B_not_F() {
+        use super::{tool_belnap, B4};
+        for out in [
+            "IMASM check → B (open)\n  a fork dangles unfused.",
+            "IMASM check → B (paradox held)\n  ENGAGR holds a dialetheia.",
+            "  KERNEL VERDICT: ✗ the lake build did not complete.",
+            "  round-trip x → x′ → x″: distance 0.412 — near-involutive (a rescaling residual).",
+        ] {
+            assert_eq!(tool_belnap(out), B4::B, "held/budget lane not held: {out}");
+        }
+        assert_eq!(tool_belnap("IMASM check → F (ill-typed)"), B4::F, "ill-typed is a real F");
+        assert_eq!(tool_belnap("nothing structural happened here"), B4::N);
     }
 
     // The same closure PROSE with tools silent (tool_voice N) is a signature without an
@@ -5284,5 +5340,15 @@ fn main() {
             eprintln!("Try: ask --ask \"...\" | ask --file path | ask -i");
             process::exit(2);
         }
+    }
+}
+
+#[cfg(test)]
+mod transcript_replay {
+    use super::{tool_belnap, B4};
+    #[test]
+    fn the_perfect_cuboid_run_now_pairs() {
+        let complement = "  round-trip perfect_cuboid_proof → perfect_cuboid_proof′ → perfect_cuboid_proof″: distance 0.00 — the complement is its own inverse (bidirectional, lossless R∧W∧X).";
+        assert_eq!(tool_belnap(complement), B4::T, "the transcript's own complement output");
     }
 }
