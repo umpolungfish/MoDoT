@@ -3049,7 +3049,20 @@ fn print_ring_spectrum(units: &[Tuple], theta: f32) {
     let mut mags: Vec<f64> = ev.iter().map(|x| x.abs()).collect();
     mags.sort_by(|a, b| b.partial_cmp(a).unwrap_or(std::cmp::Ordering::Equal));
     let gap = if mags.len() >= 2 { rho - mags[1] } else { rho };
-    let spec: Vec<String> = ev.iter().map(|x| format!("{x:+.3}")).collect();
+    // Print the spectrum in the SAME order the gap is computed in: descending |λ|. It was
+    // printed sorted by signed value while the gap used magnitude order, so the two
+    // disagreed about which eigenvalue is λ₂. A reader taking λ₂ positionally — the standard
+    // convention — got the wrong one: for [+3.372, -1.000, -2.372] the naive read gives
+    // ρ-|λ₂| = 2.372, while the gap is 3.372-2.372 = 1.000. A live run did exactly that,
+    // then silently "corrected" its result to ours without noticing its λ₂ was ours in a
+    // different order. The output taught the error; the reader is not at fault.
+    let mut ev_by_mag = ev.clone();
+    ev_by_mag.sort_by(|a, b| {
+        b.abs()
+            .partial_cmp(&a.abs())
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
+    let spec: Vec<String> = ev_by_mag.iter().map(|x| format!("{x:+.3}")).collect();
     let verdict = if (rho - 2.0).abs() < 1e-3 {
         "= 2 exactly ⟹ a pure unbranched cycle (every junction one clean bond)"
     } else if rho > 2.0 {
@@ -3060,7 +3073,10 @@ fn print_ring_spectrum(units: &[Tuple], theta: f32) {
     let energy: f64 = ev.iter().map(|x| x.abs()).sum();
     println!("    ── spectral invariants (adjacency of the ring graph; clean bond=1, cross-link=k centers) ──");
     println!("    spectral radius ρ = {rho:.4}  ({verdict})");
-    println!("    spectrum: [{}]", spec.join(", "));
+    println!(
+        "    spectrum (ordered by |λ| descending, so λ₂ here IS the one the gap uses): [{}]",
+        spec.join(", ")
+    );
     println!(
         "    spectral gap (ρ − |λ₂|) = {gap:.4} — a wide gap means one mode dominates (the ring leans on a single strut); a gap of 0 is a flat/degenerate top spectrum, NO privileged mode (the symmetric, settled reading, not a deficiency)."
     );

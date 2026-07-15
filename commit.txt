@@ -1,21 +1,18 @@
-MoDoT: tell the agent what it can actually type
+MoDoT: print the spectrum in the order the gap is computed in
 
-`close` found the closing monomer, printed the exact next step, and the agent
-spent eagle after eagle never running it. It was not blind. The next step was
-printed as `./ask --polymerize clink_l9 sixteen_3_trilattice
-bootstrap_stage_2_topology_corrected turbulent_flow` -- a SHELL command. The
-agent's only way to act is a `TOOL:` line; there is no path from its interface
-to that string. So the tool handed it the answer in a language it cannot
-speak, and the run that followed read as the agent ignoring what it was shown.
-A human ran that one line and the ring closed.
+The spectrum was printed sorted by SIGNED value while the gap used MAGNITUDE
+order, so the two disagreed about which eigenvalue is lambda_2. A reader taking
+lambda_2 positionally -- the standard convention, lambda_1 >= lambda_2 >= ... --
+read the wrong one.
 
-Five sites printed shell dialect into agent-facing output: three polymerize
-next-steps and two SET/radical-ion routes.
+Live: spectrum [+3.372, -1.000, -2.372], gap reported 1.0000. The model applied
+the correct formula, rho - |lambda_2|, to the number our output told it was
+lambda_2, got 3.372 - 1.000 = 2.372, and then wrote "-> 1.0000" -- silently
+correcting to our answer without noticing its lambda_2 was ours in a different
+order. It was right about the formula and wrong about the value because the
+output taught it the wrong value.
 
-Now the suggestion renders in the dialect of whoever is reading it --
-`TOOL: polymerize a b c` for the agent, `./ask --polymerize a b c` at a shell.
-Same act, two registers. run_structural_tool arms it: everything reached
-through the dispatcher is being read by the agent. Tests cover both
-directions, plus that the dispatcher arms the flag.
-
-A next step the reader cannot execute is not a suggestion.
+The spectrum now prints by descending |lambda|, so positional lambda_2 IS the
+one the gap uses, and the label says so. Verified: [+2.618, -2.618, +0.382,
+-0.382] with gap 2.618-2.618 = 0.0000 -- the naive read and the computed value
+now agree.
