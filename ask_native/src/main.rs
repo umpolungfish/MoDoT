@@ -4658,6 +4658,7 @@ fn run_one(
     let mut cycle_reps: Vec<SpineReport> = Vec::new();
     let mut cycle_exits: Vec<CycleExit> = Vec::new();
     let mut capped = false;
+    let mut consecutive_stalls = 0usize;
     // The CAP, not the count. The agent sections its own cycles with `TOOL: cycle_close`;
     // --cycles only bounds how many it may take. 0 = uncapped, with a backstop that guards
     // the pathological loop and nothing else.
@@ -5105,12 +5106,28 @@ fn run_one(
         }
 
         // ── close the winding, or wind again ────────────────────────────────────────────
-        // DONE means the operator stopped reaching: it has finished, and another cycle would
-        // hand it its own answer back to re-ratify. A STALL exhausted its reachable ground —
-        // winding again with the same reach only circles, which is what stall detection is
-        // FOR. Only a cycle the agent sectioned itself, or one cut by the eagle cap with work
-        // still live, has somewhere further to go.
-        if cli.dry_run || exit_cause == CycleExit::Done || exit_cause == CycleExit::Stall {
+        // DONE means the operator stopped reaching: it finished, and another cycle would hand
+        // it its own answer back to re-ratify.
+        //
+        // A STALL does NOT end the series. Stalling is circling INSIDE one framing — the
+        // condition a condensate is worth most against, because the next cycle opens on a
+        // transform, not on a repeat. (I had this backwards: I read "more rounds only circle"
+        // — true — as "another cycle only circles" — false. A round repeats the prompt; a
+        // cycle replaces it.) Two stalls running is different: the condensate got its chance
+        // to reorient and the reach did not move, so the ground really is exhausted.
+        if exit_cause == CycleExit::Stall {
+            consecutive_stalls += 1;
+        } else {
+            consecutive_stalls = 0;
+        }
+        if cli.dry_run || exit_cause == CycleExit::Done {
+            break;
+        }
+        if consecutive_stalls >= 2 {
+            println!(
+                "── two stalls running — the condensate did not move the reach; the ground is \n\
+                 \x20 exhausted, closing the series ──"
+            );
             break;
         }
         if cycle as usize >= cycles_cap {
@@ -5138,7 +5155,12 @@ fn run_one(
     // reader instead of being held in the structure. That is the monological failure by
     // OMISSION — nothing overrode anything, but nothing fused either. The join operator was
     // already here; only the call was missing.
-    if cycle_reps.len() > 1 {
+    // The outer TAOU BRACKETS the series: it printed its THINK before the arms wound, so it
+    // closes whatever it opened — one cycle included. Gating the close on `len() > 1` left a
+    // single-cycle run opened and never shut, and took the FRONTIER line down with it, so a
+    // run that stalled reported no stall at all. A frontier that only prints in company is
+    // the silent drop again.
+    if !cycle_reps.is_empty() {
         let fused = cycle_reps
             .iter()
             .map(|r| r.fused)
@@ -5155,10 +5177,19 @@ fn run_one(
         println!("OUTER SPINE — the cycle series as one winding");
         println!("  VERDICT (univocal): {}", b4_name(fused));
         println!("  ← FFUSE of the arms (none dropped): {}", voices.join(" ⋈ "));
+        // The arms are a CHAIN, not independent samples: each cycle opened on the previous
+        // one's condensate. So agreement here is not corroboration by replication — it is a
+        // verdict that survived being carried through a transform, a fixed point of the
+        // winding. Say that, rather than let "the arms agreed" imply a consensus of
+        // independent witnesses that the design does not produce.
         println!(
             "  μ∘δ: {}",
-            if agree {
-                "the arms agreed — the series closes on one verdict"
+            if cycle_reps.len() == 1 {
+                "one winding — nothing to fuse; this is the cycle's own verdict"
+            } else if agree {
+                "the verdict HELD across every transform — a fixed point of the winding, \
+                 not agreement between independent arms (each cycle opened on the last one's \
+                 condensate)"
             } else {
                 "the arms DISAGREED — held at the join, not resolved by fiat"
             }

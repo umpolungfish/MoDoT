@@ -1,38 +1,23 @@
-MoDoT: eagles are windings, cycles are the agent's own sections
+MoDoT: a stall closes a framing, not the series
 
---cycles used to be an outer loop that re-asked the SAME question N times.
-Each cycle got a fresh tool state but carried the previous cycle's prose
-verdict, plus an instruction to compound on it. So every arm re-derived the
-same measurements from an anchor it had been told to agree with, and
-FFUSE(B,B,B) was one computation counted three times and reported as "the
-arms agreed". That is the diagonal copy -- Identity, which verifies nothing
--- printed as the success condition.
+A stall broke the whole series. I justified it as "more rounds only circle"
+-- true of a round, false of a cycle. A round repeats the prompt; a cycle
+REPLACES it with a condensate of what was measured. So a stall is the exact
+condition the condensate is worth most against: the operator is circling
+inside one framing, and the next cycle opens on a transform of it. I carried
+the old loop's logic into a design where it had stopped applying.
 
-Now: an eagle is a TAOU winding and the agent flies as many as the Work
-needs. A cycle is a set of eagles the AGENT sections with `TOOL: cycle_close`.
-On close, the cycle's measured RESULTS condense into the next cycle's opening
-prompt -- the terminus is the origin. The condensate carries values with the
-calls that produced them and names the next reach, so the next cycle inherits
-evidence instead of a conclusion. mu.delta closes over a transformed object,
-which is what makes the series a winding rather than a copy. --cycles and
---eagles become caps, not drivers.
+Now a stall condenses and winds again. Two stalls running does close the
+series: the condensate had its chance to move the reach and did not, so the
+ground is exhausted rather than the framing.
 
-Also fixed, all found by inspecting rather than trusting the labels:
+Also: the outer TAOU printed its THINK before the arms wound but gated its
+close on len() > 1, so a single-cycle run was opened and never shut -- and
+that gate took the FRONTIER line with it, so a run that stalled reported no
+stall anywhere. A frontier that only prints in company is a silent drop. The
+bracket now closes whatever it opened.
 
-- The system prompt was gated on `conversation.is_empty()`, and cycle 1
-  pushed into `conversation`. From cycle 2 the agent ran with NO epistemic
-  stance, NO alphabet, NO tool contract, NO jam prompt. It lost the rules of
-  the Work and was then read as circling.
-- Stall, leash, cycle close and done were one bool. A stall printed as "the
-  round budget ran out" and the frontier advised more rounds -- the exact
-  prescription a stall refutes. Now each exit is named, and a frontier is
-  reported by cause: a leash wants budget, a stall wants new ground.
-- Hitting the cycle cap while the agent was still sectioning read as a series
-  that finished. It is a cut, and says so.
-- --eagles help claimed "0 = auto: 40 under --jam, 5 otherwise". It was a
-  flat 400 either way.
-
-Verified live: three cycles, all agent-sectioned, no stalls, no leashes. The
-condensate carried tiers, distances, promoted atoms and the best forge
-ordering, then named polymerize as the next reach. Cycle 2's spine reported
-mu.delta CLOSED with a transformation rather than bare identity.
+And the outer close no longer says "the arms agreed". The cycles are a CHAIN
+-- each opens on the previous one's condensate -- so agreement is not
+corroboration by independent witnesses. It is a verdict that survived a
+transform: a fixed point of the winding. Say what it is.
