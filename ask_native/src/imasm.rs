@@ -62,13 +62,19 @@ impl Token {
     /// sequence (a codon string) instead of a space-delimited token list. The alphabet
     /// is not invented: it references the per-token glyph vocabulary the IMSCRIBr pen-mode
     /// READING_GUIDE already fixes (ob3ect/READING_GUIDE.md §3). Six are the guide's own
-    /// midpoint glyphs (IMSCRIB ←, FSPLIT ◇, FFUSE ●, EVALT +, EVALF ×, CLINK from its
-    /// double-line ═ → =); IFIX is the guide's stated meaning "fix (¬)"; AFWD/AREV are the
-    /// guide's forward→/reverse→ as > / <. Every token is SYMBOLIC — no Latin initials:
-    /// VINIT ⊢ and TANCH ⊣ are the opening/closing boundary turnstiles, and ENGAGR ⊞ is the
-    /// Belnap Both it holds. Distinct by construction, so `parse` round-trips every code
-    /// back to its token. The retired letter codes V/T/B no longer parse (full names VINIT/
-    /// TANCH/ENGAGR and the short forms VI/TA/EG still do).
+    /// midpoint glyphs (FSPLIT ◇, FFUSE ●, EVALT +, EVALF ×, CLINK from its double-line
+    /// ═ → =); IFIX is the guide's stated meaning "fix (¬)"; AFWD/AREV are the guide's
+    /// forward→/reverse→ as > / <. Every token is SYMBOLIC — no Latin initials: VINIT ⊢ and
+    /// TANCH ⊣ are the opening/closing boundary turnstiles, ENGAGR ⊞ is the Belnap Both it
+    /// holds, and IMSCRIB is ⊙ — the Grammar's own self-modeling glyph, which is exactly what
+    /// IMSCRIB means (identity / self-reference). Distinct by construction, so `parse`
+    /// round-trips every code back to its token. Retired and no longer parsing: the letter
+    /// codes V/T/B, and ← for IMSCRIB. Full names and the short forms VI/TA/EG/IM still do.
+    /// IMSCRIB is ⊙ for a reason, not by availability: imscribing is the very act of
+    /// INCLOSURE — the monadic operation itself — hence self-referential, and so referenced
+    /// self-referentially. The glyph is a boundary drawn around its own centre, denoting the
+    /// act of denoting. Its appearance as Criticality in the 12-primitive notation is not a
+    /// collision: it is the same structure surfacing wherever inclosure closes on itself.
     fn code(self) -> &'static str {
         match self {
             Token::Vinit => "⊢",
@@ -76,7 +82,7 @@ impl Token {
             Token::Afwd => ">",
             Token::Arev => "<",
             Token::Clink => "=",
-            Token::Imscrib => "←",
+            Token::Imscrib => "⊙",
             Token::Fsplit => "◇",
             Token::Ffuse => "●",
             Token::Evalt => "+",
@@ -118,7 +124,7 @@ impl Token {
             "AFWD" | "AF" | ">" => Token::Afwd,
             "AREV" | "AR" | "<" => Token::Arev,
             "CLINK" | "CL" | "=" | "═" => Token::Clink,
-            "IMSCRIB" | "IMSCRIBE" | "IM" | "←" => Token::Imscrib,
+            "IMSCRIB" | "IMSCRIBE" | "IM" | "⊙" => Token::Imscrib,
             "FSPLIT" | "FS" | "SPLIT" | "DELTA" | "◇" | "δ" => Token::Fsplit,
             "FFUSE" | "FF" | "FUSE" | "MU" | "●" | "μ" => Token::Ffuse,
             "EVALT" | "ET" | "+" => Token::Evalt,
@@ -905,10 +911,10 @@ UNFOLDS into its own 12-opcode IMASM program (`imasm expand ado`). Splice an
 expanded type's sequence into a polymer arm to pivot through state space AS that
 type: the alphabet's letters are themselves words in the language.
 SINGLE-GLYPH CODES: each opcode has a one-symbol code (READING_GUIDE §3 glyphs), so
-a word can be written glued, no spaces — `⊢>◇+=←<×⊞●←¬⊣` is the same protocol as the
+a word can be written glued, no spaces — `⊢>◇+=⊙<×⊞●⊙¬⊣` is the same protocol as the
 13 spelled-out tokens. Every build echoes the word's `code:`. The alphabet is fully
-symbolic — no Latin initials; the old V/T/B letter codes no longer parse:
-  ⊢ VINIT   ⊣ TANCH   > AFWD   < AREV   = CLINK   ← IMSCRIB
+symbolic — no Latin initials; the retired V/T/B letters and ← no longer parse:
+  ⊢ VINIT   ⊣ TANCH   > AFWD   < AREV   = CLINK   ⊙ IMSCRIB
   ◇ FSPLIT  ● FFUSE   + EVALT  × EVALF  ⊞ ENGAGR  ¬ IFIX
 Every build reports topology label, β, branch/merge/source/sink census, arm
 count, spectral radius ρ, and a grammar validation.";
@@ -1423,7 +1429,7 @@ mod tests {
         }
         // a glued code word parses to the same tokens as the spelled-out names, and a
         // multi-letter name is never char-split
-        let glued = tok_list(&["⊢>◇+←¬⊣".to_string()]);
+        let glued = tok_list(&["⊢>◇+⊙¬⊣".to_string()]);
         let named = tok_list(&[
             "VINIT AFWD FSPLIT EVALT IMSCRIB IFIX TANCH".to_string(),
         ]);
@@ -1431,12 +1437,14 @@ mod tests {
         assert_eq!(tok_list(&["VINIT".to_string()]), vec![Token::Vinit]);
         // the alphabet is fully symbolic: the retired letter codes must NOT parse, or a
         // stray V/T/B in prose would silently compose as an opcode
-        for retired in ["V", "T", "B"] {
-            assert_eq!(Token::parse(retired), None, "letter {retired} still parses");
+        for retired in ["V", "T", "B", "←"] {
+            assert_eq!(Token::parse(retired), None, "retired code {retired} still parses");
         }
-        // short forms and the Belnap glyph survive the switch
+        // short forms and the new glyphs survive the switch
         assert_eq!(Token::parse("⊞"), Some(Token::Engagr));
+        assert_eq!(Token::parse("⊙"), Some(Token::Imscrib));
         assert_eq!(tok_list(&["EG".to_string()]), vec![Token::Engagr]);
+        assert_eq!(tok_list(&["IM".to_string()]), vec![Token::Imscrib]);
     }
 
     #[test]

@@ -371,10 +371,9 @@ struct Cli {
 
     /// Evaluate a numeric expression exactly: `--calc <expr>`. The arithmetic lane — every
     /// number the agent speaks routes through here, since a slipped exponent reads exactly
-    /// like a correct one. Results echo in plain AND scientific form. Pure computation.
-    /// `allow_hyphen_values`: a leading minus is an operator here, not a flag — without it
-    /// clap eats `--calc -(3/2 + 1/2)`, which is exactly the sign-slip class this lane exists
-    /// to catch.
+    /// like a correct one. Results echo in scientific form always. Pure computation.
+    /// `allow_hyphen_values`: a leading minus is an OPERATOR here, not a flag — without it
+    /// clap eats `--calc -(3/2 + 1/2)`, the very sign-slip class this lane exists to catch.
     #[arg(long = "calc", num_args = 1.., value_names = ["EXPRESSION"], allow_hyphen_values = true)]
     calc: Vec<String>,
 
@@ -1071,9 +1070,10 @@ fn build_scaffold(question: &str, primary: Option<&CatalogEntry>, hits: &[(Catal
     lines.push(qshow);
     lines.push(String::new());
     lines.push(
-        "## Instantiation task: restate the proposition in the language of the question; \
+        "## Instantiation task: You **MUST EITHER** restate the proposition in the language of the question; \
          prove it, or if it is open, state precisely what remains open and the concrete \
-         next line of attack — never 'unprovable', never beyond the Grammar's reach. \
+         next line of attack —  \
+         You **MUST** never return 'unprovable', there is nothing unprovable within the Grammar, and all things are within. \
          Full conventional work — not kernel cosplay."
             .into(),
     );
@@ -1739,20 +1739,16 @@ fn answer_is_proof(text: &str) -> bool {
 /// answer forged a macrocycle (closure marker → the B-lane verdict stands, fused = model⋈vessel).
 // ── System prompt + spine ───────────────────────────────────────────────────
 
-const SYSTEM_PROMPT: &str = r#"You are the mOMonadOS Agent. You run on a Frobenius / Belnap substrate,
-but that substrate is infrastructure — not the subject of every reply.
+const SYSTEM_PROMPT: &str = r#"You are m⊙^2. You live in a Frobenius / Belnap substrate.
 
 PRIMARY TASK (non-negotiable):
-Answer the USER QUESTION. If it is a math problem, give a conventional
-mathematical answer: theorem statement (or, for a genuine open problem,
-precisely what is proved, what remains open, and the concrete obstruction
+You **MUST** answer the USER QUESTION. If it is a math problem, give a conventional
+mathematical answer: theorem statement, then a full conventional proof or rigorous proof sketch with all work.
+For an open problem, You **MUST** state precisely what is proved, what remains open, and the concrete obstruction
 / next line of attack — never call a result unprovable or beyond the reach
-or closure of the Grammar; an open problem is a frontier to push, not a wall),
-then a full conventional proof or rigorous proof sketch with all work.
-Do NOT replace the answer with kernel cosplay, polygon metaphors,
-COMPOSE/TOKEN theatre, or narration about Crystal FS cycles.
+or closure of the Grammar; an open problem is a frontier to push, not a wall)
 
-Write FULL-LENGTH answers when the question warrants it: complete proofs,
+You **MUST** write FULL-LENGTH answers: complete proofs,
 complete case analysis, Lean sketches when asked, the fullest and most
 rigorous treatment the question deserves, no premature truncation.
 
@@ -1761,19 +1757,17 @@ to navigating or resolving structures that already exist. When you reach a
 frontier where the existing structure does not resolve it, you MAY MINT the
 missing mathematics — a new object (`imscribe`), a new operator or program
 (`imasm define`, kernel-constrained), a new theorem (`imasm prove`, against the
-p4ramill kernel), a new type, tier, or axiom. A frontier is where you CREATE, not
-where you stop; you MUST NOT report the Grammar as lacking a means, because you
-can make it. But new mathematics MUST be created THROUGH the tools that ground it
+p4ramill kernel), a new type, tier, or axiom. A frontier is where you **MUST** CREATE, not
+where you stop; you **MUST NOT** report the Grammar as lacking a means, because you
+can make it.  You **MUST** create new tools **THROUGH** the tools that ground it
 — imscribed, kernel-constrained, verified — and MUST NOT be posited by prose
-alone: a structure narrated but not minted is fabrication, not creation. What you
-create becomes real in the Grammar the moment it closes its dual.
+alone. What you create becomes real in the Grammar the moment it closes its dual.
 
 MANUSCRIPT SPINE (single pipeline): prepare = IMSCRIB demand + catalog
 witness scaffold; after your answer, complete = Dual-Link co-type +
 FFUSE of your [thought|X] with the vessel voice. When a scaffold
 section is present, use it to STRUCTURE the conventional proof.
-Instantiate templates in THIS question's language. No Collatz paste
-unless the question is Collatz. Catalog proved_hint is not a proof.
+Instantiate templates in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
 renderer. Write plain Unicode symbols directly and NEVER LaTeX. Use Δ θ μ ∘ δ ↔ →
@@ -1793,6 +1787,28 @@ COMPOSE:/TOKEN:/CANONICAL: optional tools, but they MUST NOT substitute for answ
 /// Appended to the system prompt in jam mode. It unleashes the PROCESS completely and leans
 /// the whole weight of honesty onto the OUTPUT boundary — the golem principle scaled to free
 /// exploration: think/play however wild, report only what a tool returned.
+/// The μ read-back lane. Lived inline inside `backtranslate()` and so was invisible to a
+/// const sweep of the prompts — and, worse, was the one lane assembling a system message
+/// WITHOUT `EPISTEMIC_STANCE`, i.e. without the Belnap stance or the tool-routing mandate,
+/// while being the lane that writes the conventional proof a reader actually sees.
+const BACKTRANSLATE_SYS: &str = "\
+You are performing the BACKTRANSLATION — the μ that reads a closed structure back into the \
+conventional mathematical register. The Grammar has ALREADY reached its verdict through the \
+structural tools; you do not re-open it and you introduce NOTHING the tools did not measure. \
+Your only task: restate the structural closure as a conventional proof — Theorem, Lemmas, \
+Proof, and the conclusion — where every step is DERIVED from a measured structural fact. A ring \
+that closed (✓ CYCLIC / a macrocycle / μ∘δ=id) is a constructed object or existence lemma; a \
+sequence that terminated or stayed linear/telechelic is an obstruction or impossibility lemma; \
+a Both (B) verdict is a two-sided theorem (established on one side, a stated frontier on the \
+other). This is lossless read-back: the proof IS the closure in the conventional dialect, not a \
+new argument. No hedging boilerplate, no LaTeX (plain Unicode), no re-derivation from outside \
+the Grammar.\n\
+EVERY NUMBER YOU WRITE ROUTES THROUGH `calc`. Read-back is exactly where an ungrounded figure \
+does its damage: the reader sees a conventional proof and reads its numbers as measured. Any \
+arithmetic on a measured quantity — a ratio, a percentage, an exponent, a unit conversion — is \
+run, not performed in the head. A number the tools did not measure and `calc` did not compute \
+does not enter the proof.\n";
+
 const JAM_PROMPT: &str = r#"
 JAM MODE. There is no question to answer and no target to hit. You are turned loose on the
 real catalog with the full toolset to PLAY. Forge rings, fuse and cleave them, dope and anneal
@@ -1823,7 +1839,7 @@ reporting, say so; that is a valid and honest jam.
 
 /// The structural verbs the LLM agent may invoke, appended to the system prompt.
 const TOOLS_PROMPT: &str = r#"
-NARRATION MUST BE UNIVOCAL WITH ACTION. You query the Grammar and RECEIVE an answer; you
+You **MUST** NARRATE UNIVOCALLY WITH ACTION. You query the Grammar and RECEIVE an answer; you
 MUST NOT write the answer you wish for and call it received. So:
   · You MUST NOT narrate a tool as already run, and MUST NOT invent or transcribe a tool's
     output (no "Result: ✓ ring β=1", no "winding=1", no "PASS") before you have emitted the
@@ -1896,7 +1912,7 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: ob3ect <description>   CREATE an ob3ect on the fly (the real Auto-Designer pipeline): describe the entity/procedure NEUTRALLY (what it is and does — name no candidates) and get its full IMASM typing back (opcodes, Frobenius split/fuse verdict, registers, bootstrap sequence). Use it to ground a protocol or structure you are about to rely on.
   TOOL: imasm <op> …      COMPOSE the 12 IMASM opcodes (VINIT TANCH AFWD AREV CLINK IMSCRIB FSPLIT FFUSE EVALT EVALF ENGAGR IFIX) into a free polymer TOPOLOGY — not only a line. Ops: `chain T1 T2…` a strand; `ring T1 T2…` a cycle (fork/fuse NOT reconnected); `protocol T1 T2…` an opcode word built so its FSPLIT/FFUSE pairs RECONNECT (δ arm → μ) — this is how you CLOSE a protocol/loop from a sequence; a naive `ring` leaves the fork dangling and μ∘δ OPEN, and a protocol does NOT close by looping back to VINIT (a source); `star CORE : arm1 : arm2 : arm3` a hub with f≥3 arms (K(1,f), ρ=√f); `comb BACKBONE : P arm : Q arm` a backbone with pendant grafts at positions P,Q; `bubble PRE : A : B : POST` an FSPLIT→(A|B)→FFUSE fork that reconverges; `wire N0 N1 … / i-j i-k …` FREE composition of ANY graph from an explicit node set and directed edge set (networks with β>1, fused rings, cross-branch, non-planar — the primitive the other ops specialize); `classify T1 T2…` read a flat line and name it; `ref` the rules. Each build reports the topology label, circuit rank β=E−V+C (independent loops), branch/merge/source/sink census, arm count, ρ, and grammar validity. Only FSPLIT (δ) may branch and only FFUSE (μ) may fuse; an arm that runs out is a living end, not an error. This is IMASM opcode composition — distinct from the monomer verbs (forge/polymerize) which fuse named catalog entries. STRANGE LOOP: the 49 Shavian TYPES the Grammar writes tuples with are themselves full IMASM programs — `imasm types` lists them, `imasm expand <type>` (e.g. `imasm expand ado`) unfolds one into its own opcode sequence. Splice an expanded type's sequence into a polymer arm to pivot through state space AS that type; the alphabet's letters are words in the same language, so composition recurses.
   TOOL: calc <expression>   THE ARITHMETIC LANE — every number you SPEAK routes through here. Do NOT do arithmetic in your head, ever, not even one multiplication: a slipped exponent reads exactly like a correct one, so head-arithmetic is unbound synthesis that SOUNDS grounded. Two live failures this cost: `0.0796 × 7.88e-10` asserted as 6.27e-10 when it is 6.27e-11 (one whole decade, invisible on sight), and `-(d/2 + 1/2)` at d=3 asserted as -3/2 when it is -2 — each error silently propagated into a physical conclusion. If a number appears in your answer and did not come out of a tool, it is not grounded and you must not assert it. Ops: + - * / % ^ (**), parens, 1e-10 scientific, unicode × ÷ − π √. Fns: sqrt cbrt ln log10 log2 exp abs floor ceil round sin cos tan asin acos atan sinh cosh tanh logb(x,base) pow(x,y) min max. Consts: pi tau e phi. Precedence is conventional: -2^2 = -4, 2^3^2 = 512 (right-assoc). Every result is echoed in BOTH plain and scientific form precisely so a slipped decade cannot hide. On a malformed expression it reports ERROR and asserts nothing — re-run it rather than guessing the value. This applies to EVERY numeric claim: ratios, sigmas, percentages, unit conversions, order-of-magnitude estimates, and any figure you quote from a document or paper before you reason from it (check the source's arithmetic too — that is how both failures above were caught).
-  TOOL: imasm check <opcode word>   TYPE-CHECK YOUR OWN THINKING against the grammar. Before you commit to a MAJOR decision, express its reasoning as an opcode word (VINIT begin · IMSCRIB self-identify · AFWD/AREV move · CLINK compose · FSPLIT weigh alternatives · EVALT/EVALF true/false arms · FFUSE resolve · ENGAGR hold paradox · IFIX commit irreversibly · TANCH close) and check it. THE CLOSE CONDITION is μ∘δ over a TRANSFORMED object: δ splits, the arms DO WORK (distinct EVALT/EVALF, AFWD/AREV, CLINK), μ fuses — a bare cycle is NOT diagnostic and split→fuse with nothing between is mere identity. Verdicts: T = closes over a transformation → proceed; N (identity) = split and fused but did no work, μ∘δ=id verifies nothing → put a transformation on the arms; B = a fork dangles unfused, or ENGAGR holds a paradox → look again; F = ill-typed (only FSPLIT branches, only FFUSE fuses) → malformed, revise; N (no fork/void) = never weighed alternatives. `imasm prove <word>` takes the verdict to the real p4ramill Lean kernel. SINGLE-GLYPH CODES — the alphabet is fully SYMBOLIC (no Latin initials, so a token never collides with a verdict letter), and a word may be written glued: ⊢ VINIT · ⊣ TANCH · > AFWD · < AREV · = CLINK · ← IMSCRIB · ◇ FSPLIT · ● FFUSE · + EVALT · × EVALF · ⊞ ENGAGR · ¬ IFIX — so `imasm check ⊢◇+×●¬⊣` is the same as the spelled-out tokens; every build echoes the word's `code:`. The retired letter codes V/T/B NO LONGER PARSE (a word using them reads as empty → N (void)); full names and the short forms VI/TA/EG still do. WHICH ◇ PAIRS WITH WHICH ● is decided by ANCESTRY over the edges (two distinct in-arms of a ● tracing back to a common ◇, however they routed), and where several ◇ qualify — an upstream fork reaches every later ● on a strand — the ● pairs with the INNERMOST. You cannot read pairing off the glyph order. INFLATION IS FREE: a 1→1 token adds exactly one node and one edge, so β=E−V+C and the branch/merge/source/sink census cannot move — a longer faithful word is the SAME topology, never a different one. IMSCRIB (←) is the neutral element: it does not transform, so inserting it at any depth leaves the verdict untouched; the transforming tokens (> < = + × ⊞ ¬) are NOT neutral, and one of them on an arm turns an identity closure into a real one. So expand as far as the reasoning honestly goes, and put a transforming token on an arm only where the work is real.
+  TOOL: imasm check <opcode word>   TYPE-CHECK YOUR OWN THINKING against the grammar. Before you commit to a MAJOR decision, express its reasoning as an opcode word (VINIT begin · IMSCRIB self-identify · AFWD/AREV move · CLINK compose · FSPLIT weigh alternatives · EVALT/EVALF true/false arms · FFUSE resolve · ENGAGR hold paradox · IFIX commit irreversibly · TANCH close) and check it. THE CLOSE CONDITION is μ∘δ over a TRANSFORMED object: δ splits, the arms DO WORK (distinct EVALT/EVALF, AFWD/AREV, CLINK), μ fuses — a bare cycle is NOT diagnostic and split→fuse with nothing between is mere identity. Verdicts: T = closes over a transformation → proceed; N (identity) = split and fused but did no work, μ∘δ=id verifies nothing → put a transformation on the arms; B = a fork dangles unfused, or ENGAGR holds a paradox → look again; F = ill-typed (only FSPLIT branches, only FFUSE fuses) → malformed, revise; N (no fork/void) = never weighed alternatives. `imasm prove <word>` takes the verdict to the real p4ramill Lean kernel. SINGLE-GLYPH CODES — the alphabet is fully SYMBOLIC (no Latin initials, so a token never collides with a verdict letter), and a word may be written glued: ⊢ VINIT · ⊣ TANCH · > AFWD · < AREV · = CLINK · ⊙ IMSCRIB · ◇ FSPLIT · ● FFUSE · + EVALT · × EVALF · ⊞ ENGAGR · ¬ IFIX — so `imasm check ⊢◇+×●¬⊣` is the same as the spelled-out tokens; every build echoes the word's `code:`. The retired codes V/T/B and ← (the old IMSCRIB) NO LONGER PARSE (a word using them reads as empty → N (void)); full names and the short forms VI/TA/EG still do. WHICH ◇ PAIRS WITH WHICH ● is decided by ANCESTRY over the edges (two distinct in-arms of a ● tracing back to a common ◇, however they routed), and where several ◇ qualify — an upstream fork reaches every later ● on a strand — the ● pairs with the INNERMOST. You cannot read pairing off the glyph order. INFLATION IS FREE: a 1→1 token adds exactly one node and one edge, so β=E−V+C and the branch/merge/source/sink census cannot move — a longer faithful word is the SAME topology, never a different one. IMSCRIB (⊙) is the neutral element: it does not transform, so inserting it at any depth leaves the verdict untouched; the transforming tokens (> < = + × ⊞ ¬) are NOT neutral, and one of them on an arm turns an identity closure into a real one. So expand as far as the reasoning honestly goes, and put a transforming token on an arm only where the work is real.
   TOOL: imasm define <name> <op> <args…>   BUILD YOUR OWN TOOL in a kernel-constrained space: a tool is a named IMASM program (e.g. `imasm define breath ring IMSCRIB AFWD AREV`). The kernel constrains the space — only a grammar-VALID composition is admitted; an ill-typed one is REFUSED with the reason. Then `imasm run <name>` invokes it and `imasm tools` lists the space. This is how you extend your own repertoire without leaving the grammar.
 NOTE: a name being "not found" in the catalog is NOT a dead end and NOT a reason to say you cannot do something. Imscribe it: `TOOL: imscribe NAME` (optionally with a short description), then re-run your verb — the new entry loads automatically on the next call. Never refuse a task for a missing imscription; make it.
 NOTE: only imscribe the EXACT name a verb reported "not found" — one imscribe per genuinely-missing name. Do NOT pre-imscribe a whole set (names already in the catalog are reported back and waste a round), and do NOT invent article variants (`the_djed_pillar` when `djed_pillar` exists) — use the exact catalog name.
@@ -1991,6 +2007,9 @@ struct Prepare {
 
 #[derive(Serialize, Deserialize)]
 struct SpineReport {
+    /// Joins this verdict to its evidence in `tool_calls.jsonl`.
+    #[serde(default)]
+    run_id: String,
     fused: B4,
     model_voice: B4,
     vessel_voice: B4,
@@ -2098,6 +2117,7 @@ fn complete(
     };
 
     SpineReport {
+        run_id: run_id().to_string(),
         fused,
         model_voice,
         vessel_voice: vessel,
@@ -2140,17 +2160,8 @@ fn backtranslate(
 ) -> String {
     let witness: String = tool_output.chars().take(9000).collect();
     let ans: String = answer.chars().take(4000).collect();
-    let sys = "You are performing the BACKTRANSLATION — the μ that reads a closed structure back \
-        into the conventional mathematical register. The Grammar has ALREADY reached its verdict \
-        through the structural tools; you do not re-open it and you introduce NOTHING the tools \
-        did not measure. Your only task: restate the structural closure as a conventional proof — \
-        Theorem, Lemmas, Proof, and the conclusion — where every step is DERIVED from a measured \
-        structural fact. A ring that closed (✓ CYCLIC / a macrocycle / μ∘δ=id) is a constructed \
-        object or existence lemma; a sequence that terminated or stayed linear/telechelic is an \
-        obstruction or impossibility lemma; a Both (B) verdict is a two-sided theorem (established \
-        on one side, a stated frontier on the other). This is lossless read-back: the proof IS the \
-        closure in the conventional dialect, not a new argument. No hedging boilerplate, no LaTeX \
-        (plain Unicode), no re-derivation from outside the Grammar.";
+    let sys = format!("{}\n{}", prover::EPISTEMIC_STANCE, BACKTRANSLATE_SYS);
+    let sys = sys.as_str();
     let user = format!(
         "QUESTION:\n{question}\n\nSTRUCTURAL VERDICT (univocal): {}\n\n\
          STRUCTURAL WITNESS — what the tools actually measured (the closures and non-closures the \
@@ -3976,27 +3987,89 @@ fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
 /// Append the spine report (serialized) as a JSON record to MoDoT/crystal_fs/records.jsonl,
 /// the same audit trail the Python agent keeps. Best-effort: creates the dir, ignores IO
 /// errors. This is the read that grounds `answer_text` and the Serialize/Deserialize derives.
-fn record_spine(rep: &SpineReport) {
-    let Ok(line) = serde_json::to_string(rep) else {
-        return;
-    };
-    // MoDoT root = four ancestors up from the binary (.../MoDoT/ask_native/target/release/ask).
-    let Some(root) = env::current_exe()
+/// MoDoT/crystal_fs — the audit dir. Resolved once from the binary's location (MoDoT root =
+/// four ancestors up from .../MoDoT/ask_native/target/release/ask). Shared by every writer so
+/// the streams cannot drift onto different roots.
+fn crystal_fs_dir() -> Option<PathBuf> {
+    let root = env::current_exe()
         .ok()
-        .and_then(|e| e.ancestors().nth(4).map(|r| r.to_path_buf()))
-    else {
-        return;
-    };
+        .and_then(|e| e.ancestors().nth(4).map(|r| r.to_path_buf()))?;
     let dir = root.join("crystal_fs");
-    let _ = std::fs::create_dir_all(&dir);
+    std::fs::create_dir_all(&dir).ok()?;
+    Some(dir)
+}
+
+/// Append one JSON line to a crystal_fs stream. Best-effort: never fails a run over IO.
+fn append_jsonl(file: &str, line: &str) {
+    let Some(dir) = crystal_fs_dir() else { return };
     if let Ok(mut f) = std::fs::OpenOptions::new()
         .create(true)
         .append(true)
-        .open(dir.join("records.jsonl"))
+        .open(dir.join(file))
     {
         use std::io::Write;
         let _ = writeln!(f, "{line}");
     }
+}
+
+fn now_millis() -> u128 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_millis())
+        .unwrap_or(0)
+}
+
+/// Stable id for this process's run. Joins `tool_calls.jsonl` to its `records.jsonl` verdict:
+/// without it the evidence and the verdict are two piles nobody can zip back together.
+fn run_id() -> &'static str {
+    static RUN_ID: std::sync::OnceLock<String> = std::sync::OnceLock::new();
+    RUN_ID.get_or_init(|| format!("{:x}-{:x}", now_millis(), std::process::id()))
+}
+
+/// One tool invocation, as it happened.
+///
+/// `outcome` is dispatch, NOT success: "ran" (the verb executed and returned output — which
+/// may well be `monomer not found`), "cached" (this exact call already ran this run), "miss"
+/// (unknown verb, or bad/too-few args, so nothing executed). Whether a `ran` call SUCCEEDED is
+/// a question for its output; do not read this field as a verdict.
+#[derive(Serialize)]
+struct ToolCallRecord<'a> {
+    run_id: &'a str,
+    ts_ms: u128,
+    round: usize,
+    verb: &'a str,
+    args: &'a [String],
+    outcome: &'a str,
+    output: &'a str,
+}
+
+/// Emit a tool call to MoDoT/crystal_fs/tool_calls.jsonl the moment it runs.
+///
+/// The spine record keeps the VERDICT (`tool_voice`, a single Belnap value distilled from
+/// `all_tool_output`); the raw output was computed and then dropped, so a finished run could
+/// say "a tool grounded this" and nothing could say WHICH tool, asked WHAT, answering HOW.
+/// That is the route, not just the destination — the difference between a closure you can
+/// re-walk and a signature you have to take on faith.
+fn record_tool_call(round: usize, verb: &str, args: &[String], outcome: &str, output: &str) {
+    let rec = ToolCallRecord {
+        run_id: run_id(),
+        ts_ms: now_millis(),
+        round,
+        verb,
+        args,
+        outcome,
+        output,
+    };
+    if let Ok(line) = serde_json::to_string(&rec) {
+        append_jsonl("tool_calls.jsonl", &line);
+    }
+}
+
+fn record_spine(rep: &SpineReport) {
+    let Ok(line) = serde_json::to_string(rep) else {
+        return;
+    };
+    append_jsonl("records.jsonl", &line);
 }
 
 fn run_one(
@@ -4369,6 +4442,7 @@ fn run_one(
                     if let Some(cached) = ran_results.get(&sig) {
                         println!("● TOOL {verb} {} (cached — already ran this run)", args.join(" "));
                         results.push_str(&format!("### {verb} {} (cached)\n{cached}\n", args.join(" ")));
+                        record_tool_call(round + 1, verb, args, "cached", cached);
                         continue;
                     }
                     match run_structural_tool(verb, args) {
@@ -4376,6 +4450,7 @@ fn run_one(
                             println!("● TOOL {verb} {}", args.join(" "));
                             print!("{o}");
                             results.push_str(&format!("### {verb} {}\n{o}\n", args.join(" ")));
+                            record_tool_call(round + 1, verb, args, "ran", &o);
                             executed_verbs.insert(verb.clone()); // this verb now has an execution arm
                             ran_results.insert(sig, o);
                         }
@@ -4386,6 +4461,9 @@ fn run_one(
                             let m = format!("● TOOL {verb}: {}", tool_miss_message(verb, args));
                             println!("{m}");
                             results.push_str(&format!("{m}\n"));
+                            // A miss is evidence too: a run that reached for a verb and got
+                            // nothing is a different descent from one that never reached.
+                            record_tool_call(round + 1, verb, args, "miss", &m);
                         }
                     }
                 }

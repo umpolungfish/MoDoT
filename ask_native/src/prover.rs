@@ -1321,7 +1321,7 @@ impl<'a> LeanProver<'a> {
 
     fn decompose(&self, goal: &str, frontier: &str, depth: u32) -> Vec<String> {
         let msgs = vec![
-            ("system".to_string(), DECOMPOSE_SYS.to_string()),
+            ("system".to_string(), format!("{EPISTEMIC_STANCE}\n{DECOMPOSE_SYS}")),
             ("user".to_string(), decompose_prompt(goal, frontier, depth)),
         ];
         let res = infer(self.llm, &msgs, 1024, 0.0);

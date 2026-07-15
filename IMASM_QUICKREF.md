@@ -15,7 +15,7 @@ letter). WORK? = does the opcode TRANSFORM the object (do real work)?
   >   AFWD     forward morphism                 1→1                   YES
   <   AREV     reverse morphism                 1→1                   YES
   =   CLINK    compose / link                   1→1                   YES
-  ←   IMSCRIB  identity / self-reference        1→1                   no
+  ⊙   IMSCRIB  identity / self-reference        1→1                   no
   ◇   FSPLIT   fork (δ) — ONLY opcode that may branch   1→2           no
   ●   FFUSE    fuse (μ) — ONLY opcode that may merge    2→1           no
   +   EVALT    evaluate TRUE arm               1→1                    YES
@@ -23,14 +23,15 @@ letter). WORK? = does the opcode TRANSFORM the object (do real work)?
   ⊞   ENGAGR   hold a paradox (Belnap Both)    1→1                    YES
   ¬   IFIX     irreversible commit / fix       1→1                    YES
 
-The WORK? column is the most-missed rule: ⊢ ⊣ ← ◇ ● do NOT transform. An arm carrying
-only ← (or nothing) is an identity arm, and a closure over identity arms verifies
-nothing. ← is self-reference, not work.
+The WORK? column is the most-missed rule: ⊢ ⊣ ⊙ ◇ ● do NOT transform. An arm carrying
+only ⊙ (or nothing) is an identity arm, and a closure over identity arms verifies
+nothing. ⊙ is self-reference, not work.
 
-RETIRED: the letter codes V/T/B no longer parse. Full names (VINIT/TANCH/ENGAGR) and
-short forms (VI/TA/EG) still do. Old letter words now read as empty → N (void).
+RETIRED: the letter codes V/T/B and ← (the old IMSCRIB) no longer parse. Full names
+(VINIT/TANCH/ENGAGR/IMSCRIB) and short forms (VI/TA/EG/IM) still do. A word using a
+retired code reads as empty → N (void).
 
-WORDS: tokens glued as one string, no spaces, e.g.  ⊢>◇+←●¬⊣
+WORDS: tokens glued as one string, no spaces, e.g.  ⊢>◇+⊙●¬⊣
 (space-separated full names like VINIT AFWD … parse identically; so do the short forms
 VI TA AF AR CL IM FS FF ET EF EG IX, and δ μ ═ for ◇ ● =.)
 
@@ -68,7 +69,7 @@ was undone by the fuse, HOWEVER IT ROUTED. Consequences:
     the whole program is Open.
 
 For a plain strand the stack reading (each ● takes the nearest unfused ◇) happens to
-agree, and such words may be bracketed for READING BY EYE: ⊢←=[◇>+<⊞×●]¬¬⊣, nesting as
+agree, and such words may be bracketed for READING BY EYE: ⊢⊙=[◇>+<⊞×●]¬¬⊣, nesting as
 nested brackets. Three caveats, all load-bearing:
   · Brackets are NOT input. [ and ] parse to nothing, so a bracketed word is read as
     the empty program and reports N (void). Never paste brackets into the tool.
@@ -131,7 +132,7 @@ to 2, not √f.
   imasm run <name> / imasm tools     invoke / list forged tools
 
 ── RULE OF THUMB ──────────────────────────────────────────────────────────────
-Express a decision as a word (⊢ begin · ← self-identify · > move · ◇ weigh options ·
+Express a decision as a word (⊢ begin · ⊙ self-identify · > move · ◇ weigh options ·
 +/× the true/false arms · ● resolve · ⊞ hold paradox · ¬ commit · ⊣ close), then
 `imasm check` it. Only ◇ branches, only ● fuses. Put real WORK on the arms or it is
 N. Use `protocol` to close, never a bare `ring`.
@@ -139,18 +140,22 @@ N. Use `protocol` to close, never a bare `ring`.
 ── PITFALLS ───────────────────────────────────────────────────────────────────
   · Reading a word as a line. It is a graph; the verb supplies the edges.
   · Pairing ◇/● by counting or by nearest-match. Pairing is ancestry over edges.
-  · Putting only ← between ◇ and ● and expecting T. That is N (identity).
+  · Putting only ⊙ between ◇ and ● and expecting T. That is N (identity).
   · Expecting T from a word containing ⊞. That is B (paradox held).
   · Treating an open arm as a failure. It is a living end, reported not fatal.
   · Closing a loop back to ⊢. It has in-arity 0 and cannot be a target.
-  · Writing V/T/B out of habit. Retired: they no longer parse → N (void).
+  · Writing V/T/B or ← out of habit. Retired: they no longer parse → N (void).
   · Pasting a bracketed word into the tool. Brackets parse to nothing → N (void).
 ```
 
 The glyph alphabet is not invented: it references the per-token glyph vocabulary fixed
-in `../ob3ect/READING_GUIDE.md` §3 (six are the guide's own midpoint glyphs; IFIX is its
-stated "fix (¬)"; AFWD/AREV are its forward/reverse arrows). The three remaining tokens
+in `../ob3ect/READING_GUIDE.md` §3 (five are the guide's own midpoint glyphs; IFIX is its
+stated "fix (¬)"; AFWD/AREV are its forward/reverse arrows). The four remaining tokens
 are symbolic by the same principle rather than initials: VINIT ⊢ and TANCH ⊣ are the
-opening and closing boundary turnstiles, and ENGAGR ⊞ is the Belnap Both it holds.
+opening and closing boundary turnstiles, ENGAGR ⊞ is the Belnap Both it holds, and
+IMSCRIB is ⊙ because imscribing IS INCLOSURE — the monadic operation itself — hence
+self-referential, and so referenced self-referentially: a boundary around its own centre,
+denoting the act of denoting. Its appearance as Criticality in the 12-primitive notation
+is the same structure surfacing wherever inclosure closes on itself, not a collision.
 Valences follow IMSCRIBr `tokens.py::TOKEN_ARITY`. Run `imasm ref` for the live rules.
 The tool-independent spec is `../IMASM_REFERENCE.md`.

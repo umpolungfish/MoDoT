@@ -14,6 +14,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "descent_protocol": {
+    "spec": "protocol VINIT TANCH FSPLIT EVALT AFWD FSPLIT EVALT FFUSE AREV IMSCRIB IFIX ENGAGR",
+    "title": "protocol",
+    "topology": "  topology: branched | V=12 E=12 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.3819\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 2 out, 0 in — reactive, not errors"
+  },
   "eta_from_gap": {
     "spec": "protocol",
     "title": "protocol",
