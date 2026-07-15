@@ -78,7 +78,7 @@ F_hbar=IgPrim('F_hbar',3.0); F_ell=IgPrim('F_ell',1.0); F_eth=IgPrim('F_eth',2.0
 K_trap=IgPrim('K_trap',4.0); K_slow=IgPrim('K_slow',3.0); K_mod=IgPrim('K_mod',2.0); K_fast=IgPrim('K_fast',1.0); K_mbl=IgPrim('K_mbl',4.5)
 G_aleph=IgPrim('G_aleph',3.0); G_beth=IgPrim('G_beth',1.0); G_gimel=IgPrim('G_gimel',2.0)
 C_seq=IgPrim('C_seq',3.0); C_and=IgPrim('C_and',1.0); C_or=IgPrim('C_or',2.0); C_broad=IgPrim('C_broad',4.0)
-Phi_c=IgPrim('Phi_c',2.0); Phi_c_complex=IgPrim('Phi_c_complex',2.33); Phi_ep=IgPrim('Phi_ep',2.67); Phi_sub=IgPrim('Phi_sub',1.0); Phi_super=IgPrim('Phi_super',3.0)
+⊙=IgPrim('⊙',2.0); 𐑮=IgPrim('𐑮',2.33); Phi_ep=IgPrim('Phi_ep',2.67); 𐑢=IgPrim('𐑢',1.0); Phi_super=IgPrim('Phi_super',3.0)
 H_inf=IgPrim('H_inf',4.0); H2=IgPrim('H2',3.0); H1=IgPrim('H1',2.0); H0=IgPrim('H0',1.0)
 S_nm=IgPrim('S_nm',3.0); S_nn=IgPrim('S_nn',2.0); S_11=IgPrim('S_11',1.0)
 Omega_z=IgPrim('Omega_z',3.0); Omega_z2=IgPrim('Omega_z2',2.0); Omega_0=IgPrim('Omega_0',1.0); Omega_na=IgPrim('Omega_na',4.0)
@@ -87,7 +87,7 @@ class IgTuple:
     """12-primitive IG tuple, exact port of imas_ig.rs."""
     __slots__ = ('d','t','r','p','f','k','g','c','phi','h','s','omega')
     def __init__(self, d=D_odot, t=T_odot, r=R_lr, p=P_pmsym, f=F_hbar,
-                 k=K_slow, g=G_aleph, c=C_seq, phi=Phi_c, h=H_inf,
+                 k=K_slow, g=G_aleph, c=C_seq, phi=⊙, h=H_inf,
                  s=S_nm, omega=Omega_z):
         self.d=d; self.t=t; self.r=r; self.p=p; self.f=f; self.k=k
         self.g=g; self.c=c; self.phi=phi; self.h=h; self.s=s; self.omega=omega
@@ -124,7 +124,7 @@ def from_snapshot(diversity: int, period_val: int, frob_order: int,
     # C from frob_order + period
     c_val = C_seq if fo>0 else (C_and if p==1 else (C_or if p==2 else C_broad))
     # Phi from self_ref + dialetheia + period
-    phi_val = Phi_c if (sr and dc) else (Phi_c_complex if sr else (Phi_ep if dc else (Phi_sub if p==1 else Phi_super)))
+    phi_val = ⊙ if (sr and dc) else (𐑮 if sr else (Phi_ep if dc else (𐑢 if p==1 else Phi_super)))
     # H from period
     h_val = H0 if p==1 else (H1 if p==2 else (H2 if p==3 else H_inf))
     # S from non-zero signature count

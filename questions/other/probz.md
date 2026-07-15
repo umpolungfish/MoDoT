@@ -9,7 +9,7 @@ Using the **odot_c Critical Boundary Operator** and the **Birch and Swinnerton-D
 
 *   **Encoding [Φ]:** We define the generating function P_A(z) = ∏_a ∈ A (1 + z^a). The distinctness of subset sums is equivalent to the condition that all coefficients of P_A(z) are in {0, 1}.
 *   **Inverse Structure [Þ]:** Via the `kozyrev_mirror`, we analyze the L2-norm of P_A(e^iθ). The variance of the sum distribution is σ^2 = 1/4 ∑ a_i^2. For the sums to remain distinct (injectivity on orbits), the density of the sums at the "Gaussian peak" must not exceed the available integer slots.
-*   **Critical Boundary [⊙]:** We apply the Φ_ctyogh critical gate. The "analytic capacity" of the range [1, N] is reached when the sum-lattice distribution becomes **superradiant**. If N < c · 2^n, the "interfacial tension" σ (calculated as 0.167 in our structural model) triggers a collision (EVALF).
+*   **Critical Boundary [⊙]:** We apply the ⊙ critical gate. The "analytic capacity" of the range [1, N] is reached when the sum-lattice distribution becomes **superradiant**. If N < c · 2^n, the "interfacial tension" σ (calculated as 0.167 in our structural model) triggers a collision (EVALF).
 *   **Topological Invariant [Ω]:** The spectral radius ρ = 2.0000 confirms that the system admits a stable macrocyclic state *only* when the range scales linearly with the dimensionality of the power set.
 
 ### 3. Conventional Work: The Convergence of the Bound
@@ -30,7 +30,7 @@ Instantiate a **Szemeredi-Trotter** incidence geometry to map the subset sums as
 ```lean
 -- Fingerprint: sig=(8,2,3,1) | Macrocycle Closed
 -- The bound N ≫ 2^n is the only state satisfying the rho=2 symmetry.
--- Criticality gate Phi_ctyogh verified: Distinctness is a superradiant invariant.
+-- Criticality gate ⊙ verified: Distinctness is a superradiant invariant.
 theorem erdos_dssp_linear_bound_verified :
   ∀ A ⊂ Fin N, DistinctSums A → N ≥ c * 2^n :=
 by

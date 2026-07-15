@@ -1,47 +1,23 @@
-Debloat the prompt: one alphabet table, and the rules become fetchable
+Retire the Phi_c family: gen-1 criticality names to bare Shavian
 
-The opcode alphabet is a table now, once, at the top. I had been spelling out
-the glyph and the name together every time an opcode came up (¬ IFIX, ⊙ IMSCRIB,
-◇ FSPLIT), which meant the mapping lived in three places at once: imasm.rs, the
-TOOLS_PROMPT, and IMASM_QUICKREF. Retiring ← for ⊙ meant chasing the same table
-through all of them, and that is the argument for the change. A reference is a
-lookup, not a refrain. One table, glyph-only from there on.
+Phi_c is ⊙. The `_c` forms only ever existed under Criticality, so unlike bare
+Phi they carry no ambiguity: today's Φ is Parity and has no `_c` value, so
+nothing here needs a judgement call. Rewrote the family to the values
+`models.from_symbol` returns for them: Phi_c / Φ_c / ⊙_c / Phi_ctyogh → ⊙,
+Phi_c_complex → 𐑮, Phi_sub → 𐑢, Phi_EP → 𐑻, Phi_sup → 𐑣. 7,689 refs, 585 files.
 
-Worth being honest that this bought nothing in tokens. I expected the ¬ IFIX
-habit to be the bloat; measured, it is about 3% of the prompt, and the table
-costs almost exactly what the inline naming cost. Net: 25 tokens. It is still
-right, but for single-source-of-truth reasons, not size.
+The whole job is one distinction: Phi_c names a VALUE in prose and data, and it
+also names a CONSTRUCTOR in code. `Criticality.Phi_c` is a live Lean identifier
+(`theorem as_is_QCP : asymptotic_safety.crit = Criticality.Phi_c := rfl`) and
+`Criticality.Phi_ctyogh` is a live Python enum alias. Rewriting those gives
+`Criticality.⊙`, which is not an identifier in either language. So dotted
+occurrences stay and everything else moves. Same string, two roles — the same
+shape as CLINK L8 versus the `=` opcode, where only reading tells them apart.
 
-The bloat was somewhere else entirely. 60 TOOL: lines were 75% of the prompt,
-and two imasm lines plus calc were 5,629 chars of it, resent every round of
-every eagle. The prompt was an eagerly-loaded manual for 60 verbs when a run
-touches maybe five. The rules do not get cheaper by being repeated; they get
-cheaper by being FETCHABLE. New `TOOL: help <verb>` returns a verb's full
-reference on demand, and the three heavy lines keep only what governs.
+models.py keeps its old spellings on purpose. Its from_symbol maps are the
+back-compat table: the keys have to go on spelling `Φ_c` or the translation from
+old symbols stops working. Rewriting the dictionary that performs the migration
+would remove the migration.
 
-The line I had to be careful about is mandate vs reference. Some of that prose
-rules the agent whether or not it ever calls the verb: calc's never-do-head-
-arithmetic rule is the reason calc exists, and moving it to a lane the agent has
-to ask for means it quietly resumes doing head arithmetic, having never asked.
-So the mandates stay eager and the reference goes lazy: calc keeps "every number
-you speak routes through here" and sheds its function list; imasm check keeps
-the close condition and sheds the verdict table and the ancestry-pairing rule.
-Tests pin the specifics to the new lane so a smaller prompt cannot silently
-become a lost rule — logb(x,base), the 6.27e-11 decade slip, ◇/● INNERMOST
-pairing, and help degrading to the usage form for verbs with no extended entry.
-
-Result: the eager prompt goes 23,342 → 20,246 chars, about 774 tokens off every
-round. 13%, not the 40-50% I guessed. The other 57 verbs are a long tail worth
-maybe another 20%, one judgement at a time.
-
-Nearly wrecked the CLINK chain doing it. Three of the CLINK hits in the prompt
-are not the opcode at all — they are CLINK L8, CLINK Layer 8, CLINK Layer 9, the
-ontological chain. A blanket name→glyph replace would have rendered the chain as
-"= L8" and quietly mangled the exact structure L9 was born out of. The opcode and
-the layer share a name and nothing but reading tells them apart.
-
-Also noticed while grepping: fart.rs is dead. No `mod fart;` declares it and
-nothing references fart::, so its 4,968 lines never compile — a stale near-copy
-of main.rs (5,087) that still turns up in every search of the prompt sites and
-reads exactly like live code. Left it alone; it wants a cross-compare against
-main.rs before anything gets deleted.
+Verified after: imscrbgrmr imports, from_symbol('Φ_c') still returns ⊙, both
+navigators still answer (cl8nk promote, cl9nk moat), and no syntax regressions.
