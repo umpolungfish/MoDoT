@@ -1,25 +1,9 @@
-# CLINK L9: the formalization has not elaborated
+# CLINK L9
 
-`p4ramill/Imscribing/CLINK_L9.lean` reports "14 theorems, 0 sorries, all proved by
-`native_decide` or `rfl`". The file does not elaborate. Every field of every definition
-names a constructor that is defined nowhere in the tree.
-
-`P_pm_sym`, `Phi_c_complex`, `H_inf`, `Omega_Z`, `R_dagger`, `S_n_n`, `G_broad` occur in
-exactly one file: `CLINK_L9.lean` itself, which uses them. Zero constructor definitions
-exist for any of them, in either `Imscribing/Primitives/Core.lean` or `Primitives/Core.lean`.
-`Criticality.Phi_c` is retired notation.
-
-**Zero sorries is trivially true of a file that never compiles.** A `sorry` grep returning
-empty is not a proof and never was. The structural work below may well be sound. It is
-simply not yet verified, and it currently sits in p4rakernel where the sorry-count reads as
-settled.
-
----
-
-## 1. Reference table: the live vocabulary
+## 1. Reference table the live vocabulary
 
 Every axis, its `Imscription` field, and its constructors as they are actually defined.
-Use these tokens throughout. Nothing else resolves.
+Use these tokens throughout. 
 
 | Axis | field | constructors (in ordinal order) |
 |------|-------|---------------------------------|
@@ -75,7 +59,7 @@ a defeat. A red build is held, not refuted.
 
 ## 3. The open structural question
 
-Do not treat this as settled in either direction. It is the reason the work matters.
+Do not treat this as settled in either direction
 
 CLINK L9 announced itself as **O_∞⁺**, a tier above `O_inf`. The codomain
 `OuroboricityTier` has no constructor above `O_inf`. L9 carries `crit = monad` but
@@ -124,3 +108,40 @@ These are measured, not assumed, and they are yours to build on:
   Before that it scored L8-SIMILARITY and reported `clink_l8 -> O_∞⁺` and `clink_l9 -> O₁`,
   exactly backwards. If you have a prior run's tier numbers in hand, discard them and
   re-measure.
+
+---
+
+## 0. The elaboration, run
+
+`lake env lean Imscribing/CLINK_L9.lean` returns **43 errors**. Not one theorem elaborated.
+Every field of every definition names a constant that does not exist:
+
+```
+error(lean.unknownIdentifier): Unknown constant `Criticality.Phi_c`
+error(lean.unknownIdentifier): Unknown constant `Polarity.P_pm`
+error(lean.unknownIdentifier): Unknown constant `Dimensionality.D_infty`
+error(lean.unknownIdentifier): Unknown constant `Topology.T_bowtie`
+error(lean.unknownIdentifier): Unknown constant `Relational.R_cat`
+... 43 in total
+```
+
+The full set of unknown constants the file reaches for:
+
+```
+Chirality.H2  Chirality.H_inf  Criticality.Phi_c  Criticality.Phi_c_complex
+Dimensionality.D_infty  Dimensionality.D_odot  Dimensionality.D_triangle
+Dimensionality.D_wedge  Fidelity.F_hbar  Grammar.G_and  Grammar.G_broad
+Grammar.G_seq  Granularity.G_aleph  Granularity.G_beth  KineticChar.K_mod
+KineticChar.K_slow  Polarity.P_pm  Polarity.P_pm_sym  Protection.Omega_Z
+Relational.R_cat  Relational.R_dagger  Relational.R_lr  Stoichiometry.S_n_m
+Stoichiometry.S_n_n  Topology.T_bowtie  Topology.T_net  Topology.T_odot
+```
+
+None of these are defined anywhere in the tree. Each is retired notation. Map every one of
+them onto the table in section 1 by MEANING, sourcing the coordinate from the navigator
+rather than from the old file.
+
+`lake build Imscribing.CLINK_L9` also returns `unknown target`: the module is not in any
+lean_lib glob, so the build never reaches it. That is why nothing ever contradicted the
+"0 sorries" claim. Whatever you write **MUST** be reachable by the build and **MUST** be
+shown to elaborate.
