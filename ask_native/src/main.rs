@@ -101,13 +101,15 @@ struct Cli {
     #[arg(long = "no-selectivity")]
     no_selectivity: bool,
 
-    /// Breath cycles (each cycle re-asks with conversation context)
-    #[arg(long = "cycles", default_value_t = 1)]
+    /// CAP on cycles the agent may section for itself (0 = uncapped; a backstop still
+    /// guards the pathological loop). A cycle is a set of eagles the AGENT closes with
+    /// `TOOL: cycle_close`; its condensed result becomes the next cycle's opening prompt.
+    #[arg(long = "cycles", default_value_t = 0)]
     cycles: u32,
 
-    /// Eagles: agentic ACT→OBSERVE rounds flown out to run tools within each cycle
-    /// (0 = auto: 40 under --jam, 5 otherwise). Honored across the board — jam,
-    /// normal ask, and the kernel-gated prover's escalation schedule.
+    /// CAP on eagles — TAOU windings flown out to run tools — within one cycle
+    /// (0 = uncapped; a large backstop guards only a runaway). Honored across the
+    /// board: jam, normal ask, and the kernel-gated prover's escalation schedule.
     #[arg(long = "eagles", default_value_t = 0)]
     eagles: u32,
 
@@ -2059,6 +2061,9 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the structural typ
   TOOL: aleph_encode TEXT / aleph_distance A B   Hebrew-letter (ALEPH) tensor encode/distance
   TOOL: cl8nk <action> [name]   the CL8NK navigator (CLINK Layer 8, O∞) — THE reference navigator (subsumes the ZFC/domain navigators). action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats
   TOOL: cl9nk <action> [name]   the CL9NK navigator (CLINK Layer 9 — the Gaussian-Moat-resolution tier the L8 organism ascends into). Same actions as cl8nk plus `moat`, and it reads each entry against its L9 reference typing (μ∘δ=id closure, the eternal fixed point, the moat/bridge type). Use `cl9nk entry <name>` to see how an entry types at L9 and which promotions it still needs.
+
+  TOOL: cycle_close             SECTION YOUR OWN WINDING. You fly as many eagles — TOOL rounds — as the Work needs; you are not on a round budget. When this breath has wound as far as it goes, close it: emit `TOOL: cycle_close` and the harness condenses THIS cycle's measured results into the opening prompt of the next, which you then wind further. The terminus IS the origin: what your cycle measured is what the next one begins from, so a result you leave unmeasured is a result the next cycle must go get.
+                                You **MUST** close a cycle when the reach changes — when the next thing to measure is a different question than the one this breath opened on, when a result reorients the Work, or when you have the ground to state plainly what is now settled and what is now open. You **MUST NOT** close merely because you have an answer to report; a cycle closes to WIND FURTHER, not to stop. Real calls in the same round as `cycle_close` still run first, so you never lose a closing measurement.
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -2262,6 +2267,62 @@ fn complete(
 /// fact the tools measured: a ring that closed → a constructed object / existence lemma; a
 /// sequence that terminated or stayed linear → an obstruction / impossibility lemma; a Both
 /// verdict → a two-sided theorem. Only called when a dual closed (there is a closure to read).
+/// Condense a closed cycle into the NEXT cycle's opening prompt. The end output of a cycle
+/// IS the seed of the one after it — the terminus is the origin.
+///
+/// This is what makes the series a closure instead of a diagonal copy. The old design
+/// re-asked the SAME question every cycle and carried only the prior cycle's prose verdict,
+/// so each arm re-derived the same measurements from an anchor it was told to agree with,
+/// and `FFUSE(B,B,B)` was one computation counted three times. μ∘δ closes only over a
+/// TRANSFORMED object: the condensate is that transform. It must carry RESULTS — the
+/// measured values — not a conclusion, or the next cycle inherits an anchor without evidence.
+fn condense_cycle(
+    llm: &Llm,
+    seed: &str,
+    answer: &str,
+    tool_output: &str,
+    max_tokens: u32,
+    temperature: f32,
+) -> String {
+    let witness: String = tool_output.chars().take(12000).collect();
+    let ans: String = answer.chars().take(4000).collect();
+    let sys = format!(
+        "{}\n\nYou are closing one winding of the Work and writing the opening prompt for the \
+         next. What you write IS the next cycle's starting prompt — it is the only thing that \
+         carries. Nothing else survives.\n\n\
+         You **MUST** carry forward the measured RESULTS: the values the tools actually \
+         returned, named with the call that produced them. A result that is not written here \
+         is lost, and the next cycle will burn a winding re-deriving it.\n\
+         You **MUST** state what remains open as an open question, not as a settled verdict. \
+         The next cycle is to CONTINUE the Work, not to agree with you.\n\
+         You **MUST ONLY** write what a tool in the transcript below actually grounded.\n\
+         You **MUST** name the next reach: the specific thing to measure that this cycle could \
+         not, and the verb that would measure it.\n\n\
+         Write it as a direct prompt addressed to the next cycle. No preamble, no summary of \
+         your own reasoning, no restatement of the framing it already has.",
+        prover::EPISTEMIC_STANCE
+    );
+    let msgs = vec![
+        ("system".to_string(), sys),
+        (
+            "user".to_string(),
+            format!(
+                "## The prompt this cycle opened on\n{seed}\n\n\
+                 ## What the tools actually returned this cycle\n{witness}\n\n\
+                 ## This cycle's closing answer\n{ans}\n\n\
+                 Write the next cycle's opening prompt."
+            ),
+        ),
+    ];
+    let res = infer(llm, &msgs, max_tokens, temperature);
+    let t = strip_kernel_records(&res.text);
+    if t.trim().is_empty() {
+        seed.to_string()
+    } else {
+        t
+    }
+}
+
 fn backtranslate(
     llm: &Llm,
     question: &str,
@@ -2293,17 +2354,20 @@ fn backtranslate(
 
 fn build_user_packet(question: &str, prep: &Prepare, jam: bool, cycle: u32, total: u32) -> String {
     let mut parts = Vec::new();
-    // Compounding cycles: every cycle after the first begins from where the last one ENDED.
-    // The prior cycle's final result is already in the conversation above; this makes building
-    // on it an instruction, not a hope — so the agent deepens rather than re-derives.
+    // Every cycle after the first OPENS ON its predecessor's condensate: the `question` passed
+    // in IS that condensate, carrying the measured results forward. Nothing else survives, so
+    // there is no "conversation above" to point at — saying there was, while the tool state had
+    // in fact been wiped, handed the agent a conclusion with its evidence stripped off.
     if cycle > 1 {
         parts.push(format!(
-            "## CYCLE {cycle} of {total} — COMPOUND, do not restart.\n\
-             Your previous cycle's final result is in the conversation above. Begin from that \
-             end-state: take its conclusions as your new starting point and push further — pursue \
-             what it left open, deepen or stress-test what it found, build the next layer on top. \
-             Re-run tools where you need fresh ground, but do NOT re-derive from scratch what the \
-             last cycle already settled. Each cycle is a deeper breath, not a repeat."
+            "## CYCLE {cycle} of at most {total} — this prompt IS the previous cycle's close.\n\
+             The results below were measured by the cycle before you and carry forward as \
+             ground; you do not need to re-derive them, though you may re-check any of them by \
+             calling the verb again. Wind further: pursue what it named as open, reach the \
+             measurement it could not. You **MUST** treat its open questions as open — it is \
+             handing you the Work, not a verdict to ratify.\n\
+             You **MUST** close this cycle with `TOOL: cycle_close` once you have wound as far \
+             as this breath goes, so its results condense into the next cycle's opening prompt."
         ));
         // Cache-clear: a prior cycle may have recorded a verb as "unavailable / does not
         // exist" when it did not yet exist or was not tried. That claim is STALE and must
@@ -4306,6 +4370,45 @@ fn run_plasma(args: &[String]) -> String {
     }
 }
 
+/// Why a cycle stopped winding. These are NOT interchangeable, and collapsing them was a
+/// real fault: a stall was printed as "the round budget ran out" and the frontier then
+/// advised `--cycles`/`--eagles`, i.e. MORE rounds — the exact prescription a stall refutes.
+/// A leash is a budget wall (escalate). A stall is the operator's reachable ground exhausted
+/// (more rounds change nothing; it needs new ground). A close is the agent sectioning its own
+/// cycle. Done is the reasoning finishing on its own.
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+enum CycleExit {
+    Done,
+    CycleClose,
+    Stall,
+    Leash,
+}
+
+impl CycleExit {
+    fn label(self) -> &'static str {
+        match self {
+            CycleExit::Done => "DONE (the operator stopped emitting tools — the reasoning finished)",
+            CycleExit::CycleClose => "CYCLE CLOSE (the agent sectioned this winding itself)",
+            CycleExit::Stall => "STALL (whole rounds of only already-run calls — reachable ground exhausted)",
+            CycleExit::Leash => "LEASH (the eagle cap was reached — budget, not reasoning)",
+        }
+    }
+    /// Only a leash is a budget frontier. A stall is a REACH frontier: it refutes nothing
+    /// either, but more budget is not the lever.
+    fn frontier_note(self) -> Option<&'static str> {
+        match self {
+            CycleExit::Leash => Some(
+                "budget CUT, not closed — the cap ran out, which refutes nothing: raise --eagles",
+            ),
+            CycleExit::Stall => Some(
+                "reach CUT, not closed — every remaining call had already run. More rounds only \
+                 circle; this needs new ground (a tool it lacks, or a sharper question)",
+            ),
+            _ => None,
+        }
+    }
+}
+
 fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
     println!();
     println!("{}", "=".repeat(60));
@@ -4553,21 +4656,27 @@ fn run_one(
     // weigh alternatives: FSPLIT → work → FFUSE." The engine was demanding of the agent exactly
     // what it would not do at its own top level. Self-similar all the way down, open at the top.
     let mut cycle_reps: Vec<SpineReport> = Vec::new();
-    let mut cycles_leashed: usize = 0;
-    if cli.cycles > 1 {
-        // The outer THINK: name the δ before the arms run, so a fuse has something to fuse.
-        println!("── THINK (outer) ──");
-        println!(
-            "  δ: {} cycles over one question. Each is an arm doing real work; the series closes \n\
-             \x20 when they FFUSE, not when the rounds run out.",
-            cli.cycles
-        );
-        println!();
-    }
-    for cycle in 1..=cli.cycles.max(1) {
-        if cli.cycles > 1 {
-            println!("── cycle {cycle}/{} ──", cli.cycles);
-        }
+    let mut cycle_exits: Vec<CycleExit> = Vec::new();
+    // The CAP, not the count. The agent sections its own cycles with `TOOL: cycle_close`;
+    // --cycles only bounds how many it may take. 0 = uncapped, with a backstop that guards
+    // the pathological loop and nothing else.
+    let cycles_cap: usize = if cli.cycles > 0 { cli.cycles as usize } else { 24 };
+    // The outer TAOU brackets the whole series. Name the δ before the arms wind, so the
+    // closing μ has something to fuse.
+    println!("── THINK (outer) ──");
+    println!(
+        "  δ: one question, wound as cycles the agent sections for itself (cap {cycles_cap}).\n\
+         \x20 Each cycle is a set of eagles — TAOU windings — and closes by condensing its\n\
+         \x20 RESULTS into the next cycle's opening prompt: the terminus IS the origin.\n\
+         \x20 The series closes when the arms FFUSE, not when the rounds run out."
+    );
+    println!();
+    // Cycle 1 opens on the question. Every cycle after opens on its predecessor's condensate.
+    let mut seed: String = question.to_string();
+    let mut cycle: u32 = 0;
+    loop {
+        cycle += 1;
+        println!("── cycle {cycle}/{cycles_cap} (cap) ──");
 
         let mut answer;
         let mut model_voice;
@@ -4586,13 +4695,18 @@ fn run_one(
             );
             model_voice = B4::N;
         } else {
-            let user_packet = build_user_packet(question, &prep, cli.jam, cycle, cli.cycles.max(1));
-            // conversation: system once, then history, then this turn
+            // Each cycle opens on its seed: the question (cycle 1) or the previous cycle's
+            // condensate. That is the ONLY carry — so it must be complete, which is what the
+            // condenser is instructed to make it.
+            let user_packet = build_user_packet(&seed, &prep, cli.jam, cycle, cycles_cap as u32);
+            // The system prompt is ALWAYS sent. It was gated on `conversation.is_empty()`,
+            // and cycle 1 pushed into `conversation` — so from cycle 2 the agent ran with NO
+            // epistemic stance, NO alphabet, NO tool contract and NO jam prompt. It lost the
+            // rules of the Work and was then read as circling. `conversation` is the --chat
+            // REPL history, not the cycle carry; the seed is the cycle carry.
             let mut msgs: Vec<(String, String)> = Vec::new();
-            if conversation.is_empty() {
-                let jam = if cli.jam { JAM_PROMPT } else { "" };
-                msgs.push(("system".into(), format!("{}\n{}\n{}\n{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, IMASM_ALPHABET, TOOLS_PROMPT, jam)));
-            }
+            let jam = if cli.jam { JAM_PROMPT } else { "" };
+            msgs.push(("system".into(), format!("{}\n{}\n{}\n{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, IMASM_ALPHABET, TOOLS_PROMPT, jam)));
             for (r, c) in conversation.iter() {
                 msgs.push((r.clone(), c.clone()));
             }
@@ -4624,9 +4738,13 @@ fn run_one(
                 }
             }
 
-            // Update multi-turn history with the raw question + answer
-            conversation.push(("user".into(), question.to_string()));
-            conversation.push(("assistant".into(), answer.clone()));
+            // The --chat REPL history gets the raw question and, after the loop, the run's
+            // final answer — ONE turn for the whole run. Pushing per-cycle re-injected each
+            // arm's prose into the next, which is the anchoring the seed replaces.
+            if cycle == 1 {
+                conversation.push(("user".into(), question.to_string()));
+                conversation.push(("assistant".into(), answer.clone()));
+            }
         }
 
         // Print the first pass. If it plans to act (emits tool calls), it is a PLAN, not the
@@ -4637,7 +4755,10 @@ fn run_one(
         // A leash close is the round BUDGET running out, not the reasoning finishing.
         // Budget-limited is a frontier to escalate, never a completion, so the outer μ
         // has to know this arm was CUT rather than closed.
-        let mut leashed = false;
+        let mut exit_cause = CycleExit::Done;
+        // Hoisted to cycle scope: the condenser needs this cycle's measured output to write
+        // the next cycle's opening prompt.
+        let mut all_tool_output = String::new(); // every round's real output → the tool voice
         println!("{}", if first_pass_acts { "── PLAN (thinking; acting next — results below are NOT yet in) ──" } else { "── ANSWER ──" });
         println!("{answer}");
         println!();
@@ -4733,7 +4854,6 @@ fn run_one(
                 println!();
             }
 
-            let mut all_tool_output = String::new(); // every round's real output → the tool voice
             // The execution arm of the Dual-Link: every verb that ACTUALLY ran (returned output).
             // A verdict fuses only if its verb is in here; a claim about a verb NOT here has no
             // arm to fuse against, so it collapses to N — it must not be narrated as a result.
@@ -4805,10 +4925,22 @@ fn run_one(
                     stalled_rounds += 1;
                     if stalled_rounds >= STALL_ROUNDS {
                         println!("── STALL ({STALL_ROUNDS} rounds of only already-run calls) — closing ──");
+                        exit_cause = CycleExit::Stall;
                         break;
                     }
                 } else {
                     stalled_rounds = 0;
+                }
+                // The agent sections its own cycles: `TOOL: cycle_close` says this breath has
+                // wound as far as it goes. It is not dispatched — it is a signal to the
+                // harness — but any real calls emitted alongside it still RUN first, so a
+                // closing round's last measurements are not thrown away.
+                let wants_close = calls.iter().any(|(v, _)| v == "cycle_close");
+                let calls: Vec<(String, Vec<String>)> =
+                    calls.into_iter().filter(|(v, _)| v != "cycle_close").collect();
+                if wants_close {
+                    println!("── CYCLE CLOSE requested by the agent (self-sectioned winding) ──");
+                    exit_cause = CycleExit::CycleClose;
                 }
                 println!("── ACT round {} ({} tool call(s)) ──", round + 1, calls.len());
                 let mut results = String::new();
@@ -4844,6 +4976,17 @@ fn run_one(
                     }
                 }
                 all_tool_output.push_str(&results);
+                // Agent sectioned this cycle: its closing round's tools have now RUN and their
+                // results are in hand. Stop winding and let the close block speak the cycle's
+                // answer over them, rather than spending another OBSERVE round first.
+                if wants_close {
+                    agent_msgs.push(("assistant".to_string(), current.clone()));
+                    agent_msgs.push((
+                        "user".to_string(),
+                        format!("TOOL RESULTS (ground truth — never contradict these):\n{results}"),
+                    ));
+                    break;
+                }
                 agent_msgs.push(("assistant".to_string(), current.clone()));
                 let executed_line = format!(
                     "EXECUTED VERBS so far (the only verbs you have a result for): {{{}}}. A claim about any \
@@ -4882,21 +5025,28 @@ fn run_one(
             // stall), force one clean grounded close. If it ended because the operator
             // stopped emitting tools, this never fires.
             if !extract_tool_calls(&current).is_empty() {
+                // WHY this cycle stopped winding decides what the frontier means. Only running
+                // out of rounds is a leash; a stall reached the end of its ground, and a
+                // cycle_close was the agent's own sectioning. These were one flag, so a stall
+                // printed as "the budget ran out" and the frontier advised more budget.
+                if exit_cause == CycleExit::Done && round >= max_rounds {
+                    exit_cause = CycleExit::Leash;
+                }
                 agent_msgs.push(("assistant".to_string(), current.clone()));
                 agent_msgs.push((
                     "user".to_string(),
                     format!(
-                        "The run is closing (every remaining call was already run — you have its result above — or the \
-                         round leash was reached). Give your FINAL answer now, with NO TOOL: lines, grounded only in the tool \
-                         results above. You have a result ONLY for these executed verbs: {{{}}} — a claim about any other \
-                         verb is N (neither), not a truth-value; do not narrate its outcome.",
+                        "This cycle is closing — {}. Give your closing answer for THIS cycle now, with NO TOOL: lines, \
+                         grounded only in the tool results above. You have a result ONLY for these executed verbs: {{{}}} \
+                         — a claim about any other verb is N (neither), not a truth-value; do not narrate its outcome. \
+                         State plainly what this cycle MEASURED and what it leaves open.",
+                        exit_cause.label(),
                         executed_verbs.iter().cloned().collect::<Vec<_>>().join(", "),
                     ),
                 ));
                 let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
                 current = strip_kernel_records(&res.text);
-                leashed = true;
-                println!("── FINAL (leash close — the round budget ran out, not the reasoning) ──");
+                println!("── CLOSING — {} ──", exit_cause.label());
                 println!("{current}");
                 println!();
             }
@@ -4946,13 +5096,35 @@ fn run_one(
         let rep = complete(&prep, &answer, model_voice, tool_voice, cli.no_selectivity, cli.jam);
         print_spine(&rep, &prep, cli.verbose);
         cycle_reps.push(rep.clone());
-        if leashed {
-            cycles_leashed += 1;
-        }
+        cycle_exits.push(exit_cause);
+        println!("  cycle {cycle} exit: {}", exit_cause.label());
 
         if rep.fused == B4::F {
             last_code = last_code.max(1);
         }
+
+        // ── close the winding, or wind again ────────────────────────────────────────────
+        // DONE means the operator stopped reaching: it has finished, and another cycle would
+        // hand it its own answer back to re-ratify. A STALL exhausted its reachable ground —
+        // winding again with the same reach only circles, which is what stall detection is
+        // FOR. Only a cycle the agent sectioned itself, or one cut by the eagle cap with work
+        // still live, has somewhere further to go.
+        if cli.dry_run || exit_cause == CycleExit::Done || exit_cause == CycleExit::Stall {
+            break;
+        }
+        if cycle as usize >= cycles_cap {
+            println!("── cycle cap {cycles_cap} reached — closing the series ──");
+            break;
+        }
+        // The terminus IS the origin: condense THIS cycle's measured results into the next
+        // cycle's opening prompt. This is the transform that makes the series a closure
+        // rather than a diagonal copy of one question asked N times.
+        println!("── CONDENSE (this cycle's results → the next cycle's opening prompt) ──");
+        seed = condense_cycle(
+            llm, &seed, &answer, &all_tool_output, cli.max_tokens, cli.temperature,
+        );
+        println!("{seed}");
+        println!();
     }
 
     // ── the outer μ ──────────────────────────────────────────────────────────────────────
@@ -4986,14 +5158,23 @@ fn run_one(
                 "the arms DISAGREED — held at the join, not resolved by fiat"
             }
         );
-        if cycles_leashed > 0 {
-            println!(
-                "  FRONTIER: {cycles_leashed}/{} arm(s) hit the round leash — CUT, not closed. \n\
-                 \x20 The budget ran out, which refutes nothing: escalate (--eagles/--cycles), \n\
-                 \x20 do not read this verdict as the reasoning's own resting place.",
-                cycle_reps.len()
-            );
+        // A frontier is reported by CAUSE, because the causes want opposite things. Printing
+        // every exit as a leash and advising more budget told a stalled run to do more of what
+        // had already stopped working.
+        for cause in [CycleExit::Leash, CycleExit::Stall] {
+            let n = cycle_exits.iter().filter(|c| **c == cause).count();
+            if n > 0 {
+                println!(
+                    "  FRONTIER: {n}/{} arm(s) — {}",
+                    cycle_reps.len(),
+                    cause.frontier_note().unwrap_or("")
+                );
+            }
         }
+        println!(
+            "  Neither a cut nor a stall refutes anything: do not read this verdict as the \n\
+             \x20 reasoning's own resting place."
+        );
         println!("{}", "═".repeat(60));
         if fused == B4::F {
             last_code = last_code.max(1);
