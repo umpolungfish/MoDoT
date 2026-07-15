@@ -2056,7 +2056,7 @@ struct Prepare {
     witness_ready: bool,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 struct SpineReport {
     /// Joins this verdict to its evidence in `tool_calls.jsonl`.
     #[serde(default)]
@@ -4469,6 +4469,23 @@ fn run_one(
     }
 
     let mut last_code = 0;
+    // The cycle series is itself a TAOU, so it needs a δ before it and a μ after it. Without
+    // them the outermost container is a counted line: `imasm check ⊢ > > > ⊣` on the run's own
+    // shape returns N (no fork) — "a bare line or cycle is not a closure. For a major decision,
+    // weigh alternatives: FSPLIT → work → FFUSE." The engine was demanding of the agent exactly
+    // what it would not do at its own top level. Self-similar all the way down, open at the top.
+    let mut cycle_reps: Vec<SpineReport> = Vec::new();
+    let mut cycles_leashed: usize = 0;
+    if cli.cycles > 1 {
+        // The outer THINK: name the δ before the arms run, so a fuse has something to fuse.
+        println!("── THINK (outer) ──");
+        println!(
+            "  δ: {} cycles over one question. Each is an arm doing real work; the series closes \n\
+             \x20 when they FFUSE, not when the rounds run out.",
+            cli.cycles
+        );
+        println!();
+    }
     for cycle in 1..=cli.cycles.max(1) {
         if cli.cycles > 1 {
             println!("── cycle {cycle}/{} ──", cli.cycles);
@@ -4539,6 +4556,10 @@ fn run_one(
         // result. The real answer is synthesized after the tools have actually spoken. Only a
         // first pass with NO tool calls (a pure conceptual reply) is the answer itself.
         let first_pass_acts = !cli.dry_run && !extract_tool_calls(&answer).is_empty();
+        // A leash close is the round BUDGET running out, not the reasoning finishing.
+        // Budget-limited is a frontier to escalate, never a completion, so the outer μ
+        // has to know this arm was CUT rather than closed.
+        let mut leashed = false;
         println!("{}", if first_pass_acts { "── PLAN (thinking; acting next — results below are NOT yet in) ──" } else { "── ANSWER ──" });
         println!("{answer}");
         println!();
@@ -4796,7 +4817,8 @@ fn run_one(
                 ));
                 let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
                 current = strip_kernel_records(&res.text);
-                println!("── FINAL (forced close) ──");
+                leashed = true;
+                println!("── FINAL (leash close — the round budget ran out, not the reasoning) ──");
                 println!("{current}");
                 println!();
             }
@@ -4845,8 +4867,57 @@ fn run_one(
 
         let rep = complete(&prep, &answer, model_voice, tool_voice, cli.no_selectivity, cli.jam);
         print_spine(&rep, &prep, cli.verbose);
+        cycle_reps.push(rep.clone());
+        if leashed {
+            cycles_leashed += 1;
+        }
 
         if rep.fused == B4::F {
+            last_code = last_code.max(1);
+        }
+    }
+
+    // ── the outer μ ──────────────────────────────────────────────────────────────────────
+    // Every cycle emitted its own verdict and nothing joined them, so a run whose cycle 1 said
+    // T and cycle 3 said F printed both and fused neither: the contradiction escaped into the
+    // reader instead of being held in the structure. That is the monological failure by
+    // OMISSION — nothing overrode anything, but nothing fused either. The join operator was
+    // already here; only the call was missing.
+    if cycle_reps.len() > 1 {
+        let fused = cycle_reps
+            .iter()
+            .map(|r| r.fused)
+            .reduce(b4_join)
+            .unwrap_or(B4::N);
+        let voices: Vec<String> = cycle_reps
+            .iter()
+            .enumerate()
+            .map(|(i, r)| format!("cycle{}={}", i + 1, b4_name(r.fused)))
+            .collect();
+        let agree = cycle_reps.iter().all(|r| r.fused == cycle_reps[0].fused);
+        println!();
+        println!("{}", "═".repeat(60));
+        println!("OUTER SPINE — the cycle series as one winding");
+        println!("  VERDICT (univocal): {}", b4_name(fused));
+        println!("  ← FFUSE of the arms (none dropped): {}", voices.join(" ⋈ "));
+        println!(
+            "  μ∘δ: {}",
+            if agree {
+                "the arms agreed — the series closes on one verdict"
+            } else {
+                "the arms DISAGREED — held at the join, not resolved by fiat"
+            }
+        );
+        if cycles_leashed > 0 {
+            println!(
+                "  FRONTIER: {cycles_leashed}/{} arm(s) hit the round leash — CUT, not closed. \n\
+                 \x20 The budget ran out, which refutes nothing: escalate (--eagles/--cycles), \n\
+                 \x20 do not read this verdict as the reasoning's own resting place.",
+                cycle_reps.len()
+            );
+        }
+        println!("{}", "═".repeat(60));
+        if fused == B4::F {
             last_code = last_code.max(1);
         }
     }
