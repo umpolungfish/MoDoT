@@ -638,7 +638,7 @@ The catalog verbs (each grounds against the live dispatcher, never narration):
 | catalog | `lookup_catalog` · `list_catalog` · `check_imscription` · `imscribe_system` |
 | metrics | `compute_distance` · `compute_conflict_distance` (paradices) · `compute_meet` · `compute_join` · `compute_tensor` |
 | structure | `find_analogies` · `primitive_peel` · `principal_decomp` · `retrosynthetic_path` · `project` · `ouroborics` |
-| probes | `phi_c_probe` · `consciousness_score` · `topo_protection_probe` · `emergence_frontier` |
+| probes | `monad_probe` · `consciousness_score` · `topo_protection_probe` · `emergence_frontier` |
 | crystal | `crystal_encode` · `crystal_decode` · `crystal_navigate` · `crystal_nearest` · `crystal_count` · `crystal_tier_census` · `crystal_tier_gap_ladder` |
 | promotions | `compute_promotions` · `predict_from_promotions` · `register_promotion_pattern` |
 | ZFC / ALEPH | `zfc_formula` · `zfc_probe` · `zfc_catalog_probe` · `aleph_encode` · `aleph_distance` · `riemann_xi_info` |

@@ -1910,7 +1910,7 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the structural typ
   TOOL: primitive_peel A PRIM         peel one primitive axis off A
   TOOL: principal_decomp A            principal-component decomposition of A's type
   TOOL: retrosynthetic_path A         a retrosynthetic construction path to A
-  TOOL: phi_c_probe A / consciousness_score A / topo_protection_probe A   probe criticality / C-score gates / topological protection
+  TOOL: monad_probe A / consciousness_score A / topo_protection_probe A   probe criticality / C-score gates / topological protection
   TOOL: crystal_decode ADDRESS / crystal_encode A / crystal_nearest A / crystal_count / crystal_tier_census   crystal address <-> tuple, tier census
   TOOL: compute_promotions SRC TGT / predict_from_promotions VAL...   promotion analysis
   TOOL: aleph_encode TEXT / aleph_distance A B   Hebrew-letter (ALEPH) tensor encode/distance
@@ -3560,7 +3560,7 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
 const IG_TOOLS: &[&str] = &[
     "lookup_catalog", "list_catalog", "encode_system", "imscribe_system",
     "check_imscription", "ouroborics", "compute_distance", "compute_conflict_distance",
-    "compute_meet", "compute_join", "compute_tensor", "find_analogies", "phi_c_probe",
+    "compute_meet", "compute_join", "compute_tensor", "find_analogies", "monad_probe",
     "topo_protection_probe", "consciousness_score", "project", "primitive_peel",
     "principal_decomp", "retrosynthetic_path", "emergence_frontier", "compute_promotions",
     "predict_from_promotions", "register_promotion_pattern", "crystal_encode",
