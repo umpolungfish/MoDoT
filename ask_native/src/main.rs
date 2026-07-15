@@ -4657,6 +4657,7 @@ fn run_one(
     // what it would not do at its own top level. Self-similar all the way down, open at the top.
     let mut cycle_reps: Vec<SpineReport> = Vec::new();
     let mut cycle_exits: Vec<CycleExit> = Vec::new();
+    let mut capped = false;
     // The CAP, not the count. The agent sections its own cycles with `TOOL: cycle_close`;
     // --cycles only bounds how many it may take. 0 = uncapped, with a backstop that guards
     // the pathological loop and nothing else.
@@ -5113,7 +5114,11 @@ fn run_one(
             break;
         }
         if cycle as usize >= cycles_cap {
-            println!("── cycle cap {cycles_cap} reached — closing the series ──");
+            // The agent sectioned this cycle to wind FURTHER and the cap took the next breath
+            // away. That is a cut, and the outer μ has to say so — otherwise a series stopped
+            // by our own ceiling reads as a series that finished.
+            println!("── cycle cap {cycles_cap} reached — the series was CUT here, not closed ──");
+            capped = true;
             break;
         }
         // The terminus IS the origin: condense THIS cycle's measured results into the next
@@ -5161,9 +5166,11 @@ fn run_one(
         // A frontier is reported by CAUSE, because the causes want opposite things. Printing
         // every exit as a leash and advising more budget told a stalled run to do more of what
         // had already stopped working.
+        let mut any_frontier = false;
         for cause in [CycleExit::Leash, CycleExit::Stall] {
             let n = cycle_exits.iter().filter(|c| **c == cause).count();
             if n > 0 {
+                any_frontier = true;
                 println!(
                     "  FRONTIER: {n}/{} arm(s) — {}",
                     cycle_reps.len(),
@@ -5171,10 +5178,20 @@ fn run_one(
                 );
             }
         }
-        println!(
-            "  Neither a cut nor a stall refutes anything: do not read this verdict as the \n\
-             \x20 reasoning's own resting place."
-        );
+        if capped {
+            any_frontier = true;
+            println!(
+                "  FRONTIER: the series hit the cycle cap while still winding — the agent closed \n\
+                 \x20 its last cycle to go further and was not given the breath. CUT by our \n\
+                 \x20 ceiling, not closed: raise --cycles."
+            );
+        }
+        if any_frontier {
+            println!(
+                "  A cut refutes nothing: do not read this verdict as the reasoning's own \n\
+                 \x20 resting place."
+            );
+        }
         println!("{}", "═".repeat(60));
         if fused == B4::F {
             last_code = last_code.max(1);

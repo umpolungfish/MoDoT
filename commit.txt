@@ -1,31 +1,38 @@
-Surface what the API actually said, and stop --no-think killing a run
+MoDoT: eagles are windings, cycles are the agent's own sections
 
-A jam died on `status code 400` and the abort blamed credit: "not transient:
-402 = out of credits, 401 = bad key". Both wrong, and undiagnosable by
-construction — ureq::Error::Status(code, resp) stringifies to a bare status line
-and DROPS the response, so the server's answer was sitting inside the error and we
-printed the number. is_fatal_llm_error did not know 400 either, so the loop kept
-re-sending a request that would refuse forever.
+--cycles used to be an outer loop that re-asked the SAME question N times.
+Each cycle got a fresh tool state but carried the previous cycle's prose
+verdict, plus an instruction to compound on it. So every arm re-derived the
+same measurements from an anchor it had been told to agree with, and
+FFUSE(B,B,B) was one computation counted three times and reported as "the
+arms agreed". That is the diagonal copy -- Identity, which verifies nothing
+-- printed as the success condition.
 
-Read the body. It said exactly what was wrong, first time:
-  {"error":{"message":"Reasoning is mandatory for this endpoint and cannot be
-   disabled.","code":400}}
+Now: an eagle is a TAOU winding and the agent flies as many as the Work
+needs. A cycle is a set of eagles the AGENT sections with `TOOL: cycle_close`.
+On close, the cycle's measured RESULTS condense into the next cycle's opening
+prompt -- the terminus is the origin. The condensate carries values with the
+calls that produced them and names the next reach, so the next cycle inherits
+evidence instead of a conclusion. mu.delta closes over a transformed object,
+which is what makes the series a winding rather than a copy. --cycles and
+--eagles become caps, not drivers.
 
-It was --no-think. google/gemini-3.5-flash mandates reasoning and rejects the
-request over `reasoning: {enabled:false}`. Nothing to do with money.
+Also fixed, all found by inspecting rather than trusting the labels:
 
-My own note on that switch said it was a "no-op on models that don't support it".
-That is false in both directions and I had already seen the other half today:
-DeepSeek's native API 400s on the field's mere PRESENCE (so it stays
-OpenRouter-only), and this endpoint 400s on its VALUE. The switch is not harmless;
-it is a request some endpoints refuse.
+- The system prompt was gated on `conversation.is_empty()`, and cycle 1
+  pushed into `conversation`. From cycle 2 the agent ran with NO epistemic
+  stance, NO alphabet, NO tool contract, NO jam prompt. It lost the rules of
+  the Work and was then read as circling.
+- Stall, leash, cycle close and done were one bool. A stall printed as "the
+  round budget ran out" and the frontier advised more rounds -- the exact
+  prescription a stall refutes. Now each exit is named, and a frontier is
+  reported by cause: a leash wants budget, a stall wants new ground.
+- Hitting the cycle cap while the agent was still sectioning read as a series
+  that finished. It is a cut, and says so.
+- --eagles help claimed "0 = auto: 40 under --jam, 5 otherwise". It was a
+  flat 400 either way.
 
---no-think is an OPTIMISATION and must never be able to end a run. Where the
-endpoint mandates reasoning we now drop the switch and proceed, saying so. 400
-also joins the fatal set: a malformed request will not un-malform on retry, so
-abort with the body rather than grind.
-
-Verified against the model from the failing run: gemini-3.5-flash now prints
-"this endpoint mandates reasoning — dropping --no-think" and completes the jam.
-gemini-3-flash-preview accepts the switch; the run used both, which is why one arm
-worked and one killed it.
+Verified live: three cycles, all agent-sectioned, no stalls, no leashes. The
+condensate carried tiers, distances, promoted atoms and the best forge
+ordering, then named polymerize as the next reach. Cycle 2's spine reported
+mu.delta CLOSED with a transformation rather than bare identity.
