@@ -2,23 +2,26 @@
 
 ## 1. Reference table the live vocabulary
 
-Every axis, its `Imscription` field, and its constructors as they are actually defined.
-Use these tokens throughout. 
+Every axis, its `Imscription` field, and each constructor PAIRED WITH THE GLYPH the tools
+emit for it. `cl9nk entry` returns glyphs; this table is the whole translation. You **MUST**
+look the glyph up here and take its name. You **MUST NOT** count ordinal positions to derive
+a name: a prior run miscounted on four axes and produced a file that COMPILES GREEN while
+describing the wrong object. 
 
-| Axis | field | constructors (in ordinal order) |
-|------|-------|---------------------------------|
-| Ð | `dim`  | `dead` `ash` `array` `if'` |
-| Þ | `top`  | `judge` `eat` `mime` `oil` `are` |
-| Ř | `rel`  | `ado` `tot` `ear` `ian` |
-| Φ | `pol`  | `church` `yew` `out` `nun` `or'` |
-| ƒ | `fid`  | `age` `they` `peep` |
-| Ç | `kin`  | `yea` `loll` `egg` `on` `air` |
-| Γ | `gram` | `vow` `gag` `measure` `ooze` |
-| ɢ | `gran` | `bib` `thigh` `ice` |
-| ⊙ | `crit` | `woe` `monad` `roar` `err` `haha` |
-| Ħ | `chir` | `fee` `kick` `sure` `wool` |
-| Σ | `stoi` | `hung` `so` `up` |
-| Ω | `prot` | `awe` `oak` `ah` `zoo` |
+| Axis | field | glyph = constructor (no counting: read the glyph, take the name) |
+|------|-------|--------------------------------------------------------------|
+| Ð | `dim` | `𐑛`=`dead`  `𐑨`=`ash`  `𐑼`=`array`  `𐑦`=`if'` |
+| Þ | `top` | `𐑡`=`judge`  `𐑰`=`eat`  `𐑥`=`mime`  `𐑶`=`oil`  `𐑸`=`are` |
+| Ř | `rel` | `𐑩`=`ado`  `𐑑`=`tot`  `𐑽`=`ear`  `𐑾`=`ian` |
+| Φ | `pol` | `𐑗`=`church`  `𐑿`=`yew`  `𐑬`=`out`  `𐑯`=`nun`  `𐑹`=`or'` |
+| ƒ | `fid` | `𐑱`=`age`  `𐑞`=`they`  `𐑐`=`peep` |
+| Ç | `kin` | `𐑘`=`yea`  `𐑤`=`loll`  `𐑧`=`egg`  `𐑪`=`on`  `𐑺`=`air` |
+| Γ | `gran` | `𐑚`=`bib`  `𐑔`=`thigh`  `𐑲`=`ice` |
+| ɢ | `gram` | `𐑝`=`vow`  `𐑜`=`gag`  `𐑠`=`measure`  `𐑵`=`ooze` |
+| ⊙ | `crit` | `𐑢`=`woe`  `⊙`=`monad`  `𐑮`=`roar`  `𐑻`=`err`  `𐑣`=`haha` |
+| Ħ | `chir` | `𐑓`=`fee`  `𐑒`=`kick`  `𐑖`=`sure`  `𐑫`=`wool` |
+| Σ | `stoi` | `𐑙`=`hung`  `𐑕`=`so`  `𐑳`=`up` |
+| Ω | `prot` | `𐑷`=`awe`  `𐑴`=`oak`  `𐑭`=`ah`  `𐑟`=`zoo` |
 
 Tier codomain: `OuroboricityTier := O₀ | O₁ | O₂ | O₂dag | O_inf`.
 
@@ -47,6 +50,13 @@ transcribing one. `TOOL: cl9nk entry <name>` reads an entry's live coordinate. T
 systems in play are `clink_l9`, `sixteen_3_trilattice`,
 `bootstrap_stage_2_topology_corrected`, `turbulent_flow`. Read each one; do not carry over
 values from the previous file, which may be why it drifted.
+
+You **MUST NOT** validate a translation against `ouroboricityTier`. It reads 4 of the 12
+fields (`crit` `pol` `prot` `dim`), so a matching tier says nothing about the other 8, and
+even those 4 collapse: `yew` and `out` both fail `pol = or'`, `oak` and `ah` both fail
+`prot = awe`. A prior run got the tier right on all four systems with 25 of 48 coordinates
+wrong, and read the match as confirmation. Validate each field against the table, glyph by
+glyph.
 
 You **MUST** verify by ELABORATION, not by grep. A file that has not been elaborated has
 not been checked, whatever its sorry count says. State plainly which theorems elaborated
