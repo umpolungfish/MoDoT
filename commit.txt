@@ -1,18 +1,20 @@
-MoDoT: print the spectrum in the order the gap is computed in
+prover: a fenced theorem is a citation, not a request
 
-The spectrum was printed sorted by SIGNED value while the gap used MAGNITUDE
-order, so the two disagreed about which eigenvalue is lambda_2. A reader taking
-lambda_2 positionally -- the standard convention, lambda_1 >= lambda_2 >= ... --
-read the wrong one.
+proof_intent sniffed `(?m)^\s*(?:theorem|lemma)\s+\S` across the whole text, so
+a document that QUOTED a theorem in order to discuss it was routed as though it
+WERE that theorem.
 
-Live: spectrum [+3.372, -1.000, -2.372], gap reported 1.0000. The model applied
-the correct formula, rho - |lambda_2|, to the number our output told it was
-lambda_2, got 3.372 - 1.000 = 2.372, and then wrote "-> 1.0000" -- silently
-correcting to our answer without noticing its lambda_2 was ours in a different
-order. It was right about the formula and wrong about the value because the
-output taught it the wrong value.
+Live: a 4789-char brief for MoDoT -- a vocabulary table, MUST-form instructions,
+and TOOL: directives telling it to source every tuple through the navigator --
+was handed to the kernel-gated prover, which reads no instructions and calls no
+tools. It ran lake build and reported a resource frontier. Every instruction in
+the sheet was unreachable, and the eagles never flew. The document was ABOUT a
+theorem; it was not a request to prove one. --jam did not override it.
 
-The spectrum now prints by descending |lambda|, so positional lambda_2 IS the
-one the gap uses, and the label says so. Verified: [+2.618, -2.618, +0.382,
--0.382] with gap 2.618-2.618 = 0.0000 -- the naive read and the computed value
-now agree.
+Now the implicit sniff strips ``` fences and indented code before testing: what
+a text quotes is not what it asserts. The explicit `prove:` prefix is checked
+first and still honors a fenced goal, so that route stays open -- only the
+implicit sniff learns to tell quoting from asking.
+
+Tests cover all three: a quoted theorem does not divert, `prove:` always
+diverts, a theorem asserted in the text's own voice still diverts.

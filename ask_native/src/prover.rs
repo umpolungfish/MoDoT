@@ -1347,11 +1347,44 @@ pub fn proof_intent(text: &str) -> Option<String> {
     if let Some(c) = prefix.captures(t) {
         return Some(c[1].trim().to_string());
     }
+    // A FENCED block is a citation, not an assertion. A brief that QUOTES a theorem in
+    // order to discuss it was being routed as though it WERE that theorem: a 4789-char
+    // sheet of instructions, a vocabulary table and TOOL: directives went to the prover,
+    // which reads none of those and calls no tools, so every instruction in it was
+    // unreachable. The document was about a theorem; it was not a request to prove one.
+    //
+    // `prove:` is checked ABOVE this and still honors a fenced goal, so the explicit route
+    // stays open — only the implicit sniff learns to tell quoting from asking.
+    let unfenced = strip_fences_for_intent(t);
     let decl = Regex::new(r"(?m)^\s*(?:theorem|lemma)\s+\S").unwrap();
-    if decl.is_match(t) {
+    if decl.is_match(&unfenced) {
         return Some(t.to_string());
     }
     None
+}
+
+/// Remove ``` fenced blocks and indented-code lines, so the intent sniff sees only what the
+/// text ASSERTS in its own voice.
+fn strip_fences_for_intent(t: &str) -> String {
+    let mut out = String::new();
+    let mut in_fence = false;
+    for line in t.lines() {
+        let l = line.trim_start();
+        if l.starts_with("```") || l.starts_with("~~~") {
+            in_fence = !in_fence;
+            continue;
+        }
+        if in_fence {
+            continue;
+        }
+        // A four-space indent is a markdown code block: also a quote, not a claim.
+        if line.starts_with("    ") || line.starts_with('\t') {
+            continue;
+        }
+        out.push_str(line);
+        out.push('\n');
+    }
+    out
 }
 
 /// Guard 0: is `candidate` actually shaped like a formal Lean claim? Real case
@@ -1382,4 +1415,33 @@ fn is_formal_goal(candidate: &str) -> bool {
         Regex::new(r"(?m)^\s*(?:noncomputable\s+)?(?:theorem|lemma)\s+[A-Za-z_][A-Za-z0-9_']*")
             .unwrap();
     decl.is_match(t)
+}
+
+#[cfg(test)]
+mod proof_intent_fence_tests {
+    use super::*;
+
+    /// A brief that QUOTES a theorem to discuss it is not a request to prove it. This exact
+    /// document was routed to the prover, which reads no instructions and calls no tools.
+    #[test]
+    fn a_fenced_theorem_is_a_citation_not_a_request() {
+        let brief = "# CLINK L9\n\nThis matters for one theorem in particular:\n\n\
+                     ```lean\ntheorem clinkL9_not_O_inf : imscriptionTier clinkL9 ≠ .O_inf\n```\n\n\
+                     A function whose range stops at O_inf cannot distinguish above from below.\n";
+        assert_eq!(proof_intent(brief), None, "a quoted theorem must not divert to the prover");
+    }
+
+    /// The explicit route stays open: `prove:` is honored even with a fenced goal.
+    #[test]
+    fn explicit_prove_prefix_still_honored() {
+        let ask = "prove: ```lean\ntheorem foo : 1 + 1 = 2\n```";
+        assert!(proof_intent(ask).is_some(), "an explicit prove: must always divert");
+    }
+
+    /// A bare theorem in the text's OWN voice still diverts.
+    #[test]
+    fn an_unfenced_theorem_still_diverts() {
+        let ask = "theorem foo : 1 + 1 = 2 := by simp";
+        assert!(proof_intent(ask).is_some(), "an asserted theorem must still divert");
+    }
 }
