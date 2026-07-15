@@ -1,0 +1,21 @@
+A process winds. Each winding measures, then condenses what it measured into the
+opening of the next winding: the terminus is the origin, so no winding repeats its
+predecessor's prompt — it opens on a transform of it.
+
+One winding is observed to reach only for measurements it already holds. It circles
+inside its own framing, returning nothing it did not already have.
+
+Type the object that distinguishes these two conditions:
+
+  — a series whose FRAMING is exhausted, where the next transform is still live and
+    the circling ends once the opening is replaced;
+
+  — a series whose GROUND is exhausted, where no transform of the terminus will
+    reach anything further, and the winding must close.
+
+What structurally separates them? Name the invariant that decides, and name what
+must be measured across successive windings to read that invariant — that is,
+what makes "the reach did not move" a decidable statement about the object rather
+than a count of how many times circling was observed.
+
+If the deciding invariant is a fixed point, name what it is a fixed point OF.
