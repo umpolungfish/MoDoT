@@ -159,3 +159,78 @@ denoting the act of denoting. Its appearance as Criticality in the 12-primitive 
 is the same structure surfacing wherever inclosure closes on itself, not a collision.
 Valences follow IMSCRIBr `tokens.py::TOKEN_ARITY`. Run `imasm ref` for the live rules.
 The tool-independent spec is `../IMASM_REFERENCE.md`.
+
+---
+
+## IMASM-16_3 — the trilattice extension (SIXTEEN_3)
+
+A SIBLING grammar, not a replacement. `TOOL: imasm16_3 <op> …` — FSPLIT3/FFUSE3 sit
+alongside the classic FSPLIT/FFUSE; the 12-opcode tower above and its Lean `.prod`
+scaffold generator are untouched. Semantics here track `ask_native/src/imasm16_3.rs`.
+Where this file and the tool ever disagree, the tool is right.
+
+```
+14 opcodes, still fully SYMBOLIC — no opcode glyph is a Latin letter, so T/N/B/F
+verdicts never collide with a token here either.
+
+ GLYPH NAME     MEANING                          VALENCE (in→out)  WORK?
+  ⊢   VINIT    source boundary                  0→1                 no
+  ⊣   TANCH    sink boundary                    1→1                 no
+  >   AFWD     forward morphism                 1→1                 YES
+  <   AREV     reverse morphism                 1→1                 YES
+  =   CLINK    compose / link                   1→1                 YES
+  ⊙   IMSCRIB  identity / self-reference        1→1                 no
+  ☊   FSPLIT3  3-way split (δ₃): T/F/I arms     1→3  ONLY brancher   no
+  ☋   FFUSE3   3-way fuse (μ₃)                  3→1  ONLY merger     no
+  +   EVALT    sets T (constructively proven)   1→1                 YES
+  ×   EVALF    sets F (constructively refuted)  1→1                 YES
+  ⊞   EVALI    sets t AND f (the info layer)    1→1                 YES
+  ~   TNEG     negation: swaps T ↔ F            1→1                 YES
+  ≁   INEG     con-negation: swaps t ↔ f        1→1                 YES
+  ¬   IFIX     irreversible commit              1→1                 YES
+```
+
+THE REGISTER is the real trilattice SIXTEEN_3 (Shramko, Dunn & Takenaka, "The
+Trilattice of Constructive Truth Values", J. Logic and Computation 11(6):761-788,
+2001) — the full powerset of a 4-value base `{T, F, t, f}` (T=constructively proven,
+F=constructively refuted, t=acceptable, f=rejectable), 16 states exactly: `N`={},
+`A`={T,F,t,f}, plus every combination between. NOT two independent FOURs, NOT three
+independent bits — one 4-bit register, verified against the paper's own worked
+example (`T ∧ t = N` under the truth order).
+
+Three orderings, each with a meet/join (`TOOL: imasm16_3 algebra <op> A B`):
+  ≤_i information   x ⊆ y                                             ⊓/⊔
+  ≤_t truth          x∩{T,t} ⊆ y∩{T,t}  and  y∩{F,f} ⊆ x∩{F,f}         ∧/∨
+  ≤_c constructivity x∩{T,F} ⊆ y∩{T,F}  and  y∩{t,f} ⊆ x∩{t,f}         △/▽
+
+TNEG/INEG are both bit-SWAPS (not flips) on purpose: the paper requires trilattice
+negation to preserve ≤_i exactly, and swapping two bits preserves |x| — a flip would
+not.
+
+── TRI-ANCESTRAL CLOSE CONDITION ──────────────────────────────────────────────
+The arity-3 generalization of the classic ancestry rule: a (☊,☋) pair exists when
+ALL THREE distinct in-arms of the ☋ trace back to a common ☊.
+
+  T (closes)     every ☊ pairs with a ☋, and at least one arm carries WORK
+  N (identity)   paired, but no WORK ran on any arm — μ∘δ=id verifies nothing
+  B (open)       a ☊ dangles — no matching ☋
+  F (ill-typed)  a ☋ appears with no preceding ☊
+
+Same reading as the 12-opcode grammar's T/N/B/F, arity 3 instead of 2.
+
+── NEUTRAL INFLATION ───────────────────────────────────────────────────────────
+⊙ is still the only neutral generator — `⊢☊⊙⊙⊙☋⊣` is valid tri-ancestral
+reconnection with no work on the arm: N (identity), same reading as the 12-opcode
+grammar's `⊢◇⊙⊙⊙●⊣`.
+
+── VERBS ──────────────────────────────────────────────────────────────────────
+  imasm16_3 check <glyph_word>       type-check: T/N/B/F, same reading as `imasm check`
+  imasm16_3 algebra <op> A B         leq_i|leq_t|leq_c|meet_t|join_t|meet_c|join_c
+                                      on two named registers (N, A, or any T/F/t/f
+                                      combo) — e.g. `algebra meet_t T t` reproduces
+                                      the paper's own worked example, T∧t=N
+  imasm16_3 ref                      the live 14-glyph table
+
+Example (the spec's own worked word): `imasm16_3 check ⊢>☊+×⊞≁☋¬⊣` → T, register
+reaches `A` (all four base values touched: EVALT, EVALF, EVALI, then INEG swaps
+t↔f on an already-full pair, leaving it full).

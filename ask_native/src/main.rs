@@ -31,6 +31,7 @@ use std::process;
 mod calc;
 mod click;
 mod imasm;
+mod imasm16_3;
 mod prover;
 
 // ── CLI ─────────────────────────────────────────────────────────────────────
@@ -3303,7 +3304,17 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
     // state instead: `complement perfect_cuboid_proof*` ran as `complement
     // perfect_cuboid_proof`, so the agent reasoned about an excited object the tool never saw.
     let trim_md = |s: &str| {
-        let s = s.trim_matches(|c: char| c == ' ' || c == '.' || c == '`');
+        // Some providers (seen live: MiniMax) emit their OWN native JSON tool-call
+        // envelope around/alongside the plain-text `TOOL:` line the harness parses,
+        // e.g. `"name": "TOOL: forge a b", "input": {...}}` on one line. The
+        // line/next-TOOL:-bounded scan above has no JSON awareness, so a trailing
+        // `"}}` from that envelope survives as part of the last argument token —
+        // `forge a b"}}` — and every subsequent lookup 404s on a name that was never
+        // real. Strip the JSON punctuation the envelope leaves behind at each token's
+        // edges; catalog names never legitimately contain these characters.
+        let s = s.trim_matches(|c: char| {
+            c == ' ' || c == '.' || c == '`' || c == '"' || c == '{' || c == '}' || c == ',' || c == ':'
+        });
         let mut s = s;
         for m in ['*', '_'] {
             while s.len() > 1 && s.starts_with(m) && s.ends_with(m) {
@@ -3542,6 +3553,12 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
     // Pure Rust — no catalog, no shell. This is the native successor to composer.py.
     if verb == "imasm" {
         return Some(imasm::run(args));
+    }
+    // `imasm16_3` — the 14-opcode SIXTEEN_3 trilattice extension: FSPLIT3/FFUSE3 (3-way
+    // fork/fuse) alongside the classic FSPLIT/FFUSE, EVALI as the third orthogonal
+    // evaluation axis, TNEG/INEG negation. Sibling to `imasm`, not a replacement.
+    if verb == "imasm16_3" {
+        return Some(imasm16_3::run(args));
     }
     // The arithmetic lane. Every number the agent SPEAKS routes through here: a slipped
     // exponent reads exactly like a correct one, so head-arithmetic is unbound synthesis.
@@ -3961,6 +3978,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
         "imasm"      => "imasm <op> …; op ∈ chain|ring|protocol|star|comb|bubble|wire|check|prove|define|run|tools|classify|expand|types|ref (`protocol <opcodes>` builds a sequence with its FSPLIT/FFUSE pairs reconnected — the way to CLOSE a protocol loop; a naive `ring` leaves the fork dangling) (compose the 12 opcodes into a polymer topology; `wire N0 N1 … / i-j i-k` for ANY graph; `check <opcode word>` type-checks your OWN decision — close condition is μ∘δ over a TRANSFORMED object (split→work→fuse), NOT a bare cycle → T/N-identity/B/F; `prove <name|word>` takes it to the p4ramill Lean kernel; `define <name> <op> <args>` builds a kernel-constrained tool, `run`/`tools`; `expand <type>` unfolds a Shavian type)",
+        "imasm16_3"  => "imasm16_3 <op> …; op ∈ check|ref|algebra — the 14-opcode SIXTEEN_3 trilattice grammar, purely symbolic (no Latin-letter opcodes), for the real trilattice SIXTEEN_3 (Shramko, Dunn & Takenaka, J. Logic and Computation 11(6):761-788, 2001). SIXTEEN_3 = the full powerset of {T,F,t,f} (T=constructively proven, F=constructively refuted, t=acceptable, f=rejectable) — 16 register states, not an approximation. Sibling to `imasm`, not a replacement: FSPLIT3 ☊ (1→3) / FFUSE3 ☋ (3→1) sit alongside the classic binary FSPLIT/FFUSE. EVALT + sets T, EVALF × sets F, EVALI ⊞ sets BOTH t and f (the information layer beyond classical T/F); TNEG ~ swaps T↔F, INEG ≁ swaps t↔f (both are the paper's negation: preserves the information order ≤_i exactly). `check <glyph_word>` runs the register machine and returns the tri-ancestral verdict: T=closes over real work, N=identity only, B=a FSPLIT3 dangles, F=ill-typed. `algebra <op> A B` runs the three orderings/meets/joins (leq_i|leq_t|leq_c|meet_t|join_t|meet_c|join_c) on two named register values (N, A, or any T/F/t/f combination) — e.g. `algebra meet_t T t` reproduces the paper's own worked example, T∧t=N. `ref` lists all 14 glyphs. Example: `imasm16_3 check ⊢>☊+×⊞≁☋¬⊣`.",
         _ => return None,
     })
 }
@@ -4107,7 +4125,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
-    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm", "lean",
+    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm", "imasm16_3", "lean",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form

@@ -104,6 +104,11 @@
     "title": "chain",
     "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "sic_povm_exists": {
+    "spec": "chain ⊙ > ◇ ●",
+    "title": "chain",
+    "topology": "  topology: linear | V=4 E=3 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.6180\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 2 out, 2 in — reactive, not errors"
+  },
   "spectral_coupling": {
     "spec": "ring fundamental_logic vacuum_manifold ⊙ > <",
     "title": "ring",

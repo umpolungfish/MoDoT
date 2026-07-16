@@ -221,6 +221,49 @@
     ],
     "weakest": 1.3333
   },
+  "chemical_L9_mediated": {
+    "branched": false,
+    "conductance": "INSULATING",
+    "energy": 19.1335,
+    "n": 15,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.8271,
+      1.8271,
+      1.3383,
+      1.3383,
+      0.618,
+      0.618,
+      -0.2091,
+      -0.2091,
+      -1.0,
+      -1.0,
+      -1.618,
+      -1.618,
+      -1.9563,
+      -1.9563
+    ],
+    "strain": 0.2626,
+    "units": [
+      "𐑛",
+      "𐑐",
+      "𐑥",
+      "𐑵",
+      "𐑳",
+      "𐑫",
+      "𐑑",
+      "𐑪",
+      "𐑭",
+      "𐑝",
+      "hodge_conjecture",
+      "𐑬",
+      "hodge_conjecture",
+      "𐑔",
+      "hodge_conjecture"
+    ],
+    "weakest": 1.0
+  },
   "chrysopoeia_2048": {
     "branched": false,
     "conductance": "FRUSTRATED",
@@ -504,6 +547,27 @@
       "chromatic_number_omega1"
     ],
     "weakest": 0.5
+  },
+  "moat_chemical_ring": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "chemical",
+      "gaussian_moat_problem",
+      "chemical_l9_mediated",
+      "gaussian_moat_problem"
+    ],
+    "weakest": 1.3333
   },
   "pure_four_ring": {
     "branched": false,
