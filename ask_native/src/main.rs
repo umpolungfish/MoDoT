@@ -2051,6 +2051,7 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the structural typ
   TOOL: compute_distance A B          structural distance between two entries (SIC Born-rule + Mahalanobis)
   TOOL: compute_conflict_distance A B  paraconsistent conflict distance (how live the contradiction is, in paradices)
   TOOL: compute_meet A B / compute_join A B / compute_tensor A B   lattice meet, join, tensor of two entries
+  TOOL: containment_boundary A        is A inside the SIXTEEN_3 ∧ CLINK-L8 floor (⊙,Φ,Ç, +9 more)? T=fully contained, B=holds on ⊙/Φ/Ç but breaches elsewhere, F=breaches the observer floor itself
   TOOL: find_analogies A              nearest structural analogues of A
   TOOL: primitive_peel A PRIM         peel one primitive axis off A
   TOOL: principal_decomp A            principal-component decomposition of A's type
@@ -2059,7 +2060,7 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the structural typ
   TOOL: crystal_decode ADDRESS / crystal_encode A / crystal_nearest A / crystal_count / crystal_tier_census   crystal address <-> tuple, tier census
   TOOL: compute_promotions SRC TGT / predict_from_promotions VAL...   promotion analysis
   TOOL: aleph_encode TEXT / aleph_distance A B   Hebrew-letter (ALEPH) tensor encode/distance
-  TOOL: cl8nk <action> [name]   the CL8NK navigator (CLINK Layer 8, O∞) — THE reference navigator (subsumes the ZFC/domain navigators). action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats
+  TOOL: cl8nk <action> [name]   the CL8NK navigator (CLINK Layer 8, O∞) — THE reference navigator (subsumes the ZFC/domain navigators). action ∈ entry|distance|tensor|meet|join|contain|tier|promotions|transcendence|chain|systems|stats
   TOOL: cl9nk <action> [name]   the CL9NK navigator (CLINK Layer 9 — the Gaussian-Moat-resolution tier the L8 organism ascends into). Same actions as cl8nk plus `moat`, and it reads each entry against its L9 reference typing (μ∘δ=id closure, the eternal fixed point, the moat/bridge type). Use `cl9nk entry <name>` to see how an entry types at L9 and which promotions it still needs.
 
   TOOL: lean <path.lean>        ELABORATE a Lean file and read back what the KERNEL said. Writing Lean is the proposal (δ); elaborating it is the verification (μ). You **MUST** run this on any file you write or change before you say anything about whether it holds. You **MUST NOT** call a file proved, green, checked, or sorry-free on the strength of having written it: a file that never elaborated has zero sorries trivially, and grep cannot tell that apart from a proof. A kernel error is a FRONTIER — the file is held, not refuted; read the error, repair the declaration it names, elaborate again.
@@ -3954,8 +3955,8 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
         "star"       => "star M1 M2 M3 …; 4+ names (hub-and-arms star polymer: auto core + arms, ρ=√f)",
         "broadcast"  => "broadcast SOURCE; 1 name (ɢ: the source signals ALL subsystems it couples with, discovered in one catalog sweep — the one-to-all fan-out)",
-        "cl8nk"      => "cl8nk <action> [name]; action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats (the CLINK L8 navigator)",
-        "cl9nk"      => "cl9nk <action> [name]; action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats|moat (the CLINK L9 navigator — the Gaussian-Moat-resolution tier; reads each entry's L9 reference typing)",
+        "cl8nk"      => "cl8nk <action> [name]; action ∈ entry|distance|tensor|meet|join|contain|tier|promotions|transcendence|chain|systems|stats (the CLINK L8 navigator)",
+        "cl9nk"      => "cl9nk <action> [name]; action ∈ entry|distance|tensor|meet|join|contain|tier|promotions|transcendence|chain|systems|stats|moat (the CLINK L9 navigator — the Gaussian-Moat-resolution tier; reads each entry's L9 reference typing)",
         "plasma"     => "plasma ENTRY; 1 name (read the entry's tuple as a plasma design: regime, instabilities, confinement, diagnostics)",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
@@ -4050,7 +4051,7 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
 const IG_TOOLS: &[&str] = &[
     "lookup_catalog", "list_catalog", "encode_system", "imscribe_system",
     "check_imscription", "ouroborics", "compute_distance", "compute_conflict_distance",
-    "compute_meet", "compute_join", "compute_tensor", "find_analogies", "monad_probe",
+    "compute_meet", "compute_join", "compute_tensor", "containment_boundary", "find_analogies", "monad_probe",
     "topo_protection_probe", "consciousness_score", "project", "primitive_peel",
     "principal_decomp", "retrosynthetic_path", "emergence_frontier", "compute_promotions",
     "predict_from_promotions", "register_promotion_pattern", "crystal_encode",
@@ -4486,6 +4487,12 @@ enum CycleExit {
     CycleClose,
     Stall,
     Leash,
+    // The winding stopped emitting tools because the LLM CALL ITSELF failed (empty/malformed
+    // response, non-fatal transport error) — not because the reasoning concluded. Distinct
+    // from Done: an empty completion and a genuine "no more tool calls" both make
+    // extract_tool_calls() empty, so without this variant a provider outage silently reads as
+    // a closed winding. See the last_call_failed tracking around the ACT/OBSERVE loop.
+    LlmError,
 }
 
 impl CycleExit {
@@ -4495,10 +4502,13 @@ impl CycleExit {
             CycleExit::CycleClose => "CYCLE CLOSE (the agent sectioned this winding itself)",
             CycleExit::Stall => "STALL (whole rounds of only already-run calls — reachable ground exhausted)",
             CycleExit::Leash => "LEASH (the eagle cap was reached — budget, not reasoning)",
+            CycleExit::LlmError => "LLM ERROR (the provider call failed — empty/malformed response, not a reasoning conclusion)",
         }
     }
     /// Only a leash is a budget frontier. A stall is a REACH frontier: it refutes nothing
-    /// either, but more budget is not the lever.
+    /// either, but more budget is not the lever. An LlmError is a PROVIDER frontier: the
+    /// reasoning never actually ran this round, so the verdict it produced (if any) rests on
+    /// less than it looks like.
     fn frontier_note(self) -> Option<&'static str> {
         match self {
             CycleExit::Leash => Some(
@@ -4507,6 +4517,10 @@ impl CycleExit {
             CycleExit::Stall => Some(
                 "reach CUT, not closed — every remaining call had already run. More rounds only \
                  circle; this needs new ground (a tool it lacks, or a sharper question)",
+            ),
+            CycleExit::LlmError => Some(
+                "provider CUT, not closed — the LLM call itself failed (empty/malformed response), \
+                 so this cycle never actually reasoned: check the provider/key, or re-run",
             ),
             _ => None,
         }
@@ -4787,6 +4801,11 @@ fn run_one(
         let mut answer;
         let mut model_voice;
         let mut tool_voice = B4::N;
+        // Whether the MOST RECENT infer() call that fed `current`/`answer` came back with
+        // res.err.is_some() — an empty/malformed provider response, not a real completion.
+        // Threaded through every infer() call site below so an empty-tool-calls exit can tell
+        // "the LLM legitimately stopped calling tools" from "the LLM call itself failed".
+        let mut last_call_failed = false;
 
         if cli.dry_run {
             answer = format!(
@@ -4827,6 +4846,7 @@ fn run_one(
             let res = infer(llm, &msgs, cli.max_tokens, cli.temperature);
             answer = strip_kernel_records(&res.text);
             model_voice = b4_from_char(res.voice);
+            last_call_failed = res.err.is_some();
             if let Some(e) = res.err {
                 eprintln!("[warn] LLM: {e}");
                 last_code = 2;
@@ -4929,6 +4949,8 @@ fn run_one(
                         .to_string(),
                 ));
                 let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                last_call_failed = res.err.is_some();
+                if let Some(e) = res.err.as_deref() { eprintln!("[warn] LLM: {e}"); }
                 current = strip_kernel_records(&res.text);
                 println!("{current}");
                 println!();
@@ -4955,6 +4977,8 @@ fn run_one(
                         .to_string(),
                 ));
                 let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                last_call_failed = res.err.is_some();
+                if let Some(e) = res.err.as_deref() { eprintln!("[warn] LLM: {e}"); }
                 current = strip_kernel_records(&res.text);
                 println!("{current}");
                 println!();
@@ -4997,11 +5021,20 @@ fn run_one(
                             ),
                         ));
                         let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                last_call_failed = res.err.is_some();
+                if let Some(e) = res.err.as_deref() { eprintln!("[warn] LLM: {e}"); }
                         current = strip_kernel_records(&res.text);
                         println!("{current}\n");
                         continue;
                     }
-                    break; // the operator stopped acting — `current` is the answer
+                    // Empty tool calls means one of two very different things: the reasoning
+                    // legitimately concluded, or the LAST infer() call itself failed (empty/
+                    // malformed provider response) and `current` is an "[LLM empty: …]"
+                    // placeholder, not an answer. Only the former is CycleExit::Done.
+                    if last_call_failed {
+                        exit_cause = CycleExit::LlmError;
+                    }
+                    break; // the operator stopped acting (or the provider did) — see exit_cause
                 }
                 // Dedupe within the round: the operator emits the same call twice in one
                 // batch (seen live: `anneal A B` listed twice in a single round). Running an
@@ -5119,6 +5152,8 @@ fn run_one(
                     ),
                 ));
                 let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                last_call_failed = res.err.is_some();
+                if let Some(e) = res.err.as_deref() { eprintln!("[warn] LLM: {e}"); }
                 current = strip_kernel_records(&res.text);
                 println!();
                 println!("── OBSERVE/UPDATE round {} ──", round + 1);
@@ -5151,6 +5186,8 @@ fn run_one(
                     ),
                 ));
                 let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                last_call_failed = res.err.is_some();
+                if let Some(e) = res.err.as_deref() { eprintln!("[warn] LLM: {e}"); }
                 current = strip_kernel_records(&res.text);
                 println!("── CLOSING — {} ──", exit_cause.label());
                 println!("{current}");
@@ -5225,6 +5262,14 @@ fn run_one(
             consecutive_stalls = 0;
         }
         if cli.dry_run || exit_cause == CycleExit::Done {
+            break;
+        }
+        if exit_cause == CycleExit::LlmError {
+            // Condensing a failed call into the next cycle's opening prompt would carry the
+            // "[LLM empty: …]" placeholder forward as if it were real content — poisoning the
+            // condensate instead of just losing one cycle. Stop the series here; the outer
+            // spine's frontier note says why.
+            println!("── LLM error this cycle — not condensing a failed call into the next seed, closing the series ──");
             break;
         }
         if consecutive_stalls >= 2 {
@@ -5302,7 +5347,7 @@ fn run_one(
         // every exit as a leash and advising more budget told a stalled run to do more of what
         // had already stopped working.
         let mut any_frontier = false;
-        for cause in [CycleExit::Leash, CycleExit::Stall] {
+        for cause in [CycleExit::Leash, CycleExit::Stall, CycleExit::LlmError] {
             let n = cycle_exits.iter().filter(|c| **c == cause).count();
             if n > 0 {
                 any_frontier = true;

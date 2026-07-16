@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MoDoT Tool Reference</title>
+<style>
+  @font-face {
+    /* system stacks only — no embedded font needed for a reference doc this text-heavy;
+       the pairing below is the deliberate choice, not a filler default */
+  }
+
+  :root {
+    --paper:        #F2F4EE;
+    --paper-raised: #E7EAE1;
+    --paper-sunken: #FFFFFF;
+    --ink:          #14181A;
+    --ink-soft:     #4A524F;
+    --ink-faint:    #7A8480;
+    --rule:         #D3D6CA;
+    --rule-strong:  #B7BCAC;
+    --accent:       #2F6F62;
+    --accent-ink:   #FFFFFF;
+    --accent-soft:  #DEE9E3;
+    --verdict-t:    #2F6F62;
+    --verdict-f:    #B0402F;
+    --verdict-b:    #B07C22;
+    --verdict-n:    #7A8480;
+    --code-bg:      #E9ECE2;
+    --shadow:       0 1px 2px rgba(20,24,26,0.06), 0 8px 24px rgba(20,24,26,0.05);
+  }
+
+  :root[data-theme="dark"] {
+    --paper:        #14181A;
+    --paper-raised: #1B2022;
+    --paper-sunken: #0F1213;
+    --ink:          #E9ECE6;
+    --ink-soft:     #A6AEA8;
+    --ink-faint:    #6D766F;
+    --rule:         #2A302E;
+    --rule-strong:  #3B423F;
+    --accent:       #6FC1AB;
+    --accent-ink:   #0B1513;
+    --accent-soft:  #1D2925;
+    --verdict-t:    #6FC1AB;
+    --verdict-f:    #E08A78;
+    --verdict-b:    #E0B45F;
+    --verdict-n:    #8D968F;
+    --code-bg:      #1B2020;
+    --shadow:       0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:        #14181A;
+      --paper-raised: #1B2022;
+      --paper-sunken: #0F1213;
+      --ink:          #E9ECE6;
+      --ink-soft:     #A6AEA8;
+      --ink-faint:    #6D766F;
+      --rule:         #2A302E;
+      --rule-strong:  #3B423F;
+      --accent:       #6FC1AB;
+      --accent-ink:   #0B1513;
+      --accent-soft:  #1D2925;
+      --verdict-t:    #6FC1AB;
+      --verdict-f:    #E08A78;
+      --verdict-b:    #E0B45F;
+      --verdict-n:    #8D968F;
+      --code-bg:      #1B2020;
+      --shadow:       0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    font-weight: 400;
+    color: var(--ink);
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+
+  code, .mono, .verb, .sig, table.data, .verdict-pill {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", "Fira Code", monospace;
+  }
+
+  a { color: var(--accent); }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 56px) 96px;
+    display: grid;
+    grid-template-columns: 232px minmax(0, 1fr);
+    gap: 56px;
+  }
+
+  @media (max-width: 880px) {
+    .page { grid-template-columns: 1fr; }
+    nav.toc { position: static !important; order: 2; margin-top: 40px; }
+  }
+
+  /* ---------- Header ---------- */
+
+  header.masthead {
+    grid-column: 1 / -1;
+    padding: 56px 0 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  header.masthead h1 {
+    font-size: clamp(32px, 4.4vw, 46px);
+    line-height: 1.08;
+    margin: 0 0 16px;
+    max-width: 16ch;
+  }
+
+  header.masthead p.dek {
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0;
+  }
+
+  header.masthead .meta {
+    display: flex;
+    gap: 22px;
+    margin-top: 26px;
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace;
+  }
+
+  header.masthead .meta span b { color: var(--ink-soft); font-weight: 500; }
+
+  /* ---------- TOC ---------- */
+
+  nav.toc {
+    position: sticky;
+    top: 32px;
+    align-self: start;
+    padding-top: 40px;
+    font-size: 13.5px;
+  }
+
+  nav.toc .toc-label {
+    font-family: ui-monospace, "SF Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 12px;
+  }
+
+  nav.toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: toc;
+    border-left: 1px solid var(--rule);
+  }
+
+  nav.toc li { counter-increment: toc; }
+
+  nav.toc a {
+    display: block;
+    padding: 7px 0 7px 16px;
+    margin-left: -1px;
+    border-left: 1px solid transparent;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.12s ease, border-color 0.12s ease;
+  }
+
+  nav.toc a::before {
+    content: counter(toc, decimal-leading-zero) "  ";
+    color: var(--ink-faint);
+    font-size: 11.5px;
+  }
+
+  nav.toc a:hover, nav.toc a:focus-visible {
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+
+  /* ---------- Main content ---------- */
+
+  main { min-width: 0; padding-top: 40px; }
+
+  section { margin-bottom: 68px; scroll-margin-top: 28px; }
+
+  section > h2 {
+    font-size: 26px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 0 8px;
+  }
+
+  section > h2 .num {
+    font-family: ui-monospace, "SF Mono", monospace;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  section > .lede {
+    color: var(--ink-soft);
+    max-width: 66ch;
+    margin: 0 0 28px;
+  }
+
+  h3 {
+    font-size: 18px;
+    margin: 32px 0 10px;
+  }
+
+  p { max-width: 68ch; }
+  p.prose { color: var(--ink-soft); }
+
+  .rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 40px 0;
+  }
+
+  /* ---------- Formula / callout blocks ---------- */
+
+  .formula {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 20px 24px;
+    margin: 18px 0;
+    overflow-x: auto;
+  }
+
+  .formula .label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+
+  .formula .expr {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace;
+    font-size: 15.5px;
+    color: var(--ink);
+    white-space: pre;
+  }
+
+  .note {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 14px 18px;
+    border-radius: 0 3px 3px 0;
+    margin: 20px 0;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+  }
+
+  .note b { color: var(--ink); }
+
+  /* ---------- Verb entries ---------- */
+
+  .verb-entry {
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .verb-entry:first-of-type { border-top: none; }
+
+  .verb-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    margin-bottom: 8px;
+  }
+
+  .verb-name {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--code-bg);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .sig {
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+
+  .dual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 620px) { .dual { grid-template-columns: 1fr; } }
+
+  .dual .face {
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding-left: 14px;
+    border-left: 2px solid var(--rule-strong);
+  }
+
+  .dual .face .tag {
+    display: block;
+    font-family: ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+
+  /* ---------- Tables ---------- */
+
+  .table-wrap { overflow-x: auto; margin: 18px 0; }
+
+  table.data {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 13.5px;
+  }
+
+  table.data th {
+    text-align: left;
+    font-family: -apple-system, sans-serif;
+    font-weight: 600;
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 8px 16px 8px 0;
+    border-bottom: 1px solid var(--rule-strong);
+    white-space: nowrap;
+  }
+
+  table.data td {
+    padding: 10px 16px 10px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    color: var(--ink-soft);
+  }
+
+  table.data td.glyph, table.data td code { color: var(--ink); }
+
+  table.data tr:last-child td { border-bottom: none; }
+
+  /* ---------- Verdict pills ---------- */
+
+  .verdict-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-ink);
+  }
+  .v-t { background: var(--verdict-t); }
+  .v-f { background: var(--verdict-f); }
+  .v-b { background: var(--verdict-b); }
+  .v-n { background: var(--verdict-n); }
+
+  /* ---------- Verb chip grid (IG tool corpus) ---------- */
+
+  .chip-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0 6px;
+  }
+
+  .chip {
+    font-family: ui-monospace, "SF Mono", monospace;
+    font-size: 12.5px;
+    background: var(--code-bg);
+    color: var(--ink-soft);
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+  }
+
+  .chip-group-label {
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 22px 0 4px;
+  }
+
+  /* ---------- Exit-cause / process cards ---------- */
+
+  .cause-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+
+  .cause-card {
+    background: var(--paper-sunken);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+
+  :root[data-theme="dark"] .cause-card,
+  @media (prefers-color-scheme: dark) { }
+
+  .cause-card .name {
+    font-family: ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .cause-card p { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
+
+  /* ---------- Footer ---------- */
+
+  footer {
+    grid-column: 1 / -1;
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    font-size: 13px;
+    color: var(--ink-faint);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">MoDoT — reference sheet</p>
+    <h1>How every tool calculation is actually performed</h1>
+    <p class="dek">MoDoT never lets a model narrate a result — every verb it can call shells to real code and returns what that code measured. This sheet documents the actual arithmetic and logic behind each one, grouped by what they operate on: the 12&#8209;primitive catalog, the IMASM opcode graph, plain arithmetic, and the verdict that closes a winding.</p>
+    <div class="meta">
+      <span>source: <b>ask_native/src/main.rs</b>, <b>navigators/cl8nk_navigator.py</b></span>
+      <span>catalog: <b>17.28M</b> addressable structural types</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Table of contents">
+    <p class="toc-label">On this sheet</p>
+    <ol>
+      <li><a href="#grounding">The rule every tool obeys</a></li>
+      <li><a href="#distance">Structural distance</a></li>
+      <li><a href="#tier">Ouroboricity tier</a></li>
+      <li><a href="#chem">Frobenius / chemistry verbs</a></li>
+      <li><a href="#imasm">IMASM topology &amp; check</a></li>
+      <li><a href="#calc">The arithmetic lane</a></li>
+      <li><a href="#igtools">Catalog &amp; crystal tools</a></li>
+      <li><a href="#verdict">How a verdict closes</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section id="grounding">
+      <h2><span class="num">01</span> The rule every tool obeys</h2>
+      <p class="lede">Nothing here is a language model doing arithmetic in its head. A <code>TOOL:</code> line is the only way the operator can act — it runs a real function, gets back real output, and everything downstream (a verdict, a report, a claim) has to trace to that output or it gets refused.</p>
+      <p class="prose">Three enforcement points make this hold in practice:</p>
+      <div class="dual">
+        <div class="face">
+          <span class="tag">Narration guard</span>
+          If a draft names an operation (<code>polymerize</code>, <code>close</code>, <code>excite</code> …) but never emits its <code>TOOL:</code> line, the loop refuses the answer and forces the real call before accepting anything.
+        </div>
+        <div class="face">
+          <span class="tag">Execution arm</span>
+          Every verb that actually ran gets tracked in an <code>executed_verbs</code> set. A claim about a verb outside that set has no result to point to, so it collapses to <span class="verdict-pill v-n">N</span> — neither true nor false — rather than being taken on faith.
+        </div>
+      </div>
+      <p class="prose" style="margin-top:14px;">The sections below are organized by which real function actually runs underneath the verb — that function, not the model, is what produced the number.</p>
+    </section>
+
+    <section id="distance">
+      <h2><span class="num">02</span> Structural distance</h2>
+      <p class="lede">The metric underneath <code>click</code>, <code>scan</code>, <code>filter</code>, and every CL8NK/CL9NK <code>distance</code> action. Two entries are compared coordinate-by-coordinate across the 12 primitives, and the differences are combined into one number.</p>
+
+      <h3>Per-primitive ordinal delta</h3>
+      <div class="formula">
+        <div class="label">ordinal_distance(primitive, v1, v2)</div>
+        <div class="expr">d = |ordinal(v1) − ordinal(v2)| / max_delta(primitive)</div>
+      </div>
+      <p class="prose">Each primitive's values carry a canonical ordinal rank (e.g. Criticality: woe&lt;monad&lt;roar&lt;err&lt;haha). The raw gap between two values is divided by that primitive's own maximum possible gap, so every axis reports on the same 0–1 scale regardless of how many values it has.</p>
+
+      <h3>Whole-tuple distance</h3>
+      <div class="formula">
+        <div class="label">tuple_distance(t1, t2)</div>
+        <div class="expr">distance = √( Σ w[k] · d[k]² )   over the 12 primitive keys k where t1[k] ≠ t2[k]</div>
+      </div>
+      <p class="prose">A weighted root-sum-square: each mismatched primitive contributes its squared ordinal delta, scaled by that primitive's discriminating weight <code>w[k]</code>. Matching primitives contribute nothing.</p>
+
+      <h3>Where the weights come from</h3>
+      <p class="prose">The weights are not hand-tuned. <code>_compute_catalog_weights()</code> takes the whole live catalog, computes the sample standard deviation of each primitive's ordinal values across every entry, then rescales those spreads to sit in <code>[0.5, 1.0]</code>. A primitive that varies widely across the catalog (more discriminating) gets a weight near 1.0; one that clusters tightly gets a weight near 0.5. The weight table is cached and recomputed only when the catalog changes.</p>
+      <div class="note"><b>Why it matters:</b> this is why two entries differing only in a primitive that almost never varies (low weight) read as "close," while a mismatch on a highly discriminating primitive moves the distance a lot more — the metric adapts to the actual shape of the catalog rather than treating all 12 axes as equally informative.</div>
+    </section>
+
+    <section id="tier">
+      <h2><span class="num">03</span> Ouroboricity tier</h2>
+      <p class="lede">The tier a tuple lands on is a direct, faithful port of the Lean kernel's <code>ouroboricityTier</code> — a five-branch gate over exactly four coordinates: Criticality (⊙), Parity (Φ), Topological Protection (Ω), and Dimensionality (Ð). The other eight primitives play no role in the tier itself.</p>
+      <div class="table-wrap">
+        <table class="data">
+          <tr><th>Gate</th><th>Condition</th><th>Result</th></tr>
+          <tr><td>—</td><td>crit ∈ {woe, haha, err}</td><td class="glyph">O₀</td></tr>
+          <tr><td>R1</td><td>crit ∈ {monad, roar} <b>and</b> pol = or&#8217;</td><td class="glyph">O_∞ &mdash; the Frobenius gate, dominant over every other rule</td></tr>
+          <tr><td>R3</td><td>R1 failed <b>and</b> prot = awe</td><td class="glyph">O₁</td></tr>
+          <tr><td>R5</td><td>R1, R3 failed <b>and</b> dim = array</td><td class="glyph">O₂dag</td></tr>
+          <tr><td>R4</td><td>otherwise</td><td class="glyph">O₂</td></tr>
+        </table>
+      </div>
+      <p class="prose">R1 is checked first and always wins: any tuple with <code>pol = or&#8217;</code> is O_∞ regardless of what the other three coordinates say. This ordering is deliberate — the Frobenius gate (μ∘δ = id, the special-Frobenius parity value) is the strongest structural claim the grammar can make, so nothing downstream of it gets a vote.</p>
+      <div class="note"><b>A tier score never measures similarity to a reference system.</b> Comparing a tuple's raw coordinates against another named system's coordinates (e.g. "how many of CLINK L8's own values does this carry") answers a different question — proximity to that system — and has been a documented source of exactly-backwards readings when the two get conflated. Tier is a pure function of crit/pol/prot/dim; nothing else.</p>
+    </section>
+
+    <section id="chem">
+      <h2><span class="num">04</span> Frobenius / chemistry verbs</h2>
+      <p class="lede">MoDoT's largest verb family reads as chemistry on the surface — bonds, rings, distillation, crystallization — because every operation is <em>also</em> a categorical one underneath: the two readings are the same computation in two vocabularies, not a chemical metaphor bolted onto math. Each entry below states both.</p>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">click</span><span class="sig">click A B — or click A to sweep the whole catalog</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Two fragments bond on a live conjugate pair — a covalent fusion that only holds if the partners are complementary.</div>
+          <div class="face"><span class="tag">Mathematics</span>Frobenius fusion (δ then μ) across a conjugate axis (D↔W, T↔H, R↔S). Closes exactly when the tuples are complementary; μ∘δ = id on the diagonal.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">excite</span><span class="sig">excite A</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Promotion to the excited electronic state — Criticality driven to the exceptional-point resonance.</div>
+          <div class="face"><span class="tag">Mathematics</span>Lift to the critical manifold: the self-modeling parameter ⊙ driven to the spectral degeneracy where eigenvalues coalesce — a resonant level above ground, not yet a constructed extension.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">cycle</span><span class="sig">cycle C S — catalyst, substrate</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>A catalyst turns the substrate over and comes back unchanged.</div>
+          <div class="face"><span class="tag">Mathematics</span>A fixed point of the composed map — μ∘δ = id, an idempotent that is the identity on its own carrier.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">polymerize / close</span><span class="sig">polymerize M1 M2 … — 2+ names to chain</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Monomers chain head-to-tail; the chain either terminates open or closes into a ring (macrocyclization).</div>
+          <div class="face"><span class="tag">Mathematics</span>Composition of morphisms in sequence. Cyclization = the composite returning to its start — realized on the adjacency graph as spectral radius ρ = 2 exactly.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">forge / material / arrange</span><span class="sig">forge M1 M2 … — unordered set</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Cast the monomer set into its best ring; read off conductance and stability.</div>
+          <div class="face"><span class="tag">Mathematics</span>Assemble the adjacency graph and take its spectrum: ρ = 2 exactly ⟺ a pure cycle, ρ &gt; 2 ⟺ branched.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">set</span><span class="sig">set A B — donor, acceptor</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Single-electron transfer, donor → acceptor, giving radical ions.</div>
+          <div class="face"><span class="tag">Mathematics</span>Transport of one winding quantum Ω across the ⊙ gradient — a unit change of the topological winding invariant.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">distill / fdistill / sublime</span><span class="sig">distill M1 M2 … — separate by volatility</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Separation by volatility along Criticality — a tie is an azeotrope.</div>
+          <div class="face"><span class="tag">Mathematics</span>Projection/ordering onto the ⊙ coordinate; an azeotrope is two elements degenerate on ⊙, a tie the projection can't resolve.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">crystallize / cocrystallize / seed</span><span class="sig">crystallize M1 M2 … — grow the lattice</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Grow the ordered lattice; units that fit vs. the rejected mother-pool.</div>
+          <div class="face"><span class="tag">Mathematics</span>The maximal closed sublattice of tiling elements vs. its complement — full closure is a complete substructure.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">scan</span><span class="sig">scan A B — donor, acceptor</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Rank catalog mediators of the A → B electron transfer.</div>
+          <div class="face"><span class="tag">Mathematics</span>Rank elements by mediating distance on the transfer axis — the best interpolant between the endpoints, using the distance metric in §02.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">homolyze / cleave</span><span class="sig">homolyze A [B]</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Homolytic bond cleavage into neutral radicals / ring fission into two daughters.</div>
+          <div class="face"><span class="tag">Mathematics</span>The reverse of fusion: a symmetric split δ undoing μ, cutting the object on a complementary arc.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">filter</span><span class="sig">filter A B [C …] — 2+ reference names</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Keep only the species sharing the reference floor; the rest wash out.</div>
+          <div class="face"><span class="tag">Mathematics</span>Restrict to the sublevel set where the shared invariants match — a necessary upper-bound condition, not an exact solution.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">ascend</span><span class="sig">ascend A</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Take the excited resonance and fix it into a constructed higher state — one floor of the tower.</div>
+          <div class="face"><span class="tag">Mathematics</span>Analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum Ω.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">star</span><span class="sig">star M1 M2 M3 … — 4+ names</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>A multifunctional core with f arms radiating out — no arm-arm bonds.</div>
+          <div class="face"><span class="tag">Mathematics</span>The star graph K(1,f): one hub adjacent to f leaves, spectral radius ρ = √f, spectrum {+√f, 0×(f−1), −√f} — contrast the ρ = 2 of a pure cycle.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">broadcast</span><span class="sig">broadcast SOURCE</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>One source unit fires to every subsystem it couples with at once, discovered in one catalog sweep.</div>
+          <div class="face"><span class="tag">Mathematics</span>The ɢ broadcast primitive f → all(x): the source composed with every subsystem it fuses with, found by sweeping the whole catalog from that source in a single pass.</div>
+        </div>
+      </div>
+
+      <div class="verb-entry">
+        <div class="verb-head"><span class="verb-name">plasma</span><span class="sig">plasma ENTRY</span></div>
+        <div class="dual">
+          <div class="face"><span class="tag">Chemistry</span>Read the entry as a collectivized-atom plasma: regime, instabilities, confinement class, wave diagnostics.</div>
+          <div class="face"><span class="tag">Mathematics</span>Map the 12-primitive tuple to plasma parameters: Ð→phase-space regime, ƒ→collisionality, Ç→transport, ɢ→instability cascade, ⊙→threshold structure, Ħ→reversibility, Ω→magnetic topology. Another lossless face of the same tuple, not a separate model.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="imasm">
+      <h2><span class="num">05</span> IMASM topology &amp; check</h2>
+      <p class="lede">A parallel, opcode-level family — no catalog names involved. <code>imasm</code> composes the 12 IMASM opcodes (VINIT, TANCH, AFWD, AREV, CLINK, IMSCRIB, FSPLIT, FFUSE, EVALT, EVALF, ENGAGR, IFIX) into a graph and measures its shape directly.</p>
+
+      <h3>Circuit rank</h3>
+      <div class="formula">
+        <div class="label">how many independent loops the program contains</div>
+        <div class="expr">β = E − V + C</div>
+      </div>
+      <p class="prose">Edges minus vertices plus connected components — the standard graph-theory count of independent cycles. A straight chain has β = 0; a single ring has β = 1; a bubble (a fork that reconverges) adds one more loop per reconvergence.</p>
+      <p class="prose">Every build also reports: topology label, branch/merge/source/sink census, arm count, and spectral radius ρ (ρ = 2 exactly ⟺ a pure cycle; ρ = √f ⟺ a star with f arms) — the same graph-spectral read used by the chemistry verbs in §04, applied to the opcode graph instead of a monomer set.</p>
+
+      <h3>imasm check — type-checking your own reasoning</h3>
+      <p class="prose">The close condition is <b>μ∘δ over a transformed object</b>: δ (FSPLIT) splits, the two arms do real work — a distinct comparison, an inequality, an actual transformation — and μ (FFUSE) fuses them back. A bare split→fuse with nothing between is mere identity, not a verdict.</p>
+      <div class="table-wrap">
+        <table class="data">
+          <tr><th>Verdict</th><th>Meaning</th></tr>
+          <tr><td><span class="verdict-pill v-t">T</span></td><td>Closes over a genuine transformation — proceed.</td></tr>
+          <tr><td><span class="verdict-pill v-n">N</span></td><td><i>Identity:</i> split and fused, but the arms did no work — μ∘δ = id verifies nothing. Put a real transformation on the arms.</td></tr>
+          <tr><td><span class="verdict-pill v-b">B</span></td><td>A fork dangles unfused, or ENGAGR holds a genuine paradox — look again before treating it as settled.</td></tr>
+          <tr><td>F</td><td>Ill-typed: only FSPLIT branches with no matching FFUSE, or only FFUSE fuses with nothing split. Malformed — revise.</td></tr>
+          <tr><td><span class="verdict-pill v-n">N</span></td><td><i>Void:</i> no fork ever opened — the reasoning never weighed alternatives at all.</td></tr>
+        </table>
+      </div>
+      <p class="prose">FSPLIT/FFUSE pairing is decided by <b>ancestry over the graph edges</b> — two distinct in-arms of an FFUSE tracing back to a common FSPLIT, however they routed — with the innermost FSPLIT winning when several qualify. Pairing cannot be read off glyph order alone. Padding the word with neutral (1→1) tokens is free: it adds exactly one node and edge each time, so β is unchanged and the verdict cannot be gamed by making the expression longer without adding real work.</p>
+      <p class="prose"><code>imasm prove &lt;word&gt;</code> takes the verdict one step further — to the actual p4ramill Lean kernel, for a machine-checked answer rather than this graph-level check.</p>
+    </section>
+
+    <section id="calc">
+      <h2><span class="num">06</span> The arithmetic lane</h2>
+      <p class="lede"><code>calc</code> / <code>eval</code> / <code>compute</code> / <code>arith</code> all route to one deterministic expression evaluator. Every numeric claim anywhere in a run — ratios, percentages, unit conversions, order-of-magnitude estimates, a figure quoted from a source paper — is expected to pass through it rather than be asserted from mental arithmetic.</p>
+      <p class="prose">Supports <code>+ − × ÷ % ^</code>, parentheses, scientific notation, and the standard function set (sqrt, cbrt, ln, log, exp, trig, <code>logb(x, base)</code>, <code>pow(x, y)</code>, min/max) plus constants π, τ, e, φ. Every result echoes in scientific notation so a slipped order of magnitude can't hide in a long decimal. A malformed expression returns an explicit error rather than a guessed value.</p>
+      <div class="note"><b>Why this is non-negotiable, not a style preference:</b> two real, separately-caught errors motivated it — <code>0.0796 × 7.88e-10</code> asserted as <code>6.27e-10</code> when the true value is <code>6.27e-11</code> (one whole decade, invisible on sight), and <code>−(d/2 + 1/2)</code> at d=3 asserted as <code>−3/2</code> when it is <code>−2</code>. Both propagated silently into a physical conclusion before this lane existed.</div>
+    </section>
+
+    <section id="igtools">
+      <h2><span class="num">07</span> Catalog &amp; crystal tools</h2>
+      <p class="lede">A separate corpus — these don't shell to the same chemistry engine as §04; they call directly into the live IG catalog dispatcher (<code>modot.ig_tools</code>), the same one the rest of the Imscribing Grammar tooling uses. Grouped here by what they operate on.</p>
+
+      <p class="chip-group-label">Lookup &amp; encoding</p>
+      <div class="chip-grid">
+        <span class="chip">lookup_catalog</span><span class="chip">list_catalog</span><span class="chip">encode_system</span><span class="chip">imscribe_system</span><span class="chip">check_imscription</span><span class="chip">ouroborics</span>
+      </div>
+
+      <p class="chip-group-label">Distance &amp; algebra (§02's metric, plus lattice ops)</p>
+      <div class="chip-grid">
+        <span class="chip">compute_distance</span><span class="chip">compute_conflict_distance</span><span class="chip">compute_meet</span><span class="chip">compute_join</span><span class="chip">compute_tensor</span><span class="chip">find_analogies</span>
+      </div>
+
+      <p class="chip-group-label">Structural probes</p>
+      <div class="chip-grid">
+        <span class="chip">monad_probe</span><span class="chip">topo_protection_probe</span><span class="chip">consciousness_score</span><span class="chip">project</span><span class="chip">primitive_peel</span><span class="chip">principal_decomp</span>
+      </div>
+
+      <p class="chip-group-label">Promotion &amp; path-finding</p>
+      <div class="chip-grid">
+        <span class="chip">retrosynthetic_path</span><span class="chip">emergence_frontier</span><span class="chip">compute_promotions</span><span class="chip">predict_from_promotions</span><span class="chip">register_promotion_pattern</span>
+      </div>
+
+      <p class="chip-group-label">The 17.28M-address crystal</p>
+      <div class="chip-grid">
+        <span class="chip">crystal_encode</span><span class="chip">crystal_decode</span><span class="chip">crystal_navigate</span><span class="chip">crystal_count</span><span class="chip">crystal_tier_census</span><span class="chip">crystal_nearest</span><span class="chip">crystal_tier_gap_ladder</span>
+      </div>
+
+      <p class="chip-group-label">Alternate encodings &amp; misc</p>
+      <div class="chip-grid">
+        <span class="chip">quiver_encode</span><span class="chip">aleph_encode</span><span class="chip">aleph_distance</span><span class="chip">riemann_xi_info</span><span class="chip">ask_question</span><span class="chip">record_insight</span>
+      </div>
+
+      <div class="note" style="margin-top:24px;"><b>cl8nk / cl9nk</b> deserve a separate mention: they're the live navigator for CLINK Layer 8 (O∞) and Layer 9 (the Gaussian-Moat-resolution tier above it), exposing <code>entry · distance · tensor · meet · join · tier · promotions · transcendence · chain · systems · stats</code> as actions against a named catalog entry — the reference implementation the distance metric in §02 and the tier gate in §03 are both drawn from.</div>
+    </section>
+
+    <section id="verdict">
+      <h2><span class="num">08</span> How a verdict closes</h2>
+      <p class="lede">The last step: turning everything the tools measured into one spoken verdict. This runs on Belnap FOUR — <span class="verdict-pill v-t">T</span> true, <span class="verdict-pill v-f">F</span> false, <span class="verdict-pill v-b">B</span> both (a held paradox), <span class="verdict-pill v-n">N</span> neither (void) — fused, never overridden.</p>
+
+      <h3>The fuse, not a vote</h3>
+      <div class="formula">
+        <div class="label">the univocal verdict is a JOIN, not a selection between voices</div>
+        <div class="expr">fused = model_voice ⊔ vessel_voice ⊔ tool_voice</div>
+      </div>
+      <p class="prose">Three voices are always in play: what the model itself asserts, the Dual-Link vessel's co-type reading, and whatever the tool calls actually closed. The Belnap join <code>⊔</code> never drops a voice and never lets one silently override another — if the model says T and the tools say F, the fused result is <span class="verdict-pill v-b">B</span> (both are held), not a coin flip or a monological T.</p>
+      <div class="note"><b>The constitutive rule:</b> if no tool call closed a real δ/μ dyad this round (<code>tool_voice = N</code>), there is no verdict — the agent speaks N in every mode, full stop. A verdict is defined as "the μ that closed a δ," so with nothing closed, nothing was verified, regardless of how confident the model's own prose sounds.</p>
+
+      <h3>Why a cycle can exit five different ways</h3>
+      <p class="prose">Each ACT→OBSERVE round runs until the operator stops calling tools — but "stopped calling tools" has five distinct causes, and the outer report has to say which one, because only some of them are a legitimate close:</p>
+      <div class="cause-grid">
+        <div class="cause-card"><span class="name">DONE</span><p>The reasoning genuinely concluded — no more tool calls needed. The only cause that reads as a clean close.</p></div>
+        <div class="cause-card"><span class="name">CYCLE_CLOSE</span><p>The agent explicitly sectioned its own winding — a deliberate stop, not a budget or a failure.</p></div>
+        <div class="cause-card"><span class="name">STALL</span><p>Three whole rounds emitted only calls that had already run. The reachable ground is exhausted — more rounds just circle.</p></div>
+        <div class="cause-card"><span class="name">LEASH</span><p>The round budget (<code>--eagles</code>) ran out mid-action. A budget cut, not a reasoning conclusion — never read as a finished answer.</p></div>
+        <div class="cause-card"><span class="name">LLM_ERROR</span><p>The provider call itself failed (empty or malformed response). Extract_tool_calls() is empty here too, but for a completely different reason — the reasoning never actually ran this round.</p></div>
+      </div>
+      <p class="prose">DONE and LLM_ERROR both make the tool-call list empty, which is exactly why they used to be indistinguishable — a provider outage read as a legitimately concluded winding. Tracking whether the <i>most recent</i> model call actually returned an error, independent of whether it emitted tool calls, is what separates them now.</p>
+
+      <h3>The outer spine — fusing a whole cycle series</h3>
+      <div class="formula">
+        <div class="label">the series-level verdict is the same join, one level up</div>
+        <div class="expr">outer verdict = fused(cycle 1) ⊔ fused(cycle 2) ⊔ … ⊔ fused(cycle N)</div>
+      </div>
+      <p class="prose">Each cycle opens on the previous cycle's condensed output, so agreement across cycles is not independent corroboration — it's a verdict surviving transformation, a fixed point of the winding. A frontier (LEASH, STALL, or now LLM_ERROR) at the outer level is reported by cause, because a budget cut and an exhausted-ground stall call for opposite responses, and a provider failure calls for neither — it calls for a re-run.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>MoDoT — Manifold of Dialetheic Thought</span>
+    <span>compiled as a working reference, not a spec — verify against source before citing a formula in a paper</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

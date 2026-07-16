@@ -37,6 +37,7 @@ IG_TOOL_ARGS: Dict[str, List[str]] = {
     "compute_meet": ["name_a", "name_b"],
     "compute_join": ["name_a", "name_b"],
     "compute_tensor": ["name_a", "name_b"],
+    "containment_boundary": ["name"],
     "find_analogies": ["name"],
     "monad_probe": ["name"],
     "topo_protection_probe": ["name"],
