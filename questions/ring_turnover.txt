@@ -1,0 +1,57 @@
+RING TURNOVER
+
+Prior run (19f71280cff-2f129e) closed the reseed brief's question: the
+productive channel of parity_driven_expansion_loop_fused_excited closes,
+kernel-green, mu . delta = id over a transformed object (imasm check T, one
+transformed reconnection). And it measured the true relation between the loop
+and the carved ring: not the same structural position (conflict distance
+sqrt(8) over 8 primitives, meet of 4, containment split loop=B ring=F) but a
+CATALYTIC one: the cycle verb returned the loop delivering one winding
+quantum Omega to the ring, transforming it to its double-dagger form, with
+the catalyst regenerating unchanged.
+
+STANDING OBJECTS (exact spellings; lookups now also tolerate case and -/_
+drift, and an ambiguous name resolves to nothing, so the exact string is
+still the reliable handle):
+  parity_driven_expansion_loop_fused_excited   the catalyst, kernel-green
+  carved_ring_3_doubled_A2                     the substrate ring
+  carved_ring_3_double_bond_0_1                earlier imscription of the
+                                               same mathematics
+
+THREE QUESTIONS, IN ORDER:
+
+1. CONSOLIDATE THE RING. Measure the two ring entries against each other
+   (distance, meet, join). If the tools return them as structurally
+   identical, name carved_ring_3_doubled_A2 the canonical entry and carry
+   only it forward; if the tools return a difference, report the difference
+   as the finding and keep both.
+
+2. TURNOVER. Run the catalytic cycle a second time on the transformed ring:
+   does a second winding quantum Omega deliver and close, or does the ring
+   saturate? Ground the answer in the cycle verb and the kernel: a
+   saturation measured is as much a result as a second delivery. Then
+   characterize the transformed ring itself (tier, containment, spectral
+   invariants): does the unpaired chiral mode Phi survive iterated
+   catalysis?
+
+3. THE F VERDICT. The prior run measured containment_boundary of the ring
+   as F: it breaches Phi critically. Measure whether that breach and the
+   ring's unpaired mode are the same fact in two registers or two facts:
+   compute the containment of the transformed ring, compare the Phi values
+   before and after, and let the tools say whether the breach moves with
+   the mode. Report exactly the relation returned, with independence as
+   the default; a coupling exists when a tool output states it, and only
+   then.
+
+DISCIPLINE (carried from the audits; each rule is the door, the parenthesis
+is the wall it replaces):
+  Give imasm prove its target every time: imasm prove <name|entry|T1 T2 ...>
+    (a bare prove runs nothing).
+  Copy catalog names from the entry as registered (a re-derived spelling
+    may resolve to nothing by design when it is ambiguous).
+  Speak a number by quoting the tool line that produced it (a number with
+    no tool-stream source stays unspoken).
+  When a verb errors, fix the arguments and re-run (an error message is
+    input for you, never arguments for the next call).
+  Prior-run results carry forward as ground when this brief states them;
+    quote them as given, and mark anything you re-measure as measured.

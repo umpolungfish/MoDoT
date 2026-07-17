@@ -11,6 +11,74 @@
 //! existing FSPLIT/FFUSE. See `CLICK_MATHS_SPEC.md`.
 
 use crate::CatalogEntry;
+
+/// Resolve a catalog entry by name: exact match first, then normalized
+/// (case-insensitive, `-`/`_` equivalent). The agent re-derives names from its own
+/// prose between windings, and the drifted spelling burned the whole
+/// monomer-not-found error class in prior runs (`tri-functional_junction_node` vs
+/// `tri_functional_junction_node`, `carved_ring_3_doubled_A2` vs `…_a2`). An
+/// AMBIGUOUS normalized match resolves to nothing rather than to a guess: two
+/// entries whose names differ only in case are two entries, and picking one
+/// silently would answer about an object the agent never named.
+pub(crate) fn find_entry<'a>(cat: &'a [CatalogEntry], name: &str) -> Option<&'a CatalogEntry> {
+    if let Some(e) = cat.iter().find(|e| e.name == name) {
+        return Some(e);
+    }
+    let norm = |s: &str| s.replace('-', "_").to_lowercase();
+    let want = norm(name);
+    let mut hits = cat.iter().filter(|e| norm(&e.name) == want);
+    let first = hits.next();
+    if hits.next().is_some() {
+        return None;
+    }
+    first
+}
+
+#[cfg(test)]
+mod find_entry_tests {
+    use super::*;
+
+    fn cat_with(names: &[&str]) -> Vec<CatalogEntry> {
+        names
+            .iter()
+            .map(|n| CatalogEntry {
+                name: n.to_string(),
+                description: String::new(),
+                proved_hint: None,
+                tier: None,
+                d_cl8: None,
+                raw: serde_json::Value::Null,
+            })
+            .collect()
+    }
+
+    #[test]
+    fn exact_match_wins() {
+        let cat = cat_with(&["carved_ring_3_doubled_A2", "other"]);
+        assert_eq!(find_entry(&cat, "carved_ring_3_doubled_A2").unwrap().name, "carved_ring_3_doubled_A2");
+    }
+
+    #[test]
+    fn normalized_match_recovers_drifted_spelling() {
+        let cat = cat_with(&["tri_functional_junction_node"]);
+        assert_eq!(
+            find_entry(&cat, "tri-functional_junction_node").unwrap().name,
+            "tri_functional_junction_node"
+        );
+        let cat2 = cat_with(&["carved_ring_3_doubled_A2"]);
+        assert_eq!(
+            find_entry(&cat2, "carved_ring_3_doubled_a2").unwrap().name,
+            "carved_ring_3_doubled_A2"
+        );
+    }
+
+    #[test]
+    fn ambiguous_normalized_match_resolves_to_nothing() {
+        let cat = cat_with(&["monomer_X", "monomer_x"]);
+        assert_eq!(find_entry(&cat, "monomer_X").unwrap().name, "monomer_X");
+        assert!(find_entry(&cat, "MONOMER_X").is_none(), "two case-twins must not resolve by guess");
+    }
+}
 use std::path::Path;
 use std::process::Command;
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -226,13 +294,13 @@ pub fn run_click_sweep(
         eprintln!("click-sweep: no catalog loaded");
         return 2;
     };
-    let Some(ea) = cat.iter().find(|e| e.name == name) else {
+    let Some(ea) = find_entry(cat, name) else {
         eprintln!("click-sweep: catalog entry not found: {name}");
         return 2;
     };
     let ta = Tuple::from_entry(ea);
     let catalyst: Option<Tuple> = match catalyst_name {
-        Some(cn) => match cat.iter().find(|e| e.name == cn) {
+        Some(cn) => match find_entry(cat, cn) {
             Some(ec) => Some(Tuple::from_entry(ec)),
             None => {
                 eprintln!("click-sweep: catalyst not found: {cn}");
@@ -392,7 +460,7 @@ pub fn run_switch(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: &str, 
         eprintln!("switch: no catalog loaded");
         return 2;
     };
-    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let find = |n: &str| find_entry(cat, n);
     let (ea, eb) = match (find(name_a), find(name_b)) {
         (Some(a), Some(b)) => (a, b),
         (None, _) => { eprintln!("switch: catalog entry not found: {name_a}"); return 2; }
@@ -579,7 +647,7 @@ pub fn run_click(
         eprintln!("click: no catalog loaded");
         return 2;
     };
-    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let find = |n: &str| find_entry(cat, n);
     let (ea, eb) = match (find(name_a), find(name_b)) {
         (Some(a), Some(b)) => (a, b),
         (None, _) => {
@@ -822,7 +890,7 @@ pub fn run_homolyze(
         eprintln!("homolyze: no catalog loaded");
         return 2;
     };
-    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let find = |n: &str| find_entry(cat, n);
     let Some(ea) = find(name_a) else {
         eprintln!("homolyze: catalog entry not found: {name_a}");
         return 2;
@@ -890,7 +958,7 @@ pub fn run_excite(
         eprintln!("excite: no catalog loaded");
         return 2;
     };
-    let Some(e) = cat.iter().find(|e| e.name == name) else {
+    let Some(e) = find_entry(cat, name) else {
         eprintln!("excite: catalog entry not found: {name}");
         return 2;
     };
@@ -972,7 +1040,7 @@ pub fn run_set(
         eprintln!("set: no catalog loaded");
         return 2;
     };
-    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let find = |n: &str| find_entry(cat, n);
     let (ea, eb) = match (find(name_a), find(name_b)) {
         (Some(a), Some(b)) => (a, b),
         (None, _) => { eprintln!("set: catalog entry not found: {name_a}"); return 2; }
@@ -1183,7 +1251,7 @@ pub fn run_complement(
         eprintln!("complement: no catalog loaded");
         return 2;
     };
-    let Some(e) = cat.iter().find(|e| e.name == name) else {
+    let Some(e) = find_entry(cat, name) else {
         eprintln!("complement: catalog entry not found: {name}");
         return 2;
     };
@@ -1261,7 +1329,7 @@ pub fn run_scan_mediators(
         eprintln!("scan-mediators: no catalog loaded");
         return 2;
     };
-    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let find = |n: &str| find_entry(cat, n);
     let (ea, eb) = match (find(name_a), find(name_b)) {
         (Some(a), Some(b)) => (a, b),
         (None, _) => { eprintln!("scan-mediators: catalog entry not found: {name_a}"); return 2; }
@@ -1350,7 +1418,7 @@ pub fn run_cycle(
         eprintln!("cycle: no catalog loaded");
         return 2;
     };
-    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let find = |n: &str| find_entry(cat, n);
     let (ec, es) = match (find(catalyst_name), find(substrate_name)) {
         (Some(c), Some(s)) => (c, s),
         (None, _) => { eprintln!("cycle: catalog entry not found: {catalyst_name}"); return 2; }
@@ -1464,7 +1532,7 @@ pub fn run_pathway(
         eprintln!("pathway: no catalog loaded");
         return 2;
     };
-    let find = |n: &str| cat.iter().find(|e| e.name == n);
+    let find = |n: &str| find_entry(cat, n);
     let Some(es) = find(substrate_name) else {
         eprintln!("pathway: substrate not found: {substrate_name}");
         return 2;
@@ -1747,7 +1815,7 @@ fn preclick(cat: &[CatalogEntry], token: &str, theta: f32) -> Result<Tuple, Stri
     if parts.len() < 2 {
         return Err(format!("pre-click token '{token}' needs at least two '+'-joined entries"));
     }
-    let load = |name: &str| cat.iter().find(|e| e.name == name)
+    let load = |name: &str| find_entry(cat, name)
         .map(Tuple::from_entry)
         .ok_or_else(|| format!("pre-click: entry not found: {name}"));
     let mut acc = load(parts[0])?;
@@ -1770,7 +1838,7 @@ fn load_monomers(cat: &[CatalogEntry], monomers: &[String], theta: f32) -> Resul
         if m.contains('+') {
             units.push(preclick(cat, m, theta)?);
         } else {
-            let e = cat.iter().find(|e| e.name == *m).ok_or_else(|| format!("monomer not found: {m}"))?;
+            let e = find_entry(cat, m).ok_or_else(|| format!("monomer not found: {m}"))?;
             units.push(Tuple::from_entry(e));
         }
     }
@@ -3512,7 +3580,7 @@ pub fn run_filter(catalog: Option<&[CatalogEntry]>, refs: &[String]) -> i32 {
     }
     let mut rtuples = Vec::new();
     for r in refs {
-        match cat.iter().find(|e| e.name == *r) {
+        match find_entry(cat, r) {
             Some(e) => rtuples.push(Tuple::from_entry(e)),
             None => {
                 eprintln!("filter: reference not found: {r} (imscribe it first)");
@@ -3580,7 +3648,7 @@ pub fn run_ascend(
         eprintln!("ascend: no catalog loaded");
         return 2;
     };
-    let Some(e) = cat.iter().find(|e| e.name == name) else {
+    let Some(e) = find_entry(cat, name) else {
         eprintln!("ascend: catalog entry not found: {name}");
         return 2;
     };

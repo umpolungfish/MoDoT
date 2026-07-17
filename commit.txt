@@ -1,15 +1,29 @@
-Distill the universal constants run (19f70eb9f43-2ef392, cut at 160 windings)
+harness: stop the error-echo dyad burn, join evidence to windings, absorb name drift
 
-I cut the run and distilled the crystal_fs logs. Grounded yield: the pure-cycle
-law (rho = 2.0 iff unbranched, order not composition decides it, scale-robust to
-N=10), subtractive resolution of frustration (sublimation and annealing, not
-addition), strain-free branching only at C3 symmetry, doping as a conductance
-dial, and the parity_driven_expansion_loop_fused held at B by the kernel as a
-phase-conjugation gate with chiral self-defense. The cut frontier is the
-parity_phase_transition_matrix, kernel-proven and one winding old.
+Three generator fixes from the reseed run's transcripts, plus the next brief.
 
-Burned with the harness: every winding that manufactured a physical constant's
-number (the Lambda multiplication, the 0.525 normalization, the injected H0)
-was held N, and rightly. Harness debts recorded: bare imasm prove burned 88
-dyads, catalog name drift burned dozens more, and the round counter is stuck
-at 1 in tool_calls.jsonl.
+The mu-face scanner dispatched a quoted error line as a call: `lean: no such
+file '<path.lean>'` re-parsed with the colon trimmed off the verb, feeding the
+error's own words back as arguments, twice. A `verb:` token with the colon
+attached is output being quoted, never a call; and the mu face now refuses
+manual placeholders (<path.lean>) exactly as the delta face does.
+
+tool_calls.jsonl now records the WINDING each call belongs to. The prior
+audit had to reconstruct attribution by timestamp interleaving; the join is
+now written down at the moment it is known.
+
+Catalog lookups resolve through one shared find_entry: exact match first,
+then normalized (case-insensitive, -/_ equivalent). The drift class that
+burned the monomer-not-found dyads now resolves; an AMBIGUOUS normalized
+match resolves to nothing rather than to a guess.
+
+The lean-verb test pinned a live library file that used to be red as its
+broken fixture; the file got repaired and the test started asserting a stale
+wet lab. It now writes its own broken fixture and asserts on the carried
+identifier, not one kernel version's phrasing. 102 tests green.
+
+questions/ring_turnover.txt is the next submission: consolidate the doubled
+ring entries, run the catalytic turnover (second Omega delivery or measured
+saturation), and test whether the ring's containment F-breach and its
+unpaired mode are one fact in two registers. Every negative in the
+discipline block is paired with its door.

@@ -3401,12 +3401,23 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
             let span = &text[span_start..j.min(text.len())];
             let mut toks = span.split_whitespace();
             if let Some(v0) = toks.next() {
+                // `verb:` with the colon attached is the tool's own OUTPUT being quoted
+                // back (`lean: no such file '<path.lean>'`), never a call — the call
+                // dialect is `TOOL: verb args` / `` `verb args` ``, where the verb token
+                // carries no colon. trim_md eats the colon, so test the raw token first:
+                // seen live, an error line re-parsed as a call fed the error's own words
+                // back as arguments, twice, burning the winding's dyad each time.
+                if v0.ends_with(':') {
+                    i = if j < bytes.len() && bytes[j] == b'`' { j + 1 } else { j + 1 };
+                    continue;
+                }
                 let verb = trim_md(v0).to_lowercase();
                 if is_known_verb(&verb) {
                     let args: Vec<String> =
                         toks.map(trim_md).filter(|s| !s.is_empty()).collect();
                     if !args.is_empty()
                         && !args_are_prose(&args)
+                        && !is_template_echo(&args)
                         && !out.iter().any(|(vv, aa)| *vv == verb && *aa == args)
                     {
                         out.push((verb, args));
@@ -4814,6 +4825,10 @@ fn run_id() -> &'static str {
 struct ToolCallRecord<'a> {
     run_id: &'a str,
     ts_ms: u128,
+    /// The WINDING this call belongs to (the outer cycle counter). Without it, a run's
+    /// evidence could only be re-joined to its winding by timestamp interleaving — the
+    /// prior audit had to reconstruct attribution that way, once.
+    winding: u32,
     round: usize,
     verb: &'a str,
     args: &'a [String],
@@ -4828,10 +4843,11 @@ struct ToolCallRecord<'a> {
 /// say "a tool grounded this" and nothing could say WHICH tool, asked WHAT, answering HOW.
 /// That is the route, not just the destination — the difference between a closure you can
 /// re-walk and a signature you have to take on faith.
-fn record_tool_call(round: usize, verb: &str, args: &[String], outcome: &str, output: &str) {
+fn record_tool_call(winding: u32, round: usize, verb: &str, args: &[String], outcome: &str, output: &str) {
     let rec = ToolCallRecord {
         run_id: run_id(),
         ts_ms: now_millis(),
+        winding,
         round,
         verb,
         args,
@@ -5298,7 +5314,7 @@ fn run_one(
                     if let Some(cached) = ran_results.get(&sig) {
                         println!("● TOOL {verb} {} (cached — already ran this run)", args.join(" "));
                         results.push_str(&format!("### {verb} {} (cached)\n{cached}\n", args.join(" ")));
-                        record_tool_call(round + 1, verb, args, "cached", cached);
+                        record_tool_call(cycle, round + 1, verb, args, "cached", cached);
                         continue;
                     }
                     match run_structural_tool(verb, args) {
@@ -5306,7 +5322,7 @@ fn run_one(
                             println!("● TOOL {verb} {}", args.join(" "));
                             print!("{o}");
                             results.push_str(&format!("### {verb} {}\n{o}\n", args.join(" ")));
-                            record_tool_call(round + 1, verb, args, "ran", &o);
+                            record_tool_call(cycle, round + 1, verb, args, "ran", &o);
                             executed_verbs.insert(verb.clone()); // this verb now has an execution arm
                             ran_results.insert(sig, o);
                         }
@@ -5319,7 +5335,7 @@ fn run_one(
                             results.push_str(&format!("{m}\n"));
                             // A miss is evidence too: a run that reached for a verb and got
                             // nothing is a different descent from one that never reached.
-                            record_tool_call(round + 1, verb, args, "miss", &m);
+                            record_tool_call(cycle, round + 1, verb, args, "miss", &m);
                         }
                     }
                 }
@@ -6200,11 +6216,44 @@ mod lean_verb_tests {
     /// instruction with no reachable instrument produces fabrication, not refusal.
     #[test]
     fn broken_file_reports_the_kernels_errors() {
-        let out = run_structural_tool("lean", &["Imscribing/CLINK_L9.lean".into()])
+        // The test owns its broken fixture. It used to point at a live library file that
+        // happened to be red; the moment that file was repaired, the test started
+        // asserting a stale state of the wet lab. A test about failure reporting must
+        // supply the failure.
+        let dir = std::env::temp_dir().join(format!("ask_lean_test_{}", std::process::id()));
+        let _ = std::fs::create_dir_all(&dir);
+        let path = dir.join("broken_fixture.lean");
+        std::fs::write(&path, "theorem nope : ThisConstantDoesNotExist := rfl\n").unwrap();
+        let out = run_structural_tool("lean", &[path.to_string_lossy().into_owned()])
             .expect("lean must be a live verb");
+        let _ = std::fs::remove_file(&path);
         assert!(out.contains("did NOT elaborate"), "must report the failure: {out}");
         assert!(out.contains("FRONTIER"), "a red build is held, not refuted: {out}");
-        assert!(out.contains("Unknown constant"), "must carry the kernel's own words: {out}");
+        // The kernel's own words must come through: its error lines name the fixture's
+        // bogus identifier. The exact phrasing shifts across kernel versions, so assert
+        // on the carried identifier, not on one version's wording.
+        assert!(
+            out.contains("error:") && out.contains("ThisConstantDoesNotExist"),
+            "must carry the kernel's own words: {out}"
+        );
+    }
+
+    /// Seen live: after `lean <path.lean>` errored, the model quoted the error line in a
+    /// code span and the μ-face scanner re-dispatched it — `lean no such file '<path.lean>'`
+    /// — feeding the tool its own error as arguments, twice. A `verb:` token with the colon
+    /// attached is output being quoted, never a call.
+    #[test]
+    fn error_echo_span_is_not_a_call() {
+        let calls = extract_tool_calls("The result was `lean: no such file '<path.lean>'` again.");
+        assert!(calls.is_empty(), "an error echo must not dispatch: {calls:?}");
+    }
+
+    /// The μ face must refuse manual placeholders exactly as the δ face does: a span
+    /// `` `lean <path.lean>` `` is the manual being cited, not a path being given.
+    #[test]
+    fn template_placeholder_span_is_not_a_call() {
+        let calls = extract_tool_calls("emit `lean <path.lean>` to verify");
+        assert!(calls.is_empty(), "a placeholder must not dispatch: {calls:?}");
     }
 
     #[test]
