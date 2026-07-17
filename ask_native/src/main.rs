@@ -2144,11 +2144,18 @@ struct SpineReport {
     note: String,
 }
 
+/// The run's primary catalog entry, set once at prepare() and read by the imasm
+/// dispatcher so a bare `prove` can default to the run's subject instead of erroring.
+static PRIMARY_ENTRY: std::sync::OnceLock<String> = std::sync::OnceLock::new();
+
 fn prepare(question: &str, cat: Option<&[CatalogEntry]>) -> Prepare {
     let hits = cat
         .map(|c| search_catalog(c, question, 5))
         .unwrap_or_default();
     let primary = hits.first().map(|(e, _)| e.clone());
+    if let Some(p) = primary.as_ref() {
+        let _ = PRIMARY_ENTRY.set(p.name.clone());
+    }
     let scaffold = build_scaffold(question, primary.as_ref(), &hits);
     Prepare {
         scaffold_md: scaffold,
@@ -3618,6 +3625,20 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
     // comb/bubble/network) and reports β, branch/merge census, ρ, and grammar validity.
     // Pure Rust — no catalog, no shell. This is the native successor to composer.py.
     if verb == "imasm" {
+        // The door for bare `prove`: two runs of transcripts show the agent emitting
+        // `imasm prove` with no target (88 then 38 dyads burned on the usage string,
+        // prompt discipline notwithstanding). When a run has a primary entry, a bare
+        // prove means "prove the thing this run is about" — substitute it and say so,
+        // instead of erroring into a wall.
+        if args.len() == 1 && args[0] == "prove" {
+            if let Some(primary) = PRIMARY_ENTRY.get() {
+                let filled = vec![args[0].clone(), primary.clone()];
+                let out = imasm::run(&filled);
+                return Some(format!(
+                    "(bare prove → defaulted to this run's primary entry '{primary}')\n{out}"
+                ));
+            }
+        }
         return Some(imasm::run(args));
     }
     // `imasm16_3` — the 14-opcode SIXTEEN_3 trilattice extension: FSPLIT3/FFUSE3 (3-way

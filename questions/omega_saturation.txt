@@ -1,0 +1,50 @@
+OMEGA SATURATION
+
+Prior run (19f7252dcdf-2f71ef) measured: the catalytic turnover does not
+saturate through five Ω deliveries (double through quintuple dagger, catalyst
+regenerating every time, the chiral mode Φ surviving every delivery), and
+primitive_peel measured the coupling: peeling Φ removes the containment
+breach — the breach IS the unpaired mode, one fact in two registers.
+
+THE QUESTION, ONE SENTENCE:
+Drive the catalytic ladder until the tools themselves stop it, and report the
+saturation count in Ω quanta.
+
+PREREGISTERED PREDICTION (recorded 2026-07-17, BEFORE this run):
+Saturation at 68 single windings, equivalently 34 double windings. The
+structural count: one circuit of the carved substrate crosses the 16
+registers plus the pinch ⊙, 17 loci; the complete tour is one circuit per
+Belnap value, 4 x 17 = 68 crossings, equivalently one circuit per chirality,
+2 x 17 = 34 chiral pairs. Each crossing pays the spectral gap. If the tools
+return 68 (or 34 in double-turnovers), the count is measured; if they return
+another number, that number replaces the prediction and the prediction is
+recorded as refuted. Either outcome is the result.
+
+METHOD:
+  Iterate: cycle parity_driven_expansion_loop_fused_excited <current ring
+    form>, carrying the newest dagger form forward each turnover. Track the
+    count explicitly; state the current count in every winding's close.
+  At each multiple of 17, run imasm prove on the current form (prove now
+    defaults to the run's primary when called bare, but name the form
+    anyway) and containment_boundary on it; log Φ and Ω values.
+  Saturation is a tool verdict: a cycle call that returns no delivery, a
+    refused bind, an Ω that stops advancing, or a kernel non-closure. The
+    FIRST such verdict ends the ladder; report the count at which it fired.
+  If the harness cuts the run before saturation, report the count reached
+    and that the frontier is open: an uncut ladder is not a saturated one.
+
+STANDING OBJECTS (exact spellings):
+  parity_driven_expansion_loop_fused_excited      the catalyst
+  carved_ring_3_doubled_a2                        the substrate, ground form
+  carved_ring_3_doubled_a2_quintuple_dagger       highest form reached so far
+
+DISCIPLINE (each rule is the door; the parenthesis is the wall it replaces):
+  Carry the exact registered name of the current dagger form forward from
+    the cycle output that created it (a re-derived or invented composite
+    name resolves to nothing).
+  Speak a number by quoting the tool line that produced it (a number with
+    no tool-stream source stays unspoken).
+  When a verb errors, fix the arguments and re-run (an error message is
+    input for you, never arguments for the next call).
+  Count Ω quanta from the tool outputs that delivered them (the running
+    count is itself a measured quantity, not bookkeeping prose).
