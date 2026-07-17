@@ -1,0 +1,43 @@
+PARITY FRONTIER RESEED
+
+Prior run (19f70eb9f43-2ef392, primary cosmological_constant, cut at 160
+windings) closed with a kernel-proven object held at B and one channel open.
+This run reopens exactly there. Distillation: constants_run_distilled.md.
+
+STANDING OBJECTS (already in the catalog, use these exact spellings):
+  parity_driven_expansion_loop_fused     kernel-green transform-closure,
+                                         imasm check T, invariant rho ~ 2.2764
+  parity_phase_transition_matrix         kernel-proven closed transition
+                                         manifold, held at B; the Omega=1.05
+                                         instability was a basis artifact
+  parity_driven_expansion_loop_fused*    excited manifold; its productive
+                                         Frobenius channel emitted delta with
+                                         NO closing mu. This is the target.
+
+THE QUESTION:
+Close the mu. The excited manifold's relaxation channel satisfies
+mu . delta = id back to ground; the productive channel has never been
+verified to close over a TRANSFORMED object. Either exhibit the closure
+(imasm prove over an explicit opcode word, kernel verdict) or measure the
+obstruction that forbids it. A non-closure measured is a result; a closure
+narrated is nothing.
+
+SECOND OBJECT, TO BE IMSCRIBED FIRST:
+The carved ring: three monomers, one doubled bond, adjacency
+[[0,2,1],[2,0,1],[1,1,0]]. Proven in p4rakernel (Imscribing.OddRingIndex):
+signature n+ - n- = -1 by rational congruence, kernel of A+2I spanned by
+(1,-1,0), the swap of the doubled pair, root system A2. Source every tuple
+procedurally through the navigator; imscribe the entry, then measure the
+parity loop AGAINST it in the Grammar's register: does the loop's B-hold
+and the ring's unpaired mode occupy the same structural position, or a
+measured different one? Independence is the default; do not invent coupling
+the tools do not return.
+
+DISCIPLINE (from the prior run's audit, constants_run_distilled.md 2b):
+  imasm prove takes a target: imasm prove <name|entry|T1 T2 ...>. Bare
+    prove burned 88 dyads last run.
+  Reuse exact catalog spellings; name drift burned the monomer-not-found
+    class.
+  A calc that errors asserts nothing. No number may be spoken unless a tool
+    output contains it. Physical constants are not derivable by arithmetic
+    on catalog invariants; do not multiply toward them.
