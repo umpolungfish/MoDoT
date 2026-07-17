@@ -1,4 +1,23 @@
 {
+  "CLOSERING_0x7F3A1C8B": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 4.0,
+    "n": 3,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      -1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "GRAMMAR_LOOP_7",
+      "GRAMMAR_LOOP_7",
+      "graviton"
+    ],
+    "weakest": 1.6667
+  },
   "Cosmic_Semiotic_Athanor": {
     "branched": false,
     "conductance": "FRUSTRATED",

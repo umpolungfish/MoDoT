@@ -4,7 +4,6 @@ A self-contained copypasta: everything needed to use IMASM, keyed to the single-
 token codes. Semantics here track `ask_native/src/imasm.rs` (the tool that answers
 `imasm check`). Where this file and the tool ever disagree, the tool is right.
 
-```
 IMASM — a program is a DIRECTED GRAPH of 12 opcodes (not a line). One glyph each; the
 alphabet is fully SYMBOLIC (no Latin initials, so no token collides with a verdict
 letter). WORK? = does the opcode TRANSFORM the object (do real work)?
@@ -146,7 +145,6 @@ N. Use `protocol` to close, never a bare `ring`.
   · Closing a loop back to ⊢. It has in-arity 0 and cannot be a target.
   · Writing V/T/B or ← out of habit. Retired: they no longer parse → N (void).
   · Pasting a bracketed word into the tool. Brackets parse to nothing → N (void).
-```
 
 The glyph alphabet is not invented: it references the per-token glyph vocabulary fixed
 in `../ob3ect/READING_GUIDE.md` §3 (five are the guide's own midpoint glyphs; IFIX is its
@@ -169,7 +167,7 @@ alongside the classic FSPLIT/FFUSE; the 12-opcode tower above and its Lean `.pro
 scaffold generator are untouched. Semantics here track `ask_native/src/imasm16_3.rs`.
 Where this file and the tool ever disagree, the tool is right.
 
-```
+
 14 opcodes, still fully SYMBOLIC — no opcode glyph is a Latin letter, so T/N/B/F
 verdicts never collide with a token here either.
 
@@ -188,7 +186,6 @@ verdicts never collide with a token here either.
   ~   TNEG     negation: swaps T ↔ F            1→1                 YES
   ≁   INEG     con-negation: swaps t ↔ f        1→1                 YES
   ¬   IFIX     irreversible commit              1→1                 YES
-```
 
 THE REGISTER is the real trilattice SIXTEEN_3 (Shramko, Dunn & Takenaka, "The
 Trilattice of Constructive Truth Values", J. Logic and Computation 11(6):761-788,

@@ -2363,8 +2363,12 @@ fn build_user_packet(question: &str, prep: &Prepare, jam: bool, cycle: u32, tota
     // there is no "conversation above" to point at — saying there was, while the tool state had
     // in fact been wiped, handed the agent a conclusion with its evidence stripped off.
     if cycle > 1 {
+        // total == u32::MAX is the uncapped default: the series closes when the arms FFUSE,
+        // so there is no "of at most N" to announce — saying one invites the agent to pace
+        // itself against a deadline that does not exist.
+        let of_at_most = if total == u32::MAX { String::new() } else { format!(" of at most {total}") };
         parts.push(format!(
-            "## CYCLE {cycle} of at most {total} — this prompt IS the previous cycle's close.\n\
+            "## CYCLE {cycle}{of_at_most} — this prompt IS the previous cycle's close.\n\
              The results below were measured by the cycle before you and carry forward as \
              ground; you do not need to re-derive them, though you may re-check any of them by \
              calling the verb again. Wind further: pursue what it named as open, reach the \
@@ -3453,11 +3457,42 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
     // monomer names ("monomer not found: {binah") — the same silent-corruption class as
     // the click arg-drop. Strip set punctuation at the choke point so every verb sees clean
     // names. `+` (the pre-click token) is deliberately NOT stripped.
+    // EXPRESSION LANES are exempt from the set-punctuation strip. For `calc` and `gp` the
+    // characters `{}[](),` are SYNTAX, not set notation: grouping, indexing, argument
+    // lists, matrices. Stripping them ate the closing paren off every parenthesized
+    // expression the agent emitted — `calc -(3/2 + 1/2)` arrived as `-(3/2 + 1/2` and came
+    // back "ERROR: missing )", and `gp bnr.clgp[1]` arrived as `bnr.clgp[1` — silently
+    // breaking the two lanes whose entire purpose is that every number spoken routes
+    // through one of them.
+    const EXPRESSION_VERBS: &[&str] = &["calc", "gp"];
+    let is_expr = EXPRESSION_VERBS.contains(&verb);
     let owned: Vec<String> = args
         .iter()
-        .map(|s| s.trim().trim_matches(|c| "{}[](),".contains(c)).to_string())
+        .map(|s| {
+            let t = s.trim();
+            if is_expr { t.to_string() } else { t.trim_matches(|c| "{}[](),".contains(c)).to_string() }
+        })
         .filter(|s| !s.is_empty())
         .collect();
+    // Invented `--flags` are the same silent-corruption class as the brace leak above, but
+    // louder: several verbs build their CLI line by extending with the agent's args verbatim
+    // (`--phase-reconstruct` + args, `--filter` + args), so a `--data`/`--mode`/`--verify`
+    // the model made up lands in clap's own parser and comes back as a USAGE DUMP — raw
+    // `error: unexpected argument '--orbit_set' found` — which is unactionable from where the
+    // agent stands and reads as the tool being broken. Worse, a stray flag can be a REAL
+    // top-level flag (`crystallize X --trap` fed `--trap` to the trap verb, which ate the
+    // argument). The harness constructs every real flag itself (`scan` → `--set A B
+    // --scan-mediators`); the agent is never meant to pass one. Dropping the flag token and
+    // keeping its value as a positional recovers the intended call in the common case
+    // (`fpt --orbit_set even_character_ramified --prime 2049` → `fpt even_character_ramified
+    // 2049`) and, when it doesn't, at least yields a domain error the agent can act on
+    // ("monomer not found: X") instead of a clap dump. `calc` is exempt: its lane sets
+    // `allow_hyphen_values` precisely because a leading minus is an OPERATOR there.
+    let owned: Vec<String> = if is_expr {
+        owned
+    } else {
+        owned.into_iter().filter(|s| !s.starts_with("--")).collect()
+    };
     let args: &[String] = &owned;
     let a = |i: usize| args.get(i).cloned();
     // `help` is the lazy lane for the reference the prompt no longer carries eagerly. It runs
@@ -3507,6 +3542,22 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
     // refusal, it produces fabrication. Grep for `sorry` cannot substitute: a file that never
     // elaborated has zero sorries trivially, which is exactly how a 43-error file was
     // reported as "14 theorems, 0 sorries".
+    // The class-field / L-function lane. The agent reached for `bnrL1` five times in one
+    // run and got "no verb" each time: PARI/GP is installed and every routine the moduli
+    // program is built on (bnrinit, bnrL1, bnrstark, bnrclassfield, quadhilbert) sits on
+    // this machine behind no door. This is that door. It is the `calc` lane for class-field
+    // arithmetic: numbers come out of PARI, not out of a model.
+    if verb == "gp" {
+        if args.is_empty() {
+            return Some(
+                "gp needs an expression: TOOL: gp <pari/gp expression>\n  \
+                 e.g. TOOL: gp bnf=bnfinit(x^2-13,1); bnr=bnrinit(bnf,[12,[1,1]],1); bnr.clgp\n  \
+                 Multiple statements separated by `;`. The value of the LAST one is printed.\n"
+                    .into(),
+            );
+        }
+        return Some(run_gp(&args.join(" ")));
+    }
     if verb == "lean" {
         let Some(path) = a(0) else {
             return Some(
@@ -3520,7 +3571,11 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         let Some(name) = a(0) else {
             return Some("imscribe needs a name: TOOL: imscribe <name> [description]\n".into());
         };
-        let description = if args.len() > 1 { args[1..].join(" ") } else { name.replace('_', " ") };
+        let description = if args.len() > 1 {
+            args[1..].join(" ")
+        } else {
+            atomic_token_seed(&name).unwrap_or_else(|| name.replace('_', " "))
+        };
         return Some(run_imscribe(&name, &description));
     }
     // `ob3ect` also shells to a real external pipeline: the Ob3ect Auto-Designer
@@ -3944,6 +3999,13 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "pathway"    => "pathway S C1 C2...; 2+ names",
         "polymerize" => "polymerize M1 M2...; 2+ names to chain",
         "lean" => "lean <path.lean>; elaborate a Lean file and report the kernel's errors",
+        "gp" => "gp <expression>; evaluate PARI/GP — the class-field / L-function lane. Every \
+number it returns is computed by PARI, not asserted. Routines: bnfinit(pol,1) build a number \
+field; bnrinit(bnf,mod,1) a ray class group (mod = [N,[1,1]] ramifies both archimedean places); \
+.clgp reads its structure; bnrL1(bnr,,flag) the L'(0,chi) derivatives for every character; \
+bnrstark(bnr) the Stark-unit defining polynomial; bnrclassfield(bnr,subgroup) one tower level; \
+quadhilbert(D) a Hilbert class field; nfinit/idealstar/znstar/lfun/lfuninit also live. Long \
+computations are cut at the time limit and report the cut rather than a partial answer.",
         "close"      => "close M1 M2...; 2+ names",
         "material"   => "material M1 M2...; 2+ names",
         "modulus"    => "modulus M1 M2...; 2+ names",
@@ -4125,7 +4187,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
-    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm", "imasm16_3", "lean",
+    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm", "imasm16_3", "lean", "gp",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -4229,6 +4291,80 @@ fn catalog_near_match(name: &str) -> Option<String> {
 /// actually said. This is the δ/μ dual for a formalization claim: writing Lean is the
 /// proposal, elaborating it is the verification. Reporting a kernel error is a FRONTIER to
 /// escalate, never a defeat — a red build is held, not refuted.
+/// The PARI/GP lane. Shells to `gp -q` with a hard time limit and a parallel-safe stack.
+///
+/// The whole d=2048 moduli program is built on PARI routines (the manuscript's own field
+/// sizing, the unramified ascent, the Stark validation on d=12, the norm sieve), and the
+/// agent had no way to reach any of them: it emitted `bnrL1` repeatedly and the harness
+/// answered "no verb". Every number this returns is PARI's, so it grounds; a failure
+/// reports the failure and asserts nothing, exactly like `lean` on a red build.
+fn run_gp(expr: &str) -> String {
+    // A `quadhilbert` at h=64 exhausts eight gigabytes (the manuscript records this), and an
+    // unbounded gp will happily sit there. Cut it, and SAY it was cut: a timeout is a
+    // FRONTIER to escalate, never a refutation and never a partial answer dressed as whole.
+    const LIMIT_SECS: u64 = 900;
+    let script = format!("default(parisize, 1G);\n{}\n", expr.trim().trim_end_matches(';'));
+    let out = match process::Command::new("timeout")
+        .args([&format!("{LIMIT_SECS}"), "gp", "-q"])
+        .stdin(process::Stdio::piped())
+        .stdout(process::Stdio::piped())
+        .stderr(process::Stdio::piped())
+        .spawn()
+        .and_then(|mut c| {
+            use std::io::Write;
+            if let Some(si) = c.stdin.as_mut() { si.write_all(script.as_bytes())?; }
+            c.wait_with_output()
+        }) {
+        Ok(o) => o,
+        Err(e) => return format!("gp: could not run PARI/GP ({e}). Nothing was computed.\n"),
+    };
+    if out.status.code() == Some(124) {
+        return format!(
+            "gp: the computation did not finish within {LIMIT_SECS}s and was CUT.\n  \
+             A cut is a FRONTIER, not a result and not a refutation — nothing is asserted. \
+             Narrow it (one character orbit rather than the sweep, one tower level rather \
+             than the whole ascent) and re-run.\n"
+        );
+    }
+    // gp colours its output and announces the stack size it was handed. Neither is
+    // content: the escape codes would land verbatim in the agent's transcript, and the
+    // stack notice is us configuring PARI, not PARI telling us anything.
+    let strip_ansi = |s: &str| {
+        let mut out = String::new();
+        let mut chars = s.chars();
+        while let Some(c) = chars.next() {
+            if c == '\u{1b}' {
+                for c2 in chars.by_ref() { if c2.is_ascii_alphabetic() { break; } }
+            } else {
+                out.push(c);
+            }
+        }
+        out
+    };
+    let stdout = strip_ansi(&String::from_utf8_lossy(&out.stdout));
+    let stderr_raw = strip_ansi(&String::from_utf8_lossy(&out.stderr));
+    let stderr: String = stderr_raw
+        .lines()
+        .filter(|l| !l.contains("new stack size"))
+        .collect::<Vec<_>>()
+        .join("\n");
+    let body = stdout.trim();
+    let err = stderr.trim();
+    if !err.is_empty() && body.is_empty() {
+        return format!("gp: PARI reported an error and computed nothing:\n{err}\n");
+    }
+    if body.is_empty() {
+        return "gp: PARI returned nothing. An assignment alone prints no value — end with the \
+                expression you want read back.\n"
+            .to_string();
+    }
+    let mut s = format!("gp (PARI/GP {expr}):\n{body}\n");
+    if !err.is_empty() {
+        s.push_str(&format!("  PARI also wrote to stderr (read it, it may be a warning that matters):\n{err}\n"));
+    }
+    s
+}
+
 fn run_lean_elaborate(path: &str) -> String {
     let mill = std::path::Path::new("/home/mrnob0dy666/imsgct/p4rakernel/p4ramill");
     if !mill.is_dir() {
@@ -4278,6 +4414,54 @@ fn run_lean_elaborate(path: &str) -> String {
             body.trim()
         )
     }
+}
+
+/// Bare atomic names (a single digit, a common symbol, a closed-class function word) that a
+/// human imscribes with no free-text description get `name.replace('_',' ')` as their
+/// "description" — a no-op for anything without underscores, so the guided generator is
+/// handed e.g. `name="7" description="7"` and has nothing to reason from. The resulting
+/// tuple is still grammar-valid (every primitive gets SOME value) but ungrounded: there was
+/// no content to ground it in, so the assignment is closer to a coin flip than a reading.
+/// This gives digits and common symbols a real semantic seed instead of the bare echo, so the
+/// generator has something actual to reason about (successor structure for digits, the
+/// operation/relation a symbol denotes) rather than reproducing the character back at itself.
+fn atomic_token_seed(name: &str) -> Option<String> {
+    let digit_words = [
+        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+    ];
+    if let Ok(n) = name.parse::<u32>() {
+        if n <= 9 {
+            let word = digit_words[n as usize];
+            let seed = match n {
+                0 => "the digit 0: the additive identity of the standard base-10 positional numeral system — the unique element x such that x+n=n for all n".to_string(),
+                1 => "the digit 1: the multiplicative identity of the standard base-10 positional numeral system — the unique element x such that x*n=n for all n".to_string(),
+                _ => format!(
+                    "the digit {n} ({word}): the {n}th successor of 0 in the standard base-10 positional numeral system, i.e. 1 added to itself {n} times"
+                ),
+            };
+            return Some(seed);
+        }
+    }
+    let symbol_seed = match name {
+        "+" => "the binary operation of addition: commutative, associative, with identity element 0",
+        "-" => "the binary operation of subtraction, or unary negation: the additive inverse operation",
+        "*" | "×" => "the binary operation of multiplication: commutative, associative, with identity element 1, distributing over addition",
+        "/" | "÷" => "the binary operation of division: the inverse of multiplication, undefined at the additive identity",
+        "=" => "the binary relation of equality: reflexive, symmetric, transitive — identity of value, not of reference",
+        "<" => "the binary relation strictly-less-than: a strict total order",
+        ">" => "the binary relation strictly-greater-than: a strict total order, the converse of <",
+        "(" | ")" => "a grouping delimiter marking the scope of an expression, overriding default operator precedence",
+        "." => "the decimal point, or a sentence-terminating full stop depending on register: a positional/scope boundary marker",
+        "," => "the comma: a separator marking a boundary between coordinate items in a list or clause",
+        "?" => "the question mark: marks an utterance as an interrogative, requesting a truth-value or a missing referent from the addressee",
+        "!" => "the exclamation mark: marks an utterance as an imperative or as carrying heightened affective force",
+        "the" => "the definite article in English: presupposes the referent is uniquely identifiable/already established in the discourse context, carrying no descriptive content of its own — pure grammatical structure",
+        "a" | "an" => "the indefinite article in English: introduces a referent as new to the discourse, non-unique, existentially quantified",
+        "and" => "the coordinating conjunction 'and': logical/discourse conjunction, joining two items as jointly true or jointly present",
+        "or" => "the coordinating conjunction 'or': logical/discourse disjunction, inclusive by default in ordinary English",
+        _ => return None,
+    };
+    Some(symbol_seed.to_string())
 }
 
 fn run_imscribe(name: &str, description: &str) -> String {
@@ -4796,14 +4980,17 @@ fn run_one(
     let mut capped = false;
     let mut consecutive_stalls = 0usize;
     // The CAP, not the count. The agent sections its own cycles with `TOOL: cycle_close`;
-    // --cycles only bounds how many it may take. 0 = uncapped, with a backstop that guards
-    // the pathological loop and nothing else.
-    let cycles_cap: usize = if cli.cycles > 0 { cli.cycles as usize } else { 24 };
+    // --cycles only bounds how many it may take. 0 = uncapped: the series closes when the
+    // arms FFUSE, not when a count runs out. The agent sections its own windings with
+    // `TOOL: cycle_close`, and the stall detector already ends a series that is circling —
+    // a number here would cut the Work at an arbitrary place instead.
+    let cycles_cap: usize = if cli.cycles > 0 { cli.cycles as usize } else { usize::MAX };
     // The outer TAOU brackets the whole series. Name the δ before the arms wind, so the
     // closing μ has something to fuse.
+    let cap_note = if cycles_cap == usize::MAX { "uncapped".to_string() } else { format!("cap {cycles_cap}") };
     println!("── THINK (outer) ──");
     println!(
-        "  δ: one question, wound as cycles the agent sections for itself (cap {cycles_cap}).\n\
+        "  δ: one question, wound as cycles the agent sections for itself ({cap_note}).\n\
          \x20 Each cycle is a set of eagles — TAOU windings — and closes by condensing its\n\
          \x20 RESULTS into the next cycle's opening prompt: the terminus IS the origin.\n\
          \x20 The series closes when the arms FFUSE, not when the rounds run out."
@@ -4814,7 +5001,11 @@ fn run_one(
     let mut cycle: u32 = 0;
     loop {
         cycle += 1;
-        println!("── cycle {cycle}/{cycles_cap} (cap) ──");
+        if cycles_cap == usize::MAX {
+            println!("── cycle {cycle} ──");
+        } else {
+            println!("── cycle {cycle}/{cycles_cap} (cap) ──");
+        }
 
         let mut answer;
         let mut model_voice;
@@ -5690,7 +5881,7 @@ fn main() {
     // Runs the real generate pipeline and writes to the live catalog.
     if let Some(name) = &cli.imscribe {
         let description = if cli.rest.is_empty() {
-            name.replace('_', " ")
+            atomic_token_seed(name).unwrap_or_else(|| name.replace('_', " "))
         } else {
             cli.rest.join(" ")
         };
@@ -6021,5 +6212,106 @@ mod lean_verb_tests {
         let out = run_structural_tool("lean", &["Imscribing/NoSuchFile.lean".into()]).unwrap();
         assert!(out.contains("no such file"), "{out}");
         assert!(out.contains("nothing is verified"), "{out}");
+    }
+}
+
+#[cfg(test)]
+mod flagstrip_tests {
+    use super::*;
+
+    // The agent invents `--flags` the CLI never declared; several verbs build their line by
+    // extending with the agent's args verbatim, so those landed in clap and came back as a
+    // usage dump. Stripping the flag token keeps the VALUE as a positional, which recovers
+    // the intended call.
+    #[test]
+    fn invented_flags_are_stripped_and_the_call_recovers() {
+        // `fpt --orbit_set A --prime B` must behave as `fpt A B`, not die in clap.
+        let with = run_structural_tool(
+            "fpt",
+            &["--orbit_set".into(), "monad".into(), "--prime".into(), "binah".into()],
+        );
+        let without = run_structural_tool("fpt", &["monad".into(), "binah".into()]);
+        assert_eq!(with, without, "flag-laden call must equal the clean call");
+        let out = with.expect("fpt returned nothing");
+        assert!(!out.contains("unexpected argument"), "clap dump leaked: {out}");
+        assert!(!out.contains("Usage:"), "clap usage leaked: {out}");
+    }
+
+    // A real top-level flag the agent borrows must not reach the parser and eat an argument.
+    #[test]
+    fn borrowed_real_flag_does_not_eat_an_argument() {
+        let out = run_structural_tool("crystallize", &["monad".into(), "binah".into(), "--trap".into()]);
+        let clean = run_structural_tool("crystallize", &["monad".into(), "binah".into()]);
+        assert_eq!(out, clean, "--trap must not survive into the crystallize line");
+    }
+
+    // calc is exempt: a leading minus is an OPERATOR there, not a flag.
+    #[test]
+    fn calc_keeps_its_hyphens() {
+        let out = run_structural_tool("calc", &["-(3/2".into(), "+".into(), "1/2)".into()])
+            .expect("calc returned nothing");
+        assert!(out.contains("-2"), "calc lost its leading minus: {out}");
+    }
+}
+
+#[cfg(test)]
+mod gp_verb_tests {
+    use super::*;
+
+    // The d=12 calibration the manuscript pins everything to: the conductor-(12)∞₁∞₂ ray
+    // class group of Q(√13) has order 16, and the moduli field's degree equals that order.
+    // If this drifts, the lane is lying and every number downstream of it is unmoored.
+    #[test]
+    fn reproduces_the_d12_ray_class_order() {
+        let out = run_structural_tool(
+            "gp",
+            &["bnf=bnfinit(x^2-13,1);".into(), "bnr=bnrinit(bnf,[12,[1,1]],1);".into(), "bnr.clgp[1]".into()],
+        )
+        .expect("gp must be a live verb");
+        assert!(out.contains("16"), "d=12 ray class order must be 16: {out}");
+    }
+
+    // A PARI error must report the error and assert nothing — same contract as `lean` on a
+    // red build. Silence dressed as a result is the failure this whole lane exists to stop.
+    #[test]
+    fn a_pari_error_asserts_nothing() {
+        let out = run_structural_tool("gp", &["bnfinit(".into()]).unwrap();
+        assert!(
+            out.contains("error") || out.contains("nothing"),
+            "a syntax error must be reported, not swallowed: {out}"
+        );
+    }
+
+    #[test]
+    fn empty_call_gives_the_form() {
+        let out = run_structural_tool("gp", &[]).unwrap();
+        assert!(out.contains("bnrinit") || out.contains("needs an expression"), "{out}");
+    }
+}
+
+#[cfg(test)]
+mod sphere_word_tests {
+    use super::*;
+    #[test]
+    fn print_16_3() {
+        println!("===== ref =====\n{}", run_structural_tool("imasm16_3", &["ref".into()]).unwrap());
+        for w in ["⊙☊+×⊞☋", "⊙☊+×☋", "⊢⊙<☊>☋=¬⊣"] {
+            println!("===== check {w} =====\n{}",
+                run_structural_tool("imasm16_3", &["check".into(), w.into()]).unwrap());
+        }
+    }
+}
+
+#[cfg(test)]
+mod r2_shape_tests {
+    use super::*;
+    #[test]
+    fn ask_the_grammar() {
+        for w in ["⊙☊+×⊞☋", "☊+×⊞☋", "⊢⊙☊+×⊞☋¬⊣"] {
+            println!("### imasm16_3 check {w}\n{}",
+                run_structural_tool("imasm16_3", &["check".into(), w.into()]).unwrap());
+        }
+        println!("### imasm16_3 algebra join_t T F\n{}",
+            run_structural_tool("imasm16_3", &["algebra".into(),"join_t".into(),"T".into(),"F".into()]).unwrap());
     }
 }

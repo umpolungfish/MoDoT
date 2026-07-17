@@ -809,9 +809,9 @@ Consequently, continuous tuple variations map directly to physical transport beh
 To link two IMASM programs, the exit type of the preceding program $\mathcal{P}_1$ must match the entry type of the succeeding program $\mathcal{P}_2$. If a path bifurcates to perform parallel calculations (e.g., evaluating true and false states separately as in Lemma 1), it must pass through an asymmetric fusion point ($\text{FFUSE}$). This ensures that the reconstruction map $\mu \circ \delta = \text{id}$ is preserved, which keeps the composite program structurally sound ($\mathbf{T}$).
 
 ```
-          ┌─── EVALT ───┐
-── FSPLIT ┤             ├─ FFUSE ── (Closed Reconnection: μ ∘ δ = id)
-          └─── EVALF ───┘
+                    ┌─── EVALT ───┐
+── FSPLIT ┤                           ├─ FFUSE ── (Closed Reconnection: μ ∘ δ = id)
+                    └─── EVALF ───┘
 ```
 
 #### Rule 2: The Monomer Registration Rule (IMSCRIB Constraints)
@@ -5227,7 +5227,7 @@ The structural verdict for this system is **$B$ (Both)**. This signifies a compl
 
 ```
                       +-----------------------------+
-                      |      IMASM Chain (T)        |
+                      |      IMASM Chain (T)             |
                       |  Logical Closure: μ ∘ δ = id |
                       +--------------+--------------+
                                      |
@@ -5235,10 +5235,10 @@ The structural verdict for this system is **$B$ (Both)**. This signifies a compl
                        [ gaussian_moat_problem ]
                                      |
                                      v
-                      +--------------+--------------+
-                      |   Continuous Tuple (B)      |
-                      | Physical/Chemical Boundary  |
-                      +-----------------------------+
+                      +--------------+------------------+
+                      |   Continuous Tuple (B)               |
+                      | Physical/Chemical Boundary   |
+                      +---------------------------------+
 ```
 
 ---
