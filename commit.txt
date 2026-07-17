@@ -1,20 +1,15 @@
-prover: a fenced theorem is a citation, not a request
+Distill the universal constants run (19f70eb9f43-2ef392, cut at 160 windings)
 
-proof_intent sniffed `(?m)^\s*(?:theorem|lemma)\s+\S` across the whole text, so
-a document that QUOTED a theorem in order to discuss it was routed as though it
-WERE that theorem.
+I cut the run and distilled the crystal_fs logs. Grounded yield: the pure-cycle
+law (rho = 2.0 iff unbranched, order not composition decides it, scale-robust to
+N=10), subtractive resolution of frustration (sublimation and annealing, not
+addition), strain-free branching only at C3 symmetry, doping as a conductance
+dial, and the parity_driven_expansion_loop_fused held at B by the kernel as a
+phase-conjugation gate with chiral self-defense. The cut frontier is the
+parity_phase_transition_matrix, kernel-proven and one winding old.
 
-Live: a 4789-char brief for MoDoT -- a vocabulary table, MUST-form instructions,
-and TOOL: directives telling it to source every tuple through the navigator --
-was handed to the kernel-gated prover, which reads no instructions and calls no
-tools. It ran lake build and reported a resource frontier. Every instruction in
-the sheet was unreachable, and the eagles never flew. The document was ABOUT a
-theorem; it was not a request to prove one. --jam did not override it.
-
-Now the implicit sniff strips ``` fences and indented code before testing: what
-a text quotes is not what it asserts. The explicit `prove:` prefix is checked
-first and still honors a fenced goal, so that route stays open -- only the
-implicit sniff learns to tell quoting from asking.
-
-Tests cover all three: a quoted theorem does not divert, `prove:` always
-diverts, a theorem asserted in the text's own voice still diverts.
+Burned with the harness: every winding that manufactured a physical constant's
+number (the Lambda multiplication, the 0.525 normalization, the injected H0)
+was held N, and rightly. Harness debts recorded: bare imasm prove burned 88
+dyads, catalog name drift burned dozens more, and the round counter is stuck
+at 1 in tool_calls.jsonl.
