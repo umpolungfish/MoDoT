@@ -19,8 +19,9 @@ Close the mu. The excited manifold's relaxation channel satisfies
 mu . delta = id back to ground; the productive channel has never been
 verified to close over a TRANSFORMED object. Either exhibit the closure
 (imasm prove over an explicit opcode word, kernel verdict) or measure the
-obstruction that forbids it. A non-closure measured is a result; a closure
-narrated is nothing.
+obstruction that forbids it. Ground every claim in a kernel verdict: a
+non-closure measured is a result, and a closure is spoken by the kernel's
+green, never by narration.
 
 SECOND OBJECT, TO BE IMSCRIBED FIRST:
 The carved ring: three monomers, one doubled bond, adjacency
@@ -30,14 +31,17 @@ signature n+ - n- = -1 by rational congruence, kernel of A+2I spanned by
 procedurally through the navigator; imscribe the entry, then measure the
 parity loop AGAINST it in the Grammar's register: does the loop's B-hold
 and the ring's unpaired mode occupy the same structural position, or a
-measured different one? Independence is the default; do not invent coupling
-the tools do not return.
+measured different one? Report exactly the relation the tools return, with
+independence as the default; a coupling exists when a tool output states
+it, and only then.
 
 DISCIPLINE (from the prior run's audit, constants_run_distilled.md 2b):
-  imasm prove takes a target: imasm prove <name|entry|T1 T2 ...>. Bare
-    prove burned 88 dyads last run.
-  Reuse exact catalog spellings; name drift burned the monomer-not-found
-    class.
-  A calc that errors asserts nothing. No number may be spoken unless a tool
-    output contains it. Physical constants are not derivable by arithmetic
-    on catalog invariants; do not multiply toward them.
+  Give imasm prove its target every time: imasm prove <name|entry|T1 T2
+    ...>. Bare prove burned 88 dyads last run.
+  Reuse exact catalog spellings, copied from the entry as registered; name
+    drift burned the monomer-not-found class.
+  When a calc errors, fix the expression and re-run; an errored calc
+    asserts nothing. Speak a number by quoting the tool line that produced
+    it; a number with no tool-stream source stays unspoken. Treat physical
+    constants as external reference inputs for comparison; their values
+    enter a calc as givens, never as targets to multiply toward.
