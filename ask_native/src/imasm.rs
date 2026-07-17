@@ -1147,6 +1147,18 @@ fn define_tool(rest: &[String]) -> String {
             errs.join("\n    ✗ ")
         );
     }
+    // An empty program is not a tool. A malformed spec ("ring wire") built the empty
+    // graph, passed validate() vacuously, and was admitted — a throne with nobody on it,
+    // burning a dyad every time it is proved or run. Give the opcodes and define again:
+    // e.g. imasm define <name> ring IMSCRIB AFWD AREV, or wire N0 N1 … / i-j pairs.
+    if g.nodes.is_empty() {
+        return format!(
+            "REFUSED — '{name}' builds an EMPTY program (V=0): '{}' produced no opcode nodes, \
+             so there is nothing to run and nothing the kernel could ever verify.\n  \
+             Give the opcodes and define again: imasm define {name} ring IMSCRIB AFWD AREV\n",
+            rest[1..].join(" ")
+        );
+    }
     let spec = rest[1..].join(" ");
     let mut reg = load_registry();
     reg.as_object_mut().unwrap().insert(
@@ -1458,6 +1470,18 @@ pub fn run(args: &[String]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Seen live: `imasm define ᚦᚱᛟᚾᛖ ring wire` — a malformed spec built the empty
+    /// graph, passed validate() vacuously, and a hollow tool sat in the registry
+    /// burning a dyad on every prove/run. 15 of 71 registry entries were this class.
+    #[test]
+    fn define_refuses_an_empty_program() {
+        let args: Vec<String> = ["throne_test", "ring", "wire"].iter().map(|s| s.to_string()).collect();
+        let out = define_tool(&args);
+        assert!(out.contains("REFUSED"), "empty program must be refused: {out}");
+        assert!(out.contains("EMPTY"), "refusal must name the emptiness: {out}");
+        assert!(out.contains("define again"), "refusal must carry the door: {out}");
+    }
 
     #[test]
     fn linear_is_linear() {

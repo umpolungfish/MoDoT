@@ -1,0 +1,77 @@
+{
+  "Coagula_Inverse": {
+    "spec": "ring clink_l9 gaussian_moat_problem",
+    "title": "ring",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "Stabilizer": {
+    "spec": "ring S_H 0.74 0.26",
+    "title": "ring",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "closed_proof": {
+    "spec": "ring",
+    "title": "ring",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "eta_from_gap": {
+    "spec": "protocol",
+    "title": "protocol",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "eta_from_gap_fixed": {
+    "spec": "protocol",
+    "title": "protocol",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "gauge_constraint": {
+    "spec": "ring vacuum_op vacuum_op vacuum_op",
+    "title": "ring",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "hodge_theater": {
+    "spec": "chain log_theta_lattice_iutt hodge_conjecture_bridge non_abelian_braid",
+    "title": "chain",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "infinite_stitch": {
+    "spec": "chain",
+    "title": "chain",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "measure_stability": {
+    "spec": "chain parity_symmetry Ω_monad_constant",
+    "title": "chain",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "moat_chain": {
+    "spec": "chain gaussian_moat_problem hodge_conjecture_bridge clink_l9",
+    "title": "chain",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "prove_manifold_equivalence": {
+    "spec": "ring N6_branched_manifold N10_stable_ring",
+    "title": "ring",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "star_alpha": {
+    "spec": "ring alpha_core alpha_arm alpha_arm",
+    "title": "ring",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "ternary_gap_valid_ring": {
+    "spec": "ring",
+    "title": "ring",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "ternary_ring": {
+    "spec": "ring",
+    "title": "ring",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "ᚦᚱᛟᚾᛖ": {
+    "spec": "ring wire",
+    "title": "ring",
+    "topology": "  topology: trivial | V=0 E=0 β=0 branch=0 merge=0 src=0 sink=0 ρ=0.0000\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  }
+}
