@@ -399,6 +399,23 @@
     ],
     "weakest": 1.0
   },
+  "doped_heteropolymer": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "planck_mass",
+      "hodge_conjecture_bridge"
+    ],
+    "weakest": 2.0
+  },
   "five_ring": {
     "branched": true,
     "conductance": "FRUSTRATED",
@@ -543,6 +560,31 @@
       "gaussian_moat_problem"
     ],
     "weakest": 1.3333
+  },
+  "macro_cycle_v1": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 14.2462,
+    "n": 6,
+    "rho": 3.5616,
+    "spectrum": [
+      3.5616,
+      3.0,
+      0.5616,
+      -0.5616,
+      -3.0,
+      -3.5616
+    ],
+    "strain": 0.4167,
+    "units": [
+      "symmetry_bridge",
+      "decoupling_buffer",
+      "graviton",
+      "strong_coupling_constant",
+      "vacuum_permittivity",
+      "dopant_bias_field"
+    ],
+    "weakest": 0.6667
   },
   "macrocycle5": {
     "branched": true,
