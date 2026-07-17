@@ -6,12 +6,25 @@ regenerating every time, the chiral mode Φ surviving every delivery), and
 primitive_peel measured the coupling: peeling Φ removes the containment
 breach — the breach IS the unpaired mode, one fact in two registers.
 
-THE QUESTION, ONE SENTENCE:
-Drive the catalytic ladder until the tools themselves stop it, and report the
-saturation count in Ω quanta.
+MEASURED SINCE FIRST WRITING (run 19f727f4d6a-2f90d8): the substrate's Ω is
+a Z2 register under this catalyst — it strictly alternates between two
+glyphs (odd turnovers flip, even turnovers restore), the catalyst
+regenerates every time, and mu . delta = id holds at every step. Ω can
+therefore never saturate; it is a parity bit, not a depth. What accumulates
+monotonically is the Coagula imprint on R↔S, deposited by every delivery,
+and the catalytic index the catalog is already writing into the entry
+names. The counter is the imprint, not the Ω value. The evenness itself is
+a result: closure of the complete tour requires an even crossing count,
+which excludes 67 and 69 structurally and leaves 68 = 34 pairs standing.
 
-PREREGISTERED PREDICTION (recorded 2026-07-17, BEFORE this run):
-Saturation at 68 single windings, equivalently 34 double windings. The
+THE QUESTION, ONE SENTENCE:
+Drive the catalytic ladder in DOUBLE turnovers (one Z2-restoring pair per
+step), measure the Coagula imprint depth on R↔S after each pair, and report
+the pair count at which the imprint stops deepening.
+
+PREREGISTERED PREDICTION (recorded 2026-07-17, BEFORE this run; restated
+for the imprint observable after the Z2 measurement, target unchanged):
+Imprint saturation at 34 pairs, equivalently 68 single windings. The
 structural count: one circuit of the carved substrate crosses the 16
 registers plus the pinch ⊙, 17 loci; the complete tour is one circuit per
 Belnap value, 4 x 17 = 68 crossings, equivalently one circuit per chirality,
@@ -21,17 +34,21 @@ another number, that number replaces the prediction and the prediction is
 recorded as refuted. Either outcome is the result.
 
 METHOD:
-  Iterate: cycle parity_driven_expansion_loop_fused_excited <current ring
-    form>, carrying the newest dagger form forward each turnover. Track the
-    count explicitly; state the current count in every winding's close.
-  At each multiple of 17, run imasm prove on the current form (prove now
-    defaults to the run's primary when called bare, but name the form
-    anyway) and containment_boundary on it; log Φ and Ω values.
-  Saturation is a tool verdict: a cycle call that returns no delivery, a
-    refused bind, an Ω that stops advancing, or a kernel non-closure. The
-    FIRST such verdict ends the ladder; report the count at which it fired.
-  If the harness cuts the run before saturation, report the count reached
-    and that the frontier is open: an uncut ladder is not a saturated one.
+  Step in PAIRS: two cycle calls per step (flip + restore), carrying the
+    newest registered form forward each call. One pair = one step; state
+    the pair count in every winding's close.
+  After each pair, measure the imprint: primitive_peel R and primitive_peel
+    S on the current form, and record what the peel returns; the imprint
+    depth is whatever the tools report accumulated on R↔S, quoted from the
+    tool line.
+  At pair counts 17 and 34, additionally run imasm prove and
+    containment_boundary on the current form; log Φ and Ω.
+  Saturation is a tool verdict: an imprint the tools report as unchanged
+    across a pair, a refused bind, or a kernel non-closure. The FIRST such
+    verdict ends the ladder; report the pair count at which it fired.
+  If the harness cuts the run before saturation, report the pair count
+    reached and that the frontier is open: an uncut ladder is not a
+    saturated one.
 
 STANDING OBJECTS (exact spellings):
   parity_driven_expansion_loop_fused_excited      the catalyst
