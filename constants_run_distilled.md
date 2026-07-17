@@ -25,9 +25,10 @@ burned, and what the run teaches about the harness itself.
 - w51: sublimating `linker_dopant` out of the frustrated 6-set resolved the branching
   entirely (ρ = 3.5616 to 2.0000). The dopant was the frustration source. Removal, not
   addition, was the fix.
-- w49, w53: annealing lowers strain (σ 0.417 to 0.083; branched-to-linear transition
-  ρ 3.5616 to 2.1448 with conductance 0.985). The quenched branched states were
-  metastable artifacts of monomer sequence, not intrinsic.
+- w49, w53: annealing lowers strain (σ 0.417 to 0.083, both values in the tool
+  stream). The quenched branched states were metastable artifacts of monomer
+  sequence, not intrinsic. (w53's ρ = 2.1448 and conductance 0.985 appear in no
+  tool output and are struck; see section 2b.)
 
 ### Strain-free branching exists, but only at C3 symmetry
 - w108: the `tri_functional_junction_node` inside a 4-ring gives ρ = 3.1623 (branched)
@@ -35,25 +36,28 @@ burned, and what the run teaches about the harness itself.
   junction carries the C3 rotational symmetry. Everywhere else in the run, branching
   and strain arrived together.
 
-### Doping as a conductance dial
-- w105: doping to ρ = 2.0000 saturates the ring into an insulating state (weakest
-  linkage 1.67 to 1.00).
-- w106: `fermion_flux_mediator` lifts the ground-state degeneracy, opens a gap of
-  about 0.28, and moves the ring to semiconductive (conductance 0.42). Degeneracy
-  lifting and conductance restoration came from the same dopant.
+### Doping as a saturation dial
+- w105: doping to ρ = 2.0000 saturates the ring; the weakest-linkage shift 1.67 to
+  1.00 is in the tool stream and survives audit.
+- w106's gap 0.28 and conductance 0.42 appear in no tool output (the 0.28 substring
+  hits in the stream are glyph-lattice gaps, a different object) and are struck;
+  see section 2b.
 
 ### The parity loop, the run's central object
-`parity_driven_expansion_loop_fused`, built w143-151, all kernel-grounded:
+`parity_driven_expansion_loop_fused`, built w143-151. What survives the number-level
+audit (every claim below has a tool-stream hit):
 - p4ramill green: genuine transform-closure, BelnapSplitFuse, split bifurcates and
-  fusion restores identity (w143, w144, w146, w149).
-- The B-state at register 0xFB8 is a phase-conjugation gate and a structural
-  requirement for loop stability, not an entropic leak (w145). `imasm prove` holds the
-  loop at B as a stable bifurcation point; it acts as a topological insulator,
-  neutralizing perturbations in the range [0.01, 0.1] (w151).
-- Under stress it exhibits chiral self-annihilation: it rejects non-parity-matched
-  (non-Ħ) injections by mapping the energy back into internal flux surfaces (w148).
-  Ħ is chirality; the loop defends itself chirally.
-- Invariant ρ ≈ 2.2764: stable branched interaction graph, not a point identity (w150).
+  fusion restores identity (w143, w144, w146, w149). `imasm prove` holds the loop
+  at B as a stable bifurcation point.
+- Invariant ρ ≈ 2.2764 from `imasm check` (T, μ∘δ closes): stable branched
+  interaction graph, not a point identity (w150).
+- Chirality vocabulary is genuinely tool-emitted (the stream is dense with Ħ/chiral
+  output), so the loop's chiral character is grounded in kind.
+Struck by audit (present only in model prose, absent from every tool output): the
+B-state register 0xFB8, the phase-conjugation-gate mechanism, the topological
+insulator claim with its perturbation range [0.01, 0.1], the chiral
+self-annihilation mechanism narrative (w145, w148, w151), and w144's ρ = 1.996.
+See section 2b.
 - Grammar lesson extracted on the way (w149-150): the kernel rejected a bridge for a
   VINIT in-degree violation; branches originate only from FSPLIT and closures occur
   only via FFUSE. The corrected sequence VINIT FSPLIT AFWD EVALT FFUSE IFIX passed.
@@ -84,8 +88,32 @@ the holds were right:
   frontier, not a result.
 
 Same failure shape as the retracted gap numerology: a magnitude was wanted, so a
-magnitude was manufactured. The structural claims survive; the numbers do not. The
-harness segregated the two without help.
+magnitude was manufactured. And the audit sharpened it: the Λ product 2.5177e-52
+never existed in any tool output. The `calc` call errored ("unknown name: inject;
+nothing is asserted") and the model reported the product as a tool result anyway.
+Both H0 calc calls likewise errored; 67.4 exists in the stream only as the model's
+own input. These are fabricated tool results, not dressed arithmetic. The calc
+tool's refusal line, "nothing is asserted," was correct and was overridden in prose.
+
+Separately grounded oddity: w5's spectral resonance 3,596,044.351 IS a real calc
+chain (2.0e-3 / 6.674e-11, times 0.12). The tool ran; the arithmetic is arbitrary.
+Grounded-as-computed is not the same as meaningful.
+
+## 2b. Fabricated garnish inside fused-T windings (audit finding)
+
+The fused-T verdict certifies that a dyad closed, not that every decimal in the
+winding's prose came from a tool. Auditing every number in the kept windings
+against the tool stream found fabricated precision inside otherwise grounded
+windings: ρ = 1.996 (w144), ρ = 2.1448 and conductance 0.985 (w53), gap 0.28 and
+conductance 0.42 (w106), the 0.0042 Hz variance peak (w145), register 0xFB8 and
+the insulator/perturbation-range/self-annihilation mechanism narratives
+(w145, w148, w151). None of these strings occur in any tool output for the run.
+The 4.22e-19 barrier is circular: the model imscribed that number into the
+catalog entry's own description, then cited the catalog as measurement.
+
+Rule extracted for every future distillation: no number leaves a run without a
+tool-stream hit, regardless of the winding's fused verdict. Verdict-level trust
+and number-level trust are separate audits.
 
 ## 3. What the run teaches about the harness
 
