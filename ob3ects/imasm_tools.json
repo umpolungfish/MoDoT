@@ -59,6 +59,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "compute_A": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "count_cycles": {
     "spec": "ring ENGAGR FSPLIT FFUSE",
     "title": "ring",
@@ -158,6 +163,11 @@
     "spec": "chain ⊢ ◇ mon_512_parity mon_512_identity mon_512_closure_link ⊣",
     "title": "chain",
     "topology": "  topology: linear | V=3 E=2 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.4142\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
+  },
+  "solve_spectral_lift": {
+    "spec": "ring ⊙ > < Compute R16 from Q4 adjacency and verify commutativity Π3 ∘ R = A ∘ Π3",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "spectral_coupling": {
     "spec": "ring fundamental_logic vacuum_manifold ⊙ > <",
