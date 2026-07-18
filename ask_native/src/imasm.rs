@@ -1341,16 +1341,40 @@ fn prove_tool(rest: &[String]) -> String {
     };
     let (green, log) = crate::prover::compile_lean(&source, "A");
     let tail: String = log.lines().rev().take(4).collect::<Vec<_>>().into_iter().rev().collect::<Vec<_>>().join("\n    ");
+    // A registry-resolved prove speaks about the spec REGISTERED under this name — never
+    // about a later define of the same name that was refused. Seen live: a refused
+    // re-define followed by `prove <name>` returned the OLD program's green and the agent
+    // read it as verification of the refused word. Say which program the verdict binds.
+    let spec_note = if label.starts_with("tool '") {
+        "\n  (this verdict binds the REGISTERED spec named above — a define of this name \
+         that was REFUSED is not part of it)"
+    } else {
+        ""
+    };
+    if matches!(state, ClosureState::Identity) {
+        // The Identity theorem proves the diagonal does NO work. That is a true kernel
+        // fact, but it is NOT an affirmation of the program — printing it as "✓ green"
+        // let trivial ◇● dyads be harvested as verifications (seen live, repeatedly).
+        // The program's own verdict is N: nothing was type-checked by its closure.
+        return format!(
+            "IMASM prove — {label}\n  pre-filter: {kind}\n  KERNEL VERDICT for THIS program: N \
+             (void) — μ∘δ=id does no work here; the arms carry no transform, so the closure \
+             type-checks NOTHING. (The kernel {} the diagonal identity theorem, which states \
+             exactly that.){spec_note}\n  Put a transforming opcode between the fork and the \
+             fuse and prove again.\n",
+            if green { "confirms" } else { "did not even confirm" }
+        );
+    }
     if green {
         format!(
             "IMASM prove — {label}\n  pre-filter: {kind}\n  KERNEL VERDICT: ✓ green — p4ramill \
              confirms the closure class against BelnapSplitFuse (B_is_the_only_bifurcation_point, \
-             split_fuse_id).\n"
+             split_fuse_id).{spec_note}\n"
         )
     } else {
         format!(
             "IMASM prove — {label}\n  pre-filter: {kind}\n  KERNEL VERDICT: ✗ the lake build did not \
-             go green.\n    {tail}\n"
+             go green.\n    {tail}{spec_note}\n"
         )
     }
 }
