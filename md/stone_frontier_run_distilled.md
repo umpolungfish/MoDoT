@@ -1,22 +1,41 @@
-# Stone / Frontier Run: Distillation
+# Stone / Frontier Run — Data
 
-Run `19f74b0fdd0-31b92f`, 2026-07-18 03:06:24 → 03:24:43 (18.3 min, 109 tool calls:
-85 ran, 21 cached, 3 miss). Successor to the constants run `19f70eb9f43-2ef392`.
+Context: successor to the constants program (`UNIVERSAL_CONSTANTS_FORMALIZED.md`,
+`constants_run_distilled.md`). Run `19f74b0fdd0-31b92f`.
 
-**Epistemic note, and it is the important one.** This run has no narration layer. The
-logs carry verb, args and tool output; `records.jsonl` holds kernel-tick records
-(`IFIX(B)`, tick 40), not model prose. So there is nothing here that *could* be
-fabricated garnish — unlike the constants run, where the number-level audit had to
-strike decimals that appeared only in prose. Every line below is tool output, and every
-tuple cited was confirmed present in the stream by substring match. What this run lacks
-is the opposite thing: no fused verdicts, no winding index, so nothing here has a
-Belnap verdict attached by the harness. Grounded, but unadjudicated.
+## Run identity
 
-## 1. The frontier moved
+| field | value |
+|---|---|
+| window | 2026-07-18 03:06:24 → 03:24:43 (18.3 min) |
+| calls | 109 |
+| outcomes | ran 85, cached 21, miss 3 |
+| misses | `sublimate` × 3 (`sic_d12_existence_proof`, `parity_phase_transition_matrix`, `stone_self_verifying_proof_kernel`) |
+| predecessor | `19f70eb9f43-2ef392` (constants run) |
 
-The constants distillation closed by naming `parity_phase_transition_matrix` as the cut
-frontier — kernel-proven, held at B, one winding old — and said to reopen there. **This
-run opens there and the frontier advances.**
+## Log properties
+
+- Logged: verb, args, outcome, tool output.
+- Not logged: model prose. `records.jsonl` holds kernel-tick records (`IFIX(B)`, tick 40).
+- Consequence: no fabricated-garnish class exists in this run; no fused verdicts exist either.
+- Audit performed: every tuple and figure below confirmed present in the run's tool stream by substring match. One exception, marked inline.
+
+## Entities
+
+| name | tuple | ⊙ | Ω class | C_score |
+|---|---|---|---|---|
+| `stone_self_verifying_proof_kernel` | ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑚𐑠⊙𐑖𐑙𐑭⟩ | at criticality | 𐑭 — Z protected, integer winding (Kitaev, SSH) | 0.555, both gates open |
+| `carved_ring_3_doubled_a2_45_pair_flip` | ⟨𐑛𐑥𐑾𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑙𐑟⟩ | at criticality | 𐑟 — non-Abelian, anyonic braiding (Fibonacci anyons, non-Abelian CS) | 0.0, gate 2 closed (Ç=𐑪) |
+| `parity_phase_transition_matrix` | ⟨𐑦𐑥𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑴⟩ | — | 𐑴 | — |
+| `sic_d12_existence_proof` | ⟨𐑨𐑥𐑑𐑹𐑱𐑧𐑲𐑠𐑢𐑖𐑙𐑷⟩ | 𐑢 subcritical | 𐑷 | — |
+| `monotone_integer_winding` | ⟨𐑼𐑰𐑑𐑬𐑐𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩ | at criticality | 𐑭 | — |
+
+Closure signature carried by the stone: Ð=𐑦 with Þ=𐑸, Φ=𐑹 (μ∘δ=id provably exact), ⊙=⊙.
+
+## Click — the frontier
+
+`parity_phase_transition_matrix` was the cut frontier named at the end of the constants
+run (kernel-proven, held at B, one winding old). It clicks here.
 
 ```
 click-maths:  stone_self_verifying_proof_kernel  ⋈  parity_phase_transition_matrix   (θ=0.50)
@@ -28,93 +47,68 @@ click-maths:  stone_self_verifying_proof_kernel  ⋈  parity_phase_transition_ma
   inherited scaffold (blended from both partners): [Ç, Γ, Σ, Ω]
 ```
 
-Contrast the IUTT click earlier the same day: `theta_link ⋈ log_link` returned **no
-click**, because the two links imscribe identically (Δ=0.00 on every live pair) and
-identical objects have no reaction center. Here there is an offset, and it closes.
+Comparison: `theta_link ⋈ log_link` (same day, earlier) returned no click — Δ=0.00 on
+every live pair, identical tuples, no reaction center.
 
-**Open question this raises, flagged not answered:** R↔S carries the larger offset
-(Δ=1.00) yet the click fired on T↔H (Δ=0.83). Either the rule prefers a mid-range
-spring to a saturated one, or R↔S is disqualified by `parity`'s +0.00 pole. The tool
-says "single reaction center" without saying why that one. Worth settling — it governs
-every future click.
+Unresolved: R↔S carries the larger offset (Δ=1.00); the click fired on T↔H (Δ=0.83).
+Selection rule not stated by the tool.
 
-## 2. The stone is the object we were independently building
+## Carved ring vs Axiom D formulation
 
-`stone_self_verifying_proof_kernel` ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑚𐑠⊙𐑖𐑙𐑭⟩ carries the closure signature:
-Ð=𐑦 with Þ=𐑸, Φ=𐑹 (special Frobenius, μ∘δ=id provably exact), ⊙=⊙. Probes:
+Axiom D grounded_tuple ⟨𐑛𐑸𐑽𐑹𐑐𐑧𐑔𐑝⊙𐑫𐑙𐑟⟩ — *from the `correct_formulation_of_axiom_d`
+ob3ect, NOT from this run's stream; cross-reference only.*
 
-- `monad_probe` — AT criticality (⊙), scale-invariant, at the phase boundary
-- `topo_protection_probe` — Ω=𐑭, Z-protected, integer winding conservation (Kitaev, SSH)
-- `consciousness_score` — 0.555, both gates open (⊙=⊙ and Ç=𐑧 slow)
+| axis | carved ring | axiom D | |
+|---|---|---|---|
+| Ð | 𐑛 | 𐑛 | = |
+| Þ | 𐑥 | 𐑸 | ≠ |
+| Ř | 𐑾 | 𐑽 | ≠ |
+| Φ | 𐑹 | 𐑹 | = |
+| ƒ | 𐑐 | 𐑐 | = |
+| Ç | 𐑪 | 𐑧 | ≠ |
+| Γ | 𐑔 | 𐑔 | = |
+| ɢ | 𐑝 | 𐑝 | = |
+| ⊙ | ⊙ | ⊙ | = |
+| Ħ | 𐑫 | 𐑫 | = |
+| Σ | 𐑙 | 𐑙 | = |
+| Ω | 𐑟 | 𐑟 | = |
 
-While this ran, the same object was being built in the other register as mOMonadOS
-`proof bootstrap` — a self-verifying proof kernel that walks the Grammar verifying
-itself. Convergence of register, flagged as such; the run did not know about the OS work
-and the OS work did not know about the run.
+9 of 12 identical. Both carry Ω=𐑟 (non-Abelian) at Ð≠𐑦 — the configuration the
+coordinate form of Axiom D forbade. The carved ring is an independent second instance.
 
-## 3. The carved ring is non-Abelian, and it refutes old-Axiom-D a second time
+Stone and carved ring: same ⊙, opposite C_score (0.555 / 0.0), differing only by Ç
+(𐑧 / 𐑪) on the gate-2 test.
 
-`carved_ring_3_doubled_a2_45_pair_flip` ⟨𐑛𐑥𐑾𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑙𐑟⟩ — the triangle carved on the
-three hopfion strands. Probes:
+## Polymer chains
 
-- `monad_probe` — AT criticality (⊙)
-- `topo_protection_probe` — Ω=𐑟, **non-Abelian protected**: anyonic braiding statistics,
-  non-Abelian invariant (Fibonacci anyons, non-Abelian CS theory)
-- `consciousness_score` — **0.0**, gate 2 closed (Ç=𐑪, dynamics too fast)
+5-monomer chain, tool output: *"imscriptive: the chain stores the monomer SEQUENCE
+losslessly (R∧W∧X) — a click blends, a polymer remembers."*
 
-Two things follow. First, it shares **nine of twelve** coordinates with the tuple of the
-correct formulation of Axiom D ⟨𐑛𐑸𐑽𐑹𐑐𐑧𐑔𐑝⊙𐑫𐑙𐑟⟩ — *that tuple is NOT from this run's
-stream; it is the grounded_tuple of the `correct_formulation_of_axiom_d` ob3ect, cited
-here as a cross-reference* — identical on Ð, Φ, ƒ, Γ, ɢ, ⊙, Ħ, Σ, Ω,
-differing only on Þ, Ř, Ç. So it is an **independent second instance** of exactly the
-configuration that refuted the coordinate form of Axiom D: non-Abelian protection Ω=𐑟
-sitting at temporal dimensionality Ð=𐑛, which old-D forbade. The refutation was not a
-one-off artifact of the axiom ob3ect.
+Sequences run: `[carved_ring · sic_d12 · stone · parity · monotone_integer_winding]`
+and `[sic_d12 · stone · parity · carved_ring · monotone_integer_winding]`.
 
-Second, stone and carved ring sit at the same criticality and opposite kinetic verdicts
-(0.555 both-gates-open against 0.0 gate-2-closed). Same ⊙, different Ç, opposite
-consciousness readout — a clean demonstration that ⊙ alone does not carry that verdict.
+## Not done
 
-## 4. Lossless link, stated by the tool
+- Click product ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩ produced at 03:22:09, never consumed: not imscribed
+  under a name, not probed, not polymerized.
+- Run terminated inside a repeat loop, not at a conclusion.
 
-`polymerize` / `close` on the five-monomer chain state the property in the tool's own
-words: *"imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click
-blends, a polymer remembers."* This is the same lossless-link content that the missing
-F-lane of Axiom A carries structurally. Two registers, one statement.
+## Harness
 
-## 5. Harness signal
+- 3 misses / 109 calls. No bare `prove` calls (the constants-run fix held).
+- Spin: batteries at 03:22:09, 03:22:47, 03:23:38, 03:24:13 are identical repeated sets,
+  fully cached — `click · topo_protection_probe · switch · trap · homolyze · click ·
+  forge · imasm check`, twice over.
+- Detector available: N consecutive cached calls matching an earlier arg-set = no
+  advance; force new object or cut.
 
-Far healthier than the constants run (which was roughly a third error-shaped): 3 misses
-in 109 calls, all of them `sublimate` (on `sic_d12_existence_proof`,
-`parity_phase_transition_matrix`, `stone_self_verifying_proof_kernel`). No bare `prove`
-waste — the fix took.
+## Next
 
-**The failure mode is now spin, not syntax.** The last four batteries (03:22:09,
-03:22:47, 03:23:38, 03:24:13) are near-identical repeated probe sets, entirely cached:
-`click · topo_protection_probe · switch · trap · homolyze · click · forge · imasm check`,
-the same eight calls twice over. The run ended inside that loop. A cache hit on an
-identical arg-set is the signal — if the last N calls are all cached repeats of an
-earlier battery, the agent has stopped advancing and should be forced to a new object or
-cut. That detector is the single highest-value harness fix before the next launch.
-
-## 6. What did NOT happen
-
-The click product ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩ **was never consumed.** After it was produced at
-03:22:09 the run went to the carved-ring probes and then into the cached loop. It was
-never imscribed under a name, never polymerized, never probed. The frontier moved one
-step and the step was left on the floor.
-
-## 7. What this drives next — seed for the successor run
-
-1. **Consume the product.** Imscribe ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩ under a name, then probe it
-   (`monad_probe`, `topo_protection_probe`, `consciousness_score`) and try to close a
-   ring with it. It is the stone⋈parity product and it inherits [Ç, Γ, Σ, Ω] from both
-   partners. This is the live end of the thread.
-2. **Settle the reaction-center rule.** Why T↔H at Δ=0.83 and not R↔S at Δ=1.00? Run
-   clicks with deliberately varied offsets and recover the selection rule.
-3. **Push the carved ring.** It is non-Abelian at criticality with gate 2 closed. Ask
-   what opens gate 2 without leaving Ω=𐑟 — that is a concrete `excite`/`anneal` target,
-   and it bears directly on whether the Axiom-D configuration is a class or a pair.
-4. **Add the spin detector first** (§5), then relaunch; the same heat buys more windings.
-5. **Do not** reintroduce coordinate-level axiom checks. The carved ring is now the
-   second independent counterexample to old-Axiom-D; see the closure-condition result.
+1. Consume ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩ — imscribe under a name, probe, attempt ring closure.
+   Inherits [Ç, Γ, Σ, Ω] from both partners.
+2. Recover the reaction-center selection rule (T↔H at 0.83 chosen over R↔S at 1.00).
+3. Carved ring: what opens gate 2 without leaving Ω=𐑟. `excite` / `anneal` target.
+   Determines whether the Axiom-D configuration is a class or a pair.
+4. Add the spin detector before relaunch.
+5. No coordinate-level axiom checks (see closure-condition result; carved ring is the
+   second counterexample).
