@@ -1,23 +1,118 @@
 {
+  "D_promo": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "GLOBAL_SPECTRAL_STABILITY": {
+    "spec": "ring ● = ⊙ ● ⊣",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 2 in — reactive, not errors"
+  },
+  "Genus_Shift_Moduli_Space": {
+    "spec": "ring ⊙ > < ⊞",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "IUT_SYNC_PROBE": {
+    "spec": "ring ⊙ > < ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "IUT_SYNC_TEST": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "KUMMER_TRANSITION_OPERATOR": {
+    "spec": "ring ⊙ > < ⊞ ¬ ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=6 E=6 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "L12_Match_Manifold": {
+    "spec": "wire comb chain ● ⊙ ● > <",
+    "title": "wire (free composition)",
+    "topology": "  topology: network | V=5 E=0 β=0 branch=0 merge=0 src=5 sink=5 ρ=0.0000\n  5 disconnected strands\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 5 out, 5 in — reactive, not errors"
+  },
+  "L13_Hyperbolic_Transition": {
+    "spec": "ring ⊙ FSPLIT EVALT AFWD",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
+  },
+  "L9_topology": {
+    "spec": "ring ⊙ > < ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "L9_topology_branched": {
+    "spec": "ring ⊙ > < Ç",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "Linker_δμ_Bridge": {
+    "spec": "ring ⊙ ⊞ × > < ≡ ¬",
+    "title": "ring",
+    "topology": "  topology: ring | V=6 E=6 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "NAME": {
     "spec": "ring IMSCRIB AFWD AREV",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "REBIND_FFUSE": {
+    "spec": "ring ⊙ > < ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
   },
   "active_drone_protocol": {
     "spec": "ring ⊙ drone_protocol inject_commutator_node",
     "title": "ring",
     "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "archimedean_bridge": {
+    "spec": "ring ⊙ > ⊞ × <",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "asymptotic_stability_check": {
     "spec": "ring ⊙ bridge_gate_v3 bridge_gate_v3",
     "title": "ring",
     "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "bifurcation_mapper": {
+    "spec": "ring ⊙ > < > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "bind_valence": {
     "spec": "ring AFWD",
     "title": "ring",
     "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "braid_distill": {
+    "spec": "ring ⊙ > < ⊞",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "braid_link_map": {
+    "spec": "ring ⊙ > < ⊞ ‖·‖ Ω",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "braid_path_apply": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "braid_perturbation": {
+    "spec": "ring ⊙ > < Ħ ⊙",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "braid_stability": {
+    "spec": "ring ⊙ δ μ",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "breath": {
     "spec": "ring IMSCRIB AFWD AREV",
@@ -25,6 +120,11 @@
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants"
   },
   "bridge_discovery": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "bridge_fusion": {
     "spec": "ring ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
@@ -38,6 +138,26 @@
     "spec": "ring ⊙ > < δ μ",
     "title": "ring",
     "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "bridge_logic": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "bridge_parity_identity_theorem": {
+    "spec": "ring ⊙ δ μ ⊞ ⊣",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "bridge_resolution": {
+    "spec": "ring ⊞ Linker_δμ_Bridge theta_0.25 ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=2 E=2 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "bridge_sync_gate": {
+    "spec": "ring ⊙ ⊞ ≡ ↔ ⊣",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "broadcast_closure": {
     "spec": "ring ⊙ > ɢ < ●",
@@ -54,15 +174,35 @@
     "title": "protocol",
     "topology": "  topology: linear | V=3 E=2 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.4142\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "catalyst_reaction": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "channel_probe": {
+    "spec": "ring Ω > ⊞ × < ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
   "char_filter": {
     "spec": "ring ⊙ > cl8nk_projection <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "check_stability": {
+    "spec": "ring gate_operator ⊙ > ⊞ <",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "chiral_symmetry_breaker": {
     "spec": "ring ⊙ > < ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=6 E=6 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "chirality_perturbation": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "chrysopoeia_chain": {
     "spec": "chain ⊙ > ◇ + × ●",
@@ -74,10 +214,25 @@
     "title": "protocol",
     "topology": "  topology: branched | V=6 E=6 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1753\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "click_logic": {
+    "spec": "ring ⊙ > < > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "closure": {
+    "spec": "ring ⊙ Ħ Ω",
+    "title": "ring",
+    "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "closure_operator": {
     "spec": "ring ⊙><● sterile_neutrino_encoded",
     "title": "ring",
     "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "coil_test": {
+    "spec": "chain ⊙ × > <",
+    "title": "chain",
+    "topology": "  topology: linear | V=4 E=3 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.6180\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "collapse_multiplicity": {
     "spec": "ring Σ_collapse_map Φ_special_op ⊙",
@@ -139,6 +294,11 @@
     "title": "chain",
     "topology": "  topology: linear | V=6 E=5 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.8019\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 2 out, 2 in — reactive, not errors"
   },
+  "distill_manifold_tool": {
+    "spec": "ring ⊙ > < ● ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 2 in — reactive, not errors"
+  },
   "drive_pair": {
     "spec": "protocol ⊙ > cycle > cycle <",
     "title": "protocol",
@@ -148,6 +308,16 @@
     "spec": "protocol ⊢ ◇ ⊙ ● ⊣",
     "title": "protocol",
     "topology": "  topology: branched | V=5 E=5 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.3028\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: identity — δ arms reconnect at μ but nothing transforms between them; μ∘δ=id does no work and type-checks nothing"
+  },
+  "dynamic_alignment": {
+    "spec": "ring ⊙ > < = szpiro_phase_shift_operator",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "excite_protocol": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "expansion_sieve": {
     "spec": "protocol ◇ = ●",
@@ -160,24 +330,99 @@
     "topology": "  topology: branched | V=14 E=14 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2993\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
   },
   "flux_correlation_test": {
-    "spec": "protocol ⊙ > < ⊞ Ħ 𐑟 ⊙ Ħ ⊞ ●",
+    "spec": "protocol ⊙ > <",
     "title": "protocol",
-    "topology": "  topology: linear | V=7 E=6 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.8478\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 2 in — reactive, not errors"
+    "topology": "  topology: linear | V=3 E=2 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.4142\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "fusion_protocol": {
     "spec": "WIRE ⊙ > ΣΩ}_fuse <",
     "title": "wire (free composition)",
     "topology": "  topology: network | V=3 E=0 β=0 branch=0 merge=0 src=3 sink=3 ρ=0.0000\n  3 disconnected strands\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 3 out, 3 in — reactive, not errors"
   },
+  "gate_2_parity_check": {
+    "spec": "protocol ⊢ ◇ FSPLIT + EVALT × EVALF ● FFUSE ⊣",
+    "title": "protocol",
+    "topology": "  topology: network | V=10 E=11 β=2 branch=2 merge=2 src=1 sink=1 arms=1 ρ=2.4812\n  2 independent loop(s) with 2 branch / 2 fusion point(s)\n  μ∘δ: CLOSED — 2 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
+  },
+  "gate_operator": {
+    "spec": "ring ⊙ > × ⊞ ⊣",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "gate_parity_transition": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "gated_closure": {
+    "spec": "ring ⊙ ◇ + × ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "genus_scan": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "global_torsion_field_core": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "h_chiral_assert": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "h_chiral_check_bond_angle": {
+    "spec": "ring ⊙ δ FSPLIT μ FFUSE",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 2 out, 2 in — reactive, not errors"
+  },
+  "h_chiral_protocol": {
+    "spec": "ring ⊙ > < δ μ",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "higher_genus_alignment": {
+    "spec": "ring ⊙ ◇ szpiro_closure ● higher_genus_sync",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "higher_genus_protocol": {
+    "spec": "protocol ⊢ ◇ szpiro_closure + higher_genus_coupling ● ⊣",
+    "title": "protocol",
+    "topology": "  topology: branched | V=5 E=5 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.3028\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
+  },
+  "higher_genus_sync": {
+    "spec": "ring Ħ Ω Σ > ⊞ ⊣",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "hodge_closure": {
     "spec": "protocol VINIT IMSCRIB FSPLIT AFWD AREV FFUSE IFIX TANCH",
     "title": "protocol",
     "topology": "  topology: branched | V=8 E=8 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.3028\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
+  "horizontal_theta_link": {
+    "spec": "ring monodromy_v_bad log_theta_theaters ⊞ ≡ ¤",
+    "title": "ring",
+    "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "iut_wire_flux": {
+    "spec": "ring IMSCRIB AFWD AREV FFUSE FSPLIT",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "junction_closure": {
     "spec": "ring ⊙ > < ⊞ ●",
     "title": "ring",
     "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "kernel_path_fix": {
+    "spec": "ring ⊙ path_map /p4ramill/topology/",
+    "title": "ring",
+    "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "kinetic_injection_bias": {
     "spec": "ring ⊙ > <",
@@ -209,6 +454,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "mac_bridge": {
+    "spec": "ring ⊙ solve_orbit_cyclization MAC_L9_Bridge_Container szpiro_closure",
+    "title": "ring",
+    "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "manifold_dyad": {
     "spec": "ring ⊙ > < ●",
     "title": "ring",
@@ -234,20 +484,80 @@
     "title": "ring",
     "topology": "  topology: ring | V=6 E=6 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "monodromy_v_bad": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "multiradial_transport": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "p4ramill_bridge_check": {
+    "spec": "ring IMSCRIB AFWD AREV",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "parity_check": {
+    "spec": "ring ⊙ bridge_catalyst_c graviton",
+    "title": "ring",
+    "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "parity_conjugate": {
     "spec": "ring ⊙ > < inverse",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "parity_consistency_final": {
+    "spec": "protocol Ḍ ⊙ ≡ 0",
+    "title": "protocol",
+    "topology": "  topology: linear | V=1 E=0 β=0 branch=0 merge=0 src=1 sink=1 ρ=0.0000\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "parity_doped_stabilized_assembly": {
+    "spec": "ring ⊙ > < ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
   },
   "parity_driven_expansion_loop": {
     "spec": "ring ◇ + × ⊞ ● ⊣",
     "title": "ring",
     "topology": "  topology: ring | V=6 E=6 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "parity_manifold_gate": {
+    "spec": "ring FSPLIT EVALT EVALF FFUSE",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "parity_manifold_torsion_test": {
+    "spec": "ring ⊙ > Ř ↔ S <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "parity_protocol": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "parity_reconstruction": {
+    "spec": "ring ⊙ ⊡ ⊡ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "parity_test": {
+    "spec": "protocol ⊙ > <",
+    "title": "protocol",
+    "topology": "  topology: linear | V=3 E=2 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.4142\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "perfect_descent": {
     "spec": "ring ⊙ > < ◇ ● ¬",
     "title": "ring",
     "topology": "  topology: ring | V=6 E=6 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "phase_gate_v2": {
+    "spec": "ring ⊙ > < > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "phase_neutralizer": {
     "spec": "ring ⊙ > < projective_fiber_twist",
@@ -258,6 +568,16 @@
     "spec": "ring ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "proof_protocol": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "re_balancing_gate": {
+    "spec": "ring ⊙ > × ⊞ ⊣",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "reduced_character_set_protocol": {
     "spec": "protocol VINIT IMSCRIB AFWD FSPLIT EVALT EVALF FFUSE IFIX TANCH",
@@ -274,10 +594,30 @@
     "title": "protocol",
     "topology": "  topology: linear | V=11 E=10 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.9319\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
   },
+  "resolve_gaussian_moat": {
+    "spec": "ring ⊙ > < ⊣",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "resolve_junction": {
     "spec": "ring ⊙ > < ⊞",
     "title": "ring",
     "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "resolve_monodromy": {
+    "spec": "ring monodromy_v_bad ⊙ > < ● ⊞",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "saturation_check": {
+    "spec": "ring ⊙ = > < ⊣",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "saturation_check_augmented": {
+    "spec": "ring ⊙ δ μ",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "shielded_parity": {
     "spec": "ring ɢ ⊙ ◇ > < ● ⊞ ⊣",
@@ -289,10 +629,25 @@
     "title": "protocol",
     "topology": "  topology: branched | V=7 E=7 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2764\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
   },
+  "shift_parity_gate": {
+    "spec": "ring ⊙ switch Ç=𐑧 Ç=𐑪",
+    "title": "ring",
+    "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "sic_povm_exists": {
     "spec": "chain ⊙ > ◇ ●",
     "title": "chain",
     "topology": "  topology: linear | V=4 E=3 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.6180\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 2 out, 2 in — reactive, not errors"
+  },
+  "simulate_fluctuating_iut": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "simulate_limit": {
+    "spec": "ring ⊙ > < ⊞",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "solve_density_limit": {
     "spec": "ring ⊙ > < ⊞ α_s ⊣",
@@ -303,6 +658,11 @@
     "spec": "chain ⊢ ◇ mon_512_parity mon_512_identity mon_512_closure_link ⊣",
     "title": "chain",
     "topology": "  topology: linear | V=3 E=2 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.4142\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
+  },
+  "solve_parity": {
+    "spec": "ring ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "solve_spectral_lift": {
     "spec": "ring ⊙ ⊞ × >",
@@ -321,6 +681,61 @@
   },
   "spectral_solver": {
     "spec": "ring spectral_generator chiral_symmetry_breaker ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "stability_check_g": {
+    "spec": "chain ⊙ > < input_g > gauss_bonnet_constraint",
+    "title": "chain",
+    "topology": "  topology: linear | V=4 E=3 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.6180\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "stability_check_g_nonlinear": {
+    "spec": "ring ⊙ > < δ μ",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "stabilization_protocol": {
+    "spec": "ring ⊙ > < ⊞ ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "stabilize_ring": {
+    "spec": "wire ⊙ > < ⊞ ● ⊢",
+    "title": "wire (free composition)",
+    "topology": "  topology: network | V=6 E=0 β=0 branch=0 merge=0 src=6 sink=6 ρ=0.0000\n  6 disconnected strands\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 6 out, 5 in — reactive, not errors"
+  },
+  "stable_macro_parity_closure": {
+    "spec": "ring ⊙ > < ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "star_polymer_assembly_containers": {
+    "spec": "chain ⊙ > <",
+    "title": "chain",
+    "topology": "  topology: linear | V=3 E=2 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.4142\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "synchronize": {
+    "spec": "ring higher_order_torsion_space ⊙ > <",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "szpiro_check_loop": {
+    "spec": "protocol ⊙ szpiro_bridge_homomorphism > < =",
+    "title": "protocol",
+    "topology": "  topology: linear | V=4 E=3 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.6180\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "szpiro_closure": {
+    "spec": "ring ⊙ > < ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "szpiro_gap_align_dynamic": {
+    "spec": "ring ⊙ > < ⊞",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "szpiro_residue_check": {
+    "spec": "ring ⊙ × Σ Ω Π Φ ⊣",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
@@ -344,6 +759,11 @@
     "title": "chain",
     "topology": "  topology: linear | V=13 E=12 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.9499\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "torsion_decay_protocol": {
+    "spec": "chain LOG_SHELL archimedean_coupling_mechanism ●",
+    "title": "chain",
+    "topology": "  topology: linear | V=1 E=0 β=0 branch=0 merge=0 src=1 sink=1 ρ=0.0000\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "turnover_prot": {
     "spec": "ring ⊙ AFWD ⊞ AFWD ⊞ ⊣ returned OK",
     "title": "ring",
@@ -359,10 +779,25 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "verify_closure": {
+    "spec": "ring ⊙ > < ●",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "verify_gamma_stability": {
+    "spec": "ring ⊙ > < ⊞ R↔S",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "verify_stitch": {
     "spec": "ring ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "wire_hamiltonian": {
+    "spec": "chain ⊙ > < ●",
+    "title": "chain",
+    "topology": "  topology: linear | V=4 E=3 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.6180\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 2 in — reactive, not errors"
   },
   "α_ring": {
     "spec": "ring ⊙ > <",

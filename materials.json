@@ -129,6 +129,23 @@
     ],
     "weakest": 1.6667
   },
+  "IUT_BOND": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "inter_universal_teichmuller_theory",
+      "synchronization_bridge"
+    ],
+    "weakest": 1.0
+  },
   "L9_macrocycle_alpha": {
     "branched": false,
     "conductance": "CONDUCTIVE",
@@ -221,6 +238,27 @@
     ],
     "weakest": 0.8333
   },
+  "Poincare_bridged_macrocycle": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.4488,
+    "units": [
+      "stone_self_verifying_proof_kernel",
+      "parity_phase_transition_matrix",
+      "carved_ring_3_doubled_a2_45_pair_flip",
+      "sic_d12_existence_proof"
+    ],
+    "weakest": 0.5
+  },
   "Ring_1_Static": {
     "branched": false,
     "conductance": "CONDUCTIVE",
@@ -241,6 +279,25 @@
       "ring_closure_monomer"
     ],
     "weakest": 1.3333
+  },
+  "SPC_ring_final": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 4.0,
+    "n": 3,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      -1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "SPC_prod_doped_CR_mediated",
+      "SPC_prod_doped_CR_mediated",
+      "graviton"
+    ],
+    "weakest": 1.5
   },
   "Than_Bound_Athanor": {
     "branched": false,
@@ -410,6 +467,23 @@
     "units": [
       "annealed_59_pair_restored",
       "annealed_60_pair_flipped"
+    ],
+    "weakest": 0.8333
+  },
+  "bridge_parity_product": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "stone_self_verifying_proof_kernel",
+      "parity_phase_transition_matrix"
     ],
     "weakest": 0.8333
   },
@@ -705,6 +779,27 @@
     ],
     "weakest": 1.6667
   },
+  "iut_macrocycle_trimer": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.3333,
+    "units": [
+      "synchronization_bridge",
+      "inter_universal_teichmuller_theory",
+      "gaussian_moat_problem",
+      "anabelian_geometry"
+    ],
+    "weakest": 1.0
+  },
   "iut_ouroborus_d12": {
     "branched": true,
     "conductance": "CONDUCTIVE",
@@ -885,6 +980,23 @@
     ],
     "weakest": 0.5
   },
+  "macrocycle_alpha_closed": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "carved_ring_3_doubled_a2_45_pair_flip",
+      "sic_d12_existence_proof"
+    ],
+    "weakest": 1.3333
+  },
   "moat_chemical_ring": {
     "branched": false,
     "conductance": "FRUSTRATED",
@@ -926,6 +1038,23 @@
       "doped_perfect_cuboid_proof_descent_sink_rank_0"
     ],
     "weakest": 1.0
+  },
+  "product_1": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "stone_self_verifying_proof_kernel",
+      "parity_phase_transition_matrix"
+    ],
+    "weakest": 0.8333
   },
   "pure_four_ring": {
     "branched": false,
