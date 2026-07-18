@@ -4618,11 +4618,97 @@ fn atomic_token_seed(name: &str) -> Option<String> {
     Some(symbol_seed.to_string())
 }
 
+/// The twelve catalog keys, in notation order: ⟨Ð Þ Ř Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω⟩.
+const PRIM_KEYS: [&str; 12] = ["Ð", "Þ", "Ř", "Φ", "ƒ", "Ç", "Γ", "ɢ", "⊙", "Ħ", "Σ", "Ω"];
+
+/// Parse a well-formed 12-glyph notation ⟨…⟩ into its twelve values.
+///
+/// A tuple that a verb COMPUTED (a click product, a fuse result, an excite) is a
+/// measured value, not a wish. Round-tripping it through the generate pipeline —
+/// which reads its argument as a *description* — destroys it and substitutes a
+/// generated guess. Recognising the notation here is what keeps a derived tuple
+/// lossless from the verb that produced it to the catalog that stores it.
+fn parse_notation_12(s: &str) -> Option<Vec<String>> {
+    let t = s.trim();
+    let inner = t.strip_prefix('⟨')?.strip_suffix('⟩')?;
+    let glyphs: Vec<String> = inner
+        .chars()
+        .filter(|c| !c.is_whitespace() && *c != ';' && *c != ',')
+        .map(|c| c.to_string())
+        .collect();
+    if glyphs.len() == 12 { Some(glyphs) } else { None }
+}
+
+/// Register a computed tuple verbatim — no generation, no LLM.
+fn register_tuple_verbatim(name: &str, glyphs: &[String], provenance: &str) -> Result<(), String> {
+    let cat = resolve_catalog_path().ok_or("could not locate the IG catalog")?;
+    let text = fs::read_to_string(&cat).map_err(|e| format!("read catalog: {e}"))?;
+    let mut v: Value = serde_json::from_str(&text).map_err(|e| format!("parse catalog: {e}"))?;
+    let arr = v.as_array_mut().ok_or("catalog is not a JSON array")?;
+
+    let mut entry = serde_json::Map::new();
+    entry.insert("name".into(), json!(name));
+    entry.insert("description".into(), json!(provenance));
+    for (k, g) in PRIM_KEYS.iter().zip(glyphs.iter()) {
+        entry.insert((*k).into(), json!(g));
+    }
+    arr.push(Value::Object(entry));
+
+    let out = serde_json::to_string_pretty(&v).map_err(|e| format!("serialize: {e}"))?;
+    // Write via a temp file in the same directory, then rename: a torn catalog is
+    // worse than a missing entry.
+    let tmp = cat.with_extension("json.tmp");
+    fs::write(&tmp, out).map_err(|e| format!("write temp: {e}"))?;
+    fs::rename(&tmp, &cat).map_err(|e| format!("commit catalog: {e}"))?;
+    Ok(())
+}
+
 fn run_imscribe(name: &str, description: &str) -> String {
     if catalog_has_name(name) {
         return format!(
             "'{name}' is already in the catalog — use it directly (e.g. TOOL: polymerize {name} …). No imscription needed.\n"
         );
+    }
+
+    // ── Direct registration of a COMPUTED tuple ──────────────────────────────
+    // If the description carries a well-formed 12-glyph notation, the caller is
+    // storing a tuple a verb already derived. Register it verbatim. Sending it to
+    // `generate` would read the glyphs as prose and mint a different tuple — the
+    // lossy write that makes a derived product unstorable.
+    if let Some(glyphs) = parse_notation_12(description)
+        .or_else(|| {
+            // Also accept "⟨…⟩ — trailing provenance note".
+            description
+                .split_whitespace()
+                .next()
+                .and_then(parse_notation_12)
+        })
+    {
+        let notation: String = format!("⟨{}⟩", glyphs.concat());
+        let provenance = {
+            let rest = description.trim();
+            let stripped = rest.strip_prefix(&notation).unwrap_or("").trim();
+            let stripped = stripped
+                .trim_start_matches(['—', '-', ':', ','])
+                .trim();
+            if stripped.is_empty() {
+                format!("Tuple-derived entry, registered verbatim as {notation}.")
+            } else {
+                format!("{stripped} (tuple-derived, registered verbatim as {notation})")
+            }
+        };
+        return match register_tuple_verbatim(name, &glyphs, &provenance) {
+            Ok(()) => format!(
+                "✓ registered '{name}' VERBATIM as {notation} — the tuple you supplied, unchanged. \
+                 It did NOT go through the generate pipeline, so nothing was re-derived. \
+                 Use it in your next TOOL line (e.g. TOOL: polymerize {name} …).\n"
+            ),
+            Err(e) => format!(
+                "imscribe: '{name}' carries a well-formed tuple {notation} but it could not be \
+                 registered verbatim: {e}. NOT registered — retrying through the generate pipeline \
+                 would silently substitute a different tuple, so it was not attempted.\n"
+            ),
+        };
     }
     // Near-duplicate guard: don't generate `the_djed_pillar` when `djed_pillar` exists.
     if let Some(existing) = catalog_near_match(name) {
