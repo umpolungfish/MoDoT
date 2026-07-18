@@ -4333,8 +4333,20 @@ fn strip_ladder_suffix(name: &str) -> Option<String> {
         "pair", "pairs", "dagger", "daggers", "single", "singles",
         "turnover", "turnovers", "winding", "windings", "catalytic",
     ];
+    // State adjectives ride on the end of ladder names (`_pair_17_midpoint`,
+    // `_pair_35_reductive`) — the bypass found live within hours of the guard
+    // landing. Strip them BEFORE the unit loop so the unit group underneath is
+    // seen. cycle-canonized names never pass through here (register_chimera is
+    // the witness path), so tightening imscribe cannot break the walk.
+    const ADJ: &[&str] = &[
+        "complete", "restored", "flipped", "midpoint", "reductive", "refine",
+        "refined", "stabilized", "excited", "annealed", "promoted", "samadhi",
+    ];
     let toks: Vec<&str> = name.split('_').collect();
     let mut end = toks.len();
+    while end > 1 && ADJ.contains(&toks[end - 1].to_ascii_lowercase().as_str()) {
+        end -= 1;
+    }
     loop {
         let mut new_end = end;
         if new_end >= 1 {
@@ -6360,6 +6372,12 @@ mod dialect_tests {
         assert!(strip("sixteen_three_vacuum").is_none());
         // a number alone is not a ladder position
         assert!(strip("k19_2024").is_none());
+        // the bypasses found live within hours: trailing state adjectives
+        assert_eq!(strip("ring_pair_17_midpoint").as_deref(), Some("ring"));
+        assert_eq!(strip("ring_pair_35_reductive").as_deref(), Some("ring"));
+        assert_eq!(strip("ring_44_pair_stabilized").as_deref(), Some("ring"));
+        assert_eq!(strip("ring_pair_3_complete").as_deref(), Some("ring"));
+        assert_eq!(strip("ring_68_pair_restored").as_deref(), Some("ring"));
     }
 
     #[test]

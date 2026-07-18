@@ -1,0 +1,62 @@
+CLOCK WALK
+
+STATE OF KNOWLEDGE (from the audited walked chain, 30 provenance-stamped
+rungs, run 19f72d5c10d):
+The walked substrate is a CLOCK, not a reservoir. On every derived:cycle
+rung: Ð Þ Φ ƒ Ç Γ ⊙ Ħ are invariant (the chiral mode 𐑬 never moves), and
+the three live registers are periodic counters:
+    Ω period 2 (the Z2 toggle)
+    Σ period 3 (𐑳→𐑙→𐑕)
+    Ř period 4 (𐑑→𐑩→𐑾→𐑽), one value per truth family
+Joint register period: lcm(2,3,4) = 12. The ring returns to its exact
+register state every 12 single turnovers.
+
+"Imprint depth" was never an observable of the walked object: nothing
+accumulates. All depth decimals in prior windings were unsourced and are
+discarded. No tool has ever refused a turnover. The crossing region pairs
+20 through 34 has NEVER been contiguously walked; every prior claim about
+pair 34 rested on minted or discontinuous forms and is evidence for
+nothing.
+
+THE QUESTION, ONE SENTENCE:
+Walk pairs 20 through 40 contiguously and report whether the clock ticks
+straight through pair 34 unchanged, or whether ANY tool-emitted change
+distinguishes it.
+
+PREREGISTERED PREDICTIONS (recorded 2026-07-17, before any rung past 19
+exists on a contiguous walk):
+  C1 (the clock): the periods (2,3,4) persist unchanged through pair 40;
+      pair 34 is structurally ordinary; the mod-12 recurrence holds at
+      every rung. If C1 holds, saturation-style predictions about this
+      substrate's registers are dead, and any surviving 34/68 claim must
+      find a different carrier than the walked tuple.
+  C2 (the residual): some tool output OTHER than the tuple registers
+      (containment verdict or weights, cl9nk tier or distance, kernel
+      verdict, cycle bind/recognition values) shifts at pair 34 and not at
+      neighboring pairs. Name the tool line if it fires.
+Either verdict is the result; a change at a DIFFERENT pair replaces both
+and is the finding.
+
+METHOD:
+  Resume from carved_ring_3_doubled_a2_pair_19_complete (the last walked
+    rung). Advance strictly one turnover at a time; canonize every second
+    rung: TOOL: cycle parity_driven_expansion_loop_fused_excited <current>
+    <next name>. Name rungs plainly (pair_20 … pair_40); the guard refuses
+    described mints of ladder names, and that refusal is correct — a form
+    is born from the cycle line that made it.
+  At every canonized rung, record the full tuple from the registration
+    output. At pairs 22, 28, 33, 34, 35, 40 additionally run
+    containment_boundary and cl9nk entry on the rung and quote the
+    returned weights and distances.
+  Walk THROUGH 34 to 40 regardless of what happens at 34: the pairs after
+    the crossing are the control group.
+
+DISCIPLINE (each rule is the door; the parenthesis is the wall):
+  Speak a number by quoting the tool line that produced it (an unsourced
+    decimal is discarded on audit, every time, without exception).
+  A verdict about pair 34 may cite only rungs on the contiguous walk (a
+    minted form is evidence for nothing).
+  When a verb errors, fix the arguments and re-run (an error message is
+    input for you, never arguments for the next call).
+  Report periodicity by listing the observed glyph sequence per register
+    (a period is shown, not asserted).
