@@ -167,6 +167,39 @@
     ],
     "weakest": 1.0
   },
+  "M136279841_prime_resonator": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 12.9443,
+    "n": 10,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.618,
+      1.618,
+      0.618,
+      0.618,
+      -0.618,
+      -0.618,
+      -1.618,
+      -1.618,
+      -2.0
+    ],
+    "strain": 0.3266,
+    "units": [
+      "next_prime_M136279841",
+      "gaussian_moat_problem",
+      "next_prime_2_M136279841",
+      "gaussian_moat_problem",
+      "next_prime_3_3_M136279841",
+      "anti_chiral_linker_M136279841",
+      "next_prime_4_M136279841",
+      "anti_chiral_linker_M136279841",
+      "next_prime_5_M136279841",
+      "anti_chiral_linker_M136279841"
+    ],
+    "weakest": 1.0
+  },
   "Ring_1_Static": {
     "branched": false,
     "conductance": "CONDUCTIVE",
@@ -885,6 +918,39 @@
       "carved_ring_3_doubled_a2_quintuple_dagger"
     ],
     "weakest": 0.5
+  },
+  "syndio_resonator_M136279841": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 12.9443,
+    "n": 10,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.618,
+      1.618,
+      0.618,
+      0.618,
+      -0.618,
+      -0.618,
+      -1.618,
+      -1.618,
+      -2.0
+    ],
+    "strain": 0.3266,
+    "units": [
+      "next_prime_M136279841",
+      "gaussian_moat_problem",
+      "next_prime_2_M136279841",
+      "gaussian_moat_problem",
+      "next_prime_3_3_M136279841",
+      "anti_chiral_linker_M136279841",
+      "next_prime_4_M136279841",
+      "anti_chiral_linker_M136279841",
+      "next_prime_5_M136279841",
+      "anti_chiral_linker_M136279841"
+    ],
+    "weakest": 1.0
   },
   "witness_ring": {
     "branched": true,

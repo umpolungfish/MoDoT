@@ -1360,6 +1360,61 @@ fn list_tools() -> String {
     s
 }
 
+/// ROTAT — the first op-opcode: an operator ON a word, not a token IN it. It rotates
+/// the whole word cyclically by k (default 1): the ring automorphism, the Weyl-Heisenberg
+/// shift X on ℤ/dℤ. Appending its name as a token does nothing — it is not a node. Every
+/// spectral invariant is ROTAT-invariant, and that invariance IS the signal it is a symmetry
+/// (not that it is inert): on one ring nothing measurable moves; between two rings being bound
+/// it sets their relative phase. A balanced tiling of a period-n cycle is unique up to ROTAT.
+fn rotat_op(rest: &[String]) -> String {
+    let (k, word_args): (i64, &[String]) = match rest.first() {
+        Some(first) if first.trim().parse::<i64>().is_ok() => {
+            (first.trim().parse::<i64>().unwrap(), &rest[1..])
+        }
+        _ => (1, rest),
+    };
+    let toks = tok_list(word_args);
+    if toks.is_empty() {
+        return "rotat needs a word: imasm rotat [k] <word>. ROTAT is an OP-OPCODE — an operator on \
+                the whole word, not one of the 12 node-opcodes; appending its name as a token does \
+                nothing. It rotates the word by k (default 1): the ring's cyclic shift.\n"
+            .into();
+    }
+    let n = toks.len() as i64;
+    let shift = (((k % n) + n) % n) as usize;
+    let mut rotated: Vec<Token> = Vec::with_capacity(toks.len());
+    rotated.extend_from_slice(&toks[shift..]);
+    rotated.extend_from_slice(&toks[..shift]);
+
+    let g0 = ring(&toks);
+    let g1 = ring(&rotated);
+    let (r0, r1) = (g0.spectral_radius(), g1.spectral_radius());
+    let invariant = (r0 - r1).abs() < 1e-9;
+
+    let mut s = String::new();
+    let _ = writeln!(s, "IMASM rotat (op-opcode ROTAT — the cyclic shift of a ring, k={k})");
+    let _ = writeln!(s, "  in : {}", g0.code_str());
+    let _ = writeln!(s, "  out: {}", g1.code_str());
+    let _ = writeln!(
+        s,
+        "  ρ: {r0:.4} → {r1:.4}  ({})",
+        if invariant {
+            "INVARIANT — ROTAT is a symmetry of the ring, not a transformation of it"
+        } else {
+            "changed"
+        }
+    );
+    let _ = writeln!(
+        s,
+        "  ROTAT is an operator ON the word, not a node IN it (an op-opcode). It is the \
+         Weyl-Heisenberg shift X on ℤ/dℤ: on one ring every spectral invariant is preserved, and \
+         between two rings being bound it sets their relative phase (the degree of freedom that \
+         seats a junction two same-handed rings cannot close alone). A balanced tiling is unique \
+         up to ROTAT."
+    );
+    s
+}
+
 pub fn run(args: &[String]) -> String {
     if args.is_empty() {
         return format!("{REFERENCE}\n");
@@ -1368,6 +1423,7 @@ pub fn run(args: &[String]) -> String {
     let rest = &args[1..];
     match op.as_str() {
         "ref" | "reference" | "help" | "rules" => format!("{REFERENCE}\n"),
+        "rotat" | "rotate" | "shift" => rotat_op(rest),
         "check" | "typecheck" => verdict_check(rest),
         "define" | "forge_tool" => define_tool(rest),
         "run" | "invoke" => run_tool(rest),

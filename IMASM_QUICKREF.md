@@ -130,6 +130,29 @@ to 2, not √f.
   imasm define <name> <op> <args…>   build a kernel-constrained tool
   imasm run <name> / imasm tools     invoke / list forged tools
 
+── OP-OPCODES (operators ON a word, not tokens IN it) ──────────────────────────
+A node-opcode is a symbol inside a word; a VERB turns a word into a graph. An
+OP-OPCODE is a third thing: a map that acts on the whole composition and returns
+another composition. It is NOT one of the 12, and appending its name as a token
+does nothing — it is not a node. It transforms the word.
+
+  ROTAT   the cyclic shift of a ring: rotate the word by one, k → k+1. The ring
+          automorphism. ρ and every spectral invariant are ROTAT-invariant (that
+          invariance IS the signal that ROTAT is a symmetry, not that it is
+          inert). On ONE ring it changes nothing measurable; between TWO rings
+          being bound it sets their RELATIVE phase, the degree of freedom that
+          seats a junction two same-handed (isotactic) rings cannot close on
+          their own (the θ=0.50 co-typing termination). ROTAT is the
+          Weyl-Heisenberg shift X on ℤ/dℤ; the SIC displacement D_{a,b} carries
+          ROTAT^a. The balanced tiling of a period-n cycle is unique UP TO ROTAT.
+
+Op-opcodes are open: ROTAT is the first named one (the shift). Its relatives are
+reflection (the half-period involution ROTAT^{d/2}) and the register negations
+TNEG/INEG of the SIXTEEN_3 grammar, which act on the register rather than the
+word. The class was surfaced by the necessity of binding two isotactic rings —
+no node-opcode rotates one ring against another, so the operation had to live one
+level up, on the word itself.
+
 ── RULE OF THUMB ──────────────────────────────────────────────────────────────
 Express a decision as a word (⊢ begin · ⊙ self-identify · > move · ◇ weigh options ·
 +/× the true/false arms · ● resolve · ⊞ hold paradox · ¬ commit · ⊣ close), then

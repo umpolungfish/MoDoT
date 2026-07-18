@@ -21,6 +21,32 @@ burned, and what the run teaches about the harness itself.
 - The law is scale-robust: the N=10 macrocycle holds ρ = 2.000 exactly (w79, the
   "Clarion" state: flat spectrum, no privileged mode).
 
+### The pure cycle read as a number: primality is a composition invariant
+A separate probe set (`imasm ring` and `imasm protocol`, this session, every number
+below carrying its own tool-stream hit) closes the pure-cycle law into arithmetic.
+- Ring period recovers magnitude. A pure cycle of n links reports V = n and ρ =
+  2.0000, gap 0, for every n measured (the pure-cycle law above, now read as: the
+  unbranched macrocycle of period n IS the number n). The 12-glyph crystal tuple
+  cannot do this: primes 11, 47, 83 imscribe to one identical string
+  ⟨𐑛𐑡𐑩𐑿𐑐𐑧𐑲𐑝⊙𐑖𐑳𐑭⟩, while their rings sit at V = 11, 47, 83. The tuple projects;
+  the composition determines.
+- Reconvergence multiplicity is the factorization. A balanced closing protocol tiles
+  a period-n object into β equal μ∘δ bubbles, and the tiling validates only when the
+  arm length divides n. 6 tiles to β = 2, 9 to β = 3, 12 to β = 4. A prime admits no
+  proper tiling: its only balanced closing protocol is a single irreducible bubble,
+  β = 1. Measured: prime 11's protocol closes at V = 11, β = 1; composite 12's closes
+  at β = 4. The nontrivial reconvergence set of an n-object equals the proper divisors
+  of n, and a prime's is empty.
+- So n is prime iff β_max = 1, and this is exactly the pure-cycle law's own branching
+  criterion (ρ = 2 unbranched vs ρ > 2 branched) carried down to the integers:
+  divisibility, not magnitude, decides whether the closed structure can branch. The
+  fingerprint (ring period V, β_max) separates all 27 primes from 2 to 103 into 27
+  distinct pairs with no collision, and is written into each digital/<p> ob3ect.
+- Register parallel, flagged as such: the odd-ring index manuscript counts the same
+  cycles by signature n₊ − n₋ (−1 for the odd rings, 0 for the even), a Lean-checked
+  parity invariant. Primality-by-β and index-by-signature are two grounded readings of
+  the one closed structure, not one derived from the other. Convergence of register.
+
 ### Subtractive resolution of frustration
 - w51: sublimating `linker_dopant` out of the frustrated 6-set resolved the branching
   entirely (ρ = 3.5616 to 2.0000). The dopant was the frustration source. Removal, not
@@ -155,3 +181,9 @@ convergence of register, not evidence, and it earns exactly this paragraph.
 3. Feed the carved ring into the catalog as an entry (its 3-by-3 adjacency, its
    index, its kernel vector) and let the agent measure the parity loop against it in
    the Grammar's own register, instead of the two objects resonating only in prose.
+4. Formalize the primality-by-β result the way the odd-ring index was formalized:
+   the mathematical content is a single elementary fact (a balanced μ∘δ tiling of a
+   period-n cycle into equal arms of length d exists iff d divides n, hence the
+   irreducible tiling is the only one iff n is prime), and it should be a Lean theorem
+   in the same p4ramill register that already carries the signature counts. The tool
+   grounds it now; the kernel should sign it.
