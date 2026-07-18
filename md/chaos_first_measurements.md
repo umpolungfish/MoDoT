@@ -49,6 +49,31 @@ The lossy dyad gaining value (T in, B out) rather than losing it is worth
 a look in its own register: a dyad whose arms mint the missing pole is
 the flow-side signature of a dialetheia forming at the fuse.
 
+## The census: the tension is not a law, and perfect machines exist
+
+Twenty-four machine-shaped sets (source, two transforms, sink) sampled
+from the reactive half and walked through chaos: nine sets admit a
+CLOSED class, eleven admit a flow-perfect class, and two admit a class
+that is BOTH. The closure/flow tension is therefore a fact about
+particular sets, not a law of the alphabet.
+
+One set is remarkable: {higher_genus_protocol, perfect_descent,
+protocol_transform_dyad, verify_closure} admits exactly two arrangements
+and BOTH are perfect: CLOSED (4 worked dyads), flow 4 of 4 lossless, and
+zero living ends. Its whole possibility space consists of terminal
+objects. One is minted as perfect_machine (via pm_s1, pm_s2): grammar
+admitted, kernel green, every fuse recovering B.
+
+The mechanism is exact and worth stating as a law of flow: the perfect
+family's arms carry AFWD then AREV, and the involution is invariant on B
+(swapping T and F fixes {T,F}), so with B flowing the inversion costs
+nothing. The tension set's lossy dyad fed T, a projected value, into an
+inverting arm: invol(T) = F, and the arm minted the missing pole at the
+fuse. AREV is lossless exactly on invol-symmetric values (B and N);
+closure/flow tension appears precisely where a projection feeds an
+inversion. Perfection is value symmetry meeting arm structure, and both
+are readable off the program before anything runs.
+
 ## Frontier
 
 - Walk chaos over the reactive half of the registry in slices; census

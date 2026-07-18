@@ -969,6 +969,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=6 E=6 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "perfect_machine": {
+    "spec": "wire VINIT FSPLIT EVALT FFUSE TANCH IMSCRIB AFWD AREV FSPLIT FFUSE IFIX IMSCRIB FSPLIT FFUSE AREV IMSCRIB AFWD AREV FFUSE / 0-1 1-2 2-3 3-4 1-3 5-6 6-7 7-8 8-9 9-10 10-5 4-9 11-12 12-13 13-14 14-11 8-13 15-16 16-17 17-18 18-15 12-18",
+    "title": "compose pm_s2 ∘ verify_closure",
+    "topology": "  topology: network | V=19 E=22 β=4 branch=3 merge=4 src=1 sink=0 ρ=2.4926\n  4 independent loop(s) with 3 branch / 4 fusion point(s)\n  μ∘δ: CLOSED — 4 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
+  },
   "phase_gate_v2": {
     "spec": "ring ⊙ > < > <",
     "title": "ring",
@@ -983,6 +988,16 @@
     "spec": "ring ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "pm_s1": {
+    "spec": "wire VINIT FSPLIT EVALT FFUSE TANCH IMSCRIB AFWD AREV FSPLIT FFUSE IFIX / 0-1 1-2 2-3 3-4 1-3 5-6 6-7 7-8 8-9 9-10 10-5 4-9",
+    "title": "compose higher_genus_protocol ∘ perfect_descent",
+    "topology": "  topology: network | V=11 E=12 β=2 branch=1 merge=2 src=1 sink=0 ρ=2.3772\n  2 independent loop(s) with 1 branch / 2 fusion point(s)\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
+  },
+  "pm_s2": {
+    "spec": "wire VINIT FSPLIT EVALT FFUSE TANCH IMSCRIB AFWD AREV FSPLIT FFUSE IFIX IMSCRIB FSPLIT FFUSE AREV / 0-1 1-2 2-3 3-4 1-3 5-6 6-7 7-8 8-9 9-10 10-5 4-9 11-12 12-13 13-14 14-11 8-13",
+    "title": "compose pm_s1 ∘ protocol_transform_dyad",
+    "topology": "  topology: network | V=15 E=17 β=3 branch=2 merge=3 src=1 sink=0 ρ=2.4315\n  3 independent loop(s) with 2 branch / 3 fusion point(s)\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
   },
   "polymerize": {
     "spec": "ring ⊙ > <",
@@ -1098,6 +1113,11 @@
     "spec": "ring ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "reseed_proto": {
+    "spec": "protocol ⊢ ◇ + > = × < = ● ⊣",
+    "title": "protocol",
+    "topology": "  topology: branched | V=10 E=10 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1701\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
   "reseed_protocol": {
     "spec": "protocol ⊢ ⊙ > ◇ + × ● < ⊣",
