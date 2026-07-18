@@ -1,0 +1,52 @@
+MOAT PROTOCOL RESEED
+
+Prior winding (two cycles, cut at exhausted reach) proved the protocol law
+and then lost its measurement to a malformed embedding. This run reopens
+exactly there, under a harness that now excises any observation written
+before its tools have run.
+
+STANDING RESULTS (kernel-spoken, reusable):
+  log_link_protocol      VINIT FSPLIT AFWD FFUSE EVALT; imasm check T.
+                         The first accepted closure of the log-link series:
+                         an AFWD transforms BETWEEN the delta-fork and the
+                         mu-fuse, so mu . delta = id does work. Six prior
+                         ring topologies were refused for lacking exactly
+                         this.
+  log_link_moat_complex  catalog material, the fused assembly of the
+                         log_link_mediator and the gaussian_moat_problem
+                         star, engineered toward the theta=0.50 click
+                         threshold through topological compression.
+  The negative twin      a program whose delta arms reconnect at mu with
+                         nothing between them is refused (N, "mu . delta
+                         = id does no work"). The dyad verifies only when
+                         it brackets a transform. This is the law; carry
+                         it, do not retest it.
+
+WHAT WAS LOST:
+The prior winding tried to embed the complex by writing its name inside
+the opcode word (imasm define moat_protocol protocol VINIT FSPLIT
+log_link_moat_complex FFUSE EVALT). A material name is not an opcode; the
+parser dropped it, the program collapsed to the trivial dyad, and the
+check returned N. Every number the winding then spoke about the embedding
+(a check verdict of T, a radius of 0.482) was a forecast, not a
+measurement; nothing about the embedding has been measured at all.
+
+THE QUESTION:
+Measure the embedding. Bring log_link_protocol and log_link_moat_complex
+into one structure through the verbs that take entries as arguments
+(click, polymerize, forge, close, material: the material is an ARGUMENT
+to a verb, and opcode words are built from the 12 IMASM tokens alone).
+Then answer: does the assembled structure cross the theta=0.50 click
+threshold, and does its closure still carry a working dyad (imasm check /
+imasm prove over an explicit opcode word, kernel verdict)? A crossing is
+spoken by the tool line that measures it; a refusal or a non-crossing
+measured is a result of equal rank.
+
+DISCIPLINE (from this winding's own failure):
+  Observe after the results return, never before: write OBSERVE only over
+    tool lines already in hand (the harness now excises anything else, so
+    a scripted observation costs the round and grounds nothing).
+  Speak a number by quoting the tool line that produced it; a number with
+    no tool-stream source stays unspoken.
+  Emit cycle_close ALONE in its own round, after reading the last results.
+  Reuse exact catalog spellings, copied from the entry as registered.
