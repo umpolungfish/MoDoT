@@ -142,10 +142,24 @@ def call(name: str, args: Dict[str, Any], iteration: int = 0) -> Dict[str, Any]:
         return {"status": "error", "tool": name, "error": str(exc)}
 
 
+_PRIMITIVE_GLYPHS = {"Ð", "Þ", "Ř", "Φ", "ƒ", "Ç", "Γ", "ɢ", "⊙", "Ħ", "Σ", "Ω"}
+
+
 def _coerce(name: str, positional: List[str]) -> Dict[str, Any]:
     spec = IG_TOOL_ARGS.get(name)
     if spec is None:
         raise IGToolError(f"unknown IG tool: {name!r}")
+    # The door for swapped order: agents emit `primitive_peel Φ <name>` as often as
+    # the documented `primitive_peel <name> Φ`, and the first arg then errors as
+    # "Unknown system: Φ". When a spec is [name, primitive] and the args arrive
+    # primitive-first, put them the right way round instead of erroring.
+    if (
+        spec[:2] == ["name", "primitive"]
+        and len(positional) >= 2
+        and positional[0] in _PRIMITIVE_GLYPHS
+        and positional[1] not in _PRIMITIVE_GLYPHS
+    ):
+        positional = [positional[1], positional[0]] + list(positional[2:])
     args: Dict[str, Any] = {}
     for i, key in enumerate(spec):
         if i >= len(positional):

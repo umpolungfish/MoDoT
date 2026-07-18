@@ -2023,7 +2023,7 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: stain R M1 M2…     apply a diagnostic reagent R (kmno4/uv→⊙, chiral→Ħ, ninhydrin→Ř, iodine→any live center): units carrying the feature light up, the rest stay dark
   TOOL: register NAME M1 M2…  forge the set into a ring and store its full sheet in the material library under NAME (recall it later by name)
   TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
-  TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
+  TOOL: imscribe NAME "description"   CREATE a missing entry by imscribing it (the real generate pipeline). Wrap the description in double quotes so it travels as ONE argument — unquoted words are read as separate names. Use this the moment a verb reports a name is "not found" — then re-run the verb.
   TOOL: ob3ect <description>   CREATE an ob3ect on the fly (the real Auto-Designer pipeline): describe the entity/procedure NEUTRALLY (what it is and does — name no candidates) and get its full IMASM typing back (opcodes, Frobenius split/fuse verdict, registers, bootstrap sequence). Use it to ground a protocol or structure you are about to rely on.
   TOOL: imasm <op> …      COMPOSE the 12 IMASM opcodes into a free polymer TOPOLOGY — not only a line. Ops: chain · ring · protocol (the one that CLOSES: its ◇/● pairs reconnect) · star · comb · bubble · wire (any graph) · classify · ref. Only ◇ may branch, only ● may fuse. Distinct from the monomer verbs (forge/polymerize), which fuse named catalog entries. `help imasm` for the full op reference and the 49-type strange loop.
   TOOL: calc <expression>   THE ARITHMETIC LANE — you **MUST ONLY** speak a number this returned, including any figure you quote from a paper before reasoning from it. A slipped exponent reads exactly like a correct one. `help calc` for ops/fns/precedence and the two live failures this cost.
@@ -2707,7 +2707,10 @@ mod extractor_gag_tests {
         assert_eq!(calls.len(), 1, "the mint was dropped: {calls:?}");
         assert_eq!(calls[0].0, "imscribe");
         assert_eq!(calls[0].1[0], "perfect_cuboid_descent_reagent");
-        assert!(calls[0].1.len() > 3, "description must survive as args");
+        // Since quote-aware splitting, the quoted description survives as ONE verbatim
+        // argument — colon, parens and all — instead of shredding into tokens.
+        assert_eq!(calls[0].1.len(), 2, "name + quoted description: {:?}", calls[0].1);
+        assert!(calls[0].1[1].contains("(a,b,c,g)"), "description verbatim: {:?}", calls[0].1);
 
         let o = extract_tool_calls("TOOL: ob3ect a_thing -- \"Operator for X: maps (p,q) to r.\"");
         assert_eq!(o.len(), 1, "ob3ect dropped: {o:?}");
@@ -3308,6 +3311,37 @@ fn is_template_echo(args: &[String]) -> bool {
     })
 }
 
+/// Whitespace-split honoring double quotes: a `"…"` span is one token, flagged quoted.
+/// Quoted tokens are the agent's verbatim payload (imscription descriptions); they must
+/// not be markdown-trimmed, since trim_md eats quotes and punctuation.
+fn split_quoted(rest: &str) -> Vec<(String, bool)> {
+    let mut out: Vec<(String, bool)> = Vec::new();
+    let mut cur = String::new();
+    let mut inq = false;
+    for c in rest.chars() {
+        match c {
+            '"' => {
+                if inq {
+                    out.push((cur.clone(), true));
+                    cur.clear();
+                }
+                inq = !inq;
+            }
+            c if c.is_whitespace() && !inq => {
+                if !cur.is_empty() {
+                    out.push((cur.clone(), false));
+                    cur.clear();
+                }
+            }
+            c => cur.push(c),
+        }
+    }
+    if !cur.is_empty() {
+        out.push((cur, inq));
+    }
+    out
+}
+
 fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
     // Strip markdown, but ONLY when it is markdown. `*` and `_` are PAIRED emphasis, so trim
     // them from an end only when the other end carries the same mark. A bare trailing `*` is
@@ -3363,9 +3397,13 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
             .collect();
         if !verb.is_empty() {
             let rest = &seg[verb.len()..];
-            let args: Vec<String> = rest
-                .split_whitespace()
-                .map(trim_md)
+            // Quote-aware split: a double-quoted span travels as ONE argument, verbatim.
+            // Without it, `imscribe name A three-vertex ring …` shredded the description
+            // into tokens that downstream tools each treated as a system name
+            // (Unknown system(s): ['=']). Unquoted tokens still get markdown-trimmed.
+            let args: Vec<String> = split_quoted(rest)
+                .into_iter()
+                .map(|(tok, quoted)| if quoted { tok } else { trim_md(&tok) })
                 .filter(|s| !s.is_empty())
                 .collect();
             // Prose guard (shared with the μ-face pass): skip narration like
@@ -6275,6 +6313,26 @@ mod lean_verb_tests {
     fn template_placeholder_span_is_not_a_call() {
         let calls = extract_tool_calls("emit `lean <path.lean>` to verify");
         assert!(calls.is_empty(), "a placeholder must not dispatch: {calls:?}");
+    }
+
+    /// A double-quoted span is ONE argument, verbatim. Unquoted, a description shreds
+    /// into tokens that downstream tools each treat as a system name.
+    #[test]
+    fn quoted_description_travels_as_one_argument() {
+        let calls =
+            extract_tool_calls("TOOL: imscribe ring_x \"a three-vertex ring, one doubled edge\"");
+        assert_eq!(calls.len(), 1);
+        let (v, args) = &calls[0];
+        assert_eq!(v, "imscribe");
+        assert_eq!(args.len(), 2, "name + quoted description: {args:?}");
+        assert_eq!(args[1], "a three-vertex ring, one doubled edge");
+    }
+
+    /// Unquoted args still split and trim as before.
+    #[test]
+    fn unquoted_args_still_split() {
+        let calls = extract_tool_calls("TOOL: compute_distance ring_a ring_b");
+        assert_eq!(calls[0].1, vec!["ring_a".to_string(), "ring_b".to_string()]);
     }
 
     #[test]
