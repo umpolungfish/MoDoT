@@ -384,6 +384,7 @@ fn register_chimera(
     name: &str,
     description: &str,
     product: &[Option<u8>; 12],
+    via: &str,
 ) -> Result<(), String> {
     let text = std::fs::read_to_string(catalog_path).map_err(|e| format!("catalog read: {e}"))?;
     if text.contains(&format!("\"name\": \"{name}\"")) {
@@ -393,6 +394,11 @@ fn register_chimera(
     let mut lines = vec![
         format!("    \"name\": {}", esc(name)),
         format!("    \"description\": {}", esc(description)),
+        // Provenance: this entry is DERIVED — its tuple was computed by a verb from
+        // existing entries, not generated from a description. The catalog can now
+        // tell a witness from a wish; measurement claims should lean on derived
+        // entries and treat described ones as proposals.
+        format!("    \"provenance\": {}", esc(&format!("derived:{via}"))),
     ];
     for i in 0..12 {
         let g = product[i]
@@ -759,7 +765,7 @@ pub fn run_click(
                     LIVE_LABELS[p.pair_idx], p.drive, LIVE_LABELS[p.pair_idx]
                 );
                 match catalog_path {
-                    Some(path) => match register_chimera(path, &name, &desc, &p.product) {
+                    Some(path) => match register_chimera(path, &name, &desc, &p.product, "click") {
                         Ok(()) => {
                             println!("  ✓ registered chimera '{name}' in the catalog — now a first-class navigable object.");
                             println!("  ── decomposition (cl8nk_navigator) ──────────────────────────────");
@@ -1005,7 +1011,7 @@ pub fn run_excite(
                 let desc = format!(
                     "excited state {name}* — {name} promoted by δ (light) to the exceptional-point resonance (⊙→𐑻), the metastable non-Hermitian excited manifold that decays by fluorescence (μ) or drives a SET."
                 );
-                match register_chimera(path, &nm, &desc, &excited) {
+                match register_chimera(path, &nm, &desc, &excited, "excite") {
                     Ok(()) => {
                         println!("  ✓ registered excited state '{nm}' — now a first-class navigable object.");
                         println!("  ── decomposition (cl8nk_navigator) ──────────────────────────────");
@@ -1141,7 +1147,7 @@ pub fn run_set(
                         let cdesc = format!("radical cation {dn}•⁺ — {dn} oxidized by single-electron transfer to {an} (Ω −1, one winding quantum given).");
                         let adesc = format!("radical anion {an}•⁻ — {an} reduced by single-electron transfer from {dn} (Ω +1, one winding quantum taken).");
                         for (nm, desc, ord) in [(cat_name, cdesc, dox), (an_name, adesc, ared)] {
-                            match register_chimera(path, &nm, &desc, &ord) {
+                            match register_chimera(path, &nm, &desc, &ord, "set") {
                                 Ok(()) => {
                                     println!("  ✓ registered '{nm}' — now a first-class navigable object.");
                                     println!("  ── decomposition (cl8nk_navigator) ──────────────────────────────");
@@ -1298,7 +1304,7 @@ pub fn run_complement(
             Some(path) => {
                 let nm = if reg.is_empty() { format!("{name}_ligand") } else { reg.to_string() };
                 let desc = format!("de-novo ligand for the catalytic site {name} — the bidirectional structural complement (complement_type, ported from red-hot_rebis ligand_from_active_site); the partner {name} binds lock-and-key over the six conjugate pairs.");
-                match register_chimera(path, &nm, &desc, &ligand) {
+                match register_chimera(path, &nm, &desc, &ligand, "complement") {
                     Ok(()) => {
                         println!("  ✓ registered ligand '{nm}' — now a first-class navigable object.");
                         println!("  ── decomposition (cl8nk_navigator) ──────────────────────────────");
@@ -1494,7 +1500,7 @@ pub fn run_cycle(
             Some(path) => {
                 let nm = if reg.is_empty() { format!("{substrate_name}_product") } else { reg.to_string() };
                 let desc = format!("product of the {catalyst_name}-catalyzed turnover of {substrate_name} ({dir}); one winding quantum moved, the catalyst regenerated (μ∘δ=id, fixed point of the loop).");
-                match register_chimera(path, &nm, &desc, &product) {
+                match register_chimera(path, &nm, &desc, &product, "cycle") {
                     Ok(()) => {
                         println!("  ✓ registered product '{nm}' — now a first-class navigable object.");
                         println!("  ── decomposition (cl8nk_navigator) ──────────────────────────────");
@@ -1505,6 +1511,15 @@ pub fn run_cycle(
             }
             None => println!("  ✗ register failed: catalog path not resolved"),
         }
+    } else {
+        // The walked-ladder door: without registration the product tuple exists only in
+        // this output, and imscribe (correctly) refuses to mint ladder-state names from
+        // descriptions -- so say here, at the moment the product is born, how to canonize
+        // the REAL one.
+        println!(
+            "  product not registered — to canonize this walked state as a catalog entry \
+             (tuple-derived, provenance-stamped): TOOL: cycle {catalyst_name} {substrate_name} <new_name>"
+        );
     }
     0
 }
@@ -3698,7 +3713,7 @@ pub fn run_ascend(
         let desc = format!(
             "constructed extension {name}⁺ — {name} excited then IFIX-continued past the exceptional point to the complex-axis fixed point (⊙→𐑮) with one added winding quantum Ω: one ramified level of the tower."
         );
-        match register_chimera(path, &nm, &desc, &ext) {
+        match register_chimera(path, &nm, &desc, &ext, "ascend") {
             Ok(()) => println!("  ✓ registered '{nm}' — the constructed level is now a navigable object."),
             Err(e) => println!("  ✗ register failed: {e}"),
         }

@@ -3736,7 +3736,17 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         "set" => vec!["--set".into(), a(0)?, a(1)?],
         "scan" => vec!["--set".into(), a(0)?, a(1)?, "--scan-mediators".into()],
         "complement" => vec!["--complement".into(), a(0)?],
-        "cycle" => vec!["--cycle".into(), a(0)?, a(1)?],
+        // `cycle C S` turns over; `cycle C S NAME` also canonizes the product as a
+        // catalog entry under NAME — tuple-derived, provenance-stamped. This is the
+        // walked-ladder door that pairs with imscribe's ladder-state refusal.
+        "cycle" => {
+            let mut v = vec!["--cycle".into(), a(0)?, a(1)?];
+            if let Some(reg) = args.get(2) {
+                v.push("--register".into());
+                v.push(reg.clone());
+            }
+            v
+        }
         "pathway" => {
             if args.len() < 2 {
                 return None;
@@ -4299,6 +4309,68 @@ fn decoration_ladder_base(name: &str) -> Option<String> {
     catalog_names().into_iter().find(|n| n.to_lowercase() == bl)
 }
 
+/// A LADDER-STATE name: an existing catalog base decorated with a walked-position
+/// suffix — `_34_pair`, `_double_dagger`, `_catalytic_7`, `_69_single`, or chains
+/// of them. Seen live: the agent imscribed `carved_ring_3_doubled_a2_34_pair`
+/// with a description asserting the preregistered saturation claim, then measured
+/// the minted entry as evidence — the description echoed back as a "measurement",
+/// and the tool stream showed the non-monotone breach totals of independent mints,
+/// not a walked chain. A position on a ladder is BORN from the verb that walks it.
+fn state_ladder_base(name: &str) -> Option<String> {
+    let base = strip_ladder_suffix(name)?;
+    let bl = base.to_lowercase();
+    catalog_names().into_iter().find(|n| n.to_lowercase() == bl)
+}
+
+/// Pure half of the ladder-state guard: strip walked-position suffixes from a name.
+/// Returns the base iff at least one suffix group came off.
+fn strip_ladder_suffix(name: &str) -> Option<String> {
+    const ORDINALS: &[&str] = &[
+        "double", "triple", "quadruple", "quintuple", "sextuple", "septuple",
+        "octuple", "nonuple", "decuple",
+    ];
+    const UNITS: &[&str] = &[
+        "pair", "pairs", "dagger", "daggers", "single", "singles",
+        "turnover", "turnovers", "winding", "windings", "catalytic",
+    ];
+    let toks: Vec<&str> = name.split('_').collect();
+    let mut end = toks.len();
+    loop {
+        let mut new_end = end;
+        if new_end >= 1 {
+            let last = toks[new_end - 1].to_ascii_lowercase();
+            let last_is_num = !last.is_empty() && last.chars().all(|c| c.is_ascii_digit());
+            if UNITS.contains(&last.as_str()) {
+                new_end -= 1;
+                if new_end >= 1 {
+                    let prev = toks[new_end - 1].to_ascii_lowercase();
+                    let prev_is_num =
+                        !prev.is_empty() && prev.chars().all(|c| c.is_ascii_digit());
+                    if prev_is_num || ORDINALS.contains(&prev.as_str()) {
+                        new_end -= 1;
+                    }
+                }
+            } else if last_is_num && new_end >= 2 {
+                let prev = toks[new_end - 2].to_ascii_lowercase();
+                if UNITS.contains(&prev.as_str()) {
+                    new_end -= 2;
+                }
+            }
+        }
+        if new_end == end {
+            break;
+        }
+        end = new_end;
+        if end == 0 {
+            return None;
+        }
+    }
+    if end == toks.len() {
+        return None;
+    }
+    Some(toks[..end].join("_"))
+}
+
 fn catalog_has_name(name: &str) -> bool {
     // Case-insensitive: the generate pipeline lowercases names, so an exact-case substring
     // match falsely reported "did not register" for a name the generator had actually written
@@ -4557,6 +4629,18 @@ fn run_imscribe(name: &str, description: &str) -> String {
              catalog entity; imscribing each level pollutes the catalog and never terminates. NOT registered. \
              The verb that built it (`ascend` / `excite` / `homolyze`) already returned its tuple — use that. \
              A tower that only climbs by re-imscription is a B frontier, not a catalog to enumerate.\n"
+        );
+    }
+    // Ladder-state guard: a walked position may not be minted from a description.
+    if let Some(base) = state_ladder_base(name) {
+        return format!(
+            "'{name}' is a LADDER-STATE name on the existing entry '{base}'. A position on a \
+             walked ladder is BORN from the verb that walks it — an entry minted from the words \
+             \"the Nth state\" is a wish the tools will then measure as a witness. NOT registered. \
+             Walk it instead: TOOL: cycle <catalyst> {base} advances one turnover, and \
+             TOOL: cycle <catalyst> <current form> {name} canonizes the REAL product under this \
+             name, tuple-derived with provenance. If the form you want does not exist yet, the \
+             ladder has not reached it.\n"
         );
     }
     let Some(cat) = resolve_catalog_path() else {
@@ -6257,6 +6341,27 @@ mod dialect_tests {
 
     /// Arming is the dispatcher's job: anything reached through run_structural_tool is being
     /// read by the agent.
+    #[test]
+    /// The pure suffix stripper: every walked-position naming seen in the live runs
+    /// must reduce to its base; clean names must pass untouched.
+    #[test]
+    fn ladder_state_suffixes_strip() {
+        let strip = |n: &str| strip_ladder_suffix(n);
+        assert_eq!(strip("ring_34_pair").as_deref(), Some("ring"));
+        assert_eq!(strip("ring_double_dagger").as_deref(), Some("ring"));
+        assert_eq!(strip("ring_quintuple_dagger").as_deref(), Some("ring"));
+        assert_eq!(strip("ring_catalytic_7").as_deref(), Some("ring"));
+        assert_eq!(strip("ring_69_single").as_deref(), Some("ring"));
+        assert_eq!(strip("ring_double_dagger_double_dagger").as_deref(), Some("ring"));
+        assert_eq!(strip("ring_8_pair").as_deref(), Some("ring"));
+        // clean names survive
+        assert!(strip("hubble_constant").is_none());
+        assert!(strip("carved_ring_3_doubled_a2").is_none());
+        assert!(strip("sixteen_three_vacuum").is_none());
+        // a number alone is not a ladder position
+        assert!(strip("k19_2024").is_none());
+    }
+
     #[test]
     fn dispatch_arms_agent_mode() {
         click::AGENT_MODE.store(false, Ordering::Relaxed);
