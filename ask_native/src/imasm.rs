@@ -114,6 +114,27 @@ impl Token {
         }
     }
 
+    /// The full opcode table as JSON, for the export manifest: name, glyph,
+    /// and arity, so the composer surface renders ports without re-deriving them.
+    fn parse_all_names() -> serde_json::Value {
+        let all = [
+            Token::Vinit, Token::Tanch, Token::Afwd, Token::Arev, Token::Clink,
+            Token::Imscrib, Token::Fsplit, Token::Ffuse, Token::Evalt,
+            Token::Evalf, Token::Engagr, Token::Ifix,
+        ];
+        serde_json::Value::Array(
+            all.iter()
+                .map(|t| {
+                    let (ain, aout) = t.arity();
+                    serde_json::json!({
+                        "name": t.name(), "code": t.code(),
+                        "arity_in": ain, "arity_out": aout,
+                    })
+                })
+                .collect(),
+        )
+    }
+
     /// Accepts full names (VINIT) and the IMSCRIBr short forms (VI, FS, FF, …),
     /// case-insensitively.
     fn parse(s: &str) -> Option<Token> {
@@ -146,6 +167,7 @@ enum ClosureState {
 }
 
 /// A directed IMASM program graph. Node id = index into `nodes`.
+#[derive(Clone)]
 pub struct Graph {
     nodes: Vec<Token>,
     edges: Vec<(usize, usize)>,
@@ -1117,12 +1139,39 @@ fn tools_path() -> std::path::PathBuf {
     std::path::PathBuf::from(crate::expand_user("~/imsgct/MoDoT/ob3ects/imasm_tools.json"))
 }
 
+/// Persist the registry ATOMICALLY: write a temp file, then rename. A plain
+/// overwrite let a parallel reader catch the file mid-write, parse-fail, fall
+/// back to {}, and persist the emptiness — 274 agent-built tools were wiped
+/// that way (recovered by replaying the tool_calls log). Rename is atomic on
+/// the same filesystem, so a reader now sees the old registry or the new one,
+/// never a torn one.
+fn save_registry(reg: &serde_json::Value) -> std::io::Result<()> {
+    let path = tools_path();
+    let tmp = path.with_extension("json.tmp");
+    std::fs::write(&tmp, serde_json::to_string_pretty(reg).unwrap_or_default())?;
+    std::fs::rename(&tmp, &path)
+}
+
 fn load_registry() -> serde_json::Value {
-    std::fs::read_to_string(tools_path())
-        .ok()
-        .and_then(|s| serde_json::from_str(&s).ok())
-        .filter(|v: &serde_json::Value| v.is_object())
-        .unwrap_or_else(|| serde_json::json!({}))
+    let raw = std::fs::read_to_string(tools_path()).ok();
+    if let Some(s) = &raw {
+        if let Ok(v) = serde_json::from_str::<serde_json::Value>(s) {
+            if v.is_object() {
+                return v;
+            }
+        }
+        // The file EXISTS but does not parse: that is corruption, not absence.
+        // Preserve the evidence before anyone writes over it — silently
+        // returning {} here is what turned one torn read into a full wipe.
+        if !s.trim().is_empty() {
+            let _ = std::fs::copy(tools_path(), tools_path().with_extension("json.corrupt"));
+            eprintln!(
+                "[imasm] registry exists but did not parse — preserved a copy at \
+                 imasm_tools.json.corrupt before continuing empty"
+            );
+        }
+    }
+    serde_json::json!({})
 }
 
 fn define_tool(rest: &[String]) -> String {
@@ -1169,7 +1218,7 @@ fn define_tool(rest: &[String]) -> String {
             "topology": g.classify(),
         }),
     );
-    match std::fs::write(tools_path(), serde_json::to_string_pretty(&reg).unwrap_or_default()) {
+    match save_registry(&reg) {
         Ok(_) => format!(
             "IMASM define → tool '{name}' admitted (grammar-valid, kernel-constrained).\n{}\n  \
              run it: imasm run {name}   |   list: imasm tools\n",
@@ -1407,6 +1456,50 @@ fn gate_out(tok: Token, x: Val, seed: Val, slot: usize) -> Val {
     }
 }
 
+/// The flow core shared by eval and chaos: Kleene-iterate values over the
+/// graph, return (per-node inputs, per-edge values). Monotone gates, so this
+/// settles in ≤4·E rounds regardless of cycles.
+fn flow_values(g: &Graph, seed: Val) -> (Vec<Val>, Vec<Val>) {
+    let mut edge_val: Vec<Val> = vec![Val::default(); g.edges.len()];
+    let mut node_in: Vec<Val> = vec![Val::default(); g.nodes.len()];
+    let cap = 4 * g.edges.len().max(1) + 4;
+    for _ in 0..cap {
+        let mut changed = false;
+        for i in 0..g.nodes.len() {
+            let mut inp = Val::default();
+            for (eidx, &(_a, b)) in g.edges.iter().enumerate() {
+                if b == i {
+                    inp = inp.union(edge_val[eidx]);
+                }
+            }
+            node_in[i] = inp;
+            let mut slot = 0usize;
+            for (eidx, &(a, _b)) in g.edges.iter().enumerate() {
+                if a == i {
+                    let v = gate_out(g.nodes[i], inp, seed, slot);
+                    if edge_val[eidx] != v {
+                        edge_val[eidx] = v;
+                        changed = true;
+                    }
+                    slot += 1;
+                }
+            }
+        }
+        if !changed {
+            break;
+        }
+    }
+    (node_in, edge_val)
+}
+
+/// Dyad flow verdicts: for each δ/μ pair, did the fuse recover the fork's feed?
+fn dyad_signature(g: &Graph, node_in: &[Val]) -> (usize, usize) {
+    let (pairs, _fully) = g.frobenius_closures();
+    let total = pairs.len();
+    let id = pairs.iter().filter(|&&(f, j)| node_in[j] == node_in[f]).count();
+    (id, total)
+}
+
 fn eval_tool(rest: &[String], sixteen: bool) -> String {
     // optional trailing seed=<name> (FOUR names N/T/F/B or 16_3 names N/A/TFtf combos)
     let mut args: Vec<String> = rest.to_vec();
@@ -1436,36 +1529,7 @@ fn eval_tool(rest: &[String], sixteen: bool) -> String {
     }
     let render = |v: Val| if sixteen { v.name() } else { v.four_name() };
 
-    let mut edge_val: Vec<Val> = vec![Val::default(); g.edges.len()];
-    let mut node_in: Vec<Val> = vec![Val::default(); g.nodes.len()];
-    let cap = 4 * g.edges.len().max(1) + 4;
-    for _ in 0..cap {
-        let mut changed = false;
-        for i in 0..g.nodes.len() {
-            let mut inp = Val::default();
-            for (eidx, &(a, b)) in g.edges.iter().enumerate() {
-                let _ = a;
-                if b == i {
-                    inp = inp.union(edge_val[eidx]);
-                }
-            }
-            node_in[i] = inp;
-            let mut slot = 0usize;
-            for (eidx, &(a, _b)) in g.edges.iter().enumerate() {
-                if a == i {
-                    let v = gate_out(g.nodes[i], inp, seed, slot);
-                    if edge_val[eidx] != v {
-                        edge_val[eidx] = v;
-                        changed = true;
-                    }
-                    slot += 1;
-                }
-            }
-        }
-        if !changed {
-            break;
-        }
-    }
+    let (node_in, edge_val) = flow_values(&g, seed);
 
     let mut out = format!(
         "IMASM eval — {label}  [carrier: {}; seed {}]\n",
@@ -1523,22 +1587,10 @@ fn eval_tool(rest: &[String], sixteen: bool) -> String {
 // of B. Composition CONSUMES valences and may never mint one; the composite must
 // re-satisfy the grammar. A program with no living ends is finished — a loop —
 // and does not compose: building is the act of consuming reactive ends.
-fn compose_tool(rest: &[String]) -> String {
-    if rest.len() < 3 {
-        return "compose needs: imasm compose <new_name> <tool_A> <tool_B>  \
-                (binds A's living out-ends to B's living in-ends, in order)\n"
-            .into();
-    }
-    let new_name = rest[0].clone();
-    let (label_a, ga) = match resolve_graph(&rest[1..2].to_vec()) {
-        Ok(v) => v,
-        Err(e) => return format!("compose: A did not resolve — {e}"),
-    };
-    let (label_b, gb) = match resolve_graph(&rest[2..3].to_vec()) {
-        Ok(v) => v,
-        Err(e) => return format!("compose: B did not resolve — {e}"),
-    };
-    // living ends, with slot multiplicity (a FSPLIT missing both arms offers two)
+/// The bind core: merge B into A end-to-valence (A's free out-ends to B's free
+/// in-ends, node order, deterministic). Err carries the refusal reason. Used by
+/// compose (one binding, registered) and chaos (the whole state space).
+fn merge_bind(ga: &Graph, gb: &Graph) -> Result<(Graph, Vec<(usize, usize)>), String> {
     let outs_a: Vec<usize> = (0..ga.nodes.len())
         .flat_map(|i| {
             let free = ga.nodes[i].arity().1.saturating_sub(ga.out_degree(i));
@@ -1552,14 +1604,12 @@ fn compose_tool(rest: &[String]) -> String {
         })
         .collect();
     if outs_a.is_empty() || ins_b.is_empty() {
-        return format!(
-            "compose REFUSED — composition consumes living ends, and {} has none to offer \
-             ({label_a}: {} free out-end(s); {label_b}: {} free in-end(s)). A program with no \
-             reactive ends is a finished loop; it does not compose, it is DONE.\n",
+        return Err(format!(
+            "{} offers no living end ({} free out, {} free in)",
             if outs_a.is_empty() { "A" } else { "B" },
             outs_a.len(),
             ins_b.len()
-        );
+        ));
     }
     let k = outs_a.len().min(ins_b.len());
     let off = ga.nodes.len();
@@ -1586,12 +1636,173 @@ fn compose_tool(rest: &[String]) -> String {
     }
     let errs = g.validate();
     if !errs.is_empty() {
+        return Err(format!("ill-typed composite: {}", errs.join("; ")));
+    }
+    Ok((g, bindings))
+}
+
+// ── ChaosComposer: the possibility state space of program interaction ───────
+// Feed a SET of programs; a set has no order and no chosen binding, so the
+// composer walks every ordering (left-fold end-to-valence binding) and speaks
+// the whole space: which arrangements are admitted, which are refused and why,
+// and what each admitted arrangement IS under all three verdicts (grammar by
+// construction, closure state, flow). Arrangements collapse into outcome
+// classes — distinct (topology, closure, flow) results — because the space of
+// possibilities is smaller than the space of orderings, and THAT collapse is
+// the measurement.
+fn chaos_tool(rest: &[String]) -> String {
+    if rest.len() < 2 {
+        return "chaos needs ≥2 programs: imasm chaos <A> <B> [C…]  \
+                (walks every ordering, folds each by end-to-valence binding, and reports \
+                the possibility state space: admitted arrangements, refusals, outcome classes)\n"
+            .into();
+    }
+    if rest.len() > 6 {
         return format!(
-            "compose REFUSED — the composite is ill-typed:\n    ✗ {}\n  \
-             The bound ends must respect valence: only FSPLIT branches, only FFUSE fuses.\n",
-            errs.join("\n    ✗ ")
+            "chaos caps at 6 programs ({} given): 7! = 5040 orderings stops being a state \
+             space and starts being noise. Compose a sub-space first, then chaos the composites.\n",
+            rest.len()
         );
     }
+    // resolve every program once
+    let mut graphs: Vec<(String, Graph)> = Vec::new();
+    for name in rest {
+        match resolve_graph(&[name.clone()]) {
+            Ok((_, g)) => graphs.push((name.clone(), g)),
+            Err(e) => return format!("chaos: '{name}' did not resolve — {e}"),
+        }
+    }
+    // permutations by Heap's algorithm over indices
+    let n = graphs.len();
+    let mut idx: Vec<usize> = (0..n).collect();
+    let mut perms: Vec<Vec<usize>> = Vec::new();
+    fn heap(k: usize, a: &mut Vec<usize>, out: &mut Vec<Vec<usize>>) {
+        if k == 1 {
+            out.push(a.clone());
+            return;
+        }
+        for i in 0..k {
+            heap(k - 1, a, out);
+            if k % 2 == 0 {
+                a.swap(i, k - 1);
+            } else {
+                a.swap(0, k - 1);
+            }
+        }
+    }
+    heap(n, &mut idx, &mut perms);
+
+    let seed = Val::from_name("TF").unwrap();
+    // outcome class key → (representative ordering, count, closure kind, flow line)
+    use std::collections::BTreeMap;
+    let mut classes: BTreeMap<String, (String, usize)> = BTreeMap::new();
+    let mut refusals: BTreeMap<String, usize> = BTreeMap::new();
+    let mut admitted = 0usize;
+    for p in &perms {
+        let order: Vec<&str> = p.iter().map(|&i| graphs[i].0.as_str()).collect();
+        let mut acc = graphs[p[0]].1.clone();
+        let mut failed: Option<String> = None;
+        for &i in &p[1..] {
+            match merge_bind(&acc, &graphs[i].1) {
+                Ok((g, _)) => acc = g,
+                Err(e) => {
+                    failed = Some(e);
+                    break;
+                }
+            }
+        }
+        match failed {
+            Some(e) => {
+                *refusals.entry(e).or_insert(0) += 1;
+            }
+            None => {
+                admitted += 1;
+                let closure = match acc.closure_state() {
+                    ClosureState::Closed(k) => format!("CLOSED({k} worked dyad(s))"),
+                    ClosureState::Identity => "IDENTITY (dyad does no work)".into(),
+                    ClosureState::Open => "OPEN (a δ or μ dangles)".into(),
+                    ClosureState::None => "NONE (no dyad)".into(),
+                };
+                let (node_in, _) = flow_values(&acc, seed);
+                let (id, total) = dyad_signature(&acc, &node_in);
+                let sinks: Vec<String> = (0..acc.nodes.len())
+                    .filter(|&i| acc.out_degree(i) == 0)
+                    .map(|i| gate_out(acc.nodes[i], node_in[i], seed, 0).four_name())
+                    .collect();
+                let living: usize = (0..acc.nodes.len())
+                    .map(|i| {
+                        let (ain, aout): (usize, usize) = acc.nodes[i].arity();
+                        ain.saturating_sub(acc.in_degree(i)) + aout.saturating_sub(acc.out_degree(i))
+                    })
+                    .sum();
+                let topo_line = acc
+                    .classify()
+                    .lines()
+                    .next()
+                    .unwrap_or("")
+                    .trim()
+                    .trim_start_matches("topology:")
+                    .trim()
+                    .to_string();
+                let key = format!(
+                    "{topo_line} | {closure} | flow {id}/{total} id | readout [{}] | {} living end(s)",
+                    sinks.join(","),
+                    living
+                );
+                let entry = classes.entry(key).or_insert((order.join(" ∘ "), 0));
+                entry.1 += 1;
+            }
+        }
+    }
+
+    let mut out = format!(
+        "IMASM chaos — possibility state space of {{{}}}\n  orderings walked: {}  ·  admitted: {}  ·  refused: {}\n  \
+         outcome classes: {} (the space of possibilities, after the orderings collapse)\n",
+        rest.join(", "),
+        perms.len(),
+        admitted,
+        perms.len() - admitted,
+        classes.len()
+    );
+    for (key, (repr, count)) in &classes {
+        out.push_str(&format!("  ◆ {count} ordering(s) → {key}\n      e.g. {repr}\n"));
+    }
+    for (why, count) in &refusals {
+        out.push_str(&format!("  ✗ {count} ordering(s) refused — {why}\n"));
+    }
+    out.push_str(
+        "  mint one: imasm compose <name> <A> <B> (then compose the result onward), \
+         or wire the exact arrangement.\n",
+    );
+    out
+}
+
+fn compose_tool(rest: &[String]) -> String {
+    if rest.len() < 3 {
+        return "compose needs: imasm compose <new_name> <tool_A> <tool_B>  \
+                (binds A's living out-ends to B's living in-ends, in order)\n"
+            .into();
+    }
+    let new_name = rest[0].clone();
+    let (label_a, ga) = match resolve_graph(&rest[1..2].to_vec()) {
+        Ok(v) => v,
+        Err(e) => return format!("compose: A did not resolve — {e}"),
+    };
+    let (label_b, gb) = match resolve_graph(&rest[2..3].to_vec()) {
+        Ok(v) => v,
+        Err(e) => return format!("compose: B did not resolve — {e}"),
+    };
+    let (g, bindings) = match merge_bind(&ga, &gb) {
+        Ok(v) => v,
+        Err(e) => {
+            return format!(
+                "compose REFUSED — {e}. Composition consumes living ends and never mints one; \
+                 a program with no reactive ends is a finished loop, it does not compose, it is \
+                 DONE. ({label_a} ∘ {label_b})\n"
+            )
+        }
+    };
+    let k = bindings.len();
     // persist as a wire spec so it rebuilds through the identical parse
     let toks: Vec<&str> = g.nodes.iter().map(|t| t.name()).collect();
     let edges: Vec<String> = g.edges.iter().map(|&(a, b)| format!("{a}-{b}")).collect();
@@ -1605,7 +1816,7 @@ fn compose_tool(rest: &[String]) -> String {
             "topology": g.classify(),
         }),
     );
-    if let Err(e) = std::fs::write(tools_path(), serde_json::to_string_pretty(&reg).unwrap_or_default()) {
+    if let Err(e) = save_registry(&reg) {
         return format!("compose: could not persist '{new_name}': {e}\n");
     }
     let bind_str: Vec<String> = bindings
@@ -1623,6 +1834,63 @@ fn compose_tool(rest: &[String]) -> String {
         2 * k,
         report("compose", &g).trim_end()
     )
+}
+
+// ── manifest export: the registry with its graphs, for the composer surface ──
+// The visual composer (imasm_composer.html) must never re-derive the grammar in
+// a second language; it renders THIS manifest, and every judgment stays here.
+fn export_tools() -> String {
+    let reg = load_registry();
+    let Some(obj) = reg.as_object() else {
+        return "export: registry unreadable\n".into();
+    };
+    let mut items: Vec<serde_json::Value> = Vec::new();
+    for (name, rec) in obj {
+        let spec = rec.get("spec").and_then(|s| s.as_str()).unwrap_or("");
+        let parts: Vec<String> = spec.split_whitespace().map(|s| s.to_string()).collect();
+        let Some((_t, g)) = parts
+            .first()
+            .and_then(|op| build_graph(&op.to_ascii_lowercase(), &parts[1..]).ok())
+        else {
+            continue;
+        };
+        let free_in: usize = (0..g.nodes.len())
+            .map(|i| g.nodes[i].arity().0.saturating_sub(g.in_degree(i)))
+            .sum();
+        let free_out: usize = (0..g.nodes.len())
+            .map(|i| g.nodes[i].arity().1.saturating_sub(g.out_degree(i)))
+            .sum();
+        let closure = match g.closure_state() {
+            ClosureState::Closed(k) => format!("CLOSED({k})"),
+            ClosureState::Identity => "IDENTITY".into(),
+            ClosureState::Open => "OPEN".into(),
+            ClosureState::None => "NONE".into(),
+        };
+        items.push(serde_json::json!({
+            "name": name,
+            "spec": spec,
+            "nodes": g.nodes.iter().map(|t| t.name()).collect::<Vec<_>>(),
+            "codes": g.nodes.iter().map(|t| t.code()).collect::<Vec<_>>(),
+            "edges": g.edges,
+            "free_in": free_in,
+            "free_out": free_out,
+            "closure": closure,
+        }));
+    }
+    let manifest = serde_json::json!({
+        "generated_by": "imasm export",
+        "opcodes": Token::parse_all_names(),
+        "tools": items,
+    });
+    let path = crate::expand_user("~/imsgct/MoDoT/ob3ects/imasm_manifest.json");
+    match std::fs::write(&path, serde_json::to_string_pretty(&manifest).unwrap_or_default()) {
+        Ok(_) => format!(
+            "IMASM export → {} tool(s) manifested with graphs, ports, and closure states.\n  \
+             The composer surface reads this file; the kernel stays the only judge.\n",
+            manifest["tools"].as_array().map(|a| a.len()).unwrap_or(0)
+        ),
+        Err(e) => format!("export: could not write manifest: {e}\n"),
+    }
 }
 
 fn list_tools() -> String {
@@ -1719,6 +1987,8 @@ pub fn run(args: &[String]) -> String {
         "eval" | "flow" => eval_tool(rest, false),
         "eval16" | "flow16" => eval_tool(rest, true),
         "compose" | "bind" => compose_tool(rest),
+        "chaos" | "space" => chaos_tool(rest),
+        "export" | "manifest" => export_tools(),
         "tools" => list_tools(),
         "chain" | "ring" | "cycle" | "loop" | "protocol" | "seq" | "sequence" | "classify"
         | "read" | "wire" | "graph" | "free" | "star" | "bubble" | "fork" | "comb" | "graft" => {
@@ -1818,6 +2088,11 @@ pub fn run(args: &[String]) -> String {
 mod tests {
     use super::*;
 
+    /// The tool registry is one real file; tests that define/remove tools must
+    /// not interleave their read-modify-write cycles (seen: parallel test
+    /// threads clobbering each other's defines).
+    static REG_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
     /// Operational μ∘δ: the canonical protocol word is value-lossless (B splits
     /// to (T,F), fuses back to B), and the readout renders in the FOUR slice.
     #[test]
@@ -1845,6 +2120,7 @@ mod tests {
     /// binding), and it round-trips the registry as a wire spec.
     #[test]
     fn compose_consumes_valences_and_can_close() {
+        let _guard = REG_LOCK.lock().unwrap();
         let a: Vec<String> = ["cp_test_a", "chain", "VINIT", "FSPLIT", "AFWD"]
             .iter().map(|s| s.to_string()).collect();
         let b: Vec<String> = ["cp_test_b", "chain", "FFUSE", "EVALT", "TANCH"]
@@ -1863,7 +2139,35 @@ mod tests {
         for k in ["cp_test_a", "cp_test_b", "cp_test_ab"] {
             reg.as_object_mut().unwrap().remove(k);
         }
-        let _ = std::fs::write(tools_path(), serde_json::to_string_pretty(&reg).unwrap_or_default());
+        let _ = save_registry(&reg);
+    }
+
+    /// Chaos walks every ordering, folds by end-to-valence binding, and the
+    /// orderings COLLAPSE into outcome classes; refusals carry their reason.
+    #[test]
+    fn chaos_walks_the_state_space_and_collapses_it() {
+        let _guard = REG_LOCK.lock().unwrap();
+        for (n, spec) in [
+            ("chaos_t_src", vec!["chain", "VINIT", "FSPLIT"]),
+            ("chaos_t_mid", vec!["chain", "AFWD", "AREV"]),
+            ("chaos_t_snk", vec!["chain", "FFUSE", "EVALT", "TANCH"]),
+        ] {
+            let mut a = vec![n.to_string()];
+            a.extend(spec.iter().map(|s| s.to_string()));
+            assert!(define_tool(&a).contains("admitted"));
+        }
+        let args: Vec<String> = ["chaos_t_src", "chaos_t_mid", "chaos_t_snk"]
+            .iter().map(|s| s.to_string()).collect();
+        let out = chaos_tool(&args);
+        assert!(out.contains("orderings walked: 6"), "{out}");
+        assert!(out.contains("admitted: 2"), "{out}");
+        assert!(out.contains("CLOSED(1 worked dyad(s))"), "one arrangement must close: {out}");
+        assert!(out.contains("refused — B offers no living end"), "{out}");
+        let mut reg = load_registry();
+        for k in ["chaos_t_src", "chaos_t_mid", "chaos_t_snk"] {
+            reg.as_object_mut().unwrap().remove(k);
+        }
+        let _ = save_registry(&reg);
     }
 
     /// Seen live: `imasm define ᚦᚱᛟᚾᛖ ring wire` — a malformed spec built the empty

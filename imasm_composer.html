@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IMASM Composer</title>
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --edge:#30363d; --ink:#c9d1d9; --dim:#8b949e;
+          --accent:#e3b341; --ok:#3fb950; --warn:#f85149; --wire:#58a6ff; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--bg); color:var(--ink); font:13px/1.45 "Everson Mono","DejaVu Sans Mono",monospace;
+         display:grid; grid-template-columns:270px 1fr; grid-template-rows:1fr 170px; height:100vh; }
+  #palette { grid-row:1/3; background:var(--panel); border-right:1px solid var(--edge); overflow-y:auto; padding:10px; }
+  #palette h1 { font-size:14px; color:var(--accent); margin-bottom:8px; }
+  #palette input { width:100%; background:var(--bg); color:var(--ink); border:1px solid var(--edge);
+                   padding:4px 6px; margin-bottom:8px; font:inherit; }
+  .pitem { padding:3px 6px; cursor:pointer; border-radius:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pitem:hover { background:#1f2733; }
+  .pitem .meta { color:var(--dim); font-size:11px; }
+  .sect { color:var(--dim); margin:10px 0 4px; font-size:11px; letter-spacing:1px; }
+  #canvasWrap { position:relative; overflow:hidden; }
+  #canvas { width:100%; height:100%; display:block; cursor:crosshair; }
+  #speak { grid-column:2; background:var(--panel); border-top:1px solid var(--edge); padding:8px 12px; overflow-y:auto; }
+  #speak h2 { font-size:12px; color:var(--accent); margin-bottom:4px; }
+  #cmds { white-space:pre-wrap; color:var(--ok); font-size:12px; }
+  #speak .law { color:var(--dim); font-size:11px; margin-top:6px; }
+  button { background:var(--bg); color:var(--ink); border:1px solid var(--edge); padding:2px 10px;
+           font:inherit; cursor:pointer; margin-right:6px; border-radius:3px; }
+  button:hover { border-color:var(--accent); }
+  .node rect { fill:#1c2430; stroke:var(--edge); stroke-width:1; rx:6; }
+  .node.sel rect { stroke:var(--accent); }
+  .node text { fill:var(--ink); font:12px "Everson Mono",monospace; pointer-events:none; }
+  .node .code { fill:var(--dim); font-size:11px; }
+  .port { fill:#0d1117; stroke:var(--dim); stroke-width:1.2; cursor:pointer; }
+  .port.free:hover, .port.armed { stroke:var(--accent); fill:#2a2413; }
+  .port.used { fill:#233a28; stroke:var(--ok); }
+  .wire { fill:none; stroke:var(--wire); stroke-width:1.6; opacity:.85; }
+  #hint { position:absolute; top:8px; left:12px; color:var(--dim); font-size:11px; pointer-events:none; }
+</style>
+</head>
+<body>
+<div id="palette">
+  <h1>⊙ IMASM Composer</h1>
+  <input id="filter" placeholder="filter tools…">
+  <input type="file" id="mfile" accept=".json" style="font-size:10px" title="load imasm_manifest.json">
+  <div class="sect">OPCODES</div><div id="ops"></div>
+  <div class="sect">REGISTERED TOOLS (imasm export refreshes)</div><div id="tools"></div>
+</div>
+<div id="canvasWrap">
+  <span id="hint">click a palette item to place it · drag nodes · click an out-port ▸ then an in-port to bind · double-click a node to remove</span>
+  <svg id="canvas"></svg>
+</div>
+<div id="speak">
+  <h2>SPEAK (proposals only — the kernel is the only judge)</h2>
+  <button onclick="copyCmds()">copy</button><button onclick="clearAll()">clear canvas</button>
+  <div id="cmds"></div>
+  <div class="law">law: composition consumes living ends and never mints one · a program with no living ends is a finished loop, it does not compose · verify every arrangement with define / prove / eval — three verdicts, none implies another</div>
+</div>
+<script>
+"use strict";
+let MAN = { opcodes: [], tools: [] };
+let nodes = [], wires = [], armed = null, nid = 0;
+const svg = document.getElementById('canvas');
+
+fetch('ob3ects/imasm_manifest.json').then(r => r.json()).then(m => { MAN = m; renderPalette(); })
+  .catch(() => { document.getElementById('hint').textContent =
+    'manifest fetch failed (file:// blocks it) — use the file picker to load ob3ects/imasm_manifest.json, or serve the folder locally'; });
+document.getElementById('mfile').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  f.text().then(t => { MAN = JSON.parse(t); renderPalette(); });
+});
+document.getElementById('filter').addEventListener('input', renderPalette);
+
+function renderPalette() {
+  const q = document.getElementById('filter').value.toLowerCase();
+  const ops = document.getElementById('ops'); ops.innerHTML = '';
+  for (const o of MAN.opcodes) {
+    const d = document.createElement('div'); d.className = 'pitem';
+    d.textContent = `${o.code} ${o.name}  ${o.arity_in}→${o.arity_out}`;
+    d.onclick = () => addNode({ kind:'op', name:o.name, code:o.code, ins:o.arity_in, outs:o.arity_out });
+    ops.appendChild(d);
+  }
+  const tl = document.getElementById('tools'); tl.innerHTML = '';
+  for (const t of MAN.tools) {
+    if (q && !t.name.toLowerCase().includes(q)) continue;
+    const d = document.createElement('div'); d.className = 'pitem';
+    d.innerHTML = `${t.name} <span class="meta">${t.free_in}▸in ${t.free_out}▸out · ${t.closure}</span>`;
+    d.title = t.spec;
+    d.onclick = () => addNode({ kind:'tool', name:t.name, code:t.codes.join(''), ins:t.free_in, outs:t.free_out });
+    tl.appendChild(d);
+  }
+}
+
+function addNode(spec) {
+  const n = { id:nid++, x:80 + (nodes.length%5)*170, y:60 + Math.floor(nodes.length/5)*110, ...spec };
+  nodes.push(n); draw(); speak();
+}
+
+function portsOf(n, side) {
+  const c = side==='in' ? n.ins : n.outs, out = [];
+  for (let k=0;k<c;k++) out.push({ node:n.id, side, slot:k });
+  return out;
+}
+function portUsed(p) {
+  return wires.some(w => (p.side==='out' ? w.from.node===p.node && w.from.slot===p.slot
+                                         : w.to.node===p.node && w.to.slot===p.slot));
+}
+function portXY(n, side, slot, count) {
+  const h = Math.max(46, 16*Math.max(n.ins,n.outs)+18);
+  const y = n.y + 14 + (slot+1) * h/(count+1);
+  return { x: side==='in' ? n.x : n.x+150, y };
+}
+
+function draw() {
+  svg.innerHTML = '';
+  for (const w of wires) {
+    const a = nodes.find(n=>n.id===w.from.node), b = nodes.find(n=>n.id===w.to.node);
+    if (!a||!b) continue;
+    const p1 = portXY(a,'out',w.from.slot,a.outs), p2 = portXY(b,'in',w.to.slot,b.ins);
+    const path = document.createElementNS(svg.namespaceURI,'path');
+    const dx = Math.max(40, (p2.x-p1.x)/2);
+    path.setAttribute('d',`M${p1.x},${p1.y} C${p1.x+dx},${p1.y} ${p2.x-dx},${p2.y} ${p2.x},${p2.y}`);
+    path.setAttribute('class','wire');
+    path.addEventListener('dblclick',()=>{ wires=wires.filter(x=>x!==w); draw(); speak(); });
+    svg.appendChild(path);
+  }
+  for (const n of nodes) {
+    const g = document.createElementNS(svg.namespaceURI,'g');
+    g.setAttribute('class','node'+(armed&&armed.node===n.id?' sel':''));
+    const h = Math.max(46, 16*Math.max(n.ins,n.outs)+18);
+    const r = document.createElementNS(svg.namespaceURI,'rect');
+    r.setAttribute('x',n.x); r.setAttribute('y',n.y); r.setAttribute('width',150); r.setAttribute('height',h);
+    g.appendChild(r);
+    const t1 = document.createElementNS(svg.namespaceURI,'text');
+    t1.setAttribute('x',n.x+75); t1.setAttribute('y',n.y+16); t1.setAttribute('text-anchor','middle');
+    t1.textContent = n.name.length>18 ? n.name.slice(0,17)+'…' : n.name;
+    g.appendChild(t1);
+    const t2 = document.createElementNS(svg.namespaceURI,'text');
+    t2.setAttribute('x',n.x+75); t2.setAttribute('y',n.y+30); t2.setAttribute('text-anchor','middle');
+    t2.setAttribute('class','code');
+    t2.textContent = n.code.length>20 ? n.code.slice(0,19)+'…' : n.code;
+    g.appendChild(t2);
+    for (const side of ['in','out']) {
+      const count = side==='in'?n.ins:n.outs;
+      for (let k=0;k<count;k++) {
+        const p = portXY(n,side,k,count);
+        const c = document.createElementNS(svg.namespaceURI,'circle');
+        const used = portUsed({node:n.id,side,slot:k});
+        c.setAttribute('cx',p.x); c.setAttribute('cy',p.y); c.setAttribute('r',5.5);
+        c.setAttribute('class','port '+(used?'used':'free')+
+          (armed&&armed.node===n.id&&armed.side===side&&armed.slot===k?' armed':''));
+        c.addEventListener('click',ev=>{ ev.stopPropagation(); clickPort({node:n.id,side,slot:k},used); });
+        g.appendChild(c);
+      }
+    }
+    // drag + remove
+    r.addEventListener('mousedown',ev=>{
+      const ox=ev.offsetX-n.x, oy=ev.offsetY-n.y;
+      const mv=e2=>{ n.x=e2.offsetX-ox; n.y=e2.offsetY-oy; draw(); };
+      const up=()=>{ svg.removeEventListener('mousemove',mv); svg.removeEventListener('mouseup',up); };
+      svg.addEventListener('mousemove',mv); svg.addEventListener('mouseup',up);
+    });
+    r.addEventListener('dblclick',()=>{
+      nodes=nodes.filter(x=>x!==n); wires=wires.filter(w=>w.from.node!==n.id&&w.to.node!==n.id);
+      draw(); speak();
+    });
+    svg.appendChild(g);
+  }
+}
+
+function clickPort(p, used) {
+  if (used) return;
+  if (p.side==='out') { armed = p; draw(); return; }
+  if (armed && armed.side==='out' && armed.node!==p.node) {
+    wires.push({ from:armed, to:p }); armed=null; draw(); speak();
+  }
+}
+
+function speak() {
+  const lines = [];
+  const toolNodes = nodes.filter(n=>n.kind==='tool');
+  const opNodes = nodes.filter(n=>n.kind==='op');
+  // compose fold, in wire order, tools only
+  const bound = wires.filter(w=>{
+    const a=nodes.find(n=>n.id===w.from.node), b=nodes.find(n=>n.id===w.to.node);
+    return a&&b&&a.kind==='tool'&&b.kind==='tool';
+  });
+  let step=0;
+  for (const w of bound) {
+    const a=nodes.find(n=>n.id===w.from.node), b=nodes.find(n=>n.id===w.to.node);
+    const name = step===0 ? `${a.name}__x__${b.name}`.slice(0,48) : `composite_${step+1}`;
+    lines.push(`imasm compose ${name} ${step===0?a.name:'composite_'+step} ${step===0? b.name : b.name}`);
+    step++;
+  }
+  if (toolNodes.length>=2 && toolNodes.length<=6)
+    lines.push(`imasm chaos ${toolNodes.map(n=>n.name).join(' ')}`);
+  // pure-opcode arrangement → exact wire spec
+  if (opNodes.length>0 && opNodes.length===nodes.length) {
+    const idx = new Map(opNodes.map((n,i)=>[n.id,i]));
+    const es = wires.map(w=>`${idx.get(w.from.node)}-${idx.get(w.to.node)}`);
+    lines.push(`imasm define composed_${Date.now()%10000} wire ${opNodes.map(n=>n.name).join(' ')} / ${es.join(' ')}`);
+  }
+  for (const n of nodes) if (n.kind==='tool')
+    lines.push(`imasm eval ${n.name}    # flow it   ·   imasm prove ${n.name}    # kernel`);
+  document.getElementById('cmds').textContent =
+    lines.length ? lines.join('\n') : '(place programs, bind ports — command lines appear here)';
+}
+
+function copyCmds(){ navigator.clipboard.writeText(document.getElementById('cmds').textContent); }
+function clearAll(){ nodes=[]; wires=[]; armed=null; draw(); speak(); }
+draw(); speak();
+</script>
+</body>
+</html>
