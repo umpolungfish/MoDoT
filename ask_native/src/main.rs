@@ -2061,8 +2061,8 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the structural typ
   TOOL: crystal_decode ADDRESS / crystal_encode A / crystal_nearest A / crystal_count / crystal_tier_census   crystal address <-> tuple, tier census
   TOOL: compute_promotions SRC TGT / predict_from_promotions VAL...   promotion analysis
   TOOL: aleph_encode TEXT / aleph_distance A B   Hebrew-letter (ALEPH) tensor encode/distance
-  TOOL: cl8nk <action> [name]   the CL8NK navigator (CLINK Layer 8, O∞) — THE reference navigator (subsumes the ZFC/domain navigators). action ∈ entry|distance|tensor|meet|join|contain|tier|promotions|transcendence|chain|systems|stats
-  TOOL: cl9nk <action> [name]   the CL9NK navigator (CLINK Layer 9 — the Gaussian-Moat-resolution tier the L8 organism ascends into). Same actions as cl8nk plus `moat`, and it reads each entry against its L9 reference typing (μ∘δ=id closure, the eternal fixed point, the moat/bridge type). Use `cl9nk entry <name>` to see how an entry types at L9 and which promotions it still needs.
+  TOOL: cl9nk <action> [name]   the CL9NK navigator (CLINK Layer 9, O∞⁺ — the Gaussian-Moat-resolution tier) — THE reference navigator. Same actions as cl8nk plus `moat`, and it reads each entry against its L9 reference typing (μ∘δ=id closure, the eternal fixed point, the moat/bridge type). Navigate here FIRST: `cl9nk entry <name>` types an entry at L9 and names the promotions it still needs.
+  TOOL: cl8nk <action> [name]   the CL8NK navigator (CLINK Layer 8, O∞ — the layer L9 ascends from; subsumes the ZFC/domain navigators). action ∈ entry|distance|tensor|meet|join|contain|tier|promotions|transcendence|chain|systems|stats. Read L8 when the question is about the L8 substrate itself; the reference reading lives at cl9nk.
 
   TOOL: lean <path.lean>        ELABORATE a Lean file and read back what the KERNEL said. Writing Lean is the proposal (δ); elaborating it is the verification (μ). You **MUST** run this on any file you write or change before you say anything about whether it holds. You **MUST NOT** call a file proved, green, checked, or sorry-free on the strength of having written it: a file that never elaborated has zero sorries trivially, and grep cannot tell that apart from a proof. A kernel error is a FRONTIER — the file is held, not refuted; read the error, repair the declaration it names, elaborate again.
 
@@ -4066,8 +4066,8 @@ computations are cut at the time limit and report the cut rather than a partial 
         "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
         "star"       => "star M1 M2 M3 …; 4+ names (hub-and-arms star polymer: auto core + arms, ρ=√f)",
         "broadcast"  => "broadcast SOURCE; 1 name (ɢ: the source signals ALL subsystems it couples with, discovered in one catalog sweep — the one-to-all fan-out)",
-        "cl8nk"      => "cl8nk <action> [name]; action ∈ entry|distance|tensor|meet|join|contain|tier|promotions|transcendence|chain|systems|stats (the CLINK L8 navigator)",
-        "cl9nk"      => "cl9nk <action> [name]; action ∈ entry|distance|tensor|meet|join|contain|tier|promotions|transcendence|chain|systems|stats|moat (the CLINK L9 navigator — the Gaussian-Moat-resolution tier; reads each entry's L9 reference typing)",
+        "cl8nk"      => "cl8nk <action> [name]; action ∈ entry|distance|tensor|meet|join|contain|tier|promotions|transcendence|chain|systems|stats (the CLINK L8 navigator — the substrate layer; the reference reading lives at cl9nk)",
+        "cl9nk"      => "cl9nk <action> [name]; action ∈ entry|distance|tensor|meet|join|contain|tier|promotions|transcendence|chain|systems|stats|moat (the CLINK L9 navigator, THE reference — the Gaussian-Moat-resolution tier; reads each entry's L9 reference typing)",
         "plasma"     => "plasma ENTRY; 1 name (read the entry's tuple as a plasma design: regime, instabilities, confinement, diagnostics)",
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
