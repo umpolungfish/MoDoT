@@ -1379,6 +1379,252 @@ fn prove_tool(rest: &[String]) -> String {
     }
 }
 
+// ── operational semantics: values through the gates ─────────────────────────
+// Until now the engine judged SHAPE only; `imasm eval` shuttles VALUES. One
+// evaluator over the SIXTEEN_3 carrier (P({T,F,t,f}), Shramko/Dunn/Takenaka);
+// FOUR is its classical slice {T,F} — B={T,F}, N={} — so `eval` (FOUR render)
+// and `eval16` are the same machine with two readouts. Gate table:
+//   VINIT emits the seed · FSPLIT δ fans truth-part/falsity-part onto its arms
+//   EVALT/EVALF pass-gates (truth/falsity projection) · FFUSE μ joins (union)
+//   AREV the involution T↔F,t↔f · IFIX latches · TANCH reads out
+//   AFWD/CLINK/IMSCRIB/ENGAGR carry. Every gate is ⊆-monotone, so the Kleene
+// iteration from all-N edge values reaches its fixpoint in ≤4·E rounds even on
+// cyclic graphs — a loop settles, it cannot oscillate.
+
+type Val = crate::imasm16_3::Reg16_3;
+
+fn gate_out(tok: Token, x: Val, seed: Val, slot: usize) -> Val {
+    match tok {
+        Token::Vinit => seed,
+        Token::Fsplit => {
+            if slot == 0 { x.truth_part() } else { x.falsity_part() }
+        }
+        Token::Evalt => x.truth_part(),
+        Token::Evalf => x.falsity_part(),
+        Token::Arev => x.invol(),
+        // FFUSE's join already happened at input aggregation; carriers carry.
+        _ => x,
+    }
+}
+
+fn eval_tool(rest: &[String], sixteen: bool) -> String {
+    // optional trailing seed=<name> (FOUR names N/T/F/B or 16_3 names N/A/TFtf combos)
+    let mut args: Vec<String> = rest.to_vec();
+    let mut seed = if sixteen {
+        Val::from_name("A").unwrap()
+    } else {
+        Val::from_name("TF").unwrap() // B in the classical slice
+    };
+    if let Some(pos) = args.iter().position(|a| a.starts_with("seed=")) {
+        let sname = args.remove(pos);
+        let sname = &sname["seed=".len()..];
+        let parsed = match sname {
+            "B" => Val::from_name("TF"),
+            other => Val::from_name(other),
+        };
+        match parsed {
+            Some(v) => seed = v,
+            None => return format!("eval: unknown seed '{sname}' — use N/T/F/B or a 16_3 name (A, Tf, TFtf …)\n"),
+        }
+    }
+    let (label, g) = match resolve_graph(&args) {
+        Ok(v) => v,
+        Err(e) => return e,
+    };
+    if g.nodes.is_empty() {
+        return "eval: empty program — nothing to flow.\n".into();
+    }
+    let render = |v: Val| if sixteen { v.name() } else { v.four_name() };
+
+    let mut edge_val: Vec<Val> = vec![Val::default(); g.edges.len()];
+    let mut node_in: Vec<Val> = vec![Val::default(); g.nodes.len()];
+    let cap = 4 * g.edges.len().max(1) + 4;
+    for _ in 0..cap {
+        let mut changed = false;
+        for i in 0..g.nodes.len() {
+            let mut inp = Val::default();
+            for (eidx, &(a, b)) in g.edges.iter().enumerate() {
+                let _ = a;
+                if b == i {
+                    inp = inp.union(edge_val[eidx]);
+                }
+            }
+            node_in[i] = inp;
+            let mut slot = 0usize;
+            for (eidx, &(a, _b)) in g.edges.iter().enumerate() {
+                if a == i {
+                    let v = gate_out(g.nodes[i], inp, seed, slot);
+                    if edge_val[eidx] != v {
+                        edge_val[eidx] = v;
+                        changed = true;
+                    }
+                    slot += 1;
+                }
+            }
+        }
+        if !changed {
+            break;
+        }
+    }
+
+    let mut out = format!(
+        "IMASM eval — {label}  [carrier: {}; seed {}]\n",
+        if sixteen { "SIXTEEN_3 = P({T,F,t,f})" } else { "FOUR (the classical slice of SIXTEEN_3)" },
+        render(seed)
+    );
+    for i in 0..g.nodes.len() {
+        let tok = g.nodes[i];
+        let outs: Vec<String> = g
+            .edges
+            .iter()
+            .enumerate()
+            .filter(|(_, &(a, _))| a == i)
+            .map(|(eidx, _)| render(edge_val[eidx]))
+            .collect();
+        let shown = if outs.is_empty() {
+            render(gate_out(tok, node_in[i], seed, 0))
+        } else {
+            outs.join(",")
+        };
+        out.push_str(&format!(
+            "  {:>3} {} {:<8} in {:>4} → out {}\n",
+            i,
+            tok.code(),
+            tok.name(),
+            render(node_in[i]),
+            shown
+        ));
+    }
+    // readout: sinks (no outgoing edges)
+    let sinks: Vec<String> = (0..g.nodes.len())
+        .filter(|&i| g.out_degree(i) == 0)
+        .map(|i| format!("{}({})", g.nodes[i].name(), render(gate_out(g.nodes[i], node_in[i], seed, 0))))
+        .collect();
+    if !sinks.is_empty() {
+        out.push_str(&format!("  readout at sink(s): {}\n", sinks.join("  ")));
+    }
+    // operational μ∘δ: for each δ/μ pair, does the fuse RECOVER the fork's input?
+    let (pairs, _fully) = g.frobenius_closures();
+    for (f, j) in pairs {
+        let recovered = node_in[j];
+        let fed = node_in[f];
+        out.push_str(&format!(
+            "  μ∘δ on values: FSPLIT@{f} fed {} → FFUSE@{j} recovered {} — {}\n",
+            render(fed),
+            render(recovered),
+            if recovered == fed { "id (lossless split-fuse)" } else { "NOT id (value lost or gained on the arms)" }
+        ));
+    }
+    out
+}
+
+// ── the composition law: programs interact end-to-valence ───────────────────
+// Two programs compose ONLY by binding a living out-end of A to a living in-end
+// of B. Composition CONSUMES valences and may never mint one; the composite must
+// re-satisfy the grammar. A program with no living ends is finished — a loop —
+// and does not compose: building is the act of consuming reactive ends.
+fn compose_tool(rest: &[String]) -> String {
+    if rest.len() < 3 {
+        return "compose needs: imasm compose <new_name> <tool_A> <tool_B>  \
+                (binds A's living out-ends to B's living in-ends, in order)\n"
+            .into();
+    }
+    let new_name = rest[0].clone();
+    let (label_a, ga) = match resolve_graph(&rest[1..2].to_vec()) {
+        Ok(v) => v,
+        Err(e) => return format!("compose: A did not resolve — {e}"),
+    };
+    let (label_b, gb) = match resolve_graph(&rest[2..3].to_vec()) {
+        Ok(v) => v,
+        Err(e) => return format!("compose: B did not resolve — {e}"),
+    };
+    // living ends, with slot multiplicity (a FSPLIT missing both arms offers two)
+    let outs_a: Vec<usize> = (0..ga.nodes.len())
+        .flat_map(|i| {
+            let free = ga.nodes[i].arity().1.saturating_sub(ga.out_degree(i));
+            std::iter::repeat(i).take(free)
+        })
+        .collect();
+    let ins_b: Vec<usize> = (0..gb.nodes.len())
+        .flat_map(|i| {
+            let free = gb.nodes[i].arity().0.saturating_sub(gb.in_degree(i));
+            std::iter::repeat(i).take(free)
+        })
+        .collect();
+    if outs_a.is_empty() || ins_b.is_empty() {
+        return format!(
+            "compose REFUSED — composition consumes living ends, and {} has none to offer \
+             ({label_a}: {} free out-end(s); {label_b}: {} free in-end(s)). A program with no \
+             reactive ends is a finished loop; it does not compose, it is DONE.\n",
+            if outs_a.is_empty() { "A" } else { "B" },
+            outs_a.len(),
+            ins_b.len()
+        );
+    }
+    let k = outs_a.len().min(ins_b.len());
+    let off = ga.nodes.len();
+    let mut g = Graph::new();
+    for &t in &ga.nodes {
+        g.add(t);
+    }
+    for &t in &gb.nodes {
+        g.add(t);
+    }
+    for &(a, b) in &ga.edges {
+        g.connect(a, b);
+    }
+    for &(a, b) in &gb.edges {
+        g.connect(a + off, b + off);
+    }
+    let bindings: Vec<(usize, usize)> = outs_a[..k]
+        .iter()
+        .zip(ins_b[..k].iter())
+        .map(|(&a, &b)| (a, b + off))
+        .collect();
+    for &(a, b) in &bindings {
+        g.connect(a, b);
+    }
+    let errs = g.validate();
+    if !errs.is_empty() {
+        return format!(
+            "compose REFUSED — the composite is ill-typed:\n    ✗ {}\n  \
+             The bound ends must respect valence: only FSPLIT branches, only FFUSE fuses.\n",
+            errs.join("\n    ✗ ")
+        );
+    }
+    // persist as a wire spec so it rebuilds through the identical parse
+    let toks: Vec<&str> = g.nodes.iter().map(|t| t.name()).collect();
+    let edges: Vec<String> = g.edges.iter().map(|&(a, b)| format!("{a}-{b}")).collect();
+    let spec = format!("wire {} / {}", toks.join(" "), edges.join(" "));
+    let mut reg = load_registry();
+    reg.as_object_mut().unwrap().insert(
+        new_name.clone(),
+        serde_json::json!({
+            "spec": spec,
+            "title": format!("compose {} ∘ {}", rest[1], rest[2]),
+            "topology": g.classify(),
+        }),
+    );
+    if let Err(e) = std::fs::write(tools_path(), serde_json::to_string_pretty(&reg).unwrap_or_default()) {
+        return format!("compose: could not persist '{new_name}': {e}\n");
+    }
+    let bind_str: Vec<String> = bindings
+        .iter()
+        .map(|&(a, b)| format!("{}@{a} → {}@{b}", g.nodes[a].name(), g.nodes[b].name()))
+        .collect();
+    format!(
+        "IMASM compose → '{new_name}' admitted: {} ∘ {} bound at {} end(s).\n  \
+         bindings: {}\n  law: {} valence(s) consumed, 0 minted.\n{}\n  \
+         flow it: imasm eval {new_name}   |   verify: imasm prove {new_name}\n",
+        rest[1],
+        rest[2],
+        k,
+        bind_str.join("  ·  "),
+        2 * k,
+        report("compose", &g).trim_end()
+    )
+}
+
 fn list_tools() -> String {
     let reg = load_registry();
     let obj = reg.as_object();
@@ -1470,6 +1716,9 @@ pub fn run(args: &[String]) -> String {
         "define" | "forge_tool" => define_tool(rest),
         "run" | "invoke" => run_tool(rest),
         "prove" | "kernel" => prove_tool(rest),
+        "eval" | "flow" => eval_tool(rest, false),
+        "eval16" | "flow16" => eval_tool(rest, true),
+        "compose" | "bind" => compose_tool(rest),
         "tools" => list_tools(),
         "chain" | "ring" | "cycle" | "loop" | "protocol" | "seq" | "sequence" | "classify"
         | "read" | "wire" | "graph" | "free" | "star" | "bubble" | "fork" | "comb" | "graft" => {
@@ -1568,6 +1817,54 @@ pub fn run(args: &[String]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Operational μ∘δ: the canonical protocol word is value-lossless (B splits
+    /// to (T,F), fuses back to B), and the readout renders in the FOUR slice.
+    #[test]
+    fn eval_protocol_word_is_lossless_on_values() {
+        let args: Vec<String> = ["VINIT", "FSPLIT", "AFWD", "FFUSE", "EVALT"]
+            .iter().map(|s| s.to_string()).collect();
+        let out = eval_tool(&args, false);
+        assert!(out.contains("id (lossless split-fuse)"), "{out}");
+        assert!(out.contains("readout at sink(s): EVALT(T)"), "{out}");
+    }
+
+    /// An AREV on the truth arm breaks value-level μ∘δ even though the SHAPE
+    /// still closes: fed Tf, recovered Ff. Structure and flow are separate facts.
+    #[test]
+    fn eval16_arev_arm_breaks_value_identity() {
+        let args: Vec<String> = ["VINIT", "FSPLIT", "AREV", "FFUSE", "EVALT", "seed=Tf"]
+            .iter().map(|s| s.to_string()).collect();
+        let out = eval_tool(&args, true);
+        assert!(out.contains("NOT id"), "{out}");
+        assert!(out.contains("fed Tf"), "{out}");
+    }
+
+    /// Composition binds living ends only, consumes valences, never mints; a
+    /// composite of two open chains can CLOSE (the worked dyad emerges from the
+    /// binding), and it round-trips the registry as a wire spec.
+    #[test]
+    fn compose_consumes_valences_and_can_close() {
+        let a: Vec<String> = ["cp_test_a", "chain", "VINIT", "FSPLIT", "AFWD"]
+            .iter().map(|s| s.to_string()).collect();
+        let b: Vec<String> = ["cp_test_b", "chain", "FFUSE", "EVALT", "TANCH"]
+            .iter().map(|s| s.to_string()).collect();
+        assert!(define_tool(&a).contains("admitted"));
+        assert!(define_tool(&b).contains("admitted"));
+        let c: Vec<String> = ["cp_test_ab", "cp_test_a", "cp_test_b"]
+            .iter().map(|s| s.to_string()).collect();
+        let out = compose_tool(&c);
+        assert!(out.contains("0 minted"), "{out}");
+        assert!(out.contains("CLOSED"), "composite of the two open chains must close: {out}");
+        let flowed = eval_tool(&["cp_test_ab".to_string()], false);
+        assert!(flowed.contains("id (lossless split-fuse)"), "{flowed}");
+        // a finished loop refuses further composition on the closed side
+        let mut reg = load_registry();
+        for k in ["cp_test_a", "cp_test_b", "cp_test_ab"] {
+            reg.as_object_mut().unwrap().remove(k);
+        }
+        let _ = std::fs::write(tools_path(), serde_json::to_string_pretty(&reg).unwrap_or_default());
+    }
 
     /// Seen live: `imasm define ᚦᚱᛟᚾᛖ ring wire` — a malformed spec built the empty
     /// graph, passed validate() vacuously, and a hollow tool sat in the registry

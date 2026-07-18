@@ -124,10 +124,41 @@ impl Reg16_3 {
         s
     }
 
-    fn union(self, o: Reg16_3) -> Reg16_3 {
+    pub fn union(self, o: Reg16_3) -> Reg16_3 {
         Reg16_3 {
             big_t: self.big_t || o.big_t, big_f: self.big_f || o.big_f,
             small_t: self.small_t || o.small_t, small_f: self.small_f || o.small_f,
+        }
+    }
+
+    /// The truth part x ∩ {T, t} — what EVALT passes, and the first δ arm.
+    pub fn truth_part(self) -> Reg16_3 {
+        Reg16_3 { big_t: self.big_t, small_t: self.small_t, ..Reg16_3::default() }
+    }
+
+    /// The falsity part x ∩ {F, f} — what EVALF passes, and the second δ arm.
+    pub fn falsity_part(self) -> Reg16_3 {
+        Reg16_3 { big_f: self.big_f, small_f: self.small_f, ..Reg16_3::default() }
+    }
+
+    /// The involution T ↔ F, t ↔ f — the reverse morphism's action on values
+    /// (TNEG and INEG applied together; ⊆-monotone, its own inverse).
+    pub fn invol(self) -> Reg16_3 {
+        Reg16_3 { big_t: self.big_f, big_f: self.big_t, small_t: self.small_f, small_f: self.small_t }
+    }
+
+    /// FOUR sits inside SIXTEEN_3 as the classical pair {T, F}: N={}, T={T},
+    /// F={F}, B={T,F}. Render this value as its FOUR name when it lives in that
+    /// slice; a value touching t/f has left the slice and keeps its 16_3 name.
+    pub fn four_name(self) -> String {
+        if self.small_t || self.small_f {
+            return self.name();
+        }
+        match (self.big_t, self.big_f) {
+            (false, false) => "N".into(),
+            (true, false) => "T".into(),
+            (false, true) => "F".into(),
+            (true, true) => "B".into(),
         }
     }
 
