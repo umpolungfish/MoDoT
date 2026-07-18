@@ -232,3 +232,99 @@ Top misses on EXISTING verbs (argument-shape failures, not absence):
 6. Never pass a tool's pretty-printed output back as arguments (§12).
 7. Trace `fart.rs` for the second lossy-registration call site (§10).
 8. No coordinate-level axiom checks.
+
+---
+
+# Part III — Run `19f753d0c3d-320240`
+
+## 14. Identity
+
+| field | value |
+|---|---|
+| window | 2026-07-18 05:39:22 → 05:47:52 (8.5 min) |
+| calls | 146 — ran 122, miss 24 |
+| verbs | `imasm` 60, `imscribe` 20, `anneal` 14, `forge` 12, `compare` 7 |
+| first production run after the verbatim-registration fix | yes |
+
+## 15. Verbatim registration confirmed in production
+
+`clicked_product_alpha` and `residue_beta_prime_doped` both returned
+*"registered VERBATIM … the tuple you supplied, unchanged."* Registered once each; the
+49-retry rename loop of run 2 did not recur.
+
+## 16. Two lying arity contracts (FIXED)
+
+| verb | advertised | actually required | misses |
+|---|---|---|---|
+| `anneal` | "2+ names" | 3+ (CLI arity and impl both) | 14 |
+| `compare` | "two sets split by `vs`" | 2+ names per side | 5 |
+
+The agent supplied exactly what the error text asked for, was rejected, and repeated.
+19 of the run's 24 misses are these two mismatches. The implementations are correct —
+a ring needs three monomers to have distinct orderings — so the contracts were fixed,
+not the semantics.
+
+## 17. `recalibrate` — the verb it was actually stuck on (BUILT)
+
+Requested three times: at 05:39, 05:43 and 05:47:52, the last being the final call of
+the run. Always `recalibrate <entity> --perturb_chirality Ħ`. Never available.
+
+After `annihilate` failed at 05:40 the agent pivoted off protection and onto chirality:
+`phase_neutralizer`, `chiral_symmetry_breaker`, then nine separate attempts to define
+`h_chiral_assert` / `h_chiral_check_bond_angle` as an imasm ring, plus
+`lean h_chiral_assertion.lean` and `imasm prove Imscribing/CLINK_L9.lean`. The instinct
+was right: Ω=𐑟 cannot be deformed, so the route is a coupled axis.
+
+Now built. On the carved ring it returns the answer:
+
+```
+recalibrate:  carved_ring_3_doubled_a2_45_pair_flip   axis Ħ
+  current: 𐑫   full tuple ⟨𐑛𐑥𐑾𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑙𐑟⟩
+    𐑓  ↓3   ⚠ lowering Ħ below 𐑖 breaks Ω≥𐑭 — the protection would fall with it
+    𐑒  ↓2   ⚠ lowering Ħ below 𐑖 breaks Ω≥𐑭 — the protection would fall with it
+    𐑖  ↓1
+```
+
+Chirality is the coupled axis; perturbing it drags protection. Writes nothing — a
+perturbation is a probe. Reports the two couplings the kernel holds and labels the
+Ħ=𐑫 / Ç=𐑪 co-occurrence a tendency, never enforcing it.
+
+## 18. `annihilate` (BUILT)
+
+`imasm run annihilate Ω=𐑟` at 05:40 logged as `ran` — the tool executed and returned
+"no tool named". The agent retried bare, then abandoned the route.
+
+Now a native verb: `annihilate A [B]`, pair fusion μ, the counterpart to `homolyze`'s δ.
+Abelian Ω windings add — opposite cancel to vacuum (T), like windings leave a residual
+(F). Ω=𐑟 returns a **channel**, not a value (Fibonacci τ×τ=1+τ) → verdict **B**, both
+open, with braid-then-re-annihilate named as what selects one.
+
+## 19. BLOCKER — catalog disconnection (FIXED)
+
+The generate pipeline writes to the live store; the verbatim path wrote only to
+`IG_catalog.json`. The two drifted: 17 entries existed in IG and not in live —
+including `gap_bridger` and `residue_beta_prime`, which this run had just created — so
+they were invisible to the pipeline's duplicate check and to every live-first reader.
+
+Verbatim registration now mirrors into the live store (both shapes, first-name-wins,
+temp-file + rename, best-effort with IG as store of record). The 17 divergent entries
+were backfilled.
+
+## 20. Still open
+
+- `imasm define` / `prove` gave no usable failure: `h_chiral_check_bond_angle` was
+  redefined nine times with different opcode rings and never converged. Read those
+  outputs before adding any further verb.
+- Invented and still absent: `phase_neutralizer`, `chiral_symmetry_breaker`,
+  `topological_scan_density_matrix`, `transfer_matrix_calculate`, `distill_break`,
+  `catalog_link`, `gate_2_parity_check`.
+- The agent passes tool pretty-printed output back as arguments (`material` with a
+  concatenated monomer name; `forge --close`).
+
+## 21. Next
+
+1. Re-run. `recalibrate`, `annihilate`, verbatim registration and catalog sync are all
+   in; the three things that blocked the last run are gone.
+2. Carved ring gate 2 via `recalibrate … Ħ` — the coupling is now visible.
+3. Read the `imasm define`/`prove` failure text before building more verbs (§20).
+4. No coordinate-level axiom checks.
