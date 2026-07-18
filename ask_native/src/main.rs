@@ -3751,9 +3751,13 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             if let Some(b) = a(1) { v.push(b); }
             v
         }
+        // `annihilate A [B]`. A trailing `--flag` names an option, never a partner:
+        // taking it as B invents an entity and pollutes the catalog on the way back.
         "annihilate" => {
             let mut v = vec!["--annihilate".to_string(), a(0)?];
-            if let Some(b) = a(1) { v.push(b); }
+            if let Some(b) = args.iter().skip(1).find(|s| !s.starts_with("--")) {
+                v.push(b.clone());
+            }
             v
         }
         // `recalibrate A Ħ` and `recalibrate A --perturb_chirality Ħ` both work:

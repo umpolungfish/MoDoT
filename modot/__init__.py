@@ -52,6 +52,13 @@ from modot.selectivity import (
     OB3ECT_PROTOCOL,
     OB3ECT_PATH,
 )
+from modot.divisor_ring import (
+    divisors,
+    divisor_lattice_chain,
+    ring_spectrum,
+    analyze as divisor_ring_analyze,
+    format_report as divisor_ring_format,
+)
 from modot.witness_proof import (
     translate as witness_translate,
     navigator_available,
@@ -155,4 +162,9 @@ __all__ = [
     "ig_tools_available",
     "ig_call",
     "ig_parse_and_call",
+    "divisors",
+    "divisor_lattice_chain",
+    "ring_spectrum",
+    "divisor_ring_analyze",
+    "divisor_ring_format",
 ]

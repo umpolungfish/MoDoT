@@ -1179,12 +1179,30 @@ fn define_tool(rest: &[String]) -> String {
     }
 }
 
+/// Top-level verbs that are native code, not IMASM programs. `imasm run` must
+/// point at them rather than deny them.
+const NATIVE_VERBS: [&str; 14] = [
+    "annihilate", "recalibrate", "homolyze", "polymerize", "distill", "close",
+    "arrange", "anneal", "compare", "imscribe", "cycle", "material", "set", "complement",
+];
+
 fn run_tool(rest: &[String]) -> String {
     let Some(name) = rest.first() else {
         return "run needs a tool name: imasm run <name>  (`imasm tools` lists them)\n".into();
     };
     let reg = load_registry();
     let Some(rec) = reg.get(name.as_str()) else {
+        // A native verb is not an IMASM program, but asking for it here is a
+        // registry mix-up, not an absence. Say where it lives; reporting it as
+        // missing has cost a real result to a false retraction.
+        if NATIVE_VERBS.contains(&name.as_str()) {
+            return format!(
+                "run: '{name}' is a native verb, not a defined IMASM program. \
+                 It is live — call it directly as `{name} <args>` (top-level tool), \
+                 not through `imasm run`. `imasm run` invokes only programs made \
+                 with `imasm define`.\n"
+            );
+        }
         let known: Vec<String> = reg.as_object().map(|o| o.keys().cloned().collect()).unwrap_or_default();
         return format!(
             "run: no tool named '{name}'. Defined tools: {}\n",

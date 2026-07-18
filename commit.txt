@@ -1,1 +1,10 @@
-imscribe: keep the verbatim write in sync with the live catalog
+ask_native: stop the registry mix-up costing real results
+
+`imasm run <native verb>` reported "no tool named X" and the agent read that
+as absence, retracting a measurement it had actually made (annihilate's
+Fibonacci channel, cycle 246 of the 247-cycle parity run). `imasm run` now
+recognises the native verbs and says where they live instead of denying them.
+
+`annihilate A --flag` took the flag as partner B, inventing an entity and
+carrying it back into the catalog. It now skips flag-shaped arguments, the
+same way recalibrate already did.
