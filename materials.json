@@ -129,6 +129,44 @@
     ],
     "weakest": 1.6667
   },
+  "L9_macrocycle_alpha": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "annealed_68_L9_promoted",
+      "gaussian_moat_linker"
+    ],
+    "weakest": 1.0
+  },
+  "L9_macrocycle_gamma": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.3333,
+    "units": [
+      "gaussian_moat_linker",
+      "annealed_68_L9_promoted",
+      "gaussian_moat_problem",
+      "moat_stabilizer_gamma"
+    ],
+    "weakest": 1.0
+  },
   "Ring_1_Static": {
     "branched": false,
     "conductance": "CONDUCTIVE",
@@ -218,6 +256,125 @@
       "langlands_program"
     ],
     "weakest": 1.3333
+  },
+  "annealed_36_pair_flip": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "parity_driven_expansion_loop_fused_excited",
+      "annealed_35_pair_restored"
+    ],
+    "weakest": 1.3333
+  },
+  "annealed_37_pair_restored": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "parity_driven_expansion_loop_fused_excited",
+      "annealed_36_pair_restored"
+    ],
+    "weakest": 1.0
+  },
+  "annealed_39_pair_restored": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "parity_driven_expansion_loop_fused_excited",
+      "annealed_38_pair_restored"
+    ],
+    "weakest": 0.6667
+  },
+  "annealed_40_pair_restored": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "parity_driven_expansion_loop_fused_excited",
+      "annealed_39_pair_restored"
+    ],
+    "weakest": 0.6667
+  },
+  "annealed_41_pair_restored": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "parity_driven_expansion_loop_fused_excited",
+      "annealed_40_pair_restored"
+    ],
+    "weakest": 0.6667
+  },
+  "annealed_60_pair_restored": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "annealed_59_pair_restored",
+      "annealed_60_pair_flipped"
+    ],
+    "weakest": 0.8333
+  },
+  "carved_ring_3_doubled_a2_3_pair": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "carved_ring_3_doubled_a2_quintuple_dagger",
+      "parity_driven_expansion_loop_fused_excited+bridge_bidirectional_stabilizer"
+    ],
+    "weakest": 0.5
   },
   "chaos_magic_ring": {
     "branched": false,
@@ -711,6 +868,23 @@
       "phase_strata_a_neq0"
     ],
     "weakest": 0.6667
+  },
+  "stitched_l9_vessel": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "parity_driven_expansion_loop_fused_excited",
+      "carved_ring_3_doubled_a2_quintuple_dagger"
+    ],
+    "weakest": 0.5
   },
   "witness_ring": {
     "branched": true,

@@ -1,0 +1,50 @@
+PHASE TWIN PROBES
+
+STATE OF KNOWLEDGE (audited):
+C1 is PROVED on the contiguous canonized walk, pairs 20 through 40: the
+substrate's registers are a joint mod-12-pair clock (Ω period 2, Σ period
+3, Ř period 4), and pair 34's register state is glyph-identical to pair 22,
+its phase twin. This is measured on derived:cycle rungs and survives audit.
+
+C2 is OPEN, not refuted: the prior report asserted identical containment
+totals for pairs 22 and 34, but pair 34 was never probed. The probes that
+ran returned 4.7427 (pair_22) and 3.935 (pair_28): the containment total
+VARIES along the walk. Whether it varies with clock phase alone, or with
+something the tuple does not carry, is exactly the open question. Every
+rung needed already exists in the catalog, walked and provenance-stamped;
+this run makes no new forms.
+
+THE QUESTION, ONE SENTENCE:
+Is the weighted containment total a function of clock phase alone: probe
+every walked rung pair_20 through pair_40 and compare within phase-twin
+classes, especially {22, 34} and {28, 40}.
+
+PREREGISTERED PREDICTIONS:
+  D1 (phase function): totals are equal within every phase-twin class
+      (22 vs 34, 28 vs 40, and every {n, n+12} pair in range); the total
+      is carried entirely by the register state; no carrier outside the
+      tuple distinguishes pair 34; the 34-singularity has no home in this
+      substrate under this catalyst.
+  D2 (walk memory): a twin class differs; the containment total remembers
+      how far the object has walked even though its registers do not; name
+      the tool lines and the size of the split. If 34 splits from 22 while
+      28 matches 40, C2 fires at the predicted point after all.
+A pattern fitting neither replaces both and is the finding.
+
+METHOD:
+  For each rung pair_20 … pair_40 (the existing canonized entries; make
+    nothing new): TOOL: containment_boundary pair_<n>, and quote the
+    weighted_breach_total from each returned line.
+  For the twin classes {22, 34} and {28, 40} additionally: TOOL: cl9nk
+    entry pair_<n>, quoting tier and distance.
+  Tabulate total against pair index and against phase (n mod 12). State
+    the verdict by pointing at rows of the table.
+
+DISCIPLINE (each rule is the door; the parenthesis is the wall):
+  Speak a number by quoting the tool line that produced it (an unsourced
+    decimal is discarded on audit, every time).
+  A comparison exists when BOTH of its probes ran this run (an identity
+    asserted from one measurement is the exact fabrication this brief
+    replaces).
+  When a verb errors, fix the arguments and re-run (an error message is
+    input for you, never arguments for the next call).
