@@ -2550,8 +2550,13 @@ fn excise_preacted_observations(text: &str) -> String {
     for l in text.lines() {
         if opens(l) {
             if !cutting {
+                // The marker must NEVER contain the literal call marker ("TOOL" + colon):
+                // the δ-face extractor splits on that string anywhere in the text, so a
+                // marker carrying it minted a phantom `calls …` miss every round (seen
+                // live: three runs in a row died to DONE after one cycle, each with a
+                // `calls ran; observations …` miss in the record).
                 out.push(
-                    "[pre-run OBSERVE/UPDATE excised — written before the TOOL: calls ran; \
+                    "[pre-run OBSERVE/UPDATE excised — written before the tool calls ran; \
 observations are READ from tool results, never written in advance]",
                 );
             }
@@ -3031,6 +3036,21 @@ mod lane_guard_tests {
         assert!(
             !calls.iter().any(|(v, a)| v == "imasm" && a.len() == 1),
             "no empty imasm call may fire from excised narration: {calls:?}"
+        );
+    }
+
+    #[test]
+    fn excision_marker_is_not_itself_a_tool_call() {
+        // The marker replaced the block and then PARSED as a call (`TOOL:` appeared in
+        // its own wording), minting a phantom `calls …` miss every round; three live
+        // runs died to DONE after one cycle on it. The marker must extract to nothing.
+        let t = "ACT:\nTOOL: cl9nk entry moat\nOBSERVE:\nforecast ρ=9.9\n";
+        let s = super::strip_kernel_records(t);
+        let calls = super::extract_tool_calls(&s);
+        assert_eq!(
+            calls,
+            vec![("cl9nk".to_string(), vec!["entry".to_string(), "moat".to_string()])],
+            "only the real call may survive sanitization: {calls:?}"
         );
     }
 
