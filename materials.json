@@ -200,6 +200,27 @@
     ],
     "weakest": 1.0
   },
+  "PERFECT_CUBOID_CONSTANT": {
+    "branched": true,
+    "conductance": "CONDUCTIVE",
+    "energy": 6.3246,
+    "n": 4,
+    "rho": 3.1623,
+    "spectrum": [
+      3.1623,
+      0.0,
+      -0.0,
+      -3.1623
+    ],
+    "strain": 0.0,
+    "units": [
+      "perfect_cuboid_lifted",
+      "perfect_cuboid_L9_crystalline",
+      "perfect_cuboid_phi_c_lifted",
+      "perfect_cuboid_descent_carrier"
+    ],
+    "weakest": 0.8333
+  },
   "Ring_1_Static": {
     "branched": false,
     "conductance": "CONDUCTIVE",
@@ -517,6 +538,23 @@
     ],
     "weakest": 1.3333
   },
+  "cuboid_complex": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "perfect_cuboid_proof",
+      "a_bridge_mediator_that_biases_the_d_w_pair"
+    ],
+    "weakest": 0.5
+  },
   "cycle2_join_prediction": {
     "branched": false,
     "conductance": "CONDUCTIVE",
@@ -709,6 +747,54 @@
     ],
     "weakest": 1.3333
   },
+  "iutt_conductive_ring": {
+    "branched": true,
+    "conductance": "INSULATING",
+    "energy": 9.5175,
+    "n": 6,
+    "rho": 2.5321,
+    "spectrum": [
+      2.5321,
+      1.3473,
+      0.8794,
+      -0.8794,
+      -1.3473,
+      -2.5321
+    ],
+    "strain": 0.3674,
+    "units": [
+      "log_theta_lattice_iutt",
+      "protocell",
+      "non_abelian_braid",
+      "gaussian_moat_problem",
+      "complementary_galois_dual",
+      "athenian_democracy_peak"
+    ],
+    "weakest": 0.5833
+  },
+  "iutt_doped_ring": {
+    "branched": true,
+    "conductance": "INSULATING",
+    "energy": 9.1512,
+    "n": 5,
+    "rho": 3.0791,
+    "spectrum": [
+      3.0791,
+      0.8785,
+      0.618,
+      -1.618,
+      -2.9576
+    ],
+    "strain": 0.3118,
+    "units": [
+      "log_theta_lattice_iutt",
+      "complementary_galois_dual",
+      "gaussian_moat_problem",
+      "non_abelian_braid",
+      "protocell"
+    ],
+    "weakest": 0.9167
+  },
   "iutt_frustrated_ring_4": {
     "branched": true,
     "conductance": "FRUSTRATED",
@@ -819,6 +905,27 @@
       "gaussian_moat_problem"
     ],
     "weakest": 1.3333
+  },
+  "perfect_cuboid_descent_ring": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.1571,
+    "units": [
+      "euler_brick_primitive_closure",
+      "perfect_cuboid_proof",
+      "time_concept",
+      "doped_perfect_cuboid_proof_descent_sink_rank_0"
+    ],
+    "weakest": 1.0
   },
   "pure_four_ring": {
     "branched": false,
