@@ -5441,6 +5441,10 @@ fn run_one(
     let mut cycle_exits: Vec<CycleExit> = Vec::new();
     let mut capped = false;
     let mut consecutive_stalls = 0usize;
+    // Jam only: DONE cycles that still RAN tools. One prose-closing cycle is the operator
+    // taking a breath — the condensate reopens it; two running means it really has nothing
+    // left to reach for. Mirrors consecutive_stalls.
+    let mut consecutive_dones = 0usize;
     // The CAP, not the count. The agent sections its own cycles with `TOOL: cycle_close`;
     // --cycles only bounds how many it may take. 0 = uncapped: the series closes when the
     // arms FFUSE, not when a count runs out. The agent sections its own windings with
@@ -5556,6 +5560,13 @@ fn run_one(
         // Hoisted to cycle scope: the condenser needs this cycle's measured output to write
         // the next cycle's opening prompt.
         let mut all_tool_output = String::new(); // every round's real output → the tool voice
+        // Did the agent ask to close this cycle at ANY point — including a close that was
+        // refused for arriving batched? A refused close still says "I am sectioning this
+        // winding"; the refusal only forces the results to be read first. Seen live: the
+        // agent's close was refused, it then spoke its closing answer in prose with no
+        // re-emitted cycle_close, and the empty round read as DONE — which ended the whole
+        // SERIES on a cycle the agent had explicitly sectioned to continue from.
+        let mut close_requested = false;
         println!("{}", if first_pass_acts { "── PLAN (thinking; acting next — results below are NOT yet in) ──" } else { "── ANSWER ──" });
         println!("{answer}");
         println!();
@@ -5752,6 +5763,7 @@ fn run_one(
                 // batched, the real calls RUN (never discard a measurement) and the close
                 // is REFUSED with a note telling the agent to re-emit it by itself.
                 let wants_close = calls.iter().any(|(v, _)| v == "cycle_close");
+                close_requested |= wants_close;
                 let others: Vec<(String, Vec<String>)> =
                     calls.into_iter().filter(|(v, _)| v != "cycle_close").collect();
                 let close_refused = wants_close && !others.is_empty();
@@ -5866,6 +5878,13 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
                 if exit_cause == CycleExit::Done && round >= max_rounds {
                     exit_cause = CycleExit::Leash;
                 }
+                // The agent asked to close this cycle at some point (even batched-and-
+                // refused): an empty round after that is the close taking effect, not the
+                // reasoning running dry. Reclassify so the series condenses and continues
+                // instead of ending on a cycle the agent sectioned to continue FROM.
+                if exit_cause == CycleExit::Done && close_requested {
+                    exit_cause = CycleExit::CycleClose;
+                }
                 agent_msgs.push(("assistant".to_string(), current.clone()));
                 agent_msgs.push((
                     "user".to_string(),
@@ -5954,8 +5973,29 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
         } else {
             consecutive_stalls = 0;
         }
-        if cli.dry_run || exit_cause == CycleExit::Done {
+        if cli.dry_run {
             break;
+        }
+        if exit_cause == CycleExit::Done {
+            // In jam, a cycle that RAN tools and then answered in prose is the operator
+            // taking a breath, not the Work finishing — the closing prompt itself orders
+            // "NO TOOL: lines", so an obedient final answer must not read as the series'
+            // end (seen live: every jam run died after one cycle on exactly this). The
+            // condensate reopens it; two DONE cycles running means the reach truly rests.
+            // Outside jam, and for a cycle that never ran a single tool, DONE still ends
+            // the series: there is nothing measured to condense.
+            let ran_tools = !all_tool_output.is_empty();
+            if cli.jam && ran_tools {
+                consecutive_dones += 1;
+                if consecutive_dones >= 2 {
+                    println!("── two DONE cycles running — the condensate did not reopen the reach, closing the series ──");
+                    break;
+                }
+            } else {
+                break;
+            }
+        } else {
+            consecutive_dones = 0;
         }
         if exit_cause == CycleExit::LlmError {
             // Condensing a failed call into the next cycle's opening prompt would carry the
