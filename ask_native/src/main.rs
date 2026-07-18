@@ -4685,7 +4685,7 @@ fn register_tuple_verbatim(name: &str, glyphs: &[String], provenance: &str) -> R
     for (k, g) in PRIM_KEYS.iter().zip(glyphs.iter()) {
         entry.insert((*k).into(), json!(g));
     }
-    arr.push(Value::Object(entry));
+    arr.push(Value::Object(entry.clone()));
 
     let out = serde_json::to_string_pretty(&v).map_err(|e| format!("serialize: {e}"))?;
     // Write via a temp file in the same directory, then rename: a torn catalog is
@@ -4693,6 +4693,43 @@ fn register_tuple_verbatim(name: &str, glyphs: &[String], provenance: &str) -> R
     let tmp = cat.with_extension("json.tmp");
     fs::write(&tmp, out).map_err(|e| format!("write temp: {e}"))?;
     fs::rename(&tmp, &cat).map_err(|e| format!("commit catalog: {e}"))?;
+
+    // The generate pipeline writes to the LIVE catalog (~/.imscrbgrmr/catalog.json);
+    // this writer targets IG_catalog.json. Writing only one leaves the two stores
+    // divergent, so an entry registered here is invisible to the pipeline's own
+    // duplicate check and to every reader that loads live-first. Mirror it.
+    let _ = mirror_to_live_catalog(&entry, name);
+    Ok(())
+}
+
+/// Mirror a verbatim entry into the live catalog so the two stores agree.
+/// Best-effort: the IG catalog is the store of record, so a live-write failure
+/// does not fail the registration — but it is reported by `imscribe` when it happens.
+fn mirror_to_live_catalog(entry: &serde_json::Map<String, Value>, name: &str) -> Result<(), String> {
+    let live = PathBuf::from(expand_user("~/.imscrbgrmr/catalog.json"));
+    if !live.is_file() {
+        return Ok(()); // no live store on this host — nothing to keep in sync
+    }
+    let text = fs::read_to_string(&live).map_err(|e| format!("read live: {e}"))?;
+    let mut v: Value = serde_json::from_str(&text).map_err(|e| format!("parse live: {e}"))?;
+
+    // The live store is either a bare array or {"imscriptions": [...]}.
+    let arr = if let Some(a) = v.get_mut("imscriptions").and_then(|x| x.as_array_mut()) {
+        a
+    } else if let Some(a) = v.as_array_mut() {
+        a
+    } else {
+        return Err("live catalog is neither an array nor {imscriptions: [...]}".into());
+    };
+    if arr.iter().any(|e| e.get("name").and_then(|n| n.as_str()) == Some(name)) {
+        return Ok(()); // already there, first-name-wins
+    }
+    arr.push(Value::Object(entry.clone()));
+
+    let out = serde_json::to_string(&v).map_err(|e| format!("serialize live: {e}"))?;
+    let tmp = live.with_extension("json.tmp");
+    fs::write(&tmp, out).map_err(|e| format!("write live temp: {e}"))?;
+    fs::rename(&tmp, &live).map_err(|e| format!("commit live: {e}"))?;
     Ok(())
 }
 
