@@ -3860,6 +3860,93 @@ pub fn run_star(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f3
     0
 }
 
+
+// ─── annihilate: pair fusion μ, with fusion channels ────────────────────────
+//
+// Annihilation is μ — the recombination half of the δ/μ dyad, the same pairing
+// that carries charge conservation (δ charge-separates, μ fuses back).
+//
+// The Ω class decides whether the fusion is DETERMINATE:
+//   Ω=𐑷 trivial / Ω=𐑴 Z2 / Ω=𐑭 integer winding  — Abelian: the windings add.
+//        A pair with opposite winding annihilates to vacuum. One channel. Verdict T or F.
+//   Ω=𐑟 NON-ABELIAN — anyonic braiding. Fusion is a CHANNEL, not a value:
+//        the Fibonacci rule τ × τ = 1 + τ admits vacuum OR another τ. Both channels
+//        are open until something selects one, so the honest verdict is B.
+//
+// This is why "annihilate to shed a non-Abelian Ω" cannot be determinate: the class
+// is defined by surviving continuous deformation, so the only route to vacuum is a
+// pair fusion that may or may not land in the vacuum channel.
+pub fn run_annihilate(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: Option<&str>) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("annihilate: no catalog loaded");
+        return 2;
+    };
+    let Some(ea) = find_entry(cat, name_a) else {
+        eprintln!("annihilate: catalog entry not found: {name_a}");
+        return 2;
+    };
+    let ta = Tuple::from_entry(ea);
+
+    // Single argument: self-annihilation, a ⊗ a — the diagonal fusion.
+    let (tb, nb_disp) = match name_b {
+        Some(nb) => match find_entry(cat, nb) {
+            Some(eb) => (Tuple::from_entry(eb), nb.to_string()),
+            None => {
+                eprintln!("annihilate: catalog entry not found: {nb}");
+                return 2;
+            }
+        },
+        None => (Tuple::from_entry(ea), format!("{name_a}\u{0304}")), // ā, its own conjugate
+    };
+
+    const OMEGA: usize = 11;
+    let oa = ta.ord[OMEGA];
+    let ob = tb.ord[OMEGA];
+    println!("annihilate (pair fusion \u{03bc}):  {name_a}  \u{2297}  {nb_disp}");
+    println!("  \u{03a9} classes:  {name_a}={}   {nb_disp}={}",
+        oa.map(|o| glyph_of(OMEGA, o)).unwrap_or("?"),
+        ob.map(|o| glyph_of(OMEGA, o)).unwrap_or("?"));
+
+    let non_abelian = oa == Some(3) || ob == Some(3);
+    if non_abelian {
+        println!("  NON-ABELIAN (\u{03a9}=𐑟) \u{2014} fusion is a CHANNEL, not a value.");
+        println!("    Fibonacci rule:  \u{03c4} \u{00d7} \u{03c4} = 1 + \u{03c4}");
+        println!("    channel 1 (vacuum):   the pair annihilates, \u{03a9} \u{2192} 𐑷 trivial");
+        println!("    channel \u{03c4} (residual): the pair fuses to another anyon, \u{03a9} stays 𐑟");
+        println!("  verdict: B \u{2014} BOTH channels open. Nothing here selects one.");
+        println!("  \u{03a9}=𐑟 is not a relic and does not deform away: the class IS what survives");
+        println!("  continuous deformation. Only a channel-selecting measurement resolves this,");
+        println!("  and this verb does not perform one \u{2014} it reports the branch honestly.");
+        println!("  to select: braid first (the exchange fixes the channel), then re-annihilate.");
+        return 0;
+    }
+
+    // Abelian: windings add. Opposite windings cancel to vacuum.
+    match (oa, ob) {
+        (Some(a), Some(b)) => {
+            let sum = a as i32 + b as i32;
+            if a == 0 && b == 0 {
+                println!("  ABELIAN, both trivial \u{2014} nothing to annihilate; already vacuum.");
+                println!("  verdict: T (vacuum), trivially.");
+            } else if sum == 0 {
+                println!("  ABELIAN \u{2014} windings cancel: \u{03a9} \u{2192} 𐑷 trivial.");
+                println!("  verdict: T \u{2014} the pair annihilates to vacuum, \u{03bc}\u{2218}\u{03b4}=id.");
+            } else {
+                println!("  ABELIAN \u{2014} windings ADD, they do not cancel: residual \u{03a9} remains.");
+                println!("    {} + {} \u{2192} residual winding, no vacuum channel.",
+                    glyph_of(OMEGA, a), glyph_of(OMEGA, b));
+                println!("  verdict: F \u{2014} this pair does not annihilate. Fuse with an opposite");
+                println!("  winding instead, or use `homolyze` to split before fusing.");
+            }
+        }
+        _ => {
+            println!("  \u{03a9} missing on one side \u{2014} nothing is asserted.");
+            println!("  verdict: N (void).");
+        }
+    }
+    0
+}
+
 #[cfg(test)]
 mod alchemy_tests {
     use super::{fractionate, Tuple};

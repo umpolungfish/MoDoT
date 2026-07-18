@@ -185,6 +185,13 @@ struct Cli {
     #[arg(long = "homolyze", num_args = 1..=2, value_names = ["A", "B"])]
     homolyze: Option<Vec<String>>,
 
+    /// Pair fusion mu (annihilation). `--annihilate A [B]`; one name self-annihilates
+    /// against its own conjugate. Abelian Omega classes add (opposite windings cancel
+    /// to vacuum); Omega=non-Abelian returns a fusion CHANNEL (Fibonacci tau x tau =
+    /// 1 + tau), verdict B, because both channels stay open until one is selected.
+    #[arg(long = "annihilate", num_args = 1..=2, value_names = ["A", "B"])]
+    annihilate: Option<Vec<String>>,
+
     /// Bidirectional ligand ⇌ catalytic-site complement (ported from red-hot_rebis
     /// ligand_from_active_site). `--complement A` maps a catalytic-site type to the
     /// complementary ligand it binds — and back, it is its own inverse. --certify /
@@ -1992,6 +1999,7 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: phase_reconstruct M1 M2…  recover the relative PHASE WORD from the closed ring (flat autocorrelation ⟺ cyclization): reads back the per-unit Ħ phase sequence, fixed modulo one global phase; if the set does not close it reports the phases as N (underdetermined)
   TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum Ω moved) → radical IONS A•⁺/B•⁻
   TOOL: homolyze A [B]     homolytic cleavage → NEUTRAL radicals (δ_A symmetric split, the reverse of click): `homolyze A B` breaks the A—B bond into A•+B•; `homolyze A` splits A into two A•
+  TOOL: annihilate A [B]   pair fusion μ (the reverse of homolyze): `annihilate A B` fuses the pair, `annihilate A` fuses A with its own conjugate. Abelian Ω windings ADD — opposite windings cancel to vacuum (T), like windings leave a residual (F). Ω=𐑟 non-Abelian returns a CHANNEL, not a value (Fibonacci τ×τ=1+τ: vacuum OR another τ) → verdict B, both open. Ω=𐑟 does not deform away; braid first to select a channel, then re-annihilate
   TOOL: scan A B          rank the catalog for the best mediators of the A→B transfer
   TOOL: complement A      the bidirectional ligand⇌catalytic-site complement (its own inverse)
   TOOL: cycle C S         the catalytic cycle: C turns over S, certified a fixed point (μ∘δ=id)
@@ -3733,6 +3741,11 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             if let Some(b) = a(1) { v.push(b); }
             v
         }
+        "annihilate" => {
+            let mut v = vec!["--annihilate".to_string(), a(0)?];
+            if let Some(b) = a(1) { v.push(b); }
+            v
+        }
         "set" => vec!["--set".into(), a(0)?, a(1)?],
         "scan" => vec!["--set".into(), a(0)?, a(1)?, "--scan-mediators".into()],
         "complement" => vec!["--complement".into(), a(0)?],
@@ -4073,6 +4086,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "excite"     => "excite A; 1 name",
         "set"        => "set A B; 2 names (donor acceptor)",
         "homolyze"   => "homolyze A [B]; 1 or 2 names",
+        "annihilate" => "annihilate A [B]; pair fusion \u{03bc}. 1 name = self-annihilate",
         "scan"       => "scan A B; 2 names (donor acceptor), ranks mediators of A to B",
         "complement" => "complement A; 1 name",
         "cycle"      => "cycle C S; 2 names (catalyst substrate)",
@@ -5984,6 +5998,7 @@ impl CliClone for Cli {
             excite: self.excite.clone(),
             set: self.set.clone(),
             homolyze: self.homolyze.clone(),
+            annihilate: self.annihilate.clone(),
             complement: self.complement.clone(),
             scan_mediators: self.scan_mediators,
             cycle: self.cycle.clone(),
@@ -6092,6 +6107,15 @@ fn main() {
     if let Some(names) = &cli.homolyze {
         if !names.is_empty() {
             let code = click::run_homolyze(cat_ref, &names[0], names.get(1).map(|s| s.as_str()), cli.theta);
+            process::exit(code);
+        }
+    }
+
+    // Pair fusion μ: `./ask --annihilate A [B]`. The Ω class decides whether the
+    // fusion is determinate — non-Abelian returns a channel (verdict B), not a value.
+    if let Some(names) = &cli.annihilate {
+        if !names.is_empty() {
+            let code = click::run_annihilate(cat_ref, &names[0], names.get(1).map(|s| s.as_str()));
             process::exit(code);
         }
     }
