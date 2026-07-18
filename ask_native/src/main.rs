@@ -2512,7 +2512,60 @@ fn strip_kernel_records(text: &str) -> String {
         r"(?im)^[ \t]*(?:●[ \t]*TOOL\b.*|──[ \t]*(?:ACT|OBSERVE|PLAN|THINK|FINAL|ISOMORPHISM|BACKTRANSLATION|PHANTOM-VERB|cycle)\b.*)$\n?",
     )
     .unwrap();
-    delatex(&record_re.replace_all(&stripped, ""))
+    delatex(&excise_preacted_observations(&record_re.replace_all(&stripped, "")))
+}
+
+/// A thought that ACTS and OBSERVES in the same breath has not observed anything: an
+/// `OBSERVE:` / `UPDATE:` block emitted alongside `TOOL:` lines was written BEFORE the
+/// calls ran, so every number in it is a forecast wearing an observation's label. Seen
+/// live (moat_protocol winding): the model scripted `imasm check` → T and ρ=0.482 inside
+/// its ACT round; the real check returned N (void) and no tool ever emitted 0.482 — yet
+/// the scripted numbers, sitting in history in the model's own voice, were quoted at
+/// CLOSING over the ground truth. Excise the block — bounded by the next
+/// THINK:/ACT:/PLAN:/TOOL: line or end of text — and leave a marker in its place so the
+/// excision itself reaches the agent. Backticked verb mentions inside the block
+/// (`` `imasm define` returns: … ``) stop firing as μ-face calls for free, since
+/// extraction runs on the sanitized text.
+fn excise_preacted_observations(text: &str) -> String {
+    if !text.contains("TOOL:") {
+        return text.to_string();
+    }
+    fn bare(l: &str) -> &str {
+        l.trim_start_matches(['#', '*', '-', '>', ' ', '\t'])
+    }
+    let is_label = |l: &str, name: &str| {
+        bare(l)
+            .strip_prefix(name)
+            .map_or(false, |r| r.trim_start_matches('*').trim_start().starts_with(':'))
+    };
+    let opens = |l: &str| is_label(l, "OBSERVE") || is_label(l, "UPDATE");
+    let closes = |l: &str| {
+        bare(l).starts_with("TOOL:")
+            || is_label(l, "THINK")
+            || is_label(l, "ACT")
+            || is_label(l, "PLAN")
+    };
+    let mut out: Vec<&str> = Vec::new();
+    let mut cutting = false;
+    for l in text.lines() {
+        if opens(l) {
+            if !cutting {
+                out.push(
+                    "[pre-run OBSERVE/UPDATE excised — written before the TOOL: calls ran; \
+observations are READ from tool results, never written in advance]",
+                );
+            }
+            cutting = true;
+            continue;
+        }
+        if cutting && closes(l) {
+            cutting = false;
+        }
+        if !cutting {
+            out.push(l);
+        }
+    }
+    out.join("\n")
 }
 
 /// The answer prints to a raw terminal with no math renderer, but the LLM habitually wraps
@@ -2945,6 +2998,48 @@ mod lane_guard_tests {
         assert_eq!(calls.len(), 1);
         assert_eq!(calls[0].0, "filter");
         assert_eq!(calls[0].1[0], "reduced_character_orbit_computation");
+    }
+
+    #[test]
+    fn mu_face_skips_bare_imasm_subcommand_mentions() {
+        // The exact misfire from the moat_protocol winding: OBSERVE narration naming the
+        // dispatcher + subcommand in a code span fired three empty calls.
+        let t = "- `imasm define` returns: `moat_protocol` admitted.\n\
+                 - `imasm check` returns: `T` (established).\n\
+                 - `imasm run moat_protocol` gives the radius.";
+        let calls = super::extract_tool_calls(t);
+        assert_eq!(
+            calls,
+            vec![("imasm".to_string(), vec!["run".to_string(), "moat_protocol".to_string()])],
+            "only the argful span is a call; bare subcommand mentions are prose"
+        );
+    }
+
+    #[test]
+    fn preacted_observe_block_is_excised() {
+        // A thought that ACTS and OBSERVES in one breath: the OBSERVE/UPDATE numbers are
+        // forecasts, and they must not survive into history or fire μ-face calls.
+        let t = "THINK:\nembed the protocol.\n\nACT:\nTOOL: imasm run moat_protocol\n\n\
+                 OBSERVE:\n- `imasm check` returns: `T` (established).\n- ρ=0.482.\n\n\
+                 UPDATE:\nThe Work is complete.\n\nTOOL: cycle_close";
+        let s = super::strip_kernel_records(t);
+        assert!(!s.contains("0.482"), "forecast numbers must not survive:\n{s}");
+        assert!(s.contains("pre-run OBSERVE/UPDATE excised"));
+        assert!(s.contains("TOOL: cycle_close"), "calls after the block must survive:\n{s}");
+        assert!(s.contains("TOOL: imasm run moat_protocol"));
+        let calls = super::extract_tool_calls(&s);
+        assert!(
+            !calls.iter().any(|(v, a)| v == "imasm" && a.len() == 1),
+            "no empty imasm call may fire from excised narration: {calls:?}"
+        );
+    }
+
+    #[test]
+    fn observe_without_acting_is_left_alone() {
+        // No TOOL: line in the thought — the OBSERVE is narrating results already
+        // delivered, not forecasting; it must pass through untouched.
+        let t = "OBSERVE:\nThe check returned N (void); the radius was 2.4142.";
+        assert_eq!(super::strip_kernel_records(t).trim(), t);
     }
 
     #[test]
@@ -3478,6 +3573,20 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
                 if is_known_verb(&verb) {
                     let args: Vec<String> =
                         toks.map(trim_md).filter(|s| !s.is_empty()).collect();
+                    // `imasm` dispatches on a subcommand, so a backticked dispatcher +
+                    // subcommand with nothing after it (`` `imasm define` returns: … ``,
+                    // `` `imasm check` says … ``) is prose ABOUT the tool, not a call —
+                    // every argful subcommand needs its args on the same span. Seen live:
+                    // three empty imasm define/check/run calls fired from an OBSERVE
+                    // narration and burned a round on usage errors. The zero-arg
+                    // subcommands (tools, ref) stay callable.
+                    if verb == "imasm"
+                        && args.len() < 2
+                        && !matches!(args.first().map(String::as_str), Some("tools") | Some("ref"))
+                    {
+                        i = if j < bytes.len() && bytes[j] == b'`' { j + 1 } else { j + 1 };
+                        continue;
+                    }
                     if !args.is_empty()
                         && !args_are_prose(&args)
                         && !is_template_echo(&args)
