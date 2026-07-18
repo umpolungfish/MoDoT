@@ -22,9 +22,25 @@ Drive the catalytic ladder in DOUBLE turnovers (one Z2-restoring pair per
 step), measure the Coagula imprint depth on R↔S after each pair, and report
 the pair count at which the imprint stops deepening.
 
-PREREGISTERED PREDICTION (recorded 2026-07-17, BEFORE this run; restated
-for the imprint observable after the Z2 measurement, target unchanged):
-Imprint saturation at 34 pairs, equivalently 68 single windings. The
+PREREGISTERED PREDICTIONS (recorded 2026-07-17, BEFORE the walk; two rival
+integers, both on record so either outcome convicts or acquits cleanly):
+  P1: imprint saturation at 34 pairs (68 single windings) — one gap-payment
+      per crossing of the full tour, 4 Belnap circuits x 17 loci.
+  P2: imprint saturation at 4 pairs — one deposit per truth family,
+      |{T,F,t,f}| = 4; the imprint as a CAPACITY, not a tour length.
+These are not exhaustive: a third number replaces both and is the finding.
+Note the audit state: the only genuinely walked chain so far is 5 single
+turnovers, with R and Σ unchanged and only Ω toggling — consistent with
+both predictions, discriminating neither. Every _pair form beyond that was
+an oracle mint and is evidence for nothing.
+
+WALK RULES (this is what the harness now enforces and enables):
+  Every rung is born by canonization: TOOL: cycle <catalyst> <current form>
+    <next name> registers the REAL product, tuple-derived with provenance
+    derived:cycle. imscribe refuses ladder-state names by design; if a form
+    does not exist, the ladder has not reached it.
+  Walk at least to pair 6 before any saturation claim (P2 needs rungs past
+    4 to show the freeze), and to the first tool-verdict stall otherwise. The
 structural count: one circuit of the carved substrate crosses the 16
 registers plus the pinch ⊙, 17 loci; the complete tour is one circuit per
 Belnap value, 4 x 17 = 68 crossings, equivalently one circuit per chirality,
