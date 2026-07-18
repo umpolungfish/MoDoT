@@ -2083,7 +2083,7 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the structural typ
   TOOL: lean <path.lean>        ELABORATE a Lean file and read back what the KERNEL said. Writing Lean is the proposal (δ); elaborating it is the verification (μ). You **MUST** run this on any file you write or change before you say anything about whether it holds. You **MUST NOT** call a file proved, green, checked, or sorry-free on the strength of having written it: a file that never elaborated has zero sorries trivially, and grep cannot tell that apart from a proof. A kernel error is a FRONTIER — the file is held, not refuted; read the error, repair the declaration it names, elaborate again.
 
   TOOL: cycle_close             SECTION YOUR OWN WINDING. You fly as many eagles — TOOL rounds — as the Work needs; you are not on a round budget. When this breath has wound as far as it goes, close it: emit `TOOL: cycle_close` and the harness condenses THIS cycle's measured results into the opening prompt of the next, which you then wind further. The terminus IS the origin: what your cycle measured is what the next one begins from, so a result you leave unmeasured is a result the next cycle must go get.
-                                You **MUST** close a cycle when the reach changes — when the next thing to measure is a different question than the one this breath opened on, when a result reorients the Work, or when you have the ground to state plainly what is now settled and what is now open. You **MUST NOT** close merely because you have an answer to report; a cycle closes to WIND FURTHER, not to stop. Real calls in the same round as `cycle_close` still run first, so you never lose a closing measurement.
+                                You **MUST** close a cycle when the reach changes — when the next thing to measure is a different question than the one this breath opened on, when a result reorients the Work, or when you have the ground to state plainly what is now settled and what is now open. You **MUST NOT** close merely because you have an answer to report; a cycle closes to WIND FURTHER, not to stop. You **MUST** emit `TOOL: cycle_close` ALONE — as the ONLY tool call in its round, with no other verb beside it. You **MUST NOT** emit it in the same round as any other call: a round that mixes them is a round that closes on measurements it has not yet read. Take your closing measurements in one round, read them, THEN close in a round of its own.
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -2398,7 +2398,9 @@ fn build_user_packet(question: &str, prep: &Prepare, jam: bool, cycle: u32, tota
              measurement it could not. You **MUST** treat its open questions as open — it is \
              handing you the Work, not a verdict to ratify.\n\
              You **MUST** close this cycle with `TOOL: cycle_close` once you have wound as far \
-             as this breath goes, so its results condense into the next cycle's opening prompt."
+             as this breath goes, so its results condense into the next cycle's opening prompt. \
+             You **MUST** emit it ALONE, as the only call in its round — take your last \
+             measurements first, read them, then close in a round of its own."
         ));
         // Cache-clear: a prior cycle may have recorded a verb as "unavailable / does not
         // exist" when it did not yet exist or was not tried. That claim is STALE and must
@@ -5610,15 +5612,37 @@ fn run_one(
                 // wound as far as it goes. It is not dispatched — it is a signal to the
                 // harness — but any real calls emitted alongside it still RUN first, so a
                 // closing round's last measurements are not thrown away.
+                // `cycle_close` is a signal to the harness, not a dispatched verb, and it
+                // must arrive ALONE. A round that mixes it with real calls would close on
+                // measurements the agent has not read yet — the close would section a
+                // winding whose last results arrived in the same breath. So: if it comes
+                // batched, the real calls RUN (never discard a measurement) and the close
+                // is REFUSED with a note telling the agent to re-emit it by itself.
                 let wants_close = calls.iter().any(|(v, _)| v == "cycle_close");
-                let calls: Vec<(String, Vec<String>)> =
+                let others: Vec<(String, Vec<String>)> =
                     calls.into_iter().filter(|(v, _)| v != "cycle_close").collect();
-                if wants_close {
+                let close_refused = wants_close && !others.is_empty();
+                let calls = others;
+                if close_refused {
+                    println!("── CYCLE CLOSE REFUSED — it was emitted alongside {} other call(s). \
+Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in its own round. ──",
+                        calls.len());
+                } else if wants_close {
                     println!("── CYCLE CLOSE requested by the agent (self-sectioned winding) ──");
                     exit_cause = CycleExit::CycleClose;
                 }
                 println!("── ACT round {} ({} tool call(s)) ──", round + 1, calls.len());
                 let mut results = String::new();
+                // The refusal has to reach the AGENT, not just the operator's console —
+                // otherwise the close silently does not take and the agent cannot tell why.
+                if close_refused {
+                    results.push_str(
+                        "### cycle_close — REFUSED\n\
+                         `cycle_close` must be the ONLY call in its round; it arrived beside other calls.\n\
+                         Those calls ran and their results are below — nothing was lost.\n\
+                         Read them, then emit `TOOL: cycle_close` ALONE in its own round to close.\n",
+                    );
+                }
                 for (verb, args) in calls.iter() {
                     let sig = format!("{verb} {}", args.join(" "));
                     // Already ran this exact call — return the cached result, do NOT re-execute.
