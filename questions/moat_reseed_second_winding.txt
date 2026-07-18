@@ -37,6 +37,30 @@ THE QUESTION, IN THREE REACHES:
    from the topology first, in one line, then forge. Record agreement or
    divergence as a result either way.
 
+NEW INSTRUMENTS (live since this brief was first cut; rules in
+md/imasm_composition_rules.md):
+  imasm eval <name|entry|word> [seed=N|T|F|B]   values through the gates;
+    reports the readout at each sink and, per dyad, whether the fuse
+    RECOVERS what the fork was fed (operational μ∘δ). Structure, kernel,
+    and flow are three separate verdicts; a program earns all three.
+  imasm eval16 <...> [seed=A|Tf|TFtf...]        the same flow over full
+    SIXTEEN_3 (subsets of {T,F,t,f}); FOUR is its classical slice.
+  imasm compose <new> <A> <B>                   bind A's living out-ends
+    to B's living in-ends; consumes valences, never mints; a program with
+    no living ends is a finished loop and does not compose.
+
+FOURTH REACH, OPENED BY THE INSTRUMENTS:
+  Flowing a catalog entry expands its twelve glyph types into opcode
+  motifs, and the per-dyad id/NOT-id sequence is a FLOW SIGNATURE, a new
+  readout of the tuple. Measured already: moat_protocol_reseed carries
+  lossy dyads inside a kernel-green closure class (an AREV inverts an arm
+  before its fuse), and the signatures of the standing entries differ.
+  The reach: flow the standing objects, speak each signature's expected
+  shape from the tuple before running, and ask what the lossy dyads
+  correspond to in the entry's own register. A dyad that loses value
+  inside a green closure is not a defect until shown so; it may be the
+  entry's chirality speaking in the flow register.
+
 DISCIPLINE (carried from the first winding's own corrections):
   Programs are built from the structural topologies (chain, ring, protocol,
     star, comb, bubble, wire); EVALT and EVALF are tokens INSIDE a program,
