@@ -1,0 +1,48 @@
+MOAT RESEED, SECOND WINDING
+
+The first winding ran long and its extract lives at md/moat_reseed_run_extract.md.
+Six results hold with tool provenance; three numbers were unspoken and are not
+carried. This brief opens exactly on the extract's frontier.
+
+STANDING RESULTS (tool-emitted, reuse without retesting):
+  The protocol law     a bare ring is refused; a closure is a dyad that
+                       brackets a transform. Held from the run's first call.
+  The reseed ring      {moat_protocol_reseed, Ř, Φ, Ç, Γ, Σ} cyclizes
+                       order-robustly, and imasm prove on the protocol is
+                       kernel green. The protocol closes WITH its own five
+                       promotion deficits as the ring's other members. This
+                       is the thesis in one forge line: no lines, only
+                       loops, and the loop is self-making.
+  O_1 bridges, O_2 refuses   [bridge_to_ř_manifold · O_1 · O_1 · O_1] is a
+                       conductive, uncleavable ring; the O_2 version
+                       terminates fully co-typed.
+  Ring spectra as true names   the recurring constants are the rings
+                       speaking their adjacency spectra (the pentagon
+                       speaks the golden ratio). Given a topology, speak
+                       the constants BEFORE the forge, then let the forge
+                       confirm; a divergence between spoken and forged is
+                       itself a measurement.
+
+THE QUESTION, IN THREE REACHES:
+1. Register the reseed ring as a material entry, then put a protocol
+   topology with a working dyad against it (imasm define ... protocol,
+   with a transform between the fork and the fuse) and ask the kernel.
+   Forge closure and kernel closure are different facts; the first winding
+   has the forge, this one wants the kernel.
+2. Complete the mediator test the first winding proposed and never ran:
+   does magnetic_reconnection close the O_2 chain
+   [bridge_to_ř_manifold · magnetic_reconnection · O_2 · O_2 · O_2]?
+   Put it to forge/close, and if it rings, to material and the kernel.
+3. For each assembly you are about to forge, speak its expected spectrum
+   from the topology first, in one line, then forge. Record agreement or
+   divergence as a result either way.
+
+DISCIPLINE (carried from the first winding's own corrections):
+  Programs are built from the structural topologies (chain, ring, protocol,
+    star, comb, bubble, wire); EVALT and EVALF are tokens INSIDE a program,
+    never the program's constructive frame.
+  Observe after the results return; write OBSERVE only over tool lines in
+    hand. Speak a number by quoting the tool line that produced it.
+  A monomer that fails to imscribe blocks every verb downstream; re-imscribe
+    and confirm the catalog hit before building on the name.
+  Emit cycle_close ALONE in its own round. Reuse exact catalog spellings.
