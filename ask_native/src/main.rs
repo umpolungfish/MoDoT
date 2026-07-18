@@ -192,6 +192,13 @@ struct Cli {
     #[arg(long = "annihilate", num_args = 1..=2, value_names = ["A", "B"])]
     annihilate: Option<Vec<String>>,
 
+    /// Perturb ONE axis of an entity and report what moves with it.
+    /// `--recalibrate A Ħ` (or a name: chirality, protection, kinetics…). Walks the
+    /// axis through every value it can take, flags the cross-primitive couplings each
+    /// step disturbs, and writes nothing — a perturbation is a probe.
+    #[arg(long = "recalibrate", num_args = 2, value_names = ["A", "AXIS"])]
+    recalibrate: Option<Vec<String>>,
+
     /// Bidirectional ligand ⇌ catalytic-site complement (ported from red-hot_rebis
     /// ligand_from_active_site). `--complement A` maps a catalytic-site type to the
     /// complementary ligand it binds — and back, it is its own inverse. --certify /
@@ -1999,6 +2006,7 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: phase_reconstruct M1 M2…  recover the relative PHASE WORD from the closed ring (flat autocorrelation ⟺ cyclization): reads back the per-unit Ħ phase sequence, fixed modulo one global phase; if the set does not close it reports the phases as N (underdetermined)
   TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum Ω moved) → radical IONS A•⁺/B•⁻
   TOOL: homolyze A [B]     homolytic cleavage → NEUTRAL radicals (δ_A symmetric split, the reverse of click): `homolyze A B` breaks the A—B bond into A•+B•; `homolyze A` splits A into two A•
+  TOOL: recalibrate A AXIS perturb ONE axis (glyph Ħ Ω Ç … or name chirality/protection/kinetics) through every value it can take; reports what each step costs and which cross-primitive couplings it disturbs. Writes nothing — keep a step with `imscribe <name> <tuple>`
   TOOL: annihilate A [B]   pair fusion μ (the reverse of homolyze): `annihilate A B` fuses the pair, `annihilate A` fuses A with its own conjugate. Abelian Ω windings ADD — opposite windings cancel to vacuum (T), like windings leave a residual (F). Ω=𐑟 non-Abelian returns a CHANNEL, not a value (Fibonacci τ×τ=1+τ: vacuum OR another τ) → verdict B, both open. Ω=𐑟 does not deform away; braid first to select a channel, then re-annihilate
   TOOL: scan A B          rank the catalog for the best mediators of the A→B transfer
   TOOL: complement A      the bidirectional ligand⇌catalytic-site complement (its own inverse)
@@ -3746,6 +3754,16 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             if let Some(b) = a(1) { v.push(b); }
             v
         }
+        // `recalibrate A Ħ` and `recalibrate A --perturb_chirality Ħ` both work:
+        // the flag form names the axis in the flag, so take whichever carries it.
+        "recalibrate" => {
+            let entity = a(0)?;
+            let axis = args.iter().skip(1)
+                .find(|s| !s.starts_with("--"))
+                .cloned()
+                .or_else(|| args.iter().skip(1).find(|s| s.starts_with("--")).cloned())?;
+            vec!["--recalibrate".to_string(), entity, axis]
+        }
         "set" => vec!["--set".into(), a(0)?, a(1)?],
         "scan" => vec!["--set".into(), a(0)?, a(1)?, "--scan-mediators".into()],
         "complement" => vec!["--complement".into(), a(0)?],
@@ -4087,6 +4105,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "set"        => "set A B; 2 names (donor acceptor)",
         "homolyze"   => "homolyze A [B]; 1 or 2 names",
         "annihilate" => "annihilate A [B]; pair fusion \u{03bc}. 1 name = self-annihilate",
+        "recalibrate" => "recalibrate A AXIS; perturb one axis (glyph or name)",
         "scan"       => "scan A B; 2 names (donor acceptor), ranks mediators of A to B",
         "complement" => "complement A; 1 name",
         "cycle"      => "cycle C S; 2 names (catalyst substrate)",
@@ -4105,11 +4124,11 @@ computations are cut at the time limit and report the cut rather than a partial 
         "modulus"    => "modulus M1 M2...; 2+ names",
         "arrange"    => "arrange M1 M2...; 2+ names (unordered set)",
         "forge"      => "forge M1 M2...; 2+ names (unordered set)",
-        "compare"    => "compare A B vs X Y; two sets split by `vs`",
+        "compare"    => "compare A B vs X Y; TWO OR MORE names on EACH side of `vs` (1-vs-1 is a distance, use `distance A B`)",
         "dope"       => "dope A B with C; base and dopant split by `with`",
         "fuse"       => "fuse A B + X Y; two rings split by `+`",
         "cleave"     => "cleave M1 M2...; 2+ names (forges then cuts the ring)",
-        "anneal"     => "anneal M1 M2...; 2+ names",
+        "anneal"     => "anneal M1 M2 M3...; THREE or more names (a ring needs 3 to have distinct orderings; 2 has only one)",
         "register"   => "register NAME M1 M2...; a NAME then 2+ names",
         "recall"     => "recall NAME; exactly 1 stored name",
         "distill"    => "distill M1 M2...; 2+ names (separate by volatility ⊙)",
@@ -5999,6 +6018,7 @@ impl CliClone for Cli {
             set: self.set.clone(),
             homolyze: self.homolyze.clone(),
             annihilate: self.annihilate.clone(),
+            recalibrate: self.recalibrate.clone(),
             complement: self.complement.clone(),
             scan_mediators: self.scan_mediators,
             cycle: self.cycle.clone(),
@@ -6116,6 +6136,14 @@ fn main() {
     if let Some(names) = &cli.annihilate {
         if !names.is_empty() {
             let code = click::run_annihilate(cat_ref, &names[0], names.get(1).map(|s| s.as_str()));
+            process::exit(code);
+        }
+    }
+
+    // Perturb one axis: `./ask --recalibrate A Ħ`.
+    if let Some(args) = &cli.recalibrate {
+        if args.len() >= 2 {
+            let code = click::run_recalibrate(cat_ref, &args[0], &args[1]);
             process::exit(code);
         }
     }

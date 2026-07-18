@@ -3947,6 +3947,103 @@ pub fn run_annihilate(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: Op
     0
 }
 
+
+// ─── recalibrate: perturb one axis and report what moves ────────────────────
+//
+// The agent asked for this three times across one run and never got it:
+//   recalibrate <entity> --perturb_chirality Ħ
+//
+// It walks ONE axis through every value it can take and reports, at each step,
+// what the perturbation costs and what it drags with it. This is the honest way
+// to ask "can I move Ω off non-Abelian" — you cannot deform Ω directly, but you
+// CAN perturb the axis it is coupled to and see whether Ω follows.
+//
+// Reports, per candidate value: the resulting tuple, and any cross-primitive
+// coupling that the move disturbs. It does NOT write to the catalog — a
+// perturbation is a probe, not a commitment. Canonize with `imscribe <name> <tuple>`
+// if a step is worth keeping.
+pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("recalibrate: no catalog loaded");
+        return 2;
+    };
+    let Some(e) = find_entry(cat, name) else {
+        eprintln!("recalibrate: catalog entry not found: {name}");
+        return 2;
+    };
+    let t = Tuple::from_entry(e);
+
+    // Accept the axis as a glyph name (Ħ, Ω, …) or as a word (chirality, protection…).
+    let key = axis.trim().trim_start_matches("--").to_ascii_lowercase();
+    let idx = PRIMS.iter().position(|p| *p == axis.trim()).or_else(|| match key.as_str() {
+        "dimensionality" | "d" | "perturb_dimensionality" => Some(0),
+        "topology" | "t" | "perturb_topology" => Some(1),
+        "recognition" | "r" | "perturb_recognition" => Some(2),
+        "polarity" | "parity" | "p" | "perturb_polarity" | "perturb_parity" => Some(3),
+        "fidelity" | "f" | "perturb_fidelity" => Some(4),
+        "kinetics" | "kinetic" | "k" | "perturb_kinetics" => Some(5),
+        "granularity" | "g" | "perturb_granularity" => Some(6),
+        "composition" | "grammar" | "perturb_composition" => Some(7),
+        "criticality" | "perturb_criticality" => Some(8),
+        "chirality" | "h" | "perturb_chirality" => Some(9),
+        "stoichiometry" | "s" | "perturb_stoichiometry" => Some(10),
+        "protection" | "omega" | "perturb_protection" => Some(11),
+        _ => None,
+    });
+    let Some(ax) = idx else {
+        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (Ð Þ Ř Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
+        return 2;
+    };
+
+    let cur = t.ord[ax];
+    println!("recalibrate:  {name}   axis {} ({})", PRIMS[ax], axis.trim().trim_start_matches("--"));
+    println!("  current: {}   full tuple {}", cur.map(|o| glyph_of(ax, o)).unwrap_or("?"), fmt_tuple(&t.ord));
+    let Some(cur_ord) = cur else {
+        println!("  this axis is unset — nothing to perturb. N (void).");
+        return 0;
+    };
+    println!("  walking every value this axis can take:\n");
+
+    for (g, o) in GLYPHS[ax].iter() {
+        if *o == cur_ord {
+            println!("    {g}  (current)");
+            continue;
+        }
+        let mut probe = t.ord;
+        probe[ax] = Some(*o);
+        let step = *o as i32 - cur_ord as i32;
+        // Cross-primitive couplings the kernel actually holds (Core.lean):
+        //   Þ=𐑸 forces Ð=𐑦.        Ω ≥ 𐑭 requires Ħ ≥ 𐑖.
+        // Ħ=𐑫 co-occurring with Ç=𐑪 is a TENDENCY, not an axiom — reported, never enforced.
+        let mut notes: Vec<String> = Vec::new();
+        if ax == 1 && *o == 4 && probe[0] != Some(3) {
+            notes.push("Þ=𐑸 forces Ð=𐑦 — this move requires Ð to follow".into());
+        }
+        if ax == 11 && *o >= 2 && probe[9].map(|c| c < 2).unwrap_or(false) {
+            notes.push("Ω≥𐑭 requires Ħ≥𐑖 — raise chirality first or this will not hold".into());
+        }
+        if ax == 9 && *o < 2 && probe[11].map(|p| p >= 2).unwrap_or(false) {
+            notes.push("lowering Ħ below 𐑖 breaks Ω≥𐑭 — the protection would fall with it".into());
+        }
+        if ax == 9 && *o == 3 && probe[5] != Some(3) {
+            notes.push("tendency only (not an axiom): Ħ=𐑫 usually co-occurs with Ç=𐑪".into());
+        }
+        let dir = if step > 0 { "↑" } else { "↓" };
+        println!("    {g}  {dir}{}   {}", step.abs(), fmt_tuple(&probe));
+        for n in &notes {
+            println!("           ⚠ {n}");
+        }
+    }
+    println!("\n  a perturbation is a PROBE — nothing was written.");
+    println!("  keep a step with: imscribe <name> <its tuple>   (registers verbatim)");
+    if ax != 11 {
+        println!("  note: Ω cannot be perturbed directly to shed non-Abelian protection —");
+        println!("  it is defined as what survives deformation. Move a coupled axis and see");
+        println!("  whether Ω follows, or fuse a pair with `annihilate`.");
+    }
+    0
+}
+
 #[cfg(test)]
 mod alchemy_tests {
     use super::{fractionate, Tuple};
