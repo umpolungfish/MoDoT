@@ -79,14 +79,29 @@ from modot.natures import (
     KERNEL_FAMILIES,
     kernel_constructor,
 )
-from modot import ig_tools
-from modot.ig_tools import (
-    IG_TOOL_ARGS,
-    tool_names as ig_tool_names,
-    available as ig_tools_available,
-    call as ig_call,
-    parse_and_call as ig_parse_and_call,
-)
+# ig_tools is loaded LAZILY (PEP 562). An eager `from modot import ig_tools` here
+# put the submodule in sys.modules during package import, so `python -m
+# modot.ig_tools` (the ask_native bridge's invocation) tripped runpy's
+# found-in-sys.modules-before-execution RuntimeWarning on every tool call.
+_IG_LAZY = {
+    "ig_tools": None,
+    "IG_TOOL_ARGS": "IG_TOOL_ARGS",
+    "ig_tool_names": "tool_names",
+    "ig_tools_available": "available",
+    "ig_call": "call",
+    "ig_parse_and_call": "parse_and_call",
+}
+
+
+def __getattr__(name):
+    if name in _IG_LAZY:
+        import importlib
+
+        # importlib, not `from modot import …` — the from-import resolves the
+        # submodule via getattr on the package, which re-enters this hook forever.
+        _it = importlib.import_module("modot.ig_tools")
+        return _it if name == "ig_tools" else getattr(_it, _IG_LAZY[name])
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 __all__ = [
     "main",
