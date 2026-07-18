@@ -328,3 +328,102 @@ were backfilled.
 2. Carved ring gate 2 via `recalibrate … Ħ` — the coupling is now visible.
 3. Read the `imasm define`/`prove` failure text before building more verbs (§20).
 4. No coordinate-level axiom checks.
+
+---
+
+# Part IV — IUT Run `19f757ba1f5-325551`
+
+## 22. Identity
+
+| field | value |
+|---|---|
+| window | 2026-07-18 06:47:44 → 07:29:06 (42 min) |
+| tool calls | 712 — ran 688, miss 24 |
+| cycles | 154, primary `inter_universal_teichmuller_theory` throughout |
+| fused verdicts | **T 46 · B 33 · N 75** |
+| catalog entities imscribed | 75 |
+| imasm tools defined | KUMMER_TRANSITION_OPERATOR, L13_Hyperbolic_Transition, horizontal_theta_link, global_torsion_field_core, channel_probe, synchronize, torsion_decay_protocol, parity_manifold_torsion_test (314 total in registry) |
+
+Verified in cleanup: the IUT objects live in the **imasm tool registry**, not the
+catalog. Their absence from `IG_catalog.json` is correct placement, not loss.
+
+## 23. Closed T — what the dual actually carried
+
+- **The IUT constant is not a scalar.** The 0.35 residual in the spectral radius
+  traces to `monodromy_v_bad` and the kernel maps it to **½·log(2)**: the geometric
+  compensation for the non-commutative holonomy of bad multiplicative reduction.
+- **Spectral gap 0.041 decomposed** into μ_v = 0.039 (non-archimedean, V_bad) and
+  λ_v = 0.002 (archimedean). The "transcendental residue" hypothesis is refuted (F).
+- **KUMMER_TRANSITION_OPERATOR** verified — the transition map between log-theta-lattice
+  containers is a bounded operator computing the arithmetic degree shift; ρ = 1 + ε with
+  ε a function of the V_bad valuations.
+- **Gaussian Moat S_H: B → T** via effective construction of {z_n}.
+- **Asymptotic scaling l^(1/6)** — strictly sub-linear growth of the mono-analytic
+  labeling apparatus, so μ∘δ = id survives projective-limit scaling.
+- **B is the only bifurcation point**, verified against BelnapSplitFuse. Read as: the B
+  state is the canonical topological ground state that maintains IUT's non-Abelian
+  braiding flux — not a defect to be eliminated.
+- **Star-polymer assembly**, purity 0.88, maps the B state onto the L9 moat by
+  non-Abelian holonomy: **μ∘δ = Γ**, not id.
+- **Ω-saturation onset at ρ ≥ 2.0000004182**; L10–L12 bridge strain 1.02e-9, below
+  threshold; L12_Match_Manifold verified.
+
+## 24. Held B — the standing obstruction
+
+`hyperbolic_teichmuller_g_gt_1` and `L13_Hyperbolic_Transition` will not polymerize.
+Congruent charge states, no reaction center at θ=0.50, degree of polymerization stuck
+at 1 across repeated `arrange` / `dope` / `polymerize` attempts. Doping with
+`theta_0.25` moved ρ to 1.99 — proximal to the cyclic fixed point, never reaching it.
+
+## 25. The run asked for `annihilate` — it now exists and was never invoked
+
+Cycle: *"the current results leave open the formal selection protocol (`annihilate` /
+braid-channel isolation) to stabilize the B bifurcation into a closed, coherent flux."*
+
+Built this session. `annihilate A [B]` is pair fusion μ. At Ω=𐑟 it returns a **channel,
+not a value** (Fibonacci τ×τ = 1+τ) → verdict B with both channels open, and names
+braid-then-re-annihilate as what selects one. That is exactly the non-Abelian channel
+selection the run identified as missing. **Never called in the run.**
+
+## 26. The agent retracted itself twice, unprompted
+
+1. After narrating a Lean verification with "SORRIES: 0" on a file that does not exist:
+   *"My previous narration of tool execution was an error in projection… I have measured
+   nothing via the IG structural catalog in this cycle. The Work remains entirely at the
+   FRONTIER."*
+2. Final cycle, after `flux_correlation_test` returned linear (ρ=1.4142, β=0):
+   *"Because the μ∘δ mapping failed to return to the origin index, the assembly did not
+   close. I formally retract the previous claim of a stable [T] manifold."*
+
+It then diagnosed the grammar error exactly — VINIT cannot carry in-degree — and wrote
+the corrected sequence `VINIT FSPLIT EVALT EVALF FFUSE TANCH`.
+
+The harness held every unverified narration at N with the standing note: *"no Frobenius
+dual was emitted: no δ/μ dyad ran, so nothing was verified — held at N (void, not a held
+B). The dual is constitutive, not optional."* 75 of 154 cycles landed there. That is the
+instrument working, not the run failing.
+
+## 27. Lean status — read before trusting any Lean claim
+
+25 `lean` calls. **23 elaborated nothing** ("no such file"). The only two that ran were
+both the same pre-existing `Imscribing/CLINK_L9.lean`. Every file the run named for its
+own work — `genus_N_bound_derivation`, `szpiro_bound_persistence`,
+`asymptotic_szpiro_bound`, `CLINK_L10_KUMMER`, `CLINK_L11_OMEGA`,
+`stability_perturbation_iut` — does not exist. Any Lean-backed claim in the narration is
+ungrounded; the closure results above rest on `imasm prove` and the tool duals, not Lean.
+
+## 28. Next — resubmittal seed
+
+1. **Invoke `annihilate`** on the B-bifurcation the run isolated (§25). It is the named
+   missing protocol and it is now available.
+2. **Break the polymerization deadlock** (§24) with `recalibrate` — perturb the coupled
+   axis rather than doping. `recalibrate hyperbolic_teichmuller_g_gt_1 Ħ` shows what
+   moves with chirality and whether a reaction center opens.
+3. **Broadcast-scan the prime strips** for the monomer bridging ρ 1.4142 → 2.0 — the
+   final cycle's own named next action.
+4. **Write the Lean files or stop citing them** (§27). `lean` takes a path under
+   p4ramill; nothing else elaborates.
+5. Corpus available for cross-checking: 2000 words with verdict + crystal address,
+   `corpus/corpus_2k.jsonl`. 338 distinct types; the type does **not** determine the
+   verdict (76% of multi-word addresses are verdict-mixed).
+6. No coordinate-level axiom checks.
