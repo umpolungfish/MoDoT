@@ -144,7 +144,20 @@ fn safetensor_shards(dir: &str) -> Result<Vec<std::path::PathBuf>, String> {
 impl Engine {
     fn load() -> Result<Engine, String> {
         let cfg = local_cfg();
+        let quiet = env("MODOT_LOCAL_STREAM").map(|v| v == "0").unwrap_or(false);
+        let t0 = std::time::Instant::now();
         let device = pick_device(&cfg).map_err(|e| format!("device: {e}"))?;
+        let where_ = if device.is_cuda() {
+            format!("cuda:{}", cfg.device_index)
+        } else {
+            "cpu".into()
+        };
+        if !quiet {
+            eprintln!(
+                "\x1b[2m[local] loading {} onto {} …\x1b[0m",
+                cfg.model_dir, where_
+            );
+        }
         let qcfg = read_qwen3_config(&cfg.model_dir)?;
         let shards = safetensor_shards(&cfg.model_dir)?;
         // bf16 on GPU (the weights' native dtype), f32 on CPU (no bf16 matmul there).
@@ -154,6 +167,12 @@ impl Engine {
                 .map_err(|e| format!("load weights: {e}"))?
         };
         let model = ModelForCausalLM::new(&qcfg, vb).map_err(|e| format!("build model: {e}"))?;
+        if !quiet {
+            eprintln!(
+                "\x1b[2m[local] model resident ({:.1}s)\x1b[0m",
+                t0.elapsed().as_secs_f64()
+            );
+        }
         let tok_path = format!("{}/tokenizer.json", cfg.model_dir);
         let tokenizer =
             Tokenizer::from_file(&tok_path).map_err(|e| format!("tokenizer {tok_path}: {e}"))?;
@@ -209,6 +228,23 @@ impl Engine {
         let mut offset = 0usize;
         // cap so a runaway generation cannot spin forever
         let cap = max_tokens.clamp(1, 8192);
+
+        // Live progress: the model is silent for seconds while it loads kernels
+        // and chews the prompt, then streams tokens. Print to STDERR so the
+        // streamed text never contaminates the answer the caller reads on the
+        // return value / stdout. Default on; MODOT_LOCAL_STREAM=0 silences it.
+        let stream = env("MODOT_LOCAL_STREAM").map(|v| v != "0").unwrap_or(true);
+        let mut printed_len = 0usize; // chars already streamed (incremental decode)
+        let t_start = std::time::Instant::now();
+        let mut first_token_at: Option<std::time::Duration> = None;
+        if stream {
+            eprint!(
+                "\x1b[2m[local · {} prompt tok · thinking…]\x1b[0m ",
+                tokens.len()
+            );
+            let _ = std::io::Write::flush(&mut std::io::stderr());
+        }
+
         for _ in 0..cap {
             let ctx = if offset == 0 { &tokens[..] } else { &tokens[tokens.len() - 1..] };
             let input = Tensor::new(ctx, &self.device)
@@ -230,11 +266,38 @@ impl Engine {
             }
             tokens.push(next);
             out_ids.push(next);
+            if first_token_at.is_none() {
+                first_token_at = Some(t_start.elapsed());
+            }
+            // Incremental decode: re-decode the whole output and stream only the
+            // NEW suffix. Decoding the growing prefix (rather than one token at a
+            // time) is what makes byte-level BPE multi-byte chars render correctly
+            // once their completing token arrives.
+            if stream {
+                if let Ok(full) = self.tokenizer.decode(&out_ids, true) {
+                    if full.len() > printed_len && full.is_char_boundary(printed_len) {
+                        eprint!("{}", &full[printed_len..]);
+                        let _ = std::io::Write::flush(&mut std::io::stderr());
+                        printed_len = full.len();
+                    }
+                }
+            }
         }
         let text = self
             .tokenizer
             .decode(&out_ids, true)
             .map_err(|e| format!("decode: {e}"))?;
+        if stream {
+            let secs = t_start.elapsed().as_secs_f64().max(1e-6);
+            let ttft = first_token_at.map(|d| d.as_secs_f64()).unwrap_or(secs);
+            eprintln!(
+                "\n\x1b[2m[local · {} tok · {:.1} tok/s · first token {:.1}s]\x1b[0m",
+                out_ids.len(),
+                out_ids.len() as f64 / secs,
+                ttft
+            );
+            let _ = std::io::Write::flush(&mut std::io::stderr());
+        }
         Ok(text)
     }
 }
