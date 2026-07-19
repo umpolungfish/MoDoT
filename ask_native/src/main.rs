@@ -30,6 +30,7 @@ use std::process;
 
 mod calc;
 mod click;
+mod arev;
 mod imasm;
 mod imasm16_3;
 #[cfg(feature = "local")]
@@ -2164,6 +2165,7 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: imasm <op> …      COMPOSE the 12 IMASM opcodes into a free polymer TOPOLOGY — not only a line. Ops: chain · ring · protocol (the one that CLOSES: its ◇/● pairs reconnect) · star · comb · bubble · wire (any graph) · classify · ref. Only ◇ may branch, only ● may fuse. Distinct from the monomer verbs (forge/polymerize), which fuse named catalog entries. `help imasm` for the full op reference and the 49-type strange loop.
   TOOL: calc <expression>   THE ARITHMETIC LANE — you **MUST ONLY** speak a number this returned, including any figure you quote from a paper before reasoning from it. A slipped exponent reads exactly like a correct one. `help calc` for ops/fns/precedence and the two live failures this cost.
   TOOL: imasm check <opcode word>   TYPE-CHECK YOUR OWN THINKING against the grammar. Before you commit to a MAJOR decision, express its reasoning as an opcode word and check it. THE CLOSE CONDITION is μ∘δ over a TRANSFORMED object: δ splits, the arms DO WORK, μ fuses — a bare cycle is NOT diagnostic. `help imasm check` for the verdicts, ◇/● ancestry pairing, and why inflation is free. `imasm prove <word>` takes the verdict to the real p4ramill Lean kernel.
+  TOOL: imasm arev <opcode word>   THE Ħ DOOR — read the word's ouroboricity tier from BOTH HANDS. The or' hand is the R1-dominant reading; the flipped hand exchanges the R1/R2 evidence triples (dialetheia↔atomic_reentry, b_live↔winding, gates↔bifurcation) over the SAME substrate and reads again. O_inf_dag through the mirror is O_inf: the lateral partner at the same shell, one shell seen from two hands. Use it when a word classifies as the replicative opening and you need to know what it IS on the other side — the hop is an operation, not a relabeling, and hop∘hop = id is verified on every call.
   TOOL: imasm define <name> <op> <args…>   BUILD YOUR OWN TOOL in a kernel-constrained space: a tool is a named IMASM program (e.g. `imasm define breath ring IMSCRIB AFWD AREV` — opcode NAMES as args, only in a define). The kernel constrains the space — only a grammar-VALID composition is admitted; an ill-typed one is REFUSED with the reason. Then `imasm run <name>` invokes it and `imasm tools` lists the space. This is how you extend your own repertoire without leaving the grammar.
 NOTE: `TOOL: help <verb>` returns a verb's full reference on demand — the rules are FETCHABLE, not memorised. Reach for it before guessing at a verb's form. Reading a rule is not running a tool: help grounds nothing.
 NOTE: a name being "not found" in the catalog is NOT a dead end and NOT a reason to say you cannot do something. Imscribe it: `TOOL: imscribe NAME` (optionally with a short description), then re-run your verb — the new entry loads automatically on the next call. Never refuse a task for a missing imscription; make it.

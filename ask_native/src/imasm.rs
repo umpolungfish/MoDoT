@@ -137,7 +137,7 @@ impl Token {
 
     /// Accepts full names (VINIT) and the IMSCRIBr short forms (VI, FS, FF, …),
     /// case-insensitively.
-    fn parse(s: &str) -> Option<Token> {
+    pub(crate) fn parse(s: &str) -> Option<Token> {
         let u = s.trim().to_ascii_uppercase();
         Some(match u.as_str() {
             "VINIT" | "VI" | "⊢" => Token::Vinit,
@@ -1980,6 +1980,7 @@ pub fn run(args: &[String]) -> String {
     match op.as_str() {
         "ref" | "reference" | "help" | "rules" => format!("{REFERENCE}\n"),
         "rotat" | "rotate" | "shift" => rotat_op(rest),
+        "arev" | "hop" | "door" => crate::arev::run(rest),
         "check" | "typecheck" => verdict_check(rest),
         "define" | "forge_tool" => define_tool(rest),
         "run" | "invoke" => run_tool(rest),

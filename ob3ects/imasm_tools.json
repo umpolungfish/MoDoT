@@ -679,6 +679,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "gerund_ring": {
+    "spec": "protocol IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE",
+    "title": "protocol",
+    "topology": "  topology: network | V=20 E=23 β=4 branch=4 merge=4 src=1 sink=1 arms=1 ρ=2.4382\n  4 independent loop(s) with 4 branch / 4 fusion point(s)\n  μ∘δ: CLOSED — 4 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "global_torsion_field_core": {
     "spec": "ring ⊙ > <",
     "title": "ring",

@@ -1,31 +1,22 @@
-jam cycle-carry is monadic now: the model writes only δ, the harness carries μ.
+The Ħ door as a tool: imasm arev <opcode word> — the agent holds a word up to both hands.
 
-The series was looping — each cycle re-derived the same verdict instead of
-advancing. Two causes, both in the carry:
+mOMonadOS built the door (Kernel::arev_hop: the R1/R2 evidence triples exchanged
+over one shared substrate, hop∘hop = id exact, O_inf_dag through the mirror = O_∞).
+This gives it to the MoDoT agent as a native tool.
 
-1. condense_cycle was SHOWN the full seed ("## The prompt this cycle opened on")
-   and told to "write the next cycle's opening prompt." For cycle 1→2 that seed
-   IS the entire premise, so the condenser dutifully restated the whole premise,
-   and the next cycle opened on a re-statement and re-ratified it. The premise
-   already lives in the system prompt and the cycle-1 conversation turn, so
-   re-writing it into the seed was pure duplication — the loop.
+ask_native/src/arev.rs — a faithful port of the kernel's self-imscription, tick
+accumulator semantics (EVALT/EVALF B-live and gate counts, ENGAGR pushes B,
+FSPLIT/FFUSE fork frames with resume jump, TANCH root halt, natural-wrap
+winding), value-period ring, compute_tier, and the Ħ mirror. The tool statically
+imscribes the word, winds it 16 wraps for the dynamic evidence, then reads the
+tier from the or' hand and the flipped hand, verifying hop∘hop = id on every
+call. Dispatched as `imasm arev|hop|door <word>`; TOOL line added to the brief.
 
-2. results_ledger was per-cycle (reborn inside the loop), so only the LAST
-   cycle's measured results carried forward; the accumulator did not persist.
-   Not a monoid — a re-wrap.
+First readouts, spoken in advance by the kernel experiment and confirmed here:
+- IMSCRIB ◇ ● IMSCRIB (the replicative opening) — or' O_inf_dag, flipped O_∞:
+  the lateral partner at the same shell, exactly as in QEMU.
+- VINIT ⊙ ◇ + ⊞ × ● VINIT (dialetheic closure) — both hands O_∞: ACHIRAL.
+  A word whose evidence is symmetric reads the same through the mirror; the
+  door also measures chirality, not just crosses it.
 
-Fix: make the cycle chain a monadic bind.
-- condense_cycle no longer sees the premise or the seed. Its job shrinks to
-  emitting ONLY δ: the single open question this cycle could not close and the
-  verb that would close it, one or two sentences, with a hard MUST-NOT on
-  restating the premise/theorem/framing or re-carrying results.
-- series_ledger persists OUTSIDE the loop — the monoid. Each cycle appends its
-  verbatim measured results (tagged [cycle N]); μ is the harness doing this
-  append, not the model narrating it.
-- next seed = "NEXT REACH: <δ>" ⊕ the accumulated series ledger. The premise is
-  never re-injected.
-
-Outer THINK banner reworded to state the monadic model honestly (model writes δ,
-harness carries μ, premise never re-injected).
-
-Prior change retained: local ctx cap measured from free VRAM ÷ per-token KV cost.
+All 115 existing tests pass.
