@@ -1,15 +1,10 @@
-harness: catalog-writing verbs flush the tool-result cache.
+Reg16_3 gains its glyph face: quadrant ink for the sixteen states
 
-The five_constant_ring trap, caught live: a round emitted containment_boundary
-BEFORE register in the same batch, the miss ("Unknown system") was cached under
-its verb+args signature, and the agent's honest next-round re-run would have
-received the stale miss labeled (cached) — concluding the registered assembly
-cannot be typed, when the truth is the cache predated the write.
-
-Fix: when register or imscribe executes (the catalog writers), ran_results is
-cleared and the agent is told in the same TOOL RESULTS block that the cache
-was flushed and re-emitted calls will re-execute against the new state.
-Reads are only cacheable while the state they read is unchanged; a write
-sections the cache the same way it sections the catalog.
-
-All 117 tests pass.
+The opcodes always had two faces (glyph and spoken name) and the design rule
+that no opcode glyph is Latin; the register states had only the Latin face,
+and the gap surfaced the moment a verdict was pronounced inside a glyph word.
+glyph() renders occupancy of {T,F,t,f} as quadrant ink: T upper-left, F
+upper-right, t lower-left, f lower-right; N is the unmarked field (light
+shade), A is the full block. four_glyph() renders the FOUR slice with the
+Belnap top for B, distinct from TF's upper half because B is the collapse
+token, not the SIXTEEN_3 state. Both faces kept; nothing existing touched.

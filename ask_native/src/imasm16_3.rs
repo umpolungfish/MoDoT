@@ -124,6 +124,32 @@ impl Reg16_3 {
         s
     }
 
+    /// The glyph face: occupancy of {T, F, t, f} drawn as quadrant ink —
+    /// T upper-left, F upper-right, t lower-left, f lower-right. The glyph
+    /// IS the subset (meet/join of states = intersection/union of ink);
+    /// N renders as ░, the unmarked field, never as absence. No Latin,
+    /// matching the opcode face's rule.
+    pub fn glyph(self) -> char {
+        match (self.big_t, self.big_f, self.small_t, self.small_f) {
+            (false, false, false, false) => '░',
+            (true,  false, false, false) => '▘',
+            (false, true,  false, false) => '▝',
+            (false, false, true,  false) => '▖',
+            (false, false, false, true ) => '▗',
+            (true,  true,  false, false) => '▀',
+            (true,  false, true,  false) => '▌',
+            (true,  false, false, true ) => '▚',
+            (false, true,  true,  false) => '▞',
+            (false, true,  false, true ) => '▐',
+            (false, false, true,  true ) => '▄',
+            (true,  true,  true,  false) => '▛',
+            (true,  true,  false, true ) => '▜',
+            (true,  false, true,  true ) => '▙',
+            (false, true,  true,  true ) => '▟',
+            (true,  true,  true,  true ) => '█',
+        }
+    }
+
     pub fn union(self, o: Reg16_3) -> Reg16_3 {
         Reg16_3 {
             big_t: self.big_t || o.big_t, big_f: self.big_f || o.big_f,
@@ -159,6 +185,22 @@ impl Reg16_3 {
             (true, false) => "T".into(),
             (false, true) => "F".into(),
             (true, true) => "B".into(),
+        }
+    }
+
+    /// The FOUR slice's glyph face: ░/▘/▝ for N/T/F per `glyph()`, and ⊤ for
+    /// B — the Belnap lattice top, distinct from TF's ▀ because B is the
+    /// FOUR-collapse token, not the SIXTEEN_3 state. Values touching t/f
+    /// have left the slice and keep their 16_3 glyph.
+    pub fn four_glyph(self) -> char {
+        if self.small_t || self.small_f {
+            return self.glyph();
+        }
+        match (self.big_t, self.big_f) {
+            (false, false) => '░',
+            (true, false) => '▘',
+            (false, true) => '▝',
+            (true, true) => '⊤',
         }
     }
 
