@@ -69,10 +69,37 @@ fn pick_device(cfg: &LocalCfg) -> candle_core::Result<Device> {
     if cfg.force_cpu {
         return Ok(Device::Cpu);
     }
-    match Device::cuda_if_available(cfg.device_index) {
-        Ok(d) => Ok(d),
-        Err(_) => Ok(Device::Cpu),
+    // Pin the ordinal meaning BEFORE first CUDA init: the kernels are compiled
+    // for sm_86 only (the 3060, PCI index 1); under the default fastest-first
+    // ordering the ordinals reshuffle with the shell's env and index 1 can
+    // become the sm_75 2080 SUPER, which JIT-crawls or falls to CPU. In-process
+    // pinning makes the shell irrelevant.
+    if std::env::var("CUDA_DEVICE_ORDER").is_err() {
+        std::env::set_var("CUDA_DEVICE_ORDER", "PCI_BUS_ID");
     }
+    // The configured index first, then EVERY other ordinal before surrendering
+    // to CPU: the 3060's ordinal moves with CUDA_DEVICE_ORDER (index 1 under
+    // PCI_BUS_ID, often 0 otherwise), and a silent CPU fallback because the
+    // preferred slot was empty is a 30x slowdown nobody asked for.
+    let mut order = vec![cfg.device_index];
+    for i in 0..4 {
+        if i != cfg.device_index {
+            order.push(i);
+        }
+    }
+    for idx in order {
+        if let Ok(d) = Device::new_cuda(idx) {
+            if idx != cfg.device_index {
+                eprintln!(
+                    "\x1b[2m[local] cuda:{} not present — using cuda:{idx}\x1b[0m",
+                    cfg.device_index
+                );
+            }
+            return Ok(d);
+        }
+    }
+    eprintln!("\x1b[2m[local] no CUDA device reachable — CPU (slow); check LD_LIBRARY_PATH / driver\x1b[0m");
+    Ok(Device::Cpu)
 }
 
 /// A loaded model held resident for the process lifetime.
@@ -386,11 +413,25 @@ impl Engine {
                     } else {
                         full.len()
                     };
-                    if safe > printed_len && full.is_char_boundary(printed_len) {
-                        eprint!("{}", &full[printed_len..safe]);
+                    // LINE-buffered: emit only up to the last completed newline,
+                    // holding the partial line — whole lines land at once instead
+                    // of a letter-by-letter trickle. The held tail flushes after
+                    // the loop.
+                    let line_end = full[..safe].rfind('\n').map(|i| i + 1).unwrap_or(0);
+                    if line_end > printed_len && full.is_char_boundary(printed_len) {
+                        eprint!("{}", &full[printed_len..line_end]);
                         let _ = std::io::Write::flush(&mut std::io::stderr());
-                        printed_len = safe;
+                        printed_len = line_end;
                     }
+                }
+            }
+        }
+        // Flush the held partial final line (generation rarely ends on a newline).
+        if stream {
+            if let Ok(full) = self.tokenizer.decode(&out_ids, true) {
+                if full.len() > printed_len && full.is_char_boundary(printed_len) {
+                    eprint!("{}", &full[printed_len..]);
+                    let _ = std::io::Write::flush(&mut std::io::stderr());
                 }
             }
         }
