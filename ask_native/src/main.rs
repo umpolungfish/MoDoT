@@ -3745,6 +3745,12 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
                 s = &s[m.len_utf8()..];
             }
         }
+        // A DOUBLE trailing `**` is always bolding, never the excited-state
+        // marker (that is a single `*`): `prime_position**` from a `**TOOL: …**`
+        // line is markdown residue, so shed asterisk runs of length ≥ 2.
+        while s.len() > 2 && s.ends_with("**") {
+            s = s.trim_end_matches('*');
+        }
         s.to_string()
     };
     // Split on the literal `TOOL:` marker anywhere it appears, so MULTIPLE directives on one
