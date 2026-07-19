@@ -82,6 +82,9 @@ struct Engine {
     device: Device,
     eos_ids: Vec<u32>,
     model_dir: String,
+    /// The model's OWN Jinja chat template (from tokenizer_config.json), or None
+    /// if absent — then a minimal ChatML fallback is used.
+    chat_template: Option<String>,
 }
 
 fn read_qwen3_config(dir: &str) -> Result<Qwen3Config, String> {
@@ -183,22 +186,51 @@ impl Engine {
         }
         eos_ids.sort_unstable();
         eos_ids.dedup();
-        Ok(Engine { model, tokenizer, device, eos_ids, model_dir: cfg.model_dir })
+        // Load the model's own Jinja chat template so the prompt is built exactly
+        // the way the model was trained (special tokens, the enable_thinking hard
+        // switch, glyphs preserved) rather than by a hand-rolled ChatML guess.
+        let chat_template = std::fs::read_to_string(format!("{}/tokenizer_config.json", cfg.model_dir))
+            .ok()
+            .and_then(|s| serde_json::from_str::<serde_json::Value>(&s).ok())
+            .and_then(|j| j.get("chat_template").and_then(|t| t.as_str()).map(String::from));
+        Ok(Engine { model, tokenizer, device, eos_ids, model_dir: cfg.model_dir, chat_template })
     }
 
-    /// Render OpenAI-style messages into the Qwen ChatML template.
-    fn apply_template(&self, messages: &[(String, String)]) -> String {
-        let mut s = String::new();
-        for (role, content) in messages {
-            let r = match role.as_str() {
-                "assistant" => "assistant",
-                "system" => "system",
-                _ => "user",
-            };
-            s.push_str(&format!("<|im_start|>{r}\n{content}<|im_end|>\n"));
-        }
-        s.push_str("<|im_start|>assistant\n");
-        s
+    /// Build the prompt from the model's OWN chat template. `think=false` sets
+    /// Jinja `enable_thinking=false`, Qwen3's hard switch: the template emits an
+    /// empty `<think></think>` and the model skips reasoning. Rendering the real
+    /// template (not a hand-rolled stub) is what preserves the special tokens and
+    /// the rare glyphs (Ř Φ Σ …) that a naive ChatML string mangled.
+    fn apply_template(&self, messages: &[(String, String)], think: bool) -> Result<String, String> {
+        let Some(tmpl) = self.chat_template.as_deref() else {
+            // Fallback: minimal ChatML, only if the model ships no template.
+            let mut s = String::new();
+            for (role, content) in messages {
+                let r = if role == "assistant" { "assistant" } else if role == "system" { "system" } else { "user" };
+                s.push_str(&format!("<|im_start|>{r}\n{content}<|im_end|>\n"));
+            }
+            s.push_str("<|im_start|>assistant\n");
+            if !think {
+                s.push_str("<think>\n\n</think>\n\n");
+            }
+            return Ok(s);
+        };
+        let mut env = minijinja::Environment::new();
+        // Qwen's template calls Python str methods (.split/.startswith/.strip …);
+        // pycompat supplies them.
+        env.set_unknown_method_callback(minijinja_contrib::pycompat::unknown_method_callback);
+        env.add_template("chat", tmpl).map_err(|e| format!("chat template parse: {e}"))?;
+        let t = env.get_template("chat").map_err(|e| format!("chat template: {e}"))?;
+        let msgs: Vec<minijinja::Value> = messages
+            .iter()
+            .map(|(role, content)| minijinja::context! { role => role, content => content })
+            .collect();
+        t.render(minijinja::context! {
+            messages => msgs,
+            add_generation_prompt => true,
+            enable_thinking => think,
+        })
+        .map_err(|e| format!("chat template render: {e}"))
     }
 
     fn generate(
@@ -206,23 +238,66 @@ impl Engine {
         messages: &[(String, String)],
         max_tokens: usize,
         temperature: f64,
+        think: bool,
     ) -> Result<String, String> {
-        let prompt = self.apply_template(messages);
+        let prompt = self.apply_template(messages, think)?;
+        // The template already inserts every special token as text; add_special_tokens
+        // = false avoids a double BOS while the tokenizer still matches <|im_start|> &c.
         let enc = self
             .tokenizer
-            .encode(prompt, true)
+            .encode(prompt, false)
             .map_err(|e| format!("tokenize: {e}"))?;
         let mut tokens: Vec<u32> = enc.get_ids().to_vec();
+
+        // Prefill OOM guard. Without flash-attn, prefill allocates a
+        // [heads × seq × seq] f32 scores tensor, so long prompts blow the GPU
+        // (~7 GB at 10k tokens on top of the weights). A jam grows its prompt
+        // every round as tool results accumulate, so it WILL cross the line and
+        // kill the series with CUDA_ERROR_OUT_OF_MEMORY. Cap the prefill length:
+        // keep the HEAD (system prompt / framing) and the TAIL (current question
+        // and most recent results), drop the middle, and say so. Configurable via
+        // MODOT_LOCAL_CTX; default sized for a 12 GB card holding a ~4 GB model.
+        let ctx_cap: usize = env("MODOT_LOCAL_CTX")
+            .and_then(|s| s.parse().ok())
+            .unwrap_or(9000);
+        if tokens.len() > ctx_cap {
+            let head = ctx_cap / 2;
+            let tail = ctx_cap - head;
+            let dropped = tokens.len() - ctx_cap;
+            let mut kept = Vec::with_capacity(ctx_cap);
+            kept.extend_from_slice(&tokens[..head]);
+            kept.extend_from_slice(&tokens[tokens.len() - tail..]);
+            eprintln!(
+                "\x1b[2m[local] prompt {} tok > ctx cap {} — kept head {}+tail {}, dropped {} in the middle (raise MODOT_LOCAL_CTX or use a bigger card / flash-attn)\x1b[0m",
+                tokens.len(), ctx_cap, head, tail, dropped
+            );
+            tokens = kept;
+        }
         if tokens.is_empty() {
             return Err("empty prompt after tokenization".into());
         }
         self.model.clear_kv_cache();
-        // Deterministic when temperature is ~0, else sampled.
+        // Sampling per Qwen3 guidance (its model card): top-k=20 with top-p and a
+        // per-mode temperature. Greedy / plain temp sampling is what caused the
+        // endless repetition seen in jam. Thinking: T=0.6, top-p=0.95; non-thinking:
+        // T=0.7, top-p=0.8. A caller temperature ~0 still means greedy (argmax).
+        let (temp, top_p) = if think { (0.6f64, 0.95f64) } else { (0.7f64, 0.8f64) };
+        let temp = if temperature > f64::EPSILON { temperature } else { temp };
         let mut logits_proc = if temperature <= f64::EPSILON {
-            LogitsProcessor::new(0, None, None)
+            LogitsProcessor::from_sampling(0, candle_transformers::generation::Sampling::ArgMax)
         } else {
-            LogitsProcessor::new(0, Some(temperature), Some(0.95))
+            LogitsProcessor::from_sampling(
+                0,
+                candle_transformers::generation::Sampling::TopKThenTopP { k: 20, p: top_p, temperature: temp },
+            )
         };
+        // Repeat penalty over a recent window kills the "records the results, records
+        // the results" loop a small model falls into. Qwen suggests presence penalty;
+        // candle gives a multiplicative repeat penalty, same effect.
+        let repeat_penalty: f32 = env("MODOT_LOCAL_REPEAT_PENALTY")
+            .and_then(|s| s.parse().ok())
+            .unwrap_or(1.15);
+        let repeat_window: usize = 128;
 
         let mut out_ids: Vec<u32> = Vec::new();
         let mut offset = 0usize;
@@ -259,6 +334,14 @@ impl Engine {
                 .and_then(|t| t.squeeze(0))
                 .and_then(|t| t.to_dtype(DType::F32))
                 .map_err(|e| format!("logits reshape: {e}"))?;
+            // Penalize tokens seen in the recent window before sampling.
+            let logits = if repeat_penalty != 1.0 && !out_ids.is_empty() {
+                let start = out_ids.len().saturating_sub(repeat_window);
+                candle_transformers::utils::apply_repeat_penalty(&logits, repeat_penalty, &out_ids[start..])
+                    .map_err(|e| format!("repeat penalty: {e}"))?
+            } else {
+                logits
+            };
             let next = logits_proc.sample(&logits).map_err(|e| format!("sample: {e}"))?;
             offset = tokens.len();
             if self.eos_ids.contains(&next) {
@@ -270,15 +353,25 @@ impl Engine {
                 first_token_at = Some(t_start.elapsed());
             }
             // Incremental decode: re-decode the whole output and stream only the
-            // NEW suffix. Decoding the growing prefix (rather than one token at a
-            // time) is what makes byte-level BPE multi-byte chars render correctly
-            // once their completing token arrives.
+            // NEW suffix. A rare glyph (Ř Φ Σ …) spans several byte-level BPE
+            // tokens, so a decode taken before the last byte-token arrives ends in
+            // the U+FFFD replacement char. HOLD that incomplete trailing char
+            // (don't print up to it) until the completing token lands and it
+            // decodes to the real glyph; otherwise the stream shows � for symbols
+            // the final decode gets right.
             if stream {
                 if let Ok(full) = self.tokenizer.decode(&out_ids, true) {
-                    if full.len() > printed_len && full.is_char_boundary(printed_len) {
-                        eprint!("{}", &full[printed_len..]);
+                    // safe boundary = end of text, unless it ends mid-multi-byte
+                    // char (a trailing replacement char): then stop before it.
+                    let safe = if full.ends_with('\u{FFFD}') {
+                        full.rfind('\u{FFFD}').unwrap_or(full.len())
+                    } else {
+                        full.len()
+                    };
+                    if safe > printed_len && full.is_char_boundary(printed_len) {
+                        eprint!("{}", &full[printed_len..safe]);
                         let _ = std::io::Write::flush(&mut std::io::stderr());
-                        printed_len = full.len();
+                        printed_len = safe;
                     }
                 }
             }
@@ -322,11 +415,12 @@ pub fn generate(
     messages: &[(String, String)],
     max_tokens: usize,
     temperature: f64,
+    think: bool,
 ) -> Result<String, String> {
     let cell = ENGINE.get_or_init(|| Mutex::new(Engine::load()));
     let mut guard = cell.lock().map_err(|_| "local engine mutex poisoned".to_string())?;
     match guard.as_mut() {
-        Ok(engine) => engine.generate(messages, max_tokens, temperature),
+        Ok(engine) => engine.generate(messages, max_tokens, temperature, think),
         Err(e) => Err(format!("local model failed to load: {e}")),
     }
 }

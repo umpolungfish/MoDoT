@@ -24,9 +24,17 @@ dirs = "5"
 candle-core = { version = "0.11", optional = true }
 candle-nn = { version = "0.11", optional = true }
 candle-transformers = { version = "0.11", optional = true }
+candle-flash-attn = { version = "0.11", optional = true }
 tokenizers = { version = "0.21", optional = true, default-features = false, features = ["onig"] }
+# Render the model's OWN Jinja chat template (tokenizer_config.json) rather than a
+# hand-rolled ChatML stub; pycompat gives the Python str methods Qwen's template uses.
+minijinja = { version = "2", optional = true }
+minijinja-contrib = { version = "2", optional = true, features = ["pycompat"] }
 
 [features]
 default = []
-local = ["dep:candle-core", "dep:candle-nn", "dep:candle-transformers", "dep:tokenizers"]
+local = ["dep:candle-core", "dep:candle-nn", "dep:candle-transformers", "dep:tokenizers", "dep:minijinja", "dep:minijinja-contrib"]
 cuda = ["candle-core/cuda", "candle-nn/cuda", "candle-transformers/cuda"]
+# Flash attention: O(seq) prefill memory instead of O(seq²), which is the long-context
+# OOM fix. Needs a CUDA build (sm_80+); build with --features local,cuda,flash-attn.
+flash-attn = ["dep:candle-flash-attn", "candle-transformers/flash-attn"]
