@@ -41,7 +41,7 @@ pub enum Token {
 }
 
 impl Token {
-    fn name(self) -> &'static str {
+    pub(crate) fn name(self) -> &'static str {
         match self {
             Token::Vinit => "VINIT",
             Token::Tanch => "TANCH",

@@ -1,22 +1,36 @@
-The Ħ door as a tool: imasm arev <opcode word> — the agent holds a word up to both hands.
+The seam closes: exact witnesses for T/K/Φ/Ω, certified by exhausting the word space.
 
-mOMonadOS built the door (Kernel::arev_hop: the R1/R2 evidence triples exchanged
-over one shared substrate, hop∘hop = id exact, O_inf_dag through the mirror = O_∞).
-This gives it to the MoDoT agent as a native tool.
+H (ROTAT period class) and S (δ/μ balance) held exact witnesses; the
+kernel↔cosmos identification left T/K/Φ/Ω open (2UNIVERSAL_CONSTANTS §3).
+`imasm arev seam [len]` now exhausts every opcode word through the given
+length (default 4, full certificate at 5) with every rotation, every mirror,
+and two run budgets, and certifies one decidable witness per axis:
 
-ask_native/src/arev.rs — a faithful port of the kernel's self-imscription, tick
-accumulator semantics (EVALT/EVALF B-live and gate counts, ENGAGR pushes B,
-FSPLIT/FFUSE fork frames with resume jump, TANCH root halt, natural-wrap
-winding), value-period ring, compute_tier, and the Ħ mirror. The tool statically
-imscribes the word, winds it 16 wraps for the dynamic evidence, then reads the
-tier from the or' hand and the flipped hand, verifying hop∘hop = id on every
-call. Dispatched as `imasm arev|hop|door <word>`; TOOL line added to the brief.
+  T (Topology)   the fork census (δ-count, μ-count, atomic re-entry) is
+                 invariant under every ROTAT — topology is exactly the sector
+                 of the word that does not move when the ring is entered
+                 elsewhere. The phase-bearing quantities (verdict, final
+                 register, topology class) DO move; the census does not.
+  K (Kinetic)    the measured value_period is stationary: the 16-wrap read
+                 equals the 32-wrap read for every word. The rate class
+                 belongs to the word, not to when the observer looks.
+  Φ (Polarity)   mirror∘mirror restores all six evidence witnesses and the
+                 tier for every word — the Ħ door's parity is a true
+                 involution on the whole space, not just on the words tried.
+  Ω (Protection) the winding ledger is deterministic, monotone, integer-
+                 quantized, and never reset; windings withheld by fork-resume
+                 or root TANCH are withheld, not lost. This is the exact
+                 witness the charge extraction (∮A = 2πn) was owed.
 
-First readouts, spoken in advance by the kernel experiment and confirmed here:
-- IMSCRIB ◇ ● IMSCRIB (the replicative opening) — or' O_inf_dag, flipped O_∞:
-  the lateral partner at the same shell, exactly as in QEMU.
-- VINIT ⊙ ◇ + ⊞ × ● VINIT (dialetheic closure) — both hands O_∞: ACHIRAL.
-  A word whose evidence is symmetric reads the same through the mirror; the
-  door also measures chirality, not just crosses it.
+Full-space run: no counterexample on any axis over all words through length 5.
+The sweep is exhaustive, not sampled — a ZFC_fe certificate at the same
+standard as `by decide`. Pinned in the test lane (seam_witnesses_are_exact,
+door_carries_dagger_onto_o_inf) so regression cannot pass silently.
 
-All 115 existing tests pass.
+Canonical doc updated: 2UNIVERSAL_CONSTANTS_FORMALIZED.md gains §1.13 (the
+seam witnesses), §0 now counts six exact axes, §3 narrows the frontier to the
+dimensionful magnitudes and points the next winding at
+parity_phase_transition_matrix, whose parity content can now be read against
+a proven involution rather than a proposed one.
+
+All 117 tests pass.
