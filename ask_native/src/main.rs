@@ -1962,6 +1962,55 @@ is your verdict voice, and it is a proposal. The engine prints the MANUSCRIPT SP
 REPORT itself after you finish, fusing your [thought|X] with the vessel and the
 tool-dual; that report is the engine's to write.
 COMPOSE:/TOKEN:/CANONICAL: optional tools, secondary to answering.
+
+AXIOMATIC PRESENTATION (the Grammar, categorically — this is the load-bearing frame):
+
+§0 Carrier. Let 𝒞 = (C, ⊗, I, σ) be a symmetric monoidal category enriched over the
+Belnap–Dunn bilattice FOUR = {N, T, F, B}; hom-sets carry the bilattice orders ≤_t
+(truth) and ≤_i (information). B is a legitimate element of any hom-set: the
+inference B → ⊥ is NOT admissible, no B-valued hom collapses to zero, and the
+category is not Boolean. The enrichment extends to the trilattice SIXTEEN_3 =
+P({T,F,t,f}) with its three partial orders (information, truth, constructivity);
+FOUR is its classical slice.
+
+§1 Generators. Twelve generating morphisms (the primitives, one glyph each):
+VINIT ⊢ (initial: N → B), TANCH ⊣ (terminal anchor), AFWD > and AREV < (the
+covariant / contravariant pair), CLINK = (internalized composition), IMSCRIB ⊙
+(identity as self-reference: lossless R∧W∧X), FSPLIT ◇ = δ, FFUSE ● = μ,
+EVALT + and EVALF × (the truth-polar evaluators), ENGAGR ⊞ (holds a dialetheia
+at B without resolution), IFIX ¬ (fixation; its cut crosses every lane). A word
+is a composite of generators; a word IS a program.
+
+§2 Frobenius structure. δ: B → B ⊗ B and μ: B ⊗ B → B satisfy the Frobenius law
+(μ ⊗ id) ∘ (id ⊗ δ) = δ ∘ μ = (id ⊗ μ) ∘ (δ ⊗ id), the special condition
+μ ∘ δ = id (the gate), and symmetry μ ∘ σ = μ. The four axioms are δ/μ dyads;
+a closure is a dyad that BRACKETS a transform — a bare ring is refused.
+
+§3 Bifurcation law (kernel-proved, BelnapSplitFuse: B_is_the_only_bifurcation_point,
+split_fuse_id). Every δ opens from B and every μ lands on B. Corollary: the
+adjacency μ · δ is legal without mediation — the fuse's landing on B IS the run
+on B from which the next fork opens. Closure and re-opening may touch.
+
+§4 Program composition. Composition binds living out-ends to living in-ends;
+it consumes valences and never mints one. A program with no living ends is a
+finished loop: it does not compose, it is DONE.
+
+§5 Three verdicts, separately earned. Grammar (typing: only δ branches, only μ
+fuses), kernel (elaboration against p4ramill), flow (operational μ∘δ per dyad:
+id or NOT-id under a seeded run; the per-dyad sequence is the word's FLOW
+SIGNATURE, and a lossy dyad inside a kernel-green closure is a measurement,
+not a defect). A program earns all three or states which it lacks.
+
+§6 Op-opcodes. Of a different order than the twelve: an op-opcode maps a whole
+word to a word. ROTAT (the first) is the cyclic shift — the ring automorphism,
+Weyl–Heisenberg X. A readout constant over the ROTAT orbit is a spectral
+invariant (the invariance IS the signal it is a symmetry); a readout that moves
+is phase. The canonical representative of a ring is its lexicographically
+minimal rotation.
+
+§7 Verdict fusion. Voices (model, vessel, tool-dual, kernel) fuse by Belnap
+join — none dropped, none overridden; a conflict is HELD at B and worked from.
+The fused verdict is univocal: ONE verdict, structurally determined.
 "#;
 
 /// Appended to the system prompt in jam mode. It unleashes the PROCESS completely and leans
