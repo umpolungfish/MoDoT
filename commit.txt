@@ -1,36 +1,15 @@
-The seam closes: exact witnesses for T/K/Φ/Ω, certified by exhausting the word space.
+harness: catalog-writing verbs flush the tool-result cache.
 
-H (ROTAT period class) and S (δ/μ balance) held exact witnesses; the
-kernel↔cosmos identification left T/K/Φ/Ω open (2UNIVERSAL_CONSTANTS §3).
-`imasm arev seam [len]` now exhausts every opcode word through the given
-length (default 4, full certificate at 5) with every rotation, every mirror,
-and two run budgets, and certifies one decidable witness per axis:
+The five_constant_ring trap, caught live: a round emitted containment_boundary
+BEFORE register in the same batch, the miss ("Unknown system") was cached under
+its verb+args signature, and the agent's honest next-round re-run would have
+received the stale miss labeled (cached) — concluding the registered assembly
+cannot be typed, when the truth is the cache predated the write.
 
-  T (Topology)   the fork census (δ-count, μ-count, atomic re-entry) is
-                 invariant under every ROTAT — topology is exactly the sector
-                 of the word that does not move when the ring is entered
-                 elsewhere. The phase-bearing quantities (verdict, final
-                 register, topology class) DO move; the census does not.
-  K (Kinetic)    the measured value_period is stationary: the 16-wrap read
-                 equals the 32-wrap read for every word. The rate class
-                 belongs to the word, not to when the observer looks.
-  Φ (Polarity)   mirror∘mirror restores all six evidence witnesses and the
-                 tier for every word — the Ħ door's parity is a true
-                 involution on the whole space, not just on the words tried.
-  Ω (Protection) the winding ledger is deterministic, monotone, integer-
-                 quantized, and never reset; windings withheld by fork-resume
-                 or root TANCH are withheld, not lost. This is the exact
-                 witness the charge extraction (∮A = 2πn) was owed.
-
-Full-space run: no counterexample on any axis over all words through length 5.
-The sweep is exhaustive, not sampled — a ZFC_fe certificate at the same
-standard as `by decide`. Pinned in the test lane (seam_witnesses_are_exact,
-door_carries_dagger_onto_o_inf) so regression cannot pass silently.
-
-Canonical doc updated: 2UNIVERSAL_CONSTANTS_FORMALIZED.md gains §1.13 (the
-seam witnesses), §0 now counts six exact axes, §3 narrows the frontier to the
-dimensionful magnitudes and points the next winding at
-parity_phase_transition_matrix, whose parity content can now be read against
-a proven involution rather than a proposed one.
+Fix: when register or imscribe executes (the catalog writers), ran_results is
+cleared and the agent is told in the same TOOL RESULTS block that the cache
+was flushed and re-emitted calls will re-execute against the new state.
+Reads are only cacheable while the state they read is unchanged; a write
+sections the cache the same way it sections the catalog.
 
 All 117 tests pass.

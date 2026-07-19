@@ -6087,6 +6087,18 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
                             executed_verbs.insert(verb.clone()); // this verb now has an execution arm
                             results_ledger.push_str(&ledger_digest(&sig, &o));
                             ran_results.insert(sig, o);
+                            // A catalog-writing verb invalidates every cached read: a result
+                            // computed against the pre-write catalog would otherwise shadow the
+                            // new state as "(cached)" — the five_constant_ring trap, where
+                            // containment_boundary cached "Unknown system" from before register
+                            // wrote the name, and the honest re-run returned the stale miss.
+                            if matches!(verb.as_str(), "register" | "imscribe") {
+                                ran_results.clear();
+                                results.push_str(&format!(
+                                    "### cache flushed\n`{verb}` wrote the catalog; all cached tool results were \
+                                     invalidated. Re-emitted calls will re-execute against the NEW state.\n"
+                                ));
+                            }
                         }
                         None => {
                             // A real verb given bad/too-few args gets its correct form (so the
