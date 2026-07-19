@@ -85,6 +85,8 @@ Canonical SIC machinery (not re-derived here):
 │  └──────────────────────────────────────────────────────┘   │
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │  LLM Inference Engine (substrate, not authority)     │   │
+│  │  cloud: openrouter / gemini / deepseek               │   │
+│  │  local: candle in-process (no server): Provider::Local │
 │  └──────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────┘
                        │
@@ -142,6 +144,16 @@ cd MoDoT
 ./ask -a "…" --provider gemini   --model gemini-3-flash-preview  # generativelanguage (GEMINI_API_KEY)
 #   MODOT_PROVIDER / MODOT_MODEL set the defaults; a fatal 402/401 aborts the run instead of grinding every cycle
 
+# ── LOCAL model: no cloud, no credits, no server (in-process candle inference) ──
+#   Build once with the local feature (default build stays lean and Python-free):
+#     cd ask_native && PATH=/usr/local/cuda/bin:$PATH CUDA_COMPUTE_CAP=86 \
+#       cargo build --release --features local,cuda        # GPU; or --features local for CPU
+./ask -a "…" --provider local                             # aliases: offline | candle | modelz
+#   Weights load straight into the ask binary from ~/models (HF Qwen3 safetensors) and run
+#   on the GPU; the model is loaded once and kept resident for the whole run. No port, no daemon.
+#   Env: MODOT_LOCAL_MODEL_DIR (default ~/models/Qwen3-1.7B) · MODOT_LOCAL_DEVICE (default 1, the
+#        3060) · MODOT_LOCAL_CPU=1 forces CPU. See "Local inference" below for the build notes.
+
 # ── Legacy Python agent (still available) ──
 # Interactive mode — the agent breathes with you
 python3 momonados_agent.py --interactive
@@ -176,6 +188,59 @@ python3 momonados_agent.py --ask "..." --no-selectivity
 # Run convergence experiments
 python3 experiments/run_all_experiments.py
 ```
+
+## Local inference (`--provider local`)
+
+MoDoT can think on a **local model** with no cloud, no credits, no server, no
+port, and no Python. `Provider::Local` loads HF Qwen3 safetensors from `~/models`
+straight into the `ask` binary via [candle](https://github.com/huggingface/candle)
+and runs the forward pass on the GPU. The model is mmapped once per process and
+kept resident across every cycle of a run, the only cost of not running a
+resident server, and the right trade for a closed local loop. This is the
+broke-mode / offline path: the agent reasons entirely on your own hardware.
+
+It is gated behind cargo features so the default `ask` build stays lean and
+dependency-free. Build it once:
+
+```bash
+cd ask_native
+# GPU (recommended):
+PATH=/usr/local/cuda/bin:$PATH CUDA_COMPUTE_CAP=86 \
+  cargo build --release --features local,cuda
+# CPU only:
+cargo build --release --features local
+```
+
+Then select it at runtime:
+
+```bash
+./ask --provider local -a "…"        # aliases: offline | candle | modelz
+```
+
+**Configuration (environment):**
+
+| var | default | meaning |
+|---|---|---|
+| `MODOT_LOCAL_MODEL_DIR` | `~/models/Qwen3-1.7B` | HF safetensors directory (config.json + tokenizer.json + shards) |
+| `MODOT_LOCAL_DEVICE` | `1` | CUDA device index (the RTX 3060) |
+| `MODOT_LOCAL_CPU` | unset | set to any value to force CPU |
+
+The default is **Qwen3-1.7B** (~4 GB bf16): it fits a 12 GB card with room for
+MoDoT's long-context, non-flash attention. A 4B model OOMs on the same card, so
+size up only with more VRAM. A 1.7B is a usable agent for the loop, not the equal
+of the cloud frontier models; it is the substrate that keeps working when the
+credits run out.
+
+**Build notes** (self-contained in-tree, so a rebuild "just works" on this box):
+- `CUDA_COMPUTE_CAP=86` targets the sm_86 card only; candle-kernels 0.11's
+  `__hmax_nan`/`__hmin_nan` polyfill collides with the CUDA 12.4 headers when
+  compiled for sm_75, and building for 8.6 skips it.
+- `ask_native/build.rs` points the linker at `ask_native/.cudalibs/` (unversioned
+  symlinks to the pip `nvidia-*` CUDA math libraries) and rpaths the real
+  versioned `.so`, so the binary links and runs where only the CUDA runtime is
+  installed, with no `LD_LIBRARY_PATH` needed.
+- `src/local.rs` sets `CUDA_DEVICE_ORDER=PCI_BUS_ID` so device indices match
+  `nvidia-smi` (otherwise sm_86 PTX can land on the sm_75 card and fail to JIT).
 
 ## Click-Maths (`./ask --click`)
 
@@ -847,6 +912,7 @@ Companion Lean files in `lean/`:
 - `OPENROUTER_API_KEY` env var (required for vessel voice — no hash fallback)
 - Default model: `google/gemini-3-flash-preview`; set `MOMONADOS_MODEL` or `--model` to override
 - Lean 4 + Mathlib v4.28.0 (for formal verification modules)
+- **Optional local inference** (`--provider local`): build `ask_native` with `--features local,cuda`; a CUDA 12.x GPU, `~/models/Qwen3-1.7B` (or another HF Qwen3 dir via `MODOT_LOCAL_MODEL_DIR`), and the pip `nvidia-*` CUDA libraries where only the runtime is installed. No API key needed. See [Local inference](#local-inference---provider-local).
 
 ## Original Source
 
