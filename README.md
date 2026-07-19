@@ -224,6 +224,11 @@ Then select it at runtime:
 | `MODOT_LOCAL_MODEL_DIR` | `~/models/Qwen3-1.7B` | HF safetensors directory (config.json + tokenizer.json + shards) |
 | `MODOT_LOCAL_DEVICE` | `1` | CUDA device index (the RTX 3060) |
 | `MODOT_LOCAL_CPU` | unset | set to any value to force CPU |
+| `MODOT_LOCAL_STREAM` | on | live progress on **stderr**: model load, then tokens as they generate, then a tok/s + first-token readout. Set `0` to silence for scripted runs. |
+
+Because the stream is on stderr, you watch the model think in your terminal while
+the structured answer stays clean on stdout. Redirect `2>/dev/null` to hide it, or
+`1>/dev/null` to watch only the thinking.
 
 The default is **Qwen3-1.7B** (~4 GB bf16): it fits a 12 GB card with room for
 MoDoT's long-context, non-flash attention. A 4B model OOMs on the same card, so
