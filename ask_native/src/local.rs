@@ -398,6 +398,16 @@ impl Engine {
             .tokenizer
             .decode(&out_ids, true)
             .map_err(|e| format!("decode: {e}"))?;
+        // The <think> block is the model's private register: it hedges, second-guesses,
+        // and narrates TOOL lines it is not calling. It stays visible in the stream
+        // (stderr) but is CUT from the returned text — otherwise the reasoning enters
+        // the transcript as the operator's voice, the harness parses its narrated
+        // TOOL lines as real calls, and its wobble reaches the vessel. Multi-turn
+        // history stays think-free too (Qwen's own template strips prior think blocks).
+        let text = match text.rsplit_once("</think>") {
+            Some((_, after)) => after.trim_start().to_string(),
+            None => text,
+        };
         if stream {
             let secs = t_start.elapsed().as_secs_f64().max(1e-6);
             let ttft = first_token_at.map(|d| d.as_secs_f64()).unwrap_or(secs);
