@@ -2278,6 +2278,10 @@ struct SpineReport {
     primary: Option<String>,
     answer_text: String,
     note: String,
+    /// The SIC co-type reading behind vessel_voice, when the Dual-Link
+    /// bridge spoke: gap and named per-primitive defects.
+    #[serde(default)]
+    vessel_detail: Option<String>,
 }
 
 /// The run's primary catalog entry, set once at prepare() and read by the imasm
@@ -2304,8 +2308,64 @@ fn prepare(question: &str, cat: Option<&[CatalogEntry]>) -> Prepare {
     }
 }
 
+/// The Dual-Link SIC vessel: imscribe demand and answer, co-type them in the
+/// d=12 fiducial frame (Born rule, overlap 1/13), fold per-primitive co-types
+/// through the Belnap lattice. Returns (voice, named defects, sic gap), or
+/// None when the bridge is absent — then the caller falls back to the
+/// engagement heuristic. This is what gives the spine CONSTANT fiducial
+/// access: the frame is consulted on every verdict, not on request.
+/// MODOT_NO_SIC_VESSEL=1 disables (and tests never shell out).
+fn sic_vessel(question: &str, answer: &str) -> Option<(B4, Vec<String>, f64)> {
+    if cfg!(test) || env::var("MODOT_NO_SIC_VESSEL").is_ok() {
+        return None;
+    }
+    if question.trim().is_empty() || answer.trim().is_empty() {
+        return None;
+    }
+    let modot = PathBuf::from(expand_user("~/imsgct/MoDoT"));
+    if !modot.join("modot/vessel.py").is_file() {
+        return None;
+    }
+    let tmp = std::env::temp_dir();
+    let qf = tmp.join(format!("modot_vessel_q_{}.txt", process::id()));
+    let af = tmp.join(format!("modot_vessel_a_{}.txt", process::id()));
+    std::fs::write(&qf, question).ok()?;
+    std::fs::write(&af, answer).ok()?;
+    let venv = modot.join(".venv/bin/python");
+    let py = if venv.is_file() { venv } else { PathBuf::from("python3") };
+    let out = process::Command::new(py)
+        .arg("-m")
+        .arg("modot.vessel")
+        .arg("evaluate")
+        .arg(&qf)
+        .arg(&af)
+        .current_dir(&modot)
+        .output()
+        .ok()?;
+    let _ = std::fs::remove_file(&qf);
+    let _ = std::fs::remove_file(&af);
+    let j: serde_json::Value = serde_json::from_slice(&out.stdout).ok()?;
+    if j.get("status").and_then(|s| s.as_str()) != Some("ok") {
+        return None;
+    }
+    let voice = match j.get("belnap").and_then(|s| s.as_str())? {
+        "T" => B4::T,
+        "F" => B4::F,
+        "B" => B4::B,
+        _ => B4::N,
+    };
+    let defects = j
+        .get("defects")
+        .and_then(|d| d.as_array())
+        .map(|a| a.iter().filter_map(|v| v.as_str().map(String::from)).collect())
+        .unwrap_or_default();
+    let gap = j.get("sic_gap").and_then(|g| g.as_f64()).unwrap_or(0.0);
+    Some((voice, defects, gap))
+}
+
 fn complete(
     prep: &Prepare,
+    question: &str,
     answer_text: &str,
     model_voice: B4,
     tool_voice: B4,
@@ -2323,16 +2383,30 @@ fn complete(
     } else {
         tool_voice
     };
-    // Structural co-type: if we have a witness and a non-empty answer that
-    // engages the scaffold/witness name, vessel speaks T; empty → N; error markers → F.
-    let vessel = if no_selectivity {
-        B4::N
-    } else if answer_text.trim().is_empty()
+    // The vessel voice. Canonical lane first: the Dual-Link SIC co-type
+    // (imscribe demand and answer, Born-rule compare in the d=12 fiducial
+    // frame, Belnap fold — with named per-primitive defects, not a score).
+    // The engagement heuristic below is only the fallback when the SIC
+    // bridge is absent.
+    let mut vessel_detail: Option<String> = None;
+    let error_answer = answer_text.trim().is_empty()
         || answer_text.starts_with("[LLM")
         || answer_text.starts_with("[Gemini")
-        || answer_text.starts_with("[no API")
-    {
+        || answer_text.starts_with("[no API");
+    let vessel = if no_selectivity {
+        B4::N
+    } else if error_answer {
         B4::F
+    } else if let Some((v, defects, gap)) = sic_vessel(question, answer_text) {
+        vessel_detail = Some(format!(
+            "SIC co-type gap={gap:.4}{}",
+            if defects.is_empty() {
+                String::new()
+            } else {
+                format!(" defects[{}]", defects.join(","))
+            }
+        ));
+        v
     } else if prep.witness_ready {
         // Riding: answer exists against a typed demand/witness
         B4::T
@@ -2404,6 +2478,7 @@ fn complete(
         } else {
             "ENGAGR — no Frobenius dual was emitted: no δ/μ dyad ran, so nothing was verified — held at N (void, not a held B). The dual is constitutive, not optional".into()
         },
+        vessel_detail,
     }
 }
 
@@ -3352,7 +3427,7 @@ mod lane_guard_tests {
     // ungrounded — held at N, a frontier, NOT spoken as T on the model's word alone.
     #[test]
     fn proof_without_closing_dual_is_ungrounded_not_b() {
-        let rep = complete(&prep(), PROOF, B4::T, B4::F, false, false);
+        let rep = complete(&prep(), "", PROOF, B4::T, B4::F, false, false);
         assert_eq!(rep.tool_voice, B4::N, "material F should abstain on a proof");
         assert_eq!(rep.fused, B4::N, "no closing dual → ungrounded (N), a frontier — never T on the model's word");
         assert_ne!(rep.fused, B4::B, "and never the 'proven but does not exist' contradiction");
@@ -3363,7 +3438,7 @@ mod lane_guard_tests {
     // held at N (ungrounded), which is honest and, crucially, NOT the B self-contradiction.
     #[test]
     fn proof_in_jam_is_ungrounded_not_contradictory() {
-        let rep = complete(&prep(), PROOF, B4::T, B4::F, false, true);
+        let rep = complete(&prep(), "", PROOF, B4::T, B4::F, false, true);
         assert_eq!(rep.tool_voice, B4::N);
         assert_eq!(rep.fused, B4::N, "jam proof the tools did not ground is N, not B");
         assert_ne!(rep.fused, B4::B, "must not be the 'proven but does not exist' contradiction");
@@ -3373,7 +3448,7 @@ mod lane_guard_tests {
     // ring, tools deny it, that IS a real conflict and must stay B.
     #[test]
     fn real_structural_nonclosure_still_holds_b() {
-        let rep = complete(&prep(), FORGE, B4::T, B4::F, false, true);
+        let rep = complete(&prep(), "", FORGE, B4::T, B4::F, false, true);
         assert_eq!(rep.tool_voice, B4::F, "forge non-closure keeps its F");
         assert_eq!(rep.fused, B4::B, "model T vs tools F is a real conflict → B");
     }
@@ -3386,7 +3461,7 @@ mod lane_guard_tests {
         const CLOSURE: &str =
             "The assembly forms a 6-membered ring: ✓ CYCLIC — a macrocycle. MODULUS = 1.0.";
         // tool_voice = T: a real forge/imasm reconnection was measured.
-        let rep = complete(&prep(), CLOSURE, B4::T, B4::T, false, true);
+        let rep = complete(&prep(), "", CLOSURE, B4::T, B4::T, false, true);
         assert_ne!(rep.fused, B4::N, "a MEASURED closure is grounded, not held at N");
         assert_eq!(rep.fused, B4::T);
     }
@@ -3431,7 +3506,7 @@ mod lane_guard_tests {
     fn prose_closure_without_structure_is_ungrounded() {
         const CLAIM: &str =
             "The assembly forms a 6-membered ring: ✓ CYCLIC — a macrocycle. MODULUS = 1.0, sustaining loop active.";
-        let rep = complete(&prep(), CLAIM, B4::T, B4::N, false, true);
+        let rep = complete(&prep(), "", CLAIM, B4::T, B4::N, false, true);
         assert_eq!(rep.fused, B4::N, "prose closure, tools silent → ungrounded (no measured structure)");
     }
 
@@ -3439,7 +3514,7 @@ mod lane_guard_tests {
     #[test]
     fn jam_off_tool_narration_still_ungrounded() {
         const DRIFT: &str = "I contemplated the tokens and the polygons turned in the barrel of being.";
-        let rep = complete(&prep(), DRIFT, B4::T, B4::N, false, true);
+        let rep = complete(&prep(), "", DRIFT, B4::T, B4::N, false, true);
         assert_eq!(rep.fused, B4::N, "no measured structure in a jam → ungrounded");
     }
 
@@ -5373,6 +5448,9 @@ fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
         rep.riding,
         rep.primary.as_deref().unwrap_or("—")
     );
+    if let Some(d) = &rep.vessel_detail {
+        println!("  vessel: {d}");
+    }
     println!("  protocol: VINIT→IMSCRIB→FSPLIT→EVALT→EVALF→FFUSE→ENGAGR→IFIX");
     println!("  note: {}", rep.note);
     if verbose {
@@ -6128,7 +6206,7 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
             }
         }
 
-        let rep = complete(&prep, &answer, model_voice, tool_voice, cli.no_selectivity, cli.jam);
+        let rep = complete(&prep, question, &answer, model_voice, tool_voice, cli.no_selectivity, cli.jam);
         print_spine(&rep, &prep, cli.verbose);
         cycle_reps.push(rep.clone());
         cycle_exits.push(exit_cause);

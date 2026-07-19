@@ -737,5 +737,38 @@ def _selftest() -> dict:
     }
 
 
+def _cli_evaluate(question_path: str, answer_path: str) -> dict:
+    """Bridge face for the native spine: read demand and answer from files,
+    run the Dual-Link co-typing, return the report as plain JSON. The vessel
+    voice, defects, and gap come from the SIC frame itself — the fiducial is
+    consulted on every verdict, not on request."""
+    from modot.agent import LLMInterface
+
+    with open(question_path, encoding="utf-8") as f:
+        question = f.read()
+    with open(answer_path, encoding="utf-8") as f:
+        answer = f.read()
+    v = DualLinkVessel(LLMInterface())
+    if not v.available():
+        return {"status": "unavailable", "provenance": v.provenance()}
+    rep = v.evaluate(question, answer)
+    return {
+        "status": "ok",
+        "belnap": rep.belnap,
+        "defects": rep.defects,
+        "sic_gap": rep.sic_gap,
+        "closure_demand": rep.closure_demand,
+        "closure_answer": rep.closure_answer,
+        "demand": rep.demand.codes,
+        "answer": rep.answer.codes,
+        "provenance": v.provenance(),
+    }
+
+
 if __name__ == "__main__":
-    print(json.dumps(_selftest(), indent=2, default=float))
+    import sys as _sys
+
+    if len(_sys.argv) == 4 and _sys.argv[1] == "evaluate":
+        print(json.dumps(_cli_evaluate(_sys.argv[2], _sys.argv[3]), default=float))
+    else:
+        print(json.dumps(_selftest(), indent=2, default=float))
