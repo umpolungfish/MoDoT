@@ -82,9 +82,12 @@ struct Engine {
     device: Device,
     eos_ids: Vec<u32>,
     model_dir: String,
-    /// The model's OWN Jinja chat template (from tokenizer_config.json), or None
-    /// if absent — then a minimal ChatML fallback is used.
-    chat_template: Option<String>,
+    /// The model's OWN Jinja chat template, COMPILED ONCE. The ob3ect decomposition
+    /// of this template grounds it as an O₀, ΔS≈0, deterministic ("frozen kinetics")
+    /// object — a constant. So it is parsed a single time at load and rendered from
+    /// the cached environment every call, rather than re-parsed per generation. None
+    /// if the model ships no template (then a ChatML fallback is used).
+    template_env: Option<minijinja::Environment<'static>>,
 }
 
 fn read_qwen3_config(dir: &str) -> Result<Qwen3Config, String> {
@@ -193,7 +196,19 @@ impl Engine {
             .ok()
             .and_then(|s| serde_json::from_str::<serde_json::Value>(&s).ok())
             .and_then(|j| j.get("chat_template").and_then(|t| t.as_str()).map(String::from));
-        Ok(Engine { model, tokenizer, device, eos_ids, model_dir: cfg.model_dir, chat_template })
+        let template_env = match chat_template {
+            Some(tmpl) => {
+                let mut jenv = minijinja::Environment::new();
+                // Qwen's template calls Python str methods (.split/.startswith/.strip …);
+                // pycompat supplies them.
+                jenv.set_unknown_method_callback(minijinja_contrib::pycompat::unknown_method_callback);
+                jenv.add_template_owned("chat".to_string(), tmpl)
+                    .map_err(|e| format!("chat template parse: {e}"))?;
+                Some(jenv)
+            }
+            None => None,
+        };
+        Ok(Engine { model, tokenizer, device, eos_ids, model_dir: cfg.model_dir, template_env })
     }
 
     /// Build the prompt from the model's OWN chat template. `think=false` sets
@@ -202,7 +217,7 @@ impl Engine {
     /// template (not a hand-rolled stub) is what preserves the special tokens and
     /// the rare glyphs (Ř Φ Σ …) that a naive ChatML string mangled.
     fn apply_template(&self, messages: &[(String, String)], think: bool) -> Result<String, String> {
-        let Some(tmpl) = self.chat_template.as_deref() else {
+        let Some(jenv) = self.template_env.as_ref() else {
             // Fallback: minimal ChatML, only if the model ships no template.
             let mut s = String::new();
             for (role, content) in messages {
@@ -215,12 +230,7 @@ impl Engine {
             }
             return Ok(s);
         };
-        let mut env = minijinja::Environment::new();
-        // Qwen's template calls Python str methods (.split/.startswith/.strip …);
-        // pycompat supplies them.
-        env.set_unknown_method_callback(minijinja_contrib::pycompat::unknown_method_callback);
-        env.add_template("chat", tmpl).map_err(|e| format!("chat template parse: {e}"))?;
-        let t = env.get_template("chat").map_err(|e| format!("chat template: {e}"))?;
+        let t = jenv.get_template("chat").map_err(|e| format!("chat template: {e}"))?;
         let msgs: Vec<minijinja::Value> = messages
             .iter()
             .map(|(role, content)| minijinja::context! { role => role, content => content })
@@ -256,12 +266,20 @@ impl Engine {
         // kill the series with CUDA_ERROR_OUT_OF_MEMORY. Cap the prefill length:
         // keep the HEAD (system prompt / framing) and the TAIL (current question
         // and most recent results), drop the middle, and say so. Configurable via
-        // MODOT_LOCAL_CTX; default sized for a 12 GB card holding a ~4 GB model.
+        // MODOT_LOCAL_CTX. With flash-attn the prefill is O(seq) not O(seq²), so
+        // the whole native window fits and the cap rises to Qwen3's 32k; without
+        // it, the cap is sized for a 12 GB card holding a ~4 GB model. The agentic
+        // loop needs the WHOLE prompt (dropping the middle drops the tool results
+        // the model must react to), so flash-attn is what makes local jam actually
+        // work, not just survive.
+        let default_cap = if cfg!(feature = "flash-attn") { 32000 } else { 9000 };
         let ctx_cap: usize = env("MODOT_LOCAL_CTX")
             .and_then(|s| s.parse().ok())
-            .unwrap_or(9000);
+            .unwrap_or(default_cap);
         if tokens.len() > ctx_cap {
-            let head = ctx_cap / 2;
+            // Keep the head (framing) but bias hard toward the tail: in an agentic
+            // loop the recent tool results are what the next step must see.
+            let head = ctx_cap / 4;
             let tail = ctx_cap - head;
             let dropped = tokens.len() - ctx_cap;
             let mut kept = Vec::with_capacity(ctx_cap);

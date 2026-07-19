@@ -1343,8 +1343,8 @@ fn is_transient_llm_error(res: &LlmResult) -> bool {
 /// candle engine (src/local.rs); without it, it returns a clear rebuild
 /// instruction rather than pretending to be an API provider.
 #[cfg(feature = "local")]
-fn local_infer(messages: &[(String, String)], max_tokens: u32, temperature: f32) -> LlmResult {
-    match local::generate(messages, max_tokens as usize, temperature as f64) {
+fn local_infer(messages: &[(String, String)], max_tokens: u32, temperature: f32, think: bool) -> LlmResult {
+    match local::generate(messages, max_tokens as usize, temperature as f64, think) {
         Ok(text) => {
             let voice = model_self_belnap(&text);
             LlmResult { text, voice, err: None }
@@ -1358,7 +1358,7 @@ fn local_infer(messages: &[(String, String)], max_tokens: u32, temperature: f32)
 }
 
 #[cfg(not(feature = "local"))]
-fn local_infer(_messages: &[(String, String)], _max_tokens: u32, _temperature: f32) -> LlmResult {
+fn local_infer(_messages: &[(String, String)], _max_tokens: u32, _temperature: f32, _think: bool) -> LlmResult {
     LlmResult {
         text: "[local provider selected but this `ask` was built without local inference. \
                 Rebuild: cargo build --release --features local,cuda (GPU) or --features local (CPU).]"
@@ -1392,7 +1392,7 @@ fn infer(
     // Local is keyless and runs in-process, so it is served BEFORE the API-key
     // guard below (which would otherwise reject it for having no key).
     if llm.provider == Provider::Local {
-        return local_infer(messages, max_tokens, temperature);
+        return local_infer(messages, max_tokens, temperature, llm.think);
     }
 
     let Some(key) = llm.api_key.as_ref() else {

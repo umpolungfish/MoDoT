@@ -1,0 +1,256 @@
+\documentclass[12pt,a4paper]{article}
+
+% Fonts — LuaLaTeX
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{Linux Libertine O}
+\setmathfont{Latin Modern Math}
+\newfontfamily\igprimfont{Everson Mono}
+\newfontfamily\shavfont[Scale=1.0]{Trabajo}
+\setmonofont[Scale=0.85]{DejaVu Sans Mono}
+\newcommand{\igfont}{\shavfont}
+
+% Shavian Unicode block (U+10450–U+1047F) → Trabajo automatically
+% Works in text mode, inside \text{} in math, and in table cells.
+\usepackage{newunicodechar}
+\newunicodechar{𐑐}{\ifmmode\text{{\shavfont 𐑐}}\else{{\shavfont 𐑐}}\fi}
+\newunicodechar{𐑑}{\ifmmode\text{{\shavfont 𐑑}}\else{{\shavfont 𐑑}}\fi}
+\newunicodechar{𐑒}{\ifmmode\text{{\shavfont 𐑒}}\else{{\shavfont 𐑒}}\fi}
+\newunicodechar{𐑓}{\ifmmode\text{{\shavfont 𐑓}}\else{{\shavfont 𐑓}}\fi}
+\newunicodechar{𐑔}{\ifmmode\text{{\shavfont 𐑔}}\else{{\shavfont 𐑔}}\fi}
+\newunicodechar{𐑕}{\ifmmode\text{{\shavfont 𐑕}}\else{{\shavfont 𐑕}}\fi}
+\newunicodechar{𐑖}{\ifmmode\text{{\shavfont 𐑖}}\else{{\shavfont 𐑖}}\fi}
+\newunicodechar{𐑗}{\ifmmode\text{{\shavfont 𐑗}}\else{{\shavfont 𐑗}}\fi}
+\newunicodechar{𐑘}{\ifmmode\text{{\shavfont 𐑘}}\else{{\shavfont 𐑘}}\fi}
+\newunicodechar{𐑙}{\ifmmode\text{{\shavfont 𐑙}}\else{{\shavfont 𐑙}}\fi}
+\newunicodechar{𐑚}{\ifmmode\text{{\shavfont 𐑚}}\else{{\shavfont 𐑚}}\fi}
+\newunicodechar{𐑛}{\ifmmode\text{{\shavfont 𐑛}}\else{{\shavfont 𐑛}}\fi}
+\newunicodechar{𐑜}{\ifmmode\text{{\shavfont 𐑜}}\else{{\shavfont 𐑜}}\fi}
+\newunicodechar{𐑝}{\ifmmode\text{{\shavfont 𐑝}}\else{{\shavfont 𐑝}}\fi}
+\newunicodechar{𐑞}{\ifmmode\text{{\shavfont 𐑞}}\else{{\shavfont 𐑞}}\fi}
+\newunicodechar{𐑟}{\ifmmode\text{{\shavfont 𐑟}}\else{{\shavfont 𐑟}}\fi}
+\newunicodechar{𐑠}{\ifmmode\text{{\shavfont 𐑠}}\else{{\shavfont 𐑠}}\fi}
+\newunicodechar{𐑡}{\ifmmode\text{{\shavfont 𐑡}}\else{{\shavfont 𐑡}}\fi}
+\newunicodechar{𐑢}{\ifmmode\text{{\shavfont 𐑢}}\else{{\shavfont 𐑢}}\fi}
+\newunicodechar{𐑣}{\ifmmode\text{{\shavfont 𐑣}}\else{{\shavfont 𐑣}}\fi}
+\newunicodechar{𐑤}{\ifmmode\text{{\shavfont 𐑤}}\else{{\shavfont 𐑤}}\fi}
+\newunicodechar{𐑥}{\ifmmode\text{{\shavfont 𐑥}}\else{{\shavfont 𐑥}}\fi}
+\newunicodechar{𐑦}{\ifmmode\text{{\shavfont 𐑦}}\else{{\shavfont 𐑦}}\fi}
+\newunicodechar{𐑧}{\ifmmode\text{{\shavfont 𐑧}}\else{{\shavfont 𐑧}}\fi}
+\newunicodechar{𐑨}{\ifmmode\text{{\shavfont 𐑨}}\else{{\shavfont 𐑨}}\fi}
+\newunicodechar{𐑩}{\ifmmode\text{{\shavfont 𐑩}}\else{{\shavfont 𐑩}}\fi}
+\newunicodechar{𐑪}{\ifmmode\text{{\shavfont 𐑪}}\else{{\shavfont 𐑪}}\fi}
+\newunicodechar{𐑫}{\ifmmode\text{{\shavfont 𐑫}}\else{{\shavfont 𐑫}}\fi}
+\newunicodechar{𐑬}{\ifmmode\text{{\shavfont 𐑬}}\else{{\shavfont 𐑬}}\fi}
+\newunicodechar{𐑭}{\ifmmode\text{{\shavfont 𐑭}}\else{{\shavfont 𐑭}}\fi}
+\newunicodechar{𐑮}{\ifmmode\text{{\shavfont 𐑮}}\else{{\shavfont 𐑮}}\fi}
+\newunicodechar{𐑯}{\ifmmode\text{{\shavfont 𐑯}}\else{{\shavfont 𐑯}}\fi}
+\newunicodechar{𐑰}{\ifmmode\text{{\shavfont 𐑰}}\else{{\shavfont 𐑰}}\fi}
+\newunicodechar{𐑱}{\ifmmode\text{{\shavfont 𐑱}}\else{{\shavfont 𐑱}}\fi}
+\newunicodechar{𐑲}{\ifmmode\text{{\shavfont 𐑲}}\else{{\shavfont 𐑲}}\fi}
+\newunicodechar{𐑳}{\ifmmode\text{{\shavfont 𐑳}}\else{{\shavfont 𐑳}}\fi}
+\newunicodechar{𐑴}{\ifmmode\text{{\shavfont 𐑴}}\else{{\shavfont 𐑴}}\fi}
+\newunicodechar{𐑵}{\ifmmode\text{{\shavfont 𐑵}}\else{{\shavfont 𐑵}}\fi}
+\newunicodechar{𐑶}{\ifmmode\text{{\shavfont 𐑶}}\else{{\shavfont 𐑶}}\fi}
+\newunicodechar{𐑷}{\ifmmode\text{{\shavfont 𐑷}}\else{{\shavfont 𐑷}}\fi}
+\newunicodechar{𐑸}{\ifmmode\text{{\shavfont 𐑸}}\else{{\shavfont 𐑸}}\fi}
+\newunicodechar{𐑹}{\ifmmode\text{{\shavfont 𐑹}}\else{{\shavfont 𐑹}}\fi}
+\newunicodechar{𐑺}{\ifmmode\text{{\shavfont 𐑺}}\else{{\shavfont 𐑺}}\fi}
+\newunicodechar{𐑻}{\ifmmode\text{{\shavfont 𐑻}}\else{{\shavfont 𐑻}}\fi}
+\newunicodechar{𐑼}{\ifmmode\text{{\shavfont 𐑼}}\else{{\shavfont 𐑼}}\fi}
+\newunicodechar{𐑽}{\ifmmode\text{{\shavfont 𐑽}}\else{{\shavfont 𐑽}}\fi}
+\newunicodechar{𐑾}{\ifmmode\text{{\shavfont 𐑾}}\else{{\shavfont 𐑾}}\fi}
+\newunicodechar{𐑿}{\ifmmode\text{{\shavfont 𐑿}}\else{{\shavfont 𐑿}}\fi}
+
+% Page layout
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{microtype}
+\usepackage{parskip}
+
+% Language
+\usepackage[english]{babel}
+
+% Headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Section styling — fully unnumbered; pipeline never auto-numbers
+\usepackage{titlesec}
+\setcounter{secnumdepth}{0}
+\titleformat{\section}{\Large\bfseries}{}{0em}{}
+\titleformat{\subsection}{\large\bfseries}{}{0em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{}{0em}{}
+
+% Essential packages
+\usepackage{graphicx}
+\graphicspath{{/home/mrnob0dy666/imsgct/MoDoT/md/}{/home/mrnob0dy666/imsgct/MoDoT/md/images/}}
+\setkeys{Gin}{width=0.48\linewidth,height=0.32\textheight,keepaspectratio}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{amsmath}
+% unicode-math subsumes amssymb — do not load amssymb alongside it
+\usepackage{float}
+\usepackage[normalem]{ulem}
+\renewcommand{\arraystretch}{1.3}
+
+% Cross-references
+\usepackage{hyperref}
+\usepackage{cleveref}
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=cyan, citecolor=teal}
+
+% Custom commands
+\newcommand{\shav}[1]{{\shavfont #1}}
+\newcommand{\heb}[1]{{\igprimfont #1}}
+\newcommand{\tupleaddr}[1]{$\langle #1 \rangle$}
+
+% Shorthand primitive commands — redefined for IG document use
+\renewcommand{\H}{Ħ}
+\newcommand{\K}{Ç}
+\newcommand{\G}{Γ}
+\newcommand{\g}{ɢ}
+\newcommand{\Th}{Þ}
+\newcommand{\D}{Ð}
+\newcommand{\R}{Ř}
+\newcommand{\f}{ƒ}
+
+% Imscription tuple box
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\newtcolorbox{imscriptionbox}{enhanced, colback=blue!5, colframe=blue!75!black, fontupper=\large, center upper, boxrule=1pt, arc=4pt}
+
+% PDF metadata
+\hypersetup{
+  pdftitle={Iutt Structural Run},
+  pdfkeywords={Imscribing Grammar},
+  pdfauthor={Lando Mills},
+}
+
+\title{Iutt Structural Run}
+\date{\today}
+\author{Lando Mills}
+
+\begin{document}
+\maketitle
+\hypertarget{iutt-under-the-grammar-what-the-structural-run-established}{%
+\section{IUTT under the Grammar: what the structural run
+established}\label{iutt-under-the-grammar-what-the-structural-run-established}}
+
+A 154-cycle run drove Inter-universal Teichmüller Theory through the
+Grammar's structural verbs. This document records what the run gathered
+and where the Work stands. Every claim below is tied to a cycle whose
+tool output can be reopened.
+
+\hypertarget{what-the-run-is}{%
+\subsection{What the run is}\label{what-the-run-is}}
+
+The verbs treat a mathematical theory as a material. \texttt{polymerize}
+chains entities and reports whether the chain cyclizes. \texttt{close}
+searches the catalog for a monomer that would bridge a break.
+\texttt{fdistill} separates two components and reports whether they can
+be separated at all. \texttt{annihilate} fuses a pair and reports the
+fusion channel. \texttt{imasm\ prove} puts a candidate closure to the
+Lean kernel. The reading is not an analogy: a chain that fails to close
+and a map that fails μ∘δ = id are the same structural fact in two
+registers, and the run uses that identity throughout.
+
+\hypertarget{the-three-findings-that-hold}{%
+\subsection{The three findings that
+hold}\label{the-three-findings-that-hold}}
+
+\hypertarget{the-bipartite-pair-cannot-close-and-this-is-why-labels-are-needed}{%
+\subsubsection{1. The bipartite pair cannot close, and this is why
+labels are
+needed}\label{the-bipartite-pair-cannot-close-and-this-is-why-labels-are-needed}}
+
+The non-archimedean and archimedean components of the theory were
+imscribed separately and put to \texttt{phase\_reconstruct}. The pair
+did not close into a ring (cycle 16). The global phase word could not be
+fixed for the reason that there was no cycle to fix it on. Closure came
+only after a mediating third component and a bridging fourth were added
+(cycle 17), at which point the phase word settled to a stable
+distribution.
+
+This is the same law the parity run reached from the polymer side, where
+a two-node ring was reported as a trivial dimer and a real ring was said
+to require at least three units. Two objects do not make a cycle.
+Whatever holds the local and the global together in this theory cannot
+be a two-term relationship, and the run reached that from the structure,
+not from the literature.
+
+\hypertarget{the-two-theta-basis-components-are-azeotropic}{%
+\subsubsection{2. The two theta-basis components are
+azeotropic}\label{the-two-theta-basis-components-are-azeotropic}}
+
+\texttt{fdistill} on the two theta-basis components returned an
+azeotropic tie (cycle 11). An azeotrope is the case where no amount of
+ordinary fractionation separates two components: they distill together
+at fixed composition. The agent's reading was that standard separation
+cannot resolve the theta-basis components and that something like the
+theory's own labeling apparatus is therefore structurally required
+rather than a matter of bookkeeping taste.
+
+Applying a Kummer-detachment operator shifted the pair off the
+azeotropic tie and gave a resolved separation (cycles 12 and 13). The
+interesting part is the order of events: the tie came first, the
+operator was constructed to break it, and the separation followed. That
+is an argument for why the detachment step exists, generated from the
+obstruction rather than assumed.
+
+\hypertarget{the-log-link-is-a-held-contradiction-not-a-defect}{%
+\subsubsection{3. The log-link is a held contradiction, not a
+defect}\label{the-log-link-is-a-held-contradiction-not-a-defect}}
+
+The run repeatedly placed the log-link in a Belnap B slot, holding the
+additive and multiplicative structures together without kernel panic
+(cycle 27), and later concluded that the B state is the canonical ground
+state of the construction rather than a symptom of incompleteness (cycle
+149). This is the Grammar's characteristic reading and it is consistent
+across the run: the site where two arithmetic structures meet without
+reconciling is exactly where a dialetheia is expected to sit.
+
+\hypertarget{what-the-kernel-refused-repeatedly}{%
+\subsection{What the kernel refused,
+repeatedly}\label{what-the-kernel-refused-repeatedly}}
+
+The most consistent signal in the run is negative and it is worth more
+than the positive readings. A bare cycle is not a closure. Six separate
+times the agent built a ring topology, measured spectral radius 2.0, and
+had the kernel refuse it because the program carried no δ/μ dyad (cycles
+33, and again through the companion parity run). A geometric loop is not
+a proof of return. The kernel held that line every time, including
+against an agent that plainly wanted the ring to count.
+
+The run ends on this. At cycle 153 the assembly failed to cyclize,
+spectral radius 1.4142, and the agent formally retracted its earlier
+claim of a stable established manifold: ``I formally retract the
+previous claim of a stable {[}T{]} manifold; the system remains in the
+{[}B{]} (held) state as a reactive, open-ended potential.''
+
+\hypertarget{the-frontier}{%
+\subsection{The frontier}\label{the-frontier}}
+
+The open question the run actually leaves is structural, not numerical:
+the assembly has reactive ends. The bridge between the additive and
+multiplicative sides is present as a held B and absent as a closed dyad.
+Closing it means building a program whose δ-fork arms are wired to its
+μ-fuse, not a ring that merely returns to its starting node. The kernel
+has already said what it will accept. Nothing in the run has yet handed
+it one.
+
+Two thresholds recur across independent runs and are the experimental
+lead: the Ω-saturation onset at spectral radius just above 2, and the
+phase divergence that appeared both as a distillation gap and as a
+reconstructed phase word. Recurrence across runs that did not share a
+seed is the mark of structure surfacing, and the next winding should
+probe both directly.
+
+\end{document}

@@ -544,6 +544,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "dyad_test": {
+    "spec": "protocol IMSCRIB FSPLIT AFWD EVALT AREV EVALF FFUSE CLINK IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: branched | V=10 E=10 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2310\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
   "dynamic_alignment": {
     "spec": "ring ⊙ > < = szpiro_phase_shift_operator",
     "title": "ring",
@@ -623,6 +628,11 @@
     "spec": "chain ⊢ ⊙ ●",
     "title": "chain",
     "topology": "  topology: linear | V=3 E=2 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.4142\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "generic_protocol": {
+    "spec": "protocol ⊢ ◇ + × ● ¬ ⊣",
+    "title": "protocol",
+    "topology": "  topology: branched | V=7 E=7 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2764\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
   "genus_n_bridge_cyclization_operator": {
     "spec": "ring ⊙ > <",
@@ -864,6 +874,16 @@
     "title": "protocol",
     "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.4142\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: identity — δ arms reconnect at μ but nothing transforms between them; μ∘δ=id does no work and type-checks nothing\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
   },
+  "moat_protocol_reseed_dyad": {
+    "spec": "protocol fork · transform · fuse",
+    "title": "protocol",
+    "topology": "  topology: linear | V=1 E=0 β=0 branch=0 merge=0 src=1 sink=1 ρ=0.0000\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "moat_protocol_reseed_protocol": {
+    "spec": "protocol with a transform between the fork and the fuse",
+    "title": "protocol",
+    "topology": "  topology: linear | V=1 E=0 β=0 branch=0 merge=0 src=1 sink=1 ρ=0.0000\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "moat_protocol_v2": {
     "spec": "ring ⊙ > switch linker_bridge <",
     "title": "ring",
@@ -893,6 +913,11 @@
     "spec": "ring ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "o2_macrocycle_kernel": {
+    "spec": "protocol ⊢ ◇ > > > > > ● ⊣",
+    "title": "protocol",
+    "topology": "  topology: branched | V=9 E=9 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1796\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
   "p4ramill_bridge_check": {
     "spec": "ring IMSCRIB AFWD AREV",
@@ -1100,9 +1125,9 @@
     "topology": "  topology: linear | V=11 E=10 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.9319\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
   },
   "reseed_dyad": {
-    "spec": "protocol ⊙◇●><",
+    "spec": "protocol ◇ > + < × ●",
     "title": "protocol",
-    "topology": "  topology: branched | V=5 E=5 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.4495\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: identity — δ arms reconnect at μ but nothing transforms between them; μ∘δ=id does no work and type-checks nothing\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+    "topology": "  topology: branched | V=6 E=6 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "reseed_gap": {
     "spec": "ring ⊙ > < ⊞ Ħ",
@@ -1120,14 +1145,19 @@
     "topology": "  topology: branched | V=10 E=10 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1701\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
   "reseed_protocol": {
-    "spec": "protocol ⊢ ⊙ > ◇ + × ● < ⊣",
+    "spec": "protocol ◇ > > > > > > ●",
     "title": "protocol",
-    "topology": "  topology: branched | V=9 E=9 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.3106\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
+    "topology": "  topology: branched | V=8 E=8 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "reseed_protocol_dyad": {
     "spec": "protocol ⊢ ⊙ ◇ > + × ● ¬ ⊣",
     "title": "protocol",
     "topology": "  topology: branched | V=9 E=9 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2684\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
+  },
+  "reseed_protocol_kernel": {
+    "spec": "protocol ⊢ ◇ > > > > > ● ⊣",
+    "title": "protocol",
+    "topology": "  topology: branched | V=9 E=9 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1796\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
   "reseed_protocol_v2": {
     "spec": "protocol ◇ shift_reseed_reg ●",

@@ -1,10 +1,13 @@
-ask_native: stop the registry mix-up costing real results
+README: document Provider::Local (in-process candle inference, no server)
 
-`imasm run <native verb>` reported "no tool named X" and the agent read that
-as absence, retracting a measurement it had actually made (annihilate's
-Fibonacci channel, cycle 246 of the 247-cycle parity run). `imasm run` now
-recognises the native verbs and says where they live instead of denying them.
-
-`annihilate A --flag` took the flag as partner B, inventing an entity and
-carrying it back into the catalog. It now skips flag-shaped arguments, the
-same way recalibrate already did.
+Added a "Local inference" section and threaded the local provider through
+the parts of the README that enumerate the LLM path: the architecture box
+now shows cloud (openrouter/gemini/deepseek) vs local (candle in-process),
+the Quick Start provider block gains the build line and --provider local
+with its env knobs, and Requirements notes the optional --features
+local,cuda build. The new section covers the build (CUDA_COMPUTE_CAP=86,
+the .cudalibs linker shim, PCI_BUS_ID device ordering), the runtime env
+table (MODOT_LOCAL_MODEL_DIR / _DEVICE / _CPU), and the honest framing:
+Qwen3-1.7B is the working default, a usable agent for the loop rather than
+the equal of the cloud frontier, the substrate that keeps working when the
+credits run out.
