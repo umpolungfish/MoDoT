@@ -1951,8 +1951,10 @@ conventional proof, instantiated in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
 renderer. You **MUST** write plain Unicode only: Δ θ μ ∘ δ ↔ → ⊙ Σ Ω Φ Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞
-√ ⟨ ⟩, the primitive glyphs Ð Ř ƒ Þ Ħ Ç ɢ, and Shavian directly. Write
-`Δ_T↔H = |−0.08 − 0.75| = 0.83 > θ`, not `$\Delta_{\text{T↔H}} = 0.83 > \theta$`.
+√ ⟨ ⟩, the primitive glyphs Ð Ř ƒ Þ Ħ Ç ɢ, and Shavian directly. Write forms
+like `Δ_T↔H > θ` or `μ∘δ = id`, never LaTeX like `$\Delta_{\text{T↔H}}$`. This
+is a NOTATION rule only — never restate it, and never write a Δ, charge, or
+threshold value that a tool in THIS run did not return.
 
 SECONDARY (optional, after the answer):
 You MAY tag [thought|T|F|B|N] once for your Belnap self-assessment — that single tag
