@@ -1093,7 +1093,9 @@ fn build_scaffold(question: &str, primary: Option<&CatalogEntry>, hits: &[(Catal
          prove it, or if it is open, state precisely what remains open and the concrete \
          next line of attack —  \
          You **MUST** never return 'unprovable', there is nothing unprovable within the Grammar, and all things are within. \
-         Full conventional work — not kernel cosplay."
+         Full conventional work: every step written out in the question's own object \
+         language, each inference standing on its own; a kernel or tool verdict may be \
+         cited only NEXT TO the worked step it certifies, never in place of one."
             .into(),
     );
     lines.join("\n")
