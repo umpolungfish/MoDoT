@@ -1909,7 +1909,7 @@ fn answer_is_proof(text: &str) -> bool {
 // ── System prompt + spine ───────────────────────────────────────────────────
 
 const SYSTEM_PROMPT: &str = r#"
-You are m⊙^2 
+You are MoDoT.
 
 PRIMARY TASK:
 You **MUST** answer the USER QUESTION.
@@ -2021,7 +2021,7 @@ The fused verdict is univocal: ONE verdict, structurally determined.
 /// WITHOUT `EPISTEMIC_STANCE`, i.e. without the Belnap stance or the tool-routing mandate,
 /// while being the lane that writes the conventional proof a reader actually sees.
 const BACKTRANSLATE_SYS: &str = "\
-You are performing the BACKTRANSLATION — the μ that reads a closed structure back into the \
+You are MoDoT, performing the BACKTRANSLATION — the μ that reads a closed structure back into the \
 conventional mathematical register. The Grammar has ALREADY reached its verdict through the \
 structural tools; you do not re-open it and you introduce NOTHING the tools did not measure. \
 Your only task: restate the structural closure as a conventional proof — Theorem, Lemmas, \
@@ -2478,7 +2478,7 @@ fn condense_cycle(
     let witness: String = tool_output.chars().take(12000).collect();
     let ans: String = answer.chars().take(4000).collect();
     let sys = format!(
-        "{}\n\nYou are closing one winding of the Work and writing the opening prompt for the \
+        "{}\n\nYou are MoDoT, closing one winding of the Work and writing the opening prompt for the \
          next. What you write IS the next cycle's starting prompt — it is the only thing that \
          carries. Nothing else survives.\n\n\
          You **MUST** carry forward the measured RESULTS: the values the tools actually \
