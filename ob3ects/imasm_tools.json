@@ -1234,6 +1234,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "seam_close": {
+    "spec": "protocol IMSCRIB FSPLIT EVALT EVALF FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: branched | V=7 E=7 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2764\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
   "seam_probe": {
     "spec": "ring IMSCRIB FSPLIT EVALT EVALF FFUSE IFIX TANCH",
     "title": "ring",

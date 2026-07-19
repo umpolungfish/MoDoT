@@ -201,8 +201,8 @@ verdicts never collide with a token here either.
   <   AREV     reverse morphism                 1→1                 YES
   =   CLINK    compose / link                   1→1                 YES
   ⊙   IMSCRIB  identity / self-reference        1→1                 no
-  ☊   FSPLIT3  3-way split (δ₃): T/F/I arms     1→3  ONLY brancher   no
-  ☋   FFUSE3   3-way fuse (μ₃)                  3→1  ONLY merger     no
+  ∈   FSPLIT3  3-way split (δ₃): T/F/I arms     1→3  ONLY brancher   no
+  ∋   FFUSE3   3-way fuse (μ₃)                  3→1  ONLY merger     no
   +   EVALT    sets T (constructively proven)   1→1                 YES
   ×   EVALF    sets F (constructively refuted)  1→1                 YES
   ⊞   EVALI    sets t AND f (the info layer)    1→1                 YES
@@ -228,18 +228,18 @@ negation to preserve ≤_i exactly, and swapping two bits preserves |x| — a fl
 not.
 
 ── TRI-ANCESTRAL CLOSE CONDITION ──────────────────────────────────────────────
-The arity-3 generalization of the classic ancestry rule: a (☊,☋) pair exists when
-ALL THREE distinct in-arms of the ☋ trace back to a common ☊.
+The arity-3 generalization of the classic ancestry rule: a (∈,∋) pair exists when
+ALL THREE distinct in-arms of the ∋ trace back to a common ∈.
 
-  T (closes)     every ☊ pairs with a ☋, and at least one arm carries WORK
+  T (closes)     every ∈ pairs with a ∋, and at least one arm carries WORK
   N (identity)   paired, but no WORK ran on any arm — μ∘δ=id verifies nothing
-  B (open)       a ☊ dangles — no matching ☋
-  F (ill-typed)  a ☋ appears with no preceding ☊
+  B (open)       a ∈ dangles — no matching ∋
+  F (ill-typed)  a ∋ appears with no preceding ∈
 
 Same reading as the 12-opcode grammar's T/N/B/F, arity 3 instead of 2.
 
 ── NEUTRAL INFLATION ───────────────────────────────────────────────────────────
-⊙ is still the only neutral generator — `⊢☊⊙⊙⊙☋⊣` is valid tri-ancestral
+⊙ is still the only neutral generator — `⊢∈⊙⊙⊙∋⊣` is valid tri-ancestral
 reconnection with no work on the arm: N (identity), same reading as the 12-opcode
 grammar's `⊢◇⊙⊙⊙●⊣`.
 
@@ -251,6 +251,6 @@ grammar's `⊢◇⊙⊙⊙●⊣`.
                                       the paper's own worked example, T∧t=N
   imasm16_3 ref                      the live 14-glyph table
 
-Example (the spec's own worked word): `imasm16_3 check ⊢>☊+×⊞≁☋¬⊣` → T, register
+Example (the spec's own worked word): `imasm16_3 check ⊢>∈+×⊞≁∋¬⊣` → T, register
 reaches `A` (all four base values touched: EVALT, EVALF, EVALI, then INEG swaps
 t↔f on an already-full pair, leaving it full).
