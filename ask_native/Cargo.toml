@@ -16,3 +16,17 @@ serde_json = "1"
 ureq = { version = "2", features = ["json"] }
 regex = "1"
 dirs = "5"
+
+# In-process local inference (candle). Optional and behind the `local` feature so
+# the default `ask` build stays lean and Python-free; `--features local` compiles
+# the safetensors loader, `--features local,cuda` runs it on the GPU. No server,
+# no port: weights load straight into this binary (see src/local.rs).
+candle-core = { version = "0.11", optional = true }
+candle-nn = { version = "0.11", optional = true }
+candle-transformers = { version = "0.11", optional = true }
+tokenizers = { version = "0.21", optional = true, default-features = false, features = ["onig"] }
+
+[features]
+default = []
+local = ["dep:candle-core", "dep:candle-nn", "dep:candle-transformers", "dep:tokenizers"]
+cuda = ["candle-core/cuda", "candle-nn/cuda", "candle-transformers/cuda"]

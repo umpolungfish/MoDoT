@@ -32,6 +32,8 @@ mod calc;
 mod click;
 mod imasm;
 mod imasm16_3;
+#[cfg(feature = "local")]
+mod local;
 mod prover;
 
 // ── CLI ─────────────────────────────────────────────────────────────────────
@@ -1119,6 +1121,11 @@ enum Provider {
     OpenRouter,
     GeminiDirect,
     DeepSeek,
+    /// A local OpenAI-compatible server (llama.cpp `llama-server`, vLLM, etc).
+    /// Keyless by default; base URL and model come from the environment so the
+    /// same binary points at whatever local endpoint is up. This is the
+    /// broke-mode / offline provider: no cloud, no credits.
+    Local,
 }
 
 /// The default model for a provider when no explicit `--model` is carried — used both for
@@ -1130,6 +1137,10 @@ fn provider_default_model(p: Provider) -> &'static str {
         Provider::OpenRouter => "google/gemini-3-flash-preview",
         Provider::DeepSeek => "deepseek-chat",
         Provider::GeminiDirect => "gemini-2.0-flash",
+        // Most local OpenAI-compatible servers ignore the model field (they
+        // serve whatever was loaded), so "local" is a harmless placeholder;
+        // override with --model or MODOT_LOCAL_MODEL when the server routes on it.
+        Provider::Local => "local",
     }
 }
 
@@ -1142,6 +1153,9 @@ fn provider_has_key(p: Provider) -> bool {
         Provider::GeminiDirect => {
             env_first(&["GEMINI_API_KEY", "GOOGLE_API_KEY", "MODOT_API_KEY"]).is_some()
         }
+        // Local is keyless: a running local server is its own credential. Treated
+        // as always-available so a fatal-error demotion can fall through to it.
+        Provider::Local => true,
     }
 }
 
@@ -1187,6 +1201,21 @@ fn build_llm(provider: Provider, model_override: Option<&str>, think: bool, expl
                 explicit_provider,
             }
         }
+        Provider::Local => Llm {
+            // Keyless, but a server behind an auth proxy can still supply one.
+            api_key: env_first(&["MODOT_LOCAL_KEY", "LOCAL_API_KEY"]),
+            // Prefer an explicit --model, else MODOT_LOCAL_MODEL, else the placeholder.
+            model: model_override
+                .map(|s| s.to_string())
+                .or_else(|| env_first(&["MODOT_LOCAL_MODEL"]))
+                .unwrap_or_else(|| "local".into()),
+            // llama.cpp `llama-server` defaults to :8080; override with MODOT_LOCAL_URL.
+            base_url: env_first(&["MODOT_LOCAL_URL", "LOCAL_BASE_URL"])
+                .unwrap_or_else(|| "http://127.0.0.1:8080/v1".into()),
+            provider: Provider::Local,
+            think,
+            explicit_provider,
+        },
     }
 }
 
@@ -1220,6 +1249,7 @@ fn parse_provider(s: &str) -> Option<Provider> {
         "openrouter" | "or" | "router" => Some(Provider::OpenRouter),
         "gemini" | "google" | "gemini-direct" | "google-ai" => Some(Provider::GeminiDirect),
         "deepseek" | "ds" | "deepseek-direct" => Some(Provider::DeepSeek),
+        "local" | "offline" | "candle" | "modelz" => Some(Provider::Local),
         _ => None,
     }
 }
@@ -1234,6 +1264,7 @@ fn export_ig_env(llm: &Llm) {
         Provider::OpenRouter => "openrouter",
         Provider::GeminiDirect => "gemini",
         Provider::DeepSeek => "deepseek",
+        Provider::Local => "local",
     };
     env::set_var("IG_PROVIDER", provider);
     env::set_var("IG_MODEL", &llm.model);
@@ -1251,7 +1282,7 @@ fn make_llm(model: Option<&str>, provider_flag: Option<&str>, think: bool) -> Ll
     // key-based default (the trap: `--provider deepseek` quietly ran on openrouter).
     if let Some(p) = provider_flag {
         if parse_provider(p).is_none() {
-            eprintln!("[ask] unknown --provider/MODOT_PROVIDER '{p}'; use openrouter | gemini | deepseek. Falling back to key-based selection.");
+            eprintln!("[ask] unknown --provider/MODOT_PROVIDER '{p}'; use openrouter | gemini | deepseek | local. Falling back to key-based selection.");
         }
     }
     // Provider: CLI > MODOT_PROVIDER (both PIN it) > infer from keys. The inferred default no
@@ -1308,6 +1339,35 @@ fn is_transient_llm_error(res: &LlmResult) -> bool {
         || e.contains("io: ")
 }
 
+/// In-process local inference bridge. With `--features local` it calls the
+/// candle engine (src/local.rs); without it, it returns a clear rebuild
+/// instruction rather than pretending to be an API provider.
+#[cfg(feature = "local")]
+fn local_infer(messages: &[(String, String)], max_tokens: u32, temperature: f32) -> LlmResult {
+    match local::generate(messages, max_tokens as usize, temperature as f64) {
+        Ok(text) => {
+            let voice = model_self_belnap(&text);
+            LlmResult { text, voice, err: None }
+        }
+        Err(e) => LlmResult {
+            text: format!("[local inference error: {e}]"),
+            voice: 'N',
+            err: Some(e),
+        },
+    }
+}
+
+#[cfg(not(feature = "local"))]
+fn local_infer(_messages: &[(String, String)], _max_tokens: u32, _temperature: f32) -> LlmResult {
+    LlmResult {
+        text: "[local provider selected but this `ask` was built without local inference. \
+                Rebuild: cargo build --release --features local,cuda (GPU) or --features local (CPU).]"
+            .into(),
+        voice: 'N',
+        err: Some("built without --features local".into()),
+    }
+}
+
 fn infer(
     llm: &Llm,
     messages: &[(String, String)],
@@ -1329,6 +1389,12 @@ fn infer(
     }
     let llm = demoted_llm.as_ref().unwrap_or(llm);
 
+    // Local is keyless and runs in-process, so it is served BEFORE the API-key
+    // guard below (which would otherwise reject it for having no key).
+    if llm.provider == Provider::Local {
+        return local_infer(messages, max_tokens, temperature);
+    }
+
     let Some(key) = llm.api_key.as_ref() else {
         return LlmResult {
             text: "[no API key — set OPENROUTER_API_KEY (openrouter) or GEMINI_API_KEY (gemini); use --dry-run for structure-only]".into(),
@@ -1348,6 +1414,7 @@ fn infer(
         Provider::OpenRouter => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::DeepSeek => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature),
+        Provider::Local => unreachable!("local is served before the key guard"),
     };
     let t0 = std::time::Instant::now();
     let mut res = call();
@@ -5336,6 +5403,7 @@ fn run_one(
             Provider::OpenRouter => "openrouter",
             Provider::GeminiDirect => "gemini-direct",
             Provider::DeepSeek => "deepseek",
+            Provider::Local => "local",
         }
     );
     println!("Question ({} chars):\n", question.chars().count());
@@ -5530,6 +5598,7 @@ fn run_one(
                         Provider::OpenRouter => "openrouter",
                         Provider::GeminiDirect => "gemini",
                         Provider::DeepSeek => "deepseek",
+                        Provider::Local => "local",
                     };
                     eprintln!(
                         "[ask] fatal LLM error on provider '{pname}' — aborting the run (not transient: 402 = out of credits, 401 = bad key). \
