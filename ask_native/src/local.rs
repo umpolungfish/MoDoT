@@ -65,9 +65,9 @@ fn local_cfg() -> LocalCfg {
     }
 }
 
-fn pick_device(cfg: &LocalCfg) -> candle_core::Result<Device> {
+fn pick_device(cfg: &LocalCfg) -> candle_core::Result<(Device, Option<usize>)> {
     if cfg.force_cpu {
-        return Ok(Device::Cpu);
+        return Ok((Device::Cpu, None));
     }
     // Pin the ordinal meaning BEFORE first CUDA init: the kernels are compiled
     // for sm_86 only (the 3060, PCI index 1); under the default fastest-first
@@ -95,11 +95,62 @@ fn pick_device(cfg: &LocalCfg) -> candle_core::Result<Device> {
                     cfg.device_index
                 );
             }
-            return Ok(d);
+            return Ok((d, Some(idx)));
         }
     }
     eprintln!("\x1b[2m[local] no CUDA device reachable — CPU (slow); check LD_LIBRARY_PATH / driver\x1b[0m");
-    Ok(Device::Cpu)
+    Ok((Device::Cpu, None))
+}
+
+/// Size the prompt cap from the card itself, not a guess: with the weights
+/// already resident, whatever VRAM remains is what the KV cache and prefill
+/// activations must live in. The per-token KV cost is exact from config.json
+/// (2 × layers × kv_heads × head_dim × bf16), the free VRAM is read from
+/// nvidia-smi (same PCI ordinal — CUDA_DEVICE_ORDER is pinned), and a fixed
+/// headroom plus a generation reserve keep the decode loop from OOMing after
+/// a prefill that "just fit". MODOT_LOCAL_CTX still overrides everything.
+fn compute_ctx_cap(qcfg: &Qwen3Config, cuda_idx: Option<usize>, quiet: bool) -> usize {
+    if let Some(v) = env("MODOT_LOCAL_CTX").and_then(|s| s.parse().ok()) {
+        return v;
+    }
+    // Without flash-attn prefill is O(seq²) in scores, not KV-bound — the old
+    // conservative cap stands. Same on CPU, where RAM is not the constraint.
+    if !cfg!(feature = "flash-attn") {
+        return 9000;
+    }
+    let Some(idx) = cuda_idx else { return 9000 };
+    let kv_per_tok = 2 * qcfg.num_hidden_layers * qcfg.num_key_value_heads * qcfg.head_dim * 2;
+    let free_mib = std::process::Command::new("nvidia-smi")
+        .args([
+            "--query-gpu=memory.free",
+            "--format=csv,noheader,nounits",
+            "-i",
+            &idx.to_string(),
+        ])
+        .output()
+        .ok()
+        .filter(|o| o.status.success())
+        .and_then(|o| String::from_utf8(o.stdout).ok())
+        .and_then(|s| s.trim().parse::<usize>().ok());
+    let cap = match free_mib {
+        Some(mib) => {
+            let headroom_mib = 2048; // prefill activations + allocator fragmentation
+            let avail = mib.saturating_sub(headroom_mib) * 1024 * 1024;
+            let gen_reserve = 2048; // decode extends the KV cache past the prompt
+            (avail / kv_per_tok.max(1))
+                .saturating_sub(gen_reserve)
+                .clamp(2048, qcfg.max_position_embeddings.min(32000))
+        }
+        None => 12000, // nvidia-smi unreachable: sized for a 12 GB card with a 4B resident
+    };
+    if !quiet {
+        eprintln!(
+            "\x1b[2m[local] ctx cap {cap} tok ({} free MiB, {:.2} MiB/tok KV)\x1b[0m",
+            free_mib.map(|m| m.to_string()).unwrap_or_else(|| "?".into()),
+            kv_per_tok as f64 / (1024.0 * 1024.0)
+        );
+    }
+    cap
 }
 
 /// A loaded model held resident for the process lifetime.
@@ -115,6 +166,9 @@ struct Engine {
     /// the cached environment every call, rather than re-parsed per generation. None
     /// if the model ships no template (then a ChatML fallback is used).
     template_env: Option<minijinja::Environment<'static>>,
+    /// Prompt-length cap in tokens, sized once at load from the free VRAM left
+    /// after the weights and this model's exact per-token KV cost.
+    ctx_cap: usize,
 }
 
 fn read_qwen3_config(dir: &str) -> Result<Qwen3Config, String> {
@@ -179,11 +233,10 @@ impl Engine {
         let cfg = local_cfg();
         let quiet = env("MODOT_LOCAL_STREAM").map(|v| v == "0").unwrap_or(false);
         let t0 = std::time::Instant::now();
-        let device = pick_device(&cfg).map_err(|e| format!("device: {e}"))?;
-        let where_ = if device.is_cuda() {
-            format!("cuda:{}", cfg.device_index)
-        } else {
-            "cpu".into()
+        let (device, cuda_idx) = pick_device(&cfg).map_err(|e| format!("device: {e}"))?;
+        let where_ = match cuda_idx {
+            Some(idx) => format!("cuda:{idx}"),
+            None => "cpu".into(),
         };
         if !quiet {
             eprintln!(
@@ -235,7 +288,8 @@ impl Engine {
             }
             None => None,
         };
-        Ok(Engine { model, tokenizer, device, eos_ids, model_dir: cfg.model_dir, template_env })
+        let ctx_cap = compute_ctx_cap(&qcfg, cuda_idx, quiet);
+        Ok(Engine { model, tokenizer, device, eos_ids, model_dir: cfg.model_dir, template_env, ctx_cap })
     }
 
     /// Build the prompt from the model's OWN chat template. `think=false` sets
@@ -293,16 +347,14 @@ impl Engine {
         // kill the series with CUDA_ERROR_OUT_OF_MEMORY. Cap the prefill length:
         // keep the HEAD (system prompt / framing) and the TAIL (current question
         // and most recent results), drop the middle, and say so. Configurable via
-        // MODOT_LOCAL_CTX. With flash-attn the prefill is O(seq) not O(seq²), so
-        // the whole native window fits and the cap rises to Qwen3's 32k; without
-        // it, the cap is sized for a 12 GB card holding a ~4 GB model. The agentic
-        // loop needs the WHOLE prompt (dropping the middle drops the tool results
-        // the model must react to), so flash-attn is what makes local jam actually
-        // work, not just survive.
-        let default_cap = if cfg!(feature = "flash-attn") { 32000 } else { 9000 };
-        let ctx_cap: usize = env("MODOT_LOCAL_CTX")
-            .and_then(|s| s.parse().ok())
-            .unwrap_or(default_cap);
+        // MODOT_LOCAL_CTX. With flash-attn the prefill is O(seq) not O(seq²) and
+        // the constraint becomes the KV cache, so the cap was sized once at load
+        // (compute_ctx_cap) from the free VRAM left after the weights — a 4B on
+        // a 12 GB card gets ~10-14k, not a hopeful 32k that OOMs mid-series. The
+        // agentic loop needs the WHOLE prompt (dropping the middle drops the tool
+        // results the model must react to), so flash-attn is what makes local jam
+        // actually work, not just survive.
+        let ctx_cap = self.ctx_cap;
         if tokens.len() > ctx_cap {
             // Keep the head (framing) but bias hard toward the tail: in an agentic
             // loop the recent tool results are what the next step must see.

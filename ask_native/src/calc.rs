@@ -123,7 +123,14 @@ fn lex(s: &str) -> Result<Vec<Tok>, String> {
                 out.push(Tok::Ident("sqrt".into()));
                 i += 1;
             }
-            _ => return Err(format!("unexpected character: {c}")),
+            _ => {
+                return Err(format!(
+                    "unexpected character: {c} — calc evaluates plain numeric expressions \
+                     (digits, + - * / % ^, parens, named functions); bra-kets, subscripts \
+                     and symbolic quantities have no value here. State the NUMBERS and \
+                     re-run, e.g. `calc 0.93^2` not `calc ⟨v_d, v_a⟩²`"
+                ))
+            }
         }
     }
     Ok(out)
