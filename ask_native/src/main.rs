@@ -2370,6 +2370,52 @@ fn complete(
 /// and `FFUSE(B,B,B)` was one computation counted three times. μ∘δ closes only over a
 /// TRANSFORMED object: the condensate is that transform. It must carry RESULTS — the
 /// measured values — not a conclusion, or the next cycle inherits an anchor without evidence.
+/// The δ face of an acting turn: its TOOL: lines only. A turn that emits tool
+/// calls is a fork — any answer prose around the calls is a μ minted before the
+/// transform ran (a bare ring, per the protocol law), and carrying it forward is
+/// what lets a rehearsed answer outweigh the real results next round. A turn
+/// with no TOOL: lines is a genuine answer and passes through whole.
+fn delta_face(text: &str) -> String {
+    let tool_lines: Vec<&str> = text
+        .lines()
+        .filter(|l| l.trim_start().starts_with("TOOL:"))
+        .collect();
+    if tool_lines.is_empty() {
+        return text.to_string();
+    }
+    format!(
+        "(pre-narration discarded — an answer may only fuse over returned results; the turn's δ was:)\n{}",
+        tool_lines.join("\n")
+    )
+}
+
+/// Deterministic digest of one tool result for the harness ledger: the call
+/// signature plus the lines that carry its verdict. The ledger is appended to
+/// the condensate by the HARNESS, verbatim, so the measured ground survives to
+/// the next cycle even when the condensing model drops it.
+fn ledger_digest(sig: &str, output: &str) -> String {
+    let mut lines: Vec<&str> = Vec::new();
+    let mut it = output.lines().filter(|l| !l.trim().is_empty());
+    if let Some(first) = it.next() {
+        lines.push(first);
+    }
+    for l in it {
+        let key = l.contains("VERDICT")
+            || l.contains("REFUSED")
+            || l.contains("OPEN")
+            || l.contains("green")
+            || l.contains("μ∘δ")
+            || l.contains("readout at sink");
+        if key && !lines.contains(&l) {
+            lines.push(l);
+            if lines.len() >= 6 {
+                break;
+            }
+        }
+    }
+    format!("● {sig}\n    {}\n", lines.join("\n    "))
+}
+
 fn condense_cycle(
     llm: &Llm,
     seed: &str,
@@ -5629,6 +5675,10 @@ fn run_one(
         // Hoisted to cycle scope: the condenser needs this cycle's measured output to write
         // the next cycle's opening prompt.
         let mut all_tool_output = String::new(); // every round's real output → the tool voice
+        // The harness-carried ledger: one verbatim digest per fresh tool run (and per
+        // miss), appended to the condensate deterministically — the measured ground
+        // must reach the next cycle by harness hand, never by trusting the condenser.
+        let mut results_ledger = String::new();
         // Did the agent ask to close this cycle at ANY point — including a close that was
         // refused for arriving batched? A refused close still says "I am sectioning this
         // winding"; the refusal only forces the results to be read first. Seen live: the
@@ -5665,7 +5715,13 @@ fn run_one(
                      catalog; their outputs return as ground truth and you choose the next step. Iterate — run a \
                      tool, read its result, run the next — until the task is actually done, then give your FINAL \
                      answer with NO TOOL: lines. NEVER narrate a step you could run; run it. Never contradict a \
-                     tool result or introduce anything the tools did not return.",
+                     tool result or introduce anything the tools did not return.\n\
+                     A question and its answer are a Frobenius dyad: the question forks (δ), the tool runs are \
+                     the transform on the arms, and the answer fuses (μ) ONLY over what actually returned. An \
+                     'Answer' written before the results exist is a fuse with no arms — a bare ring, and the \
+                     harness discards it: of any turn that emits TOOL: lines, only the TOOL: lines are carried \
+                     forward. Before acting, state at most an EXPECTED READOUT (one line per call, falsifiable); \
+                     the answer itself may only be written after, and from, the returned results.",
                     prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, IMASM_ALPHABET, TOOLS_PROMPT,
                     if cli.jam { JAM_PROMPT } else { "" }
                 ),
@@ -5873,6 +5929,7 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
                             results.push_str(&format!("### {verb} {}\n{o}\n", args.join(" ")));
                             record_tool_call(cycle, round + 1, verb, args, "ran", &o);
                             executed_verbs.insert(verb.clone()); // this verb now has an execution arm
+                            results_ledger.push_str(&ledger_digest(&sig, &o));
                             ran_results.insert(sig, o);
                         }
                         None => {
@@ -5885,6 +5942,7 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
                             // A miss is evidence too: a run that reached for a verb and got
                             // nothing is a different descent from one that never reached.
                             record_tool_call(cycle, round + 1, verb, args, "miss", &m);
+                            results_ledger.push_str(&ledger_digest(&sig, &m));
                         }
                     }
                 }
@@ -5893,14 +5951,14 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
                 // results are in hand. Stop winding and let the close block speak the cycle's
                 // answer over them, rather than spending another OBSERVE round first.
                 if wants_close {
-                    agent_msgs.push(("assistant".to_string(), current.clone()));
+                    agent_msgs.push(("assistant".to_string(), delta_face(&current)));
                     agent_msgs.push((
                         "user".to_string(),
                         format!("TOOL RESULTS (ground truth — never contradict these):\n{results}"),
                     ));
                     break;
                 }
-                agent_msgs.push(("assistant".to_string(), current.clone()));
+                agent_msgs.push(("assistant".to_string(), delta_face(&current)));
                 let executed_line = format!(
                     "EXECUTED VERBS so far (the only verbs you have a result for): {{{}}}. A claim about any \
                      verb NOT in this set has NO execution arm to fuse against — its outcome is N (neither), \
@@ -6096,6 +6154,16 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
         seed = condense_cycle(
             llm, &seed, &answer, &all_tool_output, cli.max_tokens, cli.temperature,
         );
+        // The measured ground travels by harness hand: append the verbatim ledger to
+        // the condensate, so the next cycle opens on the real tool lines even when the
+        // condensing model dropped them. The condenser writes the reach; the harness
+        // carries the results.
+        if !results_ledger.is_empty() {
+            seed = format!(
+                "{seed}\n\nMEASURED RESULTS LEDGER (harness-carried, verbatim from this cycle's tools — \
+                 ground truth, not narrative; reuse without retesting):\n{results_ledger}"
+            );
+        }
         println!("{seed}");
         println!();
     }
