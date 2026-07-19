@@ -684,6 +684,16 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "h0_measure": {
+    "spec": "ring IMSCRIB FSPLIT AFWD EVALT AREV EVALF FFUSE IFIX TANCH",
+    "title": "ring",
+    "topology": "  topology: ring | V=9 E=9 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "h0_reader": {
+    "spec": "ring IMSCRIB FSPLIT EVALT FFUSE IFIX TANCH",
+    "title": "ring",
+    "topology": "  topology: ring | V=6 E=6 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "h_chiral_assert": {
     "spec": "ring ⊙ > <",
     "title": "ring",
@@ -753,6 +763,11 @@
     "spec": "ring ⊙ > < ⊞ ●",
     "title": "ring",
     "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k_seam_probe": {
+    "spec": "ring IMSCRIB FSPLIT EVALT FFUSE IFIX TANCH",
+    "title": "ring",
+    "topology": "  topology: ring | V=6 E=6 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "kernel_path_fix": {
     "spec": "ring ⊙ path_map /p4ramill/topology/",
@@ -1218,6 +1233,11 @@
     "spec": "ring ⊙ δ μ",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "seam_probe": {
+    "spec": "ring IMSCRIB FSPLIT EVALT EVALF FFUSE IFIX TANCH",
+    "title": "ring",
+    "topology": "  topology: ring | V=7 E=7 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "shielded_parity": {
     "spec": "ring ɢ ⊙ ◇ > < ● ⊞ ⊣",

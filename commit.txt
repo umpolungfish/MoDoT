@@ -1,3 +1,31 @@
-local ctx cap is measured, not guessed: with the weights resident, read the card's actual free VRAM (nvidia-smi, same pinned PCI ordinal) and this model's exact per-token KV cost from config.json, subtract headroom for prefill activations and a generation reserve, and that quotient is the prompt cap — a 4B on a 12 GB card lands ~10-14k instead of a hopeful 32k that OOMed the jam mid-series. MODOT_LOCAL_CTX still overrides; no flash-attn or no CUDA keeps the conservative 9000. pick_device now also reports which ordinal it actually landed on, and the load banner prints the real device instead of the configured wish.
+jam cycle-carry is monadic now: the model writes only δ, the harness carries μ.
 
-calc's unexpected-character error now teaches instead of just refusing: it says calc is plain numeric and shows the model how to restate a bra-ket as numbers, so a jam agent that emits ⟨v_demand, v_answer⟩² gets steered to a computable expression instead of looping on the same glyph.
+The series was looping — each cycle re-derived the same verdict instead of
+advancing. Two causes, both in the carry:
+
+1. condense_cycle was SHOWN the full seed ("## The prompt this cycle opened on")
+   and told to "write the next cycle's opening prompt." For cycle 1→2 that seed
+   IS the entire premise, so the condenser dutifully restated the whole premise,
+   and the next cycle opened on a re-statement and re-ratified it. The premise
+   already lives in the system prompt and the cycle-1 conversation turn, so
+   re-writing it into the seed was pure duplication — the loop.
+
+2. results_ledger was per-cycle (reborn inside the loop), so only the LAST
+   cycle's measured results carried forward; the accumulator did not persist.
+   Not a monoid — a re-wrap.
+
+Fix: make the cycle chain a monadic bind.
+- condense_cycle no longer sees the premise or the seed. Its job shrinks to
+  emitting ONLY δ: the single open question this cycle could not close and the
+  verb that would close it, one or two sentences, with a hard MUST-NOT on
+  restating the premise/theorem/framing or re-carrying results.
+- series_ledger persists OUTSIDE the loop — the monoid. Each cycle appends its
+  verbatim measured results (tagged [cycle N]); μ is the harness doing this
+  append, not the model narrating it.
+- next seed = "NEXT REACH: <δ>" ⊕ the accumulated series ledger. The premise is
+  never re-injected.
+
+Outer THINK banner reworded to state the monadic model honestly (model writes δ,
+harness carries μ, premise never re-injected).
+
+Prior change retained: local ctx cap measured from free VRAM ÷ per-token KV cost.

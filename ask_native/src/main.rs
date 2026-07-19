@@ -2544,30 +2544,38 @@ fn ledger_digest(sig: &str, output: &str) -> String {
     format!("● {sig}\n    {}\n", lines.join("\n    "))
 }
 
+// Condense a cycle to the ONE thing that binds forward: the next reach. This is the
+// bind (>>=) of the cycle monad, and it is deliberately thin. The premise never passes
+// through here — it lives in the system prompt and the cycle-1 conversation turn, so
+// re-writing it into the seed only duplicates it, and a condenser shown the full premise
+// dutifully restates it, which is exactly the loop where every cycle re-derives the same
+// verdict. The measured RESULTS travel by harness hand (the persistent series ledger),
+// NOT through the model here — so the condenser's whole job shrinks to naming the open
+// question this cycle could not close and the verb that would close it. μ (join) is the
+// harness appending this delta onto the accumulated ledger; the model only writes δ.
 fn condense_cycle(
     llm: &Llm,
-    seed: &str,
     answer: &str,
     tool_output: &str,
     max_tokens: u32,
     temperature: f32,
 ) -> String {
-    let witness: String = tool_output.chars().take(12000).collect();
-    let ans: String = answer.chars().take(4000).collect();
+    let witness: String = tool_output.chars().take(8000).collect();
+    let ans: String = answer.chars().take(3000).collect();
     let sys = format!(
-        "{}\n\nYou are MoDoT, closing one winding of the Work and writing the opening prompt for the \
-         next. What you write IS the next cycle's starting prompt — it is the only thing that \
-         carries. Nothing else survives.\n\n\
-         You **MUST** carry forward the measured RESULTS: the values the tools actually \
-         returned, named with the call that produced them. A result that is not written here \
-         is lost, and the next cycle will burn a winding re-deriving it.\n\
-         You **MUST** state what remains open as an open question, not as a settled verdict. \
-         The next cycle is to CONTINUE the Work, not to agree with you.\n\
-         You **MUST ONLY** write what a tool in the transcript below actually grounded.\n\
-         You **MUST** name the next reach: the specific thing to measure that this cycle could \
-         not, and the verb that would measure it.\n\n\
-         Write it as a direct prompt addressed to the next cycle. No preamble, no summary of \
-         your own reasoning, no restatement of the framing it already has.",
+        "{}\n\nYou are MoDoT, closing one winding of the Work. Emit ONLY the next reach: the \
+         single open question this cycle could not close, and the verb that would close it. \
+         One or two sentences.\n\n\
+         You **MUST NOT** restate the premise, the theorem, the framing, or your own reasoning — \
+         the next cycle already holds all of that. Writing any of it back is the loop that makes \
+         the series re-derive one answer N times.\n\
+         You **MUST NOT** carry the measured results — the harness carries them verbatim; your \
+         copy would only be a lossy narration of ground the next cycle already has.\n\
+         You **MUST** phrase it as an OPEN question, not a settled verdict: the next cycle \
+         continues the Work, it does not ratify you. If this cycle genuinely closed everything, \
+         name the next structure the closure now makes reachable — the Work does not stop, it \
+         turns to what it just opened.\n\
+         You **MUST ONLY** name a reach a tool in the transcript below actually leaves open.",
         prover::EPISTEMIC_STANCE
     );
     let msgs = vec![
@@ -2575,17 +2583,17 @@ fn condense_cycle(
         (
             "user".to_string(),
             format!(
-                "## The prompt this cycle opened on\n{seed}\n\n\
-                 ## What the tools actually returned this cycle\n{witness}\n\n\
-                 ## This cycle's closing answer\n{ans}\n\n\
-                 Write the next cycle's opening prompt."
+                "## What the tools actually returned this cycle (context only — do NOT copy it \
+                 forward, the harness already carries it)\n{witness}\n\n\
+                 ## This cycle's closing answer (context only)\n{ans}\n\n\
+                 Name the next reach — the open question and its verb, nothing else."
             ),
         ),
     ];
     let res = infer(llm, &msgs, max_tokens, temperature);
     let t = strip_kernel_records(&res.text);
     if t.trim().is_empty() {
-        seed.to_string()
+        "Continue the Work: pursue the reach this cycle left open.".to_string()
     } else {
         t
     }
@@ -5708,13 +5716,22 @@ fn run_one(
     println!("── THINK (outer) ──");
     println!(
         "  δ: one question, wound as cycles the agent sections for itself ({cap_note}).\n\
-         \x20 Each cycle is a set of eagles — TAOU windings — and closes by condensing its\n\
-         \x20 RESULTS into the next cycle's opening prompt: the terminus IS the origin.\n\
+         \x20 Each cycle is a set of eagles — TAOU windings. It closes monadically: the model\n\
+         \x20 writes only δ (the next reach), the harness carries μ (measured results appended\n\
+         \x20 to the series ledger). The premise is never re-injected, so no cycle re-derives it.\n\
          \x20 The series closes when the arms FFUSE, not when the rounds run out."
     );
     println!();
-    // Cycle 1 opens on the question. Every cycle after opens on its predecessor's condensate.
+    // Cycle 1 opens on the question. Every cycle after opens on: the accumulated series
+    // ledger (the monoid — every cycle's measured results, appended, carried by harness
+    // hand) plus the thin condensate (the δ, this cycle's next reach). The premise is NOT
+    // re-injected; it lives in the system prompt and the cycle-1 conversation turn.
     let mut seed: String = question.to_string();
+    // The persistent monoid: measured ground accumulated across the WHOLE series, not one
+    // cycle. Declared out here so it threads through every bind rather than being reborn
+    // each cycle (which stranded all but the last cycle's results — the non-monadicity the
+    // series was looping on).
+    let mut series_ledger = String::new();
     let mut cycle: u32 = 0;
     loop {
         cycle += 1;
@@ -6284,23 +6301,29 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
             capped = true;
             break;
         }
-        // The terminus IS the origin: condense THIS cycle's measured results into the next
-        // cycle's opening prompt. This is the transform that makes the series a closure
-        // rather than a diagonal copy of one question asked N times.
-        println!("── CONDENSE (this cycle's results → the next cycle's opening prompt) ──");
-        seed = condense_cycle(
-            llm, &seed, &answer, &all_tool_output, cli.max_tokens, cli.temperature,
+        // The terminus IS the origin, made monadic. The model writes only δ — the next
+        // reach (condense_cycle no longer sees the premise, so it cannot restate it). μ is
+        // the harness: append THIS cycle's verbatim results onto the persistent series
+        // ledger (the monoid), then build the next seed as ledger ⊕ delta. The premise is
+        // never re-injected; it lives in the system prompt and the cycle-1 conversation.
+        println!("── CONDENSE (this cycle's next reach → δ; harness carries the results → μ) ──");
+        let delta = condense_cycle(
+            llm, &answer, &all_tool_output, cli.max_tokens, cli.temperature,
         );
-        // The measured ground travels by harness hand: append the verbatim ledger to
-        // the condensate, so the next cycle opens on the real tool lines even when the
-        // condensing model dropped them. The condenser writes the reach; the harness
-        // carries the results.
+        // Accumulate this cycle's measured ground into the series-wide monoid.
         if !results_ledger.is_empty() {
-            seed = format!(
-                "{seed}\n\nMEASURED RESULTS LEDGER (harness-carried, verbatim from this cycle's tools — \
-                 ground truth, not narrative; reuse without retesting):\n{results_ledger}"
-            );
+            series_ledger.push_str(&format!("\n[cycle {cycle}]\n{results_ledger}"));
         }
+        seed = if series_ledger.is_empty() {
+            delta
+        } else {
+            format!(
+                "NEXT REACH (the open question to wind on now):\n{delta}\n\n\
+                 MEASURED RESULTS LEDGER (harness-carried, verbatim across the whole series — \
+                 ground truth, not narrative; reuse without retesting, re-check only by calling \
+                 the verb again):{series_ledger}"
+            )
+        };
         println!("{seed}");
         println!();
     }
