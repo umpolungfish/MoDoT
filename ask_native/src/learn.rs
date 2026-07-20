@@ -656,6 +656,65 @@ fn excribe(
     Err("excription parroted or empty on both attempts".into())
 }
 
+/// The anchored excription. Same alphabet, same blind, but the user turn
+/// carries WHERE the word sits: between two named objects, at a stated step,
+/// with the one primitive axis that just re-typed. The domain is NOT assigned
+/// here — the endpoints already fix the domain, and assigning one on top would
+/// fight the anchor (asking for the object between hydrogen_atom and
+/// neutron_star, but in falconry).
+fn excribe_anchored(
+    llm: &crate::Llm,
+    face: Face,
+    w: &[char],
+    taken: &mut Vec<String>,
+    anchor: &str,
+) -> Result<String, String> {
+    let names: Vec<&str> = w.iter().map(|&c| glyph_name(face, c)).collect();
+    let system = format!(
+        "You are the excriber. You are given an IMASM program and told WHERE it sits: on a path \
+         between two named objects. Name the object that occupies that position. Answer with the \
+         identification ALONE: one line, a name or short noun phrase. NEVER use opcode names, \
+         glyphs, or words like fork/fuse/morphism — the answer must stand entirely in its own \
+         domain.\n\n{}\n\n{}",
+        alphabet_table(face),
+        primitives_reference(),
+    );
+    for (attempt, temp) in [0.7f32, 1.1].into_iter().enumerate() {
+        let user = format!(
+            "{anchor}\n\nThe program at this position, {} steps:\n{}{}",
+            w.len(),
+            names.join(" "),
+            if attempt == 0 { "" } else { "\n\n(Answer again, differently; the first answer was rejected.)" },
+        );
+        let res = crate::infer(
+            llm,
+            &[("system".into(), system.clone()), ("user".into(), user)],
+            8192,
+            temp,
+        );
+        if let Some(e) = res.err {
+            return Err(e);
+        }
+        let guess = res
+            .text
+            .lines()
+            .rev()
+            .map(str::trim)
+            .find(|l| !l.is_empty())
+            .map(blind)
+            .unwrap_or_default();
+        if guess.split_whitespace().count() < 2 {
+            continue;
+        }
+        if parroted(&guess, taken) {
+            eprintln!("[churn]   guess parroted ({guess}) → retrying…");
+            continue;
+        }
+        return Ok(guess);
+    }
+    Err("anchored excription parroted or empty on both attempts".into())
+}
+
 /// Enforce the blind: strip every opcode name and glyph (both faces) from the
 /// guess before the imscriber sees it. A model that answers "VINIT begins…"
 /// has smuggled the answer into the detour; μ recovering the word from such an
@@ -727,6 +786,87 @@ fn imscribe(
 // a tuple's verdict does under promotion.
 
 /// Describe the single edit that turns `from` into `to` (they differ by one).
+// ── the churn: one word's round trip ─────────────────────────────────────────
+
+/// A provider error trimmed to its first line. The raw bodies are multi-line
+/// quota prose that buries the report it is printed inside.
+fn one_line(e: &str) -> String {
+    let first = e.lines().next().unwrap_or("").trim().to_string();
+    if first.len() > 160 { format!("{}…", &first[..first.char_indices().nth(160).map_or(first.len(), |(i, _)| i)]) } else { first }
+}
+
+/// What one word's round trip produced.
+struct Churn {
+    object: String,
+    recovered: String,
+    dist: usize,
+    verdict: char,
+    rec_verdict: char,
+}
+
+/// Excribe a word into an object, imscribe the object back into a word, measure
+/// the residual, and fold the result into the knowledge. This is the single
+/// winding of the loop, factored out so the walk (`learn`) and the path
+/// (`path … churn`) drive the SAME round trip rather than two drifting copies.
+/// The word names its own face, so a churn along a face-crossing path reads each
+/// waypoint in the grammar that waypoint actually belongs to.
+fn churn_word(
+    llm: &crate::Llm,
+    knowledge: &mut serde_json::Value,
+    w: &[char],
+    taken: &mut Vec<String>,
+) -> Result<Churn, String> {
+    churn_word_anchored(llm, knowledge, w, taken, None)
+}
+
+/// The round trip, optionally ANCHORED. The anchor is what two named endpoints
+/// buy: an unanchored excriber invents any object whose structure fits the word,
+/// while an anchored one must name the object that sits at a stated position
+/// between two given ones. The word is the same; the space of admissible answers
+/// is enormously smaller, and a wrong guess is then a real error rather than a
+/// different valid reading.
+fn churn_word_anchored(
+    llm: &crate::Llm,
+    knowledge: &mut serde_json::Value,
+    w: &[char],
+    taken: &mut Vec<String>,
+    anchor: Option<&str>,
+) -> Result<Churn, String> {
+    let face = word_face(w).ok_or_else(|| "word mixes both dyads; it is in neither grammar".to_string())?;
+    let cw = word_str(w);
+    eprintln!("[churn] {cw} → excribing…");
+    let object = match anchor {
+        None => excribe(llm, face, w, taken)?,
+        Some(a) => excribe_anchored(llm, face, w, taken, a)?,
+    };
+    eprintln!("[churn]   guess: {object} → imscribing…");
+    let relations_text = nearest_relations(knowledge, &object, 5);
+    let lessons_text = lessons(knowledge);
+    taken.push(object.clone());
+    let recovered = imscribe(llm, face, &object, &lessons_text, &relations_text)?;
+    let rw = word_str(&recovered);
+    let (dist, subs) = residual(w, &recovered);
+    eprintln!("[churn]   recovered {rw} · residual {dist}");
+
+    let mut residuals: Vec<i64> = knowledge["visited"][&cw]["residuals"]
+        .as_array()
+        .map(|a| a.iter().filter_map(|v| v.as_i64()).collect())
+        .unwrap_or_default();
+    residuals.push(dist as i64);
+    let (verdict, rec_verdict) = (verdict_letter(face, w), verdict_letter(face, &recovered));
+    knowledge["visited"][&cw] = serde_json::json!({
+        "guess": object, "recovered": rw, "residual": dist,
+        "residuals": residuals,
+        "verdict": verdict.to_string(), "recovered_verdict": rec_verdict.to_string(),
+    });
+    for (sent, got) in subs {
+        let key = format!("{sent}→{got}");
+        let n = knowledge["confusions"][&key].as_u64().unwrap_or(0);
+        knowledge["confusions"][&key] = serde_json::json!(n + 1);
+    }
+    Ok(Churn { object, recovered: rw, dist, verdict, rec_verdict })
+}
+
 fn describe_edit(from: &[char], to: &[char]) -> String {
     use std::cmp::Ordering;
     match from.len().cmp(&to.len()) {
@@ -761,10 +901,6 @@ fn describe_edit(from: &[char], to: &[char]) -> String {
 /// face's valid single-opcode edits (`neighbors`), the heuristic is the raw
 /// edit distance to the target (admissible — one edit closes at most one unit
 /// of distance). Returns the waypoint sequence A..=B, or None within budget.
-fn promotion_path(face: Face, a: &[char], b: &[char], budget: usize) -> Option<Vec<Vec<char>>> {
-    promotion_path_mode(Mode::Fixed(face), a, b, budget)
-}
-
 fn promotion_path_mode(mode: Mode, a: &[char], b: &[char], budget: usize) -> Option<Vec<Vec<char>>> {
     use std::cmp::Reverse;
     use std::collections::{BinaryHeap, HashMap};
@@ -820,12 +956,194 @@ fn promotion_path_mode(mode: Mode, a: &[char], b: &[char], budget: usize) -> Opt
     None
 }
 
+// ── the tuple path: objects walk in TUPLE space, not glyph space ─────────────
+
+/// The promotion path between two OBJECTS.
+///
+/// An entry's word is twelve type-programs concatenated, so single-glyph edits
+/// between two entries are neither tractable nor meaningful: they would cut
+/// across the type boundaries the word is made of. The object-level space is
+/// the TUPLE — twelve primitive axes, each carrying one of the 49 types — and
+/// the step is one AXIS changing type. Every waypoint is therefore a genuine
+/// object position, its word is the concatenation of its own twelve types, and
+/// the number of steps is exactly the number of axes on which the endpoints
+/// disagree. That is what makes the interior guessable: a waypoint is not an
+/// arbitrary string, it is "hydrogen_atom, but with THIS axis reading as the
+/// star's type", and the catalog may already name the thing sitting there.
+fn tuple_path(a: &str, b: &str, churn: bool) -> String {
+    let mut out = String::new();
+    let (ta, tb) = match (crate::imasm::entry_tuple(a), crate::imasm::entry_tuple(b)) {
+        (Ok(x), Ok(y)) => (x, y),
+        (Err(e), _) | (_, Err(e)) => return format!("imasm path: {e}\n"),
+    };
+    let axes = crate::imasm::TUPLE_ORDER;
+    let differing: Vec<usize> = (0..12).filter(|&i| ta[i] != tb[i]).collect();
+    let _ = writeln!(
+        out,
+        "IMASM promotion path in TUPLE space — one primitive axis re-types per step.\n\
+         from '{a}' → to '{b}'  ·  {} of 12 axes differ  ·  shared: {}",
+        differing.len(),
+        (0..12)
+            .filter(|&i| ta[i] == tb[i])
+            .map(|i| format!("{}{}", axes[i], ta[i]))
+            .collect::<Vec<_>>()
+            .join(" "),
+    );
+    if differing.is_empty() {
+        let _ = writeln!(out, "\nThe two entries carry the SAME tuple: they occupy one position, and there is no path to walk.");
+        return out;
+    }
+
+    // Every entry in the catalog, keyed by tuple, so a waypoint that some
+    // object ALREADY occupies is named rather than guessed. This is ground
+    // truth the loop gets for free: where the catalog names the position, the
+    // excriber's guess can be scored against a real name.
+    let occupants: std::collections::HashMap<String, String> = crate::imasm::catalog_entries()
+        .map(|arr| {
+            arr.iter()
+                .filter_map(|e| {
+                    let name = e.get("name")?.as_str()?.to_string();
+                    let mut key = String::new();
+                    for ax in axes {
+                        key.push_str(e.get(ax)?.as_str()?);
+                    }
+                    Some((key, name))
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+    let key_of = |t: &[String]| t.concat();
+
+    // Walk the differing axes in canonical tuple order: the order the Grammar
+    // itself writes a tuple in, so the walk re-types the object from its ground
+    // (Dimensionality) outward rather than in an order chosen for convenience.
+    let mut cur = ta.clone();
+    let mut waypoints: Vec<(Vec<String>, Option<usize>)> = vec![(cur.clone(), None)];
+    for &i in &differing {
+        cur[i] = tb[i].clone();
+        waypoints.push((cur.clone(), Some(i)));
+    }
+
+    for (step, (t, changed)) in waypoints.iter().enumerate() {
+        let word = crate::imasm::tuple_glyph_word(t).unwrap_or_default();
+        let w: Vec<char> = word.chars().collect();
+        let v = if w.is_empty() { '?' } else { verdict_letter(Face::Classic, &w) };
+        let here = occupants.get(&key_of(t)).cloned();
+        let label = match changed {
+            None => "(start)".to_string(),
+            Some(i) => format!(
+                "← {}: {} → {} ({})",
+                axes[*i],
+                ta[*i],
+                tb[*i],
+                crate::imasm::type_name_for_glyph(&tb[*i]).unwrap_or("?"),
+            ),
+        };
+        let occupied = match &here {
+            Some(n) => format!("   ⇐ the catalog already names this position: '{n}'"),
+            None => String::new(),
+        };
+        let _ = writeln!(out, "  step {step}  [{v}]  {label}{occupied}");
+    }
+
+    if churn {
+        let llm = crate::make_llm(None, None, false);
+        let mut knowledge = load_knowledge();
+        let mut taken: Vec<String> = Vec::new();
+        let _ = writeln!(
+            out,
+            "\nchurning {} interior waypoint(s) — the endpoints are KNOWN, so each guess is an \
+             interpolation between two named objects, not free association · provider {:?}",
+            waypoints.len().saturating_sub(2),
+            llm.provider,
+        );
+        let n = waypoints.len();
+        let (mut scored, mut hit) = (0usize, 0usize);
+        for (step, (t, changed)) in waypoints.iter().enumerate() {
+            if step == 0 || step == n - 1 {
+                continue; // the endpoints are given, not guessed
+            }
+            let Some(i) = changed else { continue };
+            let word = match crate::imasm::tuple_glyph_word(t) {
+                Ok(w) => w,
+                Err(e) => {
+                    let _ = writeln!(out, "  step {step}  → no word: {e}");
+                    continue;
+                }
+            };
+            let w: Vec<char> = word.chars().collect();
+            let truth = occupants.get(&key_of(t)).cloned();
+            let anchor = format!(
+                "This word is step {step} of {} on a path from the object '{a}' to the object \
+                 '{b}'. The two are the same in {} of their twelve primitive axes; this step is \
+                 the one where the axis {} re-types from {} ({}) to {} ({}). Name the object that \
+                 sits HERE: it must be recognisably between '{a}' and '{b}', and it must differ \
+                 from '{a}' in exactly the way that axis names.",
+                n - 1,
+                12 - differing.len(),
+                axes[*i],
+                ta[*i],
+                crate::imasm::type_name_for_glyph(&ta[*i]).unwrap_or("?"),
+                tb[*i],
+                crate::imasm::type_name_for_glyph(&tb[*i]).unwrap_or("?"),
+            );
+            match churn_word_anchored(&llm, &mut knowledge, &w, &mut taken, Some(&anchor)) {
+                Err(e) => {
+                    let _ = writeln!(out, "  step {step}  → churn failed: {}", one_line(&e));
+                }
+                Ok(c) => {
+                    let verdict = match &truth {
+                        None => String::new(),
+                        Some(name) => {
+                            scored += 1;
+                            let g = c.object.to_ascii_lowercase();
+                            let nm = name.to_ascii_lowercase();
+                            let overlap = nm
+                                .split('_')
+                                .any(|part| part.len() > 3 && g.contains(part));
+                            if overlap {
+                                hit += 1;
+                                format!("   ✓ the catalog names this position '{name}' — the guess touches it")
+                            } else {
+                                format!("   ✗ the catalog names this position '{name}'")
+                            }
+                        }
+                    };
+                    let _ = writeln!(
+                        out,
+                        "  step {step}  guess: {}  · residual {} on the round trip{}",
+                        c.object.replace('\n', " "),
+                        c.dist,
+                        verdict,
+                    );
+                }
+            }
+        }
+        if let Err(e) = save_knowledge(&knowledge) {
+            let _ = writeln!(out, "  [knowledge did not persist: {e}]");
+        }
+        if scored > 0 {
+            let _ = writeln!(
+                out,
+                "\n{hit} of {scored} guessed waypoint(s) touched the name the catalog already \
+                 carries at that position. Those positions are the scored ones; the rest are \
+                 unoccupied, and the guess there is a PROPOSAL for an object that would sit \
+                 between the endpoints."
+            );
+        }
+    }
+    out
+}
+
 pub fn path(rest: &[String]) -> String {
     // Drop only genuine parameter tokens (`rounds=…`). A bare `=` is CLINK, a
     // real opcode: filtering on "contains '='" ate any word carrying it.
     let is_param = |s: &str| {
         ["rounds=", "breadth=", "fixed=", "budget="].iter().any(|p| s.starts_with(p))
+            || s == "churn"
     };
+    // `churn` after the two words runs the loop's round trip on every waypoint.
+    let churn = rest.iter().any(|s| s == "churn");
     let words: Vec<&String> = rest.iter().filter(|s| !is_param(s)).collect();
     if words.len() < 2 {
         return "imasm path needs two words: imasm path '<A>' '<B>'\n\
@@ -835,7 +1153,41 @@ pub fn path(rest: &[String]) -> String {
                 analogue of a tuple's promotion path.\n"
             .into();
     }
-    let (raw_a, raw_b) = (words[0], words[1]);
+    // An endpoint may be given as a glyph word OR as a CATALOG ENTRY NAME. An
+    // entry already carries its twelve type-glyphs, and each type is itself an
+    // IMASM program, so the entry's word is deterministic: no model is asked
+    // what an object's word is. Naming the endpoints as objects is what makes
+    // the interior tractable — every waypoint sits a known number of edits from
+    // two NAMED things, so excribing it is interpolation, not free association.
+    let resolve = |raw: &str| -> (String, Option<String>) {
+        let looks_glyphic = !raw.chars().any(|c| c.is_alphanumeric());
+        if looks_glyphic {
+            (raw.to_string(), None)
+        } else {
+            match crate::imasm::entry_glyph_word(raw) {
+                Ok(w) => (w, Some(raw.to_string())),
+                Err(_) => (raw.to_string(), None),
+            }
+        }
+    };
+    let (word_a, obj_a) = resolve(words[0]);
+    let (word_b, obj_b) = resolve(words[1]);
+    // Two OBJECTS walk in tuple space, where a step is one primitive axis
+    // re-typing; only words walk in glyph space.
+    if let (Some(a), Some(b)) = (&obj_a, &obj_b) {
+        return tuple_path(a, b, churn);
+    }
+    if obj_a.is_some() != obj_b.is_some() {
+        return format!(
+            "imasm path: '{}' is a catalog entry and '{}' is not. Give two entries (they walk in \
+             tuple space, one primitive axis per step) or two glyph words (they walk in glyph \
+             space, one opcode per step). The two spaces do not mix: an entry's word is twelve \
+             type-programs concatenated, and a single-glyph edit inside it cuts across the types \
+             the word is made of.\n",
+            words[0], words[1],
+        );
+    }
+    let (raw_a, raw_b) = (&word_a, &word_b);
     // Each endpoint names its OWN face. Reading both in one face would silently
     // drop the other dyad (the tri parser eats ◇ and ●) and report a word nobody
     // asked about; when the faces differ, the walk CROSSES instead. The faces
@@ -921,6 +1273,93 @@ pub fn path(rest: &[String]) -> String {
                      but the interior leaves it."
                 ),
             };
+
+            // `churn`: run the loop's round trip on every waypoint. The path
+            // supplies a route the walk could not find on its own — the walk
+            // moves to its worst neighbor and can circle one region, while the
+            // path is a straight line between two named programs, crossing
+            // faces if it must. Churning it reads the residual as a PROFILE
+            // along the route: where the model's reading of the grammar is
+            // thin is a place on the path, not a scattered set of words.
+            if churn {
+                let llm = crate::make_llm(None, None, false);
+                let mut knowledge = load_knowledge();
+                let mut taken: Vec<String> = knowledge
+                    .get("visited")
+                    .and_then(|v| v.as_object())
+                    .map(|m| {
+                        m.values()
+                            .filter_map(|r| r["guess"].as_str().map(str::to_string))
+                            .collect()
+                    })
+                    .unwrap_or_default();
+                let _ = writeln!(
+                    out,
+                    "\nchurning {} waypoint(s) — excribe → imscribe → residual · provider {:?}",
+                    p.len(),
+                    llm.provider,
+                );
+                let mut profile: Vec<(String, Option<usize>)> = Vec::new();
+                for w in &p {
+                    let cw = word_str(w);
+                    match churn_word(&llm, &mut knowledge, w, &mut taken) {
+                        Err(e) => {
+                            let _ = writeln!(out, "  {cw}  → churn failed: {}", one_line(&e));
+                            profile.push((cw, None));
+                        }
+                        Ok(c) => {
+                            let _ = writeln!(
+                                out,
+                                "  {cw} [{}]  →  {} [{}]  residual {}{}\n      guess: {}",
+                                c.verdict,
+                                c.recovered,
+                                c.rec_verdict,
+                                c.dist,
+                                if c.dist == 0 { " — μ∘δ = id" } else { "" },
+                                c.object.replace('\n', " "),
+                            );
+                            profile.push((cw, Some(c.dist)));
+                        }
+                    }
+                }
+                if let Err(e) = save_knowledge(&knowledge) {
+                    let _ = writeln!(out, "  [knowledge did not persist: {e}]");
+                }
+                let read: Vec<usize> = profile.iter().filter_map(|(_, d)| *d).collect();
+                if read.is_empty() {
+                    let _ = writeln!(out, "\nno waypoint completed the round trip.");
+                } else {
+                    let bar: String = profile
+                        .iter()
+                        .map(|(_, d)| match d {
+                            None => '?',
+                            Some(0) => '.',
+                            Some(n) if *n < 10 => char::from_digit(*n as u32, 10).unwrap_or('#'),
+                            Some(_) => '#',
+                        })
+                        .collect();
+                    let mean = read.iter().sum::<usize>() as f64 / read.len() as f64;
+                    let worst = profile
+                        .iter()
+                        .filter_map(|(w, d)| d.map(|d| (d, w)))
+                        .max_by_key(|(d, _)| *d);
+                    let _ = writeln!(
+                        out,
+                        "\nresidual profile along the path: {bar}   (. = μ∘δ = id, digit = residual, \
+                         # = ten or more, ? = no round trip)\n{} of {} waypoints round-tripped · \
+                         mean residual {mean:.2}",
+                        read.len(),
+                        p.len(),
+                    );
+                    if let Some((d, w)) = worst {
+                        let _ = writeln!(
+                            out,
+                            "thinnest reading at {w} (residual {d}) — the place on this route \
+                             where the model least recovers what it was given."
+                        );
+                    }
+                }
+            }
         }
     }
     out
@@ -985,7 +1424,8 @@ pub fn run(rest: &[String]) -> String {
     let mut residual_sum = 0usize;
 
     for round in 1..=rounds {
-        let lessons_text = lessons(&knowledge);
+        // The lessons are refreshed inside each round trip, so a confusion
+        // recorded on one word rides the very next word's prompt.
         let visited_words: Vec<String> = knowledge
             .get("visited")
             .and_then(|v| v.as_object())
@@ -1004,70 +1444,33 @@ pub fn run(rest: &[String]) -> String {
         let mut frontier: Option<(usize, Vec<char>)> = None;
         for cand in hood {
             let cw = word_str(&cand);
-            let cand_v = verdict_letter(face, &cand);
             // The loop is minutes-long over a network provider; speak each arm as it
             // happens, or the operator reads a hung process where a winding is running.
-            eprintln!("[learn] round {round} · {cw} → excribing…");
-            let (rec_res, object) = match excribe(&llm, face, &cand, &taken_guesses) {
+            let dist = match churn_word(&llm, &mut knowledge, &cand, &mut taken_guesses) {
                 Err(e) => {
-                    let _ = writeln!(out, "  {cw}  → excribe failed: {e}");
+                    let _ = writeln!(out, "  {cw}  → round trip failed: {}", one_line(&e));
                     continue;
                 }
-                Ok(object) => {
-                    eprintln!("[learn]   guess: {object} → imscribing…");
-                    // Retrieve the nearest confirmed relations BEFORE recording
-                    // this object, so it never cites itself.
-                    let relations_text = nearest_relations(&knowledge, &object, 5);
-                    taken_guesses.push(object.clone());
-                    (imscribe(&llm, face, &object, &lessons_text, &relations_text), object)
+                Ok(c) => {
+                    tested += 1;
+                    residual_sum += c.dist;
+                    if c.dist == 0 {
+                        perfect += 1;
+                    }
+                    let _ = writeln!(
+                        out,
+                        "  {cw} [{}]  →(excribe)→(imscribe)→  {} [{}]  residual {}{}{}\n      guess: {}",
+                        c.verdict,
+                        c.recovered,
+                        c.rec_verdict,
+                        c.dist,
+                        if c.dist == 0 { " — μ∘δ = id" } else { "" },
+                        if c.verdict != c.rec_verdict { "  · verdict drifted" } else { "" },
+                        c.object.replace('\n', " "),
+                    );
+                    c.dist
                 }
             };
-            let recovered = match rec_res {
-                Err(e) => {
-                    let _ = writeln!(out, "  {cw}  → imscribe failed: {e}");
-                    continue;
-                }
-                Ok(r) => r,
-            };
-            let rw = word_str(&recovered);
-            let rec_v = verdict_letter(face, &recovered);
-            let (dist, subs) = residual(&cand, &recovered);
-            eprintln!("[learn]   recovered {rw} · residual {dist}");
-            tested += 1;
-            residual_sum += dist;
-            if dist == 0 {
-                perfect += 1;
-            }
-            let _ = writeln!(
-                out,
-                "  {cw} [{cand_v}]  →(excribe)→(imscribe)→  {rw} [{rec_v}]  \
-                 residual {dist}{}{}\n      guess: {}",
-                if dist == 0 { " — μ∘δ = id" } else { "" },
-                if cand_v != rec_v { "  · verdict drifted" } else { "" },
-                object.replace('\n', " "),
-            );
-
-            // The guess IS the record's centre: the word went out as this
-            // object and came home as the recovered word. Keep all three, AND
-            // append this visit's residual to the word's own history rather than
-            // overwriting it: a word seen in an early run and again later then
-            // carries its before/after, the learning signal that is immune to
-            // the walk drifting onto easier or harder territory.
-            let mut residuals: Vec<i64> = knowledge["visited"][&cw]["residuals"]
-                .as_array()
-                .map(|a| a.iter().filter_map(|v| v.as_i64()).collect())
-                .unwrap_or_default();
-            residuals.push(dist as i64);
-            knowledge["visited"][&cw] = serde_json::json!({
-                "guess": object, "recovered": rw, "residual": dist,
-                "residuals": residuals,
-                "verdict": cand_v.to_string(), "recovered_verdict": rec_v.to_string(),
-            });
-            for (sent, got) in subs {
-                let key = format!("{sent}→{got}");
-                let n = knowledge["confusions"][&key].as_u64().unwrap_or(0);
-                knowledge["confusions"][&key] = serde_json::json!(n + 1);
-            }
             if frontier.as_ref().map(|(d, _)| dist > *d).unwrap_or(true) {
                 frontier = Some((dist, cand));
             }

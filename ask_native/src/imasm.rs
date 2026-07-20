@@ -856,7 +856,7 @@ fn run_tool(rest: &[String]) -> String {
 
 /// Resolve `rest` to a graph: a defined tool name, else a raw opcode word.
 /// The twelve axes in canonical tuple order — the order an entry's types compose in.
-const TUPLE_ORDER: [&str; 12] = ["Ð","Þ","Ř","Φ","ƒ","Ç","Γ","ɢ","⊙","Ħ","Σ","Ω"];
+pub(crate) const TUPLE_ORDER: [&str; 12] = ["Ð","Þ","Ř","Φ","ƒ","Ç","Γ","ɢ","⊙","Ħ","Σ","Ω"];
 
 /// A catalog entry, expanded into the IMASM program it IS.
 ///
@@ -891,6 +891,137 @@ fn expand_entry(name: &str) -> Result<(String, Vec<Token>, Vec<(usize, usize)>),
         return Err(format!("'{name}' expanded to no opcodes — its glyphs are outside the 49"));
     }
     Ok((format!("entry '{name}' ({})", used.join(" ")), ops, pairs))
+}
+
+/// The catalog, loaded once: the whole entry list as parsed JSON.
+pub(crate) fn catalog_entries() -> Result<Vec<serde_json::Value>, String> {
+    let path = crate::resolve_catalog_path().ok_or("no catalog on this host")?;
+    let text = std::fs::read_to_string(&path).map_err(|e| format!("read catalog: {e}"))?;
+    let v: serde_json::Value = serde_json::from_str(&text).map_err(|e| format!("parse catalog: {e}"))?;
+    v.as_array().cloned().ok_or_else(|| "catalog is not a list".to_string())
+}
+
+/// The twelve type-glyphs of a named entry, in canonical tuple order.
+pub(crate) fn entry_tuple(name: &str) -> Result<Vec<String>, String> {
+    let want = name.trim().to_ascii_lowercase();
+    let arr = catalog_entries()?;
+    let entry = arr
+        .iter()
+        .find(|e| e.get("name").and_then(|n| n.as_str()).map(|n| n.to_ascii_lowercase()) == Some(want.clone()))
+        .ok_or_else(|| format!("'{name}' is not a catalog entry"))?;
+    let mut out = Vec::new();
+    for axis in TUPLE_ORDER {
+        let g = entry.get(axis).and_then(|g| g.as_str())
+            .ok_or_else(|| format!("'{name}' has no {axis} axis"))?;
+        out.push(g.to_string());
+    }
+    Ok(out)
+}
+
+/// The glyph word a TUPLE is: each type-glyph unfolded into its own opcode
+/// sequence, concatenated in canonical order. The same construction
+/// `entry_glyph_word` performs, lifted off the catalog so an INTERMEDIATE
+/// tuple — a position no entry occupies yet — has a word too.
+pub(crate) fn tuple_glyph_word(tuple: &[String]) -> Result<String, String> {
+    let mut ops: Vec<Token> = Vec::new();
+    for g in tuple {
+        let tname = type_name_for_glyph(g).ok_or_else(|| format!("glyph {g} is outside the 49"))?;
+        let (t_ops, _p, _a) = expand_type(tname)?;
+        ops.extend(t_ops);
+    }
+    Ok(ops.iter().map(|t| t.code()).collect())
+}
+
+/// The glyph word a catalog entry IS: its twelve type-glyphs unfolded into their
+/// own opcode sequences, in canonical tuple order. Deterministic — the entry
+/// already carries the types, so no model is asked what an object's word is.
+pub fn entry_glyph_word(name: &str) -> Result<String, String> {
+    let (_label, ops, _pairs) = expand_entry(name)?;
+    Ok(ops.iter().map(|t| t.code()).collect())
+}
+
+/// THE RETURN LEG: an IMASM word read back into the twelve primitive types it
+/// was written from. The forward leg (type → program, tuple → word) was always
+/// here; this is the μ to that δ, and running both closes the cycle
+/// primitives → imasm → primitives → imasm.
+///
+/// The read is exact wherever it can be: a word is twelve ⊢…⊣ segments, each
+/// segment is some type's own program, and the axis a segment sits at restricts
+/// which of the 49 types could have written it. The cycle is NOT total, and the
+/// obstruction is precise: the 49 types emit only 47 distinct programs. `loll`
+/// and `yew` collide but occupy different axes (Ç and Φ), so position separates
+/// them; `ear` and `tot` collide AND share axis Ř, so a Ř segment reading as
+/// that program has two pre-images and the return leg reports BOTH rather than
+/// choosing. That ambiguity is a fact about the type alphabet, not a defect
+/// here, and it is why the cycle closes to within one axis and not exactly.
+pub(crate) fn tuple_from_word(word: &str) -> Result<Vec<Vec<String>>, String> {
+    // Segment on the boundary pair: each ⊢…⊣ is one type's whole program.
+    let mut segments: Vec<String> = Vec::new();
+    let mut cur = String::new();
+    for c in word.chars() {
+        cur.push(c);
+        if c == '⊣' {
+            segments.push(std::mem::take(&mut cur));
+        }
+    }
+    if segments.len() != 12 {
+        return Err(format!(
+            "a tuple's word is twelve ⊢…⊣ programs; this word carries {}",
+            segments.len()
+        ));
+    }
+    // Every type's own word, computed once from the same expansion the forward
+    // leg uses — the two legs cannot drift, because there is only one table.
+    let mut type_word: Vec<(&str, String)> = Vec::new();
+    for (_g, tname) in GLYPH_TYPE_NAME {
+        if let Ok((ops, _p, _a)) = expand_type(tname) {
+            type_word.push((tname, ops.iter().map(|t| t.code()).collect()));
+        }
+    }
+    let mut out: Vec<Vec<String>> = Vec::new();
+    for (i, seg) in segments.iter().enumerate() {
+        let axis = TUPLE_ORDER[i];
+        let mut hits: Vec<String> = Vec::new();
+        for (tname, tw) in &type_word {
+            if tw != seg {
+                continue;
+            }
+            // The glyph of this type, kept only if the axis admits it.
+            let Some((g, _)) = GLYPH_TYPE_NAME.iter().find(|(_, n)| n == tname) else { continue };
+            if axis_admits(axis, g) {
+                hits.push(g.to_string());
+            }
+        }
+        if hits.is_empty() {
+            return Err(format!("segment {} (axis {axis}) matches no type's program", i + 1));
+        }
+        out.push(hits);
+    }
+    Ok(out)
+}
+
+/// Whether an axis is ever written with a given type-glyph, read off the live
+/// catalog. This is what makes position load-bearing in the return leg: the
+/// alphabet is 49 types, but each axis draws from its own subset.
+fn axis_admits(axis: &str, glyph: &str) -> bool {
+    use std::collections::HashSet;
+    use std::sync::OnceLock;
+    static SEEN: OnceLock<HashSet<String>> = OnceLock::new();
+    let seen = SEEN.get_or_init(|| {
+        let mut set = HashSet::new();
+        if let Ok(arr) = catalog_entries() {
+            for e in &arr {
+                for ax in TUPLE_ORDER {
+                    if let Some(g) = e.get(ax).and_then(|g| g.as_str()) {
+                        set.insert(format!("{ax}{g}"));
+                    }
+                }
+            }
+        }
+        set
+    });
+    // An empty catalog must not silently reject everything.
+    seen.is_empty() || seen.contains(&format!("{axis}{glyph}"))
 }
 
 fn resolve_graph(rest: &[String]) -> Result<(String, Graph), String> {
