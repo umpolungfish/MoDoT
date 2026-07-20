@@ -399,6 +399,7 @@ Engineering guarantees:
   imasm eval16 <name|entry|word> [seed=A|Tf|…]    flow, full SIXTEEN_3
   imasm compose <new> <A> <B>  bind living ends, register
   imasm chaos <A> <B> [C… ≤6]  the possibility state space
+  imasm learn <word> [rounds=N] [breadth=K]   the excription learning loop (Part XIV)
   imasm export                 manifest for the surface
   imasm ref                    the live rules (authoritative over this file)
   imasm types / expand <type>  the 49 Shavian types (each itself a program)
@@ -443,6 +444,27 @@ Pitfalls, all load-bearing:
 - Treating the classic and trilattice faces as separate languages. They share
   the register, the ancestry rule, the close condition, the flow semantics, and
   the composition law; the differences are arity and the information-layer bits.
+
+## Part XIV. The Excription Loop: imasm learn
+
+`imasm learn <word> [rounds=N] [breadth=K]` runs verification as imscription on
+a MODEL. Each round it takes the neighborhood of the current word (single-opcode
+substitutions, insertions, deletions; the boundary turnstiles held fixed; only
+grammar-valid candidates admitted), and for each candidate the model excribes
+the word into an OBJECT: a numbered process in a real domain that never names
+an opcode. A second reading imscribes the object alone back into a word. Both
+words are checked, and the residual is the token edit distance between the word
+sent and the word recovered: residual zero is the round trip closing, the
+operational statement that the model's excription and imscription compose to
+the identity on that word.
+
+Where the residual is not zero, the aligned confusions (which opcode was sent,
+which came back) are counted into ob3ects/imasm_knowledge.json, distilled into
+lessons, and the lessons ride the imscriber's next prompt: the knowledge update
+is the part of the record that changes the next reading. The walk then moves to
+the highest-residual candidate, so the loop spends its rounds at the frontier
+of its own ignorance. The knowledge file persists atomically, same discipline
+as the tool registry.
 
 ## Related documents
 

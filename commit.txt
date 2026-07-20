@@ -1,13 +1,24 @@
-The Imscriber's Guide to IMASM
+I built the excription learning loop and the batch admission gate.
 
-One comprehensive reading coagulated from IMASM_QUICKREF.md,
-IMASM_DYNAMICS.md, and md/imasm_composition_rules.md, all three retired.
-Classic 12-opcode tower and the SIXTEEN_3 trilattice face presented as
-one continuous grammar family: alphabet, word-to-graph verbs, ancestry
-pairing, the close condition, verdicts, topology, the carrier and gates,
-the three-verdict discipline, composition law, ChaosComposer and the
-laws of flow, op-opcodes, the 49-type strange loop, where the engine
-lives (imasm_core check.rs through to the mOMonadOS vita gate), the
-surface, guarantees, verb index, canonical words, and pitfalls. Nothing
-dropped; the additions are the parts the old docs predated. Authority
-unchanged: where the guide and a live tool disagree, the tool is right.
+imasm learn <word> [rounds=N] [breadth=K] (ask_native/src/learn.rs): one model
+takes a word, iterates its grammar-valid single-edit neighborhood (boundary
+turnstiles held fixed), excribes each candidate into a standalone domain object
+that never names an opcode, imscribes the OBJECT back into a word, checks both
+words, and measures the residual as token edit distance. Residual zero is the
+round trip closing over the model itself. Aligned confusions persist atomically
+to ob3ects/imasm_knowledge.json, distill into lessons that ride the imscriber's
+next prompt, and the walk moves to the highest-residual candidate: the loop
+spends its rounds at the frontier of its own ignorance. Guide gains Part XIV.
+
+The batch admission gate (main.rs): a round's tool calls are judged AS A BATCH
+before any runs. One improper call (unknown verb, pasted ellipsis, or a name
+absent from the catalog) refuses the whole round unrun, each call's verdict is
+spoken back, and the agent resubmits properly formatted. A missing imscription
+is initiated BY THE GATE (the same procedural mint the imscribe verb runs,
+capped per round against mint runaways), so the reissued call finds its entry.
+Separators, key=value options, numbers, glyphs, and the twelve axis words are
+never misread as name slots; near-matches and decoration/ladder bases pass.
+
+Verified: cargo build green; 117/117 tests pass, including three new learn
+tests (residual alignment, neighborhood boundary+grammar invariants, verdict
+parity with imasm check) and three new admission-gate tests.

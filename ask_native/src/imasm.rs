@@ -446,7 +446,7 @@ fn parse_codons(chunk: &str) -> Option<Vec<Token>> {
     (!out.is_empty()).then_some(out)
 }
 
-fn tok_list(args: &[String]) -> Vec<Token> {
+pub(crate) fn tok_list(args: &[String]) -> Vec<Token> {
     args.iter()
         .flat_map(|s| s.split_whitespace())
         // Whole-token/alias first (VINIT, FS, →); only a chunk that is NOT a known token is
@@ -1574,6 +1574,7 @@ pub fn run(args: &[String]) -> String {
         "eval16" | "flow16" => eval_tool(rest, true),
         // The trilattice sibling, CLI-reachable: `--imasm 16_3 check ⊢∈…∋⊣`.
         "16_3" | "tri" | "imasm16_3" => crate::imasm16_3::run(rest),
+        "learn" | "study" => crate::learn::run(rest),
         "compose" | "bind" => compose_tool(rest),
         "chaos" | "space" => chaos_tool(rest),
         "export" | "manifest" => export_tools(),

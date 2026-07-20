@@ -34,6 +34,7 @@ mod arev;
 mod dialect;
 mod imasm;
 pub(crate) use imasm_core::imasm16_3;
+mod learn;
 #[cfg(feature = "local")]
 mod local;
 mod prover;
@@ -4724,6 +4725,184 @@ fn tool_miss_message(verb: &str, args: &[String]) -> String {
     }
 }
 
+// ── batch admission gate ─────────────────────────────────────────────────────
+// A round's tool calls are admitted or refused AS A BATCH, before any of them
+// runs. One improper call refuses the whole round: nothing executes, every call
+// gets its verdict spoken back, and the agent resubmits the round properly
+// formatted. When the impropriety is a MISSING IMSCRIPTION — a call naming a
+// catalog entry that does not exist — the gate initiates the imscription itself
+// (the same procedural mint the `imscribe` verb runs), then instructs the agent
+// to reissue the original call, which now finds its entry. All-or-nothing keeps
+// a half-run round from measuring a catalog state its own later calls were
+// about to change.
+
+/// The gate's verdict on one call.
+enum CallAdmission {
+    Proper,
+    /// Malformed: unknown verb, pasted example text, or a shape the verb cannot take.
+    Improper(String),
+    /// Well-formed, but these named entries are not in the catalog yet.
+    MissingImscription(Vec<String>),
+}
+
+/// Verbs whose arguments are catalog entry names (the doc'd structural verbs that
+/// look entries up). Free-text verbs (imscribe, ob3ect), dispatchers (imasm, calc,
+/// dialect), and writers are deliberately absent: their args are not lookups.
+const NAME_ARG_VERBS: &[&str] = &[
+    "click", "switch", "excite", "ascend", "filter", "phase_reconstruct", "set",
+    "homolyze", "recalibrate", "annihilate", "scan", "complement", "cycle", "pathway",
+    "polymerize", "star", "broadcast", "plasma", "close", "material", "modulus",
+    "arrange", "forge", "compare", "dope", "fuse", "cleave", "anneal", "recall",
+];
+
+/// Does this argument occupy a NAME slot? Separators (`vs`), key=value options,
+/// numbers, single glyphs, and the 12 primitive-axis words are arguments too, but
+/// they are not entry lookups and must never read as a missing imscription.
+fn arg_is_name_slot(arg: &str) -> bool {
+    const AXIS_WORDS: &[&str] = &[
+        "dimensionality", "topology", "relational", "relationality", "polarity",
+        "grammar", "fidelity", "kinetics", "kinetic", "granularity", "criticality",
+        "protection", "stoichiometry", "chirality",
+    ];
+    if arg == "vs" || arg.contains('=') || arg.chars().count() <= 1 {
+        return false;
+    }
+    if arg.chars().all(|c| c.is_ascii_digit() || c == '.' || c == '-') {
+        return false;
+    }
+    !AXIS_WORDS.contains(&arg.to_lowercase().as_str())
+}
+
+/// Statically judge one call, without running it.
+fn admit_call(verb: &str, args: &[String]) -> CallAdmission {
+    if !is_known_verb(verb) {
+        return CallAdmission::Improper(format!(
+            "not an available verb. Available verbs: {}.",
+            STRUCTURAL_VERBS.join(", ")
+        ));
+    }
+    if args.iter().any(|a| a.contains('…')) {
+        return CallAdmission::Improper(
+            "an argument contains the literal ellipsis '…' — pasted example text, not a name. \
+             Write the ACTUAL names."
+                .into(),
+        );
+    }
+    if NAME_ARG_VERBS.contains(&verb) {
+        let missing: Vec<String> = args
+            .iter()
+            .filter(|a| arg_is_name_slot(a))
+            .filter(|a| {
+                !catalog_has_name(a)
+                    && catalog_near_match(a).is_none()
+                    && decoration_ladder_base(a).is_none()
+                    && state_ladder_base(a).is_none()
+            })
+            .cloned()
+            .collect();
+        if !missing.is_empty() {
+            return CallAdmission::MissingImscription(missing);
+        }
+    }
+    CallAdmission::Proper
+}
+
+/// Judge the whole batch. `Ok(())` admits every call; `Err(report)` refuses the
+/// round — the report carries each call's verdict, the imscriptions the gate
+/// initiated for missing names, and the reissue instruction. Auto-initiation is
+/// capped so a pathological batch cannot mint a runaway of entries.
+fn admit_batch(calls: &[(String, Vec<String>)]) -> Result<(), String> {
+    const MAX_AUTO_IMSCRIBE: usize = 4;
+    let mut lines: Vec<String> = Vec::new();
+    let mut missing_names: Vec<String> = Vec::new();
+    let mut refused = false;
+    for (verb, args) in calls {
+        let sig = format!("{verb} {}", args.join(" "));
+        match admit_call(verb, args) {
+            CallAdmission::Proper => lines.push(format!("  ✓ {sig} — proper (did NOT run; reissue it)")),
+            CallAdmission::Improper(why) => {
+                refused = true;
+                lines.push(format!("  ✗ {sig} — {why}"));
+            }
+            CallAdmission::MissingImscription(names) => {
+                refused = true;
+                lines.push(format!(
+                    "  ✗ {sig} — missing imscription: [{}] not in the catalog",
+                    names.join(", ")
+                ));
+                for n in names {
+                    if !missing_names.contains(&n) {
+                        missing_names.push(n);
+                    }
+                }
+            }
+        }
+    }
+    if !refused {
+        return Ok(());
+    }
+    let mut report = format!(
+        "### BATCH ADMISSION — REFUSED (all-or-nothing)\n\
+         The round's {} call(s) were checked as a batch BEFORE running. At least one was \
+         improper, so NONE ran:\n{}\n",
+        calls.len(),
+        lines.join("\n"),
+    );
+    if !missing_names.is_empty() {
+        report.push_str("\nIMSCRIPTION INITIATED by the gate for the missing name(s):\n");
+        for n in missing_names.iter().take(MAX_AUTO_IMSCRIBE) {
+            let description =
+                atomic_token_seed(n).unwrap_or_else(|| n.replace('_', " "));
+            let out = run_imscribe(n, &description);
+            report.push_str(&format!("### imscribe {n} (gate-initiated)\n{out}\n"));
+        }
+        for n in missing_names.iter().skip(MAX_AUTO_IMSCRIBE) {
+            report.push_str(&format!(
+                "### imscribe {n} — NOT initiated (per-round cap of {MAX_AUTO_IMSCRIBE}); \
+                 imscribe it yourself if it is real\n"
+            ));
+        }
+    }
+    report.push_str(
+        "\nRectify and RESUBMIT: emit the whole round again next round, properly formatted — \
+         the proper calls above included, since nothing ran. A call whose missing entry was \
+         just imscribed can be reissued verbatim.\n",
+    );
+    Err(report)
+}
+
+#[cfg(test)]
+mod admission_gate_tests {
+    use super::*;
+
+    #[test]
+    fn name_slots_exclude_separators_options_numbers_glyphs_axes() {
+        for not_a_name in ["vs", "seed=B", "42", "0.5", "Ħ", "chirality", "protection"] {
+            assert!(!arg_is_name_slot(not_a_name), "{not_a_name} misread as a name slot");
+        }
+        assert!(arg_is_name_slot("perfect_cuboid_proof"));
+    }
+
+    #[test]
+    fn unknown_verb_and_pasted_ellipsis_are_improper() {
+        assert!(matches!(admit_call("clik", &["a".into()]), CallAdmission::Improper(_)));
+        assert!(matches!(
+            admit_call("forge", &["M1 M2…".into()]),
+            CallAdmission::Improper(_)
+        ));
+    }
+
+    #[test]
+    fn absent_entry_reads_as_missing_imscription_not_malformed() {
+        match admit_call("forge", &["zz_admission_gate_absent_zz".into()]) {
+            CallAdmission::MissingImscription(names) => {
+                assert_eq!(names, vec!["zz_admission_gate_absent_zz".to_string()]);
+            }
+            _ => panic!("absent entry must read as a missing imscription"),
+        }
+    }
+}
+
 /// Is a name already registered — in the base IG_catalog.json OR the live
 /// ~/.imscrbgrmr/catalog.json? Cheap `"name": "…"` substring check, matching the guard in
 /// register_chimera. Used to skip a wasted generate call for an entry that already exists.
@@ -6080,7 +6259,24 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
                          Read them, then emit `TOOL: cycle_close` ALONE in its own round to close.\n",
                     );
                 }
+                // ── the batch admission gate: all-or-nothing. One improper call and the
+                // whole round is refused unrun; a missing imscription is initiated by the
+                // gate and the call reissued by the agent next round.
+                let admitted = match admit_batch(&calls) {
+                    Ok(()) => true,
+                    Err(report) => {
+                        println!("── BATCH REFUSED — {} call(s) arrived, none ran (admission gate) ──", calls.len());
+                        for (verb, args) in calls.iter() {
+                            record_tool_call(cycle, round + 1, verb, args, "refused", "batch admission refused");
+                        }
+                        results.push_str(&report);
+                        false
+                    }
+                };
                 for (verb, args) in calls.iter() {
+                    if !admitted {
+                        break;
+                    }
                     let sig = format!("{verb} {}", args.join(" "));
                     // A literal ellipsis is un-substituted example text, not a name; every
                     // such call misses, and silently running it would corrupt the reading.
