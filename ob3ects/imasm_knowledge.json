@@ -1,114 +1,114 @@
 {
   "confusions": {
-    "+→<": 73,
-    "+→=": 52,
-    "+→>": 96,
-    "+→~": 12,
-    "+→¬": 19,
+    "+→<": 75,
+    "+→=": 54,
+    "+→>": 100,
+    "+→~": 15,
+    "+→¬": 21,
     "+→×": 70,
-    "+→∈": 71,
-    "+→∋": 14,
+    "+→∈": 75,
+    "+→∋": 16,
     "+→≁": 6,
     "+→⊙": 46,
-    "+→⊞": 10,
+    "+→⊞": 11,
     "+→◇": 2,
     "+→●": 3,
-    "<→+": 78,
-    "<→=": 53,
-    "<→>": 57,
+    "<→+": 81,
+    "<→=": 60,
+    "<→>": 60,
     "<→~": 4,
-    "<→¬": 36,
-    "<→×": 24,
-    "<→∈": 21,
+    "<→¬": 41,
+    "<→×": 25,
+    "<→∈": 25,
     "<→∋": 19,
     "<→≁": 2,
-    "<→⊙": 46,
-    "<→⊞": 182,
+    "<→⊙": 47,
+    "<→⊞": 184,
     "<→⊣": 5,
     "<→◇": 2,
     "=→+": 63,
-    "=→<": 75,
+    "=→<": 78,
     "=→>": 44,
     "=→~": 8,
-    "=→¬": 116,
-    "=→×": 4,
+    "=→¬": 118,
+    "=→×": 8,
     "=→∈": 16,
     "=→∋": 15,
     "=→≁": 2,
     "=→⊙": 30,
-    "=→⊞": 38,
+    "=→⊞": 39,
     "=→⊢": 1,
     "=→⊣": 2,
     "=→◇": 2,
     "=→●": 1,
-    ">→+": 76,
-    ">→<": 85,
-    ">→=": 35,
+    ">→+": 77,
+    ">→<": 88,
+    ">→=": 37,
     ">→~": 9,
     ">→¬": 31,
     ">→×": 6,
-    ">→∈": 12,
+    ">→∈": 13,
     ">→∋": 10,
     ">→≁": 3,
     ">→⊙": 45,
     ">→⊞": 3,
     ">→◇": 2,
     ">→●": 1,
-    "~→+": 14,
-    "~→<": 14,
+    "~→+": 15,
+    "~→<": 16,
     "~→=": 24,
     "~→>": 20,
     "~→¬": 24,
-    "~→×": 7,
+    "~→×": 8,
     "~→∈": 14,
     "~→⊙": 7,
-    "~→⊞": 2,
+    "~→⊞": 3,
     "~→⊢": 1,
     "~→⊣": 1,
-    "¬→+": 31,
-    "¬→<": 70,
-    "¬→=": 166,
-    "¬→>": 20,
+    "¬→+": 33,
+    "¬→<": 72,
+    "¬→=": 169,
+    "¬→>": 24,
     "¬→~": 20,
-    "¬→×": 27,
+    "¬→×": 28,
     "¬→∈": 6,
-    "¬→∋": 13,
-    "¬→⊙": 17,
-    "¬→⊞": 27,
+    "¬→∋": 14,
+    "¬→⊙": 18,
+    "¬→⊞": 28,
     "¬→⊢": 1,
     "¬→⊣": 3,
     "¬→●": 2,
-    "×→+": 16,
-    "×→<": 39,
-    "×→=": 11,
+    "×→+": 17,
+    "×→<": 42,
+    "×→=": 13,
     "×→>": 13,
     "×→~": 2,
     "×→¬": 23,
     "×→∈": 8,
     "×→∋": 3,
     "×→⊙": 5,
-    "×→⊞": 5,
+    "×→⊞": 6,
     "×→●": 2,
-    "∈→+": 69,
+    "∈→+": 73,
     "∈→<": 23,
     "∈→=": 17,
-    "∈→>": 25,
+    "∈→>": 26,
     "∈→~": 6,
-    "∈→¬": 6,
-    "∈→×": 5,
-    "∈→∋": 10,
+    "∈→¬": 7,
+    "∈→×": 8,
+    "∈→∋": 12,
     "∈→≁": 2,
     "∈→⊙": 1,
-    "∈→⊞": 9,
+    "∈→⊞": 10,
     "∋→+": 8,
-    "∋→<": 16,
-    "∋→=": 7,
+    "∋→<": 17,
+    "∋→=": 9,
     "∋→>": 4,
     "∋→~": 1,
     "∋→¬": 5,
-    "∋→×": 11,
+    "∋→×": 12,
     "∋→∈": 4,
-    "∋→⊙": 5,
+    "∋→⊙": 7,
     "∋→⊞": 1,
     "≁→+": 15,
     "≁→<": 8,
@@ -120,20 +120,20 @@
     "≁→∋": 3,
     "≁→⊙": 1,
     "≁→⊞": 5,
-    "⊙→+": 35,
-    "⊙→<": 41,
+    "⊙→+": 38,
+    "⊙→<": 42,
     "⊙→=": 34,
-    "⊙→>": 26,
+    "⊙→>": 27,
     "⊙→~": 2,
     "⊙→¬": 85,
     "⊙→×": 2,
-    "⊙→∈": 5,
+    "⊙→∈": 13,
     "⊙→∋": 7,
     "⊙→≁": 4,
     "⊙→⊞": 13,
     "⊙→●": 1,
     "⊞→+": 36,
-    "⊞→<": 85,
+    "⊞→<": 88,
     "⊞→=": 23,
     "⊞→>": 10,
     "⊞→~": 30,
@@ -146,6 +146,7 @@
     "⊢→∋": 2,
     "⊢→⊙": 4,
     "⊢→⊞": 2,
+    "⊢→⊣": 1,
     "⊣→+": 1,
     "⊣→<": 1,
     "⊣→=": 2,
@@ -258,9 +259,15 @@
       "model": "poolside/laguna-m.1:free",
       "perfect": 0,
       "tested": 125
+    },
+    {
+      "mean_residual": 4.72,
+      "model": "poolside/laguna-m.1:free",
+      "perfect": 0,
+      "tested": 25
     }
   ],
-  "rounds": 125,
+  "rounds": 132,
   "visited": {
     "⊢+": {
       "recovered": "⊢>",
@@ -796,6 +803,16 @@
       "residual": 19,
       "verdict": "T"
     },
+    "⊢+++=∈+∋<⊣": {
+      "guess": "three-stage ascent of a mountain: begin, affirm true axis (climb up), reaffirm true axis (continue climbing), link into one coherent path, split three ways (different routes or strategies), reaffirm true axis (choose the correct route), fuse back into a unified climb, reverse (descend), close (reach summit)",
+      "recovered": "⊢+>+=∈+∋<⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "residuals": [
+        1
+      ],
+      "verdict": "T"
+    },
     "⊢+++=∈+⊙∋>=∈×<∋⊞¬⊣": {
       "guess": "a court appeal",
       "recovered": "⊢>",
@@ -850,6 +867,16 @@
       "recovered": "⊢++=++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
       "recovered_verdict": "T",
       "residual": 22,
+      "verdict": "T"
+    },
+    "⊢+++∈+∋<⊣": {
+      "guess": "three-stage pruning process of a fruit tree: begin, affirm true axis (prune selectively), reaffirm true axis (prune again for shape), split three ways (different branches), reaffirm true axis (final trim), fuse back into a unified structure, reverse (trimming in reverse order), close (complete pruning)",
+      "recovered": "⊢+>∈+∋<+=⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "residuals": [
+        4
+      ],
       "verdict": "T"
     },
     "⊢+++∈+⊙∋>=∈×<∋⊞¬⊣": {
@@ -1181,6 +1208,16 @@
       "residual": 21,
       "verdict": "T"
     },
+    "⊢++<=∈+∋<⊣": {
+      "guess": "three-step synthesis of a triply substituted aromatic compound",
+      "recovered": "⊢∈+××∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
+      "verdict": "T"
+    },
     "⊢++<=∈+⊙∋>=∈×<∋⊞¬⊣": {
       "guess": "a court appeal",
       "recovered": "⊢>",
@@ -1261,6 +1298,16 @@
       "residual": 6,
       "verdict": "T"
     },
+    "⊢++<∈+∋<⊣": {
+      "guess": "blacksmithing a blade's edge through affirmation, reversal, splitting, rejoining, and final shaping",
+      "recovered": "⊢+<∈+∋=⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "residuals": [
+        2
+      ],
+      "verdict": "T"
+    },
     "⊢++<∈+⊙∋>=∈×<∋⊞¬⊣": {
       "guess": "A logical reasoning protocol for evaluating and rejoining information streams.",
       "recovered": "∋",
@@ -1339,6 +1386,16 @@
       "recovered": "⊢++<⊙=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 7,
+      "verdict": "T"
+    },
+    "⊢++=+∈+∋<⊣": {
+      "guess": "plumbing fixture assembly process",
+      "recovered": "⊢>∈+∋<⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "residuals": [
+        4
+      ],
       "verdict": "T"
     },
     "⊢++=+∈+⊙∋>=∈×<∋⊞¬⊣": {
@@ -1506,6 +1563,16 @@
       "recovered": "⊢+++>+⊙=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 17,
+      "verdict": "T"
+    },
+    "⊢++=∈+∋<⊣": {
+      "guess": "immune response pathway triggering and resolving a threat",
+      "recovered": "⊢++>==≁>⊞∈+=×<∋¬⊙=⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "residuals": [
+        11
+      ],
       "verdict": "T"
     },
     "⊢++=∈+∋¬<⊣": {
@@ -1837,6 +1904,16 @@
       ],
       "verdict": "T"
     },
+    "⊢++∈+∋<⊣": {
+      "guess": "fermentation of a three-strain yeast blend in a closed vessel",
+      "recovered": "⊢<~∈+×~∋=⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "residuals": [
+        5
+      ],
+      "verdict": "T"
+    },
     "⊢++∈+∋¬<⊣": {
       "guess": "bird migration pattern tracking",
       "recovered": "⊢>∈=∈+⊙∋>=∈×<∋⊞¬⊣",
@@ -1909,11 +1986,31 @@
       ],
       "verdict": "T"
     },
+    "⊢+<+=∈+∋<⊣": {
+      "guess": "three-stage bird migration route selection process",
+      "recovered": "⊢⊙>¬<∈+×>⊞∋=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "residuals": [
+        8
+      ],
+      "verdict": "T"
+    },
     "⊢+<+=∈+⊙∋>~∈×<∋⊞¬⊣": {
       "guess": "immune response coordination",
       "recovered": "⊢++<+=⊙=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+<+∈+∋<⊣": {
+      "guess": "blacksmithing process of forging a blade: begin, affirm true axis (heat), reverse (cool), reaffirm true axis (hammer), split three ways (different strikes), affirm true axis (final shape), fuse arms (shape held), reverse (cool again), close (finish)",
+      "recovered": "⊢+<+∈+>∋<⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "residuals": [
+        1
+      ],
       "verdict": "T"
     },
     "⊢+<+∈+∋¬<⊣": {
@@ -2143,6 +2240,16 @@
       "residual": 7,
       "residuals": [
         7
+      ],
+      "verdict": "T"
+    },
+    "⊢+<∈+∋<⊣": {
+      "guess": "chess opening variation selection",
+      "recovered": "⊢=>∈+∋<⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "residuals": [
+        2
       ],
       "verdict": "T"
     },
@@ -2676,6 +2783,16 @@
       "recovered": "⊢+++>⊙=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 17,
+      "verdict": "T"
+    },
+    "⊢+=∈+∋<⊣": {
+      "guess": "three-stage excavation phase in an archaeological site: initial affirming of the true axis (site selection), linking into one coherent interpretation, splitting three ways (different layers or features), reaffirming the true axis (focus on key findings), fusing back into a unified narrative, reversing the process (re-evaluating findings), and closing the excavation.",
+      "recovered": "⊢+=∈+×∋¬∈+×⊞⊣",
+      "recovered_verdict": "B",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
       "verdict": "T"
     },
     "⊢+=∈+⊙∋>=∈×<~∋⊞¬⊣": {
@@ -3268,6 +3385,16 @@
       "residual": 10,
       "verdict": "T"
     },
+    "⊢+>¬<∈+×~∋=¬⊣": {
+      "guess": "fermentation of a three-ingredient sourdough bread mixture",
+      "recovered": "⊢∈>+×∋¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
+      "verdict": "T"
+    },
     "⊢+>¬<∈+×⊞∋=¬⊣": {
       "guess": "weaving pattern",
       "recovered": "⊢+++=<<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
@@ -3547,6 +3674,16 @@
       ],
       "verdict": "T"
     },
+    "⊢+>∈+∋<⊣": {
+      "guess": "archaeological site survey: beginning, affirm true axis, move forward, split three ways, reaffirm true axis, fuse arms, reverse direction, close",
+      "recovered": "⊢+∈++∋<⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "residuals": [
+        2
+      ],
+      "verdict": "T"
+    },
     "⊢+>∈+∋¬<⊣": {
       "guess": "a falconer selecting and committing to a prey, splitting the options, rejoining them, and closing the hunt",
       "recovered": "⊢>=∈+⊙∋>=⊞¬⊣",
@@ -3645,6 +3782,16 @@
       "residual": 8,
       "verdict": "T"
     },
+    "⊢+∈+∋<⊣": {
+      "guess": "mountaineering route with three possible paths, one affirmed, one fused, then reversed and closed",
+      "recovered": "⊢∈+∋<⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "residuals": [
+        1
+      ],
+      "verdict": "T"
+    },
     "⊢+∈+∋¬<⊣": {
       "guess": "bees pollinating and recombining flower types to form a new variety",
       "recovered": "⊢>><∈+∋¬<⊣",
@@ -3706,6 +3853,16 @@
       "recovered": "⊢=><<∈+×⊞∋=¬⊣",
       "recovered_verdict": "T",
       "residual": 4,
+      "verdict": "T"
+    },
+    "⊢+⊙>¬<∈+×~∋=¬⊣": {
+      "guess": "stellar magnetic field topology",
+      "recovered": "⊢∈>+×∋¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
       "verdict": "T"
     },
     "⊢+⊙>¬<∈+×⊞∋=¬⊣": {
@@ -3966,11 +4123,31 @@
       "residual": 22,
       "verdict": "T"
     },
+    "⊢<++=∈+∋<⊣": {
+      "guess": "three-step synthesis of a complex organic molecule",
+      "recovered": "⊢∈+×∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
+      "verdict": "T"
+    },
     "⊢<++=∈+⊙∋>~∈×<∋⊞¬⊣": {
       "guess": "musical score composition",
       "recovered": "⊢<+=∈+∋¬<⊣",
       "recovered_verdict": "T",
       "residual": 9,
+      "verdict": "T"
+    },
+    "⊢<++∈+∋<⊣": {
+      "guess": "three-stage tempering of steel in a forge",
+      "recovered": "⊢>¬<∈+×~∋=⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
       "verdict": "T"
     },
     "⊢<++∈+⊙∋>~∈×<∋⊞¬⊣": {
@@ -3987,11 +4164,41 @@
       "residual": 4,
       "verdict": "B"
     },
+    "⊢<+<=∈+∋<⊣": {
+      "guess": "three-dimensional map projection process",
+      "recovered": "⊢∈>+×∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "residuals": [
+        8
+      ],
+      "verdict": "T"
+    },
     "⊢<+<=∈+⊙∋>~∈×<∋⊞¬⊣": {
       "guess": "beeswax production process",
       "recovered": "⊢+++<+<+⊙=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 12,
+      "verdict": "T"
+    },
+    "⊢<+<∈+∋<⊣": {
+      "guess": "three-body problem in celestial mechanics",
+      "recovered": "⊢>∈+=×<∋=⊙¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "residuals": [
+        8
+      ],
+      "verdict": "T"
+    },
+    "⊢<+=∈+∋<⊣": {
+      "guess": "beekeeper managing a hive's queen cell development cycle",
+      "recovered": "⊢++>~<=≁>⊞∈+=×<∋¬⊙⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "residuals": [
+        12
+      ],
       "verdict": "T"
     },
     "⊢<+=∈+∋¬<⊣": {
@@ -4027,6 +4234,16 @@
       "recovered": "⊢<><∈+∋¬<⊣",
       "recovered_verdict": "T",
       "residual": 2,
+      "verdict": "T"
+    },
+    "⊢<+∈+∋<⊣": {
+      "guess": "volcanic magma chamber pressure cycle",
+      "recovered": "⊢⊙>¬<∈+×∋=⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
       "verdict": "T"
     },
     "⊢<+∈+∋¬<⊣": {
@@ -4075,6 +4292,16 @@
       "recovered": "⊢++<+<⊙=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 8,
+      "verdict": "T"
+    },
+    "⊢<<∈+∋<⊣": {
+      "guess": "gardening tool with three prongs that reverses direction, splits into three, affirms one path, fuses back, then reverses again to close",
+      "recovered": "⊢<∈+×>∋<⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "residuals": [
+        3
+      ],
       "verdict": "T"
     },
     "⊢<<∈+∋¬<⊣": {
@@ -4138,6 +4365,16 @@
       "recovered": "⊢<<=⊞>¬∈+×∋⊣",
       "recovered_verdict": "T",
       "residual": 19,
+      "verdict": "T"
+    },
+    "⊢<=∈+∋<⊣": {
+      "guess": "railway signal sequence: green, red, clear, split three ways, affirm true track, fuse back, reverse, close",
+      "recovered": "⊢∈+∋<⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "residuals": [
+        2
+      ],
       "verdict": "T"
     },
     "⊢<=∈+∋¬<⊣": {
@@ -4252,6 +4489,16 @@
       "residual": 8,
       "verdict": "T"
     },
+    "⊢<>¬<∈+×~∋=¬⊣": {
+      "guess": "chess game state evaluation: beginning, reverse, forward, commit, reverse, three-way split in piece movement, affirm one line, refute another, swap true and false, fuse all lines, link into a coherent position, commit, close.",
+      "recovered": "⊢<>+¬~×∋=¬⊣",
+      "recovered_verdict": "F",
+      "residual": 5,
+      "residuals": [
+        5
+      ],
+      "verdict": "T"
+    },
     "⊢<>¬<∈+×⊞∋=¬⊣": {
       "guess": "musical composition with three-way division and irreversible commitment",
       "recovered": "⊢∈+∋¬<⊣",
@@ -4266,6 +4513,16 @@
       "residual": 7,
       "residuals": [
         7
+      ],
+      "verdict": "T"
+    },
+    "⊢<>∈+∋<⊣": {
+      "guess": "weaving a reversible tapestry with three colored threads, affirmed and fused, then reversed and closed",
+      "recovered": "⊢∈+×∋<⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "residuals": [
+        3
       ],
       "verdict": "T"
     },
@@ -4290,11 +4547,31 @@
       "residual": 8,
       "verdict": "T"
     },
+    "⊢<~∈+∋<⊣": {
+      "guess": "fermentation process in a closed vessel with three stages: reverse, negate, split, affirm true, fuse, reverse again, close",
+      "recovered": "⊣<~∈+∋<⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "residuals": [
+        1
+      ],
+      "verdict": "T"
+    },
     "⊢<∈++<¬<~∈+×⊞∋=¬⊣": {
       "guess": "site archaeologist mapping the surface of a cliff to record its features",
       "recovered": "⊢>=∈+⊙∋>≁=∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 10,
+      "verdict": "T"
+    },
+    "⊢<∈+∋<⊣": {
+      "guess": "three-step fatty acid synthesis in a cell cycle phase",
+      "recovered": "⊢⊙>¬<∈+×∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
       "verdict": "T"
     },
     "⊢<∈>+<×∋=⊙⊞¬⊣": {
@@ -4316,6 +4593,16 @@
       "recovered": "⊢+++⊞>¬∈+×∋⊣",
       "recovered_verdict": "T",
       "residual": 9,
+      "verdict": "T"
+    },
+    "⊢<⊙>¬<∈+×~∋=¬⊣": {
+      "guess": "three-stage fermentation of a sourdough starter",
+      "recovered": "⊢⊙>¬<∈+×∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "residuals": [
+        2
+      ],
       "verdict": "T"
     },
     "⊢<⊙>¬<∈+×⊞∋=¬⊣": {
@@ -4549,6 +4836,16 @@
       "residual": 11,
       "verdict": "T"
     },
+    "⊢=>¬<∈+×~∋=¬⊣": {
+      "guess": "archaeological site excavation sequence: beginning, link into one, move forward, irreversible commitment, reverse, three-way split in artifact types, affirm one type, refute another, swap true and false, fuse all, link into one, irreversible commitment, close.",
+      "recovered": "⊢=><∈+×~∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "residuals": [
+        1
+      ],
+      "verdict": "T"
+    },
     "⊢=>¬<∈+×⊞∋=¬⊣": {
       "guess": "track scheduling system",
       "recovered": "⊢++++<++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
@@ -4563,6 +4860,16 @@
       "residual": 6,
       "residuals": [
         6
+      ],
+      "verdict": "T"
+    },
+    "⊢=>∈+∋<⊣": {
+      "guess": "chess move sequence: opening, linking, moving forward, splitting into three possibilities, affirming one, fusing back, reversing, closing",
+      "recovered": "⊢=∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "residuals": [
+        2
       ],
       "verdict": "T"
     },
@@ -4669,6 +4976,16 @@
       "recovered": "⊢++~∈+∋¬<⊣",
       "recovered_verdict": "T",
       "residual": 9,
+      "verdict": "T"
+    },
+    "⊢=⊙>¬<∈+×~∋=¬⊣": {
+      "guess": "mountaineering route with three key decision points affirmed, refuted, and evaluated before committing to the climb.",
+      "recovered": "⊢∈+×∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
       "verdict": "T"
     },
     "⊢=⊙>¬<∈+×⊞∋=¬⊣": {
@@ -7383,6 +7700,16 @@
       "residual": 2,
       "verdict": "T"
     },
+    "⊢>>¬<∈+×~∋=¬⊣": {
+      "guess": "archaeological site mapping with three-phase survey: begin, move forward, irreversible commit, reverse, split into three regions, affirm one, refute another, swap true and false, rejoin all, link into one, irreversible commit, close.",
+      "recovered": "⊢=>¬<∈+×~∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "residuals": [
+        1
+      ],
+      "verdict": "T"
+    },
     "⊢>>¬<∈+×⊞∋=¬⊣": {
       "guess": "train schedule routing",
       "recovered": "⊢++=∈+∋¬<⊣",
@@ -7433,6 +7760,16 @@
       "recovered": "⊢⊙<<¬<∈+×⊞∋=¬⊣",
       "recovered_verdict": "T",
       "residual": 4,
+      "verdict": "T"
+    },
+    "⊢>¬<∈+×~∋=¬⊣": {
+      "guess": "three-stage ascent of a peak with self-referential route marking, forward movement, irreversible commitment, reversal, three-way split in terrain decisions, affirmation of one path, refutation of another, swap of true and false directions, rejoining all paths, linking into a coherent climb, and final closure.",
+      "recovered": "⊢⊙>¬<∈+×~∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "residuals": [
+        1
+      ],
       "verdict": "T"
     },
     "⊢>¬<∈+×⊞∋=¬⊣": {
@@ -7520,6 +7857,16 @@
       "recovered": "⊢∈>+×∋¬⊣",
       "recovered_verdict": "T",
       "residual": 9,
+      "verdict": "T"
+    },
+    "⊢>⊙>¬<∈+×~∋=¬⊣": {
+      "guess": "plumbing system with self-referential imscription of flow direction, forward movement, irreversible commitment, reversal, three-way split in valve configurations, affirmation of one path, refutation of another, fusion of all paths, linking into a coherent circuit, and final closure.",
+      "recovered": "⊢⊙>¬<∈+×∋=⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "residuals": [
+        3
+      ],
       "verdict": "T"
     },
     "⊢>⊙>¬<∈+×⊞∋=¬⊣": {
@@ -7673,6 +8020,16 @@
       "residual": 7,
       "verdict": "T"
     },
+    "⊢~⊙>¬<∈+×~∋=¬⊣": {
+      "guess": "blacksmithing process of forging a triple-headed hammer",
+      "recovered": "⊢∈>+×∋¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
+      "verdict": "T"
+    },
     "⊢~⊙>¬<∈+×⊞∋=¬⊣": {
       "guess": "fluid distribution system",
       "recovered": "⊢+++++<=++⊙=∈+×⊞∋¬<=⊣",
@@ -7745,6 +8102,16 @@
       "residual": 6,
       "verdict": "B"
     },
+    "⊢¬>¬<∈+×~∋=¬⊣": {
+      "guess": "bee colony decision-making process",
+      "recovered": "⊢+<>>∈++=<<∋=⊙¬⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "residuals": [
+        9
+      ],
+      "verdict": "T"
+    },
     "⊢¬>¬<∈+×⊞∋=¬⊣": {
       "guess": "peak descent planning system",
       "recovered": "⊢<+∈+⊙∋>~∈×<∋⊞¬⊣",
@@ -7802,6 +8169,16 @@
       "recovered": "⊢>=∈≁+⊙∋>=∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 12,
+      "verdict": "T"
+    },
+    "⊢¬⊙>¬<∈+×~∋=¬⊣": {
+      "guess": "chess game state evaluation with self-reference and irreversible commitment",
+      "recovered": "⊢⊙>¬+<∈+×~∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "residuals": [
+        2
+      ],
       "verdict": "T"
     },
     "⊢¬⊙>¬<∈+×⊞∋=¬⊣": {
@@ -7899,6 +8276,16 @@
       "residual": 12,
       "verdict": "T"
     },
+    "⊢×>¬<∈+×~∋=¬⊣": {
+      "guess": "immunological response to a three-way pathogen attack, affirming one pathway, refuting another, swapping true and false, fusing all, linking into a coherent defense, committing irrevocably, closing the immune system's engagement.",
+      "recovered": "⊢++×~∋=¬<⊣",
+      "recovered_verdict": "F",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
+      "verdict": "T"
+    },
     "⊢×>¬<∈+×⊞∋=¬⊣": {
       "guess": "celestial body orbiting path",
       "recovered": "⊢++=++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
@@ -7963,6 +8350,16 @@
       "recovered": "⊢∈>+×∋¬⊣",
       "recovered_verdict": "T",
       "residual": 8,
+      "verdict": "T"
+    },
+    "⊢×⊙>¬<∈+×~∋=¬⊣": {
+      "guess": "triangulation of a topographic map",
+      "recovered": "⊢⊙>¬<∈+×<⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "residuals": [
+        3
+      ],
       "verdict": "T"
     },
     "⊢×⊙>¬<∈+×⊞∋=¬⊣": {
@@ -8141,6 +8538,16 @@
       "residual": 20,
       "verdict": "T"
     },
+    "⊢∈>¬<∈+×~∋=¬⊣": {
+      "guess": "sailing route planning: begin, split into three options, move forward, commit to one, reverse, split again, affirm one track, refute another, swap true and false, fuse all paths, link into a single course, commit irrevocably, close the voyage.",
+      "recovered": "⊢∈>+¬<∈+×~∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "residuals": [
+        1
+      ],
+      "verdict": "T"
+    },
     "⊢∈>¬<∈+×⊞∋=¬⊣": {
       "guess": "peak climbing route planning",
       "recovered": "⊢>=∈+⊙∋>=⊙×<∋⊞¬⊣",
@@ -8245,6 +8652,16 @@
       "residual": 9,
       "verdict": "T"
     },
+    "⊢≁⊙>¬<∈+×~∋=¬⊣": {
+      "guess": "gardening routine with three-phase soil preparation, irreversible commitment to one method, reversal to assess, split into three techniques, affirm one, refute another, swap true and false, fuse all, link into one plan, commit irrevocably, close the project.",
+      "recovered": "⊢∈>¬<∈+×~∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "residuals": [
+        2
+      ],
+      "verdict": "T"
+    },
     "⊢≁⊙>¬<∈+×⊞∋=¬⊣": {
       "guess": "sailor's decision-making process",
       "recovered": "⊢++<<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
@@ -8318,6 +8735,16 @@
       "recovered": "⊢><<∈+×⊞∋=¬⊣",
       "recovered_verdict": "T",
       "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊙+¬<∈+×~∋=¬⊣": {
+      "guess": "railway signal sequence: begin, self-reference, affirm true path, irreversible commit, reverse, split into three tracks, affirm true track, refute false track, swap true and false, fuse all tracks, link into one route, irreversible commit, close.",
+      "recovered": "⊢⊙+¬<∈+×~∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 0,
+      "residuals": [
+        0
+      ],
       "verdict": "T"
     },
     "⊢⊙+¬<∈+×⊞∋=¬⊣": {
@@ -8415,6 +8842,16 @@
       "recovered": "⊢+++=⊞>¬∈+×∋⊣",
       "recovered_verdict": "T",
       "residual": 10,
+      "verdict": "T"
+    },
+    "⊢⊙<¬<∈+×~∋=¬⊣": {
+      "guess": "immune response to a tripartite viral infection",
+      "recovered": "⊢×>∈+=×<∋=⊙¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
       "verdict": "T"
     },
     "⊢⊙<¬<∈+×⊞∋=¬⊣": {
@@ -8608,6 +9045,16 @@
       "residual": 2,
       "verdict": "T"
     },
+    "⊢⊙>¬<=∈+×⊞∋=¬⊣": {
+      "guess": "falconry training sequence for a goshawk",
+      "recovered": "⊢>><<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "residuals": [
+        3
+      ],
+      "verdict": "T"
+    },
     "⊢⊙>¬<>∈+×⊞∋=¬⊣": {
       "guess": "scaffold assembly",
       "recovered": "⊢⊙+<¬<∈+×⊞∋=¬⊣",
@@ -8650,6 +9097,16 @@
       "residual": 3,
       "verdict": "T"
     },
+    "⊢⊙>¬<∈+<×⊞∋=¬⊣": {
+      "guess": "triangulation of a map's boundaries and internal structure",
+      "recovered": "⊢∈++<¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
+      "verdict": "T"
+    },
     "⊢⊙>¬<∈+<⊞∋=¬⊣": {
       "guess": "train schedule coordination",
       "recovered": "⊢+++++<++⊙=∈+×⊞∋¬<=⊣",
@@ -8657,11 +9114,31 @@
       "residual": 13,
       "verdict": "T"
     },
+    "⊢⊙>¬<∈+=×⊞∋=¬⊣": {
+      "guess": "three-step fatty acid synthesis in a cell",
+      "recovered": "⊢∈>+×∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "residuals": [
+        8
+      ],
+      "verdict": "T"
+    },
     "⊢⊙>¬<∈+=⊞∋=¬⊣": {
       "guess": "volcanic eruption monitoring system",
       "recovered": "⊢++<+<>+⊙=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 12,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+>×⊞∋=¬⊣": {
+      "guess": "three-stage bird migration route planning process",
+      "recovered": "⊢∈>+×∋=⊙¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
       "verdict": "T"
     },
     "⊢⊙>¬<∈+>⊞∋=¬⊣": {
@@ -8685,6 +9162,26 @@
       "residual": 8,
       "verdict": "T"
     },
+    "⊢⊙>¬<∈+¬×⊞∋=¬⊣": {
+      "guess": "orchestral rehearsal sequence with instrumentation, dynamics, and tempo changes",
+      "recovered": "⊢<+>∈++=+<∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "residuals": [
+        11
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+¬⊞∋=¬⊣": {
+      "guess": "plumbing system with a self-referential valve sequence that splits, evaluates, fuses, and commits flow.",
+      "recovered": "⊢∈+×∋⊞⊙=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "residuals": [
+        8
+      ],
+      "verdict": "T"
+    },
     "⊢⊙>¬<∈+×+∋=¬⊣": {
       "guess": "forge of a sword",
       "recovered": "⊢++<+<⊙=∈+×⊞∋¬<=⊣",
@@ -8692,11 +9189,191 @@
       "residual": 10,
       "verdict": "T"
     },
+    "⊢⊙>¬<∈+×+⊞∋=¬⊣": {
+      "guess": "three-course meal preparation sequence",
+      "recovered": "⊢++<+<+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "residuals": [
+        11
+      ],
+      "verdict": "T"
+    },
     "⊢⊙>¬<∈+×<∋=¬⊣": {
       "guess": "beeswax production process",
       "recovered": "⊢+++<+<+⊙=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 12,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×<⊞∋=¬⊣": {
+      "guess": "triangulation of a map's terrain contours and elevation data",
+      "recovered": "⊢⊙>¬<∈+<×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "residuals": [
+        2
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×=∋=¬⊣": {
+      "guess": "beekeeping hive inspection and treatment sequence",
+      "recovered": "⊢>∈+×⊞∋=¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "residuals": [
+        5
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×=⊞∋=¬⊣": {
+      "guess": "three-stage training protocol for a falcon's flight maneuvers",
+      "recovered": "⊢++>>~==≁>⊞∈+=×<∋¬⊙⊣",
+      "recovered_verdict": "T",
+      "residual": 14,
+      "residuals": [
+        14
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×>∋=¬⊣": {
+      "guess": "sailing route planning with a self-referential decision system that begins, imscribes the journey, moves forward, commits to a course, reverses, splits into three options, affirms one, refutes another, continues forward, fuses the choices, links them together, commits again, and closes the voyage.",
+      "recovered": "⊢⊙>¬∈+×∋=",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "residuals": [
+        4
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×>⊞∋=¬⊣": {
+      "guess": "three-stage migration route commitment for a sandpiper",
+      "recovered": "⊢>¬<+×∋=⊣",
+      "recovered_verdict": "F",
+      "residual": 5,
+      "residuals": [
+        5
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×~∋=¬⊣": {
+      "guess": "gardening workflow for a self-sustaining polyculture plot",
+      "recovered": "⊢∈>+×∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 15,
+      "residuals": [
+        15
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×~⊞∋=¬⊣": {
+      "guess": "three-body problem in celestial mechanics",
+      "recovered": "⊢>∈+=×<∋=⊙¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×¬∋=¬⊣": {
+      "guess": "fermentation process in a closed vessel",
+      "recovered": "⊢∈++<+<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×¬⊞∋=¬⊣": {
+      "guess": "three-stage pruning and planting sequence in a vegetable garden",
+      "recovered": "⊢∈>+×∋=⊙¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+××∋=¬⊣": {
+      "guess": "three-step synthesis of a steroid hormone precursor",
+      "recovered": "⊢>∈+=×⊞∋=¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+××⊞∋=¬⊣": {
+      "guess": "weaving a tapestry with three colored threads that are affirmed, refuted, and evaluated before being fused and linked into a finished piece.",
+      "recovered": "⊢∈+×∋=¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×∈∋=¬⊣": {
+      "guess": "fermentation process in a three-stage yeast cultivation cycle",
+      "recovered": "⊢∈>+×⊞∋=⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×∈⊞∋=¬⊣": {
+      "guess": "orchestral performance with three sections (strings, woodwinds, brass) that affirm and refute thematic material before fusing and linking into a unified conclusion.",
+      "recovered": "⊢∈>+×∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×∋=¬⊣": {
+      "guess": "volcanic eruption cycle: beginning, self-referential imscription of the event, forward movement, irreversible commitment, reversal, three-way split in eruptive phases, affirmation of one phase, refutation of another, fusion of all phases, linking into a coherent eruption sequence, and final closure.",
+      "recovered": "⊢⊙>¬<∈+×>∋=⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "residuals": [
+        2
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×∋⊞∋=¬⊣": {
+      "guess": "three-threaded tapestry with self-referential weaving pattern",
+      "recovered": "⊢⊙>¬<∈+××⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "residuals": [
+        1
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×≁∋=¬⊣": {
+      "guess": "volcanic magma chamber cycle",
+      "recovered": "⊢⊙>¬<∈+×∋=⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "residuals": [
+        2
+      ],
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×≁⊞∋=¬⊣": {
+      "guess": "sailing route planning with three wind directions affirmed, refuted, and evaluated before fusing into a navigational path",
+      "recovered": "⊢∈+×∋=⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
       "verdict": "T"
     },
     "⊢⊙⊞◇": {

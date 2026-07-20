@@ -1,34 +1,13 @@
-The cycle primitives to imasm and back, and where it stops being invertible.
+The return leg imscribed as an ob3ect, and run through itself.
 
-The forward leg was always here: a type is a full IMASM program, so a
-twelve-axis tuple writes a word by concatenating its types in canonical
-order. The return leg did not exist. It does now, and running both against
-each other over the live catalog answers what the round trip actually
-costs.
+The cycle now takes a single tuple (`imasm cycle tuple=⟨…⟩`), catalog entry
+or not, so an object can be put through its own return leg. The return leg
+has been imscribed as an ob3ect through the live designer, and reading it
+back recovers exactly at all twelve axes.
 
-Three things it establishes. Type programs are NOT self-delimiting: the
-type 'out' carries TANCH in its middle and does not end on the boundary
-pair, so a concatenated word cannot be cut on the boundary and must be
-parsed axis by axis, each axis consuming an admissible type's program as a
-prefix. Position is load-bearing: the forty-nine types emit only
-forty-seven distinct programs, byte-identical in sequence, topology,
-spectral radius and closure, and of the two colliding pairs one is
-separated by the axes it may occupy while the other shares an axis and
-cannot be. At catalog scale no entry loses its original type, wherever the
-reading is ambiguous the truth is among the pre-images, and the ambiguity
-is confined to exactly the one axis the alphabet analysis predicts.
-
-The one entry that breaks is a data defect, not a cycle defect: it carries
-an axis value that is not one of the forty-nine glyphs, so the forward leg
-has nothing to expand. Refusing it is correct; the entry wants repair.
-
-The ambiguity is reported, not patched. Either the two types differ in
-something the opcode composition does not carry, or the alphabet carries a
-distinction without a difference. The cycle cannot settle which and does
-not pretend to: it names both pre-images and the axis.
-
-Also here, from the same run of work: the promotion path crosses faces
-instead of silently truncating one endpoint, reads its verdict direction
-off the endpoints rather than calling any change a climb, and gained a
-churn that round-trips every waypoint through the learning loop; the loop
-and the path now drive one shared round trip rather than two copies.
+Two details of that tuple earn their place in the document. Its Ř axis
+carries neither member of the colliding pair, so the one place the cycle can
+be ambiguous is not where this object sits. Its Φ axis carries one of the
+two byte-identical programs, and survives only because position separates it
+from its twin on another axis: the object about the ambiguity is readable
+only by the mechanism it describes.

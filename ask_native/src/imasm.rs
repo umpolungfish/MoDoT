@@ -949,6 +949,11 @@ pub fn entry_glyph_word(name: &str) -> Result<String, String> {
 /// whole, because the interesting number is not "does it work" but WHERE the
 /// alphabet stops being invertible.
 fn cycle_verb(rest: &[String]) -> String {
+    // `tuple=⟨…⟩` runs the cycle on ONE tuple, catalog entry or not: the way to
+    // put an object through its own return leg.
+    if let Some(t) = rest.iter().find_map(|a| a.strip_prefix("tuple=")) {
+        return cycle_one(t.trim_matches(|c| c == '⟨' || c == '⟩'));
+    }
     let limit: usize = rest
         .iter()
         .find_map(|a| a.strip_prefix("n=").and_then(|v| v.parse().ok()))
@@ -1058,6 +1063,46 @@ fn cycle_verb(rest: &[String]) -> String {
     if let Some(f) = first_fail {
         let _ = writeln!(out, "first break: {f}");
     }
+    out
+}
+
+/// One tuple through the cycle, reported axis by axis.
+fn cycle_one(tuple_glyphs: &str) -> String {
+    let tuple: Vec<String> = tuple_glyphs.chars().map(|c| c.to_string()).collect();
+    if tuple.len() != 12 {
+        return format!("imasm cycle: a tuple is twelve glyphs; this is {}\n", tuple.len());
+    }
+    let mut out = String::new();
+    let word = match tuple_glyph_word(&tuple) {
+        Ok(w) => w,
+        Err(e) => return format!("imasm cycle: forward leg — {e}\n"),
+    };
+    let read = match tuple_from_word(&word) {
+        Ok(r) => r,
+        Err(e) => return format!("imasm cycle: return leg — {e}\n"),
+    };
+    let _ = writeln!(out, "IMASM cycle on one tuple — written, then read back.\n");
+    let (mut exact, mut amb) = (0usize, 0usize);
+    for (i, hits) in read.iter().enumerate() {
+        let ax = TUPLE_ORDER[i];
+        let orig = type_name_for_glyph(&tuple[i]).unwrap_or("?");
+        let names: Vec<&str> = hits.iter().map(|g| type_name_for_glyph(g).unwrap_or("?")).collect();
+        let kept = hits.contains(&tuple[i]);
+        if hits.len() == 1 && kept {
+            exact += 1;
+            let _ = writeln!(out, "  {ax}  {orig}  → recovered exactly");
+        } else if kept {
+            amb += 1;
+            let _ = writeln!(out, "  {ax}  {orig}  → ambiguous: {}", names.join(" or "));
+        } else {
+            let _ = writeln!(out, "  {ax}  {orig}  → LOST: read as {}", names.join(" or "));
+        }
+    }
+    let _ = writeln!(
+        out,
+        "\n{exact} of 12 axes recovered exactly, {amb} ambiguous. The word is {} opcodes long.",
+        word.chars().count()
+    );
     out
 }
 

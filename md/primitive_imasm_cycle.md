@@ -63,6 +63,19 @@ A single entry breaks, and it is a data defect rather than a cycle defect:
 the forward leg has nothing to expand. The cycle refusing it is the correct
 behaviour; the entry wants repair.
 
+## The cycle applied to itself
+
+The return leg has been imscribed as an ob3ect through the live designer (never
+by hand), and put through its own reading with `imasm cycle tuple=⟨…⟩`. It
+recovers exactly at every one of its twelve axes.
+
+Two details of that tuple are worth naming. Its Ř axis carries neither member of
+the colliding pair, so the one place the cycle can be ambiguous is not where
+this object sits. And its Φ axis carries `yew`, which IS one of the two
+byte-identical programs; it survives only because position separates it from its
+twin at Ç. The object about the ambiguity is itself readable only by the
+mechanism it describes.
+
 ## Why the ambiguity is not a defect to be patched
 
 The honest reading of the Ř collision is that the type alphabet distinguishes
