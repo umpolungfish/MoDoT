@@ -27,279 +27,20 @@ use std::fmt::Write as _;
 pub use imasm_core::classic::Token;
 
 
-/// μ∘δ closure state — the real close condition (δ arms reconnecting at μ), which
-/// is independent of whether the graph merely has a cycle.
-enum ClosureState {
-    Closed(usize), // δ arms transformed AND rejoined at μ: a real type-check
-    Identity,      // δ/μ reconnect but nothing transforms between — μ∘δ=id, no work done
-    Open,          // δ/μ present but a fork or fuse dangles unreconnected
-    None,          // no δ/μ dyad at all — a bare line or cycle is NOT a closure
+pub use imasm_core::check::{from_sequence, match_pairs, ClosureState, Graph};
+
+/// ask_native's presentation and topology extensions over the core Graph
+/// (the engine itself — ancestry, closure, validation — lives in imasm_core).
+pub trait GraphExt {
+    fn open_ends(&self) -> (usize, usize);
+    fn spectral_radius(&self) -> f64;
+    fn branch_clusters(&self, bps: &[usize]) -> usize;
+    fn classify(&self) -> String;
+    fn program_str(&self) -> String;
+    fn code_str(&self) -> String;
 }
 
-/// A directed IMASM program graph. Node id = index into `nodes`.
-#[derive(Clone)]
-pub struct Graph {
-    nodes: Vec<Token>,
-    edges: Vec<(usize, usize)>,
-}
-
-impl Graph {
-    fn new() -> Graph {
-        Graph { nodes: Vec::new(), edges: Vec::new() }
-    }
-
-    fn add(&mut self, t: Token) -> usize {
-        self.nodes.push(t);
-        self.nodes.len() - 1
-    }
-
-    fn connect(&mut self, a: usize, b: usize) {
-        self.edges.push((a, b));
-    }
-
-    /// Add a fresh path of `toks`, wire head→tail, return the node ids.
-    fn chain_of(&mut self, toks: &[Token]) -> Vec<usize> {
-        let ids: Vec<usize> = toks.iter().map(|&t| self.add(t)).collect();
-        for w in ids.windows(2) {
-            self.connect(w[0], w[1]);
-        }
-        ids
-    }
-
-    fn out_degree(&self, n: usize) -> usize {
-        self.edges.iter().filter(|&&(a, _)| a == n).count()
-    }
-
-    fn in_degree(&self, n: usize) -> usize {
-        self.edges.iter().filter(|&&(_, b)| b == n).count()
-    }
-
-    fn successors(&self, n: usize) -> Vec<usize> {
-        self.edges.iter().filter(|&&(a, _)| a == n).map(|&(_, b)| b).collect()
-    }
-
-    fn predecessors(&self, n: usize) -> Vec<usize> {
-        self.edges.iter().filter(|&&(_, b)| b == n).map(|&(a, _)| a).collect()
-    }
-
-    // ── invariants ──────────────────────────────────────────────────────────
-
-    /// Weakly-connected component count (edges read undirected).
-    fn components(&self) -> usize {
-        let n = self.nodes.len();
-        if n == 0 {
-            return 0;
-        }
-        let mut parent: Vec<usize> = (0..n).collect();
-        fn find(parent: &mut Vec<usize>, mut x: usize) -> usize {
-            while parent[x] != x {
-                parent[x] = parent[parent[x]];
-                x = parent[x];
-            }
-            x
-        }
-        for &(a, b) in &self.edges {
-            let ra = find(&mut parent, a);
-            let rb = find(&mut parent, b);
-            if ra != rb {
-                parent[ra] = rb;
-            }
-        }
-        let mut roots: Vec<usize> = (0..n).map(|i| find(&mut parent, i)).collect();
-        roots.sort_unstable();
-        roots.dedup();
-        roots.len()
-    }
-
-    /// First Betti number β = E − V + C: the number of independent loops.
-    fn circuit_rank(&self) -> i64 {
-        self.edges.len() as i64 - self.nodes.len() as i64 + self.components() as i64
-    }
-
-    /// For each node, which FSPLIT nodes can reach it going forward. `anc_or_self`
-    /// also counts a node that IS an FSPLIT as its own ancestor, so an FSPLIT that
-    /// feeds an FFUSE directly (an empty-branch arm) still counts as that arm.
-    fn fsplit_ancestors(&self) -> Vec<Vec<usize>> {
-        let n = self.nodes.len();
-        let mut anc = vec![Vec::new(); n];
-        for f in 0..n {
-            if self.nodes[f] != Token::Fsplit {
-                continue;
-            }
-            let mut seen = vec![false; n];
-            let mut stack = vec![f];
-            seen[f] = true;
-            while let Some(x) = stack.pop() {
-                for s in self.successors(x) {
-                    if !seen[s] {
-                        seen[s] = true;
-                        anc[s].push(f);
-                        stack.push(s);
-                    }
-                }
-            }
-        }
-        anc
-    }
-
-    /// The REAL close condition: δ arms reconnecting at μ. A μ∘δ closure is an
-    /// (FSPLIT, FFUSE) pair where two distinct in-arms of the FFUSE trace back to
-    /// a common FSPLIT — the fork was undone by the fuse, however it routed. A bare
-    /// cycle (β≥1 with no δ/μ) is NOT a closure. Returns (reconnection pairs,
-    /// fully_closed) where fully_closed means every δ and every μ participates.
-    fn frobenius_closures(&self) -> (Vec<(usize, usize)>, bool) {
-        let anc = self.fsplit_ancestors();
-        let anc_or_self = |node: usize| -> Vec<usize> {
-            let mut v = anc[node].clone();
-            if self.nodes[node] == Token::Fsplit && !v.contains(&node) {
-                v.push(node);
-            }
-            v
-        };
-        let fsplits: Vec<usize> =
-            (0..self.nodes.len()).filter(|&i| self.nodes[i] == Token::Fsplit).collect();
-        let mut pairs = Vec::new();
-        for j in 0..self.nodes.len() {
-            if self.nodes[j] != Token::Ffuse {
-                continue;
-            }
-            // in-edges WITH multiplicity — an FFUSE fed twice by the same δ (empty
-            // arms) still reconnects. A δ whose arms feed ≥2 of j's in-ports closes.
-            let in_edges: Vec<usize> =
-                self.edges.iter().filter(|&&(_, b)| b == j).map(|&(a, _)| a).collect();
-            // Every δ whose arms feed ≥2 of j's in-ports is a candidate. On a strand an
-            // UPSTREAM δ reaches every later μ, so it qualifies at every one of them —
-            // taking the first candidate would let it claim them all and starve the δ
-            // that actually forked here, reporting Open for a correctly wired program.
-            // Pair j with the INNERMOST candidate instead: the one no other candidate
-            // descends from. A δ may close more than one μ; a μ closes with exactly one δ.
-            let cands: Vec<usize> = fsplits
-                .iter()
-                .copied()
-                .filter(|&f| in_edges.iter().filter(|&&p| anc_or_self(p).contains(&f)).count() >= 2)
-                .collect();
-            if let Some(&f) = cands
-                .iter()
-                .find(|&&f| !cands.iter().any(|&g| g != f && anc[g].contains(&f)))
-            {
-                pairs.push((f, j));
-            }
-        }
-        let n_split = self.nodes.iter().filter(|&&t| t == Token::Fsplit).count();
-        let n_fuse = self.nodes.iter().filter(|&&t| t == Token::Ffuse).count();
-        let closed_splits: std::collections::BTreeSet<usize> = pairs.iter().map(|&(f, _)| f).collect();
-        let closed_fuses: std::collections::BTreeSet<usize> = pairs.iter().map(|&(_, j)| j).collect();
-        let fully = (n_split > 0 || n_fuse > 0)
-            && closed_splits.len() == n_split
-            && closed_fuses.len() == n_fuse;
-        (pairs, fully)
-    }
-
-    /// Nodes strictly on a path from `f` forward to `j`: forward-reachable from f
-    /// AND backward-reachable from j (endpoints excluded). These are the arms.
-    fn between(&self, f: usize, j: usize) -> Vec<usize> {
-        let n = self.nodes.len();
-        let reach = |start: usize, fwd: bool| -> Vec<bool> {
-            let mut seen = vec![false; n];
-            let mut stack = vec![start];
-            seen[start] = true;
-            while let Some(x) = stack.pop() {
-                let nbrs: Vec<usize> = if fwd {
-                    self.successors(x)
-                } else {
-                    self.predecessors(x)
-                };
-                for y in nbrs {
-                    if !seen[y] {
-                        seen[y] = true;
-                        stack.push(y);
-                    }
-                }
-            }
-            seen
-        };
-        let fwd = reach(f, true);
-        let bwd = reach(j, false);
-        (0..n).filter(|&k| k != f && k != j && fwd[k] && bwd[k]).collect()
-    }
-
-    /// Does a reconnection (f→…→j) carry a TRANSFORMATION — i.e. do the arms
-    /// between the split and the fuse do real work (a transforming opcode), rather
-    /// than pass the object through unchanged? This is the crux: split→fuse with
-    /// nothing between is μ∘δ=id (identity), which type-checks nothing.
-    fn transforms_between(&self, f: usize, j: usize) -> bool {
-        self.between(f, j).into_iter().any(|k| self.nodes[k].transforms())
-    }
-
-    /// The μ∘δ closure state. A real closure (type-check) needs BOTH: δ arms that
-    /// reconnect at μ, AND a transformation carried on those arms. Reconnection with
-    /// no transformation is Identity (μ∘δ=id, no work). No δ/μ dyad at all is None —
-    /// a bare line or cycle is not a closure (β is not diagnostic).
-    fn closure_state(&self) -> ClosureState {
-        let n_split = self.nodes.iter().filter(|&&t| t == Token::Fsplit).count();
-        let n_fuse = self.nodes.iter().filter(|&&t| t == Token::Ffuse).count();
-        if n_split == 0 && n_fuse == 0 {
-            return ClosureState::None;
-        }
-        let (pairs, fully) = self.frobenius_closures();
-        if !fully {
-            return ClosureState::Open;
-        }
-        if pairs.iter().any(|&(f, j)| self.transforms_between(f, j)) {
-            ClosureState::Closed(pairs.len())
-        } else {
-            ClosureState::Identity
-        }
-    }
-
-    fn branch_points(&self) -> Vec<usize> {
-        (0..self.nodes.len()).filter(|&n| self.out_degree(n) > 1).collect()
-    }
-
-    fn merge_points(&self) -> Vec<usize> {
-        (0..self.nodes.len()).filter(|&n| self.in_degree(n) > 1).collect()
-    }
-
-    fn sources(&self) -> usize {
-        (0..self.nodes.len()).filter(|&n| self.in_degree(n) == 0).count()
-    }
-
-    fn sinks(&self) -> usize {
-        (0..self.nodes.len()).filter(|&n| self.out_degree(n) == 0).count()
-    }
-
-    // ── validation ──────────────────────────────────────────────────────────
-
-    /// Grammar check. Errors: a non-FSPLIT fanning out, a non-FFUSE merging in,
-    /// or any over-valence. Open valences (living ends) are reported, not fatal.
-    fn validate(&self) -> Vec<String> {
-        let mut errs = Vec::new();
-        for (n, &tok) in self.nodes.iter().enumerate() {
-            let (ai, ao) = tok.arity();
-            let od = self.out_degree(n);
-            let idg = self.in_degree(n);
-            if od > 1 && tok != Token::Fsplit {
-                errs.push(format!(
-                    "node {n} ({}) fans out to {od}; only FSPLIT (δ) may branch",
-                    tok.name()
-                ));
-            }
-            if idg > 1 && tok != Token::Ffuse {
-                errs.push(format!(
-                    "node {n} ({}) merges {idg} in; only FFUSE (μ) may fuse",
-                    tok.name()
-                ));
-            }
-            if od > ao {
-                errs.push(format!("node {n} ({}) out-degree {od} > arity_out {ao}", tok.name()));
-            }
-            if idg > ai {
-                errs.push(format!("node {n} ({}) in-degree {idg} > arity_in {ai}", tok.name()));
-            }
-        }
-        errs
-    }
-
+impl GraphExt for Graph {
     fn open_ends(&self) -> (usize, usize) {
         // (open out-ports at non-final beads = living arm ends, open in-ports = unrooted)
         let mut open_out = 0;
@@ -601,17 +342,6 @@ fn comb(backbone: &[Token], teeth: &[(usize, Vec<Token>)]) -> Graph {
 /// T-branch (FSPLIT → next, prev → FFUSE); each pair adds the F-branch arc
 /// FSPLIT → FFUSE, so the fork gets out-2, the fuse in-2, and β rises by one per
 /// pair — faithful to the empty-F-branch flat_chain the auto-designer emits.
-fn from_sequence(ops: &[Token], pairs: &[(usize, usize)]) -> Graph {
-    let mut g = Graph::new();
-    let ids = g.chain_of(ops);
-    for &(fs, ff) in pairs {
-        if fs < ids.len() && ff < ids.len() {
-            g.connect(ids[fs], ids[ff]);
-        }
-    }
-    g
-}
-
 /// The strange loop: every TYPE the Grammar writes with is itself a full IMASM
 /// program. Locate a `the_primitive_type_called_<name>` ob3ect, pull its ordered
 /// bootstrap opcodes (phase_4) and fork/fuse pairs (topology_report), and hand
@@ -813,21 +543,6 @@ count, spectral radius ρ, and a grammar validation.";
 
 /// Dispatch `TOOL: imasm <op> …`. Pure computation; returns the report string.
 /// FSPLIT/FFUSE pairs by depth-first stack (mirrors IMSCRIBr match_pairs).
-fn match_pairs(ops: &[Token]) -> Vec<(usize, usize)> {
-    let mut stack = Vec::new();
-    let mut pairs = Vec::new();
-    for (i, &t) in ops.iter().enumerate() {
-        if t == Token::Fsplit {
-            stack.push(i);
-        } else if t == Token::Ffuse {
-            if let Some(fs) = stack.pop() {
-                pairs.push((fs, i));
-            }
-        }
-    }
-    pairs
-}
-
 /// Build a graph from one constructive op + its args. Shared by the dispatcher
 /// and the tool registry so a defined tool rebuilds through the identical parse.
 /// Err is a usage/why-not message.

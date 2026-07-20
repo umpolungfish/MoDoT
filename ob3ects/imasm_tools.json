@@ -249,6 +249,11 @@
     "title": "protocol",
     "topology": "  topology: branched | V=2 E=2 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: identity — δ arms reconnect at μ but nothing transforms between them; μ∘δ=id does no work and type-checks nothing\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "braid_select": {
+    "spec": "ring AREV AFWD AREV",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "braid_sim": {
     "spec": "wire VINIT FSPLIT AFWD AREV FFUSE / 0-1 1-2 1-3 2-4 3-4",
     "title": "wire (free composition)",
@@ -549,6 +554,16 @@
     "title": "ring",
     "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 2 in — reactive, not errors"
   },
+  "double_ascend": {
+    "spec": "ring IMSCRIB AFWD CLINK FSPLIT ENGAGR FFUSE EVALT AREV EVALF IFIX TANCH",
+    "title": "ring",
+    "topology": "  topology: ring | V=11 E=11 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "double_wind": {
+    "spec": "ring IMSCRIB AFWD CLINK FSPLIT EVALT AREV EVALF FFUSE ENGAGR IFIX TANCH",
+    "title": "ring",
+    "topology": "  topology: ring | V=11 E=11 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "drive_pair": {
     "spec": "protocol ⊙ > cycle > cycle <",
     "title": "protocol",
@@ -633,6 +648,11 @@
     "spec": "ring ⊙ > < ⊣",
     "title": "ring",
     "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "forcing_d12": {
+    "spec": "protocol FSPLIT EVALT EVALF FFUSE",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "fusion_protocol": {
     "spec": "WIRE ⊙ > {ΣΩ}_fuse <",
@@ -1014,6 +1034,11 @@
     "title": "protocol",
     "topology": "  topology: branched | V=9 E=9 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1796\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
+  "omega_wind": {
+    "spec": "ring IMSCRIB AFWD CLINK FSPLIT ENGAGR FFUSE",
+    "title": "ring",
+    "topology": "  topology: ring | V=6 E=6 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "p4ramill_bridge_check": {
     "spec": "ring IMSCRIB AFWD AREV",
     "title": "ring",
@@ -1148,6 +1173,21 @@
     "spec": "chain ⊢ ⊣",
     "title": "chain",
     "topology": "  topology: linear | V=2 E=1 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.0000\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "promote_phi_hbar": {
+    "spec": "ring IMSCRIB AFWD AREV",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "promote_phi_hbar_real": {
+    "spec": "protocol FSPLIT EVALT EVALF FFUSE",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "promote_scaffold_L9": {
+    "spec": "protocol FSPLIT EVALT EVALF FFUSE",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "proof_protocol": {
     "spec": "ring ⊙ > <",
@@ -1289,6 +1329,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "resolve_engagr": {
+    "spec": "ring ENGAGR IFIX",
+    "title": "ring",
+    "topology": "  topology: ring | V=2 E=2 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "resolve_gaussian_moat": {
     "spec": "ring ⊙ > < ⊣",
     "title": "ring",
@@ -1303,6 +1348,11 @@
     "spec": "ring monodromy_v_bad ⊙ > < ● ⊞",
     "title": "ring",
     "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "retort": {
+    "spec": "ring IMSCRIB FSPLIT FFUSE",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "ring_insert_v2": {
     "spec": "ring ⊙ > < ● μ_fusion",
@@ -1329,6 +1379,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=7 E=7 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "seed_braid": {
+    "spec": "ring AREV AFWD AREV CLINK",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "seven_ring": {
     "spec": "protocol IMSCRIB ENGAGR FFUSE IFIX",
     "title": "protocol",
@@ -1343,6 +1398,16 @@
     "spec": "protocol IMSCRIB ENGAGR FFUSE IFIX",
     "title": "protocol",
     "topology": "  topology: linear | V=4 E=3 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.6180\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 2 in — reactive, not errors"
+  },
+  "sh_density_limit": {
+    "spec": "protocol IMSCRIB AFWD AREV EVALT EVALF",
+    "title": "protocol",
+    "topology": "  topology: linear | V=5 E=4 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.7321\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "sh_density_proof": {
+    "spec": "ring FSPLIT EVALT AFWD EVALF AREV FFUSE ENGAGR",
+    "title": "ring",
+    "topology": "  topology: ring | V=7 E=7 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "shielded_parity": {
     "spec": "ring ɢ ⊙ ◇ > < ● ⊞ ⊣",
@@ -1533,6 +1598,11 @@
     "spec": "ring > AFWD AFWD FSPLIT EVALT AFWD EVALF AFWD FFUSE IFIX — but no that’s arbitrary",
     "title": "ring",
     "topology": "  topology: ring | V=10 E=10 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "uniqueness_lemma": {
+    "spec": "protocol FSPLIT EVALT EVALF FFUSE",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "vacuum_expectation_operator": {
     "spec": "ring ⊙ > <",

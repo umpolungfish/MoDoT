@@ -12,6 +12,7 @@
 
 extern crate alloc;
 
+pub mod check;
 pub mod classic;
 pub mod imasm16_3;
 

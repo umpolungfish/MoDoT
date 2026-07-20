@@ -1,9 +1,8 @@
-imasm_core: the ONE kernel crate — tokens, registers, machines, faces
+imasm_core: the close condition moves into the portable kernel
 
-The drift class of bugs (a hand-copied vocabulary going stale — the tri-dyad
-face, the register letters) existed because every consumer transcribed the
-kernel's faces instead of linking them. imasm_core now holds the classic
-12-opcode Token, the SIXTEEN_3 module wholesale (Token16_3, Reg16_3, the
-register machine, the tri-ancestral verdict), and state_order(). ask_native
-links it and re-exports; behavior identical, all tests green. vae_vita
-derives its alphabet from it; mOMonadOS is the remaining consumer to link.
+Graph, ancestry pairing, ClosureState, and the whole gate (word_verdict)
+extracted from ask_native/src/imasm.rs into imasm_core/src/check.rs so the
+verdict can be spoken wherever the kernel runs — no_std + alloc, no host.
+ask_native keeps presentation, spectral analysis, and the tool registry as
+a GraphExt extension over the core Graph. tri_ancestral_verdict made pub
+for the same reason. 111 tests green, `imasm check` verdicts unchanged.

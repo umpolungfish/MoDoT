@@ -371,7 +371,7 @@ impl Machine {
 ///   N — paired, but no work ran inside — μ∘δ=id verifies nothing (identity).
 ///   B — a FSPLIT3 has no matching later FFUSE3 — a fork left open.
 ///   F — a FFUSE3 has no preceding FSPLIT3 — ill-typed.
-fn tri_ancestral_verdict(steps: &[Token16_3]) -> (char, String) {
+pub fn tri_ancestral_verdict(steps: &[Token16_3]) -> (char, String) {
     let split_idx: Vec<usize> = steps.iter().enumerate().filter(|(_, t)| **t == Fsplit3).map(|(i, _)| i).collect();
     let fuse_idx: Vec<usize> = steps.iter().enumerate().filter(|(_, t)| **t == Ffuse3).map(|(i, _)| i).collect();
 
