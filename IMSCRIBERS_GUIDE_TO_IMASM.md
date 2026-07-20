@@ -447,24 +447,33 @@ Pitfalls, all load-bearing:
 
 ## Part XIV. The Excription Loop: imasm learn
 
-`imasm learn <word> [rounds=N] [breadth=K]` runs verification as imscription on
-a MODEL. Each round it takes the neighborhood of the current word (single-opcode
-substitutions, insertions, deletions; the boundary turnstiles held fixed; only
-grammar-valid candidates admitted), and for each candidate the model excribes
-the word into an OBJECT: a numbered process in a real domain that never names
-an opcode. A second reading imscribes the object alone back into a word. Both
-words are checked, and the residual is the token edit distance between the word
-sent and the word recovered: residual zero is the round trip closing, the
-operational statement that the model's excription and imscription compose to
-the identity on that word.
+`imasm learn '<word>' [rounds=N] [breadth=K]` runs verification as imscription
+on a MODEL. Quote the word at a shell: > and < are redirections unquoted. Both
+faces run: a word carrying tri tokens selects the SIXTEEN_3 grammar, any other
+the classic grammar; one loop, one knowledge file.
 
-Where the residual is not zero, the aligned confusions (which opcode was sent,
-which came back) are counted into ob3ects/imasm_knowledge.json, distilled into
-lessons, and the lessons ride the imscriber's next prompt: the knowledge update
-is the part of the record that changes the next reading. The walk then moves to
-the highest-residual candidate, so the loop spends its rounds at the frontier
-of its own ignorance. The knowledge file persists atomically, same discipline
-as the tool registry.
+Each round takes the neighborhood of the current word (single-opcode
+substitutions, insertions, deletions from the face's body alphabet; the
+boundary turnstiles held fixed; only grammar-valid candidates admitted). For
+each candidate the model excribes the word into a GUESS: it names one concrete
+object in a real domain whose structure is the word (a bird taking flight, a
+substitution reaction, an appeal). The guess is blinded (any leaked opcode
+vocabulary excised) and every guess already taken is forbidden to later
+candidates, so distinct words must earn distinct names. A second reading
+imscribes the guess alone back into a word. Both words are checked in the
+word's face, and the residual is the edit distance between the word sent and
+the word recovered: residual zero is the round trip closing, the operational
+statement that excription and imscription compose to the identity on that
+word, with the guessed object as the fixed point between them.
+
+Where the residual is not zero, the aligned confusions are counted into
+ob3ects/imasm_knowledge.json alongside the guess, distilled into lessons, and
+the lessons ride the imscriber's next prompt: the knowledge update is the part
+of the record that changes the next reading. The walk moves to the
+highest-residual candidate, the frontier of its own ignorance, and each run
+appends its mean residual to the accuracy trajectory, the curve the loop is
+supposed to bend downward over time. The knowledge file persists atomically,
+same discipline as the tool registry.
 
 ## Related documents
 

@@ -1,84 +1,174 @@
 //! `imasm learn` — the excription/imscription learning loop.
 //!
 //! One model takes a word, iterates nearby words, excribes each into an object
-//! (a standalone domain rendering that never names an opcode), imscribes the
-//! OBJECT back into a word, checks the recovered word, measures the residual
-//! between the two words, and updates its knowledge. This is verification as
-//! imscription run on the model itself: δ excribes the word into a genuinely
-//! different form, μ recovers it, and μ∘δ = id exactly when the residual is
-//! zero. The residual is measured on every reading; where it is not zero, the
-//! confusion is recorded, distilled into a lesson, and the lesson rides the
-//! imscriber's next prompt. The walk moves to the highest-residual neighbor,
-//! so the loop spends its rounds where its knowledge is thinnest.
+//! (a GUESS: the model names one concrete thing whose structure IS the word),
+//! imscribes the OBJECT back into a word, checks the recovered word, measures
+//! the residual between the two words, and updates its knowledge. This is
+//! verification as imscription run on the model itself: δ excribes the word
+//! into a genuinely different form, μ recovers it, and μ∘δ = id exactly when
+//! the residual is zero. The guess is the fixed point the two words pivot on;
+//! it is kept in the record. Where the residual is not zero, the confusion is
+//! recorded, distilled into a lesson, and the lesson rides the imscriber's
+//! next prompt. The walk moves to the highest-residual neighbor, so the loop
+//! spends its rounds where its knowledge is thinnest.
+//!
+//! Both faces run here: a word carrying tri tokens (∈ ∋ ~ ≁) is read by the
+//! SIXTEEN_3 trilattice grammar, any other by the classic 12-opcode grammar —
+//! one loop, one knowledge file, the face chosen by the word itself.
 
 use crate::imasm::{from_sequence, match_pairs, ClosureState, Token};
+use imasm_core::imasm16_3::{parse_glyph_word, tri_ancestral_verdict};
 use std::fmt::Write as _;
 
-const ALL_TOKENS: [Token; 12] = [
-    Token::Vinit,
-    Token::Tanch,
-    Token::Afwd,
-    Token::Arev,
-    Token::Clink,
-    Token::Imscrib,
-    Token::Fsplit,
-    Token::Ffuse,
-    Token::Evalt,
-    Token::Evalf,
-    Token::Engagr,
-    Token::Ifix,
-];
+// ── the two faces ────────────────────────────────────────────────────────────
 
-fn word_str(ops: &[Token]) -> String {
-    ops.iter().map(|t| t.code()).collect()
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Face {
+    Classic,
+    Tri,
+}
+
+/// The face is chosen by the word: any tri-only glyph selects the trilattice.
+fn face_of(raw: &str) -> Face {
+    if raw.chars().any(|c| matches!(c, '∈' | '∋' | '~' | '≁' | '☊' | '☋')) {
+        Face::Tri
+    } else {
+        Face::Classic
+    }
+}
+
+/// Body alphabet of a face: every glyph except the ⊢/⊣ boundary pair.
+fn body_alphabet(face: Face) -> &'static [char] {
+    match face {
+        Face::Classic => &['>', '<', '=', '⊙', '◇', '●', '+', '×', '⊞', '¬'],
+        Face::Tri => &['>', '<', '=', '⊙', '∈', '∋', '+', '×', '⊞', '~', '≁', '¬'],
+    }
+}
+
+/// Parse a raw word in its face; None when nothing parses.
+fn parse_word(raw: &str, face: Face) -> Option<Vec<char>> {
+    let w: Vec<char> = match face {
+        Face::Classic => crate::imasm::tok_list(&[raw.to_string()])
+            .iter()
+            .map(|t| t.code().chars().next().unwrap_or('⊙'))
+            .collect(),
+        Face::Tri => parse_glyph_word(raw).iter().map(|t| t.glyph()).collect(),
+    };
+    if w.is_empty() {
+        None
+    } else {
+        Some(w)
+    }
+}
+
+fn word_str(w: &[char]) -> String {
+    w.iter().collect()
+}
+
+fn classic_tokens(w: &[char]) -> Vec<Token> {
+    w.iter().filter_map(|c| Token::parse(&c.to_string())).collect()
+}
+
+/// Opcode name of one glyph in its face, for the excriber's prompt.
+fn glyph_name(face: Face, c: char) -> &'static str {
+    match face {
+        Face::Classic => Token::parse(&c.to_string()).map(|t| t.name()).unwrap_or("?"),
+        Face::Tri => parse_glyph_word(&c.to_string())
+            .first()
+            .map(|t| t.name())
+            .unwrap_or("?"),
+    }
 }
 
 /// The alphabet the model reads and writes with. Shared by both arms so the
 /// excriber and the imscriber speak from the same table; only the imscriber
 /// additionally carries the lessons.
-fn alphabet_table() -> &'static str {
-    "IMASM opcode alphabet (glyph · name · meaning · does it TRANSFORM?):\n\
-     ⊢ VINIT   begin / source boundary — no\n\
-     ⊣ TANCH   terminal anchor / close boundary — no\n\
-     > AFWD    forward morphism (a step of real forward work) — YES\n\
-     < AREV    reverse morphism (an inversion / undoing) — YES\n\
-     = CLINK   compose / link two things into one — YES\n\
-     ⊙ IMSCRIB identity / self-reference (no work) — no\n\
-     ◇ FSPLIT  fork into two alternatives (δ) — no\n\
-     ● FFUSE   fuse two arms back into one (μ) — no\n\
-     + EVALT   evaluate / affirm the true arm — YES\n\
-     × EVALF   evaluate / refute the false arm — YES\n\
-     ⊞ ENGAGR  hold both arms at once (a lived paradox) — YES\n\
-     ¬ IFIX    irreversible commit / fixation — YES"
+fn alphabet_table(face: Face) -> &'static str {
+    match face {
+        Face::Classic => {
+            "IMASM opcode alphabet (glyph · name · meaning · does it TRANSFORM?):\n\
+             ⊢ VINIT   begin / source boundary — no\n\
+             ⊣ TANCH   terminal anchor / close boundary — no\n\
+             > AFWD    forward morphism (a step of real forward work) — YES\n\
+             < AREV    reverse morphism (an inversion / undoing) — YES\n\
+             = CLINK   compose / link two things into one — YES\n\
+             ⊙ IMSCRIB identity / self-reference (no work) — no\n\
+             ◇ FSPLIT  fork into two alternatives (δ) — no\n\
+             ● FFUSE   fuse two arms back into one (μ) — no\n\
+             + EVALT   evaluate / affirm the true arm — YES\n\
+             × EVALF   evaluate / refute the false arm — YES\n\
+             ⊞ ENGAGR  hold both arms at once (a lived paradox) — YES\n\
+             ¬ IFIX    irreversible commit / fixation — YES"
+        }
+        Face::Tri => {
+            "IMASM SIXTEEN_3 opcode alphabet (glyph · name · meaning · does it TRANSFORM?):\n\
+             ⊢ VINIT   begin / source boundary — no\n\
+             ⊣ TANCH   terminal anchor / close boundary — no\n\
+             > AFWD    forward morphism (a step of real forward work) — YES\n\
+             < AREV    reverse morphism (an inversion / undoing) — YES\n\
+             = CLINK   compose / link two things into one — YES\n\
+             ⊙ IMSCRIB identity / self-reference (no work) — no\n\
+             ∈ FSPLIT3 three-way split: true / false / information arms — no\n\
+             ∋ FFUSE3  three-way fuse: the three arms rejoin — no\n\
+             + EVALT   evaluate / affirm the true axis — YES\n\
+             × EVALF   evaluate / refute the false axis — YES\n\
+             ⊞ EVALI   evaluate the information axis (both t and f) — YES\n\
+             ~ TNEG    negation: swaps T and F — YES\n\
+             ≁ INEG    con-negation: swaps t and f — YES\n\
+             ¬ IFIX    irreversible commit / fixation — YES"
+        }
+    }
 }
 
-// ── the verdict letter (same reading as `imasm check`) ───────────────────────
+// ── the verdict letter (same reading as `imasm check` / `imasm16_3 check`) ───
 
-fn verdict_letter(ops: &[Token]) -> char {
-    if ops.is_empty() {
-        return 'N';
-    }
-    let pairs = match_pairs(ops);
-    let g = from_sequence(ops, &pairs);
-    if !g.validate().is_empty() {
-        return 'F';
-    }
-    let has_engagr = ops.iter().any(|&t| t == Token::Engagr);
-    match g.closure_state() {
-        ClosureState::Closed(_) if has_engagr => 'B',
-        ClosureState::Closed(_) => 'T',
-        ClosureState::Identity => 'N',
-        ClosureState::Open => 'B',
-        ClosureState::None => 'N',
+fn verdict_letter(face: Face, w: &[char]) -> char {
+    match face {
+        Face::Classic => {
+            let ops = classic_tokens(w);
+            if ops.is_empty() {
+                return 'N';
+            }
+            let pairs = match_pairs(&ops);
+            let g = from_sequence(&ops, &pairs);
+            if !g.validate().is_empty() {
+                return 'F';
+            }
+            let has_engagr = ops.iter().any(|&t| t == Token::Engagr);
+            match g.closure_state() {
+                ClosureState::Closed(_) if has_engagr => 'B',
+                ClosureState::Closed(_) => 'T',
+                ClosureState::Identity => 'N',
+                ClosureState::Open => 'B',
+                ClosureState::None => 'N',
+            }
+        }
+        Face::Tri => tri_ancestral_verdict(&parse_glyph_word(&word_str(w))).0,
     }
 }
 
-// ── the residual: token Levenshtein with an alignment backtrace ──────────────
+/// Grammar admissibility of a candidate in its face (no F verdict).
+fn word_valid(face: Face, w: &[char]) -> bool {
+    match face {
+        Face::Classic => {
+            let ops = classic_tokens(w);
+            !ops.is_empty() && {
+                let pairs = match_pairs(&ops);
+                from_sequence(&ops, &pairs).validate().is_empty()
+            }
+        }
+        Face::Tri => {
+            !w.is_empty() && tri_ancestral_verdict(&parse_glyph_word(&word_str(w))).0 != 'F'
+        }
+    }
+}
 
-/// Edit distance between two opcode words, plus the aligned substitutions
-/// (sent token → recovered token) along one optimal alignment. The distance is
-/// the residual of μ∘δ; the substitutions are the confusions worth learning.
-fn residual(a: &[Token], b: &[Token]) -> (usize, Vec<(Token, Token)>) {
+// ── the residual: glyph Levenshtein with an alignment backtrace ──────────────
+
+/// Edit distance between two words, plus the aligned substitutions (sent glyph
+/// → recovered glyph) along one optimal alignment. The distance is the residual
+/// of μ∘δ; the substitutions are the confusions worth learning.
+fn residual(a: &[char], b: &[char]) -> (usize, Vec<(char, char)>) {
     let (n, m) = (a.len(), b.len());
     let mut d = vec![vec![0usize; m + 1]; n + 1];
     for (i, row) in d.iter_mut().enumerate() {
@@ -114,46 +204,41 @@ fn residual(a: &[Token], b: &[Token]) -> (usize, Vec<(Token, Token)>) {
 
 // ── the neighborhood ─────────────────────────────────────────────────────────
 
-/// All words one edit away: substitute, insert, or delete a single opcode.
-/// The ⊢…⊣ boundary pair is held fixed — the neighborhood explores the body,
-/// not the frame — and only grammar-valid words (no F under `validate`) are
-/// admitted as candidates.
-fn neighbors(ops: &[Token]) -> Vec<Vec<Token>> {
-    let mut out: Vec<Vec<Token>> = Vec::new();
-    let lo = usize::from(ops.first() == Some(&Token::Vinit));
-    let hi = ops.len() - usize::from(ops.last() == Some(&Token::Tanch));
+/// All words one edit away: substitute, insert, or delete a single opcode from
+/// the face's body alphabet. The ⊢…⊣ boundary pair is held fixed — the
+/// neighborhood explores the body, not the frame — and only grammar-valid
+/// words are admitted as candidates.
+fn neighbors(face: Face, w: &[char]) -> Vec<Vec<char>> {
+    let mut out: Vec<Vec<char>> = Vec::new();
+    let lo = usize::from(w.first() == Some(&'⊢'));
+    let hi = w.len() - usize::from(w.last() == Some(&'⊣'));
     for i in lo..hi {
         // substitution
-        for &t in &ALL_TOKENS {
-            if t != ops[i] && t != Token::Vinit && t != Token::Tanch {
-                let mut w = ops.to_vec();
-                w[i] = t;
-                out.push(w);
+        for &c in body_alphabet(face) {
+            if c != w[i] {
+                let mut v = w.to_vec();
+                v[i] = c;
+                out.push(v);
             }
         }
         // deletion (keep at least one body opcode)
         if hi - lo > 1 {
-            let mut w = ops.to_vec();
-            w.remove(i);
-            out.push(w);
+            let mut v = w.to_vec();
+            v.remove(i);
+            out.push(v);
         }
     }
     // insertion at every body position
     for i in lo..=hi {
-        for &t in &ALL_TOKENS {
-            if t != Token::Vinit && t != Token::Tanch {
-                let mut w = ops.to_vec();
-                w.insert(i, t);
-                out.push(w);
-            }
+        for &c in body_alphabet(face) {
+            let mut v = w.to_vec();
+            v.insert(i, c);
+            out.push(v);
         }
     }
-    out.sort_by_key(|w| word_str(w));
-    out.dedup_by_key(|w| word_str(w));
-    out.retain(|w| {
-        let pairs = match_pairs(w);
-        from_sequence(w, &pairs).validate().is_empty()
-    });
+    out.sort_by_key(|v| word_str(v));
+    out.dedup_by_key(|v| word_str(v));
+    out.retain(|v| word_valid(face, v));
     out
 }
 
@@ -171,7 +256,7 @@ fn load_knowledge() -> serde_json::Value {
 }
 
 fn empty_knowledge() -> serde_json::Value {
-    serde_json::json!({ "rounds": 0, "visited": {}, "confusions": {} })
+    serde_json::json!({ "rounds": 0, "visited": {}, "confusions": {}, "history": [] })
 }
 
 /// Persist atomically, same discipline as the tool registry: temp then rename,
@@ -215,19 +300,37 @@ fn lessons(k: &serde_json::Value) -> String {
 
 // ── the two arms ─────────────────────────────────────────────────────────────
 
-fn excribe(llm: &crate::Llm, ops: &[Token]) -> Result<String, String> {
-    let names: Vec<&str> = ops.iter().map(|t| t.name()).collect();
+fn excribe(
+    llm: &crate::Llm,
+    face: Face,
+    w: &[char],
+    taken: &[String],
+) -> Result<String, String> {
+    let names: Vec<&str> = w.iter().map(|&c| glyph_name(face, c)).collect();
+    // No example guesses in the prompt: a small model parrots any example as
+    // its answer for every word (the court-appeal collapse, seen live). The
+    // already-taken guesses ride along as FORBIDDEN instead, so distinct words
+    // are forced to earn distinct names.
+    let forbidden = if taken.is_empty() {
+        String::new()
+    } else {
+        format!(
+            "\n\nGuesses already taken by OTHER programs — this program is different, so its \
+             object must be different. FORBIDDEN:\n{}",
+            taken.iter().rev().take(12).map(|g| format!("- {g}")).collect::<Vec<_>>().join("\n")
+        )
+    };
     let system = format!(
-        "You are the excriber. You take an IMASM program and excribe it into an OBJECT: a \
-         concrete process in one real domain of your choosing (a synthesis, a court case, a \
-         repair, a metabolic pathway, anything real), written as a numbered list of steps, one \
-         step per opcode, in order. The object must stand entirely alone: NEVER mention IMASM, \
-         opcode names, glyphs, forks/fuses by those words, or this instruction. Each step is one \
-         plain sentence enacting that opcode's meaning in the domain. Number every step. No \
-         preamble, no commentary after.\n\n{}",
-        alphabet_table()
+        "You are the excriber. You are given an IMASM program: an ordered sequence of opcodes. \
+         GUESS the object it imscribes: identify ONE concrete thing or process in a real domain \
+         whose structure matches this program step for step. Any real domain: biology, \
+         chemistry, law, music, cooking, machinery, astronomy, ritual, sport. Answer with the \
+         identification ALONE: one line, a name or short noun phrase. NEVER use opcode names, \
+         glyphs, or words like fork/fuse/morphism — the guess must stand entirely in its own \
+         domain.\n\n{}{forbidden}",
+        alphabet_table(face)
     );
-    let user = format!("Excribe this {}-step program:\n{}", ops.len(), names.join(" "));
+    let user = format!("Guess the object of this {}-step program:\n{}", w.len(), names.join(" "));
     let res = crate::infer(
         llm,
         &[("system".into(), system), ("user".into(), user)],
@@ -236,17 +339,61 @@ fn excribe(llm: &crate::Llm, ops: &[Token]) -> Result<String, String> {
     );
     match res.err {
         Some(e) => Err(e),
-        None => Ok(res.text),
+        None => {
+            // The guess is the last nonempty line, blinded: any leaked opcode
+            // vocabulary is excised so the imscriber works from the domain alone.
+            let guess = res
+                .text
+                .lines()
+                .rev()
+                .map(str::trim)
+                .find(|l| !l.is_empty())
+                .map(blind)
+                .unwrap_or_default();
+            if guess.split_whitespace().count() < 2 {
+                Err(format!("excription produced no usable guess: {:?}", res.text.trim()))
+            } else {
+                Ok(guess)
+            }
+        }
     }
 }
 
-fn imscribe(llm: &crate::Llm, object: &str, lessons_text: &str) -> Result<Vec<Token>, String> {
+/// Enforce the blind: strip every opcode name and glyph (both faces) from the
+/// guess before the imscriber sees it. A model that answers "VINIT begins…"
+/// has smuggled the answer into the detour; μ recovering the word from such an
+/// object tests reading-back, not imscription.
+fn blind(object: &str) -> String {
+    const NAMES: &[&str] = &[
+        "VINIT", "TANCH", "AFWD", "AREV", "CLINK", "IMSCRIB", "FSPLIT3", "FFUSE3", "FSPLIT",
+        "FFUSE", "EVALT", "EVALF", "EVALI", "ENGAGR", "TNEG", "INEG", "IFIX",
+    ];
+    let mut s = object.to_string();
+    for c in "⊢⊣><=⊙◇●∈∋+×⊞~≁¬☊☋".chars() {
+        s = s.replace(c, "");
+    }
+    s.split_whitespace()
+        .filter(|word| {
+            let bare: String = word.chars().filter(|c| c.is_ascii_alphanumeric()).collect();
+            !NAMES.iter().any(|n| n.eq_ignore_ascii_case(&bare))
+        })
+        .collect::<Vec<_>>()
+        .join(" ")
+}
+
+fn imscribe(
+    llm: &crate::Llm,
+    face: Face,
+    object: &str,
+    lessons_text: &str,
+) -> Result<Vec<char>, String> {
+    let example = if face == Face::Tri { "⊢∈>+×∋¬⊣" } else { "⊢◇>+●¬⊣" };
     let system = format!(
-        "You are the imscriber. You are given only an OBJECT: a numbered list of steps from some \
-         domain. Recover the IMASM word that imscribes it: exactly one opcode per numbered step, \
-         in order. Answer with the glyph word ONLY (e.g. ⊢◇>+●¬⊣) — no names, no spaces, no \
-         commentary.\n\n{}\n\n{}",
-        alphabet_table(),
+        "You are the imscriber. You are given the name of an OBJECT: one concrete thing or \
+         process from a real domain. Imscribe it: write the IMASM word whose opcode sequence IS \
+         the object's structure, from its beginning boundary to its close. Answer with the glyph \
+         word ONLY (e.g. {example}) — no names, no spaces, no commentary.\n\n{}\n\n{}",
+        alphabet_table(face),
         lessons_text
     );
     let res = crate::infer(
@@ -258,21 +405,14 @@ fn imscribe(llm: &crate::Llm, object: &str, lessons_text: &str) -> Result<Vec<To
     if let Some(e) = res.err {
         return Err(e);
     }
-    // Take the last nonempty line that parses to opcodes — models sometimes
+    // Take the last nonempty line that parses in the face — models sometimes
     // restate the object first even when told not to.
-    let mut best: Vec<Token> = Vec::new();
     for line in res.text.lines().rev() {
-        let toks = crate::imasm::tok_list(&[line.trim().to_string()]);
-        if !toks.is_empty() {
-            best = toks;
-            break;
+        if let Some(w) = parse_word(line.trim(), face) {
+            return Ok(w);
         }
     }
-    if best.is_empty() {
-        Err(format!("imscriber returned no parseable word: {}", res.text.trim()))
-    } else {
-        Ok(best)
-    }
+    Err(format!("imscriber returned no parseable word: {}", res.text.trim()))
 }
 
 // ── the loop ─────────────────────────────────────────────────────────────────
@@ -290,14 +430,19 @@ pub fn run(rest: &[String]) -> String {
             word_args.push(a.clone());
         }
     }
-    let seed = crate::imasm::tok_list(&word_args);
-    if seed.is_empty() {
-        return "imasm learn needs a seed word: imasm learn <word> [rounds=N] [breadth=K]\n\
-                e.g. imasm learn ⊢◇>+●¬⊣ rounds=3 breadth=4\n\
-                The loop excribes nearby words into objects, imscribes the objects back, \
-                measures the residual, and updates ob3ects/imasm_knowledge.json.\n"
+    let raw = word_args.join(" ");
+    let face = face_of(&raw);
+    let Some(seed) = parse_word(&raw, face) else {
+        return "imasm learn needs a seed word: imasm learn '<word>' [rounds=N] [breadth=K]\n\
+                e.g. ./ask --imasm learn '⊢◇>+●¬⊣' rounds=3 breadth=4\n\
+                Both faces parse: a word carrying ∈ ∋ ~ ≁ runs on the SIXTEEN_3 trilattice \
+                grammar, any other on the classic 12-opcode grammar.\n\
+                QUOTE the glyph word at a shell: > and < are redirections unquoted, and the \
+                shell will eat the word's tail (and write the report to a file named +●¬⊣).\n\
+                The loop excribes nearby words into guessed objects, imscribes the guesses \
+                back, measures the residual, and updates ob3ects/imasm_knowledge.json.\n"
             .into();
-    }
+    };
 
     let llm = crate::make_llm(None, None, false);
     let mut knowledge = load_knowledge();
@@ -305,12 +450,25 @@ pub fn run(rest: &[String]) -> String {
     let _ = writeln!(
         out,
         "IMASM learn — μ∘δ on the model itself: excribe → imscribe → check → residual → update.\n\
-         seed {}  ·  rounds {rounds} × breadth {breadth}  ·  provider {}",
+         seed {}  ·  face {}  ·  rounds {rounds} × breadth {breadth}  ·  provider {:?}",
         word_str(&seed),
-        llm.model,
+        if face == Face::Tri { "SIXTEEN_3" } else { "classic" },
+        llm.provider,
     );
 
     let mut center = seed;
+    // Every guess already in the knowledge plus this run's own: fed back to the
+    // excriber as forbidden, so the object space cannot collapse to one name.
+    let mut taken_guesses: Vec<String> = knowledge
+        .get("visited")
+        .and_then(|v| v.as_object())
+        .map(|m| {
+            m.values()
+                .filter_map(|r| r.get("guess").and_then(|g| g.as_str()))
+                .map(|g| g.to_string())
+                .collect()
+        })
+        .unwrap_or_default();
     let mut tested = 0usize;
     let mut perfect = 0usize;
     let mut residual_sum = 0usize;
@@ -322,7 +480,7 @@ pub fn run(rest: &[String]) -> String {
             .and_then(|v| v.as_object())
             .map(|m| m.keys().cloned().collect())
             .unwrap_or_default();
-        let mut hood = neighbors(&center);
+        let mut hood = neighbors(face, &center);
         // Unvisited first; within each class keep the sorted (deterministic) order.
         hood.sort_by_key(|w| visited_words.contains(&word_str(w)));
         hood.truncate(breadth);
@@ -332,16 +490,23 @@ pub fn run(rest: &[String]) -> String {
         }
         let _ = writeln!(out, "\nround {round} — center {}", word_str(&center));
 
-        let mut frontier: Option<(usize, Vec<Token>)> = None;
+        let mut frontier: Option<(usize, Vec<char>)> = None;
         for cand in hood {
             let cw = word_str(&cand);
-            let cand_v = verdict_letter(&cand);
-            let (rec_res, obj_len) = match excribe(&llm, &cand) {
+            let cand_v = verdict_letter(face, &cand);
+            // The loop is minutes-long over a network provider; speak each arm as it
+            // happens, or the operator reads a hung process where a winding is running.
+            eprintln!("[learn] round {round} · {cw} → excribing…");
+            let (rec_res, object) = match excribe(&llm, face, &cand, &taken_guesses) {
                 Err(e) => {
                     let _ = writeln!(out, "  {cw}  → excribe failed: {e}");
                     continue;
                 }
-                Ok(object) => (imscribe(&llm, &object, &lessons_text), object.len()),
+                Ok(object) => {
+                    eprintln!("[learn]   guess: {object} → imscribing…");
+                    taken_guesses.push(object.clone());
+                    (imscribe(&llm, face, &object, &lessons_text), object)
+                }
             };
             let recovered = match rec_res {
                 Err(e) => {
@@ -351,8 +516,9 @@ pub fn run(rest: &[String]) -> String {
                 Ok(r) => r,
             };
             let rw = word_str(&recovered);
-            let rec_v = verdict_letter(&recovered);
+            let rec_v = verdict_letter(face, &recovered);
             let (dist, subs) = residual(&cand, &recovered);
+            eprintln!("[learn]   recovered {rw} · residual {dist}");
             tested += 1;
             residual_sum += dist;
             if dist == 0 {
@@ -360,19 +526,21 @@ pub fn run(rest: &[String]) -> String {
             }
             let _ = writeln!(
                 out,
-                "  {cw} [{cand_v}]  →(excribe {obj_len}ch)→(imscribe)→  {rw} [{rec_v}]  \
-                 residual {dist}{}{}",
+                "  {cw} [{cand_v}]  →(excribe)→(imscribe)→  {rw} [{rec_v}]  \
+                 residual {dist}{}{}\n      guess: {}",
                 if dist == 0 { " — μ∘δ = id" } else { "" },
                 if cand_v != rec_v { "  · verdict drifted" } else { "" },
+                object.replace('\n', " "),
             );
 
-            // knowledge update
+            // The guess IS the record's centre: the word went out as this
+            // object and came home as the recovered word. Keep all three.
             knowledge["visited"][&cw] = serde_json::json!({
-                "recovered": rw, "residual": dist,
+                "guess": object, "recovered": rw, "residual": dist,
                 "verdict": cand_v.to_string(), "recovered_verdict": rec_v.to_string(),
             });
             for (sent, got) in subs {
-                let key = format!("{}→{}", sent.code(), got.code());
+                let key = format!("{sent}→{got}");
                 let n = knowledge["confusions"][&key].as_u64().unwrap_or(0);
                 knowledge["confusions"][&key] = serde_json::json!(n + 1);
             }
@@ -394,13 +562,37 @@ pub fn run(rest: &[String]) -> String {
         }
     }
 
+    // The accuracy trajectory: each run appends its mean residual, so the
+    // knowledge file carries the curve the loop is supposed to bend downward.
+    let mean = if tested > 0 { residual_sum as f64 / tested as f64 } else { 0.0 };
+    if tested > 0 {
+        if !knowledge["history"].is_array() {
+            knowledge["history"] = serde_json::json!([]);
+        }
+        if let Some(h) = knowledge["history"].as_array_mut() {
+            h.push(serde_json::json!({
+                "model": llm.model, "tested": tested, "perfect": perfect,
+                "mean_residual": (mean * 100.0).round() / 100.0,
+            }));
+        }
+        let _ = save_knowledge(&knowledge);
+        let trend: Vec<String> = knowledge["history"]
+            .as_array()
+            .map(|h| {
+                h.iter()
+                    .filter_map(|r| r.get("mean_residual").and_then(|m| m.as_f64()))
+                    .map(|m| format!("{m:.2}"))
+                    .collect()
+            })
+            .unwrap_or_default();
+        let _ = writeln!(out, "\naccuracy trajectory (mean residual per run): {}", trend.join(" → "));
+    }
     let _ = writeln!(
         out,
-        "\n{} word(s) round-tripped · {} perfect (μ∘δ = id) · mean residual {:.2}\n\
+        "{} word(s) round-tripped · {} perfect (μ∘δ = id) · mean residual {mean:.2}\n\
          knowledge → {}",
         tested,
         perfect,
-        if tested > 0 { residual_sum as f64 / tested as f64 } else { 0.0 },
         knowledge_path().display(),
     );
     out
@@ -410,8 +602,8 @@ pub fn run(rest: &[String]) -> String {
 mod tests {
     use super::*;
 
-    fn w(s: &str) -> Vec<Token> {
-        crate::imasm::tok_list(&[s.to_string()])
+    fn w(s: &str) -> Vec<char> {
+        parse_word(s, face_of(s)).unwrap()
     }
 
     #[test]
@@ -421,26 +613,47 @@ mod tests {
         let b = w("⊢◇>×●¬⊣");
         let (d, subs) = residual(&a, &b);
         assert_eq!(d, 1);
-        assert_eq!(subs, vec![(Token::Evalt, Token::Evalf)]);
+        assert_eq!(subs, vec![('+', '×')]);
     }
 
     #[test]
     fn neighbors_hold_the_boundary_and_the_grammar() {
         let a = w("⊢◇>+●¬⊣");
-        let hood = neighbors(&a);
+        let hood = neighbors(Face::Classic, &a);
         assert!(!hood.is_empty());
         for n in &hood {
-            assert_eq!(n.first(), Some(&Token::Vinit));
-            assert_eq!(n.last(), Some(&Token::Tanch));
-            let pairs = match_pairs(n);
-            assert!(from_sequence(n, &pairs).validate().is_empty());
+            assert_eq!(n.first(), Some(&'⊢'));
+            assert_eq!(n.last(), Some(&'⊣'));
+            assert!(word_valid(Face::Classic, n));
         }
     }
 
     #[test]
+    fn tri_words_choose_the_trilattice_face() {
+        let raw = "⊢∈>+<×∋=⊙⊞¬⊣";
+        assert!(face_of(raw) == Face::Tri);
+        let seed = w(raw);
+        assert_eq!(seed.len(), raw.chars().count());
+        assert_eq!(verdict_letter(Face::Tri, &seed), 'T');
+        let hood = neighbors(Face::Tri, &seed);
+        assert!(!hood.is_empty());
+        for n in &hood {
+            assert!(word_valid(Face::Tri, n));
+        }
+    }
+
+    #[test]
+    fn blinding_strips_leaked_opcode_vocabulary() {
+        let leaky = "VINIT begins the ⊙ bird taking flight from EVALT branch";
+        let b = blind(leaky);
+        assert!(!b.contains("VINIT") && !b.contains("EVALT") && !b.contains('⊙'), "{b}");
+        assert!(b.contains("bird taking flight"));
+    }
+
+    #[test]
     fn verdicts_match_the_check_reading() {
-        assert_eq!(verdict_letter(&w("⊢◇>+●⊣")), 'T');
-        assert_eq!(verdict_letter(&w("⊢◇⊙●⊣")), 'N');
-        assert_eq!(verdict_letter(&w("⊢◇⊞>●⊣")), 'B');
+        assert_eq!(verdict_letter(Face::Classic, &w("⊢◇>+●⊣")), 'T');
+        assert_eq!(verdict_letter(Face::Classic, &w("⊢◇⊙●⊣")), 'N');
+        assert_eq!(verdict_letter(Face::Classic, &w("⊢◇⊞>●⊣")), 'B');
     }
 }

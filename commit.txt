@@ -1,13 +1,23 @@
-I made the composer surface carry its own manifest.
+I gave the excription loop its guess, both faces, and a memory of its own accuracy.
 
-Opening imasm_composer.html directly (file://) failed to fetch
-ob3ects/imasm_manifest.json because browsers block file:// fetches, leaving
-only the picker or a local server. Now `imasm export` splices the manifest
-JSON straight into an application/json block inside the page (with </ escaped
-so the data can never close its own script tag, and idempotent across
-re-exports), and the page reads the inline block first, falling back to the
-fetch and the picker only when it has not been exported into yet. The surface
-was always fully local and self-contained; now its data is too.
+The loop's middle term is now what it was always meant to be: a GUESS. The
+excriber names one concrete object whose structure is the word (not a numbered
+step list), the guess is blinded of any leaked opcode vocabulary, and every
+guess already taken rides the next excription as forbidden, because the live
+1.7B collapsed every word to the prompt's own example ("a court appeal") the
+moment an example existed to parrot. The guess persists in the knowledge file
+beside the recovered word and residual: word out, object between, word home.
 
-Verified: export embeds 340 tools and 12 opcodes, the inline block parses
-back, and a second export re-splices cleanly.
+Both faces run in one loop: a seed carrying tri tokens is read by the
+SIXTEEN_3 trilattice grammar (parse, verdicts, neighborhood alphabet all from
+imasm_core), any other by the classic grammar. The knowledge file gains an
+accuracy trajectory: each run appends its mean residual, so improvement over
+time is a curve in the record, not an impression. Progress speaks live to
+stderr per arm (excribing, guess, recovered, residual) instead of minutes of
+silence, and the usage text warns that an unquoted glyph word loses its tail
+to shell redirection. Guide Part XIV rewritten to match.
+
+Verified: build green under local,cuda; 5/5 learn tests including the
+trilattice face and the blinding; tri seed smoke-parses as SIXTEEN_3; live
+classic run on the local model round-tripped 3 words with guesses recorded
+and the trajectory line printed.

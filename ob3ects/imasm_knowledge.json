@@ -1,5 +1,1807 @@
 {
-  "confusions": {},
-  "rounds": 1,
-  "visited": {}
+  "confusions": {
+    "+→>": 4,
+    "+→⊙": 1,
+    "+→⊞": 1,
+    "+→◇": 1,
+    "+→●": 1,
+    "<→>": 2,
+    "<→¬": 1,
+    "<→∈": 1,
+    "<→⊞": 1,
+    "<→⊣": 4,
+    "<→◇": 1,
+    "=→<": 1,
+    "=→⊣": 2,
+    "=→◇": 1,
+    ">→¬": 1,
+    ">→●": 1,
+    "¬→+": 1,
+    "¬→~": 13,
+    "¬→×": 2,
+    "¬→⊣": 1,
+    "×→>": 2,
+    "×→●": 1,
+    "∈→+": 1,
+    "∈→⊞": 2,
+    "∋→×": 3,
+    "⊙→∋": 1,
+    "⊞→>": 4,
+    "⊞→●": 1,
+    "⊢→⊙": 1,
+    "⊣→+": 1,
+    "⊣→≁": 12,
+    "⊣→⊙": 3,
+    "⊣→⊞": 68,
+    "◇→>": 2,
+    "◇→¬": 1,
+    "◇→⊙": 5,
+    "◇→⊞": 3,
+    "●→=": 1,
+    "●→⊙": 1
+  },
+  "history": [
+    {
+      "mean_residual": 3.33,
+      "model": "google/gemini-3-flash-preview",
+      "perfect": 0,
+      "tested": 3
+    },
+    {
+      "mean_residual": 14.9,
+      "model": "poolside/laguna-m.1:free",
+      "perfect": 0,
+      "tested": 20
+    }
+  ],
+  "rounds": 19,
+  "visited": {
+    "⊢+": {
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 1,
+      "verdict": "N"
+    },
+    "⊢++++∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning process involving evaluation, splitting, and rejoining of information.",
+      "recovered": "⊞×∈∋",
+      "recovered_verdict": "N",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢+++=+∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 17,
+      "verdict": "T"
+    },
+    "⊢+++=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢+++∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢++<+∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning process involving evaluation, negation, and composition of propositions.",
+      "recovered": "⊞×~+",
+      "recovered_verdict": "N",
+      "residual": 17,
+      "verdict": "T"
+    },
+    "⊢++<=+∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning protocol for determining the truth value of statements through a series of transformations.",
+      "recovered": "⊢∈>+×∋¬",
+      "recovered_verdict": "T",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢++<=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢++<∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning protocol for evaluating and rejoining information streams.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢++=++∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 17,
+      "verdict": "T"
+    },
+    "⊢++=+∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning protocol for determining truth values in a system with three possible states.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 17,
+      "verdict": "T"
+    },
+    "⊢++=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning process involving evaluation, composition, and information handling.",
+      "recovered": "×",
+      "recovered_verdict": "N",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢++>=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢+<": {
+      "recovered": "⊢>⊣",
+      "recovered_verdict": "N",
+      "residual": 2,
+      "verdict": "N"
+    },
+    "⊢+<=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢+<>=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢+==∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢+=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+>+●¬⊣": {
+      "guess": "A court appeal.",
+      "recovered": "⊢◇>+●¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "verdict": "B"
+    },
+    "⊢+>=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢+⊞◇": {
+      "recovered": "⊢+⊞",
+      "recovered_verdict": "N",
+      "residual": 1,
+      "verdict": "B"
+    },
+    "⊢+◇": {
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 2,
+      "verdict": "B"
+    },
+    "⊢+◇>+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice between two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢<": {
+      "recovered": "⊢⊣",
+      "recovered_verdict": "N",
+      "residual": 1,
+      "verdict": "N"
+    },
+    "⊢<+": {
+      "recovered": "⊢>⊞>",
+      "recovered_verdict": "N",
+      "residual": 3,
+      "verdict": "N"
+    },
+    "⊢<<": {
+      "recovered": "⊢⊣>",
+      "recovered_verdict": "N",
+      "residual": 2,
+      "verdict": "N"
+    },
+    "⊢<=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal protocol.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢<>+●¬⊣": {
+      "guess": "A court appeal.",
+      "recovered": "⊢◇>+●¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "verdict": "B"
+    },
+    "⊢<>=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢<⊞◇": {
+      "recovered": "⊢⊣>⊙",
+      "recovered_verdict": "N",
+      "residual": 3,
+      "verdict": "B"
+    },
+    "⊢<◇": {
+      "recovered": "⊢>⊙",
+      "recovered_verdict": "N",
+      "residual": 2,
+      "verdict": "B"
+    },
+    "⊢<◇>+●¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢=": {
+      "recovered": "⊢⊣=",
+      "recovered_verdict": "N",
+      "residual": 1,
+      "verdict": "N"
+    },
+    "⊢==∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢=>+●¬⊣": {
+      "guess": "A court appeal.",
+      "recovered": "⊢◇>+●¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "verdict": "B"
+    },
+    "⊢=>=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢=⊞◇": {
+      "recovered": "⊢⊣>⊙",
+      "recovered_verdict": "N",
+      "residual": 3,
+      "verdict": "B"
+    },
+    "⊢=◇": {
+      "recovered": "⊢⊣⊙",
+      "recovered_verdict": "N",
+      "residual": 2,
+      "verdict": "B"
+    },
+    "⊢=◇>+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢>": {
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 0,
+      "verdict": "N"
+    },
+    "⊢>+=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>+∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>+●¬⊣": {
+      "guess": "A court appeal.",
+      "recovered": "⊢◇>+●¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "verdict": "B"
+    },
+    "⊢><=∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and structural transformation.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢><∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning protocol for evaluating and rejoining information in a three-way system.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=+∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process with logical steps and transformations.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=<∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning protocol for determining truth values in a three-way system.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢>==∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=>∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=~∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=¬∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=×∈+⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and structural transformation.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈++∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal protocol.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈++⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+<∋>=∈×<∋⊞¬⊣": {
+      "guess": "information fusion process",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+<⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and recombination of arguments.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+=∋>=∈×<∋⊞¬⊣": {
+      "guess": "object: a three-way split and fuse protocol with evaluation steps",
+      "recovered": "∈",
+      "recovered_verdict": "B",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+=⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and rejoining of information.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢>=∈+>∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving forward and reverse morphisms.",
+      "recovered": "><",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+>⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+~∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+~⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+¬∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+¬⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+×∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal protocol.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+×⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+∈∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+∈⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢>=∈+∋∋>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning protocol for evaluating and rejoining information streams.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+∋⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning protocol for evaluating and rejoining information streams in a three-way system.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢>=∈+≁∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+≁⊙∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙+>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving forward and reverse morphisms, splits, evaluations, and fixes.",
+      "recovered": "><∈∋+×⊞¬",
+      "recovered_verdict": "N",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙+∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and rejoining of information.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙<>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal protocol.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙<∋>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning protocol for resolving contradictions in a three-way system.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙=>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙=∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙>>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and structural transformation.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙>∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙~>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙~∋>=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙¬>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and structural transformation.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙¬∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙×>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving forward and reverse morphisms.",
+      "recovered": "><",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙×∋>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∈>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and rejoining of information.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∈∋>=∈×<∋⊞¬⊣": {
+      "guess": "A digital information processor performing complex logical operations on a ternary state system.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋+=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal protocol.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋+>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and structural transformation.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋<=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal protocol.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋<>=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning protocol for evaluating and recombining information in a three-way system.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋==∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋=>=∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>+=∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>+∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋><=∈×<∋⊞¬⊣": {
+      "guess": "A logical reasoning protocol for evaluating and recombining information in a system with three states.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋><∈×<∋⊞¬⊣": {
+      "guess": "A court appeal protocol.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=+×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and rejoining of information.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=+∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and structural transformation.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=<×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=<∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and structural transformation.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>==×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and rejoining of information.",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>==∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=>×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=>∈×<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=~×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=~∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=¬×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=¬∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=××<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and composition of steps.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=×∈×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈+<∋⊞¬⊣": {
+      "guess": "A court appeal protocol.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈+×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈<<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈<×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and structural transformation.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈<∋⊞¬⊣": {
+      "guess": "A court appeal protocol.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈=<∋⊞¬⊣": {
+      "guess": "A court appeal protocol.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈=×<∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and structural transformation.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈><∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈>×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈~<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈~×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈¬<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈¬×<∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈×+<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈×+∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and structural transformation.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈×<+∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈×<+⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "B"
+    },
+    "⊢>=∈+⊙∋>=∈×<<∋⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈×<<⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "B"
+    },
+    "⊢>=∈+⊙∋>=∈×<=∋⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈×<=⊞¬⊣": {
+      "guess": "a court appeal",
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "B"
+    },
+    "⊢>=∈+⊙∋>=∈×<>∋⊞¬⊣": {
+      "guess": "A court appeal process involving logical evaluation and transformation of information.",
+      "recovered": "⊢>×⊞~≁",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢>=∈+⊙∋>=∈×<>⊞¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "B"
+    },
+    "⊢>>+●¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 2,
+      "verdict": "B"
+    },
+    "⊢>⊞◇": {
+      "recovered": "⊢>⊞",
+      "recovered_verdict": "N",
+      "residual": 1,
+      "verdict": "B"
+    },
+    "⊢>◇": {
+      "recovered": "⊢>⊙>",
+      "recovered_verdict": "N",
+      "residual": 2,
+      "verdict": "B"
+    },
+    "⊢>◇>+●¬⊣": {
+      "guess": "A court appeal.",
+      "recovered": "⊢◇>+●¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "verdict": "T"
+    },
+    "⊢¬": {
+      "recovered": "⊢+",
+      "recovered_verdict": "N",
+      "residual": 1,
+      "verdict": "N"
+    },
+    "⊢¬>+●¬⊣": {
+      "guess": "A court appeal process — step by step, it begins with a formal initiation then commits to an irreversible action takes forward steps evaluates the true path fuses arms back into one commits again and closes the boundary",
+      "recovered": "⊢=×⊞",
+      "recovered_verdict": "N",
+      "residual": 6,
+      "verdict": "B"
+    },
+    "⊢¬⊞◇": {
+      "recovered": "⊢⊣>¬",
+      "recovered_verdict": "N",
+      "residual": 3,
+      "verdict": "B"
+    },
+    "⊢¬◇": {
+      "recovered": "⊢⊣>×⊞",
+      "recovered_verdict": "N",
+      "residual": 4,
+      "verdict": "B"
+    },
+    "⊢¬◇>+●¬⊣": {
+      "guess": "A paradoxical commitment process in logic or philosophy.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢×": {
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 1,
+      "verdict": "N"
+    },
+    "⊢×>+●¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 2,
+      "verdict": "B"
+    },
+    "⊢×⊞◇": {
+      "recovered": "⊢+×⊞",
+      "recovered_verdict": "N",
+      "residual": 2,
+      "verdict": "B"
+    },
+    "⊢×◇": {
+      "recovered": "⊢>×⊞",
+      "recovered_verdict": "N",
+      "residual": 2,
+      "verdict": "B"
+    },
+    "⊢×◇>+●¬⊣": {
+      "guess": "A court appeal.",
+      "recovered": "⊢◇>+●¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "verdict": "T"
+    },
+    "⊢⊙": {
+      "recovered": "⊢⊙",
+      "recovered_verdict": "N",
+      "residual": 0,
+      "verdict": "N"
+    },
+    "⊢⊙>+●¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 2,
+      "verdict": "B"
+    },
+    "⊢⊙⊞◇": {
+      "recovered": "⊢⊙⊞",
+      "recovered_verdict": "N",
+      "residual": 1,
+      "verdict": "B"
+    },
+    "⊢⊙◇": {
+      "recovered": "⊢⊙",
+      "recovered_verdict": "N",
+      "residual": 1,
+      "verdict": "B"
+    },
+    "⊢⊙◇>+●¬⊣": {
+      "guess": "A paradoxical self-reference and commitment process.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊞": {
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 1,
+      "verdict": "N"
+    },
+    "⊢⊞+": {
+      "recovered": "⊢>●⊞",
+      "recovered_verdict": "B",
+      "residual": 3,
+      "verdict": "N"
+    },
+    "⊢⊞+◇": {
+      "recovered": "⊢⊞",
+      "recovered_verdict": "N",
+      "residual": 2,
+      "verdict": "B"
+    },
+    "⊢⊞<": {
+      "recovered": "⊢⊣>⊙⊞¬",
+      "recovered_verdict": "N",
+      "residual": 4,
+      "verdict": "N"
+    },
+    "⊢⊞>+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice between two possibilities.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 6,
+      "verdict": "B"
+    },
+    "⊢⊞◇": {
+      "recovered": "⊢>⊣=⊙>⊞",
+      "recovered_verdict": "N",
+      "residual": 6,
+      "verdict": "B"
+    },
+    "⊢⊞◇>+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice between two possibilities.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇+": {
+      "recovered": "⊢⊙●",
+      "recovered_verdict": "B",
+      "residual": 2,
+      "verdict": "B"
+    },
+    "⊢◇++●¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢◇+>+●¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice between two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢◇<+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice between two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇<>+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇=+●¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇=>+●¬⊣": {
+      "guess": "a paradoxical process of holding and resolving conflicting alternatives",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>": {
+      "recovered": "⊢>",
+      "recovered_verdict": "N",
+      "residual": 1,
+      "verdict": "B"
+    },
+    "⊢◇>++¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>++●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+<¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>+<●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+=¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>+=●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+>¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 3,
+      "verdict": "B"
+    },
+    "⊢◇>+>●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+¬¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>+¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 6,
+      "verdict": "B"
+    },
+    "⊢◇>+¬●¬⊣": {
+      "guess": "A paradoxical commitment to a lived contradiction.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+×¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 3,
+      "verdict": "B"
+    },
+    "⊢◇>+×●¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢◇>+⊙¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>+⊙●¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+⊞¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 6,
+      "verdict": "B"
+    },
+    "⊢◇>+⊞●¬⊣": {
+      "guess": "A paradoxical commitment to a choice between two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>+◇¬⊣": {
+      "guess": "A paradoxical process of holding and committing to alternatives while navigating through a sequence of transformations.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>+◇●¬⊣": {
+      "guess": "A paradoxical commitment to a choice between two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "B"
+    },
+    "⊢◇>+●+¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●+⊣": {
+      "guess": "A paradoxical evaluation process involving forward and reverse steps.",
+      "recovered": "⊙⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇>+●<¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●<⊣": {
+      "guess": "a paradoxical process of alternation and fusion",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇>+●=¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●=⊣": {
+      "guess": "A paradoxical process of linking and evaluating alternatives.",
+      "recovered": "⊙◇●",
+      "recovered_verdict": "N",
+      "residual": 5,
+      "verdict": "T"
+    },
+    "⊢◇>+●>¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●>⊣": {
+      "guess": "A bimolecular substitution process.",
+      "recovered": "⊢◇>+●¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "verdict": "T"
+    },
+    "⊢◇>+●¬+⊣": {
+      "guess": "A paradoxical commitment to a choice and its negation.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●¬<⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●¬=⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●¬>⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●¬¬⊣": {
+      "guess": "A paradoxical commitment to both possibilities simultaneously.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●¬×⊣": {
+      "guess": "A paradoxical commitment to a choice between two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●¬⊙⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●¬⊞⊣": {
+      "guess": "A paradoxical commitment to a choice between two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>+●¬◇⊣": {
+      "guess": "A paradoxical commitment to two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "B"
+    },
+    "⊢◇>+●¬●⊣": {
+      "guess": "A paradoxical commitment to a choice and its negation.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "B"
+    },
+    "⊢◇>+●×¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>+●×⊣": {
+      "guess": "a handshake protocol",
+      "recovered": "⊢⊣",
+      "recovered_verdict": "N",
+      "residual": 5,
+      "verdict": "T"
+    },
+    "⊢◇>+●⊙¬⊣": {
+      "guess": "A paradoxical self-reference process in a lived system.",
+      "recovered": "⊙",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇>+●⊙⊣": {
+      "guess": "A paradoxical self-reference process.",
+      "recovered": "⊙",
+      "recovered_verdict": "N",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢◇>+●⊞¬⊣": {
+      "guess": "A paradoxical commitment to a choice between two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>+●⊞⊣": {
+      "guess": "A paradoxical self-reference process.",
+      "recovered": "⊙",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>+●⊣": {
+      "guess": "a paradoxical process of branching and merging in a lived reality",
+      "recovered": "⊙⊞",
+      "recovered_verdict": "N",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢◇>+●◇¬⊣": {
+      "guess": "A paradoxical process of holding and resolving conflicting alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "B"
+    },
+    "⊢◇>+●◇⊣": {
+      "guess": "a paradoxical process of alternation and fusion",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>+●●¬⊣": {
+      "guess": "A paradoxical commitment to both alternatives simultaneously.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "B"
+    },
+    "⊢◇>+●●⊣": {
+      "guess": "A paradoxical process of self-referential fusion and evaluation.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇><+●¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇><●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇>=+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>=●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇>>+●¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>>●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇>¬+●¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>¬●¬⊣": {
+      "guess": "A paradoxical commitment process in logic or reasoning.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇>×+●¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢◇>×●¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 2,
+      "verdict": "T"
+    },
+    "⊢◇>⊙+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice between two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇>⊙●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇>⊞+●¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>⊞●¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 6,
+      "verdict": "B"
+    },
+    "⊢◇>◇+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice between two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "B"
+    },
+    "⊢◇>◇●¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇>●+●¬⊣": {
+      "guess": "a paradoxical commitment process",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "B"
+    },
+    "⊢◇>●¬⊣": {
+      "guess": "A paradoxical self-reference process.",
+      "recovered": "⊙",
+      "recovered_verdict": "N",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢◇>●●¬⊣": {
+      "guess": "A paradoxical self-reference process.",
+      "recovered": "⊙",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇¬+●¬⊣": {
+      "guess": "A paradoxical commitment process in logic or computation.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇¬>+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice and its negation.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇×+●¬⊣": {
+      "guess": "A court appeal process",
+      "recovered": "⊢◇>+●¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "verdict": "T"
+    },
+    "⊢◇×>+●¬⊣": {
+      "guess": "A court appeal process.",
+      "recovered": "⊢>●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢◇⊙+●¬⊣": {
+      "guess": "A paradoxical commitment process.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢◇⊙>+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢◇⊞+●¬⊣": {
+      "guess": "A paradoxical commitment process.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 6,
+      "verdict": "B"
+    },
+    "⊢◇⊞>+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇◇+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice between two alternatives.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇◇>+●¬⊣": {
+      "guess": "A paradoxical commitment to a choice.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "B"
+    },
+    "⊢◇●+●¬⊣": {
+      "guess": "A paradoxical commitment process.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "B"
+    },
+    "⊢◇●>+●¬⊣": {
+      "guess": "A paradoxical process of self-reference and irreversible commitment.",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "B"
+    }
+  }
 }
