@@ -1471,10 +1471,39 @@ fn export_tools() -> String {
     match std::fs::write(&path, serde_json::to_string_pretty(&manifest).unwrap_or_default()) {
         Ok(_) => format!(
             "IMASM export → {} tool(s) manifested with graphs, ports, and closure states.\n  \
-             The composer surface reads this file; the kernel stays the only judge.\n",
-            manifest["tools"].as_array().map(|a| a.len()).unwrap_or(0)
+             The composer surface reads this file; the kernel stays the only judge.\n{}",
+            manifest["tools"].as_array().map(|a| a.len()).unwrap_or(0),
+            embed_manifest_in_surface(&manifest),
         ),
         Err(e) => format!("export: could not write manifest: {e}\n"),
+    }
+}
+
+/// Splice the manifest INTO the composer surface, between the page's
+/// `<script type="application/json" id="manifest">` markers, so `file://`
+/// opens work with no server and no picker: the page carries its own data.
+/// `</` is escaped to `<\/` so the JSON can never close its own script tag.
+fn embed_manifest_in_surface(manifest: &serde_json::Value) -> String {
+    let page = crate::expand_user("~/imsgct/MoDoT/imasm_composer.html");
+    let Ok(html) = std::fs::read_to_string(&page) else {
+        return "  (composer surface not found; manifest not embedded)\n".into();
+    };
+    const OPEN: &str = r#"<script type="application/json" id="manifest">"#;
+    const CLOSE: &str = "</script>";
+    let Some(a) = html.find(OPEN) else {
+        return "  (composer surface has no inline-manifest block; manifest not embedded)\n".into();
+    };
+    let body_start = a + OPEN.len();
+    let Some(rel) = html[body_start..].find(CLOSE) else {
+        return "  (composer surface inline-manifest block unterminated; manifest not embedded)\n".into();
+    };
+    let json = serde_json::to_string(manifest).unwrap_or_default().replace("</", r"<\/");
+    let new_html = format!("{}{}{}", &html[..body_start], json, &html[body_start + rel..]);
+    match std::fs::write(&page, new_html) {
+        Ok(_) => "  Manifest also embedded into imasm_composer.html — open it directly (file://), \
+                  no server needed.\n"
+            .into(),
+        Err(e) => format!("  (could not embed manifest into the surface: {e})\n"),
     }
 }
 

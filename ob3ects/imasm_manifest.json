@@ -1172,6 +1172,67 @@
       "spec": "protocol ⊙ > < Ħ Ω"
     },
     {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "⊙",
+        ">",
+        "<",
+        "=",
+        "+",
+        "×",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          0,
+          7
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "base_phi_close",
+      "nodes": [
+        "FSPLIT",
+        "IMSCRIB",
+        "AFWD",
+        "AREV",
+        "CLINK",
+        "EVALT",
+        "EVALF",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT IMSCRIB AFWD AREV CLINK EVALT EVALF FFUSE"
+    },
+    {
       "closure": "NONE",
       "codes": [
         "⊙",
@@ -1232,6 +1293,177 @@
         "AFWD"
       ],
       "spec": "ring AFWD"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        ">",
+        "<",
+        "=",
+        "+",
+        "×",
+        "●",
+        "◇"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "boundary_probe",
+      "nodes": [
+        "IMSCRIB",
+        "AFWD",
+        "AREV",
+        "CLINK",
+        "EVALT",
+        "EVALF",
+        "FFUSE",
+        "FSPLIT"
+      ],
+      "spec": "ring IMSCRIB AFWD AREV CLINK EVALT EVALF FFUSE FSPLIT"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "⊙",
+        ">",
+        "<",
+        "=",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "boundary_probe_clean",
+      "nodes": [
+        "FSPLIT",
+        "IMSCRIB",
+        "AFWD",
+        "AREV",
+        "CLINK",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT IMSCRIB AFWD AREV CLINK FFUSE"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "⊙",
+        ">",
+        "<",
+        "=",
+        "+",
+        "×",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          0,
+          7
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "boundary_probe_p",
+      "nodes": [
+        "FSPLIT",
+        "IMSCRIB",
+        "AFWD",
+        "AREV",
+        "CLINK",
+        "EVALT",
+        "EVALF",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT IMSCRIB AFWD AREV CLINK EVALT EVALF FFUSE"
     },
     {
       "closure": "NONE",
@@ -1651,6 +1883,37 @@
         "FFUSE"
       ],
       "spec": "protocol δ μ braid_logic"
+    },
+    {
+      "closure": "NONE",
+      "codes": [
+        "<",
+        ">",
+        "<"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "free_in": 0,
+      "free_out": 0,
+      "name": "braid_select",
+      "nodes": [
+        "AREV",
+        "AFWD",
+        "AREV"
+      ],
+      "spec": "ring AREV AFWD AREV"
     },
     {
       "closure": "CLOSED(1)",
@@ -2392,6 +2655,39 @@
       "spec": "ring ⊞ Linker_δμ_Bridge theta_0.25 ●"
     },
     {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        "⊞",
+        "●",
+        "¬"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "free_in": 2,
+      "free_out": 1,
+      "name": "bridge_ring",
+      "nodes": [
+        "IMSCRIB",
+        "ENGAGR",
+        "FFUSE",
+        "IFIX"
+      ],
+      "spec": "protocol IMSCRIB ENGAGR FFUSE IFIX"
+    },
+    {
       "closure": "NONE",
       "codes": [
         "⊙",
@@ -2421,6 +2717,31 @@
         "AREV"
       ],
       "spec": "ring ⊙ > <"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "◇",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "bridge_stitch",
+      "nodes": [
+        "FSPLIT",
+        "FFUSE"
+      ],
+      "spec": "ring FSPLIT FFUSE …"
     },
     {
       "closure": "OPEN",
@@ -2684,6 +3005,80 @@
         "AREV"
       ],
       "spec": "ring ⊙ > <"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "◇",
+        "<",
+        ">",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "chan_collapse",
+      "nodes": [
+        "FSPLIT",
+        "AREV",
+        "AFWD",
+        "FFUSE"
+      ],
+      "spec": "ring FSPLIT AREV AFWD FFUSE"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "<",
+        ">",
+        "=",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 0,
+      "name": "chan_select",
+      "nodes": [
+        "AREV",
+        "AFWD",
+        "CLINK",
+        "FFUSE"
+      ],
+      "spec": "ring AREV AFWD CLINK FFUSE"
     },
     {
       "closure": "OPEN",
@@ -3979,6 +4374,164 @@
       "spec": "ring ⊙ > < ● ●"
     },
     {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        ">",
+        "=",
+        "◇",
+        "⊞",
+        "●",
+        "+",
+        "<",
+        "×",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          10,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "double_ascend",
+      "nodes": [
+        "IMSCRIB",
+        "AFWD",
+        "CLINK",
+        "FSPLIT",
+        "ENGAGR",
+        "FFUSE",
+        "EVALT",
+        "AREV",
+        "EVALF",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "ring IMSCRIB AFWD CLINK FSPLIT ENGAGR FFUSE EVALT AREV EVALF IFIX TANCH"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        ">",
+        "=",
+        "◇",
+        "+",
+        "<",
+        "×",
+        "●",
+        "⊞",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          10,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "double_wind",
+      "nodes": [
+        "IMSCRIB",
+        "AFWD",
+        "CLINK",
+        "FSPLIT",
+        "EVALT",
+        "AREV",
+        "EVALF",
+        "FFUSE",
+        "ENGAGR",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "ring IMSCRIB AFWD CLINK FSPLIT EVALT AREV EVALF FFUSE ENGAGR IFIX TANCH"
+    },
+    {
       "closure": "NONE",
       "codes": [
         "⊙",
@@ -4129,6 +4682,79 @@
       "spec": "ring ⊙ > <"
     },
     {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "⊙",
+        "◇",
+        ">",
+        "+",
+        "<",
+        "×",
+        "●",
+        "=",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          1,
+          6
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "dyad_test",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "AFWD",
+        "EVALT",
+        "AREV",
+        "EVALF",
+        "FFUSE",
+        "CLINK",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "protocol IMSCRIB FSPLIT AFWD EVALT AREV EVALF FFUSE CLINK IFIX TANCH"
+    },
+    {
       "closure": "NONE",
       "codes": [
         "⊙",
@@ -4226,6 +4852,150 @@
         "FFUSE"
       ],
       "spec": "protocol ◇ = ●"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "⊙",
+        ">",
+        "<",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          0,
+          4
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "fiber_close",
+      "nodes": [
+        "FSPLIT",
+        "IMSCRIB",
+        "AFWD",
+        "AREV",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT IMSCRIB AFWD AREV FFUSE"
+    },
+    {
+      "closure": "NONE",
+      "codes": [
+        "⊙",
+        ">",
+        "<"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "free_in": 0,
+      "free_out": 0,
+      "name": "fiber_compactify",
+      "nodes": [
+        "IMSCRIB",
+        "AFWD",
+        "AREV"
+      ],
+      "spec": "ring IMSCRIB AFWD AREV"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        ">",
+        "<",
+        "●",
+        "◇"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "free_in": 2,
+      "free_out": 2,
+      "name": "fiber_compactify_protocol",
+      "nodes": [
+        "IMSCRIB",
+        "AFWD",
+        "AREV",
+        "FFUSE",
+        "FSPLIT"
+      ],
+      "spec": "protocol IMSCRIB AFWD AREV FFUSE FSPLIT"
+    },
+    {
+      "closure": "NONE",
+      "codes": [
+        "⊙",
+        ">",
+        "<"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "free_in": 0,
+      "free_out": 0,
+      "name": "five_ring",
+      "nodes": [
+        "IMSCRIB",
+        "AFWD",
+        "AREV"
+      ],
+      "spec": "ring IMSCRIB AFWD AREV"
     },
     {
       "closure": "CLOSED(1)",
@@ -4455,6 +5225,43 @@
         "TANCH"
       ],
       "spec": "ring ⊙ > < ⊣"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "+",
+        "×",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "forcing_d12",
+      "nodes": [
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT EVALT EVALF FFUSE"
     },
     {
       "closure": "NONE",
@@ -4704,6 +5511,61 @@
         "FFUSE"
       ],
       "spec": "chain ⊢ ⊙ ●"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "⊢",
+        "◇",
+        "+",
+        "×",
+        "●",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "free_in": 0,
+      "free_out": 1,
+      "name": "generic_protocol",
+      "nodes": [
+        "VINIT",
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "protocol ⊢ ◇ + × ● ¬ ⊣"
     },
     {
       "closure": "NONE",
@@ -5009,6 +5871,151 @@
       "spec": "ring ⊙ > genus_two_bridge_operator_split_fuse <"
     },
     {
+      "closure": "CLOSED(4)",
+      "codes": [
+        "⊙",
+        "◇",
+        "+",
+        "×",
+        "●",
+        "⊙",
+        "◇",
+        "+",
+        "×",
+        "●",
+        "⊙",
+        "◇",
+        "+",
+        "×",
+        "●",
+        "⊙",
+        "◇",
+        "+",
+        "×",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          11,
+          12
+        ],
+        [
+          12,
+          13
+        ],
+        [
+          13,
+          14
+        ],
+        [
+          14,
+          15
+        ],
+        [
+          15,
+          16
+        ],
+        [
+          16,
+          17
+        ],
+        [
+          17,
+          18
+        ],
+        [
+          18,
+          19
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          11,
+          14
+        ],
+        [
+          16,
+          19
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "gerund_ring",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE",
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE",
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE",
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE"
+      ],
+      "spec": "protocol IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE"
+    },
+    {
       "closure": "NONE",
       "codes": [
         "⊙",
@@ -5038,6 +6045,432 @@
         "AREV"
       ],
       "spec": "ring ⊙ > <"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "⊙",
+        "◇",
+        "+",
+        "●",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          1,
+          3
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "h0_extract",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "FFUSE",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "protocol IMSCRIB FSPLIT EVALT FFUSE IFIX TANCH"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "⊙",
+        "◇",
+        "+",
+        "●",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          1,
+          3
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "h0_extract_v2",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "FFUSE",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "protocol IMSCRIB FSPLIT EVALT h0_constant_dimensionful FFUSE IFIX TANCH"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        "◇",
+        ">",
+        "+",
+        "<",
+        "×",
+        "●",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          8,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "h0_measure",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "AFWD",
+        "EVALT",
+        "AREV",
+        "EVALF",
+        "FFUSE",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "ring IMSCRIB FSPLIT AFWD EVALT AREV EVALF FFUSE IFIX TANCH"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        "◇",
+        "+",
+        "●",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "h0_reader",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "FFUSE",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "ring IMSCRIB FSPLIT EVALT FFUSE IFIX TANCH"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "⊙",
+        "◇",
+        "+",
+        "+",
+        "●",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "h0_surf",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "EVALT",
+        "FFUSE",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "protocol IMSCRIB FSPLIT EVALT + h0_constant_dimensionful FFUSE IFIX TANCH"
+    },
+    {
+      "closure": "CLOSED(4)",
+      "codes": [
+        "⊙",
+        "◇",
+        "+",
+        "×",
+        "●",
+        "⊙",
+        "◇",
+        "+",
+        "×",
+        "●",
+        "⊙",
+        "◇",
+        "+",
+        "×",
+        "●",
+        "⊙",
+        "◇",
+        "+",
+        "×",
+        "●",
+        ">",
+        "<"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          11,
+          12
+        ],
+        [
+          12,
+          13
+        ],
+        [
+          13,
+          14
+        ],
+        [
+          14,
+          15
+        ],
+        [
+          15,
+          16
+        ],
+        [
+          16,
+          17
+        ],
+        [
+          17,
+          18
+        ],
+        [
+          18,
+          19
+        ],
+        [
+          19,
+          20
+        ],
+        [
+          20,
+          21
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          11,
+          14
+        ],
+        [
+          16,
+          19
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "h0_witness_spec",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE",
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE",
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE",
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE",
+        "AFWD",
+        "AREV"
+      ],
+      "spec": "protocol IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE AFWD AREV"
     },
     {
       "closure": "NONE",
@@ -5155,6 +6588,49 @@
         "FFUSE"
       ],
       "spec": "ring ⊙ > < δ μ"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "⊙",
+        ">",
+        "+",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          0,
+          4
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "h_reset",
+      "nodes": [
+        "FSPLIT",
+        "IMSCRIB",
+        "AFWD",
+        "EVALT",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT IMSCRIB AFWD EVALT FFUSE"
     },
     {
       "closure": "OPEN",
@@ -5373,6 +6849,43 @@
       "spec": "ring monodromy_v_bad log_theta_theaters ⊞ ≡ ¤"
     },
     {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        ">",
+        "●",
+        "¬"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "hubble_solo",
+      "nodes": [
+        "FSPLIT",
+        "AFWD",
+        "FFUSE",
+        "IFIX"
+      ],
+      "spec": "protocol FSPLIT AFWD FFUSE IFIX"
+    },
+    {
       "closure": "NONE",
       "codes": [
         "⊙",
@@ -5550,6 +7063,55 @@
         "FFUSE"
       ],
       "spec": "ring ⊙ > < ⊞ ●"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        "◇",
+        "+",
+        "●",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "k_seam_probe",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "FFUSE",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "ring IMSCRIB FSPLIT EVALT FFUSE IFIX TANCH"
     },
     {
       "closure": "NONE",
@@ -6603,6 +8165,34 @@
       "spec": "protocol VINIT FSPLIT log_link_moat_complex FFUSE EVALT"
     },
     {
+      "closure": "OPEN",
+      "codes": [
+        "●"
+      ],
+      "edges": [],
+      "free_in": 2,
+      "free_out": 1,
+      "name": "moat_protocol_reseed_dyad",
+      "nodes": [
+        "FFUSE"
+      ],
+      "spec": "protocol fork · transform · fuse"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "●"
+      ],
+      "edges": [],
+      "free_in": 2,
+      "free_out": 1,
+      "name": "moat_protocol_reseed_protocol",
+      "nodes": [
+        "FFUSE"
+      ],
+      "spec": "protocol with a transform between the fork and the fuse"
+    },
+    {
       "closure": "NONE",
       "codes": [
         "⊙",
@@ -6799,6 +8389,122 @@
         "AREV"
       ],
       "spec": "ring ⊙ > <"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "⊢",
+        "◇",
+        ">",
+        ">",
+        ">",
+        ">",
+        ">",
+        "●",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          1,
+          7
+        ]
+      ],
+      "free_in": 0,
+      "free_out": 1,
+      "name": "o2_macrocycle_kernel",
+      "nodes": [
+        "VINIT",
+        "FSPLIT",
+        "AFWD",
+        "AFWD",
+        "AFWD",
+        "AFWD",
+        "AFWD",
+        "FFUSE",
+        "TANCH"
+      ],
+      "spec": "protocol ⊢ ◇ > > > > > ● ⊣"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        ">",
+        "=",
+        "◇",
+        "⊞",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "omega_wind",
+      "nodes": [
+        "IMSCRIB",
+        "AFWD",
+        "CLINK",
+        "FSPLIT",
+        "ENGAGR",
+        "FFUSE"
+      ],
+      "spec": "ring IMSCRIB AFWD CLINK FSPLIT ENGAGR FFUSE"
     },
     {
       "closure": "NONE",
@@ -7509,6 +9215,37 @@
     {
       "closure": "OPEN",
       "codes": [
+        "⊙",
+        "⊞",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 0,
+      "name": "phi_lift",
+      "nodes": [
+        "IMSCRIB",
+        "ENGAGR",
+        "FFUSE"
+      ],
+      "spec": "ring IMSCRIB ENGAGR FFUSE"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
         "⊢",
         "◇",
         "+",
@@ -7832,6 +9569,111 @@
         "TANCH"
       ],
       "spec": "chain ⊢ ⊣"
+    },
+    {
+      "closure": "NONE",
+      "codes": [
+        "⊙",
+        ">",
+        "<"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "free_in": 0,
+      "free_out": 0,
+      "name": "promote_phi_hbar",
+      "nodes": [
+        "IMSCRIB",
+        "AFWD",
+        "AREV"
+      ],
+      "spec": "ring IMSCRIB AFWD AREV"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "+",
+        "×",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "promote_phi_hbar_real",
+      "nodes": [
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT EVALT EVALF FFUSE"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "+",
+        "×",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "promote_scaffold_L9",
+      "nodes": [
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT EVALT EVALF FFUSE"
     },
     {
       "closure": "NONE",
@@ -8423,13 +10265,14 @@
       "spec": "protocol ⊢¬=⊙⊞>><<●⊣"
     },
     {
-      "closure": "IDENTITY",
+      "closure": "CLOSED(1)",
       "codes": [
-        "⊙",
         "◇",
-        "●",
         ">",
-        "<"
+        "+",
+        "<",
+        "×",
+        "●"
       ],
       "edges": [
         [
@@ -8449,21 +10292,26 @@
           4
         ],
         [
-          1,
-          2
+          4,
+          5
+        ],
+        [
+          0,
+          5
         ]
       ],
       "free_in": 1,
       "free_out": 1,
       "name": "reseed_dyad",
       "nodes": [
-        "IMSCRIB",
         "FSPLIT",
-        "FFUSE",
         "AFWD",
-        "AREV"
+        "EVALT",
+        "AREV",
+        "EVALF",
+        "FFUSE"
       ],
-      "spec": "protocol ⊙◇●><"
+      "spec": "protocol ◇ > + < × ●"
     },
     {
       "closure": "NONE",
@@ -8609,15 +10457,14 @@
     {
       "closure": "CLOSED(1)",
       "codes": [
-        "⊢",
-        "⊙",
-        ">",
         "◇",
-        "+",
-        "×",
-        "●",
-        "<",
-        "⊣"
+        ">",
+        ">",
+        ">",
+        ">",
+        ">",
+        ">",
+        "●"
       ],
       "edges": [
         [
@@ -8649,29 +10496,24 @@
           7
         ],
         [
-          7,
-          8
-        ],
-        [
-          3,
-          6
+          0,
+          7
         ]
       ],
-      "free_in": 0,
+      "free_in": 1,
       "free_out": 1,
       "name": "reseed_protocol",
       "nodes": [
-        "VINIT",
-        "IMSCRIB",
-        "AFWD",
         "FSPLIT",
-        "EVALT",
-        "EVALF",
-        "FFUSE",
-        "AREV",
-        "TANCH"
+        "AFWD",
+        "AFWD",
+        "AFWD",
+        "AFWD",
+        "AFWD",
+        "AFWD",
+        "FFUSE"
       ],
-      "spec": "protocol ⊢ ⊙ > ◇ + × ● < ⊣"
+      "spec": "protocol ◇ > > > > > > ●"
     },
     {
       "closure": "CLOSED(1)",
@@ -8739,6 +10581,73 @@
         "TANCH"
       ],
       "spec": "protocol ⊢ ⊙ ◇ > + × ● ¬ ⊣"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "⊢",
+        "◇",
+        ">",
+        ">",
+        ">",
+        ">",
+        ">",
+        "●",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          1,
+          7
+        ]
+      ],
+      "free_in": 0,
+      "free_out": 1,
+      "name": "reseed_protocol_kernel",
+      "nodes": [
+        "VINIT",
+        "FSPLIT",
+        "AFWD",
+        "AFWD",
+        "AFWD",
+        "AFWD",
+        "AFWD",
+        "FFUSE",
+        "TANCH"
+      ],
+      "spec": "protocol ⊢ ◇ > > > > > ● ⊣"
     },
     {
       "closure": "IDENTITY",
@@ -8935,6 +10844,31 @@
     {
       "closure": "NONE",
       "codes": [
+        "⊞",
+        "¬"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "free_in": 0,
+      "free_out": 0,
+      "name": "resolve_engagr",
+      "nodes": [
+        "ENGAGR",
+        "IFIX"
+      ],
+      "spec": "ring ENGAGR IFIX"
+    },
+    {
+      "closure": "NONE",
+      "codes": [
         "⊙",
         ">",
         "<",
@@ -9053,6 +10987,37 @@
       "closure": "OPEN",
       "codes": [
         "⊙",
+        "◇",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "retort",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "FFUSE"
+      ],
+      "spec": "ring IMSCRIB FSPLIT FFUSE"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
         ">",
         "<",
         "●"
@@ -9085,6 +11050,112 @@
         "FFUSE"
       ],
       "spec": "ring ⊙ > < ● μ_fusion"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        ">",
+        "<",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "free_in": 2,
+      "free_out": 1,
+      "name": "rotat_measure",
+      "nodes": [
+        "IMSCRIB",
+        "AFWD",
+        "AREV",
+        "FFUSE"
+      ],
+      "spec": "protocol IMSCRIB AFWD AREV FFUSE"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "⊙",
+        ">",
+        "=",
+        "◇",
+        "+",
+        "<",
+        "×",
+        "●",
+        "⊞",
+        "¬"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          3,
+          7
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "rotat_probe",
+      "nodes": [
+        "IMSCRIB",
+        "AFWD",
+        "CLINK",
+        "FSPLIT",
+        "EVALT",
+        "AREV",
+        "EVALF",
+        "FFUSE",
+        "ENGAGR",
+        "IFIX"
+      ],
+      "spec": "protocol IMSCRIB AFWD CLINK FSPLIT EVALT AREV EVALF FFUSE ENGAGR IFIX"
     },
     {
       "closure": "NONE",
@@ -9159,6 +11230,356 @@
         "FFUSE"
       ],
       "spec": "ring ⊙ δ μ"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "⊙",
+        "◇",
+        "+",
+        "×",
+        "●",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "seam_close",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "protocol IMSCRIB FSPLIT EVALT EVALF FFUSE IFIX TANCH"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        "◇",
+        "+",
+        "×",
+        "●",
+        "¬",
+        "⊣"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "seam_probe",
+      "nodes": [
+        "IMSCRIB",
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE",
+        "IFIX",
+        "TANCH"
+      ],
+      "spec": "ring IMSCRIB FSPLIT EVALT EVALF FFUSE IFIX TANCH"
+    },
+    {
+      "closure": "NONE",
+      "codes": [
+        "<",
+        ">",
+        "<",
+        "="
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "free_in": 0,
+      "free_out": 0,
+      "name": "seed_braid",
+      "nodes": [
+        "AREV",
+        "AFWD",
+        "AREV",
+        "CLINK"
+      ],
+      "spec": "ring AREV AFWD AREV CLINK"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        "⊞",
+        "●",
+        "¬"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "free_in": 2,
+      "free_out": 1,
+      "name": "seven_ring",
+      "nodes": [
+        "IMSCRIB",
+        "ENGAGR",
+        "FFUSE",
+        "IFIX"
+      ],
+      "spec": "protocol IMSCRIB ENGAGR FFUSE IFIX"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "⊙",
+        "⊞",
+        "●",
+        "¬"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "seven_ring_c",
+      "nodes": [
+        "FSPLIT",
+        "IMSCRIB",
+        "ENGAGR",
+        "FFUSE",
+        "IFIX"
+      ],
+      "spec": "protocol FSPLIT IMSCRIB ENGAGR FFUSE IFIX"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "⊙",
+        "⊞",
+        "●",
+        "¬"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "free_in": 2,
+      "free_out": 1,
+      "name": "seven_ring_closed",
+      "nodes": [
+        "IMSCRIB",
+        "ENGAGR",
+        "FFUSE",
+        "IFIX"
+      ],
+      "spec": "protocol IMSCRIB ENGAGR FFUSE IFIX"
+    },
+    {
+      "closure": "NONE",
+      "codes": [
+        "⊙",
+        ">",
+        "<",
+        "+",
+        "×"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "sh_density_limit",
+      "nodes": [
+        "IMSCRIB",
+        "AFWD",
+        "AREV",
+        "EVALT",
+        "EVALF"
+      ],
+      "spec": "protocol IMSCRIB AFWD AREV EVALT EVALF"
+    },
+    {
+      "closure": "OPEN",
+      "codes": [
+        "◇",
+        "+",
+        ">",
+        "×",
+        "<",
+        "●",
+        "⊞"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          0
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "sh_density_proof",
+      "nodes": [
+        "FSPLIT",
+        "EVALT",
+        "AFWD",
+        "EVALF",
+        "AREV",
+        "FFUSE",
+        "ENGAGR"
+      ],
+      "spec": "ring FSPLIT EVALT AFWD EVALF AREV FFUSE ENGAGR"
     },
     {
       "closure": "OPEN",
@@ -10645,6 +13066,43 @@
       "spec": "ring > AFWD AFWD FSPLIT EVALT AFWD EVALF AFWD FFUSE IFIX — but no that’s arbitrary"
     },
     {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "+",
+        "×",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "uniqueness_lemma",
+      "nodes": [
+        "FSPLIT",
+        "EVALT",
+        "EVALF",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT EVALT EVALF FFUSE"
+    },
+    {
       "closure": "NONE",
       "codes": [
         "⊙",
@@ -10812,6 +13270,190 @@
         "FFUSE"
       ],
       "spec": "chain ⊙ > < ●"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "⊙",
+        ">",
+        "+",
+        "×",
+        "<",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          0,
+          6
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "Ħ_action_null",
+      "nodes": [
+        "FSPLIT",
+        "IMSCRIB",
+        "AFWD",
+        "EVALT",
+        "EVALF",
+        "AREV",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT IMSCRIB AFWD EVALT EVALF AREV FFUSE"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "⊙",
+        "<",
+        ">",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          0,
+          4
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "Ħ_braid_nonab",
+      "nodes": [
+        "FSPLIT",
+        "IMSCRIB",
+        "AREV",
+        "AFWD",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT IMSCRIB AREV AFWD FFUSE"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "⊙",
+        ">",
+        "+",
+        "×",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "Ħ_floor_lock",
+      "nodes": [
+        "FSPLIT",
+        "IMSCRIB",
+        "AFWD",
+        "EVALT",
+        "EVALF",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT IMSCRIB AFWD EVALT EVALF FFUSE"
+    },
+    {
+      "closure": "CLOSED(1)",
+      "codes": [
+        "◇",
+        "⊙",
+        "<",
+        "●"
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "free_in": 1,
+      "free_out": 1,
+      "name": "Ħ_residual_fuse",
+      "nodes": [
+        "FSPLIT",
+        "IMSCRIB",
+        "AREV",
+        "FFUSE"
+      ],
+      "spec": "protocol FSPLIT IMSCRIB AREV FFUSE"
     },
     {
       "closure": "OPEN",
