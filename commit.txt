@@ -1,28 +1,27 @@
-I gave the loop learned relations and gave programs promotion paths.
+I gave the excriber the primitives as tangible handles.
 
-Two changes, one insight connecting them.
+IMASM names a program's characteristics abstractly (fork, fuse, work, hold);
+the twelve primitive axes give those characteristics grounded names an object
+can be judged against. Three groundings now ride the excriber's prompt:
 
-Relations feedback: the loop was recording (object, word) pairs but feeding
-only the glyph-slip confusions back to the imscriber. Now, before imscribing an
-object, it retrieves the nearest confirmed relations (prior objects that were
-excribed from known words, ranked by word-overlap, ties to the lower residual)
-and shows them as examples. This is the learning channel the loop was missing:
-the imscriber generalizes the object-to-word direction from confirmed cases,
-and the recovered words go from the old 2-4 glyph collapse to full-length words
-of the right family. Legacy empty-guess rows still in the file are inert here
-(zero overlap, never retrieved).
+- Each opcode in the alphabet is tagged with the primitive axis it rides, from
+  the canonical IGProtocol field assignment: VINIT Dimensionality, TANCH
+  Topology, AFWD Relational, AREV Polarity, CLINK Fidelity, IMSCRIB Interaction
+  Grammar, FSPLIT Granularity, FFUSE and ENGAGR Stoichiometry, EVALT
+  Criticality, EVALF Chirality, IFIX Topological Protection (Kinetic Character,
+  the twelfth, is carried by the register's motion, not one opcode). The tri
+  face tags FSPLIT3/FFUSE3/EVALI/TNEG/INEG the same way.
+- The twelve axes themselves, each with a one-line tangible handle.
+- The primitive types loaded from ob3ect/digital (the_primitive_type_called_*),
+  each rendered as name and its own glyph word: 50 concrete exemplars of how the
+  characteristics compose into real programs, cached on first use, dropped from
+  the hotter retry to leave room to diverge.
 
-Promotion paths: two tuples that differ have a promotion path, one primitive
-changed at a time with every intermediate well-formed. Two IMASM programs are
-no different. `imasm path A B` finds the shortest walk of single-opcode edits
-from A to B in which EVERY waypoint is a valid program: A* over valid programs
-with the raw edit distance as the admissible heuristic, either face. The learn
-loop's residual is that raw distance; the promotion path is the stronger object
-on the same metric, and its verdict can climb along the way. Substituting an
-inert IMSCRIB for a working opcode promotes an identity closure N to a real
-closure T in one step, the program-space image of a tuple promotion. Guide gains
-Part XV.
+The excriber is told to read what the program's shape says about each axis and
+name the real object with those characteristics. The em-dashes in the alphabet
+table are replaced with colons in the same pass. Guide Part XIV notes the
+grounding.
 
-Verified: build green under local,cuda; 7/7 learn tests (two new for the path:
-single-substitution length and all-waypoints-valid); live paths shown lateral
-(T to T), climbing (N to T), multi-step with insertions, and across the tri face.
+Verified: build green under local,cuda; 7/7 learn tests; 50/50 primitive type
+ob3ects parse to glyph words; a live run shows the grounded excriber producing
+domain-varied guesses (garden techniques, spherical coordinates, cell division).

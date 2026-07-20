@@ -457,7 +457,13 @@ Each round takes the neighborhood of the current word (single-opcode
 substitutions, insertions, deletions from the face's body alphabet; the
 boundary turnstiles held fixed; only grammar-valid candidates admitted). For
 each candidate the model excribes the word into a GUESS: it names one concrete
-object in a real domain whose structure is the word. The prompt carries one
+object in a real domain whose structure is the word. The excriber is grounded
+in the primitives: each opcode is tagged with the axis it rides (VINIT
+Dimensionality, FSPLIT Granularity, EVALT Criticality, IFIX Topological
+Protection, and so on), the twelve axes are given as tangible handles, and the
+primitive types are loaded from ob3ect/digital as exemplars, each itself an
+IMASM word. So the guess is read off the program's characteristics, not its
+glyphs alone. The prompt carries one
 worked example word with three wildly different excriptions of it (three
 domains, one structure), teaching the fan-out rather than an answer; the
 guessing domain itself is assigned, rotated by the word, so a small model

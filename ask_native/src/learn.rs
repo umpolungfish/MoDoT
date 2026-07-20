@@ -19,6 +19,7 @@
 use crate::imasm::{from_sequence, match_pairs, ClosureState, Token};
 use imasm_core::imasm16_3::{parse_glyph_word, tri_ancestral_verdict};
 use std::fmt::Write as _;
+use std::sync::OnceLock;
 
 // ── the two faces ────────────────────────────────────────────────────────────
 
@@ -86,38 +87,115 @@ fn glyph_name(face: Face, c: char) -> &'static str {
 fn alphabet_table(face: Face) -> &'static str {
     match face {
         Face::Classic => {
-            "IMASM opcode alphabet (glyph · name · meaning · does it TRANSFORM?):\n\
-             ⊢ VINIT   begin / source boundary — no\n\
-             ⊣ TANCH   terminal anchor / close boundary — no\n\
-             > AFWD    forward morphism (a step of real forward work) — YES\n\
-             < AREV    reverse morphism (an inversion / undoing) — YES\n\
-             = CLINK   compose / link two things into one — YES\n\
-             ⊙ IMSCRIB identity / self-reference (no work) — no\n\
-             ◇ FSPLIT  fork into two alternatives (δ) — no\n\
-             ● FFUSE   fuse two arms back into one (μ) — no\n\
-             + EVALT   evaluate / affirm the true arm — YES\n\
-             × EVALF   evaluate / refute the false arm — YES\n\
-             ⊞ ENGAGR  hold both arms at once (a lived paradox) — YES\n\
-             ¬ IFIX    irreversible commit / fixation — YES"
+            "IMASM opcode alphabet (glyph : name : meaning : TRANSFORM? : the primitive axis it rides):\n\
+             ⊢ VINIT   begin / source boundary : no  : Dimensionality (the ground where distinctions begin)\n\
+             ⊣ TANCH   terminal anchor / close : no  : Topology (the connectivity boundary, the close)\n\
+             > AFWD    forward morphism (real work) : YES : Relational (the forward arrow between parts)\n\
+             < AREV    reverse / undoing : YES : Polarity (the parity flip, the reversal)\n\
+             = CLINK   compose / link into one : YES : Fidelity (composition holding coherence)\n\
+             ⊙ IMSCRIB identity / self-reference : no  : Interaction Grammar (self-imscription, the rules of combination)\n\
+             ◇ FSPLIT  fork into two (δ) : no  : Granularity (dividing into finer grain)\n\
+             ● FFUSE   fuse two into one (μ) : no  : Stoichiometry (the proportion of the assembly)\n\
+             + EVALT   affirm the true arm : YES : Criticality (the true-gate at the tipping point)\n\
+             × EVALF   refute the false arm : YES : Chirality (the handedness check)\n\
+             ⊞ ENGAGR  hold both arms (paradox) : YES : Stoichiometry (both arms held in proportion)\n\
+             ¬ IFIX    irreversible commit : YES : Topological Protection (the winding that cannot be undone)\n\
+             (Kinetic Character, the twelfth axis, is carried by the register's motion, not one opcode.)"
         }
         Face::Tri => {
-            "IMASM SIXTEEN_3 opcode alphabet (glyph · name · meaning · does it TRANSFORM?):\n\
-             ⊢ VINIT   begin / source boundary — no\n\
-             ⊣ TANCH   terminal anchor / close boundary — no\n\
-             > AFWD    forward morphism (a step of real forward work) — YES\n\
-             < AREV    reverse morphism (an inversion / undoing) — YES\n\
-             = CLINK   compose / link two things into one — YES\n\
-             ⊙ IMSCRIB identity / self-reference (no work) — no\n\
-             ∈ FSPLIT3 three-way split: true / false / information arms — no\n\
-             ∋ FFUSE3  three-way fuse: the three arms rejoin — no\n\
-             + EVALT   evaluate / affirm the true axis — YES\n\
-             × EVALF   evaluate / refute the false axis — YES\n\
-             ⊞ EVALI   evaluate the information axis (both t and f) — YES\n\
-             ~ TNEG    negation: swaps T and F — YES\n\
-             ≁ INEG    con-negation: swaps t and f — YES\n\
-             ¬ IFIX    irreversible commit / fixation — YES"
+            "IMASM SIXTEEN_3 opcode alphabet (glyph : name : meaning : TRANSFORM? : the primitive axis it rides):\n\
+             ⊢ VINIT   begin / source boundary : no  : Dimensionality (the ground where distinctions begin)\n\
+             ⊣ TANCH   terminal anchor / close : no  : Topology (the connectivity boundary, the close)\n\
+             > AFWD    forward morphism (real work) : YES : Relational (the forward arrow between parts)\n\
+             < AREV    reverse / undoing : YES : Polarity (the parity flip, the reversal)\n\
+             = CLINK   compose / link into one : YES : Fidelity (composition holding coherence)\n\
+             ⊙ IMSCRIB identity / self-reference : no  : Interaction Grammar (self-imscription, the rules of combination)\n\
+             ∈ FSPLIT3 three-way split: true/false/information : no  : Granularity (three-way division of the grain)\n\
+             ∋ FFUSE3  three-way fuse: the arms rejoin : no  : Stoichiometry (the three-arm assembly)\n\
+             + EVALT   affirm the true axis : YES : Criticality (the true-gate at the tipping point)\n\
+             × EVALF   refute the false axis : YES : Chirality (the handedness check)\n\
+             ⊞ EVALI   evaluate the information axis (t and f) : YES : Criticality (the information gate)\n\
+             ~ TNEG    swaps T and F : YES : Polarity (swaps the parity poles)\n\
+             ≁ INEG    swaps t and f : YES : Chirality (swaps the handedness poles)\n\
+             ¬ IFIX    irreversible commit : YES : Topological Protection (the winding that cannot be undone)\n\
+             (Kinetic Character, the twelfth axis, is carried by the register's motion, not one opcode.)"
         }
     }
+}
+
+/// The twelve primitive axes, tangible handles for what an IMASM program's
+/// shape MEANS. IMASM names the characteristics abstractly (fork, fuse, work,
+/// hold); the primitives give them grounded names an object can be judged
+/// against. Canonical axis names from the Core.lean/navigator face map.
+fn primitives_reference() -> &'static str {
+    "The twelve primitive axes (tangible handles on what a program's shape means):\n\
+     1  Dimensionality        : how many independent directions it extends in; its degrees of freedom\n\
+     2  Topology              : how it is connected; its boundary, its holes, whether it closes\n\
+     3  Relational Mode       : how its parts point at and depend on each other\n\
+     4  Parity / Symmetry     : its symmetry, and what a reflection or reversal does to it\n\
+     5  Fidelity              : how faithfully it holds coherence across change\n\
+     6  Kinetic Character     : how it moves and at what rate; its dynamics\n\
+     7  Scope / Granularity   : how finely it is divided; coarse grain versus fine\n\
+     8  Interaction Grammar   : the rules by which its parts combine; its syntax\n\
+     9  Criticality           : how close it sits to a tipping point or resonance\n\
+     10 Chirality             : its handedness; whether it differs from its mirror image\n\
+     11 Stoichiometry         : in what proportions its parts combine; the count of the assembly\n\
+     12 Topological Protection: how robust its structure is; the winding that cannot be undone"
+}
+
+/// The primitive types, each itself an IMASM word: the strange loop where the
+/// types the Grammar writes tuples with are themselves programs. Loaded once
+/// from ob3ect/digital (the_primitive_type_called_*), each rendered as
+/// name : glyph-word, so the agent has concrete exemplars of how the
+/// characteristics compose into real programs. Cached; empty if the directory
+/// is absent.
+fn primitive_codes() -> &'static str {
+    static CODES: OnceLock<String> = OnceLock::new();
+    CODES
+        .get_or_init(|| {
+            let dir = crate::expand_user("~/imsgct/ob3ect/digital");
+            let Ok(entries) = std::fs::read_dir(&dir) else {
+                return String::new();
+            };
+            let mut names: Vec<String> = entries
+                .filter_map(|e| e.ok())
+                .map(|e| e.file_name().to_string_lossy().into_owned())
+                .filter(|n| n.starts_with("the_primitive_type_called_"))
+                .collect();
+            names.sort();
+            let mut lines = Vec::new();
+            for n in names {
+                let short = n.trim_start_matches("the_primitive_type_called_").to_string();
+                let path = format!("{dir}/{n}/{n}_ob3ect.json");
+                let Ok(txt) = std::fs::read_to_string(&path) else { continue };
+                let Ok(v) = serde_json::from_str::<serde_json::Value>(&txt) else { continue };
+                let scaffold = v.get("lean_scaffold").and_then(|s| s.as_str()).unwrap_or("");
+                let Some(seq) = scaffold
+                    .lines()
+                    .find_map(|l| l.split_once("scaffold:").map(|(_, r)| r.trim()))
+                else {
+                    continue;
+                };
+                // The scaffold line is "VINIT → IMSCRIB → …"; map names to glyphs.
+                let glyphs: String = seq
+                    .split(|c: char| c == '\u{2192}' || c.is_whitespace())
+                    .filter(|t| !t.is_empty())
+                    .filter_map(|t| Token::parse(t.trim()).map(|tk| tk.code()))
+                    .collect();
+                if !glyphs.is_empty() {
+                    lines.push(format!("  {short}: {glyphs}"));
+                }
+            }
+            if lines.is_empty() {
+                String::new()
+            } else {
+                format!(
+                    "The primitive types, each itself an IMASM word (its own structure):\n{}",
+                    lines.join("\n")
+                )
+            }
+        })
+        .as_str()
 }
 
 // ── the verdict letter (same reading as `imasm check` / `imasm16_3 check`) ───
@@ -438,15 +516,22 @@ fn excribe(
              yet another domain; those three are spent."
         }
     };
+    // The primitive codes ground the reading in real exemplars; keep them out
+    // of the retry prompt so the hotter attempt has more room to diverge.
+    let codes = if taken.is_empty() { primitive_codes() } else { "" };
     let system = format!(
         "You are the excriber. You are given an IMASM program: an ordered sequence of opcodes. \
          GUESS the object it imscribes: identify ONE concrete thing or process in a real domain \
          whose structure matches this program step for step. Any real domain: biology, \
-         chemistry, law, music, cooking, machinery, astronomy, ritual, sport. Answer with the \
-         identification ALONE: one line, a name or short noun phrase. NEVER use opcode names, \
-         glyphs, or words like fork/fuse/morphism — the guess must stand entirely in its own \
-         domain.\n\n{}\n\n{example}{forbidden}",
-        alphabet_table(face)
+         chemistry, law, music, cooking, machinery, astronomy, ritual, sport. Use the primitive \
+         axes below as tangible handles: read what the program's shape says about each axis \
+         (how it divides, whether it closes, its handedness, its proportion) and name the real \
+         object that has those same characteristics. Answer with the identification ALONE: one \
+         line, a name or short noun phrase. NEVER use opcode names, glyphs, or words like \
+         fork/fuse/morphism: the guess must stand entirely in its own domain.\n\n{}\n\n{}\n\n{}\n\n{example}{forbidden}",
+        alphabet_table(face),
+        primitives_reference(),
+        codes,
     );
     // The domain is ASSIGNED, rotated by the word itself: a small model given
     // a free choice collapses onto the example, so the guess space is
