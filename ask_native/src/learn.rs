@@ -46,6 +46,21 @@ fn body_alphabet(face: Face) -> &'static [char] {
     }
 }
 
+/// The verdict of a word that may be SEVERAL programs. A composite word has one
+/// source and one sink per program, so judging it as a single word answers F to
+/// every catalog entry ever written. Judge each program and speak the weakest
+/// verdict its programs reach, which is the honest reading of a conjunction.
+fn composite_verdict(face: Face, w: &[char]) -> char {
+    let segs = segments(w);
+    if segs.len() <= 1 {
+        return verdict_letter(face, w);
+    }
+    segs.iter()
+        .map(|seg| verdict_letter(face, seg))
+        .min_by_key(|v| verdict_rank(*v))
+        .unwrap_or('N')
+}
+
 /// Rank of a verdict for ordering a walk: F < N < B < T.
 fn verdict_rank(v: char) -> u8 {
     match v {
@@ -629,7 +644,12 @@ fn excribe(
          (how it divides, whether it closes, its handedness, its proportion) and name the real \
          object that has those same characteristics. Answer with the identification ALONE: one \
          line, a name or short noun phrase. NEVER use opcode names, glyphs, or words like \
-         fork/fuse/morphism: the guess must stand entirely in its own domain.\n\n{}\n\n{}\n\n{}\n\n{example}{forbidden}",
+         fork/fuse/morphism: the guess must stand entirely in its own domain.\n\n\
+         AND NEVER answer with the Grammar's own vocabulary. The name of a TYPE (monad, ear, \
+         egg, ice, out, vow, …), the name of a PRIMITIVE AXIS (topology, chirality, \
+         criticality, …) and the name of an OPCODE (CLINK, IMSCRIB, …) are all refused: the \
+         word was WRITTEN from those, so handing one back says only that the program is the \
+         program. Name a thing in the world that has this shape.\n\n{}\n\n{}\n\n{}\n\n{example}{forbidden}",
         alphabet_table(face),
         primitives_reference(),
         codes,
@@ -674,11 +694,15 @@ fn excribe(
             .find(|l| !l.is_empty())
             .map(blind)
             .unwrap_or_default();
-        if guess.split_whitespace().count() < 2 {
+        if name_tokens(&guess) == 0 {
             continue;
         }
         if parroted(&guess, taken) {
             eprintln!("[learn]   guess parroted ({guess}) → retrying hotter…");
+            continue;
+        }
+        if names_the_grammar(&guess) {
+            eprintln!("[learn]   guess names the grammar, not an object ({guess}) → retrying…");
             continue;
         }
         if transcribes_the_word(&guess) {
@@ -696,6 +720,171 @@ fn excribe(
 /// here — the endpoints already fix the domain, and assigning one on top would
 /// fight the anchor (asking for the object between hydrogen_atom and
 /// neutron_star, but in falconry).
+/// The twelve axes, named, in canonical tuple order.
+const AXIS_NAMES: [(&str, &str); 12] = [
+    ("Ð", "Dimensionality"), ("Þ", "Topology"), ("Ř", "Relational Mode"),
+    ("Φ", "Parity / Symmetry"), ("ƒ", "Fidelity"), ("Ç", "Kinetic Character"),
+    ("Γ", "Scope / Granularity"), ("ɢ", "Interaction Grammar"), ("⊙", "Criticality"),
+    ("Ħ", "Chirality"), ("Σ", "Stoichiometry"), ("Ω", "Topological Protection"),
+];
+
+/// INDUCTIVE EXCRIPTION: build the identification instead of demanding it.
+///
+/// Asking a model to name an object from a hundred and fifty opcodes in one
+/// shot is asking for a leap, and what comes back is a leap: the destination's
+/// own name, or a type name, or nothing. The tuple already says what the thing
+/// is like, axis by axis, in the Grammar's own terms. So climb: put each axis to
+/// the model as a small concrete question about the THING (not the program),
+/// collect the twelve answers, and only then ask for the name that carries all
+/// of them. Every rung is answerable in a few words, the model never sees a
+/// glyph, and the final question is a summary rather than a guess.
+///
+/// Returns the ladder alongside the name, so a run can be read for WHERE the
+/// identification came from and not only what it was.
+/// A type rendered as CHARACTERISTICS, never as its name. The rung must not be
+/// told "this axis reads as 'oil'": the name is an opaque label, so the model
+/// can only hand it back, and the run fills with "it is a type of oil". What the
+/// type actually says is carried by its program, which is computable here: how
+/// it divides, whether it rejoins, whether the arms do work, whether it commits.
+/// Those are the tangible handles the primitives reference already names.
+fn type_characteristics(glyph: &str) -> Option<String> {
+    let word = crate::imasm::tuple_glyph_word(std::slice::from_ref(&glyph.to_string())).ok()?;
+    let w: Vec<char> = word.chars().collect();
+    // ORDER is what distinguishes one type from another. Counting alone
+    // collapses most of the 49 onto a handful of profiles (it is the same
+    // blindness that makes two types byte-identical), and a ladder fed the
+    // collapsed summary asks the same question twelve times. So walk the
+    // program and speak its moves IN SEQUENCE, in characteristic language,
+    // never naming an opcode.
+    let mut moves: Vec<&str> = Vec::new();
+    for c in &w {
+        let m = match c {
+            '⊢' => "it starts from nothing settled",
+            '⊣' => "it comes to rest",
+            '◇' | '∈' => "it divides",
+            '●' | '∋' => "the parts come back together",
+            '>' => "it moves forward",
+            '<' => "it undoes something it had done",
+            '=' => "two things are joined into one",
+            '+' => "one side is affirmed",
+            '×' => "the other side is ruled out",
+            '⊞' => "two opposed things are held at once",
+            '¬' => "a step is taken that cannot be taken back",
+            '⊙' => "it turns on itself and refers to itself",
+            _ => continue,
+        };
+        // Runs of the same move read as one emphasis, not as many moves.
+        if moves.last() != Some(&m) {
+            moves.push(m);
+        }
+    }
+    if moves.is_empty() {
+        return None;
+    }
+    let verdict = verdict_letter(Face::Classic, &w);
+    let tail = match verdict {
+        'T' => "taken as a whole it closes on itself",
+        'B' => "taken as a whole it does not close; something stays open",
+        'N' => "taken as a whole it returns to where it began having settled nothing",
+        _ => "taken as a whole its shape does not hold together",
+    };
+    Some(format!("{}; {tail}", moves.join(", then ")))
+}
+
+fn excribe_inductive(
+    llm: &crate::Llm,
+    tuple: &[String],
+    anchor: &str,
+    taken: &mut Vec<String>,
+    rungs: usize,
+    focus: Option<usize>,
+) -> Result<(String, Vec<String>), String> {
+    // Which axes to climb: the ones whose type is most specific are no more
+    // informative than the rest, so take them in canonical order and stop at
+    // the requested count. Order is the Grammar's own, ground outward.
+    let mut ladder: Vec<String> = Vec::new();
+    let mut findings: Vec<String> = Vec::new();
+    // Which axes to climb. The axis that just re-typed goes FIRST and is never
+    // dropped: consecutive positions on a path differ in exactly that one axis,
+    // so a ladder that truncates before it receives an identical description at
+    // every step and can only answer identically. Everything after it is
+    // context, taken in the Grammar's own order.
+    let mut order: Vec<usize> = Vec::new();
+    if let Some(f) = focus {
+        order.push(f);
+    }
+    for i in 0..12 {
+        if Some(i) != focus {
+            order.push(i);
+        }
+    }
+    order.truncate(rungs.clamp(1, 12));
+    for i in order {
+        let (ax, axis_name) = AXIS_NAMES[i];
+        let Some(chars) = tuple.get(i).and_then(|g| type_characteristics(g)) else {
+            continue;
+        };
+        let system = "You are reading a description of a thing, one characteristic at a time.              Answer in one short sentence about the THING, in plain domain language. Do not              mention programs, opcodes, glyphs, types, or the vocabulary of the question."
+            .to_string();
+        let user = format!(
+            "{anchor}\n\nWhat has been said about it so far: {}\n\nIn respect of its \
+             {axis_name}, it {chars}.\n\nIn ONE short sentence, and in ordinary domain language, \
+             say what a real thing is like when it is like that. Do not repeat this description \
+             back, do not name any axis, and do not use any of the words in it.",
+            if findings.is_empty() { "nothing yet".to_string() } else { findings.join("; ") },
+        );
+        let res = crate::infer(llm, &[("system".into(), system), ("user".into(), user)], 2048, 0.5);
+        if let Some(e) = res.err {
+            return Err(e);
+        }
+        let answer = res
+            .text
+            .lines()
+            .rev()
+            .map(str::trim)
+            .find(|l| !l.is_empty())
+            .map(blind)
+            .unwrap_or_default();
+        if answer.is_empty() {
+            continue;
+        }
+        findings.push(format!("{axis_name}: {answer}"));
+        ladder.push(format!(
+            "{ax} {axis_name}{} → {answer}",
+            if Some(i) == focus { " (the axis that just re-typed)" } else { "" }
+        ));
+    }
+    if findings.is_empty() {
+        return Err("the ladder produced no findings".into());
+    }
+    // The naming: a summary of what was just established, not a leap.
+    let system = "You are naming a thing from a list of its characteristics. Answer with the          name ALONE: one line, a name or short noun phrase, in the language of some real          domain. NEVER answer with the name of a type, a primitive axis, or an opcode, and          never with either endpoint's own name."
+        .to_string();
+    for temp in [0.6f32, 1.0] {
+        let user = format!(
+            "{anchor}\n\nThe characteristics established, in order:\n{}\n\nName the thing              that has ALL of these.",
+            findings.join("\n"),
+        );
+        let res = crate::infer(llm, &[("system".into(), system.clone()), ("user".into(), user)], 2048, temp);
+        if let Some(e) = res.err {
+            return Err(e);
+        }
+        let guess = res
+            .text
+            .lines()
+            .rev()
+            .map(str::trim)
+            .find(|l| !l.is_empty())
+            .map(blind)
+            .unwrap_or_default();
+        if name_tokens(&guess) == 0 || parroted(&guess, taken) || names_the_grammar(&guess) {
+            continue;
+        }
+        return Ok((guess, ladder));
+    }
+    Err("the naming rung parroted or named the grammar on both attempts".into())
+}
+
 fn excribe_anchored(
     llm: &crate::Llm,
     face: Face,
@@ -709,7 +898,11 @@ fn excribe_anchored(
          between two named objects. Name the object that occupies that position. Answer with the \
          identification ALONE: one line, a name or short noun phrase. NEVER use opcode names, \
          glyphs, or words like fork/fuse/morphism — the answer must stand entirely in its own \
-         domain.\n\n{}\n\n{}",
+         domain. NEVER answer with the Grammar's own vocabulary either: a TYPE name (monad, ear, \
+         egg, ice, out, …), a PRIMITIVE AXIS (topology, chirality, criticality, …) or an OPCODE \
+         (CLINK, IMSCRIB, …) is refused, because the word was written FROM those and naming one \
+         back says only that the program is the program. Neither endpoint's own name is an \
+         answer: the object asked for lies BETWEEN them and is a third thing.\n\n{}\n\n{}",
         alphabet_table(face),
         primitives_reference(),
     );
@@ -737,11 +930,15 @@ fn excribe_anchored(
             .find(|l| !l.is_empty())
             .map(blind)
             .unwrap_or_default();
-        if guess.split_whitespace().count() < 2 {
+        if name_tokens(&guess) == 0 {
             continue;
         }
         if parroted(&guess, taken) {
             eprintln!("[churn]   guess parroted ({guess}) → retrying…");
+            continue;
+        }
+        if names_the_grammar(&guess) {
+            eprintln!("[churn]   guess names the grammar, not an object ({guess}) → retrying…");
             continue;
         }
         if transcribes_the_word(&guess) {
@@ -751,6 +948,47 @@ fn excribe_anchored(
         return Ok(guess);
     }
     Err("anchored excription parroted or empty on both attempts".into())
+}
+
+/// A guess that answers with the GRAMMAR'S OWN VOCABULARY rather than an
+/// object: a type name (`monad`, `ear`, `egg`), a primitive axis (`chirality`,
+/// `topology`), or an opcode (`CLINK`, `imscrib`). These are not identifications
+/// at all. The word is written FROM those types, so naming one back is the
+/// tautology "this program is the program", and it makes the round trip
+/// vacuous: μ can recover a word from a type name without ever touching a
+/// domain. Refused at the source, and the prompt says so before it is asked.
+fn names_the_grammar(guess: &str) -> bool {
+    const AXES: &[&str] = &[
+        "dimensionality", "topology", "relational", "parity", "symmetry", "fidelity",
+        "kinetic", "scope", "granularity", "interaction grammar", "criticality",
+        "chirality", "stoichiometry", "protection", "primitive", "axis", "opcode",
+    ];
+    const OPS: &[&str] = &[
+        "vinit", "tanch", "afwd", "arev", "clink", "imscrib", "imscriber", "fsplit",
+        "ffuse", "evalt", "evalf", "evali", "engagr", "tneg", "ineg", "ifix",
+    ];
+    let low = guess.to_ascii_lowercase();
+    let tokens: Vec<String> = low
+        .split(|c: char| !c.is_alphanumeric())
+        .filter(|t| !t.is_empty())
+        .map(str::to_string)
+        .collect();
+    if tokens.is_empty() {
+        return true;
+    }
+    let is_grammar_word = |t: &str| {
+        crate::imasm::GLYPH_TYPE_NAME.iter().any(|(_, n)| n.eq_ignore_ascii_case(t))
+            || OPS.contains(&t)
+            || AXES.contains(&t)
+    };
+    // Every content token is grammar vocabulary: no domain was named at all.
+    // Short connectives are ignored so "uncoverer of the grammar" is judged on
+    // its content words.
+    let content: Vec<&String> = tokens
+        .iter()
+        .filter(|t| !matches!(t.as_str(), "of" | "the" | "a" | "an" | "and" | "in" | "on" | "for"))
+        .collect();
+    !content.is_empty() && content.iter().all(|t| is_grammar_word(t))
 }
 
 /// Enforce the blind: strip every opcode name and glyph (both faces) from the
@@ -811,12 +1049,39 @@ fn imscribe(
     lessons_text: &str,
     relations_text: &str,
 ) -> Result<Vec<char>, String> {
+    imscribe_n(llm, face, object, lessons_text, relations_text, 1)
+}
+
+/// μ, told how many programs the answer should carry. A catalog position is
+/// twelve programs, one per primitive axis; asked for "the word" with no such
+/// instruction the model writes ONE, and the residual against a twelve-program
+/// word is then a hundred and forty glyphs of length difference that says
+/// nothing about whether the object was recognised.
+fn imscribe_n(
+    llm: &crate::Llm,
+    face: Face,
+    object: &str,
+    lessons_text: &str,
+    relations_text: &str,
+    programs: usize,
+) -> Result<Vec<char>, String> {
     let example = if face == Face::Tri { "⊢∈>+×∋¬⊣" } else { "⊢◇>+●¬⊣" };
     let system = format!(
         "You are the imscriber. You are given the name of an OBJECT: one concrete thing or \
          process from a real domain. Imscribe it: write the IMASM word whose opcode sequence IS \
          the object's structure, from its beginning boundary to its close. Answer with the glyph \
-         word ONLY (e.g. {example}) — no names, no spaces, no commentary.\n\n{}\n\n{}\n\n{}",
+         word ONLY (e.g. {example}) — no names, no spaces, no commentary.{}\n\n{}\n\n{}\n\n{}",
+        if programs > 1 {
+            format!(
+                "\n\nThis object is a full CATALOG POSITION, so its word is {programs} programs \
+                 written one after another, one for each primitive axis in order: Dimensionality, \
+                 Topology, Relational Mode, Parity, Fidelity, Kinetic Character, Granularity, \
+                 Interaction Grammar, Criticality, Chirality, Stoichiometry, Protection. Write all \
+                 {programs}, each opening with ⊢ and closing with ⊣, joined with nothing between."
+            )
+        } else {
+            String::new()
+        },
         alphabet_table(face),
         relations_text,
         lessons_text
@@ -855,6 +1120,17 @@ fn imscribe(
 /// Describe the single edit that turns `from` into `to` (they differ by one).
 // ── the churn: one word's round trip ─────────────────────────────────────────
 
+/// Meaningful token count of a guess. Catalog objects are named in snake_case
+/// (`uncoverer_of_the_grammar`), which is ONE whitespace token, so counting on
+/// whitespace alone reads a perfectly good identification as a fragment and
+/// throws it away. Split on the separators a name actually uses.
+fn name_tokens(guess: &str) -> usize {
+    guess
+        .split(|c: char| c.is_whitespace() || c == '_' || c == '-')
+        .filter(|t| t.chars().any(|c| c.is_alphanumeric()))
+        .count()
+}
+
 /// A provider error trimmed to its first line. The raw bodies are multi-line
 /// quota prose that buries the report it is printed inside.
 fn one_line(e: &str) -> String {
@@ -877,6 +1153,42 @@ struct Churn {
 /// (`path … churn`) drive the SAME round trip rather than two drifting copies.
 /// The word names its own face, so a churn along a face-crossing path reads each
 /// waypoint in the grammar that waypoint actually belongs to.
+/// The μ half alone: an object already named is imscribed back into a word and
+/// compared with the word it was excribed from. Split out because the inductive
+/// ladder does its own δ, and the two halves must not be welded together.
+fn churn_object(
+    llm: &crate::Llm,
+    knowledge: &mut serde_json::Value,
+    w: &[char],
+    object: &str,
+) -> Result<Churn, String> {
+    let face = word_face(w).ok_or_else(|| "word mixes both dyads".to_string())?;
+    let cw = word_str(w);
+    let relations_text = nearest_relations(knowledge, object, 5);
+    let lessons_text = lessons(knowledge);
+    let programs = w.iter().filter(|c| **c == '⊢').count().max(1);
+    let recovered = imscribe_n(llm, face, object, &lessons_text, &relations_text, programs)?;
+    let rw = word_str(&recovered);
+    let (dist, subs) = residual(w, &recovered);
+    let mut residuals: Vec<i64> = knowledge["visited"][&cw]["residuals"]
+        .as_array()
+        .map(|a| a.iter().filter_map(|v| v.as_i64()).collect())
+        .unwrap_or_default();
+    residuals.push(dist as i64);
+    let (verdict, rec_verdict) = (verdict_letter(face, w), verdict_letter(face, &recovered));
+    knowledge["visited"][&cw] = serde_json::json!({
+        "guess": object, "recovered": rw, "residual": dist,
+        "residuals": residuals,
+        "verdict": verdict.to_string(), "recovered_verdict": rec_verdict.to_string(),
+    });
+    for (sent, got) in subs {
+        let key = format!("{sent}→{got}");
+        let n = knowledge["confusions"][&key].as_u64().unwrap_or(0);
+        knowledge["confusions"][&key] = serde_json::json!(n + 1);
+    }
+    Ok(Churn { object: object.to_string(), recovered: rw, dist, verdict, rec_verdict })
+}
+
 fn churn_word(
     llm: &crate::Llm,
     knowledge: &mut serde_json::Value,
@@ -1037,7 +1349,7 @@ fn promotion_path_mode(mode: Mode, a: &[char], b: &[char], budget: usize) -> Opt
 /// disagree. That is what makes the interior guessable: a waypoint is not an
 /// arbitrary string, it is "hydrogen_atom, but with THIS axis reading as the
 /// star's type", and the catalog may already name the thing sitting there.
-fn tuple_path(a: &str, b: &str, churn: bool) -> String {
+fn tuple_path(a: &str, b: &str, churn: bool, rungs: usize) -> String {
     let mut out = String::new();
     let (ta, tb) = match (crate::imasm::entry_tuple(a), crate::imasm::entry_tuple(b)) {
         (Ok(x), Ok(y)) => (x, y),
@@ -1092,9 +1404,18 @@ fn tuple_path(a: &str, b: &str, churn: bool) -> String {
     }
 
     for (step, (t, changed)) in waypoints.iter().enumerate() {
-        let word = crate::imasm::tuple_glyph_word(t).unwrap_or_default();
-        let w: Vec<char> = word.chars().collect();
-        let v = if w.is_empty() { '?' } else { verdict_letter(Face::Classic, &w) };
+        // The verdict of a tuple is read from its twelve type programs, taken
+        // one at a time. Never from the concatenation: type programs are not
+        // self-delimiting (`out` carries TANCH in its middle and does not end on
+        // ⊣), so any attempt to cut the joined word back apart mis-cuts exactly
+        // there, and every tuple carrying `out` reads F for a reason that is an
+        // artefact of the cutting. Here the twelve are known by construction.
+        let v = t
+            .iter()
+            .filter_map(|g| crate::imasm::tuple_glyph_word(std::slice::from_ref(g)).ok())
+            .map(|tw| verdict_letter(Face::Classic, &tw.chars().collect::<Vec<char>>()))
+            .min_by_key(|v| verdict_rank(*v))
+            .unwrap_or('?');
         let here = occupants.get(&key_of(t)).cloned();
         let label = match changed {
             None => "(start)".to_string(),
@@ -1126,6 +1447,11 @@ fn tuple_path(a: &str, b: &str, churn: bool) -> String {
         );
         let n = waypoints.len();
         let (mut scored, mut hit) = (0usize, 0usize);
+        // (residual, length of the word it was measured against) — a bare
+        // residual is not comparable across waypoints of different lengths, and
+        // on a ~145 glyph word it reads as ~120 whenever the answer is short,
+        // which says nothing about whether the object was recognised.
+        let mut residuals: Vec<(usize, usize)> = Vec::new();
         for (step, (t, changed)) in waypoints.iter().enumerate() {
             if step == 0 || step == n - 1 {
                 continue; // the endpoints are given, not guessed
@@ -1154,23 +1480,36 @@ fn tuple_path(a: &str, b: &str, churn: bool) -> String {
                 tb[*i],
                 crate::imasm::type_name_for_glyph(&tb[*i]).unwrap_or("?"),
             );
-            match churn_word_anchored(&llm, &mut knowledge, &w, &mut taken, Some(&anchor)) {
+            // δ: the word excribed into an object. μ: that object imscribed back
+            // into a WORD. The residual is the distance between the two words.
+            // The identification is BUILT, axis by axis, then the object is
+            // imscribed back into a word and the two words compared.
+            let (object, ladder) = match excribe_inductive(&llm, t, &anchor, &mut taken, rungs, Some(*i)) {
                 Err(e) => {
-                    let _ = writeln!(out, "  step {step}  → churn failed: {}", one_line(&e));
+                    let _ = writeln!(out, "  step {step}  → excribe failed: {}", one_line(&e));
+                    continue;
+                }
+                Ok(x) => x,
+            };
+            match churn_object(&llm, &mut knowledge, &w, &object) {
+                Err(e) => {
+                    let _ = writeln!(out, "  step {step}  → imscribe failed: {}", one_line(&e));
                 }
                 Ok(c) => {
-                    let verdict = match &truth {
+                    for rung in &ladder {
+                        let _ = writeln!(out, "      · {rung}");
+                    }
+                    let truth_note = match &truth {
                         None => String::new(),
                         Some(name) => {
                             scored += 1;
                             let g = c.object.to_ascii_lowercase();
                             let nm = name.to_ascii_lowercase();
-                            let overlap = nm
-                                .split('_')
-                                .any(|part| part.len() > 3 && g.contains(part));
+                            let overlap =
+                                nm.split('_').any(|part| part.len() > 3 && g.contains(part));
                             if overlap {
                                 hit += 1;
-                                format!("   ✓ the catalog names this position '{name}' — the guess touches it")
+                                format!("   ✓ the catalog names this position '{name}'; the guess touches it")
                             } else {
                                 format!("   ✗ the catalog names this position '{name}'")
                             }
@@ -1178,16 +1517,33 @@ fn tuple_path(a: &str, b: &str, churn: bool) -> String {
                     };
                     let _ = writeln!(
                         out,
-                        "  step {step}  guess: {}  · residual {} on the round trip{}",
+                        "  step {step}  guess: {}  · residual {} of {} glyph(s) ({:.0}%){}{}",
                         c.object.replace('\n', " "),
                         c.dist,
-                        verdict,
+                        w.len(),
+                        100.0 * c.dist as f64 / w.len().max(1) as f64,
+                        if c.dist == 0 { " — μ∘δ = id" } else { "" },
+                        truth_note,
                     );
+                    residuals.push((c.dist, w.len()));
                 }
             }
         }
         if let Err(e) = save_knowledge(&knowledge) {
             let _ = writeln!(out, "  [knowledge did not persist: {e}]");
+        }
+        if !residuals.is_empty() {
+            let mean = residuals.iter().map(|(d, _)| *d).sum::<usize>() as f64 / residuals.len() as f64;
+            let mean_frac = residuals.iter().map(|(d, n)| *d as f64 / (*n).max(1) as f64).sum::<f64>()
+                / residuals.len() as f64;
+            let exact = residuals.iter().filter(|(d, _)| *d == 0).count();
+            let _ = writeln!(
+                out,
+                "\n{} waypoint(s) round-tripped · {exact} perfect (μ∘δ = id) · \
+                 mean residual {mean:.1} glyph(s), {:.0}% of the word it was measured against",
+                residuals.len(),
+                100.0 * mean_frac,
+            );
         }
         if scored > 0 {
             let _ = writeln!(
@@ -1206,11 +1562,16 @@ pub fn path(rest: &[String]) -> String {
     // Drop only genuine parameter tokens (`rounds=…`). A bare `=` is CLINK, a
     // real opcode: filtering on "contains '='" ate any word carrying it.
     let is_param = |s: &str| {
-        ["rounds=", "breadth=", "fixed=", "budget="].iter().any(|p| s.starts_with(p))
+        ["rounds=", "breadth=", "fixed=", "budget=", "rungs="].iter().any(|p| s.starts_with(p))
             || s == "churn"
     };
     // `churn` after the two words runs the loop's round trip on every waypoint.
     let churn = rest.iter().any(|s| s == "churn");
+    // How many axes the inductive ladder climbs before it asks for the name.
+    let rungs: usize = rest
+        .iter()
+        .find_map(|a| a.strip_prefix("rungs=").and_then(|v| v.parse().ok()))
+        .unwrap_or(6);
     let words: Vec<&String> = rest.iter().filter(|s| !is_param(s)).collect();
     if words.len() < 2 {
         return "imasm path needs two words: imasm path '<A>' '<B>'\n\
@@ -1242,7 +1603,7 @@ pub fn path(rest: &[String]) -> String {
     // Two OBJECTS walk in tuple space, where a step is one primitive axis
     // re-typing; only words walk in glyph space.
     if let (Some(a), Some(b)) = (&obj_a, &obj_b) {
-        return tuple_path(a, b, churn);
+        return tuple_path(a, b, churn, rungs);
     }
     if obj_a.is_some() != obj_b.is_some() {
         return format!(
