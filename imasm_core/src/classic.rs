@@ -2,6 +2,7 @@
 //! every consumer derives its faces from ONE definition.
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[repr(u8)]
 pub enum Token {
     Vinit,
     Tanch,
@@ -93,6 +94,7 @@ impl Token {
 
     /// The full opcode table as JSON, for the export manifest: name, glyph,
     /// and arity, so the composer surface renders ports without re-deriving them.
+    #[cfg(feature = "std")]
     pub fn parse_all_names() -> serde_json::Value {
         let all = [
             Token::Vinit, Token::Tanch, Token::Afwd, Token::Arev, Token::Clink,
@@ -131,5 +133,44 @@ impl Token {
             "IFIX" | "IX" | "FIX" | "¬" => Token::Ifix,
             _ => return None,
         })
+    }
+}
+
+/// The four families of the 12-opcode tower (mOMonadOS kernel classification).
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+pub enum Family {
+    Logical,
+    Frobenius,
+    Dialetheia,
+    Linear,
+}
+
+impl Token {
+    pub fn family(self) -> Family {
+        match self {
+            Token::Vinit | Token::Tanch | Token::Afwd |
+            Token::Arev | Token::Clink | Token::Imscrib => Family::Logical,
+            Token::Fsplit | Token::Ffuse => Family::Frobenius,
+            Token::Evalt | Token::Evalf | Token::Engagr => Family::Dialetheia,
+            Token::Ifix => Family::Linear,
+        }
+    }
+
+    /// Input arity as the stack machine reads it (mOMonadOS kernel form).
+    pub fn arity_in(self) -> u8 {
+        match self {
+            Token::Vinit => 0,
+            Token::Ffuse => 2,
+            _ => 1,
+        }
+    }
+
+    /// Output arity as the stack machine reads it.
+    pub fn arity_out(self) -> u8 {
+        match self {
+            Token::Tanch => 0,
+            Token::Fsplit => 2,
+            _ => 1,
+        }
     }
 }

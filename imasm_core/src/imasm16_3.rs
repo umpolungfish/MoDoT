@@ -40,7 +40,11 @@
 //! letter, so a trilattice verdict (T, N, B, F) can never be confused with a
 //! graph node.
 
-use std::fmt::Write as _;
+use core::fmt::Write as _;
+
+use alloc::format;
+use alloc::string::{String, ToString};
+use alloc::vec::Vec;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Token16_3 {

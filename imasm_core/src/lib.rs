@@ -1,3 +1,5 @@
+#![cfg_attr(not(feature = "std"), no_std)]
+
 //! imasm_core — the ONE kernel of tokens, registers, and machines.
 //!
 //! Every face lives here and nowhere else: the classic 12-opcode Token, the
@@ -7,6 +9,8 @@
 //! alphabets from it — a face correction here propagates by recompilation,
 //! and the drift class of bugs (a hand-copied vocabulary going stale) becomes
 //! a compile error instead of a data sweep.
+
+extern crate alloc;
 
 pub mod classic;
 pub mod imasm16_3;
