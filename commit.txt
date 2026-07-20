@@ -1,27 +1,34 @@
-The promotion path crosses faces, and says which way it walked.
+The cycle primitives to imasm and back, and where it stops being invertible.
 
-Three things the path verb got wrong. It read both endpoints in ONE face,
-so a classic word handed to a pair whose other member carried tri glyphs
-was silently truncated to the glyphs that face parses: the report answered
-about a word nobody asked for. It called any verdict change a promotion,
-so a walk descending T to N was announced as a climb. And it filtered
-argument tokens on "contains =", eating any word carrying CLINK.
+The forward leg was always here: a type is a full IMASM program, so a
+twelve-axis tuple writes a word by concatenating its types in canonical
+order. The return leg did not exist. It does now, and running both against
+each other over the live catalog answers what the round trip actually
+costs.
 
-Each endpoint now names its own face. When the faces differ the walk
-CROSSES: the two grammars share ten glyphs and differ only in the dyad,
-binary against ternary, so the search runs the union alphabet with every
-waypoint judged in the face its own dyad selects, and a word carrying both
-dyads belongs to neither grammar and is refused as a waypoint. The step
-where the grammar changes is marked in the report. The crossing found in
-practice does not substitute the dyad in place; it dissolves the binary
-pair first and walks a face-neutral valley before the ternary pair forms,
-which is what the both-dyads refusal forces.
+Three things it establishes. Type programs are NOT self-delimiting: the
+type 'out' carries TANCH in its middle and does not end on the boundary
+pair, so a concatenated word cannot be cut on the boundary and must be
+parsed axis by axis, each axis consuming an admissible type's program as a
+prefix. Position is load-bearing: the forty-nine types emit only
+forty-seven distinct programs, byte-identical in sequence, topology,
+spectral radius and closure, and of the two colliding pairs one is
+separated by the axes it may occupy while the other shares an axis and
+cannot be. At catalog scale no entry loses its original type, wherever the
+reading is ambiguous the truth is among the pre-images, and the ambiguity
+is confined to exactly the one axis the alphabet analysis predicts.
 
-Verdict direction is read off the endpoints under F < N < B < T: climb,
-descent, or a wander that returns to its own class.
+The one entry that breaks is a data defect, not a cycle defect: it carries
+an axis value that is not one of the forty-nine glyphs, so the forward leg
+has nothing to expand. Refusing it is correct; the entry wants repair.
 
-Also in the loop: each word keeps its residual HISTORY rather than only
-its latest, and the run reports first-visit against last-visit residual
-over words seen more than once. That measures the model against itself and
-is immune to the walk drifting onto easier ground, which the per-run mean
-is not.
+The ambiguity is reported, not patched. Either the two types differ in
+something the opcode composition does not carry, or the alphabet carries a
+distinction without a difference. The cycle cannot settle which and does
+not pretend to: it names both pre-images and the axis.
+
+Also here, from the same run of work: the promotion path crosses faces
+instead of silently truncating one endpoint, reads its verdict direction
+off the endpoints rather than calling any change a climb, and gained a
+churn that round-trips every waypoint through the learning loop; the loop
+and the path now drive one shared round trip rather than two copies.

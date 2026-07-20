@@ -1627,7 +1627,7 @@ mod tests {
     fn promotion_path_single_substitution() {
         let a = w("⊢◇>+●¬⊣");
         let b = w("⊢◇>×●¬⊣");
-        let p = promotion_path(Face::Classic, &a, &b, 50_000).expect("path exists");
+        let p = promotion_path_mode(Mode::Fixed(Face::Classic), &a, &b, 50_000).expect("path exists");
         assert_eq!(p.len(), 2, "one edit apart");
         assert_eq!(p.first(), Some(&a));
         assert_eq!(p.last(), Some(&b));
@@ -1638,7 +1638,7 @@ mod tests {
     fn promotion_path_waypoints_all_valid() {
         let a = w("⊢◇>+●¬⊣");
         let b = w("⊢◇>+⊞●¬⊣");
-        let p = promotion_path(Face::Classic, &a, &b, 50_000).expect("path exists");
+        let p = promotion_path_mode(Mode::Fixed(Face::Classic), &a, &b, 50_000).expect("path exists");
         for w in &p {
             assert!(word_valid(Face::Classic, w), "waypoint {} invalid", word_str(w));
         }

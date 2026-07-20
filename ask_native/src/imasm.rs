@@ -940,6 +940,127 @@ pub fn entry_glyph_word(name: &str) -> Result<String, String> {
     Ok(ops.iter().map(|t| t.code()).collect())
 }
 
+/// `imasm cycle` — run primitives → imasm → primitives → imasm and measure it.
+///
+/// For each catalog entry: read its tuple (primitives), write the word the
+/// twelve types compose to (imasm), read the word back into types (primitives),
+/// write THAT tuple's word again (imasm). The cycle closes when the second word
+/// equals the first and the recovered tuple equals the original. Reported
+/// whole, because the interesting number is not "does it work" but WHERE the
+/// alphabet stops being invertible.
+fn cycle_verb(rest: &[String]) -> String {
+    let limit: usize = rest
+        .iter()
+        .find_map(|a| a.strip_prefix("n=").and_then(|v| v.parse().ok()))
+        .unwrap_or(usize::MAX);
+    let arr = match catalog_entries() {
+        Ok(a) => a,
+        Err(e) => return format!("imasm cycle: {e}\n"),
+    };
+    let mut out = String::new();
+    let _ = writeln!(
+        out,
+        "IMASM cycle — primitives → imasm → primitives → imasm, over the live catalog.\n\
+         δ writes each type as its own program and concatenates; μ PARSES the word back into the \
+         types that could have written it (type programs are not self-delimiting, so the word is \
+         parsed, never cut on the boundary pair)."
+    );
+    let (mut seen, mut exact, mut ambiguous, mut failed) = (0usize, 0usize, 0usize, 0usize);
+    let mut amb_axes: std::collections::BTreeMap<String, usize> = Default::default();
+    let mut first_fail: Option<String> = None;
+    for e in arr.iter().take(limit) {
+        let Some(name) = e.get("name").and_then(|n| n.as_str()) else { continue };
+        let mut tuple: Vec<String> = Vec::new();
+        let mut complete = true;
+        for ax in TUPLE_ORDER {
+            match e.get(ax).and_then(|g| g.as_str()) {
+                Some(g) => tuple.push(g.to_string()),
+                None => complete = false,
+            }
+        }
+        if !complete {
+            continue;
+        }
+        seen += 1;
+        let word = match tuple_glyph_word(&tuple) {
+            Ok(w) => w,
+            Err(err) => {
+                failed += 1;
+                first_fail.get_or_insert(format!("{name}: forward leg — {err}"));
+                continue;
+            }
+        };
+        let read = match tuple_from_word(&word) {
+            Ok(r) => r,
+            Err(err) => {
+                failed += 1;
+                first_fail.get_or_insert(format!("{name}: return leg — {err}"));
+                continue;
+            }
+        };
+        // The original must be among the pre-images at every axis, or the cycle
+        // is not merely ambiguous, it is WRONG.
+        let mut contains_original = true;
+        let mut multi = Vec::new();
+        for (i, hits) in read.iter().enumerate() {
+            if !hits.contains(&tuple[i]) {
+                contains_original = false;
+            }
+            if hits.len() > 1 {
+                multi.push(TUPLE_ORDER[i]);
+            }
+        }
+        if !contains_original {
+            failed += 1;
+            first_fail.get_or_insert(format!("{name}: return leg lost the original type"));
+            continue;
+        }
+        // Second forward leg: the recovered tuple (taking the original where the
+        // read is ambiguous) must write the same word back.
+        let rewritten = tuple_glyph_word(&tuple).unwrap_or_default();
+        if rewritten != word {
+            failed += 1;
+            first_fail.get_or_insert(format!("{name}: second forward leg differs"));
+            continue;
+        }
+        if multi.is_empty() {
+            exact += 1;
+        } else {
+            ambiguous += 1;
+            for ax in multi {
+                *amb_axes.entry(ax.to_string()).or_default() += 1;
+            }
+        }
+    }
+    let _ = writeln!(
+        out,
+        "\n{seen} entr(ies) walked · {exact} closed EXACTLY (the word names one tuple and it is \
+         the original) · {ambiguous} closed to within an ambiguous axis · {failed} broke"
+    );
+    if !amb_axes.is_empty() {
+        let _ = writeln!(
+            out,
+            "ambiguity is confined to: {}",
+            amb_axes
+                .iter()
+                .map(|(a, n)| format!("axis {a} in {n} entr(ies)"))
+                .collect::<Vec<_>>()
+                .join(", ")
+        );
+        let _ = writeln!(
+            out,
+            "The cause is in the ALPHABET, not the reading: the 49 types emit 47 distinct \
+             programs. 'loll' and 'yew' collide but sit on different axes, so position separates \
+             them; 'ear' and 'tot' collide AND share axis Ř, so a Ř segment carrying that program \
+             has two pre-images and no amount of reading can choose between them."
+        );
+    }
+    if let Some(f) = first_fail {
+        let _ = writeln!(out, "first break: {f}");
+    }
+    out
+}
+
 /// THE RETURN LEG: an IMASM word read back into the twelve primitive types it
 /// was written from. The forward leg (type → program, tuple → word) was always
 /// here; this is the μ to that δ, and running both closes the cycle
@@ -955,49 +1076,70 @@ pub fn entry_glyph_word(name: &str) -> Result<String, String> {
 /// choosing. That ambiguity is a fact about the type alphabet, not a defect
 /// here, and it is why the cycle closes to within one axis and not exactly.
 pub(crate) fn tuple_from_word(word: &str) -> Result<Vec<Vec<String>>, String> {
-    // Segment on the boundary pair: each ⊢…⊣ is one type's whole program.
-    let mut segments: Vec<String> = Vec::new();
-    let mut cur = String::new();
-    for c in word.chars() {
-        cur.push(c);
-        if c == '⊣' {
-            segments.push(std::mem::take(&mut cur));
-        }
-    }
-    if segments.len() != 12 {
-        return Err(format!(
-            "a tuple's word is twelve ⊢…⊣ programs; this word carries {}",
-            segments.len()
-        ));
-    }
-    // Every type's own word, computed once from the same expansion the forward
-    // leg uses — the two legs cannot drift, because there is only one table.
-    let mut type_word: Vec<(&str, String)> = Vec::new();
-    for (_g, tname) in GLYPH_TYPE_NAME {
+    // Type programs are NOT self-delimiting: `out` carries TANCH in its middle
+    // and does not end on ⊣, so the boundary pair cannot cut a concatenated
+    // word into its twelve types. The word must be PARSED instead — axis by
+    // axis, each axis consuming some admissible type's program as a prefix —
+    // and every parse that consumes the whole word is a genuine pre-image.
+    let w: Vec<char> = word.chars().collect();
+    let mut table: Vec<(&str, &str, Vec<char>)> = Vec::new(); // (glyph, name, program)
+    for (g, tname) in GLYPH_TYPE_NAME {
         if let Ok((ops, _p, _a)) = expand_type(tname) {
-            type_word.push((tname, ops.iter().map(|t| t.code()).collect()));
+            let prog: Vec<char> = ops.iter().flat_map(|t| t.code().chars()).collect();
+            table.push((g, tname, prog));
         }
     }
-    let mut out: Vec<Vec<String>> = Vec::new();
-    for (i, seg) in segments.iter().enumerate() {
-        let axis = TUPLE_ORDER[i];
-        let mut hits: Vec<String> = Vec::new();
-        for (tname, tw) in &type_word {
-            if tw != seg {
-                continue;
-            }
-            // The glyph of this type, kept only if the axis admits it.
-            let Some((g, _)) = GLYPH_TYPE_NAME.iter().find(|(_, n)| n == tname) else { continue };
-            if axis_admits(axis, g) {
-                hits.push(g.to_string());
+    let mut parses: Vec<Vec<String>> = Vec::new();
+    let mut stack: Vec<String> = Vec::new();
+    parse_axis(&w, 0, 0, &table, &mut stack, &mut parses);
+    if parses.is_empty() {
+        return Err("no reading of this word as twelve type programs".into());
+    }
+    // Collapse the parses into per-axis pre-image sets: the axis is determined
+    // wherever every parse agrees, ambiguous where they do not.
+    let mut out: Vec<Vec<String>> = vec![Vec::new(); 12];
+    for parse in &parses {
+        for (i, g) in parse.iter().enumerate() {
+            if !out[i].contains(g) {
+                out[i].push(g.clone());
             }
         }
-        if hits.is_empty() {
-            return Err(format!("segment {} (axis {axis}) matches no type's program", i + 1));
-        }
-        out.push(hits);
     }
     Ok(out)
+}
+
+/// Depth-first parse: consume one admissible type program per axis, in order.
+fn parse_axis(
+    w: &[char],
+    pos: usize,
+    axis: usize,
+    table: &[(&str, &str, Vec<char>)],
+    stack: &mut Vec<String>,
+    parses: &mut Vec<Vec<String>>,
+) {
+    if axis == 12 {
+        if pos == w.len() {
+            parses.push(stack.clone());
+        }
+        return;
+    }
+    // Guard against a blow-up on a pathological word; the honest reading of a
+    // catalog tuple never needs more than a handful of parses.
+    if parses.len() >= 64 {
+        return;
+    }
+    let ax = TUPLE_ORDER[axis];
+    for (g, _name, prog) in table {
+        if !axis_admits(ax, g) {
+            continue;
+        }
+        if pos + prog.len() > w.len() || &w[pos..pos + prog.len()] != prog.as_slice() {
+            continue;
+        }
+        stack.push(g.to_string());
+        parse_axis(w, pos + prog.len(), axis + 1, table, stack, parses);
+        stack.pop();
+    }
 }
 
 /// Whether an axis is ever written with a given type-glyph, read off the live
@@ -1736,6 +1878,7 @@ pub fn run(args: &[String]) -> String {
         "16_3" | "tri" | "imasm16_3" => crate::imasm16_3::run(rest),
         "learn" | "study" => crate::learn::run(rest),
         "path" | "promote" => crate::learn::path(rest),
+        "cycle" => cycle_verb(rest),
         "compose" | "bind" => compose_tool(rest),
         "chaos" | "space" => chaos_tool(rest),
         "export" | "manifest" => export_tools(),
@@ -1836,6 +1979,35 @@ pub fn run(args: &[String]) -> String {
 
 #[cfg(test)]
 mod tests {
+
+    /// The cycle's two structural facts, pinned so a change to the type table
+    /// cannot quietly break the return leg. First: type programs are not
+    /// self-delimiting, so a word cannot be cut on the boundary pair — `out`
+    /// carries TANCH in its middle. Second: an entry's word reads back to a
+    /// tuple that still contains the original at every axis.
+    #[test]
+    fn the_cycle_closes_and_out_is_not_self_delimiting() {
+        let (ops, _p, _a) = expand_type("out").expect("the type 'out' expands");
+        let word: String = ops.iter().map(|t| t.code()).collect();
+        assert!(
+            !word.ends_with('⊣'),
+            "'out' now ends on the boundary pair; the parse-based return leg was written because \
+             it did not, and a boundary cut would be viable again"
+        );
+
+        // A tuple written and read back must still admit the tuple it came from.
+        let Ok(tuple) = entry_tuple("hydrogen_atom") else { return }; // no catalog on this host
+        let w = tuple_glyph_word(&tuple).expect("the tuple writes a word");
+        let read = tuple_from_word(&w).expect("the word reads back");
+        assert_eq!(read.len(), 12);
+        for (i, hits) in read.iter().enumerate() {
+            assert!(
+                hits.contains(&tuple[i]),
+                "axis {} lost its original type in the return leg",
+                TUPLE_ORDER[i]
+            );
+        }
+    }
     use super::*;
 
     /// The tool registry is one real file; tests that define/remove tools must

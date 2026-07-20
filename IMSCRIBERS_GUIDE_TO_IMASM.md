@@ -351,6 +351,19 @@ plus the per-step domain actions. The types judge programs, and the types ARE
 programs judged by the same close condition: the strange loop is not decoration,
 it is the autopoietic floor of the system.
 
+The loop is walkable in both directions. A tuple becomes a word by writing each
+of its twelve types as that type's own program and concatenating in canonical
+axis order; `imasm cycle` runs the return leg too, reading a word back into the
+types that could have written it, and reports where the round trip closes. Three
+things it establishes. Type programs are NOT self-delimiting (the type `out`
+carries TANCH in its middle and does not end on ⊣), so a concatenated word must
+be parsed axis by axis and never cut on the boundary pair. Position is
+load-bearing: the 49 types emit only 47 distinct programs, and of the two
+colliding pairs one is separated by the axes it may occupy while the other is
+not. And at catalog scale no entry loses its original type, with ambiguity
+confined to the single axis the alphabet analysis predicts. The full reading is
+in `md/primitive_imasm_cycle.md`.
+
 ## Part X. Where the Engine Lives
 
 The close-condition engine (Graph, ancestry pairing, ClosureState, and the whole
@@ -404,6 +417,8 @@ Engineering guarantees:
   imasm export                 manifest for the surface
   imasm ref                    the live rules (authoritative over this file)
   imasm types / expand <type>  the 49 Shavian types (each itself a program)
+  imasm cycle [n=<count>]      primitives → imasm → primitives → imasm, measured
+                               over the live catalog
   imasm define <name> <op> <args…>   build a kernel-constrained tool
   imasm run <name> / imasm tools     invoke / list forged tools
 
@@ -508,6 +523,8 @@ edit (it does not).
 
 ## Related documents
 
+- `md/primitive_imasm_cycle.md`: the primitives ↔ IMASM cycle, both legs, and
+  where the type alphabet stops being invertible.
 - `md/chaos_first_measurements.md`: the chaos measurements, census, and the
   perfect-machine mechanism in full.
 - `md/verification_as_imscription.md`: the theory of verification as
