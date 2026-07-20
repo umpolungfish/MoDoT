@@ -1,27 +1,27 @@
-I gave the excriber the primitives as tangible handles.
+The promotion path crosses faces, and says which way it walked.
 
-IMASM names a program's characteristics abstractly (fork, fuse, work, hold);
-the twelve primitive axes give those characteristics grounded names an object
-can be judged against. Three groundings now ride the excriber's prompt:
+Three things the path verb got wrong. It read both endpoints in ONE face,
+so a classic word handed to a pair whose other member carried tri glyphs
+was silently truncated to the glyphs that face parses: the report answered
+about a word nobody asked for. It called any verdict change a promotion,
+so a walk descending T to N was announced as a climb. And it filtered
+argument tokens on "contains =", eating any word carrying CLINK.
 
-- Each opcode in the alphabet is tagged with the primitive axis it rides, from
-  the canonical IGProtocol field assignment: VINIT Dimensionality, TANCH
-  Topology, AFWD Relational, AREV Polarity, CLINK Fidelity, IMSCRIB Interaction
-  Grammar, FSPLIT Granularity, FFUSE and ENGAGR Stoichiometry, EVALT
-  Criticality, EVALF Chirality, IFIX Topological Protection (Kinetic Character,
-  the twelfth, is carried by the register's motion, not one opcode). The tri
-  face tags FSPLIT3/FFUSE3/EVALI/TNEG/INEG the same way.
-- The twelve axes themselves, each with a one-line tangible handle.
-- The primitive types loaded from ob3ect/digital (the_primitive_type_called_*),
-  each rendered as name and its own glyph word: 50 concrete exemplars of how the
-  characteristics compose into real programs, cached on first use, dropped from
-  the hotter retry to leave room to diverge.
+Each endpoint now names its own face. When the faces differ the walk
+CROSSES: the two grammars share ten glyphs and differ only in the dyad,
+binary against ternary, so the search runs the union alphabet with every
+waypoint judged in the face its own dyad selects, and a word carrying both
+dyads belongs to neither grammar and is refused as a waypoint. The step
+where the grammar changes is marked in the report. The crossing found in
+practice does not substitute the dyad in place; it dissolves the binary
+pair first and walks a face-neutral valley before the ternary pair forms,
+which is what the both-dyads refusal forces.
 
-The excriber is told to read what the program's shape says about each axis and
-name the real object with those characteristics. The em-dashes in the alphabet
-table are replaced with colons in the same pass. Guide Part XIV notes the
-grounding.
+Verdict direction is read off the endpoints under F < N < B < T: climb,
+descent, or a wander that returns to its own class.
 
-Verified: build green under local,cuda; 7/7 learn tests; 50/50 primitive type
-ob3ects parse to glyph words; a live run shows the grounded excriber producing
-domain-varied guesses (garden techniques, spherical coordinates, cell division).
+Also in the loop: each word keeps its residual HISTORY rather than only
+its latest, and the run reports first-visit against last-visit residual
+over words seen more than once. That measures the model against itself and
+is immune to the walk drifting onto easier ground, which the per-run mean
+is not.

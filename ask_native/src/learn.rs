@@ -46,6 +46,72 @@ fn body_alphabet(face: Face) -> &'static [char] {
     }
 }
 
+/// Rank of a verdict for ordering a walk: F < N < B < T.
+fn verdict_rank(v: char) -> u8 {
+    match v {
+        'T' => 3,
+        'B' => 2,
+        'N' => 1,
+        _ => 0,
+    }
+}
+
+/// The search mode. `Fixed` walks inside one face; `Cross` walks the union
+/// alphabet between endpoints in DIFFERENT faces. The two faces share ten
+/// glyphs and differ only in the dyad (◇/● binary δ/μ against ∈/∋ ternary
+/// δ₃/μ₃), so a cross-face walk is well posed: each waypoint carries one dyad
+/// and is judged by that dyad's grammar, and the crossing is the substitution
+/// ◇→∈ (or ●→∋) that changes the branch arity. A word carrying BOTH dyads
+/// belongs to neither grammar and is refused as a waypoint.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Mode {
+    Fixed(Face),
+    Cross,
+}
+
+/// The face a word belongs to by its own content; None when it mixes dyads.
+fn word_face(w: &[char]) -> Option<Face> {
+    let tri = w.iter().any(|c| matches!(c, '∈' | '∋' | '~' | '≁' | '☊' | '☋'));
+    let classic = w.iter().any(|c| matches!(c, '◇' | '●'));
+    match (tri, classic) {
+        (true, true) => None,
+        (true, false) => Some(Face::Tri),
+        _ => Some(Face::Classic),
+    }
+}
+
+/// The alphabet a mode may edit with: one face's, or the union across the crossing.
+fn mode_alphabet(mode: Mode) -> Vec<char> {
+    match mode {
+        Mode::Fixed(f) => body_alphabet(f).to_vec(),
+        Mode::Cross => {
+            let mut v = body_alphabet(Face::Classic).to_vec();
+            for &c in body_alphabet(Face::Tri) {
+                if !v.contains(&c) {
+                    v.push(c);
+                }
+            }
+            v
+        }
+    }
+}
+
+/// Validity of a waypoint under a mode: in `Cross`, the word names its own face.
+fn mode_valid(mode: Mode, w: &[char]) -> bool {
+    match mode {
+        Mode::Fixed(f) => word_valid(f, w),
+        Mode::Cross => word_face(w).is_some_and(|f| word_valid(f, w)),
+    }
+}
+
+/// Verdict of a waypoint under a mode; a dyad-mixing word is ill-typed.
+fn mode_verdict(mode: Mode, w: &[char]) -> char {
+    match mode {
+        Mode::Fixed(f) => verdict_letter(f, w),
+        Mode::Cross => word_face(w).map_or('F', |f| verdict_letter(f, w)),
+    }
+}
+
 /// Parse a raw word in its face; None when nothing parses.
 fn parse_word(raw: &str, face: Face) -> Option<Vec<char>> {
     let w: Vec<char> = match face {
@@ -287,12 +353,17 @@ fn residual(a: &[char], b: &[char]) -> (usize, Vec<(char, char)>) {
 /// neighborhood explores the body, not the frame — and only grammar-valid
 /// words are admitted as candidates.
 fn neighbors(face: Face, w: &[char]) -> Vec<Vec<char>> {
+    neighbors_mode(Mode::Fixed(face), w)
+}
+
+fn neighbors_mode(mode: Mode, w: &[char]) -> Vec<Vec<char>> {
+    let alphabet = mode_alphabet(mode);
     let mut out: Vec<Vec<char>> = Vec::new();
     let lo = usize::from(w.first() == Some(&'⊢'));
     let hi = w.len() - usize::from(w.last() == Some(&'⊣'));
     for i in lo..hi {
         // substitution
-        for &c in body_alphabet(face) {
+        for &c in alphabet.iter() {
             if c != w[i] {
                 let mut v = w.to_vec();
                 v[i] = c;
@@ -308,7 +379,7 @@ fn neighbors(face: Face, w: &[char]) -> Vec<Vec<char>> {
     }
     // insertion at every body position
     for i in lo..=hi {
-        for &c in body_alphabet(face) {
+        for &c in alphabet.iter() {
             let mut v = w.to_vec();
             v.insert(i, c);
             out.push(v);
@@ -316,7 +387,7 @@ fn neighbors(face: Face, w: &[char]) -> Vec<Vec<char>> {
     }
     out.sort_by_key(|v| word_str(v));
     out.dedup_by_key(|v| word_str(v));
-    out.retain(|v| word_valid(face, v));
+    out.retain(|v| mode_valid(mode, v));
     out
 }
 
@@ -691,9 +762,13 @@ fn describe_edit(from: &[char], to: &[char]) -> String {
 /// edit distance to the target (admissible — one edit closes at most one unit
 /// of distance). Returns the waypoint sequence A..=B, or None within budget.
 fn promotion_path(face: Face, a: &[char], b: &[char], budget: usize) -> Option<Vec<Vec<char>>> {
+    promotion_path_mode(Mode::Fixed(face), a, b, budget)
+}
+
+fn promotion_path_mode(mode: Mode, a: &[char], b: &[char], budget: usize) -> Option<Vec<Vec<char>>> {
     use std::cmp::Reverse;
     use std::collections::{BinaryHeap, HashMap};
-    if !word_valid(face, a) || !word_valid(face, b) {
+    if !mode_valid(mode, a) || !mode_valid(mode, b) {
         return None;
     }
     let start = word_str(a);
@@ -731,7 +806,7 @@ fn promotion_path(face: Face, a: &[char], b: &[char], budget: usize) -> Option<V
             return None;
         }
         let cur: Vec<char> = cur_s.chars().collect();
-        for nb in neighbors(face, &cur) {
+        for nb in neighbors_mode(mode, &cur) {
             let ns = word_str(&nb);
             let tentative = g + 1;
             if tentative < *g_score.get(&ns).unwrap_or(&usize::MAX) {
@@ -746,7 +821,12 @@ fn promotion_path(face: Face, a: &[char], b: &[char], budget: usize) -> Option<V
 }
 
 pub fn path(rest: &[String]) -> String {
-    let words: Vec<&String> = rest.iter().filter(|s| !s.contains('=')).collect();
+    // Drop only genuine parameter tokens (`rounds=…`). A bare `=` is CLINK, a
+    // real opcode: filtering on "contains '='" ate any word carrying it.
+    let is_param = |s: &str| {
+        ["rounds=", "breadth=", "fixed=", "budget="].iter().any(|p| s.starts_with(p))
+    };
+    let words: Vec<&String> = rest.iter().filter(|s| !is_param(s)).collect();
     if words.len() < 2 {
         return "imasm path needs two words: imasm path '<A>' '<B>'\n\
                 e.g. ./ask --imasm path '⊢◇>+●¬⊣' '⊢◇>×●¬⊣'\n\
@@ -756,10 +836,18 @@ pub fn path(rest: &[String]) -> String {
             .into();
     }
     let (raw_a, raw_b) = (words[0], words[1]);
-    let face = face_of(&format!("{raw_a} {raw_b}"));
-    let (Some(a), Some(b)) = (parse_word(raw_a, face), parse_word(raw_b, face)) else {
+    // Each endpoint names its OWN face. Reading both in one face would silently
+    // drop the other dyad (the tri parser eats ◇ and ●) and report a word nobody
+    // asked about; when the faces differ, the walk CROSSES instead. The faces
+    // share ten glyphs and differ only in the dyad, so the crossing is a single
+    // substitution ◇→∈ / ●→∋ changing the branch arity, and every waypoint is a
+    // valid program in exactly one face.
+    let (face_a, face_b) = (face_of(raw_a), face_of(raw_b));
+    let mode = if face_a == face_b { Mode::Fixed(face_a) } else { Mode::Cross };
+    let (Some(a), Some(b)) = (parse_word(raw_a, face_a), parse_word(raw_b, face_b)) else {
         return "imasm path: one of the words did not parse in its face.\n".into();
     };
+    let face_name = |f: Face| if f == Face::Tri { "SIXTEEN_3" } else { "classic" };
     let mut out = String::new();
     let _ = writeln!(
         out,
@@ -767,10 +855,14 @@ pub fn path(rest: &[String]) -> String {
          from {}  →  to {}  ·  face {}  ·  raw edit distance {}",
         word_str(&a),
         word_str(&b),
-        if face == Face::Tri { "SIXTEEN_3" } else { "classic" },
+        if mode == Mode::Cross {
+            format!("{} → {} (crossing)", face_name(face_a), face_name(face_b))
+        } else {
+            face_name(face_a).to_string()
+        },
         residual(&a, &b).0,
     );
-    match promotion_path(face, &a, &b, 200_000) {
+    match promotion_path_mode(mode, &a, &b, 200_000) {
         None => {
             let _ = writeln!(
                 out,
@@ -779,7 +871,7 @@ pub fn path(rest: &[String]) -> String {
             );
         }
         Some(p) => {
-            let verdicts: String = p.iter().map(|w| verdict_letter(face, w)).collect();
+            let verdicts: String = p.iter().map(|w| mode_verdict(mode, w)).collect();
             let _ = writeln!(
                 out,
                 "\npromotion length {} step(s); verdict walk {}",
@@ -787,19 +879,48 @@ pub fn path(rest: &[String]) -> String {
                 verdicts
             );
             for (i, w) in p.iter().enumerate() {
-                let v = verdict_letter(face, w);
+                let v = mode_verdict(mode, w);
                 if i == 0 {
                     let _ = writeln!(out, "  {}  [{v}]  (start)", word_str(w));
                 } else {
                     let edit = describe_edit(&p[i - 1], w);
-                    let _ = writeln!(out, "  {}  [{v}]  ← {edit}", word_str(w));
+                    // Name the step where the grammar itself changes: the dyad
+                    // swap is the only edit that moves a word between faces.
+                    let crossed = word_face(&p[i - 1]) != word_face(w);
+                    let mark = if crossed {
+                        format!("   ⇐ FACE CROSSING → {}", face_name(word_face(w).unwrap_or(Face::Classic)))
+                    } else {
+                        String::new()
+                    };
+                    let _ = writeln!(out, "  {}  [{v}]  ← {edit}{mark}", word_str(w));
                 }
             }
-            if verdicts.chars().all(|c| c == verdicts.chars().next().unwrap()) {
-                let _ = writeln!(out, "\nThe path stays within one verdict class; no promotion, a lateral walk.");
-            } else {
-                let _ = writeln!(out, "\nThe verdict climbs along the path: a genuine promotion, not a lateral edit.");
-            }
+            // A walk that changes verdict is not automatically a promotion:
+            // read the DIRECTION off the endpoints (F < N < B < T), and say
+            // plainly when the walk descends or merely wanders.
+            let first = verdicts.chars().next().unwrap();
+            let last = verdicts.chars().last().unwrap();
+            let varied = verdicts.chars().any(|c| c != first);
+            let _ = match (varied, verdict_rank(last).cmp(&verdict_rank(first))) {
+                (false, _) => writeln!(
+                    out,
+                    "\nThe path stays within one verdict class; no promotion, a lateral walk."
+                ),
+                (true, std::cmp::Ordering::Greater) => writeln!(
+                    out,
+                    "\nThe verdict climbs {first} → {last}: a genuine promotion."
+                ),
+                (true, std::cmp::Ordering::Less) => writeln!(
+                    out,
+                    "\nThe verdict DESCENDS {first} → {last}: a demotion, not a promotion. \
+                     Read it backwards for the climb."
+                ),
+                (true, std::cmp::Ordering::Equal) => writeln!(
+                    out,
+                    "\nThe verdict wanders and returns to {last}: the endpoints share a class, \
+                     but the interior leaves it."
+                ),
+            };
         }
     }
     out
@@ -927,9 +1048,19 @@ pub fn run(rest: &[String]) -> String {
             );
 
             // The guess IS the record's centre: the word went out as this
-            // object and came home as the recovered word. Keep all three.
+            // object and came home as the recovered word. Keep all three, AND
+            // append this visit's residual to the word's own history rather than
+            // overwriting it: a word seen in an early run and again later then
+            // carries its before/after, the learning signal that is immune to
+            // the walk drifting onto easier or harder territory.
+            let mut residuals: Vec<i64> = knowledge["visited"][&cw]["residuals"]
+                .as_array()
+                .map(|a| a.iter().filter_map(|v| v.as_i64()).collect())
+                .unwrap_or_default();
+            residuals.push(dist as i64);
             knowledge["visited"][&cw] = serde_json::json!({
                 "guess": object, "recovered": rw, "residual": dist,
+                "residuals": residuals,
                 "verdict": cand_v.to_string(), "recovered_verdict": rec_v.to_string(),
             });
             for (sent, got) in subs {
@@ -979,6 +1110,52 @@ pub fn run(rest: &[String]) -> String {
             })
             .unwrap_or_default();
         let _ = writeln!(out, "\naccuracy trajectory (mean residual per run): {}", trend.join(" → "));
+    }
+
+    // The learning signal, immune to territory drift: among words visited more
+    // than once, compare each word's FIRST residual to its LAST. This measures
+    // the model against itself across runs, so it isolates genuine improvement
+    // from the walk simply landing on easier words.
+    if let Some(visited) = knowledge["visited"].as_object() {
+        let mut firsts = Vec::new();
+        let mut lasts = Vec::new();
+        let (mut better, mut worse, mut same) = (0i32, 0i32, 0i32);
+        for rec in visited.values() {
+            let rs: Vec<i64> = rec["residuals"]
+                .as_array()
+                .map(|a| a.iter().filter_map(|v| v.as_i64()).collect())
+                .unwrap_or_default();
+            if rs.len() < 2 {
+                continue;
+            }
+            let (f, l) = (rs[0], *rs.last().unwrap());
+            firsts.push(f);
+            lasts.push(l);
+            match l.cmp(&f) {
+                std::cmp::Ordering::Less => better += 1,
+                std::cmp::Ordering::Greater => worse += 1,
+                std::cmp::Ordering::Equal => same += 1,
+            }
+        }
+        if !firsts.is_empty() {
+            let mean = |v: &[i64]| v.iter().sum::<i64>() as f64 / v.len() as f64;
+            let (mf, ml) = (mean(&firsts), mean(&lasts));
+            let _ = writeln!(
+                out,
+                "learning signal ({} word(s) seen more than once): mean residual {:.2} → {:.2} \
+                 (Δ {:+.2}); {better} improved, {worse} worsened, {same} unchanged",
+                firsts.len(),
+                mf,
+                ml,
+                ml - mf,
+            );
+        } else {
+            let _ = writeln!(
+                out,
+                "learning signal: no word revisited yet — run again over overlapping territory \
+                 to compare a word to its earlier self."
+            );
+        }
     }
     let _ = writeln!(
         out,

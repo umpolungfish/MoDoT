@@ -1,132 +1,155 @@
 {
   "confusions": {
-    "+→<": 39,
-    "+→=": 37,
-    "+→>": 62,
-    "+→~": 1,
-    "+→¬": 3,
-    "+→×": 29,
-    "+→∈": 35,
+    "+→<": 58,
+    "+→=": 47,
+    "+→>": 83,
+    "+→~": 5,
+    "+→¬": 11,
+    "+→×": 30,
+    "+→∈": 50,
     "+→∋": 14,
     "+→≁": 3,
-    "+→⊙": 16,
-    "+→⊞": 7,
+    "+→⊙": 33,
+    "+→⊞": 9,
     "+→◇": 2,
     "+→●": 3,
-    "<→+": 33,
-    "<→=": 15,
-    "<→>": 19,
-    "<→~": 1,
-    "<→¬": 16,
-    "<→×": 8,
-    "<→∈": 11,
-    "<→∋": 9,
-    "<→≁": 1,
-    "<→⊙": 16,
-    "<→⊞": 50,
+    "<→+": 65,
+    "<→=": 50,
+    "<→>": 57,
+    "<→~": 4,
+    "<→¬": 31,
+    "<→×": 10,
+    "<→∈": 17,
+    "<→∋": 18,
+    "<→≁": 2,
+    "<→⊙": 41,
+    "<→⊞": 125,
     "<→⊣": 5,
     "<→◇": 2,
-    "=→+": 21,
-    "=→<": 11,
-    "=→>": 26,
-    "=→¬": 37,
-    "=→×": 2,
-    "=→∈": 5,
-    "=→∋": 10,
-    "=→≁": 1,
-    "=→⊙": 14,
-    "=→⊞": 16,
+    "=→+": 48,
+    "=→<": 62,
+    "=→>": 38,
+    "=→¬": 80,
+    "=→×": 3,
+    "=→∈": 9,
+    "=→∋": 14,
+    "=→≁": 2,
+    "=→⊙": 19,
+    "=→⊞": 34,
     "=→⊢": 1,
     "=→⊣": 2,
     "=→◇": 2,
     "=→●": 1,
-    ">→+": 15,
-    ">→<": 9,
-    ">→=": 13,
-    ">→~": 3,
-    ">→¬": 4,
-    ">→×": 3,
-    ">→∈": 6,
-    ">→∋": 8,
-    ">→⊙": 22,
+    ">→+": 58,
+    ">→<": 61,
+    ">→=": 28,
+    ">→~": 4,
+    ">→¬": 14,
+    ">→×": 4,
+    ">→∈": 10,
+    ">→∋": 10,
+    ">→≁": 1,
+    ">→⊙": 40,
+    ">→⊞": 1,
     ">→◇": 2,
     ">→●": 1,
-    "~→=": 3,
-    "~→>": 2,
-    "~→¬": 3,
-    "~→×": 5,
-    "~→∈": 6,
-    "~→⊙": 2,
+    "~→+": 12,
+    "~→<": 14,
+    "~→=": 24,
+    "~→>": 20,
+    "~→¬": 24,
+    "~→×": 7,
+    "~→∈": 14,
+    "~→⊙": 6,
+    "~→⊞": 1,
     "~→⊢": 1,
-    "¬→+": 3,
-    "¬→<": 3,
-    "¬→=": 49,
-    "¬→>": 1,
-    "¬→~": 18,
-    "¬→×": 23,
-    "¬→∈": 4,
-    "¬→∋": 5,
-    "¬→⊙": 6,
-    "¬→⊞": 16,
+    "~→⊣": 1,
+    "¬→+": 31,
+    "¬→<": 59,
+    "¬→=": 150,
+    "¬→>": 17,
+    "¬→~": 20,
+    "¬→×": 27,
+    "¬→∈": 6,
+    "¬→∋": 11,
+    "¬→⊙": 16,
+    "¬→⊞": 26,
     "¬→⊢": 1,
     "¬→⊣": 3,
     "¬→●": 2,
-    "×→+": 7,
-    "×→<": 10,
-    "×→=": 2,
-    "×→>": 8,
-    "×→¬": 14,
-    "×→∋": 2,
-    "×→⊙": 4,
-    "×→⊞": 1,
+    "×→+": 15,
+    "×→<": 35,
+    "×→=": 10,
+    "×→>": 10,
+    "×→¬": 23,
+    "×→∈": 6,
+    "×→∋": 3,
+    "×→⊙": 5,
+    "×→⊞": 4,
     "×→●": 2,
-    "∈→+": 52,
-    "∈→<": 7,
-    "∈→=": 3,
-    "∈→>": 6,
+    "∈→+": 63,
+    "∈→<": 9,
+    "∈→=": 13,
+    "∈→>": 22,
+    "∈→~": 3,
     "∈→¬": 4,
     "∈→×": 5,
     "∈→∋": 8,
-    "∈→≁": 1,
+    "∈→≁": 2,
     "∈→⊞": 5,
-    "∋→+": 5,
-    "∋→<": 15,
-    "∋→=": 6,
-    "∋→>": 3,
+    "∋→+": 6,
+    "∋→<": 16,
+    "∋→=": 7,
+    "∋→>": 4,
     "∋→~": 1,
     "∋→¬": 5,
     "∋→×": 11,
     "∋→∈": 1,
-    "∋→⊙": 4,
+    "∋→⊙": 5,
     "∋→⊞": 1,
-    "⊙→+": 7,
-    "⊙→<": 7,
-    "⊙→=": 2,
-    "⊙→>": 21,
-    "⊙→¬": 1,
-    "⊙→∈": 2,
-    "⊙→∋": 4,
-    "⊙→≁": 1,
+    "≁→+": 14,
+    "≁→<": 8,
+    "≁→=": 3,
+    "≁→>": 4,
+    "≁→¬": 18,
+    "≁→×": 1,
+    "≁→∈": 1,
+    "≁→∋": 3,
+    "≁→⊙": 1,
+    "≁→⊞": 5,
+    "⊙→+": 32,
+    "⊙→<": 26,
+    "⊙→=": 27,
+    "⊙→>": 26,
+    "⊙→~": 2,
+    "⊙→¬": 73,
+    "⊙→×": 1,
+    "⊙→∈": 4,
+    "⊙→∋": 5,
+    "⊙→≁": 2,
     "⊙→⊞": 7,
     "⊙→●": 1,
-    "⊞→+": 10,
-    "⊞→<": 43,
-    "⊞→=": 3,
-    "⊞→>": 9,
-    "⊞→¬": 4,
+    "⊞→+": 36,
+    "⊞→<": 85,
+    "⊞→=": 23,
+    "⊞→>": 10,
+    "⊞→~": 30,
+    "⊞→¬": 18,
+    "⊞→×": 1,
     "⊞→∈": 1,
-    "⊞→∋": 8,
+    "⊞→∋": 9,
     "⊞→⊙": 1,
     "⊞→●": 2,
     "⊢→∋": 2,
     "⊢→⊙": 4,
     "⊢→⊞": 2,
     "⊣→+": 1,
+    "⊣→<": 1,
     "⊣→=": 2,
     "⊣→~": 1,
     "⊣→¬": 18,
     "⊣→≁": 12,
-    "⊣→⊙": 12,
+    "⊣→⊙": 13,
     "⊣→⊞": 193,
     "⊣→⊢": 3,
     "⊣→◇": 2,
@@ -138,7 +161,7 @@
     "◇→⊣": 1,
     "●→=": 2,
     "●→>": 1,
-    "●→×": 10,
+    "●→×": 11,
     "●→⊙": 1,
     "●→⊞": 1
   },
@@ -202,9 +225,33 @@
       "model": "poolside/laguna-m.1:free",
       "perfect": 0,
       "tested": 6
+    },
+    {
+      "mean_residual": 11.64,
+      "model": "poolside/laguna-m.1:free",
+      "perfect": 0,
+      "tested": 28
+    },
+    {
+      "mean_residual": 8.82,
+      "model": "poolside/laguna-m.1:free",
+      "perfect": 0,
+      "tested": 130
+    },
+    {
+      "mean_residual": 10.67,
+      "model": "poolside/laguna-m.1:free",
+      "perfect": 0,
+      "tested": 120
+    },
+    {
+      "mean_residual": 5.0,
+      "model": "poolside/laguna-m.1:free",
+      "perfect": 0,
+      "tested": 2
     }
   ],
-  "rounds": 78,
+  "rounds": 108,
   "visited": {
     "⊢+": {
       "recovered": "⊢>",
@@ -653,6 +700,13 @@
       "residual": 23,
       "verdict": "T"
     },
+    "⊢+++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "fermentation of yeast in bread dough",
+      "recovered": "⊢>=∈=⊙∋>=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
     "⊢+++=+<<>¬∈+×∋⊣": {
       "guess": "a gardener selecting and combining plants to affirm the true axis, reverse it, move forward, commit, split into three parts, rejoin all, and close the garden layout",
       "recovered": "⊢++=<>¬∈+×∋⊣",
@@ -751,6 +805,13 @@
       "residual": 21,
       "verdict": "T"
     },
+    "⊢+++>~==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "organism cell division process",
+      "recovered": "⊢<+++=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
     "⊢+++>¬∈+∋¬<⊣": {
       "guess": "a conductor conducting a symphony, affirming one direction, rejoining all instruments, splitting into three sections, rejoining all, committing to one direction, reversing again, closing the process",
       "recovered": "⊢++=∈+∋¬<⊣",
@@ -763,6 +824,13 @@
       "recovered": "⊢++>+=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 2,
+      "verdict": "T"
+    },
+    "⊢+++¬<~∈+×⊞∋=¬⊣": {
+      "guess": "celestial body orbiting a star",
+      "recovered": "⊢++=++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 22,
       "verdict": "T"
     },
     "⊢+++∈+⊙∋>=∈×<∋⊞¬⊣": {
@@ -1080,6 +1148,13 @@
       "residual": 11,
       "verdict": "T"
     },
+    "⊢++<=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "knight move routing",
+      "recovered": "⊢++>⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
     "⊢++<=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
       "guess": "pipeline manager",
       "recovered": "⊢>=∈∋+⊙∋>=∈×<∋⊞¬⊣",
@@ -1129,11 +1204,25 @@
       "residual": 21,
       "verdict": "T"
     },
+    "⊢++<>~==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "topographic map revision system",
+      "recovered": "⊢=∈++<¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 13,
+      "verdict": "T"
+    },
     "⊢++<>⊙=∈+×⊞∋¬<=⊣": {
       "guess": "a chess player evaluating and reevaluating moves, affirming one path, refuting another, rejoining all possibilities, committing to a course, closing the game",
       "recovered": "⊢>=∈+⊙∋>=≁×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 12,
+      "verdict": "T"
+    },
+    "⊢++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "peak descent with a fixed point",
+      "recovered": "⊢++¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
       "verdict": "T"
     },
     "⊢++<¬∈+∋¬<⊣": {
@@ -1325,6 +1414,13 @@
       "residual": 23,
       "verdict": "T"
     },
+    "⊢++=>~==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "bird trainer with a perch and feeding mechanism",
+      "recovered": "⊢∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 14,
+      "verdict": "T"
+    },
     "⊢++=>¬∈+∋¬<⊣": {
       "guess": "immunological pathway of T-cell activation and commitment",
       "recovered": "⊢++<+=⊙=∈+×⊞∋¬<=⊣",
@@ -1388,6 +1484,13 @@
       "residual": 10,
       "verdict": "T"
     },
+    "⊢++>+==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "peak descent planning system",
+      "recovered": "⊢+>=>⊞∈+=×<∋¬⊙⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
     "⊢++>+=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
       "guess": "a biochemical pathway for the synthesis and breakdown of organic molecules",
       "recovered": "⊢+++=<+>¬∈+×∋⊣",
@@ -1398,6 +1501,13 @@
     "⊢++>+=∈+×⊞∋¬<=⊣": {
       "guess": "a composer arranging and recombining musical themes, affirming one direction, refuting another, rejoining all possibilities, committing to a course, closing the composition",
       "recovered": "⊢×∈>+<×∋=⊙⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢++>+~==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "bird migration route planning",
+      "recovered": "⊢++<>+=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 10,
       "verdict": "T"
@@ -1430,6 +1540,20 @@
       "residual": 6,
       "verdict": "T"
     },
+    "⊢++>===≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "cooking recipe blueprint",
+      "recovered": "⊢++<+<+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢++>==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "immune response pathway",
+      "recovered": "⊢++<+=⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
     "⊢++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
       "guess": "celestial navigation system",
       "recovered": "⊢>=∈+⊙∋>=∈⊞<∋⊞¬⊣",
@@ -1451,6 +1575,48 @@
       "residual": 14,
       "verdict": "T"
     },
+    "⊢++>>~==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "falconer's bird training protocol",
+      "recovered": "⊢><=<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢++>~+=≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "forge tool for shaping metal",
+      "recovered": "⊢<++<+¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢++>~<=≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "beekeeper's hive management system",
+      "recovered": "⊢>∈+=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢++>~=<≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "pollination cycle",
+      "recovered": "⊢>=∈+⊙∋>=∈⊙×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢++>~==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "beeswax production and refinement",
+      "recovered": "⊢++<+<+<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 24,
+      "verdict": "T"
+    },
+    "⊢++>~=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "plant grafting process",
+      "recovered": "⊢>⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
     "⊢++>¬∈+∋¬<⊣": {
       "guess": "a archaeologist analyzing artifacts and committing to one interpretation while reversing again to refine the understanding",
       "recovered": "⊢>=∈+⊙∋>~=∈×<∋⊞¬⊣",
@@ -1463,6 +1629,20 @@
       "recovered": "⊢>=∈+⊙∋>=∋∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 12,
+      "verdict": "T"
+    },
+    "⊢++>⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "weaving pattern",
+      "recovered": "⊢++<+<+<=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 24,
+      "verdict": "T"
+    },
+    "⊢++>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "train schedule routing",
+      "recovered": "⊢><<+<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
       "verdict": "T"
     },
     "⊢++~<∈+∋¬<⊣": {
@@ -1486,6 +1666,13 @@
       "residual": 10,
       "verdict": "T"
     },
+    "⊢++¬<~∈+×⊞∋=¬⊣": {
+      "guess": "station master routing trains to dispatch, receive, and observe, then closing the shift",
+      "recovered": "⊢++=∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
     "⊢++¬∈+∋¬<⊣": {
       "guess": "climber routing ascent and descent with commitment to one path, splitting options, rejoining all, reversing again, closing the journey",
       "recovered": "⊢>=∈+⊙∋>=⊙×<∋⊞¬⊣",
@@ -1498,6 +1685,13 @@
       "recovered": "⊢>+⊙=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 6,
+      "verdict": "T"
+    },
+    "⊢++×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "map projection transformation",
+      "recovered": "⊢+=<>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
       "verdict": "T"
     },
     "⊢++∈++∋¬<⊣": {
@@ -1521,9 +1715,23 @@
       "residual": 11,
       "verdict": "T"
     },
+    "⊢++≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "weaving loom guide",
+      "recovered": "⊢><¬<¬∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
     "⊢++⊙=∈+×⊞∋¬<=⊣": {
       "guess": "a railway signal operator routing and rejoining tracks, affirming one path, refuting another, rejoining all three, committing to a course, closing the work",
       "recovered": "⊢>=∈+⊙∋>∋∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢++⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "cell membrane",
+      "recovered": "⊢<++<+=¬<~∈+×⊞∋=¬⊣",
       "recovered_verdict": "T",
       "residual": 11,
       "verdict": "T"
@@ -1547,6 +1755,20 @@
       "recovered_verdict": "N",
       "residual": 2,
       "verdict": "N"
+    },
+    "⊢+<++<=<<~∈+×⊞∋=¬⊣": {
+      "guess": "sailing route planning",
+      "recovered": "⊢++><¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+<++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "sailor's decision tree",
+      "recovered": "⊢~++<¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
     },
     "⊢+<+=∈+⊙∋>~∈×<∋⊞¬⊣": {
       "guess": "immune response coordination",
@@ -1604,6 +1826,41 @@
       "residual": 16,
       "verdict": "T"
     },
+    "⊢+<>~==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "peak descent and ascent process",
+      "recovered": "⊢++<+>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 21,
+      "verdict": "T"
+    },
+    "⊢+<>~=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "forge tooling for metalworking",
+      "recovered": "⊢<<¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+<>~~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "site survey",
+      "recovered": "⊢+++⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+<>~×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "beeswax production process",
+      "recovered": "⊢+++⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+<>×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "immune response coordination system",
+      "recovered": "⊢>=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
     "⊢+<>⊙=∈+×⊞∋¬<=⊣": {
       "guess": "a bird tracker analyzing and recombining tracks to identify the species, then closing the observation process",
       "recovered": "⊢>=∈+⊙∋>¬=∈×<∋⊞¬⊣",
@@ -1611,11 +1868,74 @@
       "residual": 11,
       "verdict": "T"
     },
+    "⊢+<>⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "musical score composition",
+      "recovered": "⊢<++<<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+<>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "immune response pathway",
+      "recovered": "⊢++<+=⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢+<~==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "musical score composition",
+      "recovered": "⊢<++<<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+<~=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "piece movement and capture in chess",
+      "recovered": "⊢⊙><<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+<~~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "fluid distribution system",
+      "recovered": "⊢<++<+<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+<~×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "weaving loom mechanism",
+      "recovered": "⊢><¬<¬∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+<¬<∈+×⊞∋=¬⊣": {
+      "guess": "vegetable planting schedule",
+      "recovered": "⊢++<<=>¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢+<≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "immunological diagnostic pathway",
+      "recovered": "⊢++++<<<>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
     "⊢+<⊙=∈+×⊞∋¬<=⊣": {
       "guess": "immunological pathway of T-cell activation and recombination",
       "recovered": "⊢>=∈+⊙∋>=∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+<⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "fermentation of yeast to produce ethanol",
+      "recovered": "⊢++~∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
       "verdict": "T"
     },
     "⊢+=+>¬∈+×∋⊣": {
@@ -1646,11 +1966,60 @@
       "residual": 3,
       "verdict": "T"
     },
+    "⊢+=>~==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "celestial navigation system",
+      "recovered": "⊢>=∈+⊙∋>=∈⊞<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+=>¬<∈+×⊞∋=¬⊣": {
+      "guess": "beeswax production process",
+      "recovered": "⊢+++<+<+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+=>×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "symphony orchestra conducting process",
+      "recovered": "⊢∈¬⊙=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
     "⊢+=>⊙=∈+×⊞∋¬<=⊣": {
       "guess": "a mountaineer routing and rejoining paths, affirming one direction, refuting another, rejoining all three, committing to a course, closing the journey",
       "recovered": "⊢++⊙=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 2,
+      "verdict": "T"
+    },
+    "⊢+=>⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "flower bed layout",
+      "recovered": "⊢><<=<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+=>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "flowering garden planning system",
+      "recovered": "⊢∈⊙>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢+=~=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "fermentation of wine to extract flavor and aroma",
+      "recovered": "⊢=⊙<=⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+=×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "site surveying",
+      "recovered": "⊢++<⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
       "verdict": "T"
     },
     "⊢+=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
@@ -1695,11 +2064,39 @@
       "residual": 12,
       "verdict": "T"
     },
+    "⊢+>+=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "volcanic vent activity",
+      "recovered": "⊢⊙<=<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
     "⊢+>+=∈+×⊞∋¬<=⊣": {
       "guess": "a stratigraphic layering process that records the order of deposition and closure of sedimentary layers",
       "recovered": "⊢>=∈<⊙∋>=∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+>+~=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "station master's decision-making process",
+      "recovered": "⊢¬>⊞∈+=×<∋¬⊙⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢+>+~×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "immune cell recognition and signaling process",
+      "recovered": "⊢<>>∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>+×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "flower arrangement process",
+      "recovered": "⊢+>¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
       "verdict": "T"
     },
     "⊢+>+∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
@@ -1716,12 +2113,33 @@
       "residual": 11,
       "verdict": "T"
     },
+    "⊢+>+⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "volcanic fissure activity monitoring",
+      "recovered": "⊢¬++∈++∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
     "⊢+>+●¬⊣": {
       "guess": "A court appeal.",
       "recovered": "⊢◇>+●¬⊣",
       "recovered_verdict": "T",
       "residual": 1,
       "verdict": "B"
+    },
+    "⊢+><<¬<∈+×⊞∋=¬⊣": {
+      "guess": "site of a burial chamber",
+      "recovered": "⊢⊙>=<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢+><=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "flower planting and nurturing process",
+      "recovered": "⊢+>×>>⊞∈+=×<∋¬⊙⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
     },
     "⊢+><=∈+×⊞∋¬<=⊣": {
       "guess": "weaving a tapestry with three-way splits and recombination",
@@ -1730,11 +2148,74 @@
       "residual": 10,
       "verdict": "T"
     },
+    "⊢+><>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "cooking recipe execution",
+      "recovered": "⊢+++++<<<<¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+><~=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "immunological diagnostic protocol",
+      "recovered": "⊢+<≁>⊞∈+=×<∋¬⊙⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢+><×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "immune cell receptor signaling pathway",
+      "recovered": "⊢×⊙=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
     "⊢+><∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
       "guess": "musical score editor",
       "recovered": "⊢++<=<>¬∈+∋¬<⊣",
       "recovered_verdict": "T",
       "residual": 18,
+      "verdict": "T"
+    },
+    "⊢+><⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "musical score routing",
+      "recovered": "⊢>>¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢+>===≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "forge of a sword",
+      "recovered": "⊢++<+<⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+>==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "site preservation and recording",
+      "recovered": "⊢<++<<=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+>=>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "peak descent planning",
+      "recovered": "⊢¬>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢+>=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "bird migration routes and navigation systems",
+      "recovered": "⊢><+<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>=×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "melody composition process",
+      "recovered": "⊢++<+=>⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
       "verdict": "T"
     },
     "⊢+>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
@@ -1765,11 +2246,256 @@
       "residual": 9,
       "verdict": "T"
     },
+    "⊢+>=≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "peak descent protocol",
+      "recovered": "⊢<++<=<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>>=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "volcanic vent pressure regulation",
+      "recovered": "⊢+>¬>⊞∈+=×<∋¬⊙⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢+>>~=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "flower arranging and pruning process",
+      "recovered": "⊢+>¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>>~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "flavor profile refinement process",
+      "recovered": "⊢++<+>¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢+>>×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "cultivation of soil",
+      "recovered": "⊢∈>+×∋¬",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
     "⊢+>>∈+∋¬<⊣": {
       "guess": "a railway station scheduling system that routes trains to different tracks, recombines them, and closes the schedule",
       "recovered": "⊢++<+<>+⊙=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>>≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "celestial navigation chart",
+      "recovered": "⊢+×>⊞∈+=×<∋¬⊙⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢+>>⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "train schedule coordination",
+      "recovered": "⊢+++++<++⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+>>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "track switching system",
+      "recovered": "⊢>+=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 20,
+      "verdict": "T"
+    },
+    "⊢+>~+==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "sailing route planning",
+      "recovered": "⊢++><¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+>~+~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "bird hunting technique",
+      "recovered": "⊢>⊙<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+>~<==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "pipeline regulator",
+      "recovered": "⊢>=∈∋+⊙∋>=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+>~<=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "immune response hierarchy",
+      "recovered": "⊢<+++=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+>~<=≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "planting and pruning cycle",
+      "recovered": "⊢+><=~≁>⊞∈+=×<∋¬⊙⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
+    "⊢+>~<≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "falconry training of a hawk to hunt",
+      "recovered": "⊢⊙>=¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>~=+=≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "sailing route planner",
+      "recovered": "⊢++><¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+>~=<=≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "climber's route planning",
+      "recovered": "⊢++<<⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>~=<≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "flower bed layout planner",
+      "recovered": "⊢><<=<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>~==≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "weaving thread through loom loops and tension",
+      "recovered": "⊢+>+∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 19,
+      "verdict": "T"
+    },
+    "⊢+>~=~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "vessel fermentation process",
+      "recovered": "⊢+++<+>+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+>~=≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "bird migration pattern",
+      "recovered": "⊢⊙>¬+<∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>~>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "forge tool for shaping metal",
+      "recovered": "⊢<++<+¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+>~~<≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "fermentation of a fruit to extract juice",
+      "recovered": "⊢∈++<=+<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+>~~×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "railway track junction control system",
+      "recovered": "⊢><>+>¬⊣",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+>~~≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "celestial body orbiting path",
+      "recovered": "⊢++=++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 23,
+      "verdict": "T"
+    },
+    "⊢+>~¬×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "fermentation of bread",
+      "recovered": "⊢+++++=++==∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢+>~×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "piece promotion process",
+      "recovered": "⊢>+>⊣",
+      "recovered_verdict": "N",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢+>~⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "archaeological artifact analysis",
+      "recovered": "⊢¬⊙>⊞∈+=×<∋¬⊙⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢+>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "flower arrangement setup and maintenance process",
+      "recovered": "⊢++<+=>⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>¬<∈+×⊞∋=¬⊣": {
+      "guess": "weaving pattern",
+      "recovered": "⊢+++=<<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 24,
+      "verdict": "T"
+    },
+    "⊢+>¬>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "volcanic vent monitoring system",
+      "recovered": "⊢×⊙>¬<∈+=⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢+>×+>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "vegetable classification system",
+      "recovered": "⊢⊙=<<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>×<>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "forge of iron",
+      "recovered": "⊢++<+<⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢+>×>>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "flower planting sequence",
+      "recovered": "⊢++==⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢+>×>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "topographic map classification",
+      "recovered": "⊢<++<~¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+>×≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "fermentative process of wine production",
+      "recovered": "⊢<+<=∈+⊙∋>~∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
       "verdict": "T"
     },
     "⊢+>∈+∋¬<⊣": {
@@ -1779,11 +2505,95 @@
       "residual": 7,
       "verdict": "T"
     },
+    "⊢+>∈>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "chess board game strategy",
+      "recovered": "⊢++++++++⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+>≁+>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "colony of bees",
+      "recovered": "⊢=∈++¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+>≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "railway route scheduling",
+      "recovered": "⊢++++<++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 25,
+      "verdict": "T"
+    },
+    "⊢+>≁⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "biomolecular pathway synthesis",
+      "recovered": "⊢++>+=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 17,
+      "verdict": "T"
+    },
     "⊢+>⊙=∈+×⊞∋¬<=⊣": {
       "guess": "a musical composer arranging and recombining themes, motifs, and ideas into a cohesive composition",
       "recovered": "⊢>=∈=+⊙∋>=∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+>⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "bird falconry training regimen",
+      "recovered": "⊢<++<=¬+<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢+>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "map projection with three-way splitting and rejoining",
+      "recovered": "⊢>+>∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢+~>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "site stratigraphy",
+      "recovered": "⊢~>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢+¬>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "bird migration route planning",
+      "recovered": "⊢++<>+=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢+×>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "celestial navigation system",
+      "recovered": "⊢>=∈+⊙∋>=∈⊞<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+∈++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "biomolecular signaling pathway",
+      "recovered": "⊢¬⊙<¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "verdict": "T"
+    },
+    "⊢+∈++¬<~∈+×⊞∋=¬⊣": {
+      "guess": "forge tool for shaping metal",
+      "recovered": "⊢<>+¬⊣",
+      "recovered_verdict": "N",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+∈+=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "sailing route planner",
+      "recovered": "⊢++><¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
       "verdict": "T"
     },
     "⊢+∈+∋¬<⊣": {
@@ -1793,6 +2603,27 @@
       "residual": 3,
       "verdict": "T"
     },
+    "⊢+≁⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "sailing route planning",
+      "recovered": "⊢++><¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢+⊙+>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "organism cell division process",
+      "recovered": "⊢<+++=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢+⊙+⊞∈+=×<∋¬⊙⊣": {
+      "guess": "sailing route planner",
+      "recovered": "⊢++><¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
     "⊢+⊙<=⊞>¬∈+×∋⊣": {
       "guess": "a cartographer mapping a region, affirming the true axis, reversing it, linking it with others, moving forward, fixing the commitment, splitting into three parts, affirming again, refuting, rejoining all, and closing the map",
       "recovered": "⊢+++<+++⊙=∈+×⊞∋¬<=⊣",
@@ -1800,11 +2631,46 @@
       "residual": 11,
       "verdict": "T"
     },
+    "⊢+⊙=>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "falconry tutor guiding a hawk through a series of steps to perform a specific action",
+      "recovered": "⊢⊙>=¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
     "⊢+⊙=∈+×⊞∋¬<=⊣": {
       "guess": "fermentation of bread or beer",
       "recovered": "⊢>=∈=⊙∋>=∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 11,
+      "verdict": "T"
+    },
+    "⊢+⊙>+∈+=×<∋¬⊙⊣": {
+      "guess": "sailor's navigation system",
+      "recovered": "⊢+×>⊞∈+=×<∋¬⊙⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
+    "⊢+⊙>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "bird falconry training and management process",
+      "recovered": "⊢=><<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢+⊙>¬<∈+×⊞∋=¬⊣": {
+      "guess": "bird migration pattern",
+      "recovered": "⊢++∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢+⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "beeswax production process",
+      "recovered": "⊢++<+<+<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 25,
       "verdict": "T"
     },
     "⊢+⊞◇": {
@@ -1844,6 +2710,202 @@
       "recovered_verdict": "N",
       "residual": 3,
       "verdict": "N"
+    },
+    "⊢<+++=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "immune response coordination system",
+      "recovered": "⊢>=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢<++<+<~∈+×⊞∋=¬⊣": {
+      "guess": "fluid distribution network",
+      "recovered": "⊢⊙><∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢<++<+=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "organism cell membrane synthesis and reconfiguration",
+      "recovered": "⊢⊙>>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢<++<+¬<~∈+×⊞∋=¬⊣": {
+      "guess": "forge tool handle",
+      "recovered": "⊢=><∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢<++<<<<~∈+×⊞∋=¬⊣": {
+      "guess": "railway track scheduling system",
+      "recovered": "⊢∈+=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "verdict": "T"
+    },
+    "⊢<++<<<~∈+×⊞∋=¬⊣": {
+      "guess": "bird's nest architecture",
+      "recovered": "⊢⊙>¬<<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "verdict": "T"
+    },
+    "⊢<++<<=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "site preservation and restoration process",
+      "recovered": "⊢<⊙>¬∈+×∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢<++<<~∈+×⊞∋=¬⊣": {
+      "guess": "musical score with three-way division and coherence",
+      "recovered": "⊢×∈++<¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢<++<=+<~∈+×⊞∋=¬⊣": {
+      "guess": "fermentation of bread or beer",
+      "recovered": "⊢++<=<¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢<++<=<<+∈+×⊞∋=¬⊣": {
+      "guess": "musical score composition",
+      "recovered": "⊢<++<<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢<++<=<<<∈+×⊞∋=¬⊣": {
+      "guess": "sailing route dispute resolution",
+      "recovered": "⊢++><¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢<++<=<<=~∈+×⊞∋=¬⊣": {
+      "guess": "beeswax refinement process",
+      "recovered": "⊢++<+<+<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 22,
+      "verdict": "T"
+    },
+    "⊢<++<=<<=∈+×⊞∋=¬⊣": {
+      "guess": "immunological pathway of T-cell activation",
+      "recovered": "⊢++=>¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢<++<=<<>~∈+×⊞∋=¬⊣": {
+      "guess": "sailing route arbitration",
+      "recovered": "⊢++=⊞<∋¬⊣",
+      "recovered_verdict": "F",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢<++<=<<>∈+×⊞∋=¬⊣": {
+      "guess": "immune response pathway",
+      "recovered": "⊢++<+=⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢<++<=<<~~∈+×⊞∋=¬⊣": {
+      "guess": "musical score routing",
+      "recovered": "⊢>>¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢<++<=<<~∈+×⊞∋=¬⊣": {
+      "guess": "volcanic conduit flow pattern",
+      "recovered": "⊢++<+<+<=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 22,
+      "verdict": "T"
+    },
+    "⊢<++<=<~∈+×⊞∋=¬⊣": {
+      "guess": "peak descent route",
+      "recovered": "⊢<+∈+⊙∋>~∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢<++<==<~∈+×⊞∋=¬⊣": {
+      "guess": "piece distribution system",
+      "recovered": "⊢><<>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢<++<==¬<~∈+×⊞∋=¬⊣": {
+      "guess": "topographic map contour lines and features",
+      "recovered": "⊢=∈++<¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢<++<=>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "map projection transformation",
+      "recovered": "⊢+=<>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢<++<=~¬<~∈+×⊞∋=¬⊣": {
+      "guess": "cooking recipe execution",
+      "recovered": "⊢+++++<<<<¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢<++<=¬+<~∈+×⊞∋=¬⊣": {
+      "guess": "bird falconry training and management system",
+      "recovered": "⊢+⊙>¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "verdict": "T"
+    },
+    "⊢<++<=¬+~∈+×⊞∋=¬⊣": {
+      "guess": "forge tool handling",
+      "recovered": "⊢<>+¬⊣",
+      "recovered_verdict": "N",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢<++<=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "beeswax production process",
+      "recovered": "⊢+++<+<+<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 24,
+      "verdict": "T"
+    },
+    "⊢<++<>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "sailing decision tree",
+      "recovered": "⊢++><¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢<++<~¬<~∈+×⊞∋=¬⊣": {
+      "guess": "vegetable classification system",
+      "recovered": "⊢⊙=<<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "verdict": "T"
+    },
+    "⊢<++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "weaving pattern",
+      "recovered": "⊢++<+<+<=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 22,
+      "verdict": "T"
     },
     "⊢<++=∈+⊙∋>~∈×<∋⊞¬⊣": {
       "guess": "musical score composition",
@@ -1949,6 +3011,13 @@
       "residual": 11,
       "verdict": "T"
     },
+    "⊢<<¬<∈+×⊞∋=¬⊣": {
+      "guess": "forge tooling for a blacksmith",
+      "recovered": "⊢++<+<⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
     "⊢<<∈+∋¬<⊣": {
       "guess": "a volcanic vent closing the eruption",
       "recovered": "⊢¬<=⊣",
@@ -1984,11 +3053,25 @@
       "residual": 11,
       "verdict": "T"
     },
+    "⊢<=>¬<∈+×⊞∋=¬⊣": {
+      "guess": "grill rack",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 13,
+      "verdict": "T"
+    },
     "⊢<=>∈+∋¬<⊣": {
       "guess": "forge worker selecting and committing to a metal, reversing course, linking parts, moving forward, splitting options, affirming one arm, rejoining all three, reversing again, closing the journey",
       "recovered": "⊢<<>∈+∋¬<⊣",
       "recovered_verdict": "T",
       "residual": 1,
+      "verdict": "T"
+    },
+    "⊢<=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "sailing route coordination",
+      "recovered": "⊢++><¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
       "verdict": "T"
     },
     "⊢<=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
@@ -2047,6 +3130,20 @@
       "residual": 1,
       "verdict": "B"
     },
+    "⊢<><<¬<∈+×⊞∋=¬⊣": {
+      "guess": "train schedule routing",
+      "recovered": "⊢+++++<+>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 25,
+      "verdict": "T"
+    },
+    "⊢<><¬<∈+×⊞∋=¬⊣": {
+      "guess": "flour bagel dough",
+      "recovered": "⊢⊙+>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
     "⊢<><∈+∋¬<⊣": {
       "guess": "sailor navigating a course, reversing direction, forward movement, reversing again, splitting options, affirming one path, rejoining all, reversing once more, closing the journey",
       "recovered": "⊢+++<++⊞∋¬<=⊣",
@@ -2089,6 +3186,20 @@
       "residual": 7,
       "verdict": "T"
     },
+    "⊢<>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "sailing route planning",
+      "recovered": "⊢++><¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢<>¬<∈+×⊞∋=¬⊣": {
+      "guess": "musical composition with three-way division and irreversible commitment",
+      "recovered": "⊢∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
     "⊢<>∈+∋¬<⊣": {
       "guess": "fermentation of bread or beer",
       "recovered": "⊢+++<+=+⊙=∈+×⊞∋¬<=⊣",
@@ -2103,6 +3214,20 @@
       "residual": 11,
       "verdict": "T"
     },
+    "⊢<>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "piece movement in chess",
+      "recovered": "⊢⊙<>¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢<∈++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "site archaeologist mapping the surface of a cliff to record its features",
+      "recovered": "⊢>=∈+⊙∋>≁=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
     "⊢<∈>+<×∋=⊙⊞¬⊣": {
       "guess": "a three-way chess opening where one side commits to a move, the other sides reverse and rejoin, then self-reference and commit to the final position",
       "recovered": "⊞∈>×",
@@ -2115,6 +3240,27 @@
       "recovered": "⊢>=∈+⊙∋>⊞∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 10,
+      "verdict": "T"
+    },
+    "⊢<⊙>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "site restoration",
+      "recovered": "⊢+++⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢<⊙>¬<∈+×⊞∋=¬⊣": {
+      "guess": "map projection with three-way split and irreversible commitment",
+      "recovered": "⊢>+∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢<⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "peak descent with self-reference and irreversible commitment",
+      "recovered": "⊢⊙>¬+<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
       "verdict": "T"
     },
     "⊢<⊞◇": {
@@ -2149,6 +3295,13 @@
       "residual": 1,
       "verdict": "N"
     },
+    "⊢=++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "piece of chessboard",
+      "recovered": "⊢⊙>¬<∈+>⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "verdict": "T"
+    },
     "⊢=++●¬⊣": {
       "guess": "A court appeal process.",
       "recovered": "⊢>●¬",
@@ -2156,11 +3309,46 @@
       "residual": 4,
       "verdict": "B"
     },
+    "⊢=+¬<∈+×⊞∋=¬⊣": {
+      "guess": "weaving loom framework",
+      "recovered": "⊢+++<=>¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
     "⊢=<=⊞>¬∈+×∋⊣": {
       "guess": "forge hammering process",
       "recovered": "⊢++><=∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 10,
+      "verdict": "T"
+    },
+    "⊢=<>¬<∈+×⊞∋=¬⊣": {
+      "guess": "cooking recipe ingredient selection and categorization",
+      "recovered": "⊢+++=>¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢=<¬<∈+×⊞∋=¬⊣": {
+      "guess": "immune response pathway",
+      "recovered": "⊢>=∈+⊙∋>~∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢==>¬<∈+×⊞∋=¬⊣": {
+      "guess": "pipe junction with three branches and a closing mechanism",
+      "recovered": "⊢><>+>¬⊣",
+      "recovered_verdict": "N",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢==¬<∈+×⊞∋=¬⊣": {
+      "guess": "flower bed layout with three-way division and coherent rejoining",
+      "recovered": "⊢++<+<<+∋¬⊣",
+      "recovered_verdict": "F",
+      "residual": 8,
       "verdict": "T"
     },
     "⊢==∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
@@ -2198,6 +3386,41 @@
       "residual": 1,
       "verdict": "B"
     },
+    "⊢=><<¬<∈+×⊞∋=¬⊣": {
+      "guess": "volcanic hazard assessment model",
+      "recovered": "⊢++<¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢=><<∈+×⊞∋=¬⊣": {
+      "guess": "bird falconry training and management system",
+      "recovered": "⊢=⊙>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
+    "⊢=><∈+×⊞∋=¬⊣": {
+      "guess": "forge tool handle assembly",
+      "recovered": "⊢<>+¬⊣",
+      "recovered_verdict": "N",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢=>=<∈+×⊞∋=¬⊣": {
+      "guess": "organism cell division process",
+      "recovered": "⊢>+>⊣",
+      "recovered_verdict": "N",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢=>=¬<∈+×⊞∋=¬⊣": {
+      "guess": "fluid distribution network",
+      "recovered": "⊢+=>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 20,
+      "verdict": "T"
+    },
     "⊢=>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
       "guess": "immunological pathway of T-cell activation and response",
       "recovered": "⊢>=∈+⊙∋>¬∈×<∋⊞¬⊣",
@@ -2219,11 +3442,39 @@
       "residual": 13,
       "verdict": "T"
     },
+    "⊢=>><∈+×⊞∋=¬⊣": {
+      "guess": "bird migration route planning",
+      "recovered": "⊢++>+=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
     "⊢=>>∈+∋¬<⊣": {
       "guess": "a musical composer arranging and recombining themes, then closing the composition",
       "recovered": "⊢>+∈+×⊞∋¬<=⊣",
       "recovered_verdict": "T",
       "residual": 5,
+      "verdict": "T"
+    },
+    "⊢=>¬+<∈+×⊞∋=¬⊣": {
+      "guess": "celestial navigation system",
+      "recovered": "⊢>=∈+⊙∋>=∈⊞<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢=>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "immunological diagnostic pathway",
+      "recovered": "⊢++++<<<>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢=>¬<∈+×⊞∋=¬⊣": {
+      "guess": "track scheduling system",
+      "recovered": "⊢++++<++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 26,
       "verdict": "T"
     },
     "⊢=>∈+∋¬<⊣": {
@@ -2238,6 +3489,34 @@
       "recovered": "⊢>=∈∈⊙∋>=∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 10,
+      "verdict": "T"
+    },
+    "⊢=>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "tomb chamber stratigraphy",
+      "recovered": "⊢>⊙=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "site investigation and recording",
+      "recovered": "⊢=∈>+×∋¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢=∈++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "topographic mapmaker recording contours and features",
+      "recovered": "⊢<∈++<¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "verdict": "T"
+    },
+    "⊢=∈++¬<~∈+×⊞∋=¬⊣": {
+      "guess": "honeybee colony management",
+      "recovered": "⊢≁⊙<¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
       "verdict": "T"
     },
     "⊢=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
@@ -2275,11 +3554,46 @@
       "residual": 12,
       "verdict": "T"
     },
+    "⊢=⊙<¬<∈+×⊞∋=¬⊣": {
+      "guess": "vessel fermentation process",
+      "recovered": "⊢>+>⊣",
+      "recovered_verdict": "N",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢=⊙=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "fossil record recording",
+      "recovered": "⊢=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
     "⊢=⊙=∈+×⊞∋¬<=⊣": {
       "guess": "a chess player selecting and recombining moves to form a coherent plan",
       "recovered": "⊢>=∈+⊙∋>∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 10,
+      "verdict": "T"
+    },
+    "⊢=⊙>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "fermentation of yeast to produce ethanol",
+      "recovered": "⊢++~∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢=⊙>¬<∈+×⊞∋=¬⊣": {
+      "guess": "bird falconry routine",
+      "recovered": "⊢+>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢=⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "fluid distribution system",
+      "recovered": "⊢<++<+<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
       "verdict": "T"
     },
     "⊢=⊞◇": {
@@ -2314,12 +3628,40 @@
       "residual": 0,
       "verdict": "N"
     },
+    "⊢>++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "geological stratigraphy",
+      "recovered": "⊢<+=∈+⊙∋>~∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
     "⊢>++●¬⊣": {
       "guess": "A court appeal process.",
       "recovered": "⊢>●¬",
       "recovered_verdict": "B",
       "residual": 3,
       "verdict": "B"
+    },
+    "⊢>+<<¬<∈+×⊞∋=¬⊣": {
+      "guess": "cultural artifact repository",
+      "recovered": "⊢++<+<+>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 23,
+      "verdict": "T"
+    },
+    "⊢>+<¬<∈+×⊞∋=¬⊣": {
+      "guess": "fluid distribution network",
+      "recovered": "⊢+=>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 20,
+      "verdict": "T"
+    },
+    "⊢>+=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "cooking recipe with three-way division and resolution",
+      "recovered": "⊢∈<=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
     },
     "⊢>+=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
       "guess": "A railway station managing train routes, splitting tracks into sections, evaluating track conditions, linking them, fusing all tracks, evaluating information, self-referencing, committing to a route, moving forward, splitting again, evaluating again, fusing again, reversing, evaluating, fusing, self-referencing, committing, and closing the system.",
@@ -2398,6 +3740,104 @@
       "residual": 1,
       "verdict": "B"
     },
+    "⊢><+<∈+×⊞∋=¬⊣": {
+      "guess": "bird migration route planning",
+      "recovered": "⊢++>+=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢><<+<∈+×⊞∋=¬⊣": {
+      "guess": "train dispatch center routing",
+      "recovered": "⊢++=∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢><<<<∈+×⊞∋=¬⊣": {
+      "guess": "immunological pathway of T-cell activation",
+      "recovered": "⊢++=>¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢><<<∈+×⊞∋=¬⊣": {
+      "guess": "bird falconry trainer",
+      "recovered": "⊢=><<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
+    "⊢><<=<∈+×⊞∋=¬⊣": {
+      "guess": "flower bed layout with three tiers",
+      "recovered": "⊢==¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢><<>¬<∈+×⊞∋=¬⊣": {
+      "guess": "piece distribution board",
+      "recovered": "⊢⊙><∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢><<~<∈+×⊞∋=¬⊣": {
+      "guess": "museum artifact cataloging system",
+      "recovered": "⊢+<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 16,
+      "verdict": "T"
+    },
+    "⊢><<~¬<∈+×⊞∋=¬⊣": {
+      "guess": "bird falconry hierarchy",
+      "recovered": "⊢⊙>¬<<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢><<¬<+∈+×⊞∋=¬⊣": {
+      "guess": "king's move board",
+      "recovered": "⊢<=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 20,
+      "verdict": "T"
+    },
+    "⊢><<¬<<∈+×⊞∋=¬⊣": {
+      "guess": "station platform routing",
+      "recovered": "⊢++=∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢><<¬<∈+×⊞∋=¬⊣": {
+      "guess": "grill rack",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢><<∈+×⊞∋=¬⊣": {
+      "guess": "sailing route navigation",
+      "recovered": "⊢++<<>⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢><=<∈+×⊞∋=¬⊣": {
+      "guess": "falconer's bird routing system",
+      "recovered": "⊢++>+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢><=¬<∈+×⊞∋=¬⊣": {
+      "guess": "cooking recipe execution",
+      "recovered": "⊢+++++<<<<¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
     "⊢><=∈+×⊞∋¬<=⊣": {
       "guess": "a falconer routing and rejoining prey to catch, then closing the hunt",
       "recovered": "⊢>=∈+⊙∋>∋∈×<∋⊞¬⊣",
@@ -2438,6 +3878,48 @@
       "recovered": "⊢>=∈+⊙∋>¬∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 9,
+      "verdict": "T"
+    },
+    "⊢><~¬<∈+×⊞∋=¬⊣": {
+      "guess": "sailor's route decision-making process",
+      "recovered": "⊢≁⊙>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢><¬<+∈+×⊞∋=¬⊣": {
+      "guess": "water treatment plant filtration system",
+      "recovered": "⊢>=∈⊙∋>=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢><¬<>∈+×⊞∋=¬⊣": {
+      "guess": "pipeline routing",
+      "recovered": "⊢++=⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢><¬<~∈+×⊞∋=¬⊣": {
+      "guess": "forge hammering process",
+      "recovered": "⊢++><=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢><¬<¬∈+×⊞∋=¬⊣": {
+      "guess": "weaving loom framework",
+      "recovered": "⊢⊙<<<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢><¬<∈+×⊞∋=¬⊣": {
+      "guess": "musical score routing",
+      "recovered": "⊢++<=<<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 24,
       "verdict": "T"
     },
     "⊢><∈+∋¬<⊣": {
@@ -2529,6 +4011,13 @@
       "recovered": "⊢>",
       "recovered_verdict": "N",
       "residual": 15,
+      "verdict": "T"
+    },
+    "⊢>=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "immune response coordination",
+      "recovered": "⊢++<+=⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
       "verdict": "T"
     },
     "⊢>=¬∈+⊙∋>=∈×<~∋⊞¬⊣": {
@@ -4773,9 +6262,12 @@
     },
     "⊢>>+●¬⊣": {
       "guess": "clonal expansion",
-      "recovered": "⊙◇",
-      "recovered_verdict": "B",
+      "recovered": "⊙",
+      "recovered_verdict": "N",
       "residual": 7,
+      "residuals": [
+        7
+      ],
       "verdict": "B"
     },
     "⊢>>=∈+⊙∋>=∈×<∋⊞¬⊣": {
@@ -4785,11 +6277,32 @@
       "residual": 13,
       "verdict": "T"
     },
+    "⊢>>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "musical score routing through a conductor's baton",
+      "recovered": "⊢><¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
+    "⊢>>¬<∈+×⊞∋=¬⊣": {
+      "guess": "train schedule routing",
+      "recovered": "⊢++=∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
     "⊢>>∈+⊙∋>=∈×<∋⊞¬⊣": {
       "guess": "a chemical compound undergoing sequential analysis and recombination to form a final product",
       "recovered": "⊢>×⊞",
       "recovered_verdict": "N",
       "residual": 12,
+      "verdict": "T"
+    },
+    "⊢>>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "fermentation of bread",
+      "recovered": "⊢+++++=++==∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 13,
       "verdict": "T"
     },
     "⊢>~=∈+⊙∋>=∈×<∋⊞¬⊣": {
@@ -4806,6 +6319,20 @@
       "residual": 15,
       "verdict": "T"
     },
+    "⊢>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "vessel for fermentation",
+      "recovered": "⊢⊙<<¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢>¬<∈+×⊞∋=¬⊣": {
+      "guess": "biological pathway of gene expression",
+      "recovered": "⊢++=>¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
     "⊢>¬=∈+⊙∋>=∈×<∋⊞¬⊣": {
       "guess": "sous-chef's recipe refinement process",
       "recovered": "⊢>×∋¬",
@@ -4818,6 +6345,27 @@
       "recovered": "⊢∈>+×∋¬",
       "recovered_verdict": "T",
       "residual": 11,
+      "verdict": "T"
+    },
+    "⊢>∈++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "bird trainer guiding a falcon through a series of steps to catch prey",
+      "recovered": "⊢><=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢>∈++¬<~∈+×⊞∋=¬⊣": {
+      "guess": "sailor's decision-making process",
+      "recovered": "⊢><~¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢>∈+=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "beekeeping hive management",
+      "recovered": "⊢++×∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
       "verdict": "T"
     },
     "⊢>∈=∈+⊙∋>=∈×<∋⊞¬⊣": {
@@ -4841,11 +6389,46 @@
       "residual": 12,
       "verdict": "T"
     },
+    "⊢>⊙<¬<∈+×⊞∋=¬⊣": {
+      "guess": "birdcage system",
+      "recovered": "⊢+<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 21,
+      "verdict": "T"
+    },
+    "⊢>⊙=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "tomb inscription process",
+      "recovered": "⊢∈>+×∋¬⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢>⊙>¬<∈+×⊞∋=¬⊣": {
+      "guess": "organism development pathway",
+      "recovered": "⊢++=>¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢>⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "celestial body orbiting a star",
+      "recovered": "⊢++=++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 24,
+      "verdict": "T"
+    },
     "⊢>⊙∈+⊙∋>=∈×<∋⊞¬⊣": {
       "guess": "a volcanic eruption monitoring and decision-making process",
       "recovered": "⊢>×⊞¬",
       "recovered_verdict": "N",
       "residual": 11,
+      "verdict": "T"
+    },
+    "⊢>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "trench drain system",
+      "recovered": "⊢+<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 15,
       "verdict": "T"
     },
     "⊢>⊞◇": {
@@ -4874,11 +6457,46 @@
       "residual": 1,
       "verdict": "T"
     },
+    "⊢~++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "falconer's decision tree",
+      "recovered": "⊢++>+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
     "⊢~<=⊞>¬∈+×∋⊣": {
       "guess": "weaving of a tapestry",
       "recovered": "⊢>=∈+⊙∋>×∈×<∋⊞¬⊣",
       "recovered_verdict": "T",
       "residual": 11,
+      "verdict": "T"
+    },
+    "⊢~=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "station master scheduling",
+      "recovered": "⊢>+=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 21,
+      "verdict": "T"
+    },
+    "⊢~>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "volcanic hazard assessment model",
+      "recovered": "⊢++<¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢~>¬<∈+×⊞∋=¬⊣": {
+      "guess": "archaeological site stratigraphy",
+      "recovered": "⊢++<=<⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢~∈++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "sous-chef's recipe execution",
+      "recovered": "⊢><=¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
       "verdict": "T"
     },
     "⊢~∈>+<×∋=⊙⊞¬⊣": {
@@ -4888,11 +6506,67 @@
       "residual": 7,
       "verdict": "T"
     },
+    "⊢~∈⊙=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "peak climbing route planning",
+      "recovered": "⊢+<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 21,
+      "verdict": "T"
+    },
+    "⊢~⊙<¬<∈+×⊞∋=¬⊣": {
+      "guess": "sous-chef routing",
+      "recovered": "⊢>¬=∈+⊙∋>=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢~⊙=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "organism cell membrane regulation",
+      "recovered": "⊢⊣∈+∋¬<",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢~⊙>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "bird migration route optimization",
+      "recovered": "⊢++>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢~⊙>¬<∈+×⊞∋=¬⊣": {
+      "guess": "fluid distribution system",
+      "recovered": "⊢+++++<=++⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢~⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "immunological pathway of T-cell activation",
+      "recovered": "⊢++=>¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
     "⊢¬": {
       "recovered": "⊢+",
       "recovered_verdict": "N",
       "residual": 1,
       "verdict": "N"
+    },
+    "⊢¬++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "celestial navigation chart",
+      "recovered": "⊢++<+++⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢¬++¬<~∈+×⊞∋=¬⊣": {
+      "guess": "volcanic vent monitoring system",
+      "recovered": "⊢×⊙>¬<∈+=⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "verdict": "T"
     },
     "⊢¬++●¬⊣": {
       "guess": "a court appeal",
@@ -4901,6 +6575,20 @@
       "residual": 4,
       "verdict": "B"
     },
+    "⊢¬+=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "weaving loom guide",
+      "recovered": "⊢><¬<¬∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢¬=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "bird trainer guiding falcons in flight",
+      "recovered": "⊢><<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
     "⊢¬>+●¬⊣": {
       "guess": "A court appeal process — step by step, it begins with a formal initiation then commits to an irreversible action takes forward steps evaluates the true path fuses arms back into one commits again and closes the boundary",
       "recovered": "⊢=×⊞",
@@ -4908,11 +6596,67 @@
       "residual": 6,
       "verdict": "B"
     },
+    "⊢¬>¬<∈+×⊞∋=¬⊣": {
+      "guess": "peak descent planning system",
+      "recovered": "⊢<+∈+⊙∋>~∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢¬>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "sailor's decision-making process",
+      "recovered": "⊢><~¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢¬∈+=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "site excavator",
+      "recovered": "⊢+++⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
     "⊢¬∈>+<×∋=⊙⊞¬⊣": {
       "guess": "sailing route planner with three-way split and rejoining of paths",
       "recovered": "∋⊢∈>+×∋¬",
       "recovered_verdict": "F",
       "residual": 7,
+      "verdict": "T"
+    },
+    "⊢¬∈⊙=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "immune cell signaling pathway",
+      "recovered": "⊢<>>∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢¬⊙<¬<∈+×⊞∋=¬⊣": {
+      "guess": "immune cell receptor signaling pathway",
+      "recovered": "⊢++<+=⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢¬⊙=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "sailor's compass calibration and orientation",
+      "recovered": "⊢>=∈≁+⊙∋>=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢¬⊙>¬<∈+×⊞∋=¬⊣": {
+      "guess": "musical composition with three-way division and irreversible commitment",
+      "recovered": "⊢<⊙>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "verdict": "T"
+    },
+    "⊢¬⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "archaeological artifact classification system",
+      "recovered": "⊢<++<~¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
       "verdict": "T"
     },
     "⊢¬⊞◇": {
@@ -4947,12 +6691,40 @@
       "residual": 1,
       "verdict": "N"
     },
+    "⊢×++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "immunological diagnostic pathway",
+      "recovered": "⊢++++<<<>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
     "⊢×++●¬⊣": {
       "guess": "a court appeal",
       "recovered": "⊢>●¬",
       "recovered_verdict": "B",
       "residual": 4,
       "verdict": "B"
+    },
+    "⊢×+=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "piece movement and evaluation system",
+      "recovered": "⊢⊙<>¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢×<¬<∈+×⊞∋=¬⊣": {
+      "guess": "pipeline processor",
+      "recovered": "⊢>=∈+⊙∋>=∈×<∋≁¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢×=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "cooking recipe preparation",
+      "recovered": "⊢++<+<+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
     },
     "⊢×>+●¬⊣": {
       "guess": "A court appeal process.",
@@ -4961,11 +6733,81 @@
       "residual": 9,
       "verdict": "B"
     },
+    "⊢×>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "cooking recipe execution",
+      "recovered": "⊢+++++<<<<¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢×>¬<∈+×⊞∋=¬⊣": {
+      "guess": "celestial body orbiting path",
+      "recovered": "⊢++=++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 25,
+      "verdict": "T"
+    },
+    "⊢×∈++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "flower bed layout with three-way division and coherence",
+      "recovered": "⊢==¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢×∈++¬<~∈+×⊞∋=¬⊣": {
+      "guess": "organism cell division process",
+      "recovered": "⊢~⊙=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢×∈+=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "map projection with three-way split and resolution",
+      "recovered": "⊢>+=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
     "⊢×∈>+<×∋=⊙⊞¬⊣": {
       "guess": "a musical composer arranging and recombining themes, motifs, and ideas into a cohesive composition",
       "recovered": "⊢>×∋¬",
       "recovered_verdict": "F",
       "residual": 8,
+      "verdict": "T"
+    },
+    "⊢×⊙<¬<∈+×⊞∋=¬⊣": {
+      "guess": "track switching system",
+      "recovered": "⊢>+=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 20,
+      "verdict": "T"
+    },
+    "⊢×⊙=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "immunological T-cell receptor signaling",
+      "recovered": "⊢<>>∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢×⊙>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "seedbed with three-way split and coherence",
+      "recovered": "⊢∈>+×∋¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢×⊙>¬<∈+×⊞∋=¬⊣": {
+      "guess": "volcanic eruption monitoring and prediction system",
+      "recovered": "⊢<>=∈+⊙∋>~∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢×⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "bird falconry routine",
+      "recovered": "⊢><<~¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
       "verdict": "T"
     },
     "⊢×⊞◇": {
@@ -4994,6 +6836,230 @@
       "residual": 1,
       "verdict": "T"
     },
+    "⊢∈+++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "organism metabolic pathway",
+      "recovered": "⊢++<+=⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢∈+++¬<~∈+×⊞∋=¬⊣": {
+      "guess": "three-way forge assembly",
+      "recovered": "∋",
+      "recovered_verdict": "F",
+      "residual": 15,
+      "verdict": "T"
+    },
+    "⊢∈++<+<~∈+×⊞∋=¬⊣": {
+      "guess": "vessel of fermentation",
+      "recovered": "⊢>¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "verdict": "T"
+    },
+    "⊢∈++<<<~∈+×⊞∋=¬⊣": {
+      "guess": "eruptive cycle",
+      "recovered": "⊢∈>+×∋¬",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢∈++<<~∈+×⊞∋=¬⊣": {
+      "guess": "tasting panel evaluating flavors and textures",
+      "recovered": "⊢⊞<~∈+×∋¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢∈++<<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "site of burial",
+      "recovered": "⊢+><<¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢∈++<=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "fermentation of grapes into wine",
+      "recovered": "⊢⊙<<¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "verdict": "T"
+    },
+    "⊢∈++<>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "bird trainer's decision tree",
+      "recovered": "⊢⊙<>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢∈++<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "beeswax honeycomb structure",
+      "recovered": "⊢++=<<+=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 23,
+      "verdict": "T"
+    },
+    "⊢∈++¬<~∈+×⊞∋=¬⊣": {
+      "guess": "three-way chess strategy evaluation and execution",
+      "recovered": "⊞",
+      "recovered_verdict": "N",
+      "residual": 14,
+      "verdict": "T"
+    },
+    "⊢∈+<=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "peak descent strategy",
+      "recovered": "⊢++<⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢∈+<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "vegetable garden layout with three-way division and resolution",
+      "recovered": "⊢×∈+=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
+    "⊢∈+=+<~∈+×⊞∋=¬⊣": {
+      "guess": "fluid distribution system",
+      "recovered": "⊢=>=¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢∈+=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "railway track scheduling",
+      "recovered": "⊢++++<++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 25,
+      "verdict": "T"
+    },
+    "⊢∈<=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "musical score with three-way articulation and resolution",
+      "recovered": "⊢+<=⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢∈=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "falconry hierarchy of care and training",
+      "recovered": "⊢><<<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢∈=⊙=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "bird cage with three-way dividers and a closing mechanism",
+      "recovered": "⊢==>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "verdict": "T"
+    },
+    "⊢∈>=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "train scheduling system",
+      "recovered": "⊢>+=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 20,
+      "verdict": "T"
+    },
+    "⊢∈>¬<∈+×⊞∋=¬⊣": {
+      "guess": "peak climbing route planning",
+      "recovered": "⊢>=∈+⊙∋>=⊙×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢∈>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "forge of a blade",
+      "recovered": "⊢++<+<⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢∈~=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "chess board game rules",
+      "recovered": "⊢⊙>¬<∈+>⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "verdict": "T"
+    },
+    "⊢∈¬=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "flavor profile analyzer",
+      "recovered": "⊢>=∈+⊙∋¬>=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢∈¬⊙=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "a symphony orchestra conducting a movement with three distinct parts, one affirmed, one reversed, recombined, and closed",
+      "recovered": "⊢<+>∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢∈⊙=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "beeswax production and refinement",
+      "recovered": "⊢++<+<+<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 26,
+      "verdict": "T"
+    },
+    "⊢∈⊙>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "sailing route navigation",
+      "recovered": "⊢++><¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢∈⊙>¬<∈+×⊞∋=¬⊣": {
+      "guess": "vegetable garden planning",
+      "recovered": "⊢+++=+<<>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢≁<¬<∈+×⊞∋=¬⊣": {
+      "guess": "topographic map interpretation",
+      "recovered": "⊢>=∈+⊙∋>~=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢≁>¬<∈+×⊞∋=¬⊣": {
+      "guess": "falconry competition routing",
+      "recovered": "⊢++>+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢≁>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "water treatment plant filtration system",
+      "recovered": "⊢>=∈⊙∋>=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢≁⊙<¬<∈+×⊞∋=¬⊣": {
+      "guess": "colony of bees",
+      "recovered": "⊢++×∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢≁⊙>¬<∈+×⊞∋=¬⊣": {
+      "guess": "sailor's decision-making process",
+      "recovered": "⊢++<<>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 24,
+      "verdict": "T"
+    },
+    "⊢≁⊙>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "stationary platform",
+      "recovered": "⊢∈+×∋¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
     "⊢⊙": {
       "recovered": "⊢⊙",
       "recovered_verdict": "N",
@@ -5007,12 +7073,372 @@
       "residual": 7,
       "verdict": "B"
     },
+    "⊢⊙+<¬<∈+×⊞∋=¬⊣": {
+      "guess": "biomolecular self-assembly",
+      "recovered": "⊢++<+<=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 21,
+      "verdict": "T"
+    },
+    "⊢⊙+=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "fermentation of bread or beer",
+      "recovered": "⊢++=+<<>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊙+>¬<∈+×⊞∋=¬⊣": {
+      "guess": "flour measurement system",
+      "recovered": "⊢∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 17,
+      "verdict": "T"
+    },
+    "⊢⊙+>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "sailing navigation protocol",
+      "recovered": "⊢><<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊙+¬<∈+×⊞∋=¬⊣": {
+      "guess": "forge of a sword",
+      "recovered": "⊢++<+<⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊙+⊞∈+=×<∋¬⊙⊣": {
+      "guess": "weaving loom framework",
+      "recovered": "⊢¬+=¬<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢⊙<+<∈+×⊞∋=¬⊣": {
+      "guess": "site restoration",
+      "recovered": "⊢⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢⊙<<<∈+×⊞∋=¬⊣": {
+      "guess": "weaving loom pattern construction",
+      "recovered": "⊢+++<=>¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢⊙<<¬<∈+×⊞∋=¬⊣": {
+      "guess": "fermentation of grapes",
+      "recovered": "⊢=⊙<=⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊙<=<∈+×⊞∋=¬⊣": {
+      "guess": "volcanic vent activity tracking",
+      "recovered": "⊢<<∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢⊙<=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "volcanic vent emission tracking",
+      "recovered": "⊢<=<∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢⊙<>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "piece movement and capture in chess",
+      "recovered": "⊢⊙><<∈+×∋¬⊣",
+      "recovered_verdict": "T",
+      "residual": 5,
+      "verdict": "T"
+    },
+    "⊢⊙<>¬<∈+×⊞∋=¬⊣": {
+      "guess": "bird falconry keeper's decision-making process",
+      "recovered": "⊢>⊙∈+⊙∋>=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢⊙<>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "peak climbing route planning",
+      "recovered": "⊢<++<=<~∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢⊙<¬<~∈+×⊞∋=¬⊣": {
+      "guess": "tasting panel evaluation",
+      "recovered": "⊢+++=⊞>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢⊙<¬<∈+×⊞∋=¬⊣": {
+      "guess": "celestial body orbiting a star",
+      "recovered": "⊢++=++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 25,
+      "verdict": "T"
+    },
+    "⊢⊙<⊞∈+=×<∋¬⊙⊣": {
+      "guess": "musical composition with three-way division and self-reference",
+      "recovered": "⊢∈+∋⊞⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊙=<<~∈+×⊞∋=¬⊣": {
+      "guess": "vegetable classification and sorting system",
+      "recovered": "⊢+<+=⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢⊙=>¬<∈+×⊞∋=¬⊣": {
+      "guess": "organism cell division process",
+      "recovered": "⊢><∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "verdict": "T"
+    },
+    "⊢⊙=>⊞∈+=×<∋¬⊙⊣": {
+      "guess": "fluid distribution network",
+      "recovered": "⊢⊙>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢⊙=¬<~∈+×⊞∋=¬⊣": {
+      "guess": "peak descent protocol",
+      "recovered": "⊢++<+>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 24,
+      "verdict": "T"
+    },
+    "⊢⊙=¬<∈+×⊞∋=¬⊣": {
+      "guess": "beeswax production process",
+      "recovered": "⊢+++<+<+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢⊙=⊞∈+=×<∋¬⊙⊣": {
+      "guess": "planting schedule with self-reference and coherence",
+      "recovered": "⊢⊙><¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊙>+<∈+×⊞∋=¬⊣": {
+      "guess": "map projection transformation",
+      "recovered": "⊢+=<>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊙>+¬<∈+×⊞∋=¬⊣": {
+      "guess": "bird identification system",
+      "recovered": "⊢=><<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
     "⊢⊙>+●¬⊣": {
       "guess": "tap valve",
       "recovered": "⊢+×¬⊣",
       "recovered_verdict": "N",
       "residual": 3,
+      "residuals": [
+        3
+      ],
       "verdict": "B"
+    },
+    "⊢⊙><<∈+×⊞∋=¬⊣": {
+      "guess": "piece movement and capture system",
+      "recovered": "⊢<+>∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊙><¬<∈+×⊞∋=¬⊣": {
+      "guess": "map projection with three-way split and self-reference",
+      "recovered": "⊢<⊙>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
+    "⊢⊙><∈+×⊞∋=¬⊣": {
+      "guess": "fluid distribution system",
+      "recovered": "⊢=>=¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢⊙>=<∈+×⊞∋=¬⊣": {
+      "guess": "site stratigraphy",
+      "recovered": "⊢~>¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
+    "⊢⊙>=¬<∈+×⊞∋=¬⊣": {
+      "guess": "falconry training of a hawk to hunt in a specific way",
+      "recovered": "⊢++>+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊙>><∈+×⊞∋=¬⊣": {
+      "guess": "fermentation of bread",
+      "recovered": "⊢++=+<<>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢⊙>>¬<∈+×⊞∋=¬⊣": {
+      "guess": "organism cell division process",
+      "recovered": "⊢>∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢⊙>~<∈+×⊞∋=¬⊣": {
+      "guess": "cooking recipe formulation",
+      "recovered": "⊢++<+<+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢⊙>~¬<∈+×⊞∋=¬⊣": {
+      "guess": "fluid distribution system",
+      "recovered": "⊢=>=¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
+    "⊢⊙>¬+<∈+×⊞∋=¬⊣": {
+      "guess": "bird migration pattern with self-reference and irreversible commitment",
+      "recovered": "⊢++~¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 9,
+      "verdict": "T"
+    },
+    "⊢⊙>¬+∈+×⊞∋=¬⊣": {
+      "guess": "musical score composition",
+      "recovered": "⊢++<=<>¬∈+∋¬<⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<+∈+×⊞∋=¬⊣": {
+      "guess": "steak chef's knife slicing process",
+      "recovered": "⊢>=∈∈+⊙∋>=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 11,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<<∈+×⊞∋=¬⊣": {
+      "guess": "bird caging system",
+      "recovered": "⊢⊙>+¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 2,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<>∈+×⊞∋=¬⊣": {
+      "guess": "scaffold assembly",
+      "recovered": "⊢⊙+<¬<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<~∈+×⊞∋=¬⊣": {
+      "guess": "celestial body orbiting a star",
+      "recovered": "⊢++=++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 25,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<¬∈+×⊞∋=¬⊣": {
+      "guess": "musical composition with three-way division and self-reference",
+      "recovered": "⊢∈+∋⊞⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<×∈+×⊞∋=¬⊣": {
+      "guess": "weaving pattern",
+      "recovered": "⊢++<+<+<=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 25,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈++×⊞∋=¬⊣": {
+      "guess": "steak chef's knife slicing process",
+      "recovered": "⊢>=∈∈+⊙∋>=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈++⊞∋=¬⊣": {
+      "guess": "piece of chessboard",
+      "recovered": "⊢><<∈+×⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+<⊞∋=¬⊣": {
+      "guess": "train schedule coordination",
+      "recovered": "⊢+++++<++⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 13,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+=⊞∋=¬⊣": {
+      "guess": "volcanic eruption monitoring system",
+      "recovered": "⊢++<+<>+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+>⊞∋=¬⊣": {
+      "guess": "chessboard game rules",
+      "recovered": "⊢⊙>¬<∈++⊞∋=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 1,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+~×⊞∋=¬⊣": {
+      "guess": "water treatment plant filtration system",
+      "recovered": "⊢>=∈⊙∋>=∈×<∋⊞¬⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+~⊞∋=¬⊣": {
+      "guess": "map projection transformation",
+      "recovered": "⊢+=<>¬∈+×∋⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×+∋=¬⊣": {
+      "guess": "forge of a sword",
+      "recovered": "⊢++<+<⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 10,
+      "verdict": "T"
+    },
+    "⊢⊙>¬<∈+×<∋=¬⊣": {
+      "guess": "beeswax production process",
+      "recovered": "⊢+++<+<+⊙=∈+×⊞∋¬<=⊣",
+      "recovered_verdict": "T",
+      "residual": 12,
+      "verdict": "T"
     },
     "⊢⊙⊞◇": {
       "recovered": "⊢⊙⊞",
