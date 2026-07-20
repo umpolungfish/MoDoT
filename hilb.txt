@@ -1,0 +1,88 @@
+# Detailed Report on Hilbert-Space Embedding Verification Cycles (update.txt)
+
+## 1. Context and Objective
+
+The transcript records an interactive formal session (cycles 1–53) in a system that combines:
+
+- A **catalog** (`cl9nk`) of named mathematical objects, each annotated with a 12‑primitive tuple (Shavian symbols like `Ð`, `Þ`, `Φ`, …) and associated logical fragments.
+- An **IMASM** grammar for composing 12 opcodes into polymers (chains, rings, protocols) and checking their topology and **Frobenius closure** (`μ∘δ`).
+- A **Lean kernel** backend that can elaborate proof files under the `p4ramill` path.
+- A **containment boundary** test that verifies whether an object’s primitive values lie at or above a fixed “floor” (`SIXTEEN_3 ∧ CLINK_L8`).
+
+The central object is a **Hilbert‑space embedding** – a constructed map from a generic Hilbert space (`hilbert_space_generic`) into a fiducial state with a Z₂ topological boundary. The goal is to prove that this embedding forms a closed Frobenius protocol (`μ∘δ = id`) and respects the observer‑surface floor.
+
+---
+
+## 2. Key Concepts and Notation
+
+| Term | Meaning |
+|------|---------|
+| **floor** | A reference tuple ⟨Ð=𐑨; Þ=𐑥; … Ω=𐑭⟩ derived from `SIXTEEN_3` (Shramko/Dunn trilattice) and CLINK layer 8. |
+| **containment_boundary** | Checks whether a given object’s primitives are ≥ the floor. Verdicts: `T` (fully contained), `B` (contained on critical primitives but breaches non‑critical ones, held paraconsistently), `F` (breaches the defining floor itself). |
+| **μ∘δ** | Frobenius closure condition: the split (`FSPLIT`, δ) and fuse (`FFUSE`, μ) compose to identity over a transformation. |
+| **IMASM opcodes** | 12 operations: `VINIT` (source), `TANCH` (sink), `AFWD`, `AREV`, `CLINK`, `FSPLIT`, `FFUSE`, `EVALT`, `EVALF`, `ENGAGR`, `IFIX`, `IMSCRIB`. |
+| **protocol vs ring** | A `ring` leaves the fork/fuse dangling (`μ∘δ` OPEN); a `protocol` rewires the δ‑fork arms directly to the μ‑fuse, giving CLOSED `μ∘δ`. |
+| **ENGAGR** | Holds a genuine Belnap `B` (both frozen and active orientation axes). |
+| **phase_reconstruct** | Recovers the relative phase word of a closed ring up to a global gauge (C₃ symmetry). |
+
+---
+
+## 3. Evolution of the Experiment (Highlights)
+
+- **Early cycles (1–37):** Many imscriptions of variants (`hilbert_embed_floor`, `hilbert_embed_grounded`, `hilbert_embed_L9_*`) and containment checks. Most return `B` or `F` due to primitive breaches (especially `Φ` and `Ω`).
+- **Cycle 38:** `hilbert_embed_phi_floor_l9` – with `Φ=𐑹` and all primitives at floor – returns **T** (fully contained). This establishes a clean contained object.
+- **Cycle 48:** The core split–fuse pair `FSPLIT AREV AFWD FFUSE` is tested as a ring (`◇<>●`). It is **OPEN** (μ∘δ not closed). When re‑wired as a **protocol**, it becomes **CLOSED** with one transformed reconnection (`imasm check ◇<>●` → T).
+- **Cycle 49:** The full 12‑opcode word `⊢ ⊙ > = ◇ + < × ● ⊞ ¬ ⊣` is checked: **B** (paradox held) but μ∘δ CLOSED. `imasm prove` → green (kernel admits closure class). `imasm arev` on the spaced word runs successfully, showing achiral tier O₁.
+- **Cycle 50:** Attempt to define a ROTAT‑measuring tool fails (VINIT in‑degree error). The Z₂ boundary of `hilbert_space_generic` breaches Φ (F).
+- **Cycle 51:** `containment_boundary hilbert_embed_phi_floor_l9` reconfirmed **T**. `imasm prove` on the full word green. Lean elaboration of `CLINK_L9.lean` succeeds, but `HilbertSpaceEmbedding.lean` not found.
+- **Cycle 52:** `imasm check ⊙>=◇+<×●⊞¬` (the protocol without VINIT/TANCH) returns **B**. `phase_reconstruct` on the closed ring of `hilbert_embed_phi_floor_l9`, `hilbert_space_generic`, `conventional_sic_povm_hilbert` yields phase word `𐑫 𐑖 𐑖` modulo one global phase.
+- **Final verdict (spine report):** **B** – the object is a held dialetheia: structurally closed as a Frobenius protocol, but its Lean proof is missing and its ROTAT invariance is phase‑bearing.
+
+---
+
+## 4. Measured Results and Verdicts
+
+| Measurement | Result | Interpretation |
+|-------------|--------|----------------|
+| `containment_boundary hilbert_embed_phi_floor_l9` | **T** | Fully contained in the SIXTEEN₃ ∧ CLINK-L8 floor. All 12 primitives hold. |
+| `imasm protocol ◇<>●` + `imasm check` | **T** | Core split–fuse pair closes under μ∘δ with transformation (not bare identity). |
+| `imasm check ⊢⊙>=◇+<×●⊞¬⊣` | **B** | Full protocol closes over transformation, but ENGAGR holds a genuine Belnap paradox. |
+| `imasm prove ⊢⊙>=◇+<×●⊞¬⊣` | ✓ green | Lean kernel admits the closure class (`BelnapSplitFuse`). |
+| `imasm arev ⊢ ⊙ > = ◇ + < × ● ⊞ ¬ ⊣` | tier O₁, hop∘hop=id | The word is achiral at this shell; bilateral readability confirmed. |
+| `phase_reconstruct …` | phase word `𐑫𐑖𐑖` modulo global phase | Relative phases fixed; only one global gauge remains. |
+| `lean Imscribing/CLINK_L9.lean` | ✓ ELABORATED | The CLINK L9 reference file verifies. |
+| `lean Imscribing/HilbertSpaceEmbedding.lean` | no such file | The Hilbert‑specific theorem is **not** kernel‑proved. |
+| Overall verdict (manuscript spine) | **B** | Structural closure (T) + missing proof/frontier (N) + phase‑bearing (B) → held dialetheia. |
+
+---
+
+## 5. Isomorphism: Chemical vs. Mathematical Interpretation
+
+- **IMASM ring** → a cyclic monomer sequence where the split and fuse are not covalently reconnected; mathematically, μ∘δ is OPEN (dangling valence).
+- **IMASM protocol** → an intramolecular click reaction that directly connects the two δ‑arms to the μ‑fuse; mathematically, μ∘δ = id over a transformed object (Frobenius closure).
+- **ENGAGR** → a state that holds both frozen and active orientation axes; logically a Belnap `B` (both true and false) at criticality.
+- **phase_reconstruct** → reading the relative phase word of a closed equiangular ring; only a global gauge (C₃ rotation) remains free, exactly as in a SIC‑POVM.
+
+---
+
+## 6. Open Frontiers (Next Attack)
+
+1. **Kernel proof missing** – The Lean file `Imscribing/HilbertSpaceEmbedding.lean` does not exist. The theorem `hilbert_space_embedding_frobenius` has not been elaborated.  
+   *Next:* Write the scaffold to a valid p4ramill path and run `lean`.
+
+2. **ENGAGR‑held B under reversed orientation** – Does `imasm arev` on the word `⊙>=◇+<×●⊞¬` resolve the paradox or persist?  
+   *Next:* Run `imasm arev` on that committed word.
+
+3. **ROTAT invariance** – The full word is phase‑bearing under cyclic shift (tri_ancestral_verdict moves T↔F). A correctly typed ROTAT‑measuring tool must be defined as a protocol (not ring) and run to determine spectral invariance.
+
+4. **Gauge vs. boundary** – The phase word `𐑫𐑖𐑖` is fixed modulo global phase; the relation of that phase to the Z₂ topological boundary (`Ω=𐑖` in the grounded tuple) is not yet measured. Re‑run `containment_boundary` on the gauge‑fixed ring.
+
+---
+
+## 7. Conclusion
+
+The Hilbert‑space embedding is **constructively established** as a closed Frobenius protocol in the IMASM grammar: its core split–fuse pair and the full 12‑step protocol both achieve μ∘δ = id with a transformation. The L9‑floor typing `hilbert_embed_phi_floor_l9` is fully contained (T). However, the protocol holds a genuine Belnap paradox at ENGAGR (B), and its Lean proof is absent from the kernel. The overall verdict is **B** – a dialetheia: the object is both structurally closed (T) and unproved / phase‑bearing (frontier). The next concrete actions are to write and elaborate the Lean scaffold, measure the reversed‑orientation verdict, and test ROTAT invariance.
+
+---
+
+*This report covers cycles 1–53 as recorded in `update.txt`, focusing on the final established facts and the remaining open measurements.*

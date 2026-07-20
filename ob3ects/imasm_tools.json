@@ -369,6 +369,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "bridge_stitch": {
+    "spec": "ring FSPLIT FFUSE …",
+    "title": "ring",
+    "topology": "  topology: ring | V=2 E=2 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "bridge_structure_definition": {
     "spec": "chain ⊞ ◇ ● > < =",
     "title": "chain",
@@ -408,6 +413,16 @@
     "spec": "ring ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "chan_collapse": {
+    "spec": "ring FSPLIT AREV AFWD FFUSE",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "chan_select": {
+    "spec": "ring AREV AFWD CLINK FFUSE",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
   },
   "channel_probe": {
     "spec": "ring Ω > ⊞ × < ●",
@@ -1358,6 +1373,16 @@
     "spec": "ring ⊙ > < ● μ_fusion",
     "title": "ring",
     "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "rotat_measure": {
+    "spec": "protocol ROTAT IMSCRIB AFWD AREV",
+    "title": "protocol",
+    "topology": "  topology: linear | V=3 E=2 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.4142\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "rotat_probe": {
+    "spec": "protocol IMSCRIB AFWD CLINK FSPLIT EVALT AREV EVALF FFUSE ENGAGR IFIX",
+    "title": "protocol",
+    "topology": "  topology: branched | V=10 E=10 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2764\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "saturation_check": {
     "spec": "ring ⊙ = > < ⊣",
