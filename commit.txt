@@ -1,16 +1,15 @@
-I taught the excriber the fan-out and made its diversity mechanical.
+I split the parrot guard's thresholds so fresh guesses stop dying as parrots.
 
-The prompt now carries ONE worked example word with THREE wildly different
-excriptions of it (a jury trial, a reaction fork, a bird between branches for
-the classic face; triage, a prism, an estate dispute for the trilattice):
-three domains, one structure, teaching the shape of excription rather than an
-answer. The live 1.7B promptly parroted the example excriptions verbatim at
-any temperature, so the diversity is enforced mechanically, not rhetorically:
-the guessing domain is ASSIGNED per candidate, rotated by the word over twenty
-domains, and a guess whose word-set overlaps a spent example or an
-already-taken guess is refused with one hotter retry in the next domain over,
-else the candidate fails honestly as parroted. Guide Part XIV updated.
+The single 3/5 word-overlap threshold, applied against every taken guess, was
+refusing genuinely new excriptions the moment two short guesses shared a pair
+of words ("sailing route planner" vs "railway route planner"), and candidates
+starved through both attempts. Now the spent examples keep the strict 3/5
+reading (the example resurfacing is radioactive at any phrasing), while taken
+guesses only refuse a NEAR-DUPLICATE at 7/10 overlap, checked against the
+most recent sixty: distinct objects in one domain legitimately share
+vocabulary.
 
-Verified: build green under local,cuda; 5/5 learn tests; live tri run produced
-four candidates in four domains (cartography, chess, archaeology,
-fermentation) with zero parroting, guesses recorded, trajectory appended.
+Verified: build green under local,cuda; 5/5 learn tests; a live tri round of
+five candidates produced zero parrot rejections, and the seed's accuracy
+trajectory across runs reads 14.9 then 11.0 then 7.75 with six hundred three
+words visited: the curve the loop exists to bend is bending.

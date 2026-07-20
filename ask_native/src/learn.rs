@@ -325,15 +325,19 @@ fn parroted(guess: &str, taken: &[String]) -> bool {
     if g.is_empty() {
         return true;
     }
-    SPENT_GUESSES
-        .iter()
-        .map(|s| s.to_string())
-        .chain(taken.iter().cloned())
-        .any(|prior| {
-            let p = norm(&prior);
-            let inter = g.intersection(&p).count();
-            inter * 5 >= g.len().min(p.len()) * 3
-        })
+    // Two thresholds. The spent examples are radioactive: moderate overlap
+    // (3/5 of the smaller word set) already reads as the example resurfacing.
+    // Taken guesses only refuse a NEAR-DUPLICATE (7/10): distinct objects in
+    // one domain legitimately share vocabulary ("route", "planner"), and the
+    // strict threshold was refusing genuinely fresh guesses until candidates
+    // starved.
+    let overlap = |prior: &str, num: usize, den: usize| {
+        let p = norm(prior);
+        let inter = g.intersection(&p).count();
+        inter * den >= g.len().min(p.len()) * num
+    };
+    SPENT_GUESSES.iter().any(|s| overlap(s, 3, 5))
+        || taken.iter().rev().take(60).any(|t| overlap(t, 7, 10))
 }
 
 fn excribe(
