@@ -1,8 +1,7 @@
-Transcript review: the evening perfect-cuboid runs, mined from tool_calls
+The tri-dyad wears its true face: FSPLIT3/FFUSE3 are ∈/∋ everywhere
 
-One unhealthy run and one healthy sibling. The unhealthy one re-proved the
-same admitted tool 86 times, once per round for 17 minutes, and fired 34
-calls with a literal ellipsis placeholder as an argument; both point at the
-round prompt, not the model. The kernel gate behaved correctly throughout:
-two ill-typed defines refused, the well-typed cuboid_descent admitted.
-Blind spot recorded: the ob3ect auto-designer logs no tool calls.
+Per the unified guide the correct tokens are ∈ and ∋; ☊/☋ were a drifted
+face. glyph() corrected, help text and ref examples corrected, from_glyph
+keeps the drifted pair as parse-compat so old words still load. four_glyph
+collapses to glyph(): B of FOUR IS the state {T,F} and wears ▀; the ⊤
+artifact is gone; no Latin token anywhere, verdicts included.

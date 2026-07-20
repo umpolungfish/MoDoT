@@ -4545,7 +4545,7 @@ computations are cut at the time limit and report the cut rather than a partial 
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
         "imasm"      => "imasm <op> …; op ∈ chain|ring|protocol|star|comb|bubble|wire|check|prove|define|run|tools|classify|expand|types|ref (`protocol <opcodes>` builds a sequence with its FSPLIT/FFUSE pairs reconnected — the way to CLOSE a protocol loop; a naive `ring` leaves the fork dangling) (compose the 12 opcodes into a polymer topology; `wire N0 N1 … / i-j i-k` for ANY graph; `check <opcode word>` type-checks your OWN decision — close condition is μ∘δ over a TRANSFORMED object (split→work→fuse), NOT a bare cycle → T/N-identity/B/F; `prove <name|word>` takes it to the p4ramill Lean kernel; `define <name> <op> <args>` builds a kernel-constrained tool, `run`/`tools`; `expand <type>` unfolds a Shavian type)",
-        "imasm16_3"  => "imasm16_3 <op> …; op ∈ check|ref|algebra — the 14-opcode SIXTEEN_3 trilattice grammar, purely symbolic (no Latin-letter opcodes), for the real trilattice SIXTEEN_3 (Shramko, Dunn & Takenaka, J. Logic and Computation 11(6):761-788, 2001). SIXTEEN_3 = the full powerset of {T,F,t,f} (T=constructively proven, F=constructively refuted, t=acceptable, f=rejectable) — 16 register states, not an approximation. Sibling to `imasm`, not a replacement: FSPLIT3 ☊ (1→3) / FFUSE3 ☋ (3→1) sit alongside the classic binary FSPLIT/FFUSE. EVALT + sets T, EVALF × sets F, EVALI ⊞ sets BOTH t and f (the information layer beyond classical T/F); TNEG ~ swaps T↔F, INEG ≁ swaps t↔f (both are the paper's negation: preserves the information order ≤_i exactly). `check <glyph_word>` runs the register machine and returns the tri-ancestral verdict: T=closes over real work, N=identity only, B=a FSPLIT3 dangles, F=ill-typed. `algebra <op> A B` runs the three orderings/meets/joins (leq_i|leq_t|leq_c|meet_t|join_t|meet_c|join_c) on two named register values (N, A, or any T/F/t/f combination) — e.g. `algebra meet_t T t` reproduces the paper's own worked example, T∧t=N. `ref` lists all 14 glyphs. Example: `imasm16_3 check ⊢>☊+×⊞≁☋¬⊣`.",
+        "imasm16_3"  => "imasm16_3 <op> …; op ∈ check|ref|algebra — the 14-opcode SIXTEEN_3 trilattice grammar, purely symbolic (no Latin-letter opcodes), for the real trilattice SIXTEEN_3 (Shramko, Dunn & Takenaka, J. Logic and Computation 11(6):761-788, 2001). SIXTEEN_3 = the full powerset of {T,F,t,f} (T=constructively proven, F=constructively refuted, t=acceptable, f=rejectable) — 16 register states, not an approximation. Sibling to `imasm`, not a replacement: FSPLIT3 ∈ (1→3) / FFUSE3 ∋ (3→1) sit alongside the classic binary FSPLIT/FFUSE. EVALT + sets T, EVALF × sets F, EVALI ⊞ sets BOTH t and f (the information layer beyond classical T/F); TNEG ~ swaps T↔F, INEG ≁ swaps t↔f (both are the paper's negation: preserves the information order ≤_i exactly). `check <glyph_word>` runs the register machine and returns the tri-ancestral verdict: T=closes over real work, N=identity only, B=a FSPLIT3 dangles, F=ill-typed. `algebra <op> A B` runs the three orderings/meets/joins (leq_i|leq_t|leq_c|meet_t|join_t|meet_c|join_c) on two named register values (N, A, or any T/F/t/f combination) — e.g. `algebra meet_t T t` reproduces the paper's own worked example, T∧t=N. `ref` lists all 14 glyphs. Example: `imasm16_3 check ⊢>∈+×⊞≁∋¬⊣`.",
         _ => return None,
     })
 }
@@ -7229,7 +7229,7 @@ mod sphere_word_tests {
     #[test]
     fn print_16_3() {
         println!("===== ref =====\n{}", run_structural_tool("imasm16_3", &["ref".into()]).unwrap());
-        for w in ["⊙☊+×⊞☋", "⊙☊+×☋", "⊢⊙<☊>☋=¬⊣"] {
+        for w in ["⊙∈+×⊞∋", "⊙∈+×∋", "⊢⊙<∈>∋=¬⊣"] {
             println!("===== check {w} =====\n{}",
                 run_structural_tool("imasm16_3", &["check".into(), w.into()]).unwrap());
         }
@@ -7241,7 +7241,7 @@ mod r2_shape_tests {
     use super::*;
     #[test]
     fn ask_the_grammar() {
-        for w in ["⊙☊+×⊞☋", "☊+×⊞☋", "⊢⊙☊+×⊞☋¬⊣"] {
+        for w in ["⊙∈+×⊞∋", "∈+×⊞∋", "⊢⊙∈+×⊞∋¬⊣"] {
             println!("### imasm16_3 check {w}\n{}",
                 run_structural_tool("imasm16_3", &["check".into(), w.into()]).unwrap());
         }

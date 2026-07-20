@@ -547,8 +547,8 @@ Code & Name & Meaning & Valence & Work \\
 \texttt{<} & AREV    & reverse morphism                     & $1\to1$ & yes \\
 \texttt{=} & CLINK   & compose, link                        & $1\to1$ & yes \\
 \texttt{⊙} & IMSCRIB & identity, self-reference             & $1\to1$ & no  \\
-\texttt{☊} & FSPLIT3 & three-way split $\fork_3$ (T/F/I arms) & $1\to3$ & no  \\
-\texttt{☋} & FFUSE3  & three-way fuse $\fuse_3$             & $3\to1$ & no  \\
+\texttt{∈} & FSPLIT3 & three-way split $\fork_3$ (T/F/I arms) & $1\to3$ & no  \\
+\texttt{∋} & FFUSE3  & three-way fuse $\fuse_3$             & $3\to1$ & no  \\
 \texttt{+} & EVALT   & set $T$ (constructively proven)      & $1\to1$ & yes \\
 \texttt{×} & EVALF   & set $F$ (constructively refuted)     & $1\to1$ & yes \\
 \texttt{⊞} & EVALI   & set $t$ and $f$ (the information layer) & $1\to1$ & yes \\

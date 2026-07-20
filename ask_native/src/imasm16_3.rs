@@ -50,8 +50,8 @@ pub enum Token16_3 {
     Arev,    // <  1→1  reverse morphism, WORK
     Clink,   // =  1→1  composition / relational link, WORK
     Imscrib, // ⊙  1→1  identity / neutral self-reference
-    Fsplit3, // ☊  1→3  3-way split: T, F, I arms
-    Ffuse3,  // ☋  3→1  3-way fuse: merges T, F, I arms
+    Fsplit3, // ∈  1→3  3-way split: T, F, I arms
+    Ffuse3,  // ∋  3→1  3-way fuse: merges T, F, I arms
     Evalt,   // +  1→1  evaluates the True axis (≤_t), WORK
     Evalf,   // ×  1→1  evaluates the False axis (≤_t), WORK
     Evali,   // ⊞  1→1  evaluates the Information axis (≤_i), WORK
@@ -71,7 +71,7 @@ impl Token16_3 {
     pub fn glyph(self) -> char {
         match self {
             Vinit => '⊢', Tanch => '⊣', Afwd => '>', Arev => '<', Clink => '=',
-            Imscrib => '⊙', Fsplit3 => '☊', Ffuse3 => '☋', Evalt => '+',
+            Imscrib => '⊙', Fsplit3 => '∈', Ffuse3 => '∋', Evalt => '+',
             Evalf => '×', Evali => '⊞', Tneg => '~', Ineg => '≁', Ifix => '¬',
         }
     }
@@ -90,7 +90,13 @@ impl Token16_3 {
     }
 
     fn from_glyph(c: char) -> Option<Token16_3> {
-        ALL_TOKENS.iter().copied().find(|t| t.glyph() == c)
+        // ☊/☋ were a drifted face for the tri-dyad; the guide's ∈/∋ are the
+        // correct tokens. Parse accepts the drifted pair so old words load.
+        match c {
+            '☊' => Some(Fsplit3),
+            '☋' => Some(Ffuse3),
+            _ => ALL_TOKENS.iter().copied().find(|t| t.glyph() == c),
+        }
     }
 }
 
@@ -188,20 +194,12 @@ impl Reg16_3 {
         }
     }
 
-    /// The FOUR slice's glyph face: ░/▘/▝ for N/T/F per `glyph()`, and ⊤ for
-    /// B — the Belnap lattice top, distinct from TF's ▀ because B is the
-    /// FOUR-collapse token, not the SIXTEEN_3 state. Values touching t/f
-    /// have left the slice and keep their 16_3 glyph.
+    /// The FOUR slice's glyph face: ░/▘/▝/▀ for N/T/F/B per `glyph()` — B of
+    /// FOUR IS the state {T,F}, so it wears TF's ink; there is no separate
+    /// verdict alphabet and no Latin anywhere. Values touching t/f have left
+    /// the slice and keep their 16_3 glyph.
     pub fn four_glyph(self) -> char {
-        if self.small_t || self.small_f {
-            return self.glyph();
-        }
-        match (self.big_t, self.big_f) {
-            (false, false) => '░',
-            (true, false) => '▘',
-            (false, true) => '▝',
-            (true, true) => '⊤',
-        }
+        self.glyph()
     }
 
     /// Parse a register from its name — "N", "A", or any combination of
@@ -450,7 +448,7 @@ pub fn run(args: &[String]) -> String {
         }
         "check" => {
             let Some(word) = args.get(1) else {
-                return "imasm16_3 check <glyph_word>; e.g. imasm16_3 check ⊢>☊+×⊞≁☋¬⊣\n".to_string();
+                return "imasm16_3 check <glyph_word>; e.g. imasm16_3 check ⊢>∈+×⊞≁∋¬⊣\n".to_string();
             };
             let steps = parse_glyph_word(word);
             if steps.is_empty() {
@@ -468,7 +466,7 @@ mod tests {
 
     #[test]
     fn example_word_closes_with_work() {
-        let steps = parse_glyph_word("⊢>☊+×⊞≁☋¬⊣");
+        let steps = parse_glyph_word("⊢>∈+×⊞≁∋¬⊣");
         assert_eq!(steps.len(), 10);
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'T');
@@ -476,28 +474,28 @@ mod tests {
 
     #[test]
     fn cross_repo_parity_word() {
-        let steps = parse_glyph_word("⊢>>=☊+~☋<¬⊣");
+        let steps = parse_glyph_word("⊢>>=∈+~∋<¬⊣");
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'T');
     }
 
     #[test]
     fn neutral_inflation_is_identity_not_error() {
-        let steps = parse_glyph_word("⊢☊⊙⊙⊙☋⊣");
+        let steps = parse_glyph_word("⊢∈⊙⊙⊙∋⊣");
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'N');
     }
 
     #[test]
     fn dangling_split_is_b() {
-        let steps = parse_glyph_word("⊢☊+⊣");
+        let steps = parse_glyph_word("⊢∈+⊣");
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'B');
     }
 
     #[test]
     fn fuse_without_split_is_f() {
-        let steps = parse_glyph_word("⊢+☋⊣");
+        let steps = parse_glyph_word("⊢+∋⊣");
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'F');
     }
