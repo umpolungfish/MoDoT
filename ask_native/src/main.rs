@@ -31,6 +31,7 @@ use std::process;
 mod calc;
 mod click;
 mod arev;
+mod dialect;
 mod imasm;
 mod imasm16_3;
 #[cfg(feature = "local")]
@@ -4089,6 +4090,12 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
     if verb == "imasm16_3" {
         return Some(imasm16_3::run(args));
     }
+    // The dialect jump — the navigator↔core face map. When a click refuses or a
+    // distance reads far in one face, re-present the node through the map and
+    // retry; repetition in the same face is not an experiment.
+    if verb == "dialect" {
+        return Some(dialect::run(args));
+    }
     // The arithmetic lane. Every number the agent SPEAKS routes through here: a slipped
     // exponent reads exactly like a correct one, so head-arithmetic is unbound synthesis.
     if matches!(verb, "calc" | "eval" | "compute" | "arith") {
@@ -4545,6 +4552,7 @@ computations are cut at the time limit and report the cut rather than a partial 
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
         "imasm"      => "imasm <op> …; op ∈ chain|ring|protocol|star|comb|bubble|wire|check|prove|define|run|tools|classify|expand|types|ref (`protocol <opcodes>` builds a sequence with its FSPLIT/FFUSE pairs reconnected — the way to CLOSE a protocol loop; a naive `ring` leaves the fork dangling) (compose the 12 opcodes into a polymer topology; `wire N0 N1 … / i-j i-k` for ANY graph; `check <opcode word>` type-checks your OWN decision — close condition is μ∘δ over a TRANSFORMED object (split→work→fuse), NOT a bare cycle → T/N-identity/B/F; `prove <name|word>` takes it to the p4ramill Lean kernel; `define <name> <op> <args>` builds a kernel-constrained tool, `run`/`tools`; `expand <type>` unfolds a Shavian type)",
+        "dialect"    => "dialect [axis] — the navigator↔core face map: the 12 primitives wear two glyph faces (cl8nk_navigator labels vs Core.lean named axes), same axes, same positions, lossless. With no argument prints the full two-face table and the traps; with one axis label (either face) resolves it to both faces. THE TRAPS: Γ, Φ appear in BOTH faces at DIFFERENT axes (navigator Γ = core G Scope/Granularity, core Γ = navigator ɢ Interaction Grammar; navigator Φ = core P Parity/Symmetry, core Φ = navigator ⊙ Criticality). USE WHEN a click will not seat or a junction refuses for every tested pair: re-present the same node in the other face and retry, and pair with `imasm rotat` for relative ring phase — the conjugate arm open in one face need not be open in the other. Pure computation.",
         "imasm16_3"  => "imasm16_3 <op> …; op ∈ check|ref|algebra — the 14-opcode SIXTEEN_3 trilattice grammar, purely symbolic (no Latin-letter opcodes), for the real trilattice SIXTEEN_3 (Shramko, Dunn & Takenaka, J. Logic and Computation 11(6):761-788, 2001). SIXTEEN_3 = the full powerset of {T,F,t,f} (T=constructively proven, F=constructively refuted, t=acceptable, f=rejectable) — 16 register states, not an approximation. Sibling to `imasm`, not a replacement: FSPLIT3 ∈ (1→3) / FFUSE3 ∋ (3→1) sit alongside the classic binary FSPLIT/FFUSE. EVALT + sets T, EVALF × sets F, EVALI ⊞ sets BOTH t and f (the information layer beyond classical T/F); TNEG ~ swaps T↔F, INEG ≁ swaps t↔f (both are the paper's negation: preserves the information order ≤_i exactly). `check <glyph_word>` runs the register machine and returns the tri-ancestral verdict: T=closes over real work, N=identity only, B=a FSPLIT3 dangles, F=ill-typed. `algebra <op> A B` runs the three orderings/meets/joins (leq_i|leq_t|leq_c|meet_t|join_t|meet_c|join_c) on two named register values (N, A, or any T/F/t/f combination) — e.g. `algebra meet_t T t` reproduces the paper's own worked example, T∧t=N. `ref` lists all 14 glyphs. Example: `imasm16_3 check ⊢>∈+×⊞≁∋¬⊣`.",
         _ => return None,
     })
@@ -4692,7 +4700,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
-    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm", "imasm16_3", "lean", "gp",
+    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm", "imasm16_3", "dialect", "lean", "gp",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -5955,6 +5963,9 @@ fn run_one(
             // call returns this CACHED result instead of re-executing — the model re-emits the
             // same batch across rounds (seen: rounds 3/4/5 identical), and a tool is a pure
             // function of its args, so running it again only burns work and duplicates output.
+            // Every emission of the same exact call, cached or re-run: repetition is
+            // not an experiment, and the count is what lets the harness say so.
+            let mut sig_counts: std::collections::BTreeMap<String, u32> = std::collections::BTreeMap::new();
             let mut ran_results: std::collections::BTreeMap<String, String> =
                 std::collections::BTreeMap::new();
             let mut stalled_rounds = 0usize;
@@ -6071,10 +6082,30 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
                 }
                 for (verb, args) in calls.iter() {
                     let sig = format!("{verb} {}", args.join(" "));
+                    // A literal ellipsis is un-substituted example text, not a name; every
+                    // such call misses, and silently running it would corrupt the reading.
+                    if args.iter().any(|a| a.contains('…')) {
+                        let m = format!(
+                            "● TOOL {verb}: an argument contains the literal ellipsis '…' — that is                              pasted example text, not a catalog name. Write the ACTUAL names."
+                        );
+                        println!("{m}");
+                        results.push_str(&format!("{m}\n"));
+                        record_tool_call(cycle, round + 1, verb, args, "miss", &m);
+                        continue;
+                    }
+                    let reps = sig_counts.entry(sig.clone()).or_insert(0);
+                    *reps += 1;
+                    let rep_note = if *reps >= 3 {
+                        format!(
+                            "\n⚠ IDENTICAL CALL ×{reps} this run — the answer does not change with                              repetition. Do a DIFFERENT experiment: `imasm rotat` the ring's phase,                              `dialect` to re-present the node in the other face, or change one arm.\n"
+                        )
+                    } else {
+                        String::new()
+                    };
                     // Already ran this exact call — return the cached result, do NOT re-execute.
                     if let Some(cached) = ran_results.get(&sig) {
                         println!("● TOOL {verb} {} (cached — already ran this run)", args.join(" "));
-                        results.push_str(&format!("### {verb} {} (cached)\n{cached}\n", args.join(" ")));
+                        results.push_str(&format!("### {verb} {} (cached)\n{cached}{rep_note}\n", args.join(" ")));
                         record_tool_call(cycle, round + 1, verb, args, "cached", cached);
                         continue;
                     }
@@ -6082,7 +6113,7 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
                         Some(o) => {
                             println!("● TOOL {verb} {}", args.join(" "));
                             print!("{o}");
-                            results.push_str(&format!("### {verb} {}\n{o}\n", args.join(" ")));
+                            results.push_str(&format!("### {verb} {}\n{o}{rep_note}\n", args.join(" ")));
                             record_tool_call(cycle, round + 1, verb, args, "ran", &o);
                             executed_verbs.insert(verb.clone()); // this verb now has an execution arm
                             results_ledger.push_str(&ledger_digest(&sig, &o));

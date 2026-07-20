@@ -1,6 +1,10 @@
-The trilattice oracle is CLI-reachable: --imasm 16_3 check <glyph word>
+MoDoT harness: the dialect jump, the repetition wall, the ellipsis guard
 
-The classic eval verbs silently drop tokens they do not know, so a tri-word
-labeled through them gets a label for a different, filtered word. The 16_3
-register machine now answers through the imasm dispatch, so external
-labelers reach the real trilattice verdict space (T/N/B/F) and sink.
+Three fixes from the perfect-cuboid transcript review. `dialect` is a new
+structural verb: the navigator↔core face map as a tool, with the Γ/Φ traps
+named, so a refused click can be re-presented in the other face instead of
+retried in the same one. The loop now counts identical calls and, from the
+third emission on, tells the agent outright that repetition is not an
+experiment and names the two lawful moves (rotat, dialect). Arguments
+carrying a literal ellipsis are refused as un-substituted example text
+instead of silently corrupting a reading.
