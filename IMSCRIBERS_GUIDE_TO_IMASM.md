@@ -456,10 +456,14 @@ Each round takes the neighborhood of the current word (single-opcode
 substitutions, insertions, deletions from the face's body alphabet; the
 boundary turnstiles held fixed; only grammar-valid candidates admitted). For
 each candidate the model excribes the word into a GUESS: it names one concrete
-object in a real domain whose structure is the word (a bird taking flight, a
-substitution reaction, an appeal). The guess is blinded (any leaked opcode
-vocabulary excised) and every guess already taken is forbidden to later
-candidates, so distinct words must earn distinct names. A second reading
+object in a real domain whose structure is the word. The prompt carries one
+worked example word with three wildly different excriptions of it (three
+domains, one structure), teaching the fan-out rather than an answer; the
+guessing domain itself is assigned, rotated by the word, so a small model
+cannot collapse onto a single name. The guess is blinded (any leaked opcode
+vocabulary excised), and a guess that parrots a spent example or an
+already-taken guess is refused mechanically with one hotter retry in the next
+domain over: distinct words must earn distinct names. A second reading
 imscribes the guess alone back into a word. Both words are checked in the
 word's face, and the residual is the edit distance between the word sent and
 the word recovered: residual zero is the round trip closing, the operational

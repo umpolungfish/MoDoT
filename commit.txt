@@ -1,23 +1,16 @@
-I gave the excription loop its guess, both faces, and a memory of its own accuracy.
+I taught the excriber the fan-out and made its diversity mechanical.
 
-The loop's middle term is now what it was always meant to be: a GUESS. The
-excriber names one concrete object whose structure is the word (not a numbered
-step list), the guess is blinded of any leaked opcode vocabulary, and every
-guess already taken rides the next excription as forbidden, because the live
-1.7B collapsed every word to the prompt's own example ("a court appeal") the
-moment an example existed to parrot. The guess persists in the knowledge file
-beside the recovered word and residual: word out, object between, word home.
+The prompt now carries ONE worked example word with THREE wildly different
+excriptions of it (a jury trial, a reaction fork, a bird between branches for
+the classic face; triage, a prism, an estate dispute for the trilattice):
+three domains, one structure, teaching the shape of excription rather than an
+answer. The live 1.7B promptly parroted the example excriptions verbatim at
+any temperature, so the diversity is enforced mechanically, not rhetorically:
+the guessing domain is ASSIGNED per candidate, rotated by the word over twenty
+domains, and a guess whose word-set overlaps a spent example or an
+already-taken guess is refused with one hotter retry in the next domain over,
+else the candidate fails honestly as parroted. Guide Part XIV updated.
 
-Both faces run in one loop: a seed carrying tri tokens is read by the
-SIXTEEN_3 trilattice grammar (parse, verdicts, neighborhood alphabet all from
-imasm_core), any other by the classic grammar. The knowledge file gains an
-accuracy trajectory: each run appends its mean residual, so improvement over
-time is a curve in the record, not an impression. Progress speaks live to
-stderr per arm (excribing, guess, recovered, residual) instead of minutes of
-silence, and the usage text warns that an unquoted glyph word loses its tail
-to shell redirection. Guide Part XIV rewritten to match.
-
-Verified: build green under local,cuda; 5/5 learn tests including the
-trilattice face and the blinding; tri seed smoke-parses as SIXTEEN_3; live
-classic run on the local model round-tripped 3 words with guesses recorded
-and the trajectory line printed.
+Verified: build green under local,cuda; 5/5 learn tests; live tri run produced
+four candidates in four domains (cartography, chess, archaeology,
+fermentation) with zero parroting, guesses recorded, trajectory appended.

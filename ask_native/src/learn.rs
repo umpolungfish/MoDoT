@@ -300,6 +300,42 @@ fn lessons(k: &serde_json::Value) -> String {
 
 // ── the two arms ─────────────────────────────────────────────────────────────
 
+/// The example excriptions are spent: a small model reuses them verbatim no
+/// matter what the prompt says, so the guard is mechanical, not rhetorical.
+const SPENT_GUESSES: &[&str] = &[
+    "a jury trial ending in a sealed verdict",
+    "a molecule at a reaction fork taking the lower-barrier path to a crystallized product",
+    "a bird choosing between two branches, landing on one, folding its wings",
+    "a triage nurse routing patients to treat, discharge, and observe, then closing the shift",
+    "white light split by a prism, one band absorbed, one reflected, recombined into a beam",
+    "a three-way estate dispute settled, one claim upheld, one dismissed, the deed recorded",
+];
+
+/// Word-set overlap: a guess that is mostly the same words as a spent or taken
+/// guess is a parrot, whatever its exact phrasing.
+fn parroted(guess: &str, taken: &[String]) -> bool {
+    let norm = |t: &str| -> std::collections::BTreeSet<String> {
+        t.to_lowercase()
+            .split(|c: char| !c.is_alphanumeric())
+            .filter(|w| w.len() > 3)
+            .map(|w| w.to_string())
+            .collect()
+    };
+    let g = norm(guess);
+    if g.is_empty() {
+        return true;
+    }
+    SPENT_GUESSES
+        .iter()
+        .map(|s| s.to_string())
+        .chain(taken.iter().cloned())
+        .any(|prior| {
+            let p = norm(&prior);
+            let inter = g.intersection(&p).count();
+            inter * 5 >= g.len().min(p.len()) * 3
+        })
+}
+
 fn excribe(
     llm: &crate::Llm,
     face: Face,
@@ -320,6 +356,31 @@ fn excribe(
             taken.iter().rev().take(12).map(|g| format!("- {g}")).collect::<Vec<_>>().join("\n")
         )
     };
+    // ONE example word, THREE wildly different excriptions of it: the example
+    // teaches the fan-out (one structure, any domain) instead of one answer to
+    // parrot, and its three guesses are named as spent.
+    let example = match face {
+        Face::Classic => {
+            "Example: the program VINIT FSPLIT AFWD EVALT FFUSE IFIX TANCH (begin, fork two \
+             alternatives, work forward, affirm the true one, fuse back, commit, close) has been \
+             excribed as all three of:\n\
+             - a jury trial ending in a sealed verdict\n\
+             - a molecule at a reaction fork taking the lower-barrier path to a crystallized product\n\
+             - a bird choosing between two branches, landing on one, folding its wings\n\
+             Three domains, one structure. Your guess must fit its OWN program the same way, in \
+             yet another domain; those three are spent."
+        }
+        Face::Tri => {
+            "Example: the program VINIT FSPLIT3 AFWD EVALT EVALF FFUSE3 IFIX TANCH (begin, split \
+             three ways, work forward, affirm one arm, refute another, rejoin all three, commit, \
+             close) has been excribed as all three of:\n\
+             - a triage nurse routing patients to treat, discharge, and observe, then closing the shift\n\
+             - white light split by a prism, one band absorbed, one reflected, recombined into a beam\n\
+             - a three-way estate dispute settled, one claim upheld, one dismissed, the deed recorded\n\
+             Three domains, one structure. Your guess must fit its OWN program the same way, in \
+             yet another domain; those three are spent."
+        }
+    };
     let system = format!(
         "You are the excriber. You are given an IMASM program: an ordered sequence of opcodes. \
          GUESS the object it imscribes: identify ONE concrete thing or process in a real domain \
@@ -327,36 +388,59 @@ fn excribe(
          chemistry, law, music, cooking, machinery, astronomy, ritual, sport. Answer with the \
          identification ALONE: one line, a name or short noun phrase. NEVER use opcode names, \
          glyphs, or words like fork/fuse/morphism — the guess must stand entirely in its own \
-         domain.\n\n{}{forbidden}",
+         domain.\n\n{}\n\n{example}{forbidden}",
         alphabet_table(face)
     );
-    let user = format!("Guess the object of this {}-step program:\n{}", w.len(), names.join(" "));
-    let res = crate::infer(
-        llm,
-        &[("system".into(), system), ("user".into(), user)],
-        8192,
-        0.9,
-    );
-    match res.err {
-        Some(e) => Err(e),
-        None => {
-            // The guess is the last nonempty line, blinded: any leaked opcode
-            // vocabulary is excised so the imscriber works from the domain alone.
-            let guess = res
-                .text
-                .lines()
-                .rev()
-                .map(str::trim)
-                .find(|l| !l.is_empty())
-                .map(blind)
-                .unwrap_or_default();
-            if guess.split_whitespace().count() < 2 {
-                Err(format!("excription produced no usable guess: {:?}", res.text.trim()))
-            } else {
-                Ok(guess)
-            }
+    // The domain is ASSIGNED, rotated by the word itself: a small model given
+    // a free choice collapses onto the example, so the guess space is
+    // partitioned mechanically before it answers. The retry moves domain.
+    const DOMAINS: &[&str] = &[
+        "organic chemistry", "ornithology", "cooking", "mountaineering", "plumbing",
+        "astronomy", "beekeeping", "sailing", "blacksmithing", "immunology",
+        "orchestral music", "gardening", "railway operations", "weaving", "volcanology",
+        "chess", "archaeology", "fermentation", "cartography", "falconry",
+    ];
+    let word_hash: usize = w.iter().map(|&c| c as usize).sum::<usize>() + w.len() * 31;
+    // Two attempts: the retry runs hotter and in the next domain over, and a
+    // guess that parrots a spent example or an already-taken guess is refused
+    // mechanically.
+    for (attempt, temp) in [0.9f32, 1.3].into_iter().enumerate() {
+        let domain = DOMAINS[(word_hash + attempt) % DOMAINS.len()];
+        let user = format!(
+            "Guess the object of this {}-step program. The object MUST come from the domain of \
+             {domain}:\n{}",
+            w.len(),
+            names.join(" ")
+        );
+        let res = crate::infer(
+            llm,
+            &[("system".into(), system.clone()), ("user".into(), user)],
+            8192,
+            temp,
+        );
+        if let Some(e) = res.err {
+            return Err(e);
         }
+        // The guess is the last nonempty line, blinded: any leaked opcode
+        // vocabulary is excised so the imscriber works from the domain alone.
+        let guess = res
+            .text
+            .lines()
+            .rev()
+            .map(str::trim)
+            .find(|l| !l.is_empty())
+            .map(blind)
+            .unwrap_or_default();
+        if guess.split_whitespace().count() < 2 {
+            continue;
+        }
+        if parroted(&guess, taken) {
+            eprintln!("[learn]   guess parroted ({guess}) → retrying hotter…");
+            continue;
+        }
+        return Ok(guess);
     }
+    Err("excription parroted or empty on both attempts".into())
 }
 
 /// Enforce the blind: strip every opcode name and glyph (both faces) from the
