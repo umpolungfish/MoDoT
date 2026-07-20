@@ -1604,6 +1604,7 @@ pub fn run(args: &[String]) -> String {
         // The trilattice sibling, CLI-reachable: `--imasm 16_3 check ⊢∈…∋⊣`.
         "16_3" | "tri" | "imasm16_3" => crate::imasm16_3::run(rest),
         "learn" | "study" => crate::learn::run(rest),
+        "path" | "promote" => crate::learn::path(rest),
         "compose" | "bind" => compose_tool(rest),
         "chaos" | "space" => chaos_tool(rest),
         "export" | "manifest" => export_tools(),

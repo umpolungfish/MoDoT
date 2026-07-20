@@ -1,15 +1,28 @@
-I split the parrot guard's thresholds so fresh guesses stop dying as parrots.
+I gave the loop learned relations and gave programs promotion paths.
 
-The single 3/5 word-overlap threshold, applied against every taken guess, was
-refusing genuinely new excriptions the moment two short guesses shared a pair
-of words ("sailing route planner" vs "railway route planner"), and candidates
-starved through both attempts. Now the spent examples keep the strict 3/5
-reading (the example resurfacing is radioactive at any phrasing), while taken
-guesses only refuse a NEAR-DUPLICATE at 7/10 overlap, checked against the
-most recent sixty: distinct objects in one domain legitimately share
-vocabulary.
+Two changes, one insight connecting them.
 
-Verified: build green under local,cuda; 5/5 learn tests; a live tri round of
-five candidates produced zero parrot rejections, and the seed's accuracy
-trajectory across runs reads 14.9 then 11.0 then 7.75 with six hundred three
-words visited: the curve the loop exists to bend is bending.
+Relations feedback: the loop was recording (object, word) pairs but feeding
+only the glyph-slip confusions back to the imscriber. Now, before imscribing an
+object, it retrieves the nearest confirmed relations (prior objects that were
+excribed from known words, ranked by word-overlap, ties to the lower residual)
+and shows them as examples. This is the learning channel the loop was missing:
+the imscriber generalizes the object-to-word direction from confirmed cases,
+and the recovered words go from the old 2-4 glyph collapse to full-length words
+of the right family. Legacy empty-guess rows still in the file are inert here
+(zero overlap, never retrieved).
+
+Promotion paths: two tuples that differ have a promotion path, one primitive
+changed at a time with every intermediate well-formed. Two IMASM programs are
+no different. `imasm path A B` finds the shortest walk of single-opcode edits
+from A to B in which EVERY waypoint is a valid program: A* over valid programs
+with the raw edit distance as the admissible heuristic, either face. The learn
+loop's residual is that raw distance; the promotion path is the stronger object
+on the same metric, and its verdict can climb along the way. Substituting an
+inert IMSCRIB for a working opcode promotes an identity closure N to a real
+closure T in one step, the program-space image of a tuple promotion. Guide gains
+Part XV.
+
+Verified: build green under local,cuda; 7/7 learn tests (two new for the path:
+single-substitution length and all-waypoints-valid); live paths shown lateral
+(T to T), climbing (N to T), multi-step with insertions, and across the tri face.

@@ -400,6 +400,7 @@ Engineering guarantees:
   imasm compose <new> <A> <B>  bind living ends, register
   imasm chaos <A> <B> [C… ≤6]  the possibility state space
   imasm learn <word> [rounds=N] [breadth=K]   the excription learning loop (Part XIV)
+  imasm path <A> <B>           promotion path: valid-waypoint edit walk A→B (Part XV)
   imasm export                 manifest for the surface
   imasm ref                    the live rules (authoritative over this file)
   imasm types / expand <type>  the 49 Shavian types (each itself a program)
@@ -478,6 +479,26 @@ highest-residual candidate, the frontier of its own ignorance, and each run
 appends its mean residual to the accuracy trajectory, the curve the loop is
 supposed to bend downward over time. The knowledge file persists atomically,
 same discipline as the tool registry.
+
+## Part XV. Promotion Paths Between Programs
+
+Two 12-primitive tuples that differ have a promotion path: a walk that changes
+one primitive at a time with every intermediate well-formed, the way
+`recalibrate` walks one axis through its values. Two IMASM programs are the
+same. `imasm path '<A>' '<B>'` finds the PROMOTION PATH from word A to word B:
+the shortest sequence of single-opcode edits (substitute, insert, or delete one
+glyph) in which every waypoint is itself a grammar-valid program. It is A* over
+the graph of valid programs, the raw edit distance serving as the admissible
+heuristic; it runs in either face, chosen by the words.
+
+The learn loop's residual is the RAW edit distance between the word sent and the
+word recovered. The promotion path is the stronger object built on the same
+metric: the walk through valid programs only, and its verdict may climb along
+the way. Substituting an inert IMSCRIB for a working opcode promotes an identity
+closure (N) to a real closure (T) in one step, the program-space image of a
+tuple's verdict rising under promotion. The tool reports the verdict walk and
+says whether the path is a genuine promotion (the verdict changes) or a lateral
+edit (it does not).
 
 ## Related documents
 

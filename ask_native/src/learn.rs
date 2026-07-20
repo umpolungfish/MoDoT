@@ -298,6 +298,59 @@ fn lessons(k: &serde_json::Value) -> String {
     }
 }
 
+/// The relations the loop has learned: prior (object → word) pairs, retrieved
+/// nearest to the object now being imscribed. Each visited entry records that
+/// some word was excribed INTO its guess, so (guess → word) is a ground-truth
+/// relation between an object and the word that produced it. Feeding the
+/// nearest such relations to the imscriber is the learning channel: it
+/// generalizes the object→word direction from confirmed examples, closest
+/// first. Nearness is word-set overlap between the objects; ties break toward
+/// the lower-residual (better-confirmed) relation.
+fn nearest_relations(k: &serde_json::Value, object: &str, want: usize) -> String {
+    let norm = |t: &str| -> std::collections::BTreeSet<String> {
+        t.to_lowercase()
+            .split(|c: char| !c.is_alphanumeric())
+            .filter(|w| w.len() > 3)
+            .map(|w| w.to_string())
+            .collect()
+    };
+    let target = norm(object);
+    if target.is_empty() {
+        return String::new();
+    }
+    let Some(visited) = k.get("visited").and_then(|v| v.as_object()) else {
+        return String::new();
+    };
+    // (overlap, -residual, word, guess) for every prior relation that shares a
+    // word with the target and is not the target object itself.
+    let mut scored: Vec<(usize, i64, String, String)> = Vec::new();
+    for (word, rec) in visited {
+        let guess = rec.get("guess").and_then(|g| g.as_str()).unwrap_or("");
+        if guess.is_empty() || guess == object {
+            continue;
+        }
+        let overlap = target.intersection(&norm(guess)).count();
+        if overlap == 0 {
+            continue;
+        }
+        let resid = rec.get("residual").and_then(|r| r.as_i64()).unwrap_or(99);
+        scored.push((overlap, -resid, word.clone(), guess.to_string()));
+    }
+    if scored.is_empty() {
+        return String::new();
+    }
+    scored.sort_by(|a, b| b.0.cmp(&a.0).then(b.1.cmp(&a.1)));
+    scored.truncate(want);
+    let mut s = String::from(
+        "Relations you have already learned (objects like these imscribed to these words — \
+         let them guide this one):\n",
+    );
+    for (_, _, word, guess) in &scored {
+        let _ = writeln!(s, "- \"{guess}\"  ⟶  {word}");
+    }
+    s
+}
+
 // ── the two arms ─────────────────────────────────────────────────────────────
 
 /// The example excriptions are spent: a small model reuses them verbatim no
@@ -474,14 +527,16 @@ fn imscribe(
     face: Face,
     object: &str,
     lessons_text: &str,
+    relations_text: &str,
 ) -> Result<Vec<char>, String> {
     let example = if face == Face::Tri { "⊢∈>+×∋¬⊣" } else { "⊢◇>+●¬⊣" };
     let system = format!(
         "You are the imscriber. You are given the name of an OBJECT: one concrete thing or \
          process from a real domain. Imscribe it: write the IMASM word whose opcode sequence IS \
          the object's structure, from its beginning boundary to its close. Answer with the glyph \
-         word ONLY (e.g. {example}) — no names, no spaces, no commentary.\n\n{}\n\n{}",
+         word ONLY (e.g. {example}) — no names, no spaces, no commentary.\n\n{}\n\n{}\n\n{}",
         alphabet_table(face),
+        relations_text,
         lessons_text
     );
     let res = crate::infer(
@@ -501,6 +556,168 @@ fn imscribe(
         }
     }
     Err(format!("imscriber returned no parseable word: {}", res.text.trim()))
+}
+
+// ── the promotion path between two programs ──────────────────────────────────
+//
+// Two tuples that differ have a promotion path: a walk that changes one
+// primitive at a time, every intermediate well-formed (`recalibrate` walks one
+// axis through its values). Two IMASM programs are no different. A promotion
+// path from word A to word B is a sequence of single-opcode edits — substitute,
+// insert, delete one glyph — where EVERY waypoint is itself a grammar-valid
+// program. The learn loop's residual is the RAW edit distance between two words;
+// the promotion path is the stronger object, the shortest walk through valid
+// programs only, and its verdict may climb along the way (N → B → T) exactly as
+// a tuple's verdict does under promotion.
+
+/// Describe the single edit that turns `from` into `to` (they differ by one).
+fn describe_edit(from: &[char], to: &[char]) -> String {
+    use std::cmp::Ordering;
+    match from.len().cmp(&to.len()) {
+        Ordering::Equal => {
+            for (i, (a, b)) in from.iter().zip(to).enumerate() {
+                if a != b {
+                    return format!("substitute {a}→{b} at {}", i + 1);
+                }
+            }
+            "identity".into()
+        }
+        Ordering::Greater => {
+            for i in 0..to.len() {
+                if from[i] != to[i] {
+                    return format!("delete {} at {}", from[i], i + 1);
+                }
+            }
+            format!("delete {} at {}", from[from.len() - 1], from.len())
+        }
+        Ordering::Less => {
+            for i in 0..from.len() {
+                if from[i] != to[i] {
+                    return format!("insert {} at {}", to[i], i + 1);
+                }
+            }
+            format!("insert {} at {}", to[to.len() - 1], to.len())
+        }
+    }
+}
+
+/// A* over valid programs: nodes are grammar-valid words, moves are the
+/// face's valid single-opcode edits (`neighbors`), the heuristic is the raw
+/// edit distance to the target (admissible — one edit closes at most one unit
+/// of distance). Returns the waypoint sequence A..=B, or None within budget.
+fn promotion_path(face: Face, a: &[char], b: &[char], budget: usize) -> Option<Vec<Vec<char>>> {
+    use std::cmp::Reverse;
+    use std::collections::{BinaryHeap, HashMap};
+    if !word_valid(face, a) || !word_valid(face, b) {
+        return None;
+    }
+    let start = word_str(a);
+    let goal = word_str(b);
+    if start == goal {
+        return Some(vec![a.to_vec()]);
+    }
+    let mut came_from: HashMap<String, Vec<char>> = HashMap::new();
+    let mut g_score: HashMap<String, usize> = HashMap::new();
+    let mut open: BinaryHeap<Reverse<(usize, usize, String)>> = BinaryHeap::new();
+    g_score.insert(start.clone(), 0);
+    let h0 = residual(a, b).0;
+    open.push(Reverse((h0, 0, start.clone())));
+    let mut expansions = 0usize;
+    while let Some(Reverse((_f, g, cur_s))) = open.pop() {
+        if cur_s == goal {
+            // reconstruct
+            let mut path = vec![b.to_vec()];
+            let mut key = goal.clone();
+            while let Some(prev) = came_from.get(&key) {
+                path.push(prev.clone());
+                key = word_str(prev);
+                if key == start {
+                    break;
+                }
+            }
+            path.reverse();
+            return Some(path);
+        }
+        if g > *g_score.get(&cur_s).unwrap_or(&usize::MAX) {
+            continue;
+        }
+        expansions += 1;
+        if expansions > budget {
+            return None;
+        }
+        let cur: Vec<char> = cur_s.chars().collect();
+        for nb in neighbors(face, &cur) {
+            let ns = word_str(&nb);
+            let tentative = g + 1;
+            if tentative < *g_score.get(&ns).unwrap_or(&usize::MAX) {
+                came_from.insert(ns.clone(), cur.clone());
+                g_score.insert(ns.clone(), tentative);
+                let h = residual(&nb, b).0;
+                open.push(Reverse((tentative + h, tentative, ns)));
+            }
+        }
+    }
+    None
+}
+
+pub fn path(rest: &[String]) -> String {
+    let words: Vec<&String> = rest.iter().filter(|s| !s.contains('=')).collect();
+    if words.len() < 2 {
+        return "imasm path needs two words: imasm path '<A>' '<B>'\n\
+                e.g. ./ask --imasm path '⊢◇>+●¬⊣' '⊢◇>×●¬⊣'\n\
+                It finds the promotion path: the shortest walk of single-opcode edits from A \
+                to B in which every intermediate is itself a valid program, the program-space \
+                analogue of a tuple's promotion path.\n"
+            .into();
+    }
+    let (raw_a, raw_b) = (words[0], words[1]);
+    let face = face_of(&format!("{raw_a} {raw_b}"));
+    let (Some(a), Some(b)) = (parse_word(raw_a, face), parse_word(raw_b, face)) else {
+        return "imasm path: one of the words did not parse in its face.\n".into();
+    };
+    let mut out = String::new();
+    let _ = writeln!(
+        out,
+        "IMASM promotion path — single-opcode edits, every waypoint a valid program.\n\
+         from {}  →  to {}  ·  face {}  ·  raw edit distance {}",
+        word_str(&a),
+        word_str(&b),
+        if face == Face::Tri { "SIXTEEN_3" } else { "classic" },
+        residual(&a, &b).0,
+    );
+    match promotion_path(face, &a, &b, 200_000) {
+        None => {
+            let _ = writeln!(
+                out,
+                "\nNo promotion path found within budget (one endpoint ill-typed, or the valid \
+                 region between them is larger than the search bound)."
+            );
+        }
+        Some(p) => {
+            let verdicts: String = p.iter().map(|w| verdict_letter(face, w)).collect();
+            let _ = writeln!(
+                out,
+                "\npromotion length {} step(s); verdict walk {}",
+                p.len() - 1,
+                verdicts
+            );
+            for (i, w) in p.iter().enumerate() {
+                let v = verdict_letter(face, w);
+                if i == 0 {
+                    let _ = writeln!(out, "  {}  [{v}]  (start)", word_str(w));
+                } else {
+                    let edit = describe_edit(&p[i - 1], w);
+                    let _ = writeln!(out, "  {}  [{v}]  ← {edit}", word_str(w));
+                }
+            }
+            if verdicts.chars().all(|c| c == verdicts.chars().next().unwrap()) {
+                let _ = writeln!(out, "\nThe path stays within one verdict class; no promotion, a lateral walk.");
+            } else {
+                let _ = writeln!(out, "\nThe verdict climbs along the path: a genuine promotion, not a lateral edit.");
+            }
+        }
+    }
+    out
 }
 
 // ── the loop ─────────────────────────────────────────────────────────────────
@@ -592,8 +809,11 @@ pub fn run(rest: &[String]) -> String {
                 }
                 Ok(object) => {
                     eprintln!("[learn]   guess: {object} → imscribing…");
+                    // Retrieve the nearest confirmed relations BEFORE recording
+                    // this object, so it never cites itself.
+                    let relations_text = nearest_relations(&knowledge, &object, 5);
                     taken_guesses.push(object.clone());
-                    (imscribe(&llm, face, &object, &lessons_text), object)
+                    (imscribe(&llm, face, &object, &lessons_text, &relations_text), object)
                 }
             };
             let recovered = match rec_res {
@@ -736,6 +956,27 @@ mod tests {
         let b = blind(leaky);
         assert!(!b.contains("VINIT") && !b.contains("EVALT") && !b.contains('⊙'), "{b}");
         assert!(b.contains("bird taking flight"));
+    }
+
+    #[test]
+    fn promotion_path_single_substitution() {
+        let a = w("⊢◇>+●¬⊣");
+        let b = w("⊢◇>×●¬⊣");
+        let p = promotion_path(Face::Classic, &a, &b, 50_000).expect("path exists");
+        assert_eq!(p.len(), 2, "one edit apart");
+        assert_eq!(p.first(), Some(&a));
+        assert_eq!(p.last(), Some(&b));
+        assert!(describe_edit(&p[0], &p[1]).contains("substitute"));
+    }
+
+    #[test]
+    fn promotion_path_waypoints_all_valid() {
+        let a = w("⊢◇>+●¬⊣");
+        let b = w("⊢◇>+⊞●¬⊣");
+        let p = promotion_path(Face::Classic, &a, &b, 50_000).expect("path exists");
+        for w in &p {
+            assert!(word_valid(Face::Classic, w), "waypoint {} invalid", word_str(w));
+        }
     }
 
     #[test]
