@@ -364,6 +364,14 @@ not. And at catalog scale no entry loses its original type, with ambiguity
 confined to the single axis the alphabet analysis predicts. The full reading is
 in `md/primitive_imasm_cycle.md`.
 
+State the strength of this exactly, because it is easy to overclaim: the cycle
+is NOT a bijection. It is bijective on eleven axes and two-to-one on the
+twelfth, where the colliding pair shares an axis, so the reading is a SECTION of
+the writing and not an inverse. Write a tuple, read it back, write again, and
+the word returns identical; read a word cold and one axis may hold two answers.
+`imasm cycle tuple=⟨…⟩` runs one tuple, catalog entry or not, and says per axis
+whether it came back exactly, ambiguously, or not at all.
+
 ## Part X. Where the Engine Lives
 
 The close-condition engine (Graph, ancestry pairing, ClosureState, and the whole
@@ -419,6 +427,7 @@ Engineering guarantees:
   imasm types / expand <type>  the 49 Shavian types (each itself a program)
   imasm cycle [n=<count>]      primitives → imasm → primitives → imasm, measured
                                over the live catalog
+  imasm cycle tuple=⟨…⟩        the same cycle on ONE tuple, per axis
   imasm define <name> <op> <args…>   build a kernel-constrained tool
   imasm run <name> / imasm tools     invoke / list forged tools
 

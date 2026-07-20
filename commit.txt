@@ -1,13 +1,9 @@
-The return leg imscribed as an ob3ect, and run through itself.
+The guide states the cycle's strength exactly.
 
-The cycle now takes a single tuple (`imasm cycle tuple=⟨…⟩`), catalog entry
-or not, so an object can be put through its own return leg. The return leg
-has been imscribed as an ob3ect through the live designer, and reading it
-back recovers exactly at all twelve axes.
-
-Two details of that tuple earn their place in the document. Its Ř axis
-carries neither member of the colliding pair, so the one place the cycle can
-be ambiguous is not where this object sits. Its Φ axis carries one of the
-two byte-identical programs, and survives only because position separates it
-from its twin on another axis: the object about the ambiguity is readable
-only by the mechanism it describes.
+The round trip is easy to read as a bijection and is not one. It is
+bijective on eleven axes and two-to-one on the twelfth, where the two
+byte-identical type programs share an axis, so the reading is a section of
+the writing rather than an inverse. Writing a tuple, reading it back and
+writing again returns the identical word; reading a word cold can leave one
+axis holding two answers. Both facts now stand in Part IX, with the
+single-tuple form in the verb index.
