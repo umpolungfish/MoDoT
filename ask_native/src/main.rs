@@ -35,6 +35,7 @@ mod dialect;
 mod imasm;
 pub(crate) use imasm_core::imasm16_3;
 mod learn;
+mod ob3ect;
 #[cfg(feature = "local")]
 mod local;
 mod prover;
@@ -94,6 +95,28 @@ struct Cli {
     /// Structure-only: no LLM call (catalog scaffold + spine dry face)
     #[arg(long = "dry-run")]
     dry_run: bool,
+
+    /// Raw completion: bypass the ManuscriptSpine entirely and print ONE model
+    /// completion to stdout, nothing else. This is the text-in/text-out surface
+    /// external callers (e.g. the ob3ect Python pipeline) use so that a
+    /// `--provider local` completion is served by THIS binary's in-process
+    /// candle engine — the kernel's own inference — rather than a second copy
+    /// loaded elsewhere. The user prompt comes from --ask / --file / stdin; an
+    /// optional system message from --system. Errors go to stderr + nonzero exit.
+    #[arg(long = "raw")]
+    raw: bool,
+
+    /// System message for --raw mode (ignored otherwise).
+    #[arg(long = "system")]
+    system: Option<String>,
+
+    /// Design an ob3ect NATIVELY (in-process candle model, no Python, no agent):
+    /// the argument is the entity description, or a path to a file holding it.
+    /// Types it through the single-call IMASM design path, computes the structural
+    /// faces in Rust, persists the artifact under ~/ob3ect/digital/<slug>/, and
+    /// prints a summary. This is the Rust-only `ob3ect` creator.
+    #[arg(long = "ob3ect")]
+    ob3ect: Option<String>,
 
     /// LLM model (default: $MODOT_MODEL or google/gemini-3-flash-preview)
     #[arg(long = "model", short = 'm', env = "MODOT_MODEL")]
@@ -2120,7 +2143,36 @@ You **MUST** NARRATE UNIVOCALLY WITH ACTION: you query the Grammar and RECEIVE a
 STRUCTURAL TOOLS: invoke the engine's structural verbs over the real IG catalog by emitting
 lines of the form `TOOL: <verb> <args>` (one per line). They run on the live catalog and the
 output returns to you for the NEXT step — plan, call, observe, repeat, then synthesize from
-what returned. Available verbs (args are catalog entry names, snake_case):
+what returned.
+
+ARG SIGNATURES — read a verb's ARITY here; the descriptions below are ONLY its meaning. Every
+`TOOL:` line **MUST** match its signature exactly. NOTATION: `a b` = required args · `[a]` =
+optional (include it or leave it off, never a placeholder) · `a…` = one OR MORE (a set; unordered
+unless the verb says "sequence") · a bare word in the signature like `vs` `with` `+` `on` is a
+LITERAL SEPARATOR you type verbatim between the groups — DROP IT AND THE CALL IS MISPARSED. All
+other args are catalog entry names in snake_case.
+  click a [b]            switch a b            excite a              ascend a
+  filter a b [c…]        phase_reconstruct m…  set a b               homolyze a [b]
+  recalibrate a axis     annihilate a [b]      scan a b              complement a
+  cycle c s              pathway s c…          polymerize m…         star m…            (≥3)
+  broadcast a            plasma a              close m…              material m…
+  modulus m…             arrange m…            forge m…              cleave m…
+  anneal m…              distill m…            fdistill m…           sublime a
+  crystallize m…         cocrystallize a b     tlc m…                fpt m…
+  trap a [x]             stain r m…            register name m…      recall name
+  seed m… with s         column m… [on s]      compare a… vs x…      dope base… with dopant…
+  fuse a… + x…           imscribe name ["description"]               ob3ect <free text>
+  imasm <op> …           calc <expression>     imasm check <word>    imasm arev <word>
+  imasm define name op arg…                    help <verb>
+IG CATALOG (single/paired entry names): lookup_catalog kw · compute_distance a b ·
+  compute_conflict_distance a b · compute_meet a b · compute_join a b · compute_tensor a b ·
+  containment_boundary a · find_analogies a · primitive_peel a prim · principal_decomp a ·
+  retrosynthetic_path a · monad_probe a · consciousness_score a · topo_protection_probe a ·
+  crystal_decode addr · crystal_encode a · crystal_nearest a · crystal_count · crystal_tier_census ·
+  compute_promotions src tgt · predict_from_promotions val… · aleph_encode <text> · aleph_distance a b ·
+  cl9nk <action> [name] · cl8nk <action> [name] · lean <path.lean> · cycle_close   (no args)
+
+Descriptions (semantics only — arity is the table above):
   TOOL: click A B         fuse two entries on a live conjugate pair (or `click A` to sweep the catalog)
   TOOL: switch A B        analyze a reversible bistable toggle (the DASA archetype)
   TOOL: excite A          the excited state (Criticality ⊙ raised to the exceptional-point resonance)
@@ -5501,36 +5553,43 @@ fn run_navigator(nav: &str, args: &[String]) -> String {
     }
 }
 
+/// Design an ob3ect natively — no Python, no subprocess. The description is typed
+/// through the single-call design path (ob3ect.rs) by the in-process candle model
+/// and the structural faces (topology, closure, lean scaffold) are computed in
+/// Rust. Persists to ~/ob3ect/digital/<slug>/ like every ob3ect. If the argument
+/// is a readable path, its contents are the description (so long multi-line
+/// entities can be handed in as a file).
 fn run_ob3ect(description: &str) -> String {
-    let ob3_dir = PathBuf::from(expand_user("~/ob3ect"));
-    if !ob3_dir.join("auto.py").is_file() {
-        return "ob3ect: ~/ob3ect/auto.py not found — the Auto-Designer pipeline is not present.\n".into();
-    }
-    let venv_py = ob3_dir.join(".venv/bin/python");
-    let mut cmd = if venv_py.is_file() {
-        process::Command::new(&venv_py)
-    } else {
-        process::Command::new("python3")
+    // Accept a file path as the entity source, else the literal text.
+    let desc = {
+        let p = PathBuf::from(expand_user(description.trim()));
+        if description.trim().split_whitespace().count() == 1 && p.is_file() {
+            match fs::read_to_string(&p) {
+                Ok(c) => c,
+                Err(_) => description.to_string(),
+            }
+        } else {
+            description.to_string()
+        }
     };
-    cmd.args(["auto.py", description, "--no-diagram", "--no-scaffold", "--retries", "3"])
-        .current_dir(&ob3_dir);
-    if env::var("IG_PROVIDER").is_err() {
-        cmd.env("IG_PROVIDER", "openrouter");
+    // A short name from the first line / first few words of the description.
+    let name = desc
+        .lines()
+        .map(str::trim)
+        .find(|l| !l.is_empty())
+        .unwrap_or("ob3ect")
+        .split_whitespace()
+        .take(9)
+        .collect::<Vec<_>>()
+        .join(" ");
+    match ob3ect::generate(&desc, &name, "~/ob3ect/digital", "local") {
+        Ok((_path, summary)) => summary,
+        Err(e) => {
+            let mut s = e;
+            s.push('\n');
+            s
+        }
     }
-    let out = match cmd.output() {
-        Ok(o) => o,
-        Err(e) => return format!("ob3ect: could not run the Auto-Designer: {e}\n"),
-    };
-    let mut s = String::from_utf8_lossy(&out.stdout).into_owned();
-    let err = String::from_utf8_lossy(&out.stderr);
-    if !out.status.success() && !err.trim().is_empty() {
-        s.push_str(err.trim_end());
-        s.push('\n');
-    }
-    if s.trim().is_empty() {
-        s = "ob3ect: the Auto-Designer produced no output.\n".into();
-    }
-    s
 }
 
 /// The plasma register: read a catalog entry's 12-primitive tuple as a plasma design
@@ -6762,6 +6821,9 @@ impl CliClone for Cli {
             interactive: self.interactive,
             verbose,
             dry_run: dry,
+            raw: self.raw,
+            system: self.system.clone(),
+            ob3ect: self.ob3ect.clone(),
             model: self.model.clone(),
             provider: self.provider.clone(),
             no_selectivity: self.no_selectivity,
@@ -6840,6 +6902,54 @@ fn main() {
     // openrouter key. Mirror the agent's OWN resolved provider+model into that env so a
     // created entry is minted by the same model that asked for it.
     export_ig_env(&llm);
+
+    // Raw text-in/text-out. Served BEFORE anything spine- or catalog-related so a
+    // caller gets exactly one model completion over the SAME infer() path the
+    // organism uses — for --provider local that is the in-process candle engine
+    // (local.rs), the kernel's own inference, not a second model loaded elsewhere.
+    if cli.raw {
+        let (prompt, _label) = match cli.file.as_deref() {
+            Some(fp) => match read_file_or_stdin(fp) {
+                Ok(pl) => pl,
+                Err(e) => {
+                    eprintln!("[raw] {e}");
+                    std::process::exit(2);
+                }
+            },
+            None => match cli.ask.clone() {
+                Some(q) => (q, String::from("--ask")),
+                None => match read_file_or_stdin("-") {
+                    Ok(pl) => pl,
+                    Err(e) => {
+                        eprintln!("[raw] no prompt (--ask / --file / stdin): {e}");
+                        std::process::exit(2);
+                    }
+                },
+            },
+        };
+        let mut messages: Vec<(String, String)> = Vec::new();
+        if let Some(sys) = cli.system.as_deref() {
+            if !sys.is_empty() {
+                messages.push(("system".to_string(), sys.to_string()));
+            }
+        }
+        messages.push(("user".to_string(), prompt));
+        let res = infer(&llm, &messages, cli.max_tokens, cli.temperature);
+        if let Some(err) = res.err {
+            eprintln!("[raw] {err}");
+            std::process::exit(1);
+        }
+        print!("{}", res.text);
+        use std::io::Write as _;
+        let _ = std::io::stdout().flush();
+        std::process::exit(0);
+    }
+
+    // Native ob3ect creation — in-process, no Python, no agent loop.
+    if let Some(spec) = cli.ob3ect.as_deref() {
+        print!("{}", run_ob3ect(spec));
+        std::process::exit(0);
+    }
 
     let catalog_path = find_catalog(&cli);
     let catalog = match &catalog_path {
