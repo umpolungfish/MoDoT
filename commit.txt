@@ -1,10 +1,8 @@
-Reg16_3 gains its glyph face: quadrant ink for the sixteen states
+Transcript review: the evening perfect-cuboid runs, mined from tool_calls
 
-The opcodes always had two faces (glyph and spoken name) and the design rule
-that no opcode glyph is Latin; the register states had only the Latin face,
-and the gap surfaced the moment a verdict was pronounced inside a glyph word.
-glyph() renders occupancy of {T,F,t,f} as quadrant ink: T upper-left, F
-upper-right, t lower-left, f lower-right; N is the unmarked field (light
-shade), A is the full block. four_glyph() renders the FOUR slice with the
-Belnap top for B, distinct from TF's upper half because B is the collapse
-token, not the SIXTEEN_3 state. Both faces kept; nothing existing touched.
+One unhealthy run and one healthy sibling. The unhealthy one re-proved the
+same admitted tool 86 times, once per round for 17 minutes, and fired 34
+calls with a literal ellipsis placeholder as an argument; both point at the
+round prompt, not the model. The kernel gate behaved correctly throughout:
+two ill-typed defines refused, the well-typed cuboid_descent admitted.
+Blind spot recorded: the ob3ect auto-designer logs no tool calls.
