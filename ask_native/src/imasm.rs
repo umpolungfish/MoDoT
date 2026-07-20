@@ -1987,6 +1987,8 @@ pub fn run(args: &[String]) -> String {
         "prove" | "kernel" => prove_tool(rest),
         "eval" | "flow" => eval_tool(rest, false),
         "eval16" | "flow16" => eval_tool(rest, true),
+        // The trilattice sibling, CLI-reachable: `--imasm 16_3 check ⊢∈…∋⊣`.
+        "16_3" | "tri" | "imasm16_3" => crate::imasm16_3::run(rest),
         "compose" | "bind" => compose_tool(rest),
         "chaos" | "space" => chaos_tool(rest),
         "export" | "manifest" => export_tools(),

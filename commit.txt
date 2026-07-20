@@ -1,7 +1,6 @@
-The tri-dyad wears its true face: FSPLIT3/FFUSE3 are ∈/∋ everywhere
+The trilattice oracle is CLI-reachable: --imasm 16_3 check <glyph word>
 
-Per the unified guide the correct tokens are ∈ and ∋; ☊/☋ were a drifted
-face. glyph() corrected, help text and ref examples corrected, from_glyph
-keeps the drifted pair as parse-compat so old words still load. four_glyph
-collapses to glyph(): B of FOUR IS the state {T,F} and wears ▀; the ⊤
-artifact is gone; no Latin token anywhere, verdicts included.
+The classic eval verbs silently drop tokens they do not know, so a tri-word
+labeled through them gets a label for a different, filtered word. The 16_3
+register machine now answers through the imasm dispatch, so external
+labelers reach the real trilattice verdict space (T/N/B/F) and sink.
