@@ -1,10 +1,9 @@
-MoDoT harness: the dialect jump, the repetition wall, the ellipsis guard
+imasm_core: the ONE kernel crate — tokens, registers, machines, faces
 
-Three fixes from the perfect-cuboid transcript review. `dialect` is a new
-structural verb: the navigator↔core face map as a tool, with the Γ/Φ traps
-named, so a refused click can be re-presented in the other face instead of
-retried in the same one. The loop now counts identical calls and, from the
-third emission on, tells the agent outright that repetition is not an
-experiment and names the two lawful moves (rotat, dialect). Arguments
-carrying a literal ellipsis are refused as un-substituted example text
-instead of silently corrupting a reading.
+The drift class of bugs (a hand-copied vocabulary going stale — the tri-dyad
+face, the register letters) existed because every consumer transcribed the
+kernel's faces instead of linking them. imasm_core now holds the classic
+12-opcode Token, the SIXTEEN_3 module wholesale (Token16_3, Reg16_3, the
+register machine, the tri-ancestral verdict), and state_order(). ask_native
+links it and re-exports; behavior identical, all tests green. vae_vita
+derives its alphabet from it; mOMonadOS is the remaining consumer to link.

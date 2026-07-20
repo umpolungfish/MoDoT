@@ -33,7 +33,7 @@ mod click;
 mod arev;
 mod dialect;
 mod imasm;
-mod imasm16_3;
+pub(crate) use imasm_core::imasm16_3;
 #[cfg(feature = "local")]
 mod local;
 mod prover;
