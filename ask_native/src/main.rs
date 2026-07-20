@@ -2072,7 +2072,7 @@ reporting, say so; that is a valid and honest jam.
 
 /// The ONE place the 12 opcodes are named. Everything downstream — the prompts, the verb
 /// docs — uses the glyph alone. Before this the mapping was spelled out inline wherever an
-/// opcode came up, so it lived in three places at once (here, `imasm.rs`, IMASM_QUICKREF) and
+/// opcode came up, so it lived in three places at once (here, `imasm.rs`, the guide now at IMSCRIBERS_GUIDE_TO_IMASM.md) and
 /// drifted: retiring ← for ⊙ meant chasing the same table through all of them. A reference is
 /// a lookup, not a refrain.
 const IMASM_ALPHABET: &str = r#"
