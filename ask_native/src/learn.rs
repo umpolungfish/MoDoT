@@ -292,7 +292,37 @@ fn verdict_letter(face: Face, w: &[char]) -> char {
 }
 
 /// Grammar admissibility of a candidate in its face (no F verdict).
+/// Split a word into its ⊢…⊣ programs. A single-program word yields one
+/// segment; a catalog entry's word yields twelve.
+fn segments(w: &[char]) -> Vec<Vec<char>> {
+    let mut out = Vec::new();
+    let mut cur: Vec<char> = Vec::new();
+    for &c in w {
+        cur.push(c);
+        if c == '⊣' {
+            out.push(std::mem::take(&mut cur));
+        }
+    }
+    if !cur.is_empty() {
+        out.push(cur);
+    }
+    out
+}
+
 fn word_valid(face: Face, w: &[char]) -> bool {
+    // A COMPOSITE word (an entry's twelve type-programs concatenated) is valid
+    // exactly when each of its programs is. Judging it as one word asks the
+    // grammar a question it should refuse: it has twelve sources and twelve
+    // sinks, so every neighbour of a catalog word read this way is ill-typed
+    // and the neighbourhood comes back empty.
+    let segs = segments(w);
+    if segs.len() > 1 {
+        return segs.iter().all(|seg| word_valid_single(face, seg));
+    }
+    word_valid_single(face, w)
+}
+
+fn word_valid_single(face: Face, w: &[char]) -> bool {
     match face {
         Face::Classic => {
             let ops = classic_tokens(w);
@@ -651,6 +681,10 @@ fn excribe(
             eprintln!("[learn]   guess parroted ({guess}) → retrying hotter…");
             continue;
         }
+        if transcribes_the_word(&guess) {
+            eprintln!("[learn]   guess transcribes the word ({guess}) → retrying…");
+            continue;
+        }
         return Ok(guess);
     }
     Err("excription parroted or empty on both attempts".into())
@@ -710,6 +744,10 @@ fn excribe_anchored(
             eprintln!("[churn]   guess parroted ({guess}) → retrying…");
             continue;
         }
+        if transcribes_the_word(&guess) {
+            eprintln!("[churn]   guess transcribes the word ({guess}) → retrying…");
+            continue;
+        }
         return Ok(guess);
     }
     Err("anchored excription parroted or empty on both attempts".into())
@@ -735,6 +773,35 @@ fn blind(object: &str) -> String {
         })
         .collect::<Vec<_>>()
         .join(" ")
+}
+
+/// A guess that TRANSCRIBES the word instead of naming an object. Stripping the
+/// opcode names was never enough: the run shows guesses like "sailing route
+/// planning with three wind directions affirmed, reversed, linked, and closed"
+/// and "heat, affirm true state, reverse, link into one, split three ways",
+/// which carry the sequence in plain English and leave nothing for the
+/// imscriber to read but the answer. Such a guess makes the round trip vacuous
+/// in the direction that looks like success, so it is refused at the source
+/// rather than blinded: blinding it would leave a mutilated phrase, and the
+/// honest move is to ask again.
+fn transcribes_the_word(guess: &str) -> bool {
+    // The plain-English gloss each opcode travels under, taken from the table
+    // the excriber is given. A guess is a transcription when it strings several
+    // of these together: one is a domain word ("closed", "linked"), three or
+    // more in one line is the sequence wearing a costume.
+    const GLOSS: &[&str] = &[
+        "affirm", "affirmed", "affirms", "refute", "refuted", "refutes",
+        "reverse", "reversed", "reverses", "undo", "undone",
+        "link into one", "linked", "links", "compose",
+        "fork", "forked", "forks", "split", "splits", "split three ways",
+        "fuse", "fused", "fuses", "rejoin", "rejoined",
+        "commit", "committed", "commits", "irreversibly",
+        "true arm", "false arm", "both arms", "hold paradox",
+        "begin", "close", "closed", "closes", "self-reference", "identity",
+    ];
+    let low = guess.to_ascii_lowercase();
+    let hits = GLOSS.iter().filter(|g| low.contains(*g)).count();
+    hits >= 3
 }
 
 fn imscribe(
@@ -1380,7 +1447,19 @@ pub fn run(rest: &[String]) -> String {
             word_args.push(a.clone());
         }
     }
-    let raw = word_args.join(" ");
+    let mut raw = word_args.join(" ");
+    // A catalog NAME is a legitimate seed: the entry's twelve types compose to a
+    // word deterministically (`imasm words` writes the whole book). Starting
+    // from a name is what makes the loop scorable — the catalog already says
+    // what the object IS, so the excriber's guess has a truth to be judged
+    // against instead of only a residual to be measured.
+    let mut truth: Option<String> = None;
+    if raw.chars().any(|c| c.is_alphanumeric()) {
+        if let Some(w) = crate::imasm::word_for_entry(raw.trim()) {
+            truth = Some(raw.trim().to_string());
+            raw = w;
+        }
+    }
     let face = face_of(&raw);
     let Some(seed) = parse_word(&raw, face) else {
         return "imasm learn needs a seed word: imasm learn '<word>' [rounds=N] [breadth=K]\n\
@@ -1399,8 +1478,12 @@ pub fn run(rest: &[String]) -> String {
     let mut out = String::new();
     let _ = writeln!(
         out,
-        "IMASM learn — μ∘δ on the model itself: excribe → imscribe → check → residual → update.\n\
+        "IMASM learn — μ∘δ on the model itself: excribe → imscribe → check → residual → update.{}\n\
          seed {}  ·  face {}  ·  rounds {rounds} × breadth {breadth}  ·  provider {:?}",
+        match &truth {
+            Some(t) => format!("\n  seeded from the catalog entry '{t}': the object is KNOWN, so a guess can be scored and not only measured."),
+            None => String::new(),
+        },
         word_str(&seed),
         if face == Face::Tri { "SIXTEEN_3" } else { "classic" },
         llm.provider,

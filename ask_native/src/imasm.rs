@@ -528,6 +528,33 @@ out-port), reported not fatal. The shape is named by circuit rank β = E−V+C
   imasm run <name>  /  imasm tools    invoke a defined tool / list the space
   imasm types                        list the 49 Shavian TYPES (each is a program)
   imasm expand <type>                unfold a type into its own IMASM sequence
+  imasm words [out=<path>]           write the WORDBOOK: every catalog entry as the
+                                      program its twelve types compose to. Deterministic,
+                                      no model asked. This is what lets the loop start
+                                      from a catalog NAME
+  imasm learn <word|entry>           the excription/imscription loop: excribe a word
+             [rounds=N] [breadth=K]    into an object, imscribe the object back, and
+                                      measure the residual of μ∘δ on the model itself.
+                                      Seeded with a CATALOG ENTRY the object is known,
+                                      so a guess is scored and not only measured
+  imasm path <A> <B> [churn]         the PROMOTION PATH: the shortest walk of
+                                      single-opcode edits in which every waypoint is
+                                      itself a valid program. Endpoints may be glyph
+                                      WORDS (they walk in glyph space) or two CATALOG
+                                      ENTRIES (they walk in tuple space, one primitive
+                                      axis re-typing per step). Words in different
+                                      faces CROSS, and the crossing step is named.
+                                      `churn` round-trips every waypoint through the
+                                      learn loop and reports the residual profile
+                                      along the route
+  imasm cycle [n=<count>]            primitives → imasm → primitives → imasm over the
+                                      live catalog: writes each tuple as a word, reads
+                                      the word back, and reports where the round trip
+                                      closes exactly, where an axis is ambiguous, and
+                                      where it breaks. NOT a bijection: bijective on
+                                      eleven axes, two-to-one on the twelfth
+  imasm cycle tuple=⟨…⟩              the same cycle on ONE tuple, axis by axis —
+                                      catalog entry or not
 STRANGE LOOP: the 49 types the Grammar writes tuples with are not atomic — each
 UNFOLDS into its own 12-opcode IMASM program (`imasm expand ado`). Splice an
 expanded type's sequence into a polymer arm to pivot through state space AS that
@@ -1064,6 +1091,83 @@ fn cycle_verb(rest: &[String]) -> String {
         let _ = writeln!(out, "first break: {f}");
     }
     out
+}
+
+/// `imasm words` — write the IMASM word of EVERY catalog entry.
+///
+/// The word is deterministic (each of an entry's twelve types is itself a
+/// program, concatenated in canonical axis order), so this mints nothing and
+/// asks no model: it materialises what the catalog already implies. Having it
+/// on disk is what lets the loop start from a NAME instead of a glyph word, and
+/// with the name comes ground truth: an entry's excription can be scored
+/// against the object the catalog already says it is.
+fn words_verb(rest: &[String]) -> String {
+    let out_path = rest
+        .iter()
+        .find_map(|a| a.strip_prefix("out="))
+        .map(|p| crate::expand_user(p))
+        .unwrap_or_else(|| crate::expand_user("~/imsgct/MoDoT/ob3ects/imasm_catalog_words.json"));
+    let arr = match catalog_entries() {
+        Ok(a) => a,
+        Err(e) => return format!("imasm words: {e}\n"),
+    };
+    let mut book = serde_json::Map::new();
+    let (mut done, mut skipped) = (0usize, 0usize);
+    let mut lengths: Vec<usize> = Vec::new();
+    for e in &arr {
+        let Some(name) = e.get("name").and_then(|n| n.as_str()) else { continue };
+        let mut tuple = Vec::with_capacity(12);
+        let mut complete = true;
+        for ax in TUPLE_ORDER {
+            match e.get(ax).and_then(|g| g.as_str()) {
+                Some(g) => tuple.push(g.to_string()),
+                None => complete = false,
+            }
+        }
+        if !complete {
+            skipped += 1;
+            continue;
+        }
+        match tuple_glyph_word(&tuple) {
+            Ok(w) => {
+                lengths.push(w.chars().count());
+                book.insert(name.to_string(), serde_json::json!(w));
+                done += 1;
+            }
+            Err(_) => skipped += 1,
+        }
+    }
+    let text = serde_json::to_string_pretty(&serde_json::Value::Object(book)).unwrap_or_default();
+    if let Some(dir) = std::path::Path::new(&out_path).parent() {
+        let _ = std::fs::create_dir_all(dir);
+    }
+    if let Err(e) = std::fs::write(&out_path, text) {
+        return format!("imasm words: could not write {out_path}: {e}\n");
+    }
+    lengths.sort_unstable();
+    let mean = if lengths.is_empty() { 0.0 } else { lengths.iter().sum::<usize>() as f64 / lengths.len() as f64 };
+    format!(
+        "IMASM wordbook — every catalog entry as the program its twelve types compose to.\n\
+         {done} entr(ies) written, {skipped} skipped (incomplete tuple or a glyph outside the 49).\n\
+         word length: shortest {}, mean {mean:.1}, longest {}\n\
+         → {out_path}\n",
+        lengths.first().copied().unwrap_or(0),
+        lengths.last().copied().unwrap_or(0),
+    )
+}
+
+/// The word of one catalog entry, read from the wordbook if it is on disk and
+/// computed from the catalog otherwise. The loop calls this to start from a name.
+pub(crate) fn word_for_entry(name: &str) -> Option<String> {
+    let book = crate::expand_user("~/imsgct/MoDoT/ob3ects/imasm_catalog_words.json");
+    if let Ok(text) = std::fs::read_to_string(&book) {
+        if let Ok(v) = serde_json::from_str::<serde_json::Value>(&text) {
+            if let Some(w) = v.get(name).and_then(|w| w.as_str()) {
+                return Some(w.to_string());
+            }
+        }
+    }
+    entry_glyph_word(name).ok()
 }
 
 /// One tuple through the cycle, reported axis by axis.
@@ -1924,6 +2028,7 @@ pub fn run(args: &[String]) -> String {
         "learn" | "study" => crate::learn::run(rest),
         "path" | "promote" => crate::learn::path(rest),
         "cycle" => cycle_verb(rest),
+        "words" | "wordbook" => words_verb(rest),
         "compose" | "bind" => compose_tool(rest),
         "chaos" | "space" => chaos_tool(rest),
         "export" | "manifest" => export_tools(),
