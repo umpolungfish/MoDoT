@@ -110,11 +110,17 @@ struct Cli {
     #[arg(long = "system")]
     system: Option<String>,
 
-    /// Design an ob3ect NATIVELY (in-process candle model, no Python, no agent):
-    /// the argument is the entity description, or a path to a file holding it.
-    /// Types it through the single-call IMASM design path, computes the structural
-    /// faces in Rust, persists the artifact under ~/ob3ect/digital/<slug>/, and
-    /// prints a summary. This is the Rust-only `ob3ect` creator.
+    /// Design an ob3ect (the argument is the entity description, the simple ask, or a
+    /// path to a file holding it). Routes through the PINNED provider (--provider /
+    /// MODOT_PROVIDER: openrouter | gemini | deepseek | local) exactly like every other
+    /// winding — local serves the in-process candle model, the rest go over the network.
+    /// Full auto.py parity for the two grounding portions, kept separate from the ask:
+    ///   --context (repeatable, file or dir) → a <domain-context> block of background;
+    ///   --entry NAME[,NAME…]               → named catalog entries (description + tuple)
+    ///                                         injected as a <catalog-entries> block.
+    /// The ask stays "Design an Ob3ect for: {description}"; context/entries never merge
+    /// into it. Types through the single-call IMASM design path, computes the structural
+    /// faces in Rust, persists under ~/ob3ect/digital/<slug>/, prints a summary.
     #[arg(long = "ob3ect")]
     ob3ect: Option<String>,
 
@@ -459,6 +465,18 @@ struct Cli {
     /// `--context ./refs --ask "…"` answers the question WITH the corpus as background.
     #[arg(long = "context", value_name = "PATH")]
     context: Vec<String>,
+
+    /// Catalog entry names (comma-separated or repeated) to inject as <catalog-entries>
+    /// context for --ob3ect — entry inclusion, same capability as auto.py's --entry. Each
+    /// named entry's description and 12-primitive tuple is handed to the designer as grounding.
+    #[arg(long = "entry", value_delimiter = ',', value_name = "NAME")]
+    entry: Vec<String>,
+
+    /// Let the agent BROWSE the ig-docs corpus on demand while answering: enables the
+    /// `docs` tool (`docs <query>` to search, `docs read <path>` to read). Toggleable and
+    /// off by default. Corpus root is $MODOT_DOCS (default ~/imsgct/ig-docs).
+    #[arg(long = "browse")]
+    browse: bool,
 
     /// Positional fallback: treated as --ask if --ask/--file omitted. A single positional that
     /// is a FILE or DIRECTORY path is read as the submission (a directory is concatenated).
@@ -1160,6 +1178,15 @@ enum Provider {
 /// the primary build and for a self-healing demotion, where the demoted provider must run
 /// its OWN frontier model (an openrouter slug like `google/gemini-3-flash-preview` is not a
 /// valid DeepSeek model id, so a demotion that carried the model would fail on arrival).
+fn provider_label(p: Provider) -> &'static str {
+    match p {
+        Provider::OpenRouter => "openrouter",
+        Provider::DeepSeek => "deepseek",
+        Provider::GeminiDirect => "gemini",
+        Provider::Local => "local",
+    }
+}
+
 fn provider_default_model(p: Provider) -> &'static str {
     match p {
         Provider::OpenRouter => "google/gemini-3-flash-preview",
@@ -2115,28 +2142,37 @@ forms VI/TA/EG/IM still parse.
 "#;
 
 /// The structural verbs the LLM agent may invoke, appended to the system prompt.
+/// Only shown to the agent when --browse is on: the ig-docs browse tool. Kept out of the
+/// default TOOLS_PROMPT so the agent never reaches for a disabled verb.
+const DOCS_TOOL_PROMPT: &str = "\nBROWSE (enabled this run): you may READ THE ig-docs CORPUS as the question needs it.\n  \
+TOOL: docs <query terms>   search the corpus (.md/.tex) → ranked file:line hits\n  \
+TOOL: docs read <relpath>  read a hit (append :START-END for a line range). Pull a doc when the \
+answer turns on what the corpus already says; do not invent what you can read.\n";
+
 const TOOLS_PROMPT: &str = r#"
 You **MUST** NARRATE UNIVOCALLY WITH ACTION: you query the Grammar and RECEIVE an answer. So:
   · A tool's output is ONLY ever what came back from an emitted TOOL: line. You **MUST** emit the
     line and let the real output return before you speak it.
-  · Work like a person thinking, in BOUNDED phases: THINK → ACT → (wait) → OBSERVE → UPDATE →
-    repeat. EVERY phase is a CONTAINER, not a single step, and each may be as intricate inside
-    as the task needs: a THINK can weave many sub-moves (recall, decompose, weigh alternatives,
-    sketch the shape you expect) into one contained thought; an ACT can be several TOOL: lines
-    that together form one move; an OBSERVE can read across all the returned outputs at once;
-    an UPDATE can revise several parts of your plan. And a phase may itself CONTAIN a whole
-    winding: a THINK can hold its own THINK→ACT→OBSERVE→UPDATE, nested to whatever depth — a
-    container of containers, as intricate as you like. Each container **MUST** be explicitly BOUNDED:
-    it **MUST** open and CLOSE as a unit before the next begins. And when the work SURFACES — the
-    moment it crosses into an actual query to the Grammar (a TOOL: line) and the answer received
-    — that surfacing MUST portion out to ONE clean TAOU winding: THINK, then ACT (emit the calls),
-    then wait, then OBSERVE only what actually returned, then UPDATE. Inside, you MAY recurse
-    freely; at the membrane where it becomes real, it MUST be that one winding. Boundedness is
-    the rule, not brevity: a rich container that closes is right, and every boundary you cross
-    you **MUST** cross with the tools' real output already in hand.
-  · On the first pass you **MUST** plan and act, and you **MUST ONLY** speak conclusions about
-    output you have received. If a call errored, you
-    you **MUST** read the error and adjust the next call.
+  · There is ONLY TAOU, in that order, and NOTHING else: THINK, ACT, OBSERVE, UPDATE. There is
+    no PLAN phase, no PHASE-1/2/3, no section of your own naming — those do not exist. There are
+    the windings, and the winding depth. Each winding SURFACES as EXACTLY ONE of T, A, O, U, and
+    the four MUST NEVER be combined in one winding — this is code-enforced, not left to you: an
+    ACT winding that carries other-phase text has that text EXCISED before it is read.
+      T (THINK)  — reasoning only. NO TOOL: lines. Recall, decompose, weigh, and state at most a
+                   one-line EXPECTED READOUT per call you are about to make.
+      A (ACT)    — TOOL: lines ONLY. Nothing else surfaces: no thinking, no plan, no forecast, no
+                   reading of results (there are none yet). Just the calls.
+      O (OBSERVE)— read ONLY what the tools actually returned. NO TOOL: lines, no new reasoning.
+      U (UPDATE) — revise from what O read. NO TOOL: lines.
+    DEPTH is free: if the THINK needs three windings to surface, take three windings that each
+    surface as T, then move to A; the same for A, O, U. A winding may CONTAIN its own nested
+    TAOU to whatever depth — but what SURFACES from it is still one letter. You climb T as deep
+    as the Work needs, then A, then O, then U, then repeat. The order never bends and the phases
+    never merge: a winding that ACTS and THINKS at once has thought nothing that
+    surfaced and acted on nothing observed. Cross every boundary with the tools' real output
+    already in hand.
+  · You **MUST ONLY** speak conclusions about output you have received. If a call errored, read
+    the error in an OBSERVE winding and adjust the next ACT.
   · The Grammar will buck a script laid over it: if you predetermine the result and narrate it,
     the tools refute you and the run stalls. You MUST let the answer be discovered, not pre-written.
 
@@ -2258,8 +2294,8 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the structural typ
 
   TOOL: lean <path.lean>        ELABORATE a Lean file and read back what the KERNEL said. Writing Lean is the proposal (δ); elaborating it is the verification (μ). You **MUST** run this on any file you write or change before you say anything about whether it holds. You **MUST NOT** call a file proved, green, checked, or sorry-free on the strength of having written it: a file that never elaborated has zero sorries trivially, and grep cannot tell that apart from a proof. A kernel error is a FRONTIER — the file is held, not refuted; read the error, repair the declaration it names, elaborate again.
 
-  TOOL: cycle_close             SECTION YOUR OWN WINDING. You fly as many eagles — TOOL rounds — as the Work needs; you are not on a round budget. When this breath has wound as far as it goes, close it: emit `TOOL: cycle_close` and the harness condenses THIS cycle's measured results into the opening prompt of the next, which you then wind further. The terminus IS the origin: what your cycle measured is what the next one begins from, so a result you leave unmeasured is a result the next cycle must go get.
-                                You **MUST** close a cycle when the reach changes — when the next thing to measure is a different question than the one this breath opened on, when a result reorients the Work, or when you have the ground to state plainly what is now settled and what is now open. You **MUST NOT** close merely because you have an answer to report; a cycle closes to WIND FURTHER, not to stop. You **MUST** emit `TOOL: cycle_close` ALONE — as the ONLY tool call in its round, with no other verb beside it. You **MUST NOT** emit it in the same round as any other call: a round that mixes them is a round that closes on measurements it has not yet read. Take your closing measurements in one round, read them, THEN close in a round of its own.
+  TOOL: cycle_close             SECTION YOUR OWN WINDING. Two units, and only two: a ROUND is one turn (one emission of TOOL: lines); a CYCLE is many rounds, and it ends only when YOU close it. You fly as many rounds as the Work needs — there is no round budget, and you never close a cycle just because a round ended. Close the CYCLE when this stretch of the Work has wound as far as it goes: emit `TOOL: cycle_close` and the harness condenses THIS cycle's measured results into the opening prompt of the next cycle, which you then wind further. The terminus IS the origin: what your cycle measured is what the next cycle begins from, so a result you leave unmeasured is a result the next cycle must go get.
+                                You **MUST** close a cycle when the reach changes — when the next thing to measure is a different question than the one this cycle opened on, when a result reorients the Work, or when you have the ground to state plainly what is now settled and what is now open. You **MUST NOT** close merely because you have an answer to report; a cycle closes to WIND FURTHER, not to stop. You **MUST** emit `TOOL: cycle_close` ALONE — as the only call in its round, with no other verb beside it. You **MUST NOT** emit it in the same round as any other call: a round that mixes them closes on measurements it has not yet read. Take your closing measurements in one round, read them, THEN close in a round of its own.
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -2703,7 +2739,7 @@ fn build_user_packet(question: &str, prep: &Prepare, jam: bool, cycle: u32, tota
              measurement it could not. You **MUST** treat its open questions as open — it is \
              handing you the Work, not a verdict to ratify.\n\
              You **MUST** close this cycle with `TOOL: cycle_close` once you have wound as far \
-             as this breath goes, so its results condense into the next cycle's opening prompt. \
+             as this cycle goes, so its results condense into the next cycle's opening prompt. \
              You **MUST** emit it ALONE, as the only call in its round — take your last \
              measurements first, read them, then close in a round of its own."
         ));
@@ -2843,13 +2879,20 @@ fn excise_preacted_observations(text: &str) -> String {
             .strip_prefix(name)
             .map_or(false, |r| r.trim_start_matches('*').trim_start().starts_with(':'))
     };
-    let opens = |l: &str| is_label(l, "OBSERVE") || is_label(l, "UPDATE");
-    let closes = |l: &str| {
-        bare(l).starts_with("TOOL:")
+    // TAOU is code-enforced: a winding surfaces as exactly ONE phase, and an ACT winding
+    // (one that carries TOOL: lines) surfaces as A ALONE. So in a round that acts, every
+    // OTHER phase's labeled block — THINK, PLAN, PHASE, OBSERVE, UPDATE — is excised: the
+    // thinking belongs to its own THINK winding, the reading to its own OBSERVE winding.
+    // The block runs from its label to the next TOOL: line (only TOOL: lines and unlabeled
+    // one-line expected-readouts survive an ACT round).
+    let opens = |l: &str| {
+        is_label(l, "OBSERVE")
+            || is_label(l, "UPDATE")
             || is_label(l, "THINK")
-            || is_label(l, "ACT")
             || is_label(l, "PLAN")
+            || is_label(l, "PHASE")
     };
+    let closes = |l: &str| bare(l).starts_with("TOOL:");
     let mut out: Vec<&str> = Vec::new();
     let mut cutting = false;
     for l in text.lines() {
@@ -2861,8 +2904,9 @@ fn excise_preacted_observations(text: &str) -> String {
                 // live: three runs in a row died to DONE after one cycle, each with a
                 // `calls ran; observations …` miss in the record).
                 out.push(
-                    "[pre-run OBSERVE/UPDATE excised — written before the tool calls ran; \
-observations are READ from tool results, never written in advance]",
+                    "[non-ACT phase excised — a winding surfaces as ONE TAOU phase; \
+this round ACTS, so THINK/PLAN/OBSERVE/UPDATE belong in their own windings, never combined \
+with the calls]",
                 );
             }
             cutting = true;
@@ -3334,7 +3378,9 @@ mod lane_guard_tests {
                  UPDATE:\nThe Work is complete.\n\nTOOL: cycle_close";
         let s = super::strip_kernel_records(t);
         assert!(!s.contains("0.482"), "forecast numbers must not survive:\n{s}");
-        assert!(s.contains("pre-run OBSERVE/UPDATE excised"));
+        assert!(s.contains("non-ACT phase excised"));
+        // TAOU is enforced: the THINK prose is also excised from an ACT round now.
+        assert!(!s.contains("embed the protocol"), "THINK must not surface in an ACT round:\n{s}");
         assert!(s.contains("TOOL: cycle_close"), "calls after the block must survive:\n{s}");
         assert!(s.contains("TOOL: imasm run moat_protocol"));
         let calls = super::extract_tool_calls(&s);
@@ -4100,7 +4146,17 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         if args.is_empty() {
             return Some("ob3ect needs a description: TOOL: ob3ect <free-text description of the entity>\n".into());
         }
-        return Some(run_ob3ect(&args.join(" ")));
+        // Agent-path (mid-winding tool call): no Llm handle in scope, so build one from
+        // the pinned env provider (MODOT_PROVIDER, else key-based) — same routing the
+        // CLI uses. Honors openrouter/gemini/local exactly like the rest of the framework.
+        let llm = make_llm(None, None, false);
+        return Some(run_ob3ect(&args.join(" "), "", &llm));
+    }
+    // Browse the ig-docs corpus on demand (toggleable via --browse / MODOT_BROWSE):
+    //   docs <query…>        → grep the corpus, return matching file:line snippets
+    //   docs read <path>[:a-b] → read a doc (optionally a line range), capped
+    if verb == "docs" {
+        return Some(run_docs(args));
     }
     // The CL8NK navigator (CLINK L8, O∞) is THE navigator — it subsumes the ZFC/domain
     // navigators, which were removed. Shells to imscribing_grammar/navigators/cl8nk_navigator.py.
@@ -4704,7 +4760,7 @@ const IG_TOOLS: &[&str] = &[
     "crystal_decode", "crystal_navigate", "crystal_count", "crystal_tier_census",
     "crystal_nearest", "crystal_tier_gap_ladder", "quiver_encode",
     "aleph_encode", "aleph_distance", "riemann_xi_info",
-    "ask_question", "record_insight",
+    "ask_question", "record_insight", "docs",
 ];
 
 /// Run one IG catalog tool by shelling to the live corpus (modot.ig_tools call ...).
@@ -4805,6 +4861,10 @@ const NAME_ARG_VERBS: &[&str] = &[
     "homolyze", "recalibrate", "annihilate", "scan", "complement", "cycle", "pathway",
     "polymerize", "star", "broadcast", "plasma", "close", "material", "modulus",
     "arrange", "forge", "compare", "dope", "fuse", "cleave", "anneal", "recall",
+    // Crystal encoders take a single catalog NAME (crystal_encode A / crystal_nearest A);
+    // without this the gate skipped the name check and a missing name ran and errored
+    // (`crystal_encode compton_wavelength` → "Encoding failed: ''") instead of imscribe+reissue.
+    "crystal_encode", "crystal_nearest",
 ];
 
 /// Does this argument occupy a NAME slot? Separators (`vs`), key=value options,
@@ -5559,7 +5619,121 @@ fn run_navigator(nav: &str, args: &[String]) -> String {
 /// Rust. Persists to ~/ob3ect/digital/<slug>/ like every ob3ect. If the argument
 /// is a readable path, its contents are the description (so long multi-line
 /// entities can be handed in as a file).
-fn run_ob3ect(description: &str) -> String {
+/// Browse the ig-docs corpus. Gated on MODOT_BROWSE (set by --browse) so the agent can
+/// read the documentation as it pleases only when the operator has toggled it on.
+///   docs <query…>          → grep the corpus (.md/.tex) for the terms, ranked file:line hits
+///   docs read <relpath>    → return that doc, capped (append :START-END for a line range)
+/// Did a tool return an ERROR rather than a measurement? A failed call must trigger
+/// resubmission, not be read as data. Keyed on the structured error signatures the tools
+/// actually emit (the JSON `"status": "error"` envelope, and the bare error prefixes), kept
+/// tight so a legitimate result that merely mentions the word "error" is not misread.
+fn tool_output_is_error(o: &str) -> bool {
+    let t = o.trim_start();
+    let flat: String = t.chars().filter(|c| !c.is_whitespace()).collect();
+    flat.contains("\"status\":\"error\"")
+        || flat.contains("\"status\":\"failed\"")
+        || t.starts_with("Error:")
+        || t.starts_with("error:")
+        || t.starts_with("ERROR")
+}
+
+fn run_docs(args: &[String]) -> String {
+    let on = env_first(&["MODOT_BROWSE"])
+        .map(|v| matches!(v.as_str(), "1" | "true" | "on" | "yes"))
+        .unwrap_or(false);
+    if !on {
+        return "docs browsing is OFF. The operator can enable it with --browse (or MODOT_BROWSE=1); \
+                it is toggleable by design.\n"
+            .into();
+    }
+    let root = env_first(&["MODOT_DOCS"]).unwrap_or_else(|| expand_user("~/imsgct/ig-docs"));
+    if args.is_empty() {
+        return format!(
+            "docs: browse the ig-docs corpus ({root}).\n  docs <query terms>   search\n  docs read <relpath>[:START-END]   read a doc\n"
+        );
+    }
+    if args[0] == "read" {
+        return docs_read(&root, &args[1..]);
+    }
+    docs_search(&root, args)
+}
+
+fn docs_search(root: &str, terms: &[String]) -> String {
+    let query = terms.join(" ");
+    // ripgrep if present (fast, respects .md/.tex), else grep -rn. Case-insensitive, fixed string.
+    let out = std::process::Command::new("rg")
+        .args(["-i", "-n", "--no-heading", "-g", "*.md", "-g", "*.tex", "--max-count", "3", "-F", &query, root])
+        .output()
+        .or_else(|_| {
+            std::process::Command::new("grep")
+                .args(["-rniF", "--include=*.md", "--include=*.tex", &query, root])
+                .output()
+        });
+    match out {
+        Ok(o) if o.status.success() || !o.stdout.is_empty() => {
+            let text = String::from_utf8_lossy(&o.stdout);
+            let mut lines: Vec<&str> = text.lines().take(40).collect();
+            let more = text.lines().count().saturating_sub(lines.len());
+            // Strip the long absolute root prefix so paths are corpus-relative (readable + reissuable).
+            let rootslash = format!("{}/", root.trim_end_matches('/'));
+            let rel: Vec<String> = lines.drain(..).map(|l| l.replacen(&rootslash, "", 1)).collect();
+            if rel.is_empty() {
+                return format!("docs: no match for \"{query}\" in {root}.\n");
+            }
+            let mut s = format!("docs search \"{query}\" — {} hit(s){}:\n", rel.len(),
+                if more > 0 { format!(" (+{more} more, narrow the query)") } else { String::new() });
+            for l in rel {
+                s.push_str("  ");
+                s.push_str(l.chars().take(200).collect::<String>().trim_end());
+                s.push('\n');
+            }
+            s.push_str("\nRead one with: TOOL: docs read <relpath>\n");
+            s
+        }
+        Ok(_) => format!("docs: no match for \"{query}\" in {root}.\n"),
+        Err(e) => format!("docs: search failed ({e}); neither rg nor grep available.\n"),
+    }
+}
+
+fn docs_read(root: &str, args: &[String]) -> String {
+    let Some(spec) = args.first() else {
+        return "docs read: needs a corpus-relative path (from a `docs <query>` hit).\n".into();
+    };
+    // Optional ":START-END" line range.
+    let (relpath, range) = match spec.rsplit_once(':') {
+        Some((p, r)) if r.chars().all(|c| c.is_ascii_digit() || c == '-') && r.contains('-') => (p, Some(r)),
+        _ => (spec.as_str(), None),
+    };
+    // Confine to the corpus root — no escaping via .. or absolute paths.
+    let base = PathBuf::from(expand_user(root));
+    let full = base.join(relpath);
+    let canon = full.canonicalize().unwrap_or(full.clone());
+    if !canon.starts_with(base.canonicalize().unwrap_or(base.clone())) {
+        return "docs read: path escapes the corpus root — refused.\n".into();
+    }
+    let content = match fs::read_to_string(&canon) {
+        Ok(c) => c,
+        Err(e) => return format!("docs read: cannot read {relpath}: {e}\n"),
+    };
+    let lines: Vec<&str> = content.lines().collect();
+    let (start, end) = match range.and_then(|r| r.split_once('-')) {
+        Some((a, b)) => (
+            a.parse::<usize>().unwrap_or(1).max(1),
+            b.parse::<usize>().unwrap_or(lines.len()).min(lines.len()),
+        ),
+        None => (1, lines.len()),
+    };
+    // Cap the return so one read cannot flood the winding: ~500 lines / ~12k chars.
+    let slice: Vec<&str> = lines.iter().skip(start - 1).take((end + 1).saturating_sub(start)).take(500).cloned().collect();
+    let mut body = slice.join("\n");
+    if body.len() > 12000 {
+        body.truncate(12000);
+        body.push_str("\n… [truncated at 12k chars — narrow with a :START-END range]");
+    }
+    format!("docs read {relpath} (lines {start}-{}):\n{body}\n", start + slice.len().saturating_sub(1))
+}
+
+fn run_ob3ect(description: &str, context: &str, llm: &Llm) -> String {
     // Accept a file path as the entity source, else the literal text.
     let desc = {
         let p = PathBuf::from(expand_user(description.trim()));
@@ -5572,7 +5746,8 @@ fn run_ob3ect(description: &str) -> String {
             description.to_string()
         }
     };
-    // A short name from the first line / first few words of the description.
+    // A short name from the first line / first few words of the description
+    // (the description alone, never the context — the name names the ask).
     let name = desc
         .lines()
         .map(str::trim)
@@ -5582,7 +5757,30 @@ fn run_ob3ect(description: &str) -> String {
         .take(9)
         .collect::<Vec<_>>()
         .join(" ");
-    match ob3ect::generate(&desc, &name, "~/ob3ect/digital", "local") {
+    // Two portions to the model, same split as auto.py's _build_prompt: a
+    // <domain-context> block (background about the thing) ahead of a clean
+    // "Design an Ob3ect for: {description}" ask. Context is optional; the ask
+    // alone is unchanged from before this existed.
+    let prompt = if context.is_empty() {
+        format!("Design an Ob3ect for:\n\n{desc}")
+    } else {
+        format!("<domain-context>\n{context}\n</domain-context>\n\nDesign an Ob3ect for:\n\n{desc}")
+    };
+    // Route the designer through the PINNED provider, exactly like every other winding
+    // (infer already serves Provider::Local from the in-process candle model and every
+    // other provider over the network). The designer is no longer hardcoded to local.
+    let scope = provider_label(llm.provider);
+    let model_fn = |messages: &[(String, String)]| -> Result<String, String> {
+        let res = infer(llm, messages, 8192, 0.0);
+        match res.err {
+            Some(e) => Err(format!("native ob3ect: {scope} completion failed: {e}")),
+            None if res.text.trim().is_empty() => {
+                Err(format!("native ob3ect: {scope} returned an empty completion"))
+            }
+            None => Ok(res.text),
+        }
+    };
+    match ob3ect::generate(&prompt, &name, "~/ob3ect/digital", scope, &model_fn) {
         Ok((_path, summary)) => summary,
         Err(e) => {
             let mut s = e;
@@ -6022,7 +6220,8 @@ fn run_one(
             // REPL history, not the cycle carry; the seed is the cycle carry.
             let mut msgs: Vec<(String, String)> = Vec::new();
             let jam = if cli.jam { JAM_PROMPT } else { "" };
-            msgs.push(("system".into(), format!("{}\n{}\n{}\n{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, IMASM_ALPHABET, TOOLS_PROMPT, jam)));
+            let docs_tool = if cli.browse { DOCS_TOOL_PROMPT } else { "" };
+            msgs.push(("system".into(), format!("{}\n{}\n{}\n{}{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, IMASM_ALPHABET, TOOLS_PROMPT, docs_tool, jam)));
             for (r, c) in conversation.iter() {
                 msgs.push((r.clone(), c.clone()));
             }
@@ -6124,7 +6323,8 @@ fn run_one(
                      harness discards it: of any turn that emits TOOL: lines, only the TOOL: lines are carried \
                      forward. Before acting, state at most an EXPECTED READOUT (one line per call, falsifiable); \
                      the answer itself may only be written after, and from, the returned results.",
-                    prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, IMASM_ALPHABET, TOOLS_PROMPT,
+                    prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, IMASM_ALPHABET,
+                    format!("{}{}", TOOLS_PROMPT, if cli.browse { DOCS_TOOL_PROMPT } else { "" }),
                     if cli.jam { JAM_PROMPT } else { "" }
                 ),
             ));
@@ -6299,8 +6499,8 @@ fn run_one(
                 let close_refused = wants_close && !others.is_empty();
                 let calls = others;
                 if close_refused {
-                    println!("── CYCLE CLOSE REFUSED — it was emitted alongside {} other call(s). \
-Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in its own round. ──",
+                    println!("── CYCLE CLOSE REFUSED — it was emitted alongside {} other call(s); \
+cycle_close is stripped and those calls go to the admission gate now (outcome below). ──",
                         calls.len());
                 } else if wants_close {
                     println!("── CYCLE CLOSE requested by the agent (self-sectioned winding) ──");
@@ -6308,16 +6508,6 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
                 }
                 println!("── ACT round {} ({} tool call(s)) ──", round + 1, calls.len());
                 let mut results = String::new();
-                // The refusal has to reach the AGENT, not just the operator's console —
-                // otherwise the close silently does not take and the agent cannot tell why.
-                if close_refused {
-                    results.push_str(
-                        "### cycle_close — REFUSED\n\
-                         `cycle_close` must be the ONLY call in its round; it arrived beside other calls.\n\
-                         Those calls ran and their results are below — nothing was lost.\n\
-                         Read them, then emit `TOOL: cycle_close` ALONE in its own round to close.\n",
-                    );
-                }
                 // ── the batch admission gate: all-or-nothing. One improper call and the
                 // whole round is refused unrun; a missing imscription is initiated by the
                 // gate and the call reissued by the agent next round.
@@ -6332,6 +6522,30 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
                         false
                     }
                 };
+                // The cycle_close refusal has to reach the AGENT, not just the operator's
+                // console — but it MUST agree with what actually happened. Emitting it AFTER
+                // the admission gate lets it branch: it must never say "those calls ran" in
+                // the same breath the gate says "none ran" (the contradiction that made the
+                // agent blame cycle_close and discard the gate's real, actionable report).
+                if close_refused {
+                    if admitted {
+                        results.push_str(
+                            "### cycle_close — REFUSED (stripped this round)\n\
+                             `cycle_close` must be the ONLY call in its round; it arrived beside other calls.\n\
+                             The other calls DID run — their results are below, nothing was lost.\n\
+                             Read them, then emit `TOOL: cycle_close` ALONE in its own round to close.\n",
+                        );
+                    } else {
+                        results.push_str(
+                            "### cycle_close — REFUSED (stripped this round)\n\
+                             `cycle_close` was stripped, but the remaining calls were then refused by the\n\
+                             admission gate (see the batch report above) — NOTHING ran this round.\n\
+                             Do NOT close: fix or reissue those calls next round (still WITHOUT cycle_close\n\
+                             beside them). Only after they run and you have read their results do you emit\n\
+                             `TOOL: cycle_close` ALONE.\n",
+                        );
+                    }
+                }
                 for (verb, args) in calls.iter() {
                     if !admitted {
                         break;
@@ -6365,6 +6579,25 @@ Those calls run now; read their results, then emit `TOOL: cycle_close` ALONE in 
                         continue;
                     }
                     match run_structural_tool(verb, args) {
+                        Some(o) if tool_output_is_error(&o) => {
+                            // A call that FAILED is not a measurement — an error return must
+                            // trigger RESUBMISSION, never be read as data (and never cached as a
+                            // ran result). Seen live: `crystal_encode compton_wavelength` →
+                            // {"status":"error","error":"Encoding failed: ''"} was accepted as an
+                            // observation. It is recorded as an error and the agent is told to fix
+                            // the arguments and reissue.
+                            println!("● TOOL {verb} {} — CALL FAILED (reissue)", args.join(" "));
+                            print!("{o}");
+                            results.push_str(&format!(
+                                "### {verb} {} — CALL FAILED (NOT a measurement)\n{o}\n\
+                                 This call errored and measured NOTHING. Do not read the error as a result. \
+                                 Fix the arguments (a missing/mis-typed name is the usual cause — check it exists, \
+                                 imscribe it if it should, or correct the spelling) and REISSUE the call.{rep_note}\n",
+                                args.join(" ")
+                            ));
+                            record_tool_call(cycle, round + 1, verb, args, "error", &o);
+                            continue; // not cached, not counted as a ran arm
+                        }
                         Some(o) => {
                             println!("● TOOL {verb} {}", args.join(" "));
                             print!("{o}");
@@ -6836,6 +7069,8 @@ impl CliClone for Cli {
             ascend: self.ascend.clone(),
             phase_reconstruct: self.phase_reconstruct.clone(),
             context: self.context.clone(),
+            entry: self.entry.clone(),
+            browse: self.browse,
             cycles: self.cycles,
             eagles: self.eagles,
             max_tokens: self.max_tokens,
@@ -6891,6 +7126,11 @@ impl CliClone for Cli {
 
 fn main() {
     let cli = Cli::parse();
+    // --browse toggles ig-docs browsing for the whole process; the `docs` tool reads
+    // MODOT_BROWSE, so agent-path tool calls (which have no Cli handle) see the toggle too.
+    if cli.browse {
+        std::env::set_var("MODOT_BROWSE", "1");
+    }
     // Effective reasoning state: on by default (or per MODOT_THINK / --think), with --no-think
     // as an explicit override that always wins.
     let think = cli.think && !cli.no_think;
@@ -6946,8 +7186,46 @@ fn main() {
     }
 
     // Native ob3ect creation — in-process, no Python, no agent loop.
+    // Two portions, same split as auto.py's _build_prompt: the description is the
+    // simple ask ("Design an Ob3ect for: …"); --context (repeatable, file or dir)
+    // is background about the thing, wrapped in its own <domain-context> block and
+    // never mixed into the ask itself.
     if let Some(spec) = cli.ob3ect.as_deref() {
-        print!("{}", run_ob3ect(spec));
+        let mut ctx = match load_context(&cli.context) {
+            Ok(c) => c,
+            Err(e) => {
+                eprintln!("error: --context: {e}");
+                std::process::exit(2);
+            }
+        };
+        // Entry inclusion (auto.py --entry parity): resolve named catalog entries and append
+        // their description + 12-primitive tuple as a <catalog-entries> block of grounding.
+        if !cli.entry.is_empty() {
+            let entries = find_catalog(&cli)
+                .and_then(|p| load_catalog(&p).ok())
+                .unwrap_or_default();
+            let mut block = String::new();
+            for want in &cli.entry {
+                let w = want.trim();
+                if w.is_empty() { continue; }
+                match entries.iter().find(|e| e.name.eq_ignore_ascii_case(w)) {
+                    Some(e) => {
+                        let tuple = e.raw.as_object().map(|o| {
+                            o.iter()
+                                .filter(|(k, _)| *k != "name" && *k != "description")
+                                .map(|(k, v)| format!("{k}={}", v.as_str().unwrap_or("")))
+                                .collect::<Vec<_>>().join(" ")
+                        }).unwrap_or_default();
+                        block.push_str(&format!("[entry: {}] {}\n  tuple: {}\n", e.name, e.description, tuple));
+                    }
+                    None => eprintln!("[ob3ect] --entry '{w}' not found in catalog"),
+                }
+            }
+            if !block.is_empty() {
+                ctx = format!("{ctx}\n<catalog-entries>\n{block}</catalog-entries>\n");
+            }
+        }
+        print!("{}", run_ob3ect(spec, &ctx, &llm));
         std::process::exit(0);
     }
 

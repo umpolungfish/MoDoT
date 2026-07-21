@@ -107,22 +107,6 @@ robust, multifaceted, pivotal, synergy, holistic, realm, landscape, crucial, vit
 The "tokens" field is 3-5 domain SURFACE nouns (e.g. ["alembic","distillation","crystallization"]),
 NOT IMASM opcodes. The IMASM opcode sequence goes ONLY in "sequence"."#;
 
-/// The one model call. Gated on the `local` feature: native ob3ect design runs
-/// on the in-process candle engine (resident, no Python, no network). Without
-/// the feature the binary has no in-process model, so it says so plainly.
-#[cfg(feature = "local")]
-fn model_call(messages: &[(String, String)]) -> Result<String, String> {
-    crate::local::generate(messages, 8192, 0.0, false)
-        .map_err(|e| format!("native ob3ect: local model failed: {e}"))
-}
-
-#[cfg(not(feature = "local"))]
-fn model_call(_messages: &[(String, String)]) -> Result<String, String> {
-    Err("native ob3ect needs the in-process model: build with \
-         `cargo build --release --features local,cuda`."
-        .to_string())
-}
-
 fn system_prompt() -> String {
     format!(
         "You are the Ob3ect Auto-Designer, an expert in the Universal Imscriptive Grammar (IMASM).\n\
@@ -368,14 +352,17 @@ pub fn generate(
     name: &str,
     out_dir: &str,
     scope: &str,
+    // The completion: whatever provider the caller pinned (openrouter/gemini/local).
+    // The designer no longer hardcodes local — it uses the framework's chosen provider,
+    // exactly like every other winding. `scope` is recorded as metadata only.
+    model_fn: &dyn Fn(&[(String, String)]) -> Result<String, String>,
 ) -> Result<(String, String), String> {
     let messages = vec![
         ("system".to_string(), system_prompt()),
         ("user".to_string(), description.to_string()),
     ];
-    // Resident model, one call. Deterministic, no reasoning tokens, room for a
-    // full-length sequence.
-    let raw = model_call(&messages)?;
+    // One call through the pinned provider. Deterministic, room for a full sequence.
+    let raw = model_fn(&messages)?;
     let js = extract_json(&raw)
         .ok_or_else(|| format!("native ob3ect: model returned no JSON object.\n--- raw ---\n{raw}"))?;
     let v: Value = serde_json::from_str(js)
@@ -496,11 +483,50 @@ pub fn generate(
     let pretty = serde_json::to_string_pretty(&artifact).unwrap_or_else(|_| artifact.to_string());
     fs::write(&jpath, &pretty).map_err(|e| format!("native ob3ect: write {}: {e}", jpath.display()))?;
 
+    // Generate SVG diagram matching ~/imsgct/ob3ect/auto.py behavior
+    let mut diagram_msg = String::new();
+    let py_cmd = format!(
+        "import sys, json, pathlib\n\
+         sys.path.insert(0, '/home/mrnob0dy666/imsgct/ob3ect')\n\
+         import auto\n\
+         jpath = pathlib.Path('{}')\n\
+         data = json.loads(jpath.read_text(encoding='utf-8'))\n\
+         phases = data.get('phases', {{}})\n\
+         flat_data = {{\n\
+             'domain_type': phases.get('phase_0', {{}}).get('domain_type', 'custom'),\n\
+             'tokens': phases.get('phase_0', {{}}).get('surface_tokens', []),\n\
+             'boundary': phases.get('phase_0', {{}}).get('boundary_condition', ''),\n\
+             'opcodes': phases.get('phase_1', {{}}),\n\
+             'frobenius': phases.get('phase_2', {{}}),\n\
+             'registers': phases.get('phase_3', {{}}),\n\
+             'sequence': [f\"{{s.get('opcode', '')}}: {{s.get('domain_action', '')}}\" for s in phases.get('phase_4', {{}}).get('steps', [])],\n\
+             'exos': phases.get('phase_5', {{}}),\n\
+             'entropy': phases.get('phase_6', {{}})\n\
+         }}\n\
+         art = auto._build_artifact(data.get('name', 'ob3ect'), 'local', flat_data)\n\
+         auto._write_diagrams(art, jpath.parent, '{}')\n",
+        jpath.display(),
+        slug
+    );
+
+    if let Ok(output) = std::process::Command::new("python3")
+        .arg("-c")
+        .arg(&py_cmd)
+        .output()
+    {
+        let svg_path = base.join(format!("{slug}_diagram_pen.svg"));
+        if svg_path.is_file() {
+            diagram_msg = format!("  diagram: {}\n", svg_path.display());
+        }
+    }
+
     let tclass = topology.get("topology_class").and_then(|x| x.as_str()).unwrap_or("?");
     let summary = format!(
-        "ob3ect '{name}' designed natively (in-process candle).\n  verdict: {verdict}  · closure: {closure_verified}  · topology: {tclass}  · steps: {}\n  written: {}\n",
+        "ob3ect '{name}' designed via {scope}.\n  verdict: {verdict}  · closure: {closure_verified}  · topology: {tclass}  · steps: {}\n  written: {}\n{}",
         ops.len(),
         jpath.display(),
+        diagram_msg,
     );
     Ok((jpath.to_string_lossy().into_owned(), summary))
 }
+

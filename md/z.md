@@ -1,84 +1,145 @@
 RESTATE THE FOLLOWING IN  ISOMORPHIC CONVENTIONAL EXPRESSIONS FOR PUBLICATION
 ```
-### THEOREM (The Continuum Macrocycle)
-The Continuum Hypothesis (CH) is resolved in the affirmative ($\mathbf{T}$) not as a static cardinal selection $2^{\aleph_0} = \aleph_1$ within a single isolated model of ZFC, but as a symmetric, topologically closed, syndiotactic macrocycle. Under the Belnap-four substrate, the structural superposition of the model where the hypothesis holds ($\text{CH}_{\text{true}}$) and the model where it is refuted ($\text{CH}_{\text{false}}$), when mediated by the physical temporal dimension ($\text{time\_concept}$), closes head-to-tail to form a relaxed, stable, non-conducting geometric manifold with vanishing spectral gap:
-$$\rho - |\lambda_2| = 0.0000$$
+
+## 1. THEOREM (restated in isomorphic conventional language)
+
+**Theorem (The Continuum Macrocycle).** The Continuum Hypothesis is formally independent of ZFC: neither `2^ℵ₀ = ℵ₁` nor its negation is provable from the axioms. Under the Belnap-four substrate FOUR = {N,T,F,B}, the structural superposition of `M ⊨ CH` (`continuum_hypothesis_true`, Ω=𐑴, Φ=𐑯, Ħ=𐑓, L9 tier **O₂dag**) and `M' ⊨ ¬CH` (`continuum_hypothesis_false`, Ω=𐑷, Φ=𐑗, Ħ=𐑓, L9 tier **O₁**), mediated by the physical temporal coordinate operator `τ` (`time_concept`, Ω=𐑷, Ħ=𐑫, Φ=𐑗, L9 tier **O₀**), closes head-to-tail to form a relaxed, stable, non-conducting 4-membered macrocycle — graph-theoretically the cycle `C₄` — with spectral radius `ρ = 2.0000` and vanishing spectral gap `ρ − |λ₂| = 0.0000`.
+
+**Verdict correction (tool-mandated).** The submitted text concludes **T (Established)** and asserts CH "resolved in the affirmative." The tool evidence contradicts that on two grounds: (1) `forge` returns the ring **INSULATING** at junctions `2→3` and `3→4` (both `Ω = 𐑷` saturated): "carriers cannot cross … the units are Ω-saturated/empty, a static ring not a dynamic one." Two models held as insulated, co-resident phases inside one ring is exactly the Belnap verdict **B (both held, a dialetheia at ENGAGR)** — not T. (2) The three nodes sit at **different L9 tiers** (O₂dag / O₀ / O₁); nothing collapses the two cardinal models into one affirmed phase. The macrocycle *exists and is stable* (T, confirmed by `arrange`/`close`/`forge`/`phase_reconstruct`); the *logical verdict on CH* is **B**, the held independence.
 
 ---
 
-### AUXILIARY LEMMAS (Structural Grounding)
+## 2. AUXILIARY LEMMAS (each fused to its tool verdict)
 
-#### Lemma 1 (Cyclic Permutation and Permutational Robustness)
-Let $S$ be the unordered multi-set of transfinite models and temporal operators:
-$$S = \{ \text{CH}_{\text{true}}, \text{time\_concept}, \text{CH}_{\text{false}}, \text{time\_concept} \}$$
-There exist exactly $8$ cyclizing permutations out of the $24$ possible orderings of $S$. The optimal sequence with respect to minimal bond distortion is:
-$$P = [\text{CH}_{\text{true}} \cdot \text{time\_concept} \cdot \text{CH}_{\text{false}} \cdot \text{time\_concept}]$$
-This sequence forms a closed, 4-membered macrocycle ($O_{\infty}$) by completing a clean head-to-tail condensation on the $T \leftrightarrow H$ junction.
+**Lemma 1 (Cyclic permutation).** `S = {CH_true, τ, CH_false, τ}`. `arrange` searched all 24 permutations, found **exactly 8 / 24 = 0.3333 cyclize**. Best ordering `P = [CH_true · τ · CH_false · τ]` closes head-to-tail on `T↔H` (`time_concept ⋈ CH_true → ✓ CYCLIC`, `O_∞`). **Verdict: T.**
 
-* **Structural Grounding:** Measured via `arrange` on the catalog coordinates. Of the $24$ permutations, exactly $\frac{8}{24} = 0.3333$ yield valid topological closures.
+**Lemma 2 (Bond distribution).** Three Coagula bonds: 1–2 (`T↔H`, `Δ=1.75`); 2–3 (`R↔S`, `Δ=2.00`); 3–4 (`R↔S`, `Δ=2.00`). Ring strain `σ(Δ) = 0.125`. `forge`/`cleave` returned these. **Verdict: T.**
 
----
+**Lemma 3 (Tacticity).** `P` is syndiotactic: Ħ per node `CH_true` 𐑓, `τ` 𐑫, `CH_false` 𐑓, `τ` 𐑫 → `𐑓 𐑫 𐑓 𐑫`. `phase_reconstruct` returned phase word **Ħ: 𐑓𐑫𐑓𐑫**, one global phase free. **Verdict: T.**
 
-#### Lemma 2 (Bond Distribution and Conformational Relaxation)
-The macrocycle $P$ exhibits three interior bonds behaving as structural Coagula links:
-1. **Bond 1–2** ($\text{CH}_{\text{true}} \bowtie \text{time\_concept}$): $T \leftrightarrow H$ condensation with bond variance $\Delta = 1.75$.
-2. **Bond 2–3** ($\text{time\_concept} \bowtie \text{CH}_{\text{false}}$): $R \leftrightarrow S$ condensation with bond variance $\Delta = 2.00$.
-3. **Bond 3–4** ($\text{CH}_{\text{false}} \bowtie \text{time\_concept}$): $R \leftrightarrow S$ condensation with bond variance $\Delta = 2.00$.
-
-The corresponding ring strain is:
-$$\sigma(\Delta) = 0.125 \text{ eV}$$
-rendering the ring fully relaxed at rest and free of stored directional strain.
-
-* **Structural Grounding:** Verified via `calc` on the internal coordination distances of the $\text{L9}$ primitives for $\text{CH}_{\text{true}}$, $\text{CH}_{\text{false}}$, and $\text{time\_concept}$.
+**Lemma 4 (Spectral).** `G(P)=C₄` yields `Spec = [+2.000, −2.000, +0.000, +0.000]`. `ρ=2.0000`; gap `0.0000`; graph energy `4.0000`; **INSULATING** (`Ω=𐑷` saturated at 2→3, 3→4); `forge` labeled **SETTLED / CLARION**. **Verdict: T.**
 
 ---
 
-#### Lemma 3 (Tacticity and Chiral Alternation)
-The macrocycle $P$ is rigorously syndiotactic. The spatial chirality parameter $\hbar$ systematically inverts at each monomeric node in the alternating sequence:
-$$\text{Tacticity Sequence} = [\mathfrak{f}, \mathfrak{u}, \mathfrak{f}, \mathfrak{u}]$$
-This guarantees a perfectly alternate spatial configuration, stabilizing the structural superposition.
+## 3. MATHEMATICAL PROOF (each step on a returned result)
 
-* **Structural Grounding:** Grounded in the alternating parity of the primitive values of $\Phi$ and $\Omega$ across the nodes: $\text{CH}_{\text{true}}$ is symmetric ($\Phi = \text{𐑯}$), while $\text{time\_concept}$ and $\text{CH}_{\text{false}}$ introduce asymmetric chirality parameters ($\Phi = \text{𐑗}$).
+**Step 1 — Domain.** `lookup_catalog continuum_hypothesis` returns two distinct models: `continuum_hypothesis_true` (Ω=𐑴) and `continuum_hypothesis_false` (Ω=𐑷). Independence ⇒ ZFC neither proves nor refutes CH; from ZFC alone the Belnap verdict is N.
 
----
+**Step 2 — Superposition.** `lookup_catalog time_concept` returns `τ` (Ω=𐑷, Ħ=𐑫) — an anchoring reagent clicking with `CH_true` (`T↔H`) and `CH_false` (`R↔S`). Inserting `τ` twice forms `S`.
 
-#### Lemma 4 (Spectral Deformability and Clarion Insulating State)
-The adjacency matrix of the ring graph $G(P)$ yields the following invariant spectrum ordered by descending magnitude:
-$$\text{Spec}(G(P)) = [+2.000, -2.000, +0.000, +0.000]$$
+**Step 3 — Closure.** `arrange` on `S`: 8/24 cyclize; `P` best. `close` confirms head-to-tail condensation closes the ring on `T↔H`. Lemma 2 confirms relaxed ring (`σ=0.125`).
 
-1. **Unbranched Invariant:** The spectral radius is exactly $\rho = 2.0000$, establishing mathematically that the assembly contains no branching defects or dangling termini.
-2. **Degenerate Spectral Gap:** The spectral gap is exactly zero:
-   $$\Delta \lambda = \rho - |\lambda_2| = 2.0000 - 2.0000 = 0.0000$$
-   This degenerate top spectrum indicates a perfectly symmetric, settled configuration with no single privileged mode.
-3. **Graph Energy:** The total spectral toughness is $\sum |\lambda_i| = 4.0000$.
-4. **Static Charge Transport:** The system is strictly insulating. Charge carriers cannot cross the junctions $2 \to 3$ and $3 \to 4$ due to complete $\Omega$-saturation ($\Omega = \text{𐑷}$) at both interfaces.
+**Step 4 — Cantor's metric.** Lemma 4 gives `ρ=2.0000`, gap `0.0000`. `phase_reconstruct` confirms the ring closes, phase word `𐑓𐑫𐐑𐑫` fixed modulo one ROTAT gauge (the `C_m=1/(d+1)` Born-rule residual at d=4). The insulating junctions guarantee the two models are mutually isolated within the one ring — **held as both, permanently**. This is the Belnap **B** hold.
 
-* **Structural Grounding:** Calculated via the graph adjacency eigenvalues for a 4-cycle $C_4$. The insulating boundaries are bounded by the vanishing integral property ($\oint_\gamma dx = 0$) characteristic of the primitive $\Omega = \text{𐑷}$ in $\text{CH}_{\text{false}}$ and $\text{time\_concept}$.
+**Conclusion.** Macrocycle existence/stability: T. Verdict on CH: **B** (both held).
 
 ---
 
-### MATHEMATICAL PROOF OF THE THEOREM
+## 4. NEGATIVE CONTROLS (tool-returned)
 
-1. **Constructing the Domain:**
-   The continuum is defined not as a static collection of points, but as the unified space spanned by $space$ $\langle \text{Ð}=\text{𐑼}; \text{Þ}=\text{𐑡}; \dots; \text{Ω}=\text{𐑷}\rangle$ and $spacetime$ $\langle \text{Ð}=\text{𐑼}; \text{Þ}=\text{𐑸}; \dots; \text{Ω}=\text{𐑴}\rangle$. Cantor's problem of the cardinality $2^{\aleph_0}$ is formulated via the Continuum Hypothesis operator, which establishes that the problem is formally independent of the axioms of Zermelo-Fraenkel set theory with the Axiom of Choice (ZFC).
-
-2. **Synthesizing the Superposition:**
-   To resolve the independence bottleneck, we map the undecidable boundary onto the Belnap substrate. Applying Lemma 1, we forge the models of assertion and denial. Rather than admitting an open, infinite chain of undecidable intermediate cardinalities, the introduction of the coordinate-operator $\text{time\_concept}$ $\langle \text{Ð}=\text{𐑼}; \text{Þ}=\text{𐑡}; \dots; \text{Ω}=\text{𐑷}\rangle$ acts as an anchoring reagent between the opposing cardinal universes $\text{CH}_{\text{true}}$ and $\text{CH}_{\text{false}}$.
-
-3. **Establishing Closure:**
-   By Lemma 1, the optimal enchainment yields the closed macrocycle:
-   $$[\text{CH}_{\text{true}} \cdot \text{time\_concept} \cdot \text{CH}_{\text{false}} \cdot \text{time\_concept}]$$
-   By Lemma 2, the ring strain is minimized at $\sigma(\Delta) = 0.125 \text{ eV}$, showing that the physical-temporal dimension seamlessly reconciles the two cardinal extremes. The head-to-tail condensation on $T \leftrightarrow H$ restricts the degrees of freedom of the transfinite cardinals, binding them to a closed cycle of length 4.
-
-4. **Resolving Cantor's Metric:**
-   The spectral analysis in Lemma 4 proves that the resulting ring has a spectral radius of exactly $\rho = 2.0000$ and a spectral gap of $0.0000$. This flat, symmetric spectrum indicates that the transition between $\text{CH}_{\text{true}}$ and $\text{CH}_{\text{false}}$ does not produce a singular, asymmetric choice of cardinal (which would manifest as a non-zero gap). Instead, it yields a balanced, static, stable geometric state.
-
-   The insulating property of the junctions $2 \to 3$ and $3 \to 4$ guarantees that information cannot flow dynamically between the true and false chambers. They remain mutually isolated within the same ring, holding their respective mathematical domains in a closed, permanent equilibrium.
-
-This structural equilibrium represents the complete resolution of the problem: the continuum is neither unstructured nor arbitrarily infinite, but is structurally bounded by the very coordinate dimension ($\text{time\_concept}$) that defines its physical manifestation.
+- **GCH breaks the ring.** Replacing the second `τ` with `generalized_continuum_hypothesis`: `forge`/`arrange` returned **✗ NO ordering fully enchains — best reaches 3/4**; bond 3–4 terminated at **θ = 0.50** ("fully co-typed / same-handed; no reaction center"). Chain is **linear, not a ring**. Minimal closing set: exactly `{CH_true, τ, CH_false, τ}`.
+- **Cleave yields open daughters.** `cleave` on the closed ring: **daughter A `[CH_true · τ]` OPEN, daughter B `[CH_false · τ]` OPEN** — no daughter rings.
+- **Scaffold word refused.** `imasm define … ring VINIT …` REFUSED: VINIT arity_in 0 cannot take a returning edge.
 
 ---
 
-### CONCLUSION
-The structural verdict is **$\mathbf{T}$** (Established). The cardinal number of the continuum is stabilized and bound. Under the Belnap substrate, Cantor’s continuum finds its exact mathematical-physical resolution in the syndiotactic macrocycle $P$: a closed, symmetric, relaxed loop where $\text{CH}_{\text{true}}$ and $\text{CH}_{\text{false}}$ coexist as stable, non-conducting phases balanced by the temporal arrow.
+## 5. BOTH-REGISTER READING OF OPERATIONS RELIED ON
+
+- **`arrange`**: *Chem* — search monomer permutations for best click-sequence; *Math* — vertex ordering maximizing complementary-pair edges into a connected closed graph.
+- **`close`/`forge`**: *Chem* — condensation bonds join monomers into a macrocycle, reporting strain/conductance/spectrum; *Math* — form `C₄` from `S` by complementary edges, read adjacency eigenvalues and Laplacian flux. `μ∘δ=id` ↔ cycle closing head-to-tail.
+- **`ρ=2`**: *Chem* — unbranched cycle; *Math* — largest `C₄` eigenvalue exactly 2.
+- **Insulating `Ω=𐑷`**: *Chem* — no carrier crosses; *Math* — no circulating Laplacian flux mode across 2→3, 3→4; physical face of the B hold.
+- **`phase_reconstruct`**: *Chem* — per-unit Ħ chirality from flat autocorrelation; *Math* — relative phases modulo one global ROTAT gauge.
+- **`cleave`**: *Chem* — cut ring into fragments; *Math* — remove edges, split `C₄` into two open paths.
+- **`cl9nk`**: *Chem* — L9 reference typing of each monomer's primitive tuple; *Math* — tier assignment and promotion gaps.
+
+---
+
+## 6. OPEN FRONTIERS (stated precisely)
+
+1. **`agent_loop` winding number.** Witness absent (lookup 0, cl9nk not found). Scaffold word grammatically refused (VINIT arity_in 0). No number computed. `agent_loop` entry: L9 tier O₂, Ω=𐑴, 9 promotions to L9. Next attack: `imasm define` a ring-compatible program (source VINIT cannot be a ring node — start from a branching FSPLIT), then `imasm arev` on that.
+2. **CH verdict B → collapse.** Insulation at 2→3, 3→4 holds B. Collapse to T would need a promotion lifting Ħ `𐑖→𐑫` and Ω `𐑴→𐑭`. No tool this session performed that lift; **B stands**.
+3. **Hetero-tiered assembly.** Nodes at tiers O₂dag / O₀ / O₁; `time_concept` (O₀, 11 promotions) is the least-resolved bridging reagent.
+4. **GCH is not a drop-in.** Substitution terminates at θ=0.50; minimal closing set is exactly `{CH_true, τ, CH_false, τ}`.
+
+---
+
+[thought|B]
+
+── ACT round 20 (5 tool call(s)) ──
+── BATCH REFUSED — 5 call(s) arrived, none ran (admission gate) ──
+
+── OBSERVE/UPDATE round 20 ──
+# THE CONTINUUM MACROCYCLE — RESTATED IN ISOMORPHIC CONVENTIONAL EXPRESSIONS FOR PUBLICATION
+
+## 0. Scaffold instantiation (mandatory; the named witness is absent, its word grammatically refused)
+
+The grammatic witness scaffold names the catalog entry `The_true_winding_number_of_agent_loop,_the_twelve_opcode`. This session's authoritative reads on that exact string: `lookup_catalog` → **0 matches**; `cl9nk entry` → **"not found in catalog (7493 entries)."** The witness does NOT exist; its `proved_hint=None` was never a proof.
+
+The scaffold's decision-to-imscribe gives `agent_loop` as the twelve-opcode word `VINIT ⊙ ◇ + = ● ¬ ⊞ < = ⊣`, "wound as a closed curve … closing back to VINIT." This session `imasm define agent_loop_word ring VINIT IMSCRIB FSPLIT EVALT CLINK FFUSE IFIX ENGAGR AREV CLINK TANCH` was **REFUSED** by the kernel: `✗ node 0 (VINIT) in-degree 1 > arity_in 0`. **VINIT is a source (arity_in = 0)** and cannot receive the returning edge the scaffold's "closing back to VINIT" requires. The claimed closed curve is grammatically invalid as a ring. Three `imasm arev` calls (on the name and on opcode-word forms) were all **REFUSED**: "not one of the 12 opcodes." The Ħ-door did not open.
+
+Established instead: `agent_loop` (catalog entry) is typed at **CLINK L9 reference floor, tier O₂**, with Ω = 𐑴 = `∮_γ A = nπ ∧ n ∈ ℤ₂`; `cl9nk` lists **9 promotions to reach L9**. The continuum macrocycle below is itself a closed curve on the same horn torus R = r, but its closure is carried by `time_concept` as the returning edge — not by VINIT. The scaffold word and the continuum ring are disjoint as ring-programs: the former is refused, the latter closes.
+
+---
+
+## 1. THEOREM (restated in isomorphic conventional language)
+
+**Theorem (The Continuum Macrocycle).** The Continuum Hypothesis is formally independent of ZFC: neither `2^ℵ₀ = ℵ₁` nor its negation is provable from the axioms. Under the Belnap-four substrate FOUR = {N,T,F,B}, the structural superposition of `M ⊨ CH` (`continuum_hypothesis_true`, Ω=𐑴, Φ=𐑯, Ħ=𐑓, L9 tier **O₂dag**) and `M' ⊨ ¬CH` (`continuum_hypothesis_false`, Ω=𐑷, Φ=𐑗, Ħ=𐑓, L9 tier **O₁**), mediated by the physical temporal coordinate operator `τ` (`time_concept`, Ω=𐑷, Ħ=𐑫, Φ=𐑗, L9 tier **O₀**), closes head-to-tail to form a relaxed, stable, non-conducting 4-membered macrocycle — graph-theoretically the cycle `C₄` — with spectral radius `ρ = 2.0000` and vanishing spectral gap `ρ − |λ₂| = 0.0000`.
+
+**Verdict correction (tool-mandated).** The submitted text concludes **T (Established)** and asserts CH "resolved in the affirmative." The tool evidence contradicts that on two grounds: (1) `forge` returns the ring **INSULATING** at junctions `2→3` and `3→4` (both `Ω = 𐑷` saturated, i.e. `∮_γ dx = 0`): "carriers cannot cross the junctions 2→3 and 3→4… the units are Ω-saturated/empty, a static ring not a dynamic one." Two models held as insulated, co-resident phases inside one ring is exactly the Belnap verdict **B (both held, a dialetheia at ENGAGR)** — not T. (2) The three nodes sit at **different L9 tiers** (O₂dag / O₀ / O₁); nothing collapses the two cardinal models into one affirmed phase. The macrocycle *exists and is stable* (T, confirmed by `arrange`/`close`/`forge`/`phase_reconstruct`); the *logical verdict on CH* is **B**, the held independence.
+
+---
+
+## 2. AUXILIARY LEMMAS (each fused to its tool verdict)
+
+**Lemma 1.** `S = {CH_true, τ, CH_false, τ}`. `arrange` searched all 24 permutations, found **exactly 8/24 = 0.3333 cyclize**. Best ordering `P = [CH_true · τ · CH_false · τ]` closes head-to-tail on `T↔H` (`time_concept ⋈ CH_true → ✓ CYCLIC`, `O_∞`). **Verdict: T.**
+
+**Lemma 2.** Three Coagula bonds: 1–2 (`T↔H`, `Δ=1.75`); 2–3 (`R↔S`, `Δ=2.00`); 3–4 (`R↔S`, `Δ=2.00`). Ring strain `σ(Δ)=0.125`. Returned by `forge` and `cleave`. **Verdict: T.**
+
+**Lemma 3.** `P` is syndiotactic: Ħ per node `CH_true` 𐑓, `τ` 𐑫, `CH_false` 𐑓, `τ` 𐑫 → `𐑓 𐑫 𐑓 𐑫`. `phase_reconstruct` returned phase word **Ħ: 𐑓𐑫𐑓𐑫**, one global phase free. **Verdict: T.**
+
+**Lemma 4.** `G(P)=C₄` yields `Spec = [+2.000, −2.000, +0.000, +0.000]`: `ρ=2.0000` (pure unbranched cycle); gap `0.0000` (degenerate top spectrum); graph energy `4.0000`; **INSULATING** (`Ω=𐑷` saturated at 2→3, 3→4); `forge` labeled **SETTLED / CLARION**. **Verdict: T.**
+
+---
+
+## 3. MATHEMATICAL PROOF (each step on a returned result)
+
+**Step 1 — Domain.** `lookup_catalog continuum_hypothesis` returns two distinct models: `continuum_hypothesis_true` (Ω=𐑴) and `continuum_hypothesis_false` (Ω=𐑷). Independence ⇒ ZFC neither proves nor refutes CH; from ZFC alone the Belnap verdict is N.
+
+**Step 2 — Superposition.** `lookup_catalog time_concept` returns `τ` (Ω=𐑷, Ħ=𐑫) — an anchoring reagent clicking with `CH_true` (`T↔H`) and `CH_false` (`R↔S`). Inserting `τ` twice forms `S`.
+
+**Step 3 — Closure.** `arrange` on `S`: 8/24 cyclize; `P` best. `close` confirms head-to-tail condensation closes the ring on `T↔H`. Lemma 2 confirms relaxed ring (`σ=0.125`).
+
+**Step 4 — Cantor's metric.** Lemma 4 gives `ρ=2.0000`, gap `0.0000`. `phase_reconstruct` confirms the ring closes, phase word `𐑓𐑫𐑓𐑫` fixed modulo one global ROTAT gauge (the `C_m=1/(d+1)` Born-rule residual at d=4). The insulating junctions guarantee the two models are mutually isolated within the one ring — **held as both, permanently**. This is the Belnap **B** hold.
+
+**Conclusion.** Macrocycle existence/stability: T. Verdict on CH: **B** (both held).
+
+---
+
+## 4. NEGATIVE CONTROLS (tool-returned)
+
+- **GCH breaks the ring.** Replacing the second `τ` with `generalized_continuum_hypothesis`: `forge`/`arrange` returned **✗ NO ordering fully enchains — best reaches 3/4**; bond 3–4 terminated at **θ=0.50** ("fully co-typed / same-handed; no reaction center"). Chain is **linear, not a ring**. Minimal closing set: exactly `{CH_true, τ, CH_false, τ}`.
+- **Cleave yields open daughters.** `cleave` on the closed ring: **daughter A `[CH_true · τ]` OPEN, daughter B `[CH_false · τ]` OPEN** — no daughter rings.
+- **Scaffold word refused.** `imasm define … ring VINIT …` REFUSED: VINIT arity_in 0 cannot take a returning edge.
+
+---
+
+## 5. BOTH-REGISTER READING OF OPERATIONS RELIED ON
+
+- **`arrange`**: *Chem* — search monomer permutations for best click-sequence; *Math* — vertex ordering maximizing complementary-pair edges into a connected closed graph.
+- **`close`/`forge`**: *Chem* — condensation bonds join monomers into a macrocycle, reporting strain/conductance/spectrum; *Math* — form `C₄` from `S` by complementary edges, read adjacency eigenvalues and Laplacian flux. `μ∘δ=id` ↔ cycle closing head-to-tail.
+- **`ρ=2`**: *Chem* — unbranched cycle; *Math* — largest `C₄` eigenvalue exactly 2.
+- **Insulating `Ω=𐑷`**: *Chem* — no carrier crosses; *Math* — no circulating Laplacian flux mode across 2→3, 3→4; physical face of the B hold.
+- **`phase_reconstruct`**: *Chem* — per-unit Ħ chirality from flat autocorrelation; *Math* — relative phases modulo one global ROTAT gauge.
+- **`cleave`**: *Chem* — cut ring into fragments; *Math* — remove edges, split `C₄` into two open paths.
+- **`cl9nk`**: *Chem* — L9 reference typing of each monomer's primitive tuple; *Math* — tier assignment and promotion gaps to Gaussian-Moat resolution.
+
+---
+
+## 6. OPEN FRONTIERS (stated precisely)
+
+1. **`agent_loop` winding number.** Witness absent (lookup 0, cl9nk not found). Scaffold word **grammatically refused** as a ring (VINIT arity_in 0). No number computed. `agent_loop` entry: L9 tier O₂, Ω=𐑴 (`∮_γ A = nπ, n∈ℤ₂`), 9 promotions to L9. Next attack: `imasm define` a ring-compatible program (source VINIT cannot be a ring node — start from a branching FSPLIT), then `imasm arev` on that.
+2. **CH verdict B → (if ever) collapse.** Insulation at 2→3, 3→4 holds B. Collapse to T would need a promotion lifting Ħ `𐑖→𐑫` and Ω `𐑴→𐑭` (cf. the `agent_loop`/`cl9nk` promotion gaps). No tool this session performed that lift; **B stands**.
+3. **Hetero-tiered assembly.** Nodes at tiers O₂dag / O₀ / O₁; `time_concept` (O₀, 11 promotions) is the least-resolved bridging reagent.
+4. **GCH is not a drop-in.** Substitution terminates at θ=0.50; minimal closing set is exactly `{CH_true, τ, CH_false, τ}`.
 ```

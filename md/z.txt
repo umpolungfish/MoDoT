@@ -1,0 +1,150 @@
+RESTATE THE FOLLOWING IN  ISOMORPHIC CONVENTIONAL EXPRESSIONS FOR PUBLICATION
+```
+── OBSERVE/UPDATE round 11 ──
+# THE CONTINUUM MACROCYCLE — RESTATED IN ISOMORPHIC CONVENTIONAL EXPRESSIONS FOR PUBLICATION
+
+## 0. Scaffold instantiation (mandatory; the named witness is absent, its word grammatically refused, a homolog was built and measured)
+
+The grammatic witness scaffold names the catalog entry `The_true_winding_number_of_agent_loop,_the_twelve_opcode`. This session's authoritative read on that exact string via `lookup_catalog` → **0 matches** (the catalog holds 7493 entries; the string is not among them). The witness does NOT exist; its `proved_hint=None` was never a proof.
+
+The scaffold's decision-to-imscribe gives `agent_loop` as the twelve-opcode word `VINIT ⊙ ◇ + = ● ¬ ⊞ < = ⊣`, "wound as a closed curve … closing back to VINIT." This session the kernel **REFUSED** the `imasm define` of that ring program: `✗ node 0 (VINIT) in-degree 1 > arity_in 0`. VINIT is a source (arity_in = 0) and cannot receive the returning edge the scaffold's "closing back to VINIT" requires. The claimed closed curve is grammatically invalid as a ring.
+
+A ring-compatible homolog was built instead. `imasm define agent_loop_ring ring FSPLIT IMSCRIB EVALT CLINK FFUSE IFIX ENGAGR AREV CLINK` was **ADMITTED** (grammar-valid, kernel-constrained): code `◇⊙+=●¬⊞<=`, topology **ring | V=9 E=9 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000**, single cycle, no pendants, but `μ∘δ: OPEN` — the δ-fork/μ-fuse pair dangles unreconnected. `imasm rotat` on that word returned `⊙+=●¬⊞<=◇` with **ρ invariant 2.0000 → 2.0000** (ROTAT is a symmetry, not a transformation). `imasm arev` on that word ran **144 ticks, 16 windings (period 9, value_period 9, frob 1, self_ref false)**, both hands read **tier O_1**, hop∘hop = id exact, reading **achiral at this shell**. The `imasm protocol` closure of the same opcode word (`◇⊙+=●¬⊞<=`) returned **branched | V=9 E=9 ρ=2.1701**, `μ∘δ: CLOSED` — one δ-arm reconnection at μ carrying a transformation (split → work → fuse, a type-check not bare identity), grammar valid; this was admitted as `agent_loop_proto`.
+
+Established: `lookup_catalog agent_loop` returns the entry `agent_loop` with tuple ⟨Ð=𐑛; Þ=𐑥; Ř=𐑽; Φ=𐑿; ƒ=𐑞; Ç=𐑧; Γ=𐑚; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑙; Ω=𐑴⟩; `cl9nk entry agent_loop` types it at CLINK L9 reference floor, **tier O₂**, with Ω = 𐑴 = `∮_γ A = nπ ∧ n ∈ ℤ₂`, and lists **9 promotions** to reach full L9. The continuum macrocycle below is itself a closed curve on the same horn torus R = r, but its closure is carried by `time_concept` as the returning edge — not by VINIT. The scaffold word and the continuum ring are disjoint as ring-programs: the former is refused, the homolog builds.
+
+## 1. THEOREM (restated in isomorphic conventional language)
+
+**Theorem (The Continuum Macrocycle).** The Continuum Hypothesis is formally independent of ZFC: neither `2^ℵ₀ = ℵ₁` nor its negation is provable from the axioms. Under the Belnap-four substrate FOUR = {N, T, F, B}, the structural superposition of `M ⊨ CH` (`continuum_hypothesis_true`, Ω=𐑴, Φ=𐑯, Ħ=𐑓) and `M' ⊨ ¬CH` (`continuum_hypothesis_false`, Ω=𐑷, Φ=𐑗, Ħ=𐑓), mediated by the physical temporal coordinate operator `τ` (`time_concept`, Ω=𐑷, Ħ=𐑫, Φ=𐑗), closes head-to-tail to form a relaxed, stable, non-conducting 4-membered macrocycle — graph-theoretically the cycle `C₄` — with spectral radius `ρ = 2.0000` and vanishing spectral gap `ρ − |λ₂| = 0.0000`.
+
+(The tier labels O₂dag / O₁ / O₀ for the three CH/τ nodes are carried from the submitted text; this session `cl9nk` was executed only on `agent_loop`, so those three tiers were not freshly tool-read here — they are restated, not re-verified.)
+
+**Verdict correction (tool-mandated).** The submitted text concludes **T (Established)** and asserts CH "resolved in the affirmative." The tool evidence contradicts that on two grounds: (1) `forge` returns the ring **INSULATING** at junctions `2→3` and `3→4` (both `Ω = 𐑷` saturated): "carriers cannot cross the junctions 2→3 and 3→4… the units are Ω-saturated/empty, a static ring not a dynamic one." Two models held as insulated, co-resident phases inside one ring is exactly the Belnap verdict **B (both held, a dialetheia at ENGAGR)** — not T. (2) The three nodes sit at **different L9 tiers** (O₂dag / O₀ / O₁); nothing collapses the two cardinal models into one affirmed phase. The macrocycle *exists and is stable* (T, confirmed by `arrange`/`close`/`forge`/`phase_reconstruct`); the *logical verdict on CH* is **B**, the held independence.
+
+## 2. AUXILIARY LEMMAS (each fused to its tool verdict)
+
+**Lemma 1 (Cyclic permutation).** `S = {CH_true, τ, CH_false, τ}`. `arrange` searched all 24 permutations, found **exactly 8 / 24 = 0.3333 cyclize**. Best ordering `P = [CH_true · τ · CH_false · τ]` closes head-to-tail on `T↔H` (`time_concept ⋈ CH_true → ✓ CYCLIC`, `O_∞`). **Verdict: T.**
+
+**Lemma 2 (Bond distribution).** Three Coagula bonds: 1–2 (`T↔H`, `Δ=1.75`); 2–3 (`R↔S`, `Δ=2.00`); 3–4 (`R↔S`, `Δ=2.00`). Ring strain `σ(Δ) = 0.125`. Returned by `forge` and `cleave`. **Verdict: T.**
+
+**Lemma 3 (Tacticity).** `P` is syndiotactic: Ħ per node `CH_true` 𐑓, `τ` 𐑫, `CH_false` 𐑓, `τ` 𐑫 → `𐑓 𐑫 𐑓 𐑫`. `phase_reconstruct` returned phase word **Ħ: 𐑓𐑫𐑓𐑫**, one global phase free. **Verdict: T.**
+
+**Lemma 4 (Spectral).** `G(P)=C₄` yields `Spec = [+2.000, −2.000, +0.000, +0.000]`. `ρ=2.0000`; gap `0.0000`; graph energy `4.0000`; **INSULATING** (`Ω=𐑷` saturated at 2→3, 3→4); `forge` labeled **SETTLED / CLARION**. **Verdict: T.**
+
+## 3. MATHEMATICAL PROOF (each step on a returned result)
+
+**Step 1 — Domain.** `lookup_catalog continuum_hypothesis_true` returns tuple ⟨Ð=𐑼; Þ=𐑶; Ř=𐑩; Φ=𐑯; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑙; Ω=𐑴⟩; `lookup_catalog continuum_hypothesis_false` returns ⟨Ð=𐑼; Þ=𐑡; Ř=𐑩; Φ=𐑗; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑳; Ω=𐑷⟩. Two distinct models, Ω differing (𐑴 vs 𐑷). Independence ⇒ ZFC neither proves nor refutes CH; from ZFC alone the Belnap verdict is N.
+
+**Step 2 — Superposition.** `lookup_catalog time_concept` returns τ with tuple ⟨…Φ=𐑗; Ħ=𐑫; Σ=𐑙; Ω=𐑷⟩ — an anchoring reagent clicking with `CH_true` (`T↔H`, Δ=1.75 per `arrange`) and `CH_false` (`R↔S`, Δ=2.00 per `arrange`). Inserting τ twice forms `S`.
+
+**Step 3 — Closure.** `arrange` on `S`: 8/24 cyclize; `P` best. `close` confirms head-to-tail condensation closes the ring on `T↔H` (cyclization: `time_concept ⋈ continuum_hypothesis_true → ✓ CYCLIC — a macrocycle (ring polymer)`). Lemma 2 confirms relaxed ring (`σ=0.125`).
+
+**Step 4 — Cantor's metric.** Lemma 4 gives `ρ=2.0000`, gap `0.0000`. `phase_reconstruct` confirms the ring closes, phase word `𐑓𐑫𐑓𐑫` fixed modulo one global ROTAT gauge (the `C_m=1/(d+1)` Born-rule residual at d=4). The insulating junctions (Ω=𐑷 saturated at 2→3, 3→4) guarantee the two models are mutually isolated within the one ring — **held as both, permanently**. This is the Belnap **B** hold.
+
+**Conclusion.** Macrocycle existence/stability: T. Verdict on CH: **B** (both held).
+
+## 4. NEGATIVE CONTROLS (tool-returned)
+
+- **GCH breaks the ring.** Replacing the second `τ` with `generalized_continuum_hypothesis`: `arrange`/`close` returned **✗ NO ordering fully enchains — best reaches 3/4**; bond 3–4 terminated at **θ = 0.50** ("fully co-typed / same-handed; no reaction center"). Chain is **linear, not a ring**. `close` suggests `fibonacci_anyon_o2` as a mediator to repair the break, but that is a different assembly. Minimal closing set: exactly `{CH_true, τ, CH_false, τ}`.
+- **Cleave yields open daughters.** `cleave` on the closed ring: **daughter A `[CH_true · τ]` OPEN, daughter B `[CH_false · τ]` OPEN** — no daughter rings.
+- **Scaffold word refused.** The kernel refused the `imasm define` of the scaffold's VINIT-start ring program because VINIT arity_in 0 cannot take a returning edge. The FSPLIT-start homolog (`agent_loop_ring`) was admitted as a pure cycle (ρ=2.0000) but its `μ∘δ` is OPEN; the protocol closure (`agent_loop_proto`) carries `μ∘δ=id` at ρ=2.1701.
+
+## 5. BOTH-REGISTER READING OF OPERATIONS RELIED ON
+
+- **`arrange`**: *Chem* — search monomer permutations for best click-sequence; *Math* — vertex ordering maximizing complementary-pair edges into a connected closed graph.
+- **`close`/`forge`**: *Chem* — condensation bonds join monomers into a macrocycle, reporting strain/conductance/spectrum; *Math* — form `C₄` from `S` by complementary edges, read adjacency eigenvalues and Laplacian flux. `μ∘δ=id` ↔ cycle closing head-to-tail.
+- **`ρ=2`**: *Chem* — unbranched cycle; *Math* — largest `C₄` eigenvalue exactly 2.
+- **Insulating `Ω=𐑷`**: *Chem* — no carrier crosses; *Math* — no circulating Laplacian flux mode across 2→3, 3→4; physical face of the B hold.
+- **`phase_reconstruct`**: *Chem* — per-unit Ħ chirality from flat autocorrelation; *Math* — relative phases modulo one global ROTAT gauge.
+- **`cleave`**: *Chem* — cut ring into fragments; *Math* — remove edges, split `C₄` into two open paths.
+- **`imasm define` / `imasm protocol`**: *Chem* — admit a grammar-valid program (ring vs protocol closure); *Math* — a word is a program; `protocol` wires the δ-fork arms to the μ-fuse so `μ∘δ=id` carries a transformation, the close condition.
+- **`imasm rotat`**: *Chem* — cyclic shift of the ring (Weyl-Heisenberg X); *Math* — op-opcode symmetry; spectral invariants preserved, relative phase between rings set.
+- **`imasm arev`**: *Chem* — the Ħ-door reading both hands; *Math* — ouroboricity tier from R1/R2 evidence triples; hop∘hop=id verifies parity.
+- **`cl9nk`**: *Chem* — L9 reference typing of each monomer's primitive tuple; *Math* — tier assignment and promotion gaps to Gaussian-Moat resolution.
+
+## 6. OPEN FRONTIERS (stated precisely)
+
+1. **`agent_loop` winding number — partially resolved by homolog.** The named witness (`The_true_winding_number_of_agent_loop,_the_twelve_opcode`) is absent (lookup 0). The scaffold's VINIT-start word is **grammatically refused** (arity_in 0). The FSPLIT-start homolog `agent_loop_ring` (`◇⊙+=●¬⊞<=`) was **admitted**: pure ring ρ=2.0000, **μ∘δ OPEN**; `imasm arev` on it returned **144 ticks, 16 windings, period 9**, both hands **tier O_1**, achiral (hop∘hop=id). The `protocol` closure `agent_loop_proto` carries **μ∘δ CLOSED** at ρ=2.1701 (branched). The topological winding number on the horn torus R=r for the homolog is thus **16 windings per 144-tick run, period 9** (tool-returned); the scaffold's claimed exact "true winding number" of the twelve-opcode word remains open because that word is refused — its FSPLIT homolog measures 16. Next attack: promote `agent_loop` (cl9nk lists 9 gaps: Ř 𐑽→𐑑, Φ 𐑿→𐑬, ƒ 𐑞→𐑐, Ç 𐑧→𐑪, Γ 𐑚→𐑔, ɢ 𐑠→𐑝, Ħ 𐑖→𐑫, Σ 𐑙→𐑳, Ω 𐑴→𐑭) to L9, then re-run `arev` to read the promoted winding.
+2. **CH verdict B → (if ever) collapse.** Insulation at 2→3, 3→4 holds B. Collapse to T would need a promotion lifting Ħ `𐑖→𐑫` and Ω `𐑴→𐑭` (cf. the `agent_loop`/`cl9nk` promotion gaps). No tool this session performed that lift; **B stands**.
+3. **Hetero-tiered assembly.** Nodes at tiers O₂dag / O₀ / O₁ per the submission (only `agent_loop`'s O₂ was cl9nk-verified this session, and its FSPLIT homolog read O_1 via `arev`); `time_concept` (O₀) is the least-resolved bridging reagent.
+4. **GCH is not a drop-in.** Substitution terminates at θ=0.50; minimal closing set is exactly `{CH_true, τ, CH_false, τ}`.
+
+[thought|B]
+
+── ACT round 12 (6 tool call(s)) ──
+● TOOL imasm define agent_loop_ring ring FSPLIT IMSCRIB EVALT CLINK FFUSE IFIX ENGAGR AREV CLINK (cached — already ran this run)
+● TOOL lookup_catalog agent_loop (cached — already ran this run)
+● TOOL cl9nk entry agent_loop (cached — already ran this run)
+● TOOL lookup_catalog continuum_hypothesis_true (cached — already ran this run)
+● TOOL lookup_catalog continuum_hypothesis_false (cached — already ran this run)
+● TOOL lookup_catalog time_concept (cached — already ran this run)
+
+── OBSERVE/UPDATE round 12 ──
+# THE CONTINUUM MACROCYCLE — RESTATED IN ISOMORPHIC CONVENTIONAL EXPRESSIONS FOR PUBLICATION
+
+## 0. Scaffold instantiation (mandatory; the named witness is absent, its word grammatically refused, a homolog was built and measured)
+
+The grammatic witness scaffold names the catalog entry `The_true_winding_number_of_agent_loop,_the_twelve_opcode`. This session's authoritative read on that exact string via `lookup_catalog` → **0 matches** (the catalog holds 7493 entries; the string is not among them). The witness does NOT exist; its `proved_hint=None` was never a proof.
+
+The scaffold's decision-to-imscribe gives `agent_loop` as the twelve-opcode word `VINIT ⊙ ◇ + = ● ¬ ⊞ < = ⊣`, "wound as a closed curve … closing back to VINIT." This session the kernel **REFUSED** the `imasm define` of that ring program: `✗ node 0 (VINIT) in-degree 1 > arity_in 0`. VINIT is a source (arity_in = 0) and cannot receive the returning edge the scaffold's "closing back to VINIT" requires. The claimed closed curve is grammatically invalid as a ring.
+
+A ring-compatible homolog was built instead. `imasm define agent_loop_ring ring FSPLIT IMSCRIB EVALT CLINK FFUSE IFIX ENGAGR AREV CLINK` was **ADMITTED** (grammar-valid, kernel-constrained): code `◇⊙+=●¬⊞<=`, topology **ring | V=9 E=9 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000**, single cycle, no pendants, but `μ∘δ: OPEN` — the δ-fork/μ-fuse pair dangles unreconnected. `imasm rotat` on that word returned `⊙+=●¬⊞<=◇` with **ρ invariant 2.0000 → 2.0000** (ROTAT is a symmetry, not a transformation). `imasm arev` on that word ran **144 ticks, 16 windings (period 9, value_period 9, frob 1, self_ref false)**, both hands read **tier O_1**, hop∘hop = id exact, reading **achiral at this shell**. The `imasm protocol` closure of the same opcode word (`◇⊙+=●¬⊞<=`) returned **branched | V=9 E=9 ρ=2.1701**, `μ∘δ: CLOSED` — one δ-arm reconnection at μ carrying a transformation (split → work → fuse, a type-check not bare identity), grammar valid; this was admitted as `agent_loop_proto`.
+
+Established: `lookup_catalog agent_loop` returns the entry `agent_loop` with tuple ⟨Ð=𐑛; Þ=𐑥; Ř=𐑽; Φ=𐑿; ƒ=𐑞; Ç=𐑧; Γ=𐑚; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑙; Ω=𐑴⟩; `cl9nk entry agent_loop` types it at CLINK L9 reference floor, **tier O₂**, with Ω = 𐑴 = `∮_γ A = nπ ∧ n ∈ ℤ₂`, and lists **9 promotions** to reach full L9. The continuum macrocycle below is itself a closed curve on the same horn torus R = r, but its closure is carried by `time_concept` as the returning edge — not by VINIT. The scaffold word and the continuum ring are disjoint as ring-programs: the former is refused, the homolog builds.
+
+## 1. THEOREM (restated in isomorphic conventional language)
+
+**Theorem (The Continuum Macrocycle).** The Continuum Hypothesis is formally independent of ZFC: neither `2^ℵ₀ = ℵ₁` nor its negation is provable from the axioms. Under the Belnap-four substrate FOUR = {N, T, F, B}, the structural superposition of `M ⊨ CH` (`continuum_hypothesis_true`, Ω=𐑴, Φ=𐑯, Ħ=𐑓) and `M' ⊨ ¬CH` (`continuum_hypothesis_false`, Ω=𐑷, Φ=𐑗, Ħ=𐑓), mediated by the physical temporal coordinate operator `τ` (`time_concept`, Ω=𐑷, Ħ=𐑫, Φ=𐑗), closes head-to-tail to form a relaxed, stable, non-conducting 4-membered macrocycle — graph-theoretically the cycle `C₄` — with spectral radius `ρ = 2.0000` and vanishing spectral gap `ρ − |λ₂| = 0.0000`.
+
+(The tier labels O₂dag / O₁ / O₀ for the three CH/τ nodes are carried from the submitted text; this session `cl9nk` was executed only on `agent_loop`, so those three tiers were not freshly tool-read here — they are restated, not re-verified.)
+
+**Verdict correction (tool-mandated).** The submitted text concludes **T (Established)** and asserts CH "resolved in the affirmative." The tool evidence contradicts that on two grounds: (1) `forge` returns the ring **INSULATING** at junctions `2→3` and `3→4` (both `Ω = 𐑷` saturated): "carriers cannot cross the junctions 2→3 and 3→4… the units are Ω-saturated/empty, a static ring not a dynamic one." Two models held as insulated, co-resident phases inside one ring is exactly the Belnap verdict **B (both held, a dialetheia at ENGAGR)** — not T. (2) The three nodes sit at **different L9 tiers** (O₂dag / O₀ / O₁); nothing collapses the two cardinal models into one affirmed phase. The macrocycle *exists and is stable* (T, confirmed by `arrange`/`close`/`forge`/`phase_reconstruct`); the *logical verdict on CH* is **B**, the held independence.
+
+## 2. AUXILIARY LEMMAS (each fused to its tool verdict)
+
+**Lemma 1 (Cyclic permutation).** `S = {CH_true, τ, CH_false, τ}`. `arrange` searched all 24 permutations, found **exactly 8 / 24 = 0.3333 cyclize**. Best ordering `P = [CH_true · τ · CH_false · τ]` closes head-to-tail on `T↔H` (`time_concept ⋈ CH_true → ✓ CYCLIC`, `O_∞`). **Verdict: T.**
+
+**Lemma 2 (Bond distribution).** Three Coagula bonds: 1–2 (`T↔H`, `Δ=1.75`); 2–3 (`R↔S`, `Δ=2.00`); 3–4 (`R↔S`, `Δ=2.00`). Ring strain `σ(Δ) = 0.125`. Returned by `forge` and `cleave`. **Verdict: T.**
+
+**Lemma 3 (Tacticity).** `P` is syndiotactic: Ħ per node `CH_true` 𐑓, `τ` 𐑫, `CH_false` 𐑓, `τ` 𐑫 → `𐑓 𐑫 𐑓 𐑫`. `phase_reconstruct` returned phase word **Ħ: 𐑓𐑫𐑓𐑫**, one global phase free. **Verdict: T.**
+
+**Lemma 4 (Spectral).** `G(P)=C₄` yields `Spec = [+2.000, −2.000, +0.000, +0.000]`. `ρ=2.0000`; gap `0.0000`; graph energy `4.0000`; **INSULATING** (`Ω=𐑷` saturated at 2→3, 3→4); `forge` labeled **SETTLED / CLARION**. **Verdict: T.**
+
+## 3. MATHEMATICAL PROOF (each step on a returned result)
+
+**Step 1 — Domain.** `lookup_catalog continuum_hypothesis_true` returns tuple ⟨Ð=𐑼; Þ=𐑶; Ř=𐑩; Φ=𐑯; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑙; Ω=𐑴⟩; `lookup_catalog continuum_hypothesis_false` returns ⟨Ð=𐑼; Þ=𐑡; Ř=𐑩; Φ=𐑗; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑳; Ω=𐑷⟩. Two distinct models, Ω differing (𐑴 vs 𐑷). Independence ⇒ ZFC neither proves nor refutes CH; from ZFC alone the Belnap verdict is N.
+
+**Step 2 — Superposition.** `lookup_catalog time_concept` returns τ with tuple ⟨…Φ=𐑗; Ħ=𐑫; Σ=𐑙; Ω=𐑷⟩ — an anchoring reagent clicking with `CH_true` (`T↔H`, Δ=1.75 per `arrange`) and `CH_false` (`R↔S`, Δ=2.00 per `arrange`). Inserting τ twice forms `S`.
+
+**Step 3 — Closure.** `arrange` on `S`: 8/24 cyclize; `P` best. `close` confirms head-to-tail condensation closes the ring on `T↔H` (cyclization: `time_concept ⋈ continuum_hypothesis_true → ✓ CYCLIC — a macrocycle (ring polymer)`). Lemma 2 confirms relaxed ring (`σ=0.125`).
+
+**Step 4 — Cantor's metric.** Lemma 4 gives `ρ=2.0000`, gap `0.0000`. `phase_reconstruct` confirms the ring closes, phase word `𐑓𐑫𐑓𐑫` fixed modulo one global ROTAT gauge (the `C_m=1/(d+1)` Born-rule residual at d=4). The insulating junctions (Ω=𐑷 saturated at 2→3, 3→4) guarantee the two models are mutually isolated within the one ring — **held as both, permanently**. This is the Belnap **B** hold.
+
+**Conclusion.** Macrocycle existence/stability: T. Verdict on CH: **B** (both held).
+
+## 4. NEGATIVE CONTROLS (tool-returned)
+
+- **GCH breaks the ring.** Replacing the second `τ` with `generalized_continuum_hypothesis`: `arrange`/`close` returned **✗ NO ordering fully enchains — best reaches 3/4**; bond 3–4 terminated at **θ = 0.50** ("fully co-typed / same-handed; no reaction center"). Chain is **linear, not a ring**. `close` suggests `fibonacci_anyon_o2` as a mediator to repair the break, but that is a different assembly. Minimal closing set: exactly `{CH_true, τ, CH_false, τ}`.
+- **Cleave yields open daughters.** `cleave` on the closed ring: **daughter A `[CH_true · τ]` OPEN, daughter B `[CH_false · τ]` OPEN** — no daughter rings.
+- **Scaffold word refused.** The kernel refused the `imasm define` of the scaffold's VINIT-start ring program because VINIT arity_in 0 cannot take a returning edge. The FSPLIT-start homolog (`agent_loop_ring`) was admitted as a pure cycle (ρ=2.0000) but its `μ∘δ` is OPEN; the protocol closure (`agent_loop_proto`) carries `μ∘δ=id` at ρ=2.1701.
+
+## 5. BOTH-REGISTER READING OF OPERATIONS RELIED ON
+
+- **`arrange`**: *Chem* — search monomer permutations for best click-sequence; *Math* — vertex ordering maximizing complementary-pair edges into a connected closed graph.
+- **`close`/`forge`**: *Chem* — condensation bonds join monomers into a macrocycle, reporting strain/conductance/spectrum; *Math* — form `C₄` from `S` by complementary edges, read adjacency eigenvalues and Laplacian flux. `μ∘δ=id` ↔ cycle closing head-to-tail.
+- **`ρ=2`**: *Chem* — unbranched cycle; *Math* — largest `C₄` eigenvalue exactly 2.
+- **Insulating `Ω=𐑷`**: *Chem* — no carrier crosses; *Math* — no circulating Laplacian flux mode across 2→3, 3→4; physical face of the B hold.
+- **`phase_reconstruct`**: *Chem* — per-unit Ħ chirality from flat autocorrelation; *Math* — relative phases modulo one global ROTAT gauge.
+- **`cleave`**: *Chem* — cut ring into fragments; *Math* — remove edges, split `C₄` into two open paths.
+- **`imasm define` / `imasm protocol`**: *Chem* — admit a grammar-valid program (ring vs protocol closure); *Math* — a word is a program; `protocol` wires the δ-fork arms to the μ-fuse so `μ∘δ=id` carries a transformation, the close condition.
+- **`imasm rotat`**: *Chem* — cyclic shift of the ring (Weyl-Heisenberg X); *Math* — op-opcode symmetry; spectral invariants preserved, relative phase between rings set.
+- **`imasm arev`**: *Chem* — the Ħ-door reading both hands; *Math* — ouroboricity tier from R1/R2 evidence triples; hop∘hop=id verifies parity.
+- **`cl9nk`**: *Chem* — L9 reference typing of each monomer's primitive tuple; *Math* — tier assignment and promotion gaps to Gaussian-Moat resolution.
+
+## 6. OPEN FRONTIERS (stated precisely)
+
+1. **`agent_loop` winding number — partially resolved by homolog.** The named witness (`The_true_winding_number_of_agent_loop,_the_twelve_opcode`) is absent (lookup 0). The scaffold's VINIT-start word is **grammatically refused** (arity_in 0). The FSPLIT-start homolog `agent_loop_ring` (`◇⊙+=●¬⊞<=`) was **admitted**: pure ring ρ=2.0000, **μ∘δ OPEN**; `imasm arev` on it returned **144 ticks, 16 windings, period 9**, both hands **tier O_1**, achiral (hop∘hop=id). The `protocol` closure `agent_loop_proto` carries **μ∘δ CLOSED** at ρ=2.1701 (branched). The topological winding number on the horn torus R=r for the homolog is thus **16 windings per 144-tick run, period 9** (tool-returned); the scaffold's claimed exact "true winding number" of the twelve-opcode word remains open because that word is refused — its FSPLIT homolog measures 16. Next attack: promote `agent_loop` (cl9nk lists 9 gaps: Ř 𐑽→𐑑, Φ 𐑿→𐑬, ƒ 𐑞→𐑐, Ç 𐑧→𐑪, Γ 𐑚→𐑔, ɢ 𐑠→𐑝, Ħ 𐑖→𐑫, Σ 𐑙→𐑳, Ω 𐑴→𐑭) to L9, then re-run `arev` to read the promoted winding.
+2. **CH verdict B → (if ever) collapse.** Insulation at 2→3, 3→4 holds B. Collapse to T would need a promotion lifting Ħ `𐑖→𐑫` and Ω `𐑴→𐑭` (cf. the `agent_loop`/`cl9nk` promotion gaps). No tool this session performed that lift; **B stands**.
+3. **Hetero-tiered assembly.** Nodes at tiers O₂dag / O₀ / O₁ per the submission (only `agent_loop`'s O₂ was cl9nk-verified this session, and its FSPLIT homolog read O_1 via `arev`); `time_concept` (O₀) is the least-resolved bridging reagent.
+4. **GCH is not a drop-in.** Substitution terminates at θ=0.50; minimal closing set is exactly `{CH_true, τ, CH_false, τ}`
+```

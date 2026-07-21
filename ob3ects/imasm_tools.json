@@ -134,6 +134,26 @@
     "title": "ring",
     "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "agent_loop_L9": {
+    "spec": "wire VINIT IMSCRIB FSPLIT EVALT CLINK FFUSE IFIX ENGAGR AREV CLINK TANCH IMSCRIB FSPLIT FFUSE CLINK TANCH",
+    "title": "wire (free composition)",
+    "topology": "  topology: network | V=16 E=0 β=0 branch=0 merge=0 src=16 sink=16 ρ=0.0000\n  16 disconnected strands\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 14 out, 15 in — reactive, not errors"
+  },
+  "agent_loop_promoted": {
+    "spec": "ring FSPLIT IMSCRIB EVALT CLINK FFUSE IFIX ENGAGR AREV CLINK",
+    "title": "ring",
+    "topology": "  topology: ring | V=9 E=9 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "agent_loop_proto": {
+    "spec": "protocol ◇⊙+=●¬⊞<=",
+    "title": "protocol",
+    "topology": "  topology: branched | V=9 E=9 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1701\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "agent_loop_ring": {
+    "spec": "ring FSPLIT IMSCRIB EVALT CLINK FFUSE IFIX ENGAGR AREV CLINK",
+    "title": "ring",
+    "topology": "  topology: ring | V=9 E=9 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "analyze_range": {
     "spec": "ring ⊙ > <",
     "title": "ring",
@@ -158,6 +178,11 @@
     "spec": "wire ⊙ > ◇ Γ Σ ● <",
     "title": "wire (free composition)",
     "topology": "  topology: network | V=5 E=0 β=0 branch=0 merge=0 src=5 sink=5 ρ=0.0000\n  5 disconnected strands\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 5 out, 5 in — reactive, not errors"
+  },
+  "attractor_test": {
+    "spec": "protocol ◇ + × ●",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "aux_zwind_protocol": {
     "spec": "protocol ⊙ > < Ħ Ω",
@@ -248,6 +273,11 @@
     "spec": "protocol δ μ braid_logic",
     "title": "protocol",
     "topology": "  topology: branched | V=2 E=2 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: identity — δ arms reconnect at μ but nothing transforms between them; μ∘δ=id does no work and type-checks nothing\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "braid_resolve": {
+    "spec": "protocol ◇ + × ● torsion_operator hubble_constant_tensor_sic_povm_fiducial",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "braid_select": {
     "spec": "ring AREV AFWD AREV",
@@ -439,10 +469,20 @@
     "title": "ring",
     "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "chiral_bridge": {
+    "spec": "protocol ◇ + × ● hubble_constant cosmological_constant",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "chiral_flux_macrocycle_Ω_protection": {
     "spec": "ring ⊙ > < ● ●",
     "title": "ring",
     "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 2 in — reactive, not errors"
+  },
+  "chiral_perturbation": {
+    "spec": "protocol ◇ + × ● hekhalot_rabbati",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "chiral_symmetry_breaker": {
     "spec": "ring ⊙ > < ⊙ > <",
@@ -499,6 +539,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
   },
+  "compton_proof": {
+    "spec": "protocol FSPLIT AFWD EVALT EVALF AREV FFUSE",
+    "title": "protocol",
+    "topology": "  topology: branched | V=6 E=6 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "compute_A": {
     "spec": "ring ⊙ > <",
     "title": "ring",
@@ -509,6 +554,26 @@
     "title": "protocol",
     "topology": "  topology: branched | V=6 E=6 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2470\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
   },
+  "cosmology_quantum_bridge": {
+    "spec": "ring IMSCRIB AFWD FSPLIT EVALT EVALF FFUSE TANCH",
+    "title": "ring",
+    "topology": "  topology: ring | V=7 E=7 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "cosmology_quantum_instantiation": {
+    "spec": "protocol ◇+×● hubble_constant cosmological_constant sic_povm_fiducial",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "cosmology_quantum_protocol": {
+    "spec": "protocol ◇ + × ●",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "cosmology_six_ring": {
+    "spec": "ring IMSCRIB AFWD FSPLIT EVALT EVALF FFUSE TANCH",
+    "title": "ring",
+    "topology": "  topology: ring | V=7 E=7 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "count_cycles": {
     "spec": "ring ENGAGR FSPLIT FFUSE",
     "title": "ring",
@@ -518,6 +583,11 @@
     "spec": "protocol FFUSE FSPLIT",
     "title": "protocol",
     "topology": "  topology: linear | V=2 E=1 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.0000\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "coupling_constant_protocol": {
+    "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial H3_geometry torsion_operator",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "cuboid_descent": {
     "spec": "protocol ⊢ ⊙ ◇ + > < × > < ● ¬ ⊣",
@@ -548,6 +618,16 @@
     "spec": "protocol ◇ > < ●",
     "title": "protocol",
     "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "dark_self_inclose": {
+    "spec": "ring FSPLIT AFWD EVALT EVALF FFUSE",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "dark_self_inclose_closed": {
+    "spec": "protocol FSPLIT AFWD AREV CLINK FFUSE EVALT EVALF ENGAGR",
+    "title": "protocol",
+    "topology": "  topology: branched | V=8 E=8 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1648\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "density_check": {
     "spec": "ring ⊙ ◇ + × ● ⊣",
@@ -614,6 +694,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "expansion_protocol": {
+    "spec": "ring IMSCRIB AFWD AREV",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "expansion_sieve": {
     "spec": "protocol ◇ = ●",
     "title": "protocol",
@@ -654,6 +739,11 @@
     "title": "protocol",
     "topology": "  topology: linear | V=3 E=2 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.4142\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "flux_injection_protocol": {
+    "spec": "protocol ◇ + × ● hekhalot_rabbati bridge_monomer",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "flux_stabilization_relay_zeta_prime": {
     "spec": "RING ⊙ > < ⊙",
     "title": "ring",
@@ -666,6 +756,11 @@
   },
   "forcing_d12": {
     "spec": "protocol FSPLIT EVALT EVALF FFUSE",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "forge_hekhalot_protocol": {
+    "spec": "protocol ◇ + × ● hekhalot_rabbati",
     "title": "protocol",
     "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
@@ -698,6 +793,16 @@
     "spec": "ring ⊙ ◇ + × ●",
     "title": "ring",
     "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "gauge_balance_check": {
+    "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "gauge_extension_protocol": {
+    "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial⁺",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "gematria_map": {
     "spec": "ring ⊙ > <",
@@ -768,6 +873,11 @@
     "spec": "ring ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "global_torsion_manifold_protocol": {
+    "spec": "protocol ◇ + × ● braid_resolve torsion_operator spectral_resolve",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "h0_extract": {
     "spec": "protocol IMSCRIB FSPLIT EVALT FFUSE IFIX TANCH",
@@ -889,6 +999,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "kinetic_flow_protocol": {
+    "spec": "protocol ◇ + × ● hubble_seeds_shifted H3_geometry torsion_operator",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "kinetic_injection_bias": {
     "spec": "ring ⊙ > <",
     "title": "ring",
@@ -938,6 +1053,11 @@
     "spec": "ring IMSCRIB AFWD AREV braid_operator",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "magnetic_reconnection_catalyst": {
+    "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial bridge_monomer",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "manifold_dyad": {
     "spec": "ring ⊙ > < ●",
@@ -1049,6 +1169,16 @@
     "title": "protocol",
     "topology": "  topology: branched | V=9 E=9 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1796\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
+  "omega_bridge": {
+    "spec": "protocol FSPLIT FFUSE AFWD AREV CLINK EVALT EVALF",
+    "title": "protocol",
+    "topology": "  topology: branched | V=7 E=7 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.3087\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: identity — δ arms reconnect at μ but nothing transforms between them; μ∘δ=id does no work and type-checks nothing\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "omega_fluctuation_protocol": {
+    "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial Ω",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "omega_wind": {
     "spec": "ring IMSCRIB AFWD CLINK FSPLIT ENGAGR FFUSE",
     "title": "ring",
@@ -1134,6 +1264,11 @@
     "title": "compose pm_s2 ∘ verify_closure",
     "topology": "  topology: network | V=19 E=22 β=4 branch=3 merge=4 src=1 sink=0 ρ=2.4926\n  4 independent loop(s) with 3 branch / 4 fusion point(s)\n  μ∘δ: CLOSED — 4 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
+  "perturbation_protocol": {
+    "spec": "protocol ◇ + × ●",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "phase_gate_v2": {
     "spec": "ring ⊙ > < > <",
     "title": "ring",
@@ -1188,6 +1323,31 @@
     "spec": "chain ⊢ ⊣",
     "title": "chain",
     "topology": "  topology: linear | V=2 E=1 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.0000\n  a single strand\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "promote_l9": {
+    "spec": "ring IMSCRIB AFWD AREV CLINK",
+    "title": "ring",
+    "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "promote_l9_closed": {
+    "spec": "protocol FSPLIT IMSCRIB AFWD AREV CLINK FFUSE",
+    "title": "protocol",
+    "topology": "  topology: branched | V=6 E=6 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "promote_l9_full": {
+    "spec": "protocol FSPLIT IMSCRIB AFWD AREV CLINK FFUSE EVALT EVALF",
+    "title": "protocol",
+    "topology": "  topology: branched | V=8 E=8 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1358\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "promote_l9_residual": {
+    "spec": "protocol FSPLIT AFWD AREV CLINK FFUSE EVALT EVALF ENGAGR",
+    "title": "protocol",
+    "topology": "  topology: branched | V=8 E=8 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1648\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "promote_magnitude": {
+    "spec": "ring IMSCRIB AFWD AREV",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "promote_phi_hbar": {
     "spec": "ring IMSCRIB AFWD AREV",
@@ -1384,6 +1544,11 @@
     "title": "protocol",
     "topology": "  topology: branched | V=10 E=10 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2764\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "rotate_dyad": {
+    "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial sic_povm_fiducial",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "saturation_check": {
     "spec": "ring ⊙ = > < ⊣",
     "title": "ring",
@@ -1469,6 +1634,16 @@
     "title": "ring",
     "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "six_cycle_protocol": {
+    "spec": "protocol ◇ + × ● hubble_constant cosmological_constant sic_povm_fiducial hekhalot_rabbati bridge_monomer extradimensional_entity",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "six_monomer_protocol": {
+    "spec": "protocol ◇ + × ● hubble_constant cosmological_constant sic_povm_fiducial bridge_monomer hekhalot_rabbati extradimensional_entity",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "solve_density_limit": {
     "spec": "ring ⊙ > < ⊞ α_s ⊣",
     "title": "ring",
@@ -1504,10 +1679,30 @@
     "title": "ring",
     "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "spectral_radius_check": {
+    "spec": "protocol ◇ + × ● bridge_monomer modulus",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "spectral_radius_protocol": {
+    "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "spectral_resolve": {
+    "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial H3_geometry",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "spectral_solver": {
     "spec": "ring spectral_generator chiral_symmetry_breaker ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "stability_check": {
+    "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial H3_geometry bridge_monomer",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "stability_check_g": {
     "spec": "chain ⊙ > < input_g > gauss_bonnet_constraint",
@@ -1518,6 +1713,11 @@
     "spec": "ring ⊙ > < δ μ",
     "title": "ring",
     "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "stability_test": {
+    "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial H3_geometry",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "stabilization_protocol": {
     "spec": "ring ⊙ > < ⊞ ●",
@@ -1603,6 +1803,16 @@
     "spec": "chain LOG_SHELL archimedean_coupling_mechanism ●",
     "title": "chain",
     "topology": "  topology: linear | V=1 E=0 β=0 branch=0 merge=0 src=1 sink=1 ρ=0.0000\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "torsion_operator": {
+    "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial Ω",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "torsion_seed_shift": {
+    "spec": "protocol ◇ + × ● hubble_seeds torsion_operator",
+    "title": "protocol",
+    "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "trap_defect": {
     "spec": "ring ⊙ > < Σ Ω",

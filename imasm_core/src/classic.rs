@@ -16,6 +16,11 @@ pub enum Token {
     Evalf,
     Engagr,
     Ifix,
+    Fsplit3,
+    Ffuse3,
+    Tneg,
+    Ineg,
+    Evali,
 }
 
 impl Token {
@@ -33,6 +38,11 @@ impl Token {
             Token::Evalf => "EVALF",
             Token::Engagr => "ENGAGR",
             Token::Ifix => "IFIX",
+            Token::Fsplit3 => "FSPLIT3",
+            Token::Ffuse3 => "FFUSE3",
+            Token::Tneg => "TNEG",
+            Token::Ineg => "INEG",
+            Token::Evali => "EVALI",
         }
     }
 
@@ -67,6 +77,11 @@ impl Token {
             Token::Evalf => "×",
             Token::Engagr => "⊞",
             Token::Ifix => "¬",
+            Token::Fsplit3 => "∈",
+            Token::Ffuse3 => "∋",
+            Token::Tneg => "~",
+            Token::Ineg => "≁",
+            Token::Evali => "⊞",
         }
     }
 
@@ -78,7 +93,7 @@ impl Token {
         matches!(
             self,
             Token::Afwd | Token::Arev | Token::Clink | Token::Evalt | Token::Evalf
-                | Token::Engagr | Token::Ifix
+                | Token::Engagr | Token::Ifix | Token::Tneg | Token::Ineg | Token::Evali
         )
     }
 
@@ -88,6 +103,8 @@ impl Token {
             Token::Vinit => (0, 1),
             Token::Fsplit => (1, 2),
             Token::Ffuse => (2, 1),
+            Token::Fsplit3 => (1, 3),
+            Token::Ffuse3 => (3, 1),
             _ => (1, 1),
         }
     }
@@ -100,6 +117,7 @@ impl Token {
             Token::Vinit, Token::Tanch, Token::Afwd, Token::Arev, Token::Clink,
             Token::Imscrib, Token::Fsplit, Token::Ffuse, Token::Evalt,
             Token::Evalf, Token::Engagr, Token::Ifix,
+            Token::Fsplit3, Token::Ffuse3, Token::Tneg, Token::Ineg, Token::Evali,
         ];
         serde_json::Value::Array(
             all.iter()
@@ -131,6 +149,11 @@ impl Token {
             "EVALF" | "EF" | "×" => Token::Evalf,
             "ENGAGR" | "EG" | "⊞" => Token::Engagr,
             "IFIX" | "IX" | "FIX" | "¬" => Token::Ifix,
+            "FSPLIT3" | "Fsplit3" | "F3" | "∈" | "☊" => Token::Fsplit3,
+            "FFUSE3" | "Ffuse3" | "FF3" | "∋" | "☋" => Token::Ffuse3,
+            "TNEG" | "~" => Token::Tneg,
+            "INEG" | "≁" => Token::Ineg,
+            "EVALI" => Token::Evali,
             _ => return None,
         })
     }
@@ -150,8 +173,8 @@ impl Token {
         match self {
             Token::Vinit | Token::Tanch | Token::Afwd |
             Token::Arev | Token::Clink | Token::Imscrib => Family::Logical,
-            Token::Fsplit | Token::Ffuse => Family::Frobenius,
-            Token::Evalt | Token::Evalf | Token::Engagr => Family::Dialetheia,
+            Token::Fsplit | Token::Ffuse | Token::Fsplit3 | Token::Ffuse3 => Family::Frobenius,
+            Token::Evalt | Token::Evalf | Token::Engagr | Token::Tneg | Token::Ineg | Token::Evali => Family::Dialetheia,
             Token::Ifix => Family::Linear,
         }
     }
@@ -161,6 +184,7 @@ impl Token {
         match self {
             Token::Vinit => 0,
             Token::Ffuse => 2,
+            Token::Ffuse3 => 3,
             _ => 1,
         }
     }
@@ -170,6 +194,7 @@ impl Token {
         match self {
             Token::Tanch => 0,
             Token::Fsplit => 2,
+            Token::Fsplit3 => 3,
             _ => 1,
         }
     }

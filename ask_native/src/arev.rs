@@ -188,8 +188,8 @@ fn find_matching_ffuse(prog: &[Token], split_ip: usize) -> usize {
     let start = i;
     loop {
         match prog[i] {
-            Token::Fsplit => depth += 1,
-            Token::Ffuse => {
+            Token::Fsplit | Token::Fsplit3 => depth += 1,
+            Token::Ffuse | Token::Ffuse3 => {
                 depth -= 1;
                 if depth == 0 { return i; }
             }
@@ -229,8 +229,8 @@ fn run_word(prog: &[Token], wraps: u32) -> RunStats {
                 stack.pop();
                 if forks.is_empty() { st.halted = true; }
             }
-            Token::Afwd | Token::Arev | Token::Clink | Token::Imscrib => {}
-            Token::Fsplit => {
+            Token::Afwd | Token::Arev | Token::Clink | Token::Imscrib | Token::Ineg => {}
+            Token::Fsplit | Token::Fsplit3 => {
                 let v = *stack.last().unwrap_or(&B4::N);
                 let fu = find_matching_ffuse(prog, ip);
                 let resume = if fu + 1 >= n { 0 } else { fu + 1 };
@@ -249,7 +249,7 @@ fn run_word(prog: &[Token], wraps: u32) -> RunStats {
                 if v == B4::F { st.gates += 1; }
                 stack.push(if v == B4::F { B4::F } else { B4::N });
             }
-            Token::Ffuse => {
+            Token::Ffuse | Token::Ffuse3 => {
                 let left = stack.pop().unwrap_or(B4::N);
                 if let Some((resume, right)) = forks.pop() {
                     stack.push(b4_join(left, right));
@@ -258,7 +258,15 @@ fn run_word(prog: &[Token], wraps: u32) -> RunStats {
                     stack.push(left);
                 }
             }
-            Token::Engagr => stack.push(B4::B),
+            Token::Engagr | Token::Evali => stack.push(B4::B),
+            Token::Tneg => {
+                let v = stack.pop().unwrap_or(B4::N);
+                stack.push(match v {
+                    B4::T => B4::F,
+                    B4::F => B4::T,
+                    _ => v,
+                });
+            }
             Token::Ifix => { stack.pop(); }
         }
         trace[head] = *stack.last().unwrap_or(&B4::N);

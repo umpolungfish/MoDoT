@@ -1,0 +1,10 @@
+# Pins the CUDA toolchain for this project's build, so
+# `cargo build --release --features local,cuda` works on a plain shell with
+# no exports. `/usr/bin/nvcc` on PATH is an old CUDA 11 install missing
+# cuda_fp8.h; the working CUDA 12.4 toolkit lives at /usr/local/cuda-12.4.
+# cudaforge (candle-kernels' build dependency) checks the NVCC env var
+# before PATH, so setting it here overrides the stale system nvcc for every
+# build in this crate without touching the user's shell PATH or CUDA_HOME.
+[env]
+NVCC = "/usr/local/cuda-12.4/bin/nvcc"
+CUDA_COMPUTE_CAP = "86"

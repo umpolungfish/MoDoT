@@ -2106,10 +2106,10 @@ pub fn run(args: &[String]) -> String {
                  opcode; it is not.\n"
             )
         }
-        "verify" | "typecheck" | "test" => {
+        "verify" | "typecheck" | "test" | "close" => {
             format!(
-                "imasm has no '{op}' — use `imasm check <opcode word>` (Belnap type-check of a \
-                 decision/program) or `imasm prove <name|word>` (the p4ramill kernel). Run it now.\n"
+                "imasm has no '{op}' subcommand — use `imasm check <opcode word>` (Belnap type-check of a \
+                 decision/program) to check if a word closes, or `imasm protocol <opcode word>` to wire a word so it closes.\n"
             )
         }
         _ => {
