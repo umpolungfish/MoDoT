@@ -4,3 +4,6 @@ __pycache__/
 modot.egg-info/
 _builds/
 imasm_core/target/
+
+# Windows/WSL metadata sidecars
+*:Zone.Identifier
