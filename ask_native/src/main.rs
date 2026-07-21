@@ -1933,6 +1933,33 @@ fn tool_belnap(tool_output: &str) -> B4 {
     }
 }
 
+/// The μ leg of ONE tool call — the emit→verify pair of true_agentic_agent's `_observe`,
+/// ported. Where `tool_belnap` scans the whole cycle's aggregated prose ONCE at the end,
+/// this verifies THIS call's own closure from ITS OWN output, at the call, so the δ/μ dyad
+/// is constitutive and ATTRIBUTED: a closure is credited to the call that produced it, not
+/// recovered post-hoc from a scan that cannot say which verb closed. Returns the call's
+/// Belnap closure verdict and a short note for the VERIFY line. N means the call carried no
+/// closure to verify (a plain read/measurement — cl9nk entry, crystal_encode, a distance);
+/// T/F/B mean a closure-bearing call that closed / did not / is held. The internal registers
+/// `tool_belnap` already knows (imasm check T/F/B, `imasm prove` KERNEL VERDICT green, the
+/// complement involution, a cyclized ring) are recognised HERE too, at the winding they fire,
+/// which is what stops an early `imasm prove` green from being lost when later windings only
+/// narrate. The verdict logic is the same scanner, so there is no regression; what is new is
+/// that the dyad now surfaces per-call and reaches the spine as a first-class attributed voice.
+fn verify_call(verb: &str, output: &str) -> (B4, &'static str) {
+    // An errored return is handled by the CALL FAILED (reissue) arm before we get here, so a
+    // call reaching verify_call actually ran. Read its own closure through the same scanner.
+    let v = tool_belnap(output);
+    let note = match v {
+        B4::T => "closure verified — μ∘δ=id on this call",
+        B4::B => "held — δ fired and its μ dangles, or both closure and non-closure measured",
+        B4::F => "no closure — the dual did not meet (terminated / linear / ill-typed)",
+        B4::N => "no closure-bearing dual in this call (a read, not a δ/μ pair)",
+    };
+    let _ = verb; // verb kept in the signature for future per-verb re-derivation verifies
+    (v, note)
+}
+
 /// Does the answer present a conventional proof (a T/F-lane theorem argument)? Used by
 /// the lane guard in `complete`: a material forge of a theorem's named entities lives in
 /// the B-lane and does NOT test the proposition, so its non-closure must not drag a
@@ -3590,6 +3617,29 @@ mod lane_guard_tests {
         ] {
             assert_eq!(tool_belnap(out), B4::T, "closure lane read as non-T: {out}");
         }
+    }
+
+    // The μ leg of _observe, ported: verify_call attributes a call's own closure AT the call.
+    // A `imasm prove` green in an early winding surfaces its T here, so it cannot be lost when
+    // later windings only narrate; a plain read (a distance, a catalog entry) carries no dual
+    // and returns N, so it is not miscounted as a closure.
+    #[test]
+    fn verify_call_attributes_closure_per_call() {
+        use super::{verify_call, B4};
+        // a kernel-proven protocol closes at THIS call
+        let (v, _) = verify_call("imasm", "  KERNEL VERDICT: ✓ green — p4ramill confirms the closure class.");
+        assert_eq!(v, B4::T, "imasm prove green must verify closed at the call");
+        // a ring that cyclized
+        let (v, _) = verify_call("close", "degree of polymerization 7 ✓ CYCLIC — a macrocycle.");
+        assert_eq!(v, B4::T);
+        // a terminated assembly did not close — a real F, not a reissue
+        let (v, _) = verify_call("close", "TERMINATED at 2 units — telechelic, no head-to-tail closure.");
+        assert_eq!(v, B4::F);
+        // a plain read carries no δ/μ dual — N, must not be counted as a closure
+        let (v, _) = verify_call("compute_distance", "distance 2.8284 between the two systems.");
+        assert_eq!(v, B4::N, "a bare distance read is not a closure-bearing dual");
+        let (v, _) = verify_call("cl9nk", "entry compton_split_radius: L9 virtual, tier O_2, 7 promotions.");
+        assert_eq!(v, B4::N);
     }
 
     // A held dual stays held, and a kernel that could not BUILD has refuted nothing —
@@ -6276,6 +6326,10 @@ fn run_one(
         // Hoisted to cycle scope: the condenser needs this cycle's measured output to write
         // the next cycle's opening prompt.
         let mut all_tool_output = String::new(); // every round's real output → the tool voice
+        // The constitutive dyad: one verify verdict per closure-bearing call (the μ leg of
+        // `_observe`), attributed at the call and joined into the tool voice below. A closure
+        // verified at a winding cannot then be lost when later windings only narrate.
+        let mut call_verdicts: Vec<B4> = Vec::new();
         // The harness-carried ledger: one verbatim digest per fresh tool run (and per
         // miss), appended to the condensate deterministically — the measured ground
         // must reach the next cycle by harness hand, never by trusting the condenser.
@@ -6605,6 +6659,16 @@ cycle_close is stripped and those calls go to the admission gate now (outcome be
                             record_tool_call(cycle, round + 1, verb, args, "ran", &o);
                             executed_verbs.insert(verb.clone()); // this verb now has an execution arm
                             results_ledger.push_str(&ledger_digest(&sig, &o));
+                            // μ leg — verify THIS call's own closure (the _observe emit→verify
+                            // pair). A closure-bearing call surfaces its verdict here, attributed
+                            // to the call, and is joined into the tool voice below; a plain read
+                            // (N) carries no dual and is not counted.
+                            let (vv, vnote) = verify_call(verb, &o);
+                            if vv != B4::N {
+                                println!("  VERIFY [{}] {vnote}", b4_name(vv));
+                                results.push_str(&format!("VERIFY [{}] {vnote}\n", b4_name(vv)));
+                                call_verdicts.push(vv);
+                            }
                             ran_results.insert(sig, o);
                             // A catalog-writing verb invalidates every cached read: a result
                             // computed against the pre-write catalog would otherwise shadow the
@@ -6746,7 +6810,12 @@ cycle_close is stripped and those calls go to the admission gate now (outcome be
             // Grade the FINAL answer (not the draft) and let the tools speak: the spine now
             // fuses the model's stated verdict with what the catalog actually computed.
             model_voice = b4_from_char(model_self_belnap(&answer));
-            tool_voice = tool_belnap(&all_tool_output);
+            // The tool voice is the whole-cycle closure scan JOINED with the per-call verify
+            // verdicts. Join only strengthens (N is its identity): a closure verified at any
+            // winding reaches the spine as a first-class attributed voice and cannot be lost to
+            // aggregation, while a cycle that only narrated over prior proofs still reads N.
+            let dyad_voice = call_verdicts.iter().fold(B4::N, |acc, &v| b4_join(acc, v));
+            tool_voice = b4_join(tool_belnap(&all_tool_output), dyad_voice);
 
             // BACKTRANSLATION — read the closed structure back into a conventional proof (the μ
             // leg of imscribe). Gated on a dual having actually closed: with no measured closure
