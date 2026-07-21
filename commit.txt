@@ -1,1 +1,1 @@
-The Zone.Identifier was Windows breathing on the file; the ignore rule sends it back out.
+The run logs stay on disk where they are read; git stops carrying their weight.

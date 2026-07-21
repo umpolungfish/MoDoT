@@ -7,3 +7,7 @@ imasm_core/target/
 
 # Windows/WSL metadata sidecars
 *:Zone.Identifier
+
+# Generated run logs — kept on disk, not versioned
+crystal_fs/*.jsonl
+crystal_fs/*.txt
