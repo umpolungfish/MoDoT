@@ -39,6 +39,7 @@ mod ob3ect;
 #[cfg(feature = "local")]
 mod local;
 mod prover;
+mod windings;
 
 // ── CLI ─────────────────────────────────────────────────────────────────────
 
@@ -447,6 +448,13 @@ struct Cli {
     /// `--phase-reconstruct M1 M2 …` reads back the per-unit Ħ phase sequence (or reports N).
     #[arg(long = "phase-reconstruct", num_args = 2.., value_names = ["MONOMERS"])]
     phase_reconstruct: Vec<String>,
+
+    /// Read spectral lines as winding transitions on the horn torus:
+    /// `--windings 656.28nm 486.13nm …` or `--windings Na:589.0nm Na:589.6nm`.
+    /// Wavelengths (nm/Å/µm) or energies (eV); optional element prefix. Pure winding
+    /// arithmetic against one scale anchor (the electron rest energy).
+    #[arg(long = "windings", num_args = 1.., value_names = ["LINES"])]
+    windings: Vec<String>,
 
     /// Create a missing catalog entry by imscribing it via the real generate pipeline
     /// (`imscribe generate … --name <NAME>`), writing to the live catalog MoDoT merges.
@@ -2220,6 +2228,7 @@ unless the verb says "sequence") · a bare word in the signature like `vs` `with
 LITERAL SEPARATOR you type verbatim between the groups — DROP IT AND THE CALL IS MISPARSED. All
 other args are catalog entry names in snake_case.
   click a [b]            switch a b            excite a              ascend a              descend a
+  windings L1 L2 ...     (a spectrum → winding transitions)
   filter a b [c…]        phase_reconstruct m…  set a b               homolyze a [b]
   recalibrate a axis     annihilate a [b]      scan a b              complement a
   cycle c s              pathway s c…          polymerize m…         star m…            (≥3)
@@ -2247,6 +2256,7 @@ Descriptions (semantics only — arity is the table above):
   TOOL: ascend A          construct the NEXT ramified level of the tower FROM A's excited state: continue ⊙ past the exceptional point to the complex-axis fixed point and add one winding Ω (one floor; iterate for more). Reports honestly if Ω saturates (tower caps) or the tier does not climb
   TOOL: filter A B [C…]   narrow the catalog to the structural FLOOR of the references (the primitives they all share): reports how many entries match ALL shared values — the honest way to cut a raw candidate pool down (a necessary, upper-bound condition)
   TOOL: descend A        relax ⊙ to the real-axis Hermitian ground and remove one winding Ω (the μ inverse of ascend): `descend A` de-excites A's Criticality ⊙ from the exceptional point back to the real-axis fixed point, peeling off one winding. Reports honestly if ⊙ is already at or below the ground (no further relaxation) and whether the tier drops (a genuine de-excitation)
+  TOOL: windings L1 L2 ...  read a spectrum as winding transitions. Each line (nm/Å/µm/eV, optional element prefix e.g. Na:589.0nm) is a jump between two winding configurations on the horn torus: n toroidal, l poloidal, m_l tilt, s spin half-winding. Level energies are α²/2 fractions of the ONE scale anchor (electron rest energy m_e c²); everything else — α², the reduced-mass ratio, 1/(n−δ)² — is pure winding arithmetic, and the quantum defect δ is the per-atom core-penetration winding slip (zero for hydrogen). Checks the electric-dipole selection rules as allowed winding moves (Δl=±1, Δm∈{0,±1}, Δs=0) and reports each transition ALLOWED/FORBIDDEN. nm is a projection onto SI at the last step
   TOOL: phase_reconstruct M1 M2…  recover the relative PHASE WORD from the closed ring (flat autocorrelation ⟺ cyclization): reads back the per-unit Ħ phase sequence, fixed modulo one global phase; if the set does not close it reports the phases as N (underdetermined)
   TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum Ω moved) → radical IONS A•⁺/B•⁻
   TOOL: homolyze A [B]     homolytic cleavage → NEUTRAL radicals (δ_A symmetric split, the reverse of click): `homolyze A B` breaks the A—B bond into A•+B•; `homolyze A` splits A into two A•
@@ -4283,6 +4293,11 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         "excite" => vec!["--excite".into(), a(0)?],
         "ascend" => vec!["--ascend".into(), a(0)?],
         "descend" => vec!["--descend".into(), a(0)?],
+        "windings" => {
+            let mut v = vec!["--windings".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
         "star" => {
             let mut v = vec!["--star".to_string()];
             v.extend(args.iter().cloned());
@@ -4710,6 +4725,7 @@ computations are cut at the time limit and report the cut rather than a partial 
         "filter"     => "filter A B [C …]; 2+ reference names (narrow the catalog to their shared structural floor)",
         "ascend"     => "ascend A; 1 name (construct the next ramified tower level from A's excited state)",
         "descend"    => "descend A; 1 name (relax ⊙ to the real-axis ground, remove one winding Ω — the μ inverse of ascend)",
+        "windings"   => "windings L1 L2 ...; 1+ spectral lines (nm/Å/µm/eV, optional element prefix Na:) — read each as a winding transition n,l,m on the horn torus, check the dipole selection rules, energies as α²/2 of the one anchor",
         "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
         "star"       => "star M1 M2 M3 …; 4+ names (hub-and-arms star polymer: auto core + arms, ρ=√f)",
         "broadcast"  => "broadcast SOURCE; 1 name (ɢ: the source signals ALL subsystems it couples with, discovered in one catalog sweep — the one-to-all fan-out)",
@@ -4787,6 +4803,10 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         "phase_reconstruct" => (
             "read the relative phases off a closed ring — fixed up to one global phase",
             "recover the relative phase word from cyclization (the flat-autocorrelation constraint); determined modulo a global gauge, exactly as C_m = 1/(d+1) fixes ψ up to a global phase",
+        ),
+        "windings" => (
+            "read a spectrum as winding transitions — each line is a jump between two winding configurations on the horn torus, checked against the dipole selection rules",
+            "the quantum numbers n,l,m,s ARE the winding coordinates (toroidal, poloidal, tilt, spin half-wind); level energies are α²/2 fractions of the single scale anchor m_e c², the rest pure winding arithmetic; selection rules are the allowed winding moves; nm is a projection at the last step",
         ),
         "star" => (
             "a multifunctional core with f arms radiating out — a hub-and-spoke star polymer, no arm–arm bonds",
@@ -7136,6 +7156,7 @@ impl CliClone for Cli {
             filter: self.filter.clone(),
             ascend: self.ascend.clone(),
             descend: self.descend.clone(),
+            windings: self.windings.clone(),
             phase_reconstruct: self.phase_reconstruct.clone(),
             context: self.context.clone(),
             entry: self.entry.clone(),
@@ -7537,6 +7558,10 @@ fn main() {
     if !cli.phase_reconstruct.is_empty() {
         let code = click::run_phase_reconstruct(cat_ref, &cli.phase_reconstruct, cli.theta);
         process::exit(code);
+    }
+
+    if !cli.windings.is_empty() {
+        process::exit(windings::run(&cli.windings));
     }
 
     if let Some(ex) = &cli.excite {
