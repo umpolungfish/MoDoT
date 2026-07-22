@@ -337,7 +337,7 @@
   "breath": {
     "spec": "ring IMSCRIB AFWD AREV",
     "title": "ring",
-    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants"
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "bridge_discovery": {
     "spec": "ring ⊙ > <",
@@ -1389,6 +1389,21 @@
     "title": "protocol",
     "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
+  "phi_promoter": {
+    "spec": "chain IFIX IMSCRIB FSPLIT EVALT FFUSE IFIX",
+    "title": "chain",
+    "topology": "  topology: linear | V=6 E=5 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.8019\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 2 out, 2 in — reactive, not errors"
+  },
+  "phix_protocol": {
+    "spec": "ring IMSCRIB FSPLIT EVALT FFUSE IMSCRIB",
+    "title": "ring",
+    "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "pinch_protocol": {
+    "spec": "protocol FSPLIT EVALT EVALF FFUSE IMSCRIB",
+    "title": "protocol",
+    "topology": "  topology: branched | V=5 E=5 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.1358\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "pm_s1": {
     "spec": "wire VINIT FSPLIT EVALT FFUSE TANCH IMSCRIB AFWD AREV FSPLIT FFUSE IFIX / 0-1 1-2 2-3 3-4 1-3 5-6 6-7 7-8 8-9 9-10 10-5 4-9",
     "title": "compose higher_genus_protocol ∘ perfect_descent",
@@ -1948,6 +1963,11 @@
     "spec": "chain VINIT AFWD FSPLIT EVALT CLINK IMSCRIB AREV EVALF ENGAGR FFUSE IMSCRIB IFIX TANCH",
     "title": "chain",
     "topology": "  topology: linear | V=13 E=12 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.9499\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "three_gates": {
+    "spec": "protocol ⊢ ◇ ● ⊙ ¬ ⊣",
+    "title": "protocol",
+    "topology": "  topology: branched | V=6 E=6 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.4578\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: identity — δ arms reconnect at μ but nothing transforms between them; μ∘δ=id does no work and type-checks nothing"
   },
   "tilt_alignment": {
     "spec": "protocol FSPLIT IMSCRIB AFWD EVALT ENGAGR EVALF CLINK FFUSE",

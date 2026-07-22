@@ -1308,7 +1308,7 @@
             })));
         }
 
-        // ─── Tri-fork resultant: 1:1:2, forced by popcount ───────────────
+        // ─── Tri-fork resultant: T:F:I = 1:1:2, forced by popcount ───────────────
         // Belnap B4 (N=0b00,T=0b01,F=0b10,B=0b11) and SIXTEEN_3's Reg16_3 (EVALT touches
         // 1 bit, EVALF touches 1 bit, EVALI touches 2: small_t AND small_f) independently
         // force the same weighting: the held-both state counts double. Unweighted (1,1,1)
@@ -1333,7 +1333,7 @@
             refLine.computeLineDistances();
             scene.add(refLine);
 
-            // weighted resultant (1:1:2): solid gold tube + arrow + label
+            // weighted resultant (T:F:I = 1:1:2): solid gold tube + arrow + label
             const wCurve = new THREE.CatmullRomCurve3([origin, weighted.clone().multiplyScalar(0.5), weighted]);
             scene.add(new THREE.Mesh(
                 new THREE.TubeGeometry(wCurve, 48, 0.028, 14, false),
@@ -1351,7 +1351,7 @@
             scene.add(cone);
 
             const tiltDeg = THREE.MathUtils.radToDeg(unweighted.clone().normalize().angleTo(dir));
-            const lbl = makeTextSprite(`1:1:2`, '#E69F00', 0.36);
+            const lbl = makeTextSprite(`T:F:I = 1:1:2`, '#E69F00', 0.36);
             lbl.position.copy(weighted.clone().add(new THREE.Vector3(0.1, 0.25, 0.1)));
             scene.add(lbl);
         })();
@@ -2228,7 +2228,7 @@
                 const cCoil = edgePath(ang(CLINK1), null, { turns: 2, lift: 0.05, n: 320, toOrigin: true });
                 solidTube(cCoil, 0x39FF14, 0.040);
                 arrowHead(cCoil, 0x39FF14);
-                edgeLabel(pC.clone().multiplyScalar(1.15).add(new THREE.Vector3(0, 0.15, 0.1)), '=⊙', '#39FF14');
+                edgeLabel(pC.clone().multiplyScalar(1.15).add(new THREE.Vector3(0, 0.15, 0.1)), '= → ⊙', '#39FF14');
                 registerEdge(CLINK1, cCoil, 0x39FF14);
             }
             if (IFIX_I >= 0 && IMSCRIB_I >= 0) {
@@ -2236,14 +2236,14 @@
                 const iCoil = edgePath(ang(IFIX_I), null, { turns: 2, lift: 0.05, n: 320, toOrigin: true });
                 solidTube(iCoil, 0x39FF14, 0.040);
                 arrowHead(iCoil, 0x39FF14);
-                edgeLabel(pI.clone().multiplyScalar(1.15).add(new THREE.Vector3(0, 0.15, 0.1)), '⊣⊙', '#39FF14');
+                edgeLabel(pI.clone().multiplyScalar(1.15).add(new THREE.Vector3(0, 0.15, 0.1)), '⊣ → ⊙', '#39FF14');
                 registerEdge(IFIX_I, iCoil, 0x39FF14);
             }
             // Empty segment label if CLINK & IFIX are adjacent
             if (CLINK1 >= 0 && IFIX_I >= 0 && (CLINK1 + 1) % N === IFIX_I) {
                 const { a1, a2 } = ringArc(CLINK1, IFIX_I);
                 const ptsCI = edgePath(a1, a2, { turns: 0, lift: 0, n: 96 });
-                edgeLabel(mid(ptsCI).add(new THREE.Vector3(0, 0, 0.34)), '=⊣', '#ffffff');
+                edgeLabel(mid(ptsCI).add(new THREE.Vector3(0, 0, 0.34)), '= ↔ ⊣', '#ffffff');
             }
 
             // No R0 bus. The kernel (modot.agent) has no such object: AREV is a stack op
@@ -2279,21 +2279,21 @@
                 const pts = edgePath(ang(EVALT_I), ang(IFIX_I), { turns: 0, lift: 0.07, n: 180 });
                 dashedEdge(pts, EXO, 0.7, 0.020);
                 arrowHead(pts, EXO, 0.10);
-                edgeLabel(mid(pts).add(new THREE.Vector3(0.1, -0.15, 0.18)), '+¬', '#FF1493');
+                edgeLabel(mid(pts).add(new THREE.Vector3(0.1, -0.15, 0.18)), '+ → ¬', '#FF1493');
                 registerEdge(EVALT_I, pts, EXO);
             }
             if (ENGAGR_I >= 0 && IMSCRIB_I >= 0) {
                 const pts = edgePath(ang(ENGAGR_I), null, { turns: 2, lift: 0.06, n: 280, toOrigin: true });
                 solidTube(pts, EXO, 0.032);
                 arrowHead(pts, EXO, 0.11);
-                edgeLabel(station(ENGAGR_I).clone().multiplyScalar(1.15).add(new THREE.Vector3(0, 0.12, 0.1)), '⊞⊙', '#FF1493');
+                edgeLabel(station(ENGAGR_I).clone().multiplyScalar(1.15).add(new THREE.Vector3(0, 0.12, 0.1)), '⊞→⊙', '#FF1493');
                 registerEdge(ENGAGR_I, pts, EXO);
             }
             if (CLINK2 >= 0 && TANCH_I >= 0) {
                 const pts = edgePath(ang(CLINK2), ang(TANCH_I), { turns: 0, lift: 0.05, n: 160 });
                 dashedEdge(pts, EXO, 0.75, 0.020);
                 arrowHead(pts, EXO, 0.10);
-                edgeLabel(mid(pts).add(new THREE.Vector3(-0.1, 0.08, -0.15)), '=₂⊢', '#FF1493');
+                edgeLabel(mid(pts).add(new THREE.Vector3(-0.1, 0.08, -0.15)), '=₂ → ⊢', '#FF1493');
                 registerEdge(CLINK2, pts, EXO);
             }
 
@@ -2788,7 +2788,7 @@
                 new THREE.MeshStandardMaterial({ color: hex, emissive: hex, emissiveIntensity: 0.5,
                     metalness: 0.3, roughness: 0.3, transparent: true, opacity: 0.9 })
             ));
-            const bLabel = makeTextSprite(`β${b.toFixed(2)}`, '#' + hex.toString(16).padStart(6, '0'), 0.44);
+            const bLabel = makeTextSprite(`β = ${b.toFixed(2)}`, '#' + hex.toString(16).padStart(6, '0'), 0.44);
             bLabel.position.copy(T.clone().add(new THREE.Vector3(0.15, -0.35, 0.25)));
             programGroup.add(bLabel);
 
