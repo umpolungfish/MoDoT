@@ -1,0 +1,2244 @@
+{
+  "natures": [
+    {
+      "name": "ado",
+      "family": "Relational",
+      "vessel_key": "R",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          1,
+          1
+        ],
+        "period": 10,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 6)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "supervisor",
+        "subordinate",
+        "instruction"
+      ]
+    },
+    {
+      "name": "age",
+      "family": "Fidelity",
+      "vessel_key": "F",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          7,
+          4,
+          3,
+          2
+        ],
+        "period": 16,
+        "self_ref": false,
+        "frobenius_order": 3,
+        "pairs": "[(3, 5), (8, 11)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "classical search",
+        "lossy fidelity",
+        "bottleneck"
+      ]
+    },
+    {
+      "name": "ah",
+      "family": "Protection",
+      "vessel_key": "W",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          1,
+          1
+        ],
+        "period": 10,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 6)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "winding number",
+        "integer invariant",
+        "homotopy class"
+      ]
+    },
+    {
+      "name": "air",
+      "family": "KineticChar",
+      "vessel_key": "K",
+      "ordinal": 4,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          5,
+          2,
+          1,
+          1
+        ],
+        "period": 9,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 7)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "disorder",
+        "localization",
+        "stasis"
+      ]
+    },
+    {
+      "name": "are",
+      "family": "Topology",
+      "vessel_key": "T",
+      "ordinal": 4,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          2,
+          1
+        ],
+        "period": 11,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(4, 8)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "boundary",
+        "bulk",
+        "encoding"
+      ]
+    },
+    {
+      "name": "array",
+      "family": "Dimensionality",
+      "vessel_key": "D",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          7,
+          2,
+          3,
+          2
+        ],
+        "period": 14,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(4, 10)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "unbounded_tensor",
+        "temporal_lattice",
+        "infinite_dimension"
+      ]
+    },
+    {
+      "name": "ash",
+      "family": "Dimensionality",
+      "vessel_key": "D",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          7,
+          2,
+          2,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(4, 8)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "simplicial complex",
+        "stratification",
+        "finite depth"
+      ]
+    },
+    {
+      "name": "awe",
+      "family": "Protection",
+      "vessel_key": "W",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          5,
+          2,
+          2,
+          1
+        ],
+        "period": 10,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 6)]",
+        "tier": "O\u2080"
+      },
+      "surface_tokens": [
+        "protection",
+        "symmetry",
+        "winding"
+      ]
+    },
+    {
+      "name": "bib",
+      "family": "Granularity",
+      "vessel_key": "Gm",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          5,
+          2,
+          3,
+          1
+        ],
+        "period": 11,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 6)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "mesoscale",
+        "correlation",
+        "neighborhood"
+      ]
+    },
+    {
+      "name": "church",
+      "family": "Polarity",
+      "vessel_key": "P",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          1,
+          1
+        ],
+        "period": 10,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 6)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "asymmetry",
+        "parity-break",
+        "singleton"
+      ]
+    },
+    {
+      "name": "dead",
+      "family": "Dimensionality",
+      "vessel_key": "D",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          8,
+          2,
+          2,
+          2
+        ],
+        "period": 14,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(4, 9)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "manifold",
+        "projection",
+        "sheet"
+      ]
+    },
+    {
+      "name": "ear",
+      "family": "Relational",
+      "vessel_key": "R",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 7)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "adjoint",
+        "reciprocity",
+        "duality"
+      ]
+    },
+    {
+      "name": "eat",
+      "family": "Topology",
+      "vessel_key": "T",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          8,
+          6,
+          3,
+          3
+        ],
+        "period": 20,
+        "self_ref": false,
+        "frobenius_order": 3,
+        "pairs": "[(4, 10), (11, 14), (15, 18)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "inclusion",
+        "nesting",
+        "containment"
+      ]
+    },
+    {
+      "name": "egg",
+      "family": "KineticChar",
+      "vessel_key": "K",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          2
+        ],
+        "period": 13,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 8)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "activation_barrier",
+        "thermal_fluctuation",
+        "kinetic_trap"
+      ]
+    },
+    {
+      "name": "err",
+      "family": "Criticality",
+      "vessel_key": "Ph",
+      "ordinal": 3,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 9)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "exceptional point",
+        "eigenvector coalescence",
+        "branch point"
+      ]
+    },
+    {
+      "name": "fee",
+      "family": "Chirality",
+      "vessel_key": "H",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 7)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "achirality",
+        "amnesia",
+        "symmetry"
+      ]
+    },
+    {
+      "name": "gag",
+      "family": "Grammar",
+      "vessel_key": "G",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          2
+        ],
+        "period": 13,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 10)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "disjunction",
+        "branching",
+        "alternative"
+      ]
+    },
+    {
+      "name": "ha-ha",
+      "family": "Criticality",
+      "vessel_key": "Ph",
+      "ordinal": 4,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          7,
+          2,
+          3,
+          2
+        ],
+        "period": 14,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(4, 10)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "supercriticality",
+        "runaway",
+        "instability"
+      ]
+    },
+    {
+      "name": "hung",
+      "family": "Stoichiometry",
+      "vessel_key": "S",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          5,
+          2,
+          2,
+          1
+        ],
+        "period": 10,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 7)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "stoichiometry",
+        "isomorphism",
+        "unit-coupling"
+      ]
+    },
+    {
+      "name": "ian",
+      "family": "Relational",
+      "vessel_key": "R",
+      "ordinal": 3,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 7)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "lateral exchange",
+        "peer protocol",
+        "symmetric link"
+      ]
+    },
+    {
+      "name": "ice",
+      "family": "Granularity",
+      "vessel_key": "Gm",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          5,
+          2,
+          1,
+          1
+        ],
+        "period": 9,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 6)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "global correlation",
+        "fine-grained resolution",
+        "all-to-all coupling"
+      ]
+    },
+    {
+      "name": "if",
+      "family": "Dimensionality",
+      "vessel_key": "D",
+      "ordinal": 3,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          7,
+          2,
+          2,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 9)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "holographic projection",
+        "bulk encoding",
+        "boundary manifold"
+      ]
+    },
+    {
+      "name": "judge",
+      "family": "Topology",
+      "vessel_key": "T",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          5,
+          2,
+          2,
+          1
+        ],
+        "period": 10,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(4, 7)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "heterogeneous graph",
+        "local connectivity",
+        "adjacency matrix"
+      ]
+    },
+    {
+      "name": "kick",
+      "family": "Chirality",
+      "vessel_key": "H",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 6)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "chirality",
+        "temporal asymmetry",
+        "soft memory"
+      ]
+    },
+    {
+      "name": "loll",
+      "family": "KineticChar",
+      "vessel_key": "K",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 8)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "viscosity",
+        "activation energy",
+        "kinetic threshold"
+      ]
+    },
+    {
+      "name": "measure",
+      "family": "Grammar",
+      "vessel_key": "G",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          9,
+          2,
+          2,
+          2
+        ],
+        "period": 15,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(5, 10)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "causal_chain",
+        "temporal_ordering",
+        "sequential_gate"
+      ]
+    },
+    {
+      "name": "mime",
+      "family": "Topology",
+      "vessel_key": "T",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 8)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "bifurcation",
+        "lemniscate",
+        "closure"
+      ]
+    },
+    {
+      "name": "monad",
+      "family": "Criticality",
+      "vessel_key": "Ph",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          5,
+          2,
+          1,
+          1
+        ],
+        "period": 9,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 5)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "criticality",
+        "fixed point",
+        "absorption"
+      ]
+    },
+    {
+      "name": "nun",
+      "family": "Polarity",
+      "vessel_key": "P",
+      "ordinal": 3,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 9)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "isometry",
+        "manifold",
+        "invariance"
+      ]
+    },
+    {
+      "name": "oak",
+      "family": "Protection",
+      "vessel_key": "W",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          2,
+          2
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 10)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "symmetry",
+        "winding",
+        "protection"
+      ]
+    },
+    {
+      "name": "oil",
+      "family": "Topology",
+      "vessel_key": "T",
+      "ordinal": 3,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          4,
+          2,
+          1
+        ],
+        "period": 13,
+        "self_ref": false,
+        "frobenius_order": 3,
+        "pairs": "[(3, 6), (8, 11)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "lattice",
+        "regularity",
+        "periodicity"
+      ]
+    },
+    {
+      "name": "on",
+      "family": "KineticChar",
+      "vessel_key": "K",
+      "ordinal": 3,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          2,
+          1
+        ],
+        "period": 11,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 6)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "kinetic_trap",
+        "order_stasis",
+        "bureaucratic_lock"
+      ]
+    },
+    {
+      "name": "ooze",
+      "family": "Grammar",
+      "vessel_key": "G",
+      "ordinal": 3,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          7,
+          2,
+          3,
+          1
+        ],
+        "period": 13,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(4, 10)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "broadcast",
+        "coupling",
+        "all-to-all",
+        "universal"
+      ]
+    },
+    {
+      "name": "or",
+      "family": "Polarity",
+      "vessel_key": "P",
+      "ordinal": 4,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          2,
+          1
+        ],
+        "period": 11,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(1, 7)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "Frobenius",
+        "singularity",
+        "encoding"
+      ]
+    },
+    {
+      "name": "out",
+      "family": "Polarity",
+      "vessel_key": "P",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "ah"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          1,
+          13
+        ],
+        "period": 22,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(16, 20)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "primitive",
+        "crystal",
+        "ouroboros"
+      ]
+    },
+    {
+      "name": "peep",
+      "family": "Fidelity",
+      "vessel_key": "F",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          2,
+          1
+        ],
+        "period": 11,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 6)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "quantum_fidelity",
+        "lossless_encoding",
+        "peep_primitive"
+      ]
+    },
+    {
+      "name": "roar",
+      "family": "Criticality",
+      "vessel_key": "Ph",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          2,
+          1
+        ],
+        "period": 11,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 7)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "complex-axis criticality",
+        "analytic continuation",
+        "Lee-Yang edge"
+      ]
+    },
+    {
+      "name": "so",
+      "family": "Stoichiometry",
+      "vessel_key": "S",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          2,
+          1
+        ],
+        "period": 11,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 7)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "stoichiometry",
+        "matched-ratio",
+        "multi-channel"
+      ]
+    },
+    {
+      "name": "sure",
+      "family": "Chirality",
+      "vessel_key": "H",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          7,
+          2,
+          2,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 7)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "chirality",
+        "asymmetry",
+        "persistence"
+      ]
+    },
+    {
+      "name": "they",
+      "family": "Fidelity",
+      "vessel_key": "F",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          2,
+          2
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(4, 10)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "HotSwap",
+        "threshold",
+        "fidelity"
+      ]
+    },
+    {
+      "name": "thigh",
+      "family": "Granularity",
+      "vessel_key": "Gm",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          2,
+          1
+        ],
+        "period": 11,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 6)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "mesoscale",
+        "collective",
+        "correlation"
+      ]
+    },
+    {
+      "name": "tot",
+      "family": "Relational",
+      "vessel_key": "R",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 7)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "functor",
+        "morphism",
+        "category"
+      ]
+    },
+    {
+      "name": "up",
+      "family": "Stoichiometry",
+      "vessel_key": "S",
+      "ordinal": 2,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          4,
+          2,
+          1
+        ],
+        "period": 13,
+        "self_ref": false,
+        "frobenius_order": 3,
+        "pairs": "[(2, 6), (7, 9)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "stoichiometry",
+        "unmatched",
+        "asymmetry"
+      ]
+    },
+    {
+      "name": "vow",
+      "family": "Grammar",
+      "vessel_key": "G",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(2, 8)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "conjunction",
+        "simultaneity",
+        "constraint"
+      ]
+    },
+    {
+      "name": "woe",
+      "family": "Criticality",
+      "vessel_key": "Ph",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          5,
+          2,
+          1,
+          1
+        ],
+        "period": 9,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 5)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "subcriticality",
+        "ordered phase",
+        "stable state"
+      ]
+    },
+    {
+      "name": "wool",
+      "family": "Chirality",
+      "vessel_key": "H",
+      "ordinal": 3,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          7,
+          2,
+          3,
+          2
+        ],
+        "period": 14,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 9)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "braid",
+        "winding",
+        "memory"
+      ]
+    },
+    {
+      "name": "yea",
+      "family": "KineticChar",
+      "vessel_key": "K",
+      "ordinal": 0,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          4,
+          2,
+          1
+        ],
+        "period": 13,
+        "self_ref": false,
+        "frobenius_order": 3,
+        "pairs": "[(2, 5), (6, 9)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "diffusion",
+        "unconstrained",
+        "ergodicity"
+      ]
+    },
+    {
+      "name": "yew",
+      "family": "Polarity",
+      "vessel_key": "P",
+      "ordinal": 1,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          2,
+          3,
+          1
+        ],
+        "period": 12,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(3, 8)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "phase",
+        "symmetry",
+        "oscillator"
+      ]
+    },
+    {
+      "name": "zoo",
+      "family": "Protection",
+      "vessel_key": "W",
+      "ordinal": 3,
+      "tuple": {
+        "D": "dead",
+        "T": "judge",
+        "R": "ado",
+        "P": "church",
+        "F": "age",
+        "K": "yea",
+        "Gm": "bib",
+        "G": "vow",
+        "Ph": "woe",
+        "H": "fee",
+        "S": "hung",
+        "W": "awe"
+      },
+      "signature": {
+        "sig": [
+          6,
+          4,
+          3,
+          1
+        ],
+        "period": 14,
+        "self_ref": false,
+        "frobenius_order": 1,
+        "pairs": "[(5, 9), (2, 11)]",
+        "tier": "O\u2081"
+      },
+      "surface_tokens": [
+        "braid",
+        "anyon",
+        "holonomy"
+      ]
+    }
+  ],
+  "families": {
+    "D": {
+      "field": "dim",
+      "inductive": "Dimensionality",
+      "constructors": [
+        "dead",
+        "ash",
+        "array",
+        "if'"
+      ],
+      "ordinal_count": 4
+    },
+    "T": {
+      "field": "top",
+      "inductive": "Topology",
+      "constructors": [
+        "judge",
+        "eat",
+        "mime",
+        "oil",
+        "are"
+      ],
+      "ordinal_count": 5
+    },
+    "R": {
+      "field": "rel",
+      "inductive": "Relational",
+      "constructors": [
+        "ado",
+        "tot",
+        "ear",
+        "ian"
+      ],
+      "ordinal_count": 4
+    },
+    "P": {
+      "field": "pol",
+      "inductive": "Polarity",
+      "constructors": [
+        "church",
+        "yew",
+        "out",
+        "nun",
+        "or'"
+      ],
+      "ordinal_count": 5
+    },
+    "F": {
+      "field": "fid",
+      "inductive": "Fidelity",
+      "constructors": [
+        "age",
+        "they",
+        "peep"
+      ],
+      "ordinal_count": 3
+    },
+    "K": {
+      "field": "kin",
+      "inductive": "KineticChar",
+      "constructors": [
+        "yea",
+        "loll",
+        "egg",
+        "on",
+        "air"
+      ],
+      "ordinal_count": 5
+    },
+    "G": {
+      "field": "gram",
+      "inductive": "Grammar",
+      "constructors": [
+        "vow",
+        "gag",
+        "measure",
+        "ooze"
+      ],
+      "ordinal_count": 4
+    },
+    "Gm": {
+      "field": "gran",
+      "inductive": "Granularity",
+      "constructors": [
+        "bib",
+        "thigh",
+        "ice"
+      ],
+      "ordinal_count": 3
+    },
+    "Ph": {
+      "field": "crit",
+      "inductive": "Criticality",
+      "constructors": [
+        "woe",
+        "monad",
+        "roar",
+        "err",
+        "haha"
+      ],
+      "ordinal_count": 5
+    },
+    "H": {
+      "field": "chir",
+      "inductive": "Chirality",
+      "constructors": [
+        "fee",
+        "kick",
+        "sure",
+        "wool"
+      ],
+      "ordinal_count": 4
+    },
+    "S": {
+      "field": "stoi",
+      "inductive": "Stoichiometry",
+      "constructors": [
+        "hung",
+        "so",
+        "up"
+      ],
+      "ordinal_count": 3
+    },
+    "W": {
+      "field": "prot",
+      "inductive": "Protection",
+      "constructors": [
+        "awe",
+        "oak",
+        "ah",
+        "zoo"
+      ],
+      "ordinal_count": 4
+    }
+  },
+  "paradice_edges": [
+    {
+      "a": "ado",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "age",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "ah",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "air",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "are",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "array",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "ash",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "awe",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "bib",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "church",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "dead",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "ear",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "eat",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "egg",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "err",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "fee",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "gag",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "ha-ha",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "hung",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "ian",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "ice",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "if",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "judge",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "kick",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "loll",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "measure",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "mime",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "monad",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "nun",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "oak",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "oil",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "on",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "ooze",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "or",
+      "b": "out",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "peep",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "roar",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "so",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "sure",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "they",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "thigh",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "tot",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "up",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "vow",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "woe",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "wool",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "yea",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "yew",
+      "paradices": 1
+    },
+    {
+      "a": "out",
+      "b": "zoo",
+      "paradices": 1
+    }
+  ]
+}

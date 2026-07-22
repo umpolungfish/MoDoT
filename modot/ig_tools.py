@@ -67,6 +67,14 @@ IG_TOOL_ARGS: Dict[str, List[str]] = {
     "zfc_catalog_probe": ["n"],
     "aleph_encode": ["text"],
     "aleph_distance": ["a", "b"],
+    "composite_type": ['names'],
+    "jump_path_integral": ['a', 'b'],
+    "frobenius_closure_check": ['a', 'b'],
+    "signature_manifold": [],
+    "paradice_lattice": [],
+    "braid_word": ['a', 'b'],
+    "universe_jump": ['a', 'b'],
+    "paradice_map": [],
     "riemann_xi_info": [],
     "ask_question": ["question"],
     "record_insight": ["text", "plane", "confidence", "systems"],
@@ -192,6 +200,15 @@ def parse_and_call(line: str, iteration: int = 0) -> Dict[str, Any]:
     if not parts:
         return {"status": "error", "error": "empty tool line"}
     name, positional = parts[0], parts[1:]
+    # MoDoT jump tools: dispatch locally
+    _MODO_JUMP_TOOLS = {'paradice_lattice', 'composite_type', 'frobenius_closure_check', 'braid_word', 'paradice_map', 'universe_jump', 'signature_manifold', 'jump_path_integral'}
+    if name in _MODO_JUMP_TOOLS:
+        try:
+            from modot.jump_tools import dispatch as jump_dispatch
+            args = _coerce(name, positional)
+            return jump_dispatch(name, args)
+        except Exception as exc:
+            return {"status": "error", "tool": name, "error": str(exc)}
     if name not in IG_TOOL_ARGS:
         return {"status": "skip", "reason": f"{name!r} not an IG catalog tool"}
     return call(name, _coerce(name, positional), iteration)
