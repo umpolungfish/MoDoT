@@ -379,6 +379,11 @@ struct Cli {
     #[arg(long = "ascend", value_name = "NAME")]
     ascend: Option<String>,
 
+    /// Relax a tower level back down (the mu inverse of --ascend): `--descend A` de-excites
+    /// A's Criticality tao to the real-axis Hermitian fixed point and removes one winding.
+    #[arg(long = "descend", value_name = "NAME")]
+    descend: Option<String>,
+
     /// Recover the relative phase word of a set from its closed ring:
     /// `--phase-reconstruct M1 M2 …` reads back the per-unit Ħ phase sequence (or reports N).
     #[arg(long = "phase-reconstruct", num_args = 2.., value_names = ["MONOMERS"])]
@@ -2698,7 +2703,7 @@ mod lane_guard_tests {
         // The verbs the operator narrates in a synthesis must read both ways.
         for v in [
             "excite", "cycle", "polymerize", "close", "forge", "distill", "set", "click",
-            "filter", "ascend", "phase_reconstruct", "star",
+            "filter", "ascend", "descend", "phase_reconstruct", "star",
         ] {
             let (chem, math) = verb_isomorphism(v).unwrap_or_else(|| panic!("no isomorphism for {v}"));
             assert!(!chem.is_empty() && !math.is_empty(), "empty face for {v}");
@@ -3143,6 +3148,7 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         "switch" => vec!["--switch".into(), a(0)?, a(1)?],
         "excite" => vec!["--excite".into(), a(0)?],
         "ascend" => vec!["--ascend".into(), a(0)?],
+        "descend" => vec!["--descend".into(), a(0)?],
         "star" => {
             let mut v = vec!["--star".to_string()];
             v.extend(args.iter().cloned());
@@ -3461,6 +3467,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "stain"         => "stain R M1 M2...; a reagent (kmno4/uv/chiral/ninhydrin/iodine) then 1+ units",
         "filter"     => "filter A B [C …]; 2+ reference names (narrow the catalog to their shared structural floor)",
         "ascend"     => "ascend A; 1 name (construct the next ramified tower level from A's excited state)",
+        "descend"    => "descend A; 1 name (relax A one tower level down: de-excite the criticality and remove one winding)",
         "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
         "star"       => "star M1 M2 M3 …; 4+ names (hub-and-arms star polymer: auto core + arms, ρ=√f)",
         "broadcast"  => "broadcast SOURCE; 1 name (ɢ: the source signals ALL subsystems it couples with, discovered in one catalog sweep — the one-to-all fan-out)",
@@ -3528,6 +3535,10 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         "ascend" => (
             "take the excited resonance and fix it into a constructed higher state (build one floor of the tower)",
             "analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum Ω — one ramified level of the extension tower",
+        ),
+        "descend" => (
+            "relax the excited/continued criticality back to the real-axis ground fixed point and peel off one tower floor (the μ inverse of ascend)",
+            "fluorescence: the complex/exceptional-axis criticality relaxes to the real-axis Hermitian fixed point and one winding quantum Ω is released — one ramified level removed",
         ),
         "phase_reconstruct" => (
             "read the relative phases off a closed ring — fixed up to one global phase",
@@ -3613,7 +3624,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
-    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm",
+    "filter", "ascend", "descend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -4604,6 +4615,7 @@ impl CliClone for Cli {
             imasm: self.imasm.clone(),
             filter: self.filter.clone(),
             ascend: self.ascend.clone(),
+            descend: self.descend.clone(),
             phase_reconstruct: self.phase_reconstruct.clone(),
             context: self.context.clone(),
             cycles: self.cycles,

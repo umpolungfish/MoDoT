@@ -706,6 +706,31 @@
     ],
     "weakest": 1.3333
   },
+  "clarion_magnitude_macrocycle": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 9.5175,
+    "n": 6,
+    "rho": 2.5321,
+    "spectrum": [
+      2.5321,
+      1.3473,
+      0.8794,
+      -0.8794,
+      -1.3473,
+      -2.5321
+    ],
+    "strain": 0.3559,
+    "units": [
+      "compton_split_radius_l9_magnitude",
+      "braid_winding_projector",
+      "magnitude_extractor",
+      "torah_tav_vav_resh",
+      "fibonacci_anyon_o2",
+      "hubble_constant_localized"
+    ],
+    "weakest": 0.6667
+  },
   "closed_ring_3": {
     "branched": false,
     "conductance": "FRUSTRATED",
@@ -917,6 +942,140 @@
     ],
     "weakest": 1.25
   },
+  "h0_axis_seal_macrocycle": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.0417,
+    "units": [
+      "axis_of_evil",
+      "magnitude_extractor",
+      "hubble_constant_localized",
+      "compton_split_radius_l9_magnitude"
+    ],
+    "weakest": 0.5833
+  },
+  "h0_compton_anyon_macrocycle": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.3246,
+    "n": 4,
+    "rho": 3.1623,
+    "spectrum": [
+      3.1623,
+      0.0,
+      -0.0,
+      -3.1623
+    ],
+    "strain": 0.1667,
+    "units": [
+      "hubble_constant_localized",
+      "fibonacci_anyon_o2",
+      "compton_split_radius_l9_magnitude",
+      "kinetic_period_bridge"
+    ],
+    "weakest": 1.3333
+  },
+  "h0_compton_braid_ring": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 7.9515,
+    "n": 5,
+    "rho": 2.5616,
+    "spectrum": [
+      2.5616,
+      1.0,
+      0.4142,
+      -1.5616,
+      -2.4142
+    ],
+    "strain": 0.1816,
+    "units": [
+      "terminal_cosmic_flow",
+      "gimel",
+      "braid_magnitude_extractor",
+      "compton_split_radius_l9_magnitude",
+      "h0_hodge_bridge"
+    ],
+    "weakest": 1.0
+  },
+  "h0_compton_closed_ring": {
+    "branched": true,
+    "conductance": "INSULATING",
+    "energy": 10.7178,
+    "n": 6,
+    "rho": 3.0455,
+    "spectrum": [
+      3.0455,
+      1.3134,
+      1.0,
+      -1.0,
+      -1.3134,
+      -3.0455
+    ],
+    "strain": 0.16,
+    "units": [
+      "g_promoter",
+      "one_way_speed_measurement",
+      "hubble_constant_localized",
+      "sustaining_3loop_modulus_15p",
+      "hubble_l9_bridge_monomer",
+      "compton_split_radius_l9_magnitude"
+    ],
+    "weakest": 0.75
+  },
+  "h0_macrocycle_invariant": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 5.4641,
+    "n": 3,
+    "rho": 2.7321,
+    "spectrum": [
+      2.7321,
+      -0.7321,
+      -2.0
+    ],
+    "strain": 0.0833,
+    "units": [
+      "hubble_constant_localized",
+      "sustaining_3loop_modulus_15p",
+      "omega_bridge_ascended"
+    ],
+    "weakest": 0.6667
+  },
+  "h0_stabilized_l9_ring": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 8.0,
+    "n": 6,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -2.0
+    ],
+    "strain": 0.1779,
+    "units": [
+      "hubble_constant_localized",
+      "sustaining_3loop_modulus_15p",
+      "torah_tav_vav_resh",
+      "hubble_h_bridge",
+      "braid_winding_projector",
+      "magnitude_extractor"
+    ],
+    "weakest": 0.6667
+  },
   "hc_ent_crystal": {
     "branched": false,
     "conductance": "FRUSTRATED",
@@ -1090,6 +1249,33 @@
       "gaussian_moat_problem"
     ],
     "weakest": 1.3333
+  },
+  "kinetic_h0_compton_ring": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 10.4782,
+    "n": 7,
+    "rho": 2.5166,
+    "spectrum": [
+      2.5166,
+      1.5524,
+      1.1701,
+      -0.2873,
+      -0.6889,
+      -1.7817,
+      -2.4812
+    ],
+    "strain": 0.2485,
+    "units": [
+      "hubble_constant_localized",
+      "kinetic_period_bridge",
+      "hubble_l9_bridge_monomer",
+      "sustaining_3loop_modulus_15p",
+      "g_promoter",
+      "one_way_speed_measurement",
+      "compton_split_radius_l9_magnitude"
+    ],
+    "weakest": 0.6667
   },
   "macro_cycle_v1": {
     "branched": true,
@@ -1501,6 +1687,27 @@
     ],
     "weakest": 1.0
   },
+  "relaxed_h0_compton_ring": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1863,
+    "units": [
+      "hubble_constant_localized",
+      "sustaining_3loop_modulus_15p",
+      "hubble_l9_bridge_monomer",
+      "compton_split_radius_l9_magnitude"
+    ],
+    "weakest": 0.6667
+  },
   "reseed_annealed": {
     "branched": false,
     "conductance": "CONDUCTIVE",
@@ -1797,6 +2004,23 @@
     ],
     "weakest": 1.5
   },
+  "sealed_magnitude_gate": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "terminal_cosmic_flow",
+      "bifurcated_extractor"
+    ],
+    "weakest": 0.6667
+  },
   "seven_ring_bridge": {
     "branched": false,
     "conductance": "FRUSTRATED",
@@ -1843,6 +2067,25 @@
     ],
     "weakest": 0.6667
   },
+  "stabilized_h0_l9_macrocycle": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 5.4641,
+    "n": 3,
+    "rho": 2.7321,
+    "spectrum": [
+      2.7321,
+      -0.7321,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "hubble_constant_localized",
+      "hubble_h_bridge",
+      "compton_split_radius_l9_magnitude"
+    ],
+    "weakest": 0.6667
+  },
   "stitched_l9_vessel": {
     "branched": false,
     "conductance": "CONDUCTIVE",
@@ -1859,6 +2102,31 @@
       "carved_ring_3_doubled_a2_quintuple_dagger"
     ],
     "weakest": 0.5
+  },
+  "superconductive_clarion_ring": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 11.2544,
+    "n": 6,
+    "rho": 3.3429,
+    "spectrum": [
+      3.3429,
+      1.4707,
+      0.8136,
+      -0.8136,
+      -1.4707,
+      -3.3429
+    ],
+    "strain": 0.3559,
+    "units": [
+      "magnitude_extractor",
+      "braid_winding_projector",
+      "compton_split_radius_l9_magnitude",
+      "torah_tav_vav_resh",
+      "fibonacci_anyon_o2",
+      "hubble_constant_localized"
+    ],
+    "weakest": 0.6667
   },
   "syndio_resonator_M136279841": {
     "branched": false,

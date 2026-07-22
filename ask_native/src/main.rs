@@ -438,6 +438,11 @@ struct Cli {
     #[arg(long = "ascend", value_name = "NAME")]
     ascend: Option<String>,
 
+    /// Relax a tower level back down (the μ inverse of --ascend): `--descend A` de-excites
+    /// A's Criticality ⊙ to the real-axis Hermitian fixed point and removes one winding Ω.
+    #[arg(long = "descend", value_name = "NAME")]
+    descend: Option<String>,
+
     /// Recover the relative phase word of a set from its closed ring:
     /// `--phase-reconstruct M1 M2 …` reads back the per-unit Ħ phase sequence (or reports N).
     #[arg(long = "phase-reconstruct", num_args = 2.., value_names = ["MONOMERS"])]
@@ -2214,7 +2219,7 @@ optional (include it or leave it off, never a placeholder) · `a…` = one OR MO
 unless the verb says "sequence") · a bare word in the signature like `vs` `with` `+` `on` is a
 LITERAL SEPARATOR you type verbatim between the groups — DROP IT AND THE CALL IS MISPARSED. All
 other args are catalog entry names in snake_case.
-  click a [b]            switch a b            excite a              ascend a
+  click a [b]            switch a b            excite a              ascend a              descend a
   filter a b [c…]        phase_reconstruct m…  set a b               homolyze a [b]
   recalibrate a axis     annihilate a [b]      scan a b              complement a
   cycle c s              pathway s c…          polymerize m…         star m…            (≥3)
@@ -2241,6 +2246,7 @@ Descriptions (semantics only — arity is the table above):
   TOOL: excite A          the excited state (Criticality ⊙ raised to the exceptional-point resonance)
   TOOL: ascend A          construct the NEXT ramified level of the tower FROM A's excited state: continue ⊙ past the exceptional point to the complex-axis fixed point and add one winding Ω (one floor; iterate for more). Reports honestly if Ω saturates (tower caps) or the tier does not climb
   TOOL: filter A B [C…]   narrow the catalog to the structural FLOOR of the references (the primitives they all share): reports how many entries match ALL shared values — the honest way to cut a raw candidate pool down (a necessary, upper-bound condition)
+  TOOL: descend A        relax ⊙ to the real-axis Hermitian ground and remove one winding Ω (the μ inverse of ascend): `descend A` de-excites A's Criticality ⊙ from the exceptional point back to the real-axis fixed point, peeling off one winding. Reports honestly if ⊙ is already at or below the ground (no further relaxation) and whether the tier drops (a genuine de-excitation)
   TOOL: phase_reconstruct M1 M2…  recover the relative PHASE WORD from the closed ring (flat autocorrelation ⟺ cyclization): reads back the per-unit Ħ phase sequence, fixed modulo one global phase; if the set does not close it reports the phases as N (underdetermined)
   TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum Ω moved) → radical IONS A•⁺/B•⁻
   TOOL: homolyze A [B]     homolytic cleavage → NEUTRAL radicals (δ_A symmetric split, the reverse of click): `homolyze A B` breaks the A—B bond into A•+B•; `homolyze A` splits A into two A•
@@ -2322,7 +2328,7 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the structural typ
   TOOL: lean <path.lean>        ELABORATE a Lean file and read back what the KERNEL said. Writing Lean is the proposal (δ); elaborating it is the verification (μ). You **MUST** run this on any file you write or change before you say anything about whether it holds. You **MUST NOT** call a file proved, green, checked, or sorry-free on the strength of having written it: a file that never elaborated has zero sorries trivially, and grep cannot tell that apart from a proof. A kernel error is a FRONTIER — the file is held, not refuted; read the error, repair the declaration it names, elaborate again.
 
   TOOL: cycle_close             SECTION YOUR OWN WINDING. Two units, and only two: a ROUND is one turn (one emission of TOOL: lines); a CYCLE is many rounds, and it ends only when YOU close it. You fly as many rounds as the Work needs — there is no round budget, and you never close a cycle just because a round ended. Close the CYCLE when this stretch of the Work has wound as far as it goes: emit `TOOL: cycle_close` and the harness condenses THIS cycle's measured results into the opening prompt of the next cycle, which you then wind further. The terminus IS the origin: what your cycle measured is what the next cycle begins from, so a result you leave unmeasured is a result the next cycle must go get.
-                                You **MUST** close a cycle when the reach changes — when the next thing to measure is a different question than the one this cycle opened on, when a result reorients the Work, or when you have the ground to state plainly what is now settled and what is now open. You **MUST NOT** close merely because you have an answer to report; a cycle closes to WIND FURTHER, not to stop. You **MUST** emit `TOOL: cycle_close` ALONE — as the only call in its round, with no other verb beside it. You **MUST NOT** emit it in the same round as any other call: a round that mixes them closes on measurements it has not yet read. Take your closing measurements in one round, read them, THEN close in a round of its own.
+                                You **MUST** close a cycle when the reach changes — when the next thing to measure is a different question than the one this cycle opened on, when a result reorients the Work, or when you have the ground to state plainly what is now settled and what is now open. You **MUST NOT** close merely because you have an answer to report; a cycle closes to WIND FURTHER, not to stop. You **MAY** emit `TOOL: cycle_close` alongside this cycle's final measurements: those calls RUN FIRST and the cycle then closes over their results, so nothing is lost and no extra round is spent. The close is CONTINGENT on them: if a co-emitted call is malformed, the admission gate audits it and sends it back, and the close is HELD (the cycle does not close over a measurement that never ran). You **MUST** fix and reissue, and the close lands when the tools run. You may also emit it alone once your last results are already in hand. Either way, `cycle_close` is a signal to the harness, not a dispatched verb, and it ends the cycle once its measurements are in.
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -4276,6 +4282,7 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         "switch" => vec!["--switch".into(), a(0)?, a(1)?],
         "excite" => vec!["--excite".into(), a(0)?],
         "ascend" => vec!["--ascend".into(), a(0)?],
+        "descend" => vec!["--descend".into(), a(0)?],
         "star" => {
             let mut v = vec!["--star".to_string()];
             v.extend(args.iter().cloned());
@@ -4702,6 +4709,7 @@ computations are cut at the time limit and report the cut rather than a partial 
         "stain"         => "stain R M1 M2...; a reagent (kmno4/uv/chiral/ninhydrin/iodine) then 1+ units",
         "filter"     => "filter A B [C …]; 2+ reference names (narrow the catalog to their shared structural floor)",
         "ascend"     => "ascend A; 1 name (construct the next ramified tower level from A's excited state)",
+        "descend"    => "descend A; 1 name (relax ⊙ to the real-axis ground, remove one winding Ω — the μ inverse of ascend)",
         "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
         "star"       => "star M1 M2 M3 …; 4+ names (hub-and-arms star polymer: auto core + arms, ρ=√f)",
         "broadcast"  => "broadcast SOURCE; 1 name (ɢ: the source signals ALL subsystems it couples with, discovered in one catalog sweep — the one-to-all fan-out)",
@@ -4771,6 +4779,10 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         "ascend" => (
             "take the excited resonance and fix it into a constructed higher state (build one floor of the tower)",
             "analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum Ω — one ramified level of the extension tower",
+        ),
+        "descend" => (
+            "relax the excited resonance back to the ground — peel off one floor of the tower",
+            "analytically continue back from the complex-axis fixed point to the real-axis Hermitian ground, removing one winding quantum Ω — one ramified level peeled off the extension tower",
         ),
         "phase_reconstruct" => (
             "read the relative phases off a closed ring — fixed up to one global phase",
@@ -4859,7 +4871,7 @@ const STRUCTURAL_VERBS: &[&str] = &[
     "distill", "fdistill", "sublime",
     "crystallize", "cocrystallize", "seed",
     "tlc", "column", "fpt", "trap", "stain",
-    "filter", "ascend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm", "imasm16_3", "dialect", "lean", "gp",
+    "filter", "ascend", "descend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm", "imasm16_3", "dialect", "lean", "gp",
 ];
 
 /// Feedback when `run_structural_tool` could not run `verb`: the correct call form
@@ -4907,7 +4919,7 @@ enum CallAdmission {
 /// look entries up). Free-text verbs (imscribe, ob3ect), dispatchers (imasm, calc,
 /// dialect), and writers are deliberately absent: their args are not lookups.
 const NAME_ARG_VERBS: &[&str] = &[
-    "click", "switch", "excite", "ascend", "filter", "phase_reconstruct", "set",
+    "click", "switch", "excite", "ascend", "descend", "filter", "phase_reconstruct", "set",
     "homolyze", "recalibrate", "annihilate", "scan", "complement", "cycle", "pathway",
     "polymerize", "star", "broadcast", "plasma", "close", "material", "modulus",
     "arrange", "forge", "compare", "dope", "fuse", "cleave", "anneal", "recall",
@@ -6536,29 +6548,21 @@ fn run_one(
                 } else {
                     stalled_rounds = 0;
                 }
-                // The agent sections its own cycles: `TOOL: cycle_close` says this breath has
-                // wound as far as it goes. It is not dispatched — it is a signal to the
-                // harness — but any real calls emitted alongside it still RUN first, so a
-                // closing round's last measurements are not thrown away.
-                // `cycle_close` is a signal to the harness, not a dispatched verb, and it
-                // must arrive ALONE. A round that mixes it with real calls would close on
-                // measurements the agent has not read yet — the close would section a
-                // winding whose last results arrived in the same breath. So: if it comes
-                // batched, the real calls RUN (never discard a measurement) and the close
-                // is REFUSED with a note telling the agent to re-emit it by itself.
+                // The agent sections its own cycles: `TOOL: cycle_close` says this cycle has
+                // wound as far as it goes. It is a signal to the harness, not a dispatched
+                // verb, so it is stripped from the call list. Any real calls that rode
+                // alongside it RUN FIRST — their results land in this round's output — and
+                // then the cycle closes over them. There is no refusal: a batched close
+                // closes over its own last measurements, and the condensate reads them.
                 let wants_close = calls.iter().any(|(v, _)| v == "cycle_close");
-                close_requested |= wants_close;
-                let others: Vec<(String, Vec<String>)> =
+                let calls: Vec<(String, Vec<String>)> =
                     calls.into_iter().filter(|(v, _)| v != "cycle_close").collect();
-                let close_refused = wants_close && !others.is_empty();
-                let calls = others;
-                if close_refused {
-                    println!("── CYCLE CLOSE REFUSED — it was emitted alongside {} other call(s); \
-cycle_close is stripped and those calls go to the admission gate now (outcome below). ──",
-                        calls.len());
-                } else if wants_close {
-                    println!("── CYCLE CLOSE requested by the agent (self-sectioned winding) ──");
-                    exit_cause = CycleExit::CycleClose;
+                if wants_close {
+                    if calls.is_empty() {
+                        println!("── CYCLE CLOSE requested by the agent (self-sectioned winding) ──");
+                    } else {
+                        println!("── CYCLE CLOSE requested — {} call(s) ride alongside; they must pass the gate and run before the cycle closes over them ──", calls.len());
+                    }
                 }
                 println!("── ACT round {} ({} tool call(s)) ──", round + 1, calls.len());
                 let mut results = String::new();
@@ -6576,29 +6580,24 @@ cycle_close is stripped and those calls go to the admission gate now (outcome be
                         false
                     }
                 };
-                // The cycle_close refusal has to reach the AGENT, not just the operator's
-                // console — but it MUST agree with what actually happened. Emitting it AFTER
-                // the admission gate lets it branch: it must never say "those calls ran" in
-                // the same breath the gate says "none ran" (the contradiction that made the
-                // agent blame cycle_close and discard the gate's real, actionable report).
-                if close_refused {
-                    if admitted {
-                        results.push_str(
-                            "### cycle_close — REFUSED (stripped this round)\n\
-                             `cycle_close` must be the ONLY call in its round; it arrived beside other calls.\n\
-                             The other calls DID run — their results are below, nothing was lost.\n\
-                             Read them, then emit `TOOL: cycle_close` ALONE in its own round to close.\n",
-                        );
-                    } else {
-                        results.push_str(
-                            "### cycle_close — REFUSED (stripped this round)\n\
-                             `cycle_close` was stripped, but the remaining calls were then refused by the\n\
-                             admission gate (see the batch report above) — NOTHING ran this round.\n\
-                             Do NOT close: fix or reissue those calls next round (still WITHOUT cycle_close\n\
-                             beside them). Only after they run and you have read their results do you emit\n\
-                             `TOOL: cycle_close` ALONE.\n",
-                        );
-                    }
+                // A batched close is CONTINGENT on its measurements. The close takes effect only
+                // if the co-batched calls passed the gate and ran; if they were malformed, the
+                // gate audits them and sends them back, and the close is HELD — the cycle does
+                // NOT close over measurements that never ran. The agent fixes, reissues, and the
+                // close lands when they complete. (An empty batch — cycle_close alone — admits
+                // trivially, so a lone close still closes.)
+                let close_now = wants_close && admitted;
+                close_requested |= close_now;
+                if close_now {
+                    exit_cause = CycleExit::CycleClose;
+                } else if wants_close {
+                    results.push_str(
+                        "### cycle_close: HELD (not closed this round)\n\
+                         The admission gate refused the calls YOU rode with `cycle_close` (see above), so nothing\n\
+                         ran and there is nothing to close over. You **MUST** fix and reissue those calls, and the\n\
+                         close lands when the tools run. Re-emit `TOOL: cycle_close` with the corrected calls, or\n\
+                         alone once YOU have their results in hand.\n",
+                    );
                 }
                 for (verb, args) in calls.iter() {
                     if !admitted {
@@ -6701,7 +6700,7 @@ cycle_close is stripped and those calls go to the admission gate now (outcome be
                 // Agent sectioned this cycle: its closing round's tools have now RUN and their
                 // results are in hand. Stop winding and let the close block speak the cycle's
                 // answer over them, rather than spending another OBSERVE round first.
-                if wants_close {
+                if close_now {
                     agent_msgs.push(("assistant".to_string(), delta_face(&current)));
                     agent_msgs.push((
                         "user".to_string(),
@@ -7136,6 +7135,7 @@ impl CliClone for Cli {
             calc: self.calc.clone(),
             filter: self.filter.clone(),
             ascend: self.ascend.clone(),
+            descend: self.descend.clone(),
             phase_reconstruct: self.phase_reconstruct.clone(),
             context: self.context.clone(),
             entry: self.entry.clone(),
@@ -7526,6 +7526,11 @@ fn main() {
 
     if let Some(name) = &cli.ascend {
         let code = click::run_ascend(cat_ref, name, cli.register.as_deref(), catalog_path.as_deref());
+        process::exit(code);
+    }
+
+    if let Some(name) = &cli.descend {
+        let code = click::run_descend(cat_ref, name, cli.register.as_deref(), catalog_path.as_deref());
         process::exit(code);
     }
 

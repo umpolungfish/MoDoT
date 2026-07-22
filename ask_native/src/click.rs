@@ -3721,6 +3721,93 @@ pub fn run_ascend(
     0
 }
 
+/// ⊙ = monad (1): the real-axis Hermitian ground fixed point — the de-excited criticality
+/// a `descend` relaxes to (the μ leg of excite's δ).
+const RELAXED_FIXED: u8 = 1;
+
+/// CLI: `./ask --descend A` — the inverse of `--ascend`: the μ-relaxation / de-ramification
+/// leg. `ascend` is δ (excite the Criticality ⊙ to the exceptional point, IFIX-continue up to
+/// the complex-axis fixed point, add a winding floor Ω+1). `descend` is μ: relax ⊙ from the
+/// excited/continued complex-axis criticality back to the real-axis Hermitian ground fixed
+/// point (fluorescence), and remove one ramified winding floor (Ω−1). Over the tower,
+/// ascend then descend is the μ∘δ round-trip that returns toward the ground the ascent left.
+pub fn run_descend(
+    catalog: Option<&[CatalogEntry]>,
+    name: &str,
+    register: Option<&str>,
+    catalog_path: Option<&Path>,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("descend: no catalog loaded");
+        return 2;
+    };
+    let Some(e) = find_entry(cat, name) else {
+        eprintln!("descend: catalog entry not found: {name}");
+        return 2;
+    };
+    let ground = Tuple::from_entry(e).ord;
+    println!("descend:  {name}  →relax(μ)→ {name}⁻ (de-excited, one tower level down)");
+    let Some(cur) = ground[CRIT] else {
+        println!("  ✗ {name} has no Criticality ⊙ — nothing to relax.");
+        return 0;
+    };
+    let mut ext = ground;
+    let relaxed = if cur > RELAXED_FIXED {
+        ext[CRIT] = Some(RELAXED_FIXED);
+        true
+    } else {
+        false
+    };
+    if relaxed {
+        println!(
+            "  μ-relaxation: ⊙ {}→{} (the complex/exceptional-axis criticality relaxes to the real-axis Hermitian fixed point — fluorescence, the μ leg of excite)",
+            glyph_of(CRIT, cur),
+            glyph_of(CRIT, RELAXED_FIXED)
+        );
+    } else {
+        println!(
+            "  ⊙={} is already at or below the real-axis ground fixed point — no further relaxation.",
+            glyph_of(CRIT, cur)
+        );
+    }
+    let deramified = match ext[WIND] {
+        Some(w) if w > 0 => {
+            ext[WIND] = Some(w - 1);
+            true
+        }
+        _ => false,
+    };
+    if deramified {
+        println!(
+            "  ramified layer removed: Ω −1 → {} (one floor of the tower peeled off — a winding quantum released)",
+            glyph_of(WIND, ext[WIND].unwrap())
+        );
+    } else {
+        println!("  ⚠ Ω already at the base — no ramified layer to remove; the tower FLOORS here (report the floor honestly, do not force it).");
+    }
+    println!("  {name}⁻  {}   — the relaxed form (one level down)", fmt_tuple(&ext));
+    let (sc0, sc1) = (tier_score(&ground), tier_score(&ext));
+    println!("  tier: {} → {}  ({sc0} → {sc1})", tier_label(sc0), tier_label(sc1));
+    if sc1 > sc0 {
+        println!("  ✓ the descent RAISED the tier — relaxing ⊙ to the real-axis Hermitian fixed point (⊙=⊙) turned ON the self-modeling criticality gate. The GROUND state self-models where the excited/continued state did not: the PHI_C fixed point is DOWN, not up.");
+    } else if sc1 < sc0 {
+        println!("  ✓ the descent LOWERED the tier — a genuine de-excitation, the μ leg of ascend.");
+    } else {
+        println!("  the descent HELD the tier — relaxed but the score did not change (already at the real-axis fixed point).");
+    }
+    if let (Some(reg), Some(path)) = (register, catalog_path) {
+        let nm = if reg.is_empty() { format!("{name}_descended") } else { reg.to_string() };
+        let desc = format!(
+            "relaxed form {name}⁻ — {name} de-excited: Criticality ⊙ relaxed to the real-axis Hermitian fixed point and one ramified winding floor removed (Ω −1). The μ-relaxation inverse of ascend."
+        );
+        match register_chimera(path, &nm, &desc, &ext, "descend") {
+            Ok(()) => println!("  ✓ registered '{nm}' — the relaxed level is now a navigable object."),
+            Err(e) => println!("  ✗ register failed: {e}"),
+        }
+    }
+    0
+}
+
 /// CLI: `./ask --phase-reconstruct M1 M2 …`. Recover the structural PHASE WORD of a set from
 /// its closed ring. Structurally, the flat-autocorrelation constraint IS ring closure: a set
 /// whose best order cyclizes fixes a relative phase word — the per-unit chirality Ħ sequence —
