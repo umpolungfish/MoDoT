@@ -127,13 +127,23 @@ fn parse_line(tok: &str, current: &mut String) -> Option<Line> {
 // δ near a whole winding for penetrating (s, p); near zero for non-penetrating (d, f).
 // Hydrogen: identically zero — no core to thread, so the bare ladder is exact.
 fn quantum_defect(element: &str, l: i32) -> f64 {
+    // δ_l = N_core(l) − ε_l: the integer part is the count of core windings of the
+    // same poloidal symmetry l (read off the electron configuration), the slope
+    // exactly one slip per threaded core winding; ε_l is the sub-winding remainder.
     match element {
         "H" | "D" | "He+" => 0.0,
-        "Li" => [1.588, 0.047, 0.002, 0.0][l.clamp(0, 3) as usize],
+        "Li" => [0.400, 0.047, 0.000, 0.0][l.clamp(0, 3) as usize],
         "Na" => [1.373, 0.883, 0.010, 0.000][l.clamp(0, 3) as usize],
         "K" => [2.180, 1.713, 0.277, 0.010][l.clamp(0, 3) as usize],
         _ => 0.0, // unknown atom: treat hydrogenically, report the assumption
     }
+}
+
+/// Core windings of poloidal symmetry l threaded by an n_val valence electron, from
+/// the shell structure: s (l=0) has n_val−1 core shells below it, p (l=1) has n_val−2.
+/// This is the integer part of the quantum defect, counted off the periodic table.
+fn core_windings(n_val: i32, l: i32) -> i32 {
+    (n_val - 1 - l).max(0)
 }
 
 /// Level energy E_{n,l} in eV: −Ry_eff / (n − δ_l)², a winding fraction of the anchor.
@@ -223,12 +233,20 @@ fn report_alkali(element: &str, lines: &[Line]) {
     let ry = rydberg_ev(0.0); // heavy nucleus: reduced-mass slip negligible
     println!("── {element} (single valence winding; defect = core-penetration slip) ──");
     let defects: Vec<(i32, f64)> = (0..3).map(|l| (l, quantum_defect(element, l))).collect();
+    let nv = valence_n(element);
     print!("  penetration defects  ");
     for (l, d) in &defects {
         let orb = ["s", "p", "d"][*l as usize];
         print!("δ_{orb}={d:.3}  ");
     }
     println!();
+    print!("  core windings threaded (from the electron configuration)  ");
+    for (l, d) in &defects {
+        let orb = ["s", "p", "d"][*l as usize];
+        let nc = core_windings(nv, *l);
+        print!("N_{orb}={nc} (ε={:.2})  ", nc as f64 - d);
+    }
+    println!("\n  → δ_l = N_core(l) − ε_l: the integer part is COUNTED off the periodic table, slope one slip per threaded core winding; ε_l is the sub-winding remainder.");
 
     // Identify each line as the lowest n_p → n_s valence transition matching it.
     let ns = valence_n(element);
@@ -352,6 +370,17 @@ mod tests {
         let a = Winding { n: 3, l: 2, m: 0 };
         let b = Winding { n: 2, l: 0, m: 0 };
         assert!(dipole_allowed(a, b).is_err()); // Δl = −2 forbidden
+    }
+
+    #[test]
+    fn core_windings_counted_off_the_shells() {
+        // Na (n_val=3): 2 core s-windings (1s,2s), 1 core p-winding (2p), 0 core d.
+        assert_eq!(core_windings(3, 0), 2);
+        assert_eq!(core_windings(3, 1), 1);
+        assert_eq!(core_windings(3, 2), 0);
+        // Li (n_val=2): 1 core s, 0 core p.
+        assert_eq!(core_windings(2, 0), 1);
+        assert_eq!(core_windings(2, 1), 0);
     }
 
     #[test]
