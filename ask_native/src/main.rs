@@ -443,6 +443,19 @@ struct Cli {
     /// A's Criticality ⊙ to the real-axis Hermitian fixed point and removes one winding Ω.
     #[arg(long = "descend", value_name = "NAME")]
     descend: Option<String>,
+    /// Broadcast: the ɢ primitive (f → all(x)) — one SOURCE signals every subsystem it
+    /// couples with, discovered in a single catalog sweep. Realized as the click-sweep from
+    /// the source:  finds every catalog entry that clicks with it.
+    #[arg(long = "broadcast", value_name = "SOURCE")]
+    broadcast: Option<String>,
+
+    /// Plasma reading: read an entry's 12-primitive tuple as a plasma design — regime
+    /// (kinetic/gyrokinetic/fluid via Ð,ƒ), instability cascade (ɢ,⊙,Ħ), confinement /
+    /// magnetic topology (Ω), species (Σ), and diagnostic wave signatures. Shells to the
+    /// red-hot_rebis plasma forge.
+    #[arg(long = "plasma", value_name = "NAME")]
+    plasma: Option<String>,
+
 
     /// Recover the relative phase word of a set from its closed ring:
     /// `--phase-reconstruct M1 M2 …` reads back the per-unit Ħ phase sequence (or reports N).
@@ -7206,6 +7219,8 @@ impl CliClone for Cli {
             stain: self.stain.clone(),
             recall: self.recall.clone(),
             export: self.export.clone(),
+            broadcast: self.broadcast.clone(),
+            plasma: self.plasma.clone(),
             jam: self.jam,
             imscribe: self.imscribe.clone(),
             catalyst: self.catalyst.clone(),
@@ -7576,6 +7591,28 @@ fn main() {
             process::exit(code);
         }
     }
+
+    // Broadcast: the ɢ primitive (one-to-all fan-out). Realized as click-sweep
+    // from the source — finds every catalog entry that clicks with it.
+    if let Some(source) = &cli.broadcast {
+        let code = click::run_click_sweep(
+            cat_ref,
+            source,
+            cli.theta,
+            cli.catalyst.as_deref(),
+            cli.top,
+        );
+        process::exit(code);
+    }
+
+    // Plasma reading: shell to the red-hot_rebis plasma forge for the regime/
+    // instabilities/confinement analysis of an entry's tuple.
+    if let Some(name) = cli.plasma.as_deref() {
+        let out = run_plasma(&[name.to_string()]);
+        println!("{}", out);
+        process::exit(0);
+    }
+
 
     if let Some(names) = &cli.click {
         let code = match names.len() {

@@ -879,6 +879,23 @@
     ],
     "weakest": 2.0
   },
+  "finn_prismo_alloy": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "finn_the_human",
+      "prismo___wish_granting_cosmic_being_living_in_the_time_room"
+    ],
+    "weakest": 1.0
+  },
   "five_constant_ring": {
     "branched": false,
     "conductance": "FRUSTRATED",
@@ -1627,6 +1644,48 @@
       "magnetic_reconnection"
     ],
     "weakest": 1.3333
+  },
+  "ooo_core_alloy": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.3005,
+    "units": [
+      "finn_the_human",
+      "prismo___wish_granting_cosmic_being_living_in_the_time_room",
+      "jake_the_dog___finns_magical,_shape_shifting_best_friend",
+      "princess_bubblegum___intelligent,_scientific_ruler_of_the"
+    ],
+    "weakest": 0.5
+  },
+  "ooo_dark_quartet": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.2594,
+    "units": [
+      "finn_the_human",
+      "ice_king___magically_insane,_princess_kidnapping_ex",
+      "marceline_the_vampire_queen___1,000_year_old_vampire_rocker",
+      "princess_bubblegum___intelligent,_scientific_ruler_of_the"
+    ],
+    "weakest": 0.5
   },
   "perfect_cuboid_descent_ring": {
     "branched": true,

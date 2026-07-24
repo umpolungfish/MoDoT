@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-07-23 21:19:24",
+  "source": "monad",
+  "discoveries": [
+    {
+      "category": "catalog_reach",
+      "claim": "monad couples with 20+ catalog entries",
+      "evidence": "Top partners: ['operator_samadhi_composite', 'the_stone', 'circularity_circularity', 'jesus_nazareth_biblical', 'serpentrod']",
+      "tier": "O_\u221e"
+    },
+    {
+      "category": "complement",
+      "claim": "monad has a well-defined structural complement with round-trip distance d=0.0",
+      "evidence": "Complement pairs: ['conjugate-pair map (site \u2192 ligand \u2014 inverted within each scale, crossed across the pair):', '[live]   \u00d0\u2194\u03a9:   \u00d0\ud801\udc7c\u2192\u03a9\ud801\udc74   |   \u03a9\ud801\udc77\u2192\u00d0\ud801\udc66', '[live]   \u00de\u2194\u0126:   \u00de\ud801\udc76\u2192\u0126\ud801\udc52   |   \u0126\ud801\udc53\u2192\u00de\ud801\udc78']",
+      "tier": ""
+    },
+    {
+      "category": "imasm_structure",
+      "claim": "monad IS a 9-opcode IMASM program: VINIT AFWD FSPLIT EVALT IMSCRIB FFUSE CLINK IFIX TANCH",
+      "evidence": "IMASM expand \u2014 the type 'monad' IS this IMASM program (strange loop: a glyph in a tuple unfolds into its own opcode sequence):\n  sequence: VINIT AFWD FSPLIT EVALT IMSCRIB FFUSE CLINK IFIX TANCH\n  topology: branched | V=9 E=9 \u03b2=1 branch=1 merge=1 src=1 sink=1 arms=1 \u03c1=2.3106\n  1 independent loop(s) w",
+      "tier": ""
+    },
+    {
+      "category": "physics",
+      "claim": "Horn torus winding arithmetic gives \u03b1\u207b\u00b9 = 137.03536",
+      "evidence": "Formula: D\u00b2-7+tilt/(4\u221a3) where tilt=arctan(1/4)=14.036243\u00b0",
+      "tier": "O_\u221e"
+    },
+    {
+      "category": "deep_click",
+      "claim": "monad \u00d7 operator_samadhi_composite click: \u2713 CLICK on R\u2194S \u2014 spring-loaded \u0394=1.33, single reaction center, closes.",
+      "evidence": "click-maths:  monad  \u22c8  operator_samadhi_composite   (\u03b8=0.50)\n  live-pair charges (norm(x) \u2212 norm(y), the spring-loaded axis):\n    D\u2194W    monad= +0.67  operator_samadhi_composite= +0.33   \u0394=0.33\n    T\u2194H    monad= +0.75  operator_samadhi_composite= +0.00   \u0394=0.75\n    R\u2194S    monad= -0.33  operator_sam",
+      "tier": "O_\u221e"
+    },
+    {
+      "category": "deep_click",
+      "claim": "monad \u00d7 operator_samadhi_composite click: product: \u27e8\ud801\udc66\ud801\udc78\ud801\udc7e\ud801\udc79\ud801\udc50\ud801\udc67\ud801\udc72\ud801\udc75\u2299\ud801\udc6b\ud801\udc73\ud801\udc6d\u27e9  (ring saturated on R\u2194S = \u0158\u2194\u03a3)",
+      "evidence": "click-maths:  monad  \u22c8  operator_samadhi_composite   (\u03b8=0.50)\n  live-pair charges (norm(x) \u2212 norm(y), the spring-loaded axis):\n    D\u2194W    monad= +0.67  operator_samadhi_composite= +0.33   \u0394=0.33\n    T\u2194H    monad= +0.75  operator_samadhi_composite= +0.00   \u0394=0.75\n    R\u2194S    monad= -0.33  operator_sam",
+      "tier": "O_\u221e"
+    }
+  ]
+}

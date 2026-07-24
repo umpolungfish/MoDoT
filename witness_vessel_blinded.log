@@ -1,0 +1,673 @@
+This is TeX, Version 3.141592653 (TeX Live 2022/dev/Debian) (preloaded format=tex 2026.2.3)  22 JUL 2026 14:07
+**../witness_vessel_submission/witness_vessel_blinded.tex
+(../witness_vessel_submission/witness_vessel_blinded.tex
+! Undefined control sequence.
+l.1 \documentclass
+                  [12pt,a4paper]{article}
+? 
+! Undefined control sequence.
+l.4 \usepackage
+               {fontspec}
+? 
+! Undefined control sequence.
+l.5 \usepackage
+               {unicode-math}
+? 
+! Undefined control sequence.
+l.6 \setmainfont
+                {Linux Libertine O}
+? 
+! Undefined control sequence.
+l.7 \setmathfont
+                {TeX Gyre Pagella Math}
+? 
+! Undefined control sequence.
+l.8 \newfontfamily
+                  \shavfont{Trabajo}
+? 
+! Undefined control sequence.
+l.8 \newfontfamily\shavfont
+                           {Trabajo}
+? 
+! Undefined control sequence.
+l.9 \newfontfamily
+                  \igprimfont{Everson Mono}
+? 
+! Undefined control sequence.
+l.9 \newfontfamily\igprimfont
+                             {Everson Mono}
+? 
+! Undefined control sequence.
+l.10 \setmonofont
+                 [Scale=0.85]{Everson Mono}
+? 
+
+Overfull \hbox (22.14647pt too wide) in paragraph at lines 4--11
+[]\tenrm fontspec unicode-math Linux Lib-er-tine O TeX Gyre Pag-ella Math Tra-b
+ajo Ev-er-son Mono [Scale=0.85]Everson|
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\hbox(0.0+0.0)x20.0
+.\tenrm f
+.\tenrm o
+.\tenrm n
+.\kern-0.27779
+.etc.
+
+! Undefined control sequence.
+l.13 \usepackage
+                [top=1in, bottom=1in, left=1.1in, right=1.1in, headheight=15...
+
+? 
+! Undefined control sequence.
+l.14 \usepackage
+                {microtype}
+? 
+! Undefined control sequence.
+l.15 \usepackage
+                {parskip}
+? 
+! Undefined control sequence.
+l.16 \usepackage
+                [english]{babel}
+? 
+! Undefined control sequence.
+l.17 \setlength
+               {\emergencystretch}{2em}
+? 
+! Missing number, treated as zero.
+<to be read again> 
+                   }
+l.17 \setlength{\emergencystretch}
+                                  {2em}
+? 
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   }
+l.17 \setlength{\emergencystretch}
+                                  {2em}
+? 
+
+Overfull \hbox (14.69063pt too wide) in paragraph at lines 13--18
+[]\tenrm [top=1in, bot-tom=1in, left=1.1in, right=1.1in, head-height=15pt]geome
+try mi-crotype parskip [en-glish]babel|
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\hbox(0.0+0.0)x20.0
+.\tenrm [
+.\tenrm t
+.\tenrm o
+.\tenrm p
+.etc.
+
+! Undefined control sequence.
+l.20 \usepackage
+                {fancyhdr}
+? 
+! Undefined control sequence.
+l.21 \pagestyle
+               {fancy}
+? 
+! Undefined control sequence.
+l.22 \fancyhf
+             {}
+? 
+! Undefined control sequence.
+l.23 \fancyhead
+               [L]{\leftmark}
+? 
+! Undefined control sequence.
+l.23 \fancyhead[L]{\leftmark
+                            }
+? 
+! Undefined control sequence.
+l.24 \fancyhead
+               [R]{\thepage}
+? 
+! Undefined control sequence.
+l.24 \fancyhead[R]{\thepage
+                           }
+? 
+! Undefined control sequence.
+l.25 \renewcommand
+                  {\headrulewidth}{0.4pt}
+? 
+! Undefined control sequence.
+l.25 \renewcommand{\headrulewidth
+                                 }{0.4pt}
+? 
+! Undefined control sequence.
+l.28 \usepackage
+                {titlesec}
+? 
+! Undefined control sequence.
+l.29 \titleformat
+                 {\section}{\Large\bfseries}{\thesection}{1em}{}
+? 
+! Undefined control sequence.
+l.29 \titleformat{\section
+                          }{\Large\bfseries}{\thesection}{1em}{}
+? 
+! Undefined control sequence.
+l.29 \titleformat{\section}{\Large
+                                  \bfseries}{\thesection}{1em}{}
+? 
+! Undefined control sequence.
+l.29 \titleformat{\section}{\Large\bfseries
+                                           }{\thesection}{1em}{}
+? 
+! Undefined control sequence.
+l.29 ...mat{\section}{\Large\bfseries}{\thesection
+                                                  }{1em}{}
+? 
+! Undefined control sequence.
+l.30 \titleformat
+                 {\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+? 
+! Undefined control sequence.
+l.30 \titleformat{\subsection
+                             }{\large\bfseries}{\thesubsection}{1em}{}
+? 
+! Undefined control sequence.
+l.30 \titleformat{\subsection}{\large
+                                     \bfseries}{\thesubsection}{1em}{}
+? 
+! Undefined control sequence.
+l.30 \titleformat{\subsection}{\large\bfseries
+                                              }{\thesubsection}{1em}{}
+? 
+! Undefined control sequence.
+l.30 ...ubsection}{\large\bfseries}{\thesubsection
+                                                  }{1em}{}
+? 
+! Undefined control sequence.
+l.31 \titleformat
+                 {\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1...
+
+? 
+! Undefined control sequence.
+l.31 \titleformat{\subsubsection
+                                }{\normalsize\bfseries}{\thesubsubsection}{1...
+
+? 
+! Undefined control sequence.
+l.31 \titleformat{\subsubsection}{\normalsize
+                                             \bfseries}{\thesubsubsection}{1...
+
+? 
+! Undefined control sequence.
+l.31 ...ormat{\subsubsection}{\normalsize\bfseries
+                                                  }{\thesubsubsection}{1em}{}
+? 
+! Undefined control sequence.
+l.31 ...n}{\normalsize\bfseries}{\thesubsubsection
+                                                  }{1em}{}
+? 
+! Undefined control sequence.
+l.34 \usepackage
+                {enumitem}
+? 
+! Undefined control sequence.
+l.35 \setlist
+             [itemize]{topsep=0.5ex, itemsep=0.25ex, parsep=0pt}
+? 
+! Undefined control sequence.
+l.36 \setlist
+             [enumerate]{topsep=0.5ex, itemsep=0.25ex, parsep=0pt}
+? 
+
+Overfull \hbox (9.02377pt too wide) in paragraph at lines 34--37
+[]\tenrm enumitem [item-ize]topsep=0.5ex, item-sep=0.25ex, parsep=0pt [enu-mer-
+ate]topsep=0.5ex, item-sep=0.25ex,|
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\hbox(0.0+0.0)x20.0
+.\tenrm e
+.\tenrm n
+.\kern-0.27779
+.\tenrm u
+.etc.
+
+! Undefined control sequence.
+l.39 \usepackage
+                {amsmath,amsthm}
+? 
+! Undefined control sequence.
+l.40 \usepackage
+                {mathtools}
+? 
+! Undefined control sequence.
+l.41 \usepackage
+                {booktabs}
+? 
+! Undefined control sequence.
+l.42 \usepackage
+                {array}
+? 
+! Undefined control sequence.
+l.43 \usepackage
+                {tabularx}
+? 
+! Undefined control sequence.
+l.44 \usepackage
+                [table]{xcolor}
+? 
+! Undefined control sequence.
+l.45 \renewcommand
+                  {\arraystretch}{1.3}
+? 
+! Undefined control sequence.
+l.45 \renewcommand{\arraystretch
+                                }{1.3}
+? 
+! Undefined control sequence.
+l.48 \usepackage
+                {listings}
+? 
+! Undefined control sequence.
+l.49 \definecolor
+                 {codebg}{RGB}{248,248,248}
+? 
+! Undefined control sequence.
+l.50 \definecolor
+                 {codeframe}{RGB}{200,200,200}
+? 
+! Undefined control sequence.
+l.51 \definecolor
+                 {codekeyword}{RGB}{0,0,180}
+? 
+! Undefined control sequence.
+l.52 \definecolor
+                 {codecomment}{RGB}{0,128,0}
+? 
+! Undefined control sequence.
+l.53 \lstset
+            {
+? 
+! Undefined control sequence.
+l.54   basicstyle=\ttfamily
+                           \footnotesize,
+? 
+! Undefined control sequence.
+l.54   basicstyle=\ttfamily\footnotesize
+                                        ,
+? 
+! Undefined control sequence.
+l.55   backgroundcolor=\color
+                             {codebg},
+? 
+! Undefined control sequence.
+l.57   rulecolor=\color
+                       {codeframe},
+? 
+! Undefined control sequence.
+l.58   keywordstyle=\color
+                          {codekeyword}\bfseries,
+? 
+! Undefined control sequence.
+l.58   keywordstyle=\color{codekeyword}\bfseries
+                                                ,
+? 
+! Undefined control sequence.
+l.59   commentstyle=\color
+                          {codecomment}\itshape,
+? 
+! Undefined control sequence.
+l.59   commentstyle=\color{codecomment}\itshape
+                                               ,
+? 
+
+Overfull \hbox (30.13493pt too wide) in paragraph at lines 48--67
+[]\tenrm listings code-b-gRGB248,248,248 code-frameRGB200,200,200 codekey-wor-d
+RGB0,0,180 code-com-men-tRGB0,128,0|
+
+\hbox(6.94444+1.94444)x469.75499, glue set - 1.0
+.\hbox(0.0+0.0)x20.0
+.\tenrm l
+.\tenrm i
+.\tenrm s
+.\tenrm t
+.etc.
+
+
+Overfull \hbox (3.746pt too wide) in paragraph at lines 48--67
+\tenrm ba-sic-style=, back-ground-color=codebg, frame=single, rule-color=codefr
+ame, key-word-style=codekeyword, com-|
+
+\hbox(6.94444+1.94444)x469.75499, glue set - 1.0
+.\tenrm b
+.\tenrm a
+.\discretionary
+..\tenrm -
+.\tenrm s
+.\tenrm i
+.etc.
+
+
+Overfull \hbox (127.30185pt too wide) in paragraph at lines 48--67
+\tenrm mentstyle=codecomment, break-lines=true, cap-tion-pos=b, morekey-words=a
+xiom,def,theorem,noncomputable,structure,where,namespace,|
+
+\hbox(6.94444+1.94444)x469.75499, glue set - 1.0
+.\tenrm m
+.\tenrm e
+.\tenrm n
+.\kern-0.27779
+.\tenrm t
+.etc.
+
+
+Overfull \hbox (23.77385pt too wide) in paragraph at lines 48--67
+\tenrm open,import,section,end,fun,exact,intro,simp,rfl,decide, con-struc-tor,o
+btain,refine,cases,by,have,use,rw,match,with,|
+
+\hbox(6.94444+1.94444)x469.75499, glue set - 1.0
+.\tenrm o
+.\tenrm p
+.\kern0.27779
+.\tenrm e
+.\tenrm n
+.etc.
+
+! Undefined control sequence.
+l.69 \usepackage
+                {hyperref}
+? 
+! Undefined control sequence.
+l.70 \usepackage
+                {cleveref}
+? 
+! Undefined control sequence.
+l.71 \hypersetup
+                {colorlinks=true, linkcolor=blue, urlcolor=cyan, citecolor=b...
+
+? 
+! Undefined control sequence.
+l.75 \newtheorem
+                {theorem}{Theorem}[section]
+? 
+! Undefined control sequence.
+l.76 \newtheorem
+                {lemma}[theorem]{Lemma}
+? 
+! Undefined control sequence.
+l.77 \newtheorem
+                {proposition}[theorem]{Proposition}
+? 
+! Undefined control sequence.
+l.78 \newtheorem
+                {corollary}[theorem]{Corollary}
+? 
+! Undefined control sequence.
+l.79 \newtheorem
+                {definition}[theorem]{Definition}
+? 
+! Undefined control sequence.
+l.80 \newtheorem
+                {remark}[theorem]{Remark}
+? 
+
+Overfull \hbox (30.44052pt too wide) in paragraph at lines 75--81
+[]\tenrm theoremTheorem[section] lemma[theorem]Lemma propo-si-tion[theorem]Prop
+osition corol-lary[theorem]Corollary|
+
+\hbox(7.5+2.5)x469.75499, glue set - 1.0
+.\hbox(0.0+0.0)x20.0
+.\tenrm t
+.\tenrm h
+.\tenrm e
+.\tenrm o
+.etc.
+
+! Undefined control sequence.
+l.84 \newcommand
+                {\igp}[1]{{\igprimfont #1}}
+? 
+! Undefined control sequence.
+l.84 \newcommand{\igp
+                     }[1]{{\igprimfont #1}}
+? 
+! Undefined control sequence.
+l.84 \newcommand{\igp}[1]{{\igprimfont
+                                       #1}}
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+l.84 \newcommand{\igp}[1]{{\igprimfont #
+                                        1}}
+? 
+! Undefined control sequence.
+l.85 \newcommand
+                {\shav}[1]{{\shavfont #1}}
+? 
+! Undefined control sequence.
+l.85 \newcommand{\shav
+                      }[1]{{\shavfont #1}}
+? 
+! Undefined control sequence.
+l.85 \newcommand{\shav}[1]{{\shavfont
+                                      #1}}
+? 
+! You can't use `macro parameter character #' in horizontal mode.
+l.85 \newcommand{\shav}[1]{{\shavfont #
+                                       1}}
+? 
+! Undefined control sequence.
+l.86 \newcommand
+                {\igtuple}[1]{\ensuremath{\langle}{\shavfont #1}\ensuremath{...
+
+? 
+! Undefined control sequence.
+l.86 \newcommand{\igtuple
+                         }[1]{\ensuremath{\langle}{\shavfont #1}\ensuremath{...
+
+? 
+! Undefined control sequence.
+l.86 \newcommand{\igtuple}[1]{\ensuremath
+                                         {\langle}{\shavfont #1}\ensuremath{...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+<to be read again> 
+                   \delimiter 
+\langle ->\delimiter 
+                     "426830A 
+l.86 \newcommand{\igtuple}[1]{\ensuremath{\langle
+                                                 }{\shavfont #1}\ensuremath{...
+
+? 
+! Extra }, or forgotten $.
+l.86 \newcommand{\igtuple}[1]{\ensuremath{\langle}
+                                                  {\shavfont #1}\ensuremath{...
+
+? 
+! Undefined control sequence.
+l.86 ...igtuple}[1]{\ensuremath{\langle}{\shavfont
+                                                   #1}\ensuremath{\rangle}}
+? 
+! You can't use `macro parameter character #' in math mode.
+l.86 ...tuple}[1]{\ensuremath{\langle}{\shavfont #
+                                                  1}\ensuremath{\rangle}}
+? 
+! Undefined control sequence.
+l.86 ...suremath{\langle}{\shavfont #1}\ensuremath
+                                                  {\rangle}}
+? 
+! Extra }, or forgotten $.
+l.86 ...langle}{\shavfont #1}\ensuremath{\rangle}}
+                                                  
+? 
+! Undefined control sequence.
+l.87 \newcommand
+                {\Lean}{\textsf{Lean}\,4}
+? 
+! Undefined control sequence.
+l.87 \newcommand{\Lean
+                      }{\textsf{Lean}\,4}
+? 
+! Undefined control sequence.
+l.87 \newcommand{\Lean}{\textsf
+                               {Lean}\,4}
+? 
+! Undefined control sequence.
+l.88 \newcommand
+                {\bN}{\textsf{N}}
+? 
+! Undefined control sequence.
+l.88 \newcommand{\bN
+                    }{\textsf{N}}
+? 
+! Undefined control sequence.
+l.88 \newcommand{\bN}{\textsf
+                             {N}}
+? 
+! Undefined control sequence.
+l.89 \newcommand
+                {\bT}{\textsf{T}}
+? 
+! Undefined control sequence.
+l.89 \newcommand{\bT
+                    }{\textsf{T}}
+? 
+! Undefined control sequence.
+l.89 \newcommand{\bT}{\textsf
+                             {T}}
+? 
+! Undefined control sequence.
+l.90 \newcommand
+                {\bF}{\textsf{F}}
+? 
+! Undefined control sequence.
+l.90 \newcommand{\bF
+                    }{\textsf{F}}
+? 
+! Undefined control sequence.
+l.90 \newcommand{\bF}{\textsf
+                             {F}}
+? 
+! Undefined control sequence.
+l.91 \newcommand
+                {\bB}{\textsf{B}}
+? 
+! Undefined control sequence.
+l.91 \newcommand{\bB
+                    }{\textsf{B}}
+? 
+! Undefined control sequence.
+l.91 \newcommand{\bB}{\textsf
+                             {B}}
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+<to be read again> 
+                   \par 
+l.92 
+     
+? 
+! Undefined control sequence.
+l.95 \hypersetup
+                {pdfauthor={Anonymous for review}, pdfcreator={}}
+? 
+! Undefined control sequence.
+l.96 \begin
+           {document}
+? 
+! Undefined control sequence.
+l.98 \title
+           {\textbf{The Witness Vessel:\\
+? 
+! Undefined control sequence.
+l.98 \title{\textbf
+                   {The Witness Vessel:\\
+? 
+! Argument of \\ has an extra }.
+<inserted text> 
+                \par 
+<to be read again> 
+                   }
+l.99 Lossless Transport on the Dual-Link SIC-POVM}
+                                                  }
+? 
+Runaway argument?
+ Lossless Transport on the Dual-Link SIC-POVM
+! Paragraph ended before \\ was complete.
+<to be read again> 
+                   \par 
+<to be read again> 
+                   }
+l.99 Lossless Transport on the Dual-Link SIC-POVM}
+                                                  }
+? 
+! Undefined control sequence.
+l.102 \author
+             {Anonymous for review\thanks{Corresponding author. Email: c.lan...
+
+? 
+! Undefined control sequence.
+l.102 \author{Anonymous for review\thanks
+                                         {Corresponding author. Email: c.lan...
+
+? 
+! Undefined control sequence.
+l.103 \date
+           {7 July 2026}
+? 
+! Undefined control sequence.
+l.105 \maketitle
+                
+? 
+! Undefined control sequence.
+l.107 \begin
+            {abstract}
+? 
+! Undefined control sequence.
+l.108 The \Lean
+               {} library \texttt{p4ramill} and the bare-metal OS \texttt{mO...
+
+? 
+! Undefined control sequence.
+l.108 The \Lean{} library \texttt
+                                 {p4ramill} and the bare-metal OS \texttt{mO...
+
+? 
+! Undefined control sequence.
+l.108 ...t{p4ramill} and the bare-metal OS \texttt
+                                                  {mOMonadOS}
+? 
+! Undefined control sequence.
+l.111 ...opology pair.  Here a Witness rides \emph
+                                                  {as} the vessel's
+? 
+! Undefined control sequence.
+l.115 In \Lean
+              {}, $\mu\circ\delta=\mathrm{id}$ follows from \texttt{propext}...
+
+? 
+! Undefined control sequence.
+l.115 In \Lean{}, $\mu\circ\delta=\mathrm
+                                         {id}$ follows from \texttt{propext}...
+
+? 
+! Undefined control sequence.
+l.115 ...c\delta=\mathrm{id}$ follows from \texttt
+                                                  {propext} alone;
+? 
+! Undefined control sequence.
+l.116 BSD and Hodge board as \bT
+                                {}, and Yang--Mills boards as the dialetheia...
+
+? 
+! Undefined control sequence.
+l.116 ... Yang--Mills boards as the dialetheia \bB
+                                                  {}.
+? 
+! Undefined control sequence.
+l.117 \texttt
+             {witness\_vessel\_lossless} delivers the transported $d=12$ fid...
+
+? 
+[1] )
+(\end occurred inside a group at level 2)
+Output written on witness_vessel_blinded.dvi (1 page, 3504 bytes).

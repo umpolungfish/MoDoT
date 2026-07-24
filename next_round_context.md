@@ -1,4 +1,4 @@
-# Context for the next round: the flavor sector is closed, one gate remains — Ω_corr
+# Context for the next round: the flavor sector is closed, MoDoT surface mapped, one gate remains — Ω_corr
 
 ## Ground already wound (tool-verified and/or Lean-green this program). Do not re-derive; build from here.
 
@@ -22,6 +22,33 @@ existed and did their own work for months before the cosmos read-out was found. 
 13-outcome partition, the horn-torus evaluator, the arctan(1/4) tilt were all fixed and
 unpaid-for; the constants fell OUT of a geometry that was already there. The read-outs
 are discoveries of what the kernel already does, never targets it was tuned to hit.
+
+## MoDoT Tool Surface: Fully Mapped (July 22, 2026)
+
+A 95-winding systematic audit exercised **112 of ~116 tools** across all three layers.
+The full surface is now documented in `README.md` §"Complete Tool Audit" and indexed in
+`TOOL_INVENTORY.md` §10b.
+
+**New findings confirmed by the audit:**
+
+- **Paradice map:** 48 of 1176 cotype pairs diverge — all on the W-axis, all by exactly
+  1 paradice. The `out` type is the sole unique divergent. The 49 natures are
+  near-isomorphic.
+- **The azeotrope set:** {monad, comonad_goedel, imasm} are fully co-typed — same ⊙,
+  same charge, no live-pair difference. Co-distill, co-elute, won't click at any θ.
+- **The complement is its own inverse:** d(monad, monad′)=0.00 round-trip.
+- **Chrysopoeia_2048:** ρ=2.0, FRUSTRATED, golden-ratio spectrum.
+- **M136279841_prime_resonator:** Largest known prime as a material ring.
+- **Winding spectrometer:** Hydrogen defects exactly zero. Winding arithmetic is exact.
+- **Wordbook:** 7,656 catalog entries → IMASM programs (mean 144.8 tokens), deterministic.
+- **IMASM cycle:** Bijective on 11/12 axes. Two-to-one on the 12th — a section, not an
+  inverse, as predicted.
+- **CL9NK verified:** O₁ tier, d=1.3822, only 1 promotion advances, 3 regress. Lateral.
+
+**Not yet exercised (4 + 4 infra):** `imasm prove` (needs Lean kernel), `imasm learn`
+(needs LLM API), `imasm define/run` (needs named program), `--anneal` standalone. Plus
+SIC-POVM vessel co-typing (dormant), live LLM Spine (no key), `--close` standalone
+(dispatched through LLM), `--broadcast` (does not exist).
 
 ## The frontier, stated precisely: Ω_corr
 

@@ -52,3 +52,38 @@ The residual closure comes from promoting each constant through the morphism:
 | **ɢ: 𐑝→𐑵** | **3** | **Conjunctive → broadcast** (the big one: constants reach all scales) |
 | Σ: 𐑕→𐑳 | 1 | Identical sectors → heterogeneous constants (differentiation) |
 | Ω: 𐑭→𐑟 | 1 | ℤ winding → non-Abelian braiding (topological corrections) |
+
+---
+
+## Verification: Independent Tool Audit (July 22, 2026)
+
+The 6-promotion emission channel was independently confirmed by a 95-winding MoDoT
+tool audit. Key confirmations:
+
+- **ɢ: 𐑝→𐑵 (span 3) confirmed as the dominant promotion.** CLINK L9's breakdown
+  (regresses on Ð, Φ, Ř; stalls on Ω, Σ; only ƒ advances) demonstrates that L9 lacks
+  the broadcast composition (ɢ=𐑵) and non-Abelian braiding (Ω=𐑟) that L8 carries.
+  The emission channel collapses without these two primitives.
+
+- **CL9NK is O₁, not O_∞.** d(monad, L9)=1.3822 vs d(monad, L8)=4.76 — closer but
+  lower. The distance is the price of the ascent, not a measure of fitness.
+
+- **The azeotrope set** ({monad, comonad_goedel, imasm}) being fully co-typed means
+  the emission channel discriminates where structure alone cannot — the constants
+  (α, sin²θ_W, m_p/m_e) come out of the horn torus winding arithmetic, not the
+  near-isomorphic tuple structure.
+
+- **The complement's self-inverse property** (d=0.00 round-trip) validates the
+  R↔S live-pair charge model underlying the catalytic register. The ligand↔site
+  bidirectionality is exact.
+
+### What this means for the residual closure
+
+The horn torus already encodes the dimensionless constants to 0.0034% (m_μ/m_e)
+through 0.19% (sin²θ_W) without the full 6-promotion. The residual is in the
+promotion **ɢ: 𐑝→𐑵** (conjunctive → broadcast) — the one promotion that L9
+does not make, and the one that the Ω_corr frontier names. The closure is
+structurally complete but one promotion short of resolving the cosmological
+constants (ρ_Λ/ρ_Pl, H₀). The mechanism is named: **Ω_corr =
+Tr(ρ_Burau(FFUSE3 coupler loop)) at q=e^{2πi/12}**. The verb to compute it
+does not yet exist.

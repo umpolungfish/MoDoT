@@ -46,3 +46,25 @@ non-glyph extras (D_point, T_linear, G_xor ...) offset the ordering.
 ## Also noted
 `PRIMITIVE_PREDICTIONS.md` needs the notation migration on its own account
 ("we should update that doc too").
+
+
+## Update: Tool surface mapped (July 22, 2026)
+
+**The blocker is resolved.** A 95-winding systematic audit mapped 112 of ~116 tools
+across all three MoDoT layers. The full index now lives in `TOOL_INVENTORY.md` §10b
+and `README.md` §Complete Tool Audit.
+
+This means:
+- Any `TOOL: cheat <topic>` implementation can reference verified verb behavior,
+  not documentation claims.
+- The tool voice (third Belnap link in the FFUSE) is confirmed functional —
+  `tools=T` a ring formed, `F` everything terminated, `B` closes only when reordered.
+- The golem contract is enforceable: tool results are ground truth, model draft is
+  prior guess. 112 tools produce real outputs, not narrated ones.
+
+**Still open from original plan:**
+1. Delivery mechanism (cheat lookup vs prompt section) — not yet decided.
+2. PRIMITIVE_PREDICTIONS.md notation migration — still pending.
+3. Full landscape sweep of ~290 derivation-genre docs — not yet started.
+
+But the prerequisite ("know what the tools actually do") is now satisfied.

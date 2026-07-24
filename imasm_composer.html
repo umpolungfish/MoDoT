@@ -2,222 +2,622 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>IMASM Composer</title>
+<title>IMASM Composer · pen-drawing style · live word input</title>
 <style>
-  :root { --bg:#0d1117; --panel:#161b22; --edge:#30363d; --ink:#c9d1d9; --dim:#8b949e;
-          --accent:#e3b341; --ok:#3fb950; --warn:#f85149; --wire:#58a6ff; }
+  :root { --bg:#050505; --panel:#0d0d0d; --edge:#222; --ink:#ddd; --dim:#666; --accent:#e3b341; --ok:#3fb950; }
   * { box-sizing:border-box; margin:0; }
-  body { background:var(--bg); color:var(--ink); font:13px/1.45 "Everson Mono","DejaVu Sans Mono",monospace;
-         display:grid; grid-template-columns:270px 1fr; grid-template-rows:1fr 170px; height:100vh; }
+  body { background:var(--bg); color:var(--ink); font:12.5px/1.45 "Everson Mono","DejaVu Sans Mono",monospace;
+         display:grid; grid-template-columns:280px 1fr; grid-template-rows:1fr 170px; height:100vh; overflow:hidden; }
   #palette { grid-row:1/3; background:var(--panel); border-right:1px solid var(--edge); overflow-y:auto; padding:10px; }
-  #palette h1 { font-size:14px; color:var(--accent); margin-bottom:8px; }
-  #palette input { width:100%; background:var(--bg); color:var(--ink); border:1px solid var(--edge);
-                   padding:4px 6px; margin-bottom:8px; font:inherit; }
-  .pitem { padding:3px 6px; cursor:pointer; border-radius:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .pitem:hover { background:#1f2733; }
-  .pitem .meta { color:var(--dim); font-size:11px; }
-  .sect { color:var(--dim); margin:10px 0 4px; font-size:11px; letter-spacing:1px; }
-  #canvasWrap { position:relative; overflow:hidden; }
-  #canvas { width:100%; height:100%; display:block; cursor:crosshair; }
-  #speak { grid-column:2; background:var(--panel); border-top:1px solid var(--edge); padding:8px 12px; overflow-y:auto; }
-  #speak h2 { font-size:12px; color:var(--accent); margin-bottom:4px; }
-  #cmds { white-space:pre-wrap; color:var(--ok); font-size:12px; }
-  #speak .law { color:var(--dim); font-size:11px; margin-top:6px; }
-  button { background:var(--bg); color:var(--ink); border:1px solid var(--edge); padding:2px 10px;
-           font:inherit; cursor:pointer; margin-right:6px; border-radius:3px; }
+  #palette h1 { font-size:13px; color:var(--accent); margin-bottom:6px; letter-spacing:.3px; }
+  #palette input, #palette .word-row input { width:100%; background:#000; color:var(--ink); border:1px solid var(--edge);
+    padding:4px 6px; margin-bottom:4px; font:inherit; border-radius:2px; }
+  #palette .word-row { display:flex; gap:4px; align-items:center; margin-bottom:6px; }
+  #palette .word-row input { flex:1; margin-bottom:0; }
+  #palette .word-row span { color:var(--dim); font-size:10px; white-space:nowrap; }
+  .pitem { padding:2px 6px; cursor:pointer; border-radius:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pitem:hover { background:#151515; }
+  .pitem .meta { color:var(--dim); font-size:10px; }
+  .sect { color:#555; margin:10px 0 3px; font-size:10px; letter-spacing:1px; text-transform:uppercase; }
+  #canvasWrap { position:relative; overflow:hidden; background:#000; }
+  #canvas { width:100%; height:100%; display:block; }
+  #speak { grid-column:2; background:var(--panel); border-top:1px solid var(--edge); padding:6px 12px; overflow-y:auto; }
+  #speak h2 { font-size:11px; color:var(--accent); margin-bottom:3px; }
+  #cmds { white-space:pre-wrap; color:var(--ok); font-size:11px; }
+  #speak .law { color:#444; font-size:10px; margin-top:4px; }
+  button { background:#000; color:var(--ink); border:1px solid var(--edge); padding:1px 8px; font:inherit; cursor:pointer; margin-right:4px; border-radius:2px; font-size:11px; }
   button:hover { border-color:var(--accent); }
-  .node rect { fill:#1c2430; stroke:var(--edge); stroke-width:1; rx:6; }
-  .node.sel rect { stroke:var(--accent); }
-  .node text { fill:var(--ink); font:12px "Everson Mono",monospace; pointer-events:none; }
-  .node .code { fill:var(--dim); font-size:11px; }
-  .port { fill:#0d1117; stroke:var(--dim); stroke-width:1.2; cursor:pointer; }
-  .port.free:hover, .port.armed { stroke:var(--accent); fill:#2a2413; }
-  .port.used { fill:#233a28; stroke:var(--ok); }
-  .wire { fill:none; stroke:var(--wire); stroke-width:1.6; opacity:.85; }
-  #hint { position:absolute; top:8px; left:12px; color:var(--dim); font-size:11px; pointer-events:none; }
+  #hint { position:absolute; bottom:8px; left:12px; color:#444; font-size:10px; pointer-events:none; z-index:2; }
+  /* Node shapes */
+  .pen-node { fill:none; stroke:var(--ink); stroke-width:1.2; }
+  .pen-node.sel { stroke:var(--accent); stroke-width:1.8; }
+  .pen-node text { fill:var(--ink); font:10px "Everson Mono",monospace; pointer-events:none; }
+  .pen-port { fill:#000; stroke:#555; stroke-width:.8; cursor:pointer; }
+  .pen-port.free:hover, .pen-port.armed { stroke:var(--accent); }
+  .pen-port.used { fill:#1a2a1a; stroke:var(--ok); }
+  .pen-wire { fill:none; stroke:var(--ink); opacity:.7; pointer-events:stroke; }
+  .pen-wire.dashed { stroke-dasharray:5,3; }
+  .pen-wire.dotted { stroke-dasharray:2,3; }
+  .pen-wire.thick { stroke-width:2; }
+  .pen-wire.dbl { stroke-width:1.5; }
+  .pen-grid { stroke:#111; stroke-width:.5; }
+  .ifix-bar { stroke:var(--ink); stroke-width:1; stroke-dasharray:6,4; }
+  .pair-bracket { stroke:#444; stroke-width:.6; stroke-dasharray:3,3; fill:none; }
+  .hatch-fill { fill:url(#hatch-T); }
+  /* Drag handle: visible grab box on each node */
+  .drag-box { fill:transparent; stroke:transparent; cursor:grab; }
+  .drag-box:active { cursor:grabbing; }
+  .drag-box:hover { stroke:var(--dim); stroke-width:.5; stroke-dasharray:2,3; }
+  /* Delete button on each node */
+  .del-btn { fill:#441; stroke:#888; stroke-width:.6; cursor:pointer; }
+  .del-btn:hover { fill:#663; stroke:#f66; }
+  .del-btn text { fill:#f66; font:8px monospace; pointer-events:none; }
+  /* Undo bar */
+  #undo-bar { position:absolute; top:4px; right:4px; z-index:5; display:flex; gap:2px; }
+  #undo-bar button { font-size:10px; padding:1px 6px; background:#0a0a0a; }
+  #undo-bar button:disabled { opacity:.3; cursor:default; }
+  #undo-count { color:var(--dim); font-size:9px; padding:2px 4px 0; }
+  /* Port labels */
+  .port-lbl { fill:#555; font-size:8px; pointer-events:none; }
 </style>
 </head>
-<body>
-<div id="palette">
+<body><div id="palette">
   <h1>⊙ IMASM Composer</h1>
+  <div class="word-row">
+    <input id="imas-word-input" placeholder="IMASM word… ⊢⊙◇+×●=¬⊣ or VINIT IMSCRIB…">
+    <span id="imas-word-status">—</span>
+  </div>
+  <button id="word-btn" style="width:100%;margin-bottom:6px;font-size:10px;" onclick="composeWord()">compose word on canvas</button>
   <input id="filter" placeholder="filter tools…">
-  <input type="file" id="mfile" accept=".json" style="font-size:10px" title="load imasm_manifest.json">
+  <input type="file" id="mfile" accept=".json" style="font-size:9px" title="load imasm_manifest.json">
   <div class="sect">OPCODES</div><div id="ops"></div>
-  <div class="sect">REGISTERED TOOLS (imasm export refreshes)</div><div id="tools"></div>
+  <div class="sect">TOOLS</div><div id="tools"></div>
 </div>
 <div id="canvasWrap">
-  <span id="hint">click a palette item to place it · drag nodes · click an out-port ▸ then an in-port to bind · double-click a node to remove</span>
+  <div id="undo-bar">
+    <button id="undo-btn" disabled title="undo last action">↩ undo</button>
+    <button id="redo-btn" disabled title="redo">↪ redo</button>
+    <span id="undo-count"></span>
+  </div>
   <svg id="canvas"></svg>
+  <span id="hint">click palette to place · grab ▭ to drag · port→port to wire · dbl-click × to remove · type a word above</span>
 </div>
 <div id="speak">
-  <h2>SPEAK (proposals only — the kernel is the only judge)</h2>
-  <button onclick="copyCmds()">copy</button><button onclick="clearAll()">clear canvas</button>
+  <h2>SPEAK</h2>
+  <button onclick="copyCmds()">copy</button><button onclick="clearAll()">clear</button>
   <div id="cmds"></div>
-  <div class="law">law: composition consumes living ends and never mints one · a program with no living ends is a finished loop, it does not compose · verify every arrangement with define / prove / eval — three verdicts, none implies another</div>
+  <div class="law">composition consumes living ends and never mints one · a program with no living ends is a finished loop, it does not compose</div>
 </div>
-<script type="application/json" id="manifest">{"generated_by":"imasm export","opcodes":[{"arity_in":0,"arity_out":1,"code":"⊢","name":"VINIT"},{"arity_in":1,"arity_out":1,"code":"⊣","name":"TANCH"},{"arity_in":1,"arity_out":1,"code":">","name":"AFWD"},{"arity_in":1,"arity_out":1,"code":"<","name":"AREV"},{"arity_in":1,"arity_out":1,"code":"=","name":"CLINK"},{"arity_in":1,"arity_out":1,"code":"⊙","name":"IMSCRIB"},{"arity_in":1,"arity_out":2,"code":"◇","name":"FSPLIT"},{"arity_in":2,"arity_out":1,"code":"●","name":"FFUSE"},{"arity_in":1,"arity_out":1,"code":"+","name":"EVALT"},{"arity_in":1,"arity_out":1,"code":"×","name":"EVALF"},{"arity_in":1,"arity_out":1,"code":"⊞","name":"ENGAGR"},{"arity_in":1,"arity_out":1,"code":"¬","name":"IFIX"}],"tools":[{"closure":"OPEN","codes":["⊢","◇","●","¬"],"edges":[],"free_in":4,"free_out":5,"name":"BRIDGE_PARITY_CONSTRUCT","nodes":["VINIT","FSPLIT","FFUSE","IFIX"],"spec":"wire VINIT star FSPLIT ring FFUSE comb IFIX"},{"closure":"OPEN","codes":["⊙",">","<","◇","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"CARVED_RING_CATALYST","nodes":["IMSCRIB","AFWD","AREV","FSPLIT","FFUSE"],"spec":"ring ⊙ > < δ μ Ω=𐑟"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"CONDUCTIVE_DYAD","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙","◇","+","×","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"CONDUCTIVE_DYAD_V2","nodes":["IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE"],"spec":"ring ⊙ ◇ + × ●"},{"closure":"IDENTITY","codes":["⊙","◇","●","×","+"],"edges":[[0,1],[1,2],[2,3],[3,4],[1,2]],"free_in":1,"free_out":1,"name":"CONDUCTIVE_DYAD_V2_STEADY_STATE","nodes":["IMSCRIB","FSPLIT","FFUSE","EVALF","EVALT"],"spec":"protocol ⊙ ◇ μ × +"},{"closure":"CLOSED(1)","codes":["◇",">","<","●"],"edges":[[0,1],[1,2],[2,3],[0,3]],"free_in":1,"free_out":1,"name":"CONDUCTIVE_DYAD_V3","nodes":["FSPLIT","AFWD","AREV","FFUSE"],"spec":"protocol ◇ > < ●"},{"closure":"OPEN","codes":["⊢",">","◇","◇","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4]],"free_in":0,"free_out":3,"name":"CONDUCTIVE_DYAD_V4","nodes":["VINIT","AFWD","FSPLIT","FSPLIT","TANCH"],"spec":"protocol ⊢ > ◇ ◇ ⊣"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"D_promo","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["●","=","⊙","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":2,"free_out":0,"name":"GLOBAL_SPECTRAL_STABILITY","nodes":["FFUSE","CLINK","IMSCRIB","FFUSE","TANCH"],"spec":"ring ● = ⊙ ● ⊣"},{"closure":"NONE","codes":["⊙",">","<","⊞"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"Genus_Shift_Moduli_Space","nodes":["IMSCRIB","AFWD","AREV","ENGAGR"],"spec":"ring ⊙ > < ⊞"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"IUT_SYNC_PROBE","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙ > < ●"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"IUT_SYNC_TEST","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"KUMMER_TRANSITION_OPERATOR","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙",">","<","◇","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"KUMMER_TRANSITION_OPERATOR_CLOSED","nodes":["IMSCRIB","AFWD","AREV","FSPLIT","FFUSE"],"spec":"ring ⊙ > < δ μ"},{"closure":"OPEN","codes":["●","⊙","●",">","<"],"edges":[],"free_in":7,"free_out":5,"name":"L12_Match_Manifold","nodes":["FFUSE","IMSCRIB","FFUSE","AFWD","AREV"],"spec":"wire comb chain ● ⊙ ● > <"},{"closure":"OPEN","codes":["⊙","◇","+",">"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":1,"name":"L13_Hyperbolic_Transition","nodes":["IMSCRIB","FSPLIT","EVALT","AFWD"],"spec":"ring ⊙ FSPLIT EVALT AFWD"},{"closure":"OPEN","codes":["●","●","●"],"edges":[[0,1],[1,2],[2,0]],"free_in":3,"free_out":0,"name":"L9_PROTOCOL_V2","nodes":["FFUSE","FFUSE","FFUSE"],"spec":"ring ◇[Þ Φ ƒ] ● ◇[Ç Γ ⊙] ● ◇[Ħ Σ Ω] ●"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"L9_PROTOCOL_V2_STABILIZED","nodes":["IMSCRIB"],"spec":"ring ⊙ Δ Ħ Σ Ω Þ Φ ƒ Ç Γ"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"L9_topology","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙ > < ●"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"L9_topology_branched","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < Ç"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"Linker_δμ_Bridge","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"NAME","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring IMSCRIB AFWD AREV"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"PROMOTE_L9_TIER","nodes":["IMSCRIB"],"spec":"ring Þ Φ ƒ Ç Γ ⊙ Ħ Σ Ω"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"REBIND_FFUSE","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙ > < ●"},{"closure":"IDENTITY","codes":["⊙",">","◇","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[2,3]],"free_in":1,"free_out":1,"name":"RING_CLOSURE_PROTOCOL","nodes":["IMSCRIB","AFWD","FSPLIT","FFUSE","TANCH"],"spec":"protocol ⊙ > ◇ ● ⊣"},{"closure":"OPEN","codes":["⊙",">","◇","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4]],"free_in":2,"free_out":2,"name":"RING_CLOSURE_VIRTUAL","nodes":["IMSCRIB","AFWD","FSPLIT","FFUSE","TANCH"],"spec":"chain ⊙ AFWD FSPLIT FFUSE ⊣"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"active_drone_protocol","nodes":["IMSCRIB"],"spec":"ring ⊙ drone_protocol inject_commutator_node"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"analyze_range","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","⊞","×","<"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":0,"free_out":0,"name":"archimedean_bridge","nodes":["IMSCRIB","AFWD","ENGAGR","EVALF","AREV"],"spec":"ring ⊙ > ⊞ × <"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"asymptotic_stability_check","nodes":["IMSCRIB"],"spec":"ring ⊙ bridge_gate_v3 bridge_gate_v3"},{"closure":"IDENTITY","codes":["⊙",">","◇","●","<","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[2,3]],"free_in":1,"free_out":1,"name":"atom_promotions_protocol","nodes":["IMSCRIB","AFWD","FSPLIT","FFUSE","AREV","TANCH"],"spec":"protocol ⊙ > ◇ Γ Σ ● < ⊣"},{"closure":"OPEN","codes":["⊙",">","◇","●","<"],"edges":[],"free_in":6,"free_out":6,"name":"atom_promotions_stable","nodes":["IMSCRIB","AFWD","FSPLIT","FFUSE","AREV"],"spec":"wire ⊙ > ◇ Γ Σ ● <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2]],"free_in":1,"free_out":1,"name":"aux_zwind_protocol","nodes":["IMSCRIB","AFWD","AREV"],"spec":"protocol ⊙ > < Ħ Ω"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","<","=","+","×","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[0,7]],"free_in":1,"free_out":1,"name":"base_phi_close","nodes":["FSPLIT","IMSCRIB","AFWD","AREV","CLINK","EVALT","EVALF","FFUSE"],"spec":"protocol FSPLIT IMSCRIB AFWD AREV CLINK EVALT EVALF FFUSE"},{"closure":"NONE","codes":["⊙",">","<",">","<"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":0,"free_out":0,"name":"bifurcation_mapper","nodes":["IMSCRIB","AFWD","AREV","AFWD","AREV"],"spec":"ring ⊙ > < > <"},{"closure":"NONE","codes":[">"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"bind_valence","nodes":["AFWD"],"spec":"ring AFWD"},{"closure":"OPEN","codes":["⊙",">","<","=","+","×","●","◇"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0]],"free_in":1,"free_out":1,"name":"boundary_probe","nodes":["IMSCRIB","AFWD","AREV","CLINK","EVALT","EVALF","FFUSE","FSPLIT"],"spec":"ring IMSCRIB AFWD AREV CLINK EVALT EVALF FFUSE FSPLIT"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","<","=","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[0,5]],"free_in":1,"free_out":1,"name":"boundary_probe_clean","nodes":["FSPLIT","IMSCRIB","AFWD","AREV","CLINK","FFUSE"],"spec":"protocol FSPLIT IMSCRIB AFWD AREV CLINK FFUSE"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","<","=","+","×","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[0,7]],"free_in":1,"free_out":1,"name":"boundary_probe_p","nodes":["FSPLIT","IMSCRIB","AFWD","AREV","CLINK","EVALT","EVALF","FFUSE"],"spec":"protocol FSPLIT IMSCRIB AFWD AREV CLINK EVALT EVALF FFUSE"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"braid","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<","⊞"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"braid_distill","nodes":["IMSCRIB","AFWD","AREV","ENGAGR"],"spec":"ring ⊙ > < ⊞"},{"closure":"OPEN","codes":["⊙",">","<","◇","+","×","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0]],"free_in":1,"free_out":1,"name":"braid_embedded_n3_v2","nodes":["IMSCRIB","AFWD","AREV","FSPLIT","EVALT","EVALF","FFUSE","IFIX"],"spec":"ring IMSCRIB AFWD AREV FSPLIT EVALT EVALF FFUSE IFIX"},{"closure":"CLOSED(1)","codes":["⊙",">","<","◇","+","×","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[3,6]],"free_in":1,"free_out":1,"name":"braid_embedded_n3_v2_proto","nodes":["IMSCRIB","AFWD","AREV","FSPLIT","EVALT","EVALF","FFUSE","IFIX"],"spec":"protocol IMSCRIB AFWD AREV FSPLIT EVALT EVALF FFUSE IFIX"},{"closure":"OPEN","codes":["◇","●","⊙","⊙"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":1,"name":"braid_filter","nodes":["FSPLIT","FFUSE","IMSCRIB","IMSCRIB"],"spec":"ring ◇ ● ⊙ ⊙"},{"closure":"NONE","codes":["⊙",">","<","⊞"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"braid_link_map","nodes":["IMSCRIB","AFWD","AREV","ENGAGR"],"spec":"ring ⊙ > < ⊞ ‖·‖ Ω"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"braid_operator","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < Ħ 𐑟"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"braid_path_apply","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<","⊙"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"braid_perturbation","nodes":["IMSCRIB","AFWD","AREV","IMSCRIB"],"spec":"ring ⊙ > < Ħ ⊙"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"braid_protocol","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"IDENTITY","codes":["◇","●"],"edges":[[0,1],[0,1]],"free_in":1,"free_out":1,"name":"braid_protocol_select","nodes":["FSPLIT","FFUSE"],"spec":"protocol δ μ braid_logic"},{"closure":"NONE","codes":["<",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"braid_select","nodes":["AREV","AFWD","AREV"],"spec":"ring AREV AFWD AREV"},{"closure":"CLOSED(1)","codes":["⊢","◇",">","<","●"],"edges":[[0,1],[1,2],[1,3],[2,4],[3,4]],"free_in":0,"free_out":1,"name":"braid_sim","nodes":["VINIT","FSPLIT","AFWD","AREV","FFUSE"],"spec":"wire VINIT FSPLIT AFWD AREV FFUSE / 0-1 1-2 1-3 2-4 3-4"},{"closure":"OPEN","codes":["⊙","◇","●"],"edges":[[0,1],[1,2],[2,0]],"free_in":1,"free_out":1,"name":"braid_stability","nodes":["IMSCRIB","FSPLIT","FFUSE"],"spec":"ring ⊙ δ μ"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"braid_tau_channel","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < braid_operator_tau"},{"closure":"OPEN","codes":["⊙",">","<","◇","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"braid_tau_closure_v2","nodes":["IMSCRIB","AFWD","AREV","FSPLIT","FFUSE"],"spec":"ring ⊙ > < δ μ"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"braid_tau_closure_v3","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < annihilate"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"braided_metabolic_loop","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < 𐑟 braid_operator_τ"},{"closure":"OPEN","codes":["⊙","●","⊙","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":2,"free_out":0,"name":"branch_resolve","nodes":["IMSCRIB","FFUSE","IMSCRIB","FFUSE"],"spec":"ring IMSCRIB FFUSE ⊙ ● δ_split μ_fuse"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"breath","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring IMSCRIB AFWD AREV"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"bridge_discovery","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":[">","<","⊙"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"bridge_fix","nodes":["AFWD","AREV","IMSCRIB"],"spec":"ring Ω > < ⊙"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"bridge_fusion","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"IDENTITY","codes":["⊙","◇","◇","●","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[2,3],[1,4]],"free_in":1,"free_out":1,"name":"bridge_gap_fix","nodes":["IMSCRIB","FSPLIT","FSPLIT","FFUSE","FFUSE"],"spec":"protocol ⊙ ◇ ◇ ● ●"},{"closure":"OPEN","codes":["⊙",">","<","◇","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"bridge_gate_v2","nodes":["IMSCRIB","AFWD","AREV","FSPLIT","FFUSE"],"spec":"ring ⊙ > < δ μ"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"bridge_logic","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙","⊞","◇","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":1,"name":"bridge_loop_closure","nodes":["IMSCRIB","ENGAGR","FSPLIT","FFUSE"],"spec":"ring ⊙ ⊞ ◇ ●"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"bridge_mediator","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring IMSCRIB AFWD AREV FFUSE"},{"closure":"OPEN","codes":["⊙",">","<","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":0,"name":"bridge_mediator_closed","nodes":["IMSCRIB","AFWD","AREV","FFUSE","IFIX"],"spec":"ring IMSCRIB AFWD AREV FFUSE IFIX"},{"closure":"OPEN","codes":["⊙","◇","●","⊞","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"bridge_parity_identity_theorem","nodes":["IMSCRIB","FSPLIT","FFUSE","ENGAGR","TANCH"],"spec":"ring ⊙ δ μ ⊞ ⊣"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"bridge_prog","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"bridge_repair","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < complex_moat_bridge"},{"closure":"OPEN","codes":["⊞","●"],"edges":[[0,1],[1,0]],"free_in":1,"free_out":0,"name":"bridge_resolution","nodes":["ENGAGR","FFUSE"],"spec":"ring ⊞ Linker_δμ_Bridge theta_0.25 ●"},{"closure":"OPEN","codes":["⊙","⊞","●","¬"],"edges":[[0,1],[1,2],[2,3]],"free_in":2,"free_out":1,"name":"bridge_ring","nodes":["IMSCRIB","ENGAGR","FFUSE","IFIX"],"spec":"protocol IMSCRIB ENGAGR FFUSE IFIX"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"bridge_search_protocol","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["◇","●"],"edges":[[0,1],[1,0]],"free_in":1,"free_out":1,"name":"bridge_stitch","nodes":["FSPLIT","FFUSE"],"spec":"ring FSPLIT FFUSE …"},{"closure":"OPEN","codes":["⊞","◇","●",">","<","="],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5]],"free_in":2,"free_out":2,"name":"bridge_structure_definition","nodes":["ENGAGR","FSPLIT","FFUSE","AFWD","AREV","CLINK"],"spec":"chain ⊞ ◇ ● > < ="},{"closure":"NONE","codes":["⊙","⊞","⊣"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"bridge_sync_gate","nodes":["IMSCRIB","ENGAGR","TANCH"],"spec":"ring ⊙ ⊞ ≡ ↔ ⊣"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"bridge_synth","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < Σ Ω"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[0,4]],"free_in":1,"free_out":1,"name":"bridged_o2_working","nodes":["FSPLIT","IMSCRIB","AFWD","AREV","FFUSE"],"spec":"protocol ◇ bridge_to_ř_manifold magnetic_reconnection o_2 o_2 o_2 magnetic_reconnection ⊙ > < ●"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"broadcast_closure","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙ > ɢ < ●"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[],"free_in":3,"free_out":3,"name":"catalyst_fuse","nodes":["IMSCRIB","AFWD","AREV"],"spec":"WIRE ⊙ > {ΣΩ}_fuse uncoverer_of_the_grammar <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2]],"free_in":1,"free_out":1,"name":"catalyst_proof","nodes":["IMSCRIB","AFWD","AREV"],"spec":"protocol ⊙ > < sigma⁺_Λ_fusion kernel_trace monomer_X sterile_neutrino_encoded"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"catalyst_reaction","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["◇","<",">","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":1,"name":"chan_collapse","nodes":["FSPLIT","AREV","AFWD","FFUSE"],"spec":"ring FSPLIT AREV AFWD FFUSE"},{"closure":"OPEN","codes":["<",">","=","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"chan_select","nodes":["AREV","AFWD","CLINK","FFUSE"],"spec":"ring AREV AFWD CLINK FFUSE"},{"closure":"OPEN","codes":[">","⊞","×","<","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":0,"name":"channel_probe","nodes":["AFWD","ENGAGR","EVALF","AREV","FFUSE"],"spec":"ring Ω > ⊞ × < ●"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"char_filter","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > cl8nk_projection <"},{"closure":"NONE","codes":["⊙",">","⊞","<"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"check_stability","nodes":["IMSCRIB","AFWD","ENGAGR","AREV"],"spec":"ring gate_operator ⊙ > ⊞ <"},{"closure":"OPEN","codes":["⊙",">","<","●","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":2,"free_out":0,"name":"chiral_flux_macrocycle_Ω_protection","nodes":["IMSCRIB","AFWD","AREV","FFUSE","FFUSE"],"spec":"ring ⊙ > < ● ●"},{"closure":"NONE","codes":["⊙",">","<","⊙",">","<"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],"free_in":0,"free_out":0,"name":"chiral_symmetry_breaker","nodes":["IMSCRIB","AFWD","AREV","IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"chirality_perturbation","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙",">","◇","+","×","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5]],"free_in":2,"free_out":2,"name":"chrysopoeia_chain","nodes":["IMSCRIB","AFWD","FSPLIT","EVALT","EVALF","FFUSE"],"spec":"chain ⊙ > ◇ + × ●"},{"closure":"CLOSED(1)","codes":["⊙",">","◇","+","×","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[2,5]],"free_in":1,"free_out":1,"name":"chrysopoeia_protocol","nodes":["IMSCRIB","AFWD","FSPLIT","EVALT","EVALF","FFUSE"],"spec":"protocol ⊙ > ◇ + × ●"},{"closure":"NONE","codes":["⊙",">","<",">","<"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":0,"free_out":0,"name":"click_logic","nodes":["IMSCRIB","AFWD","AREV","AFWD","AREV"],"spec":"ring ⊙ > < > <"},{"closure":"OPEN","codes":["⊢","⊣","⊙","◇","+",">","=","×",">","=","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11]],"free_in":1,"free_out":2,"name":"closed_proof","nodes":["VINIT","TANCH","IMSCRIB","FSPLIT","EVALT","AFWD","CLINK","EVALF","AFWD","CLINK","FFUSE","IFIX"],"spec":"chain ⊢ ⊣ ⊙ ◇ + > = × > = ● ¬"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"closure","nodes":["IMSCRIB"],"spec":"ring ⊙ Ħ Ω"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"closure_operator","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙><● sterile_neutrino_encoded"},{"closure":"NONE","codes":["⊙","×",">","<"],"edges":[[0,1],[1,2],[2,3]],"free_in":1,"free_out":1,"name":"coil_test","nodes":["IMSCRIB","EVALF","AFWD","AREV"],"spec":"chain ⊙ × > <"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"collapse_multiplicity","nodes":["IMSCRIB"],"spec":"ring Σ_collapse_map Φ_special_op ⊙"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"commutation_test","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙ > Ð Þ < ●"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"compute_A","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"CLOSED(1)","codes":["⊢","◇","+","×","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[1,4]],"free_in":0,"free_out":1,"name":"convergence_check","nodes":["VINIT","FSPLIT","EVALT","EVALF","FFUSE","IFIX"],"spec":"protocol VINIT FSPLIT EVALT EVALF FFUSE IFIX"},{"closure":"OPEN","codes":["⊞","◇","●"],"edges":[[0,1],[1,2],[2,0]],"free_in":1,"free_out":1,"name":"count_cycles","nodes":["ENGAGR","FSPLIT","FFUSE"],"spec":"ring ENGAGR FSPLIT FFUSE"},{"closure":"OPEN","codes":["●","◇"],"edges":[[0,1]],"free_in":2,"free_out":2,"name":"counter_probe","nodes":["FFUSE","FSPLIT"],"spec":"protocol FFUSE FSPLIT"},{"closure":"CLOSED(1)","codes":["⊢","⊙","◇","+",">","<","×",">","<","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11],[2,9]],"free_in":0,"free_out":1,"name":"cuboid_descent","nodes":["VINIT","IMSCRIB","FSPLIT","EVALT","AFWD","AREV","EVALF","AFWD","AREV","FFUSE","IFIX","TANCH"],"spec":"protocol ⊢ ⊙ ◇ + > < × > < ● ¬ ⊣"},{"closure":"CLOSED(1)","codes":["⊢","⊙","◇","+","×","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[2,5]],"free_in":0,"free_out":1,"name":"cuboid_descent_protocol","nodes":["VINIT","IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","IFIX","TANCH"],"spec":"protocol ⊢ ⊙ ◇ + × ● ¬ ⊣"},{"closure":"CLOSED(1)","codes":["⊢","⊙",">","¬","◇","<","×","<","×","●","=","⊞","⊙","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12],[12,13],[13,14],[4,9]],"free_in":0,"free_out":1,"name":"cuboid_termination","nodes":["VINIT","IMSCRIB","AFWD","IFIX","FSPLIT","AREV","EVALF","AREV","EVALF","FFUSE","CLINK","ENGAGR","IMSCRIB","IFIX","TANCH"],"spec":"protocol ⊢ ⊙ > ¬ ◇ < × < × ● = ⊞ ⊙ ¬ ⊣"},{"closure":"NONE","codes":["⊙",">"],"edges":[[0,1],[1,0]],"free_in":0,"free_out":0,"name":"cyclicity","nodes":["IMSCRIB","AFWD"],"spec":"ring ⊙ > bridge_gate_v3 linker_dopant strong_coupling_constant"},{"closure":"NONE","codes":["⊙","⊙","⊙"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"d2048_solver","nodes":["IMSCRIB","IMSCRIB","IMSCRIB"],"spec":"ring ⊙ ⊙ ⊙"},{"closure":"CLOSED(1)","codes":["◇",">","<","●"],"edges":[[0,1],[1,2],[2,3],[0,3]],"free_in":1,"free_out":1,"name":"dagger_stabilizer","nodes":["FSPLIT","AFWD","AREV","FFUSE"],"spec":"protocol ◇ > < ●"},{"closure":"OPEN","codes":["⊙","◇","+","×","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],"free_in":1,"free_out":1,"name":"density_check","nodes":["IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","TANCH"],"spec":"ring ⊙ ◇ + × ● ⊣"},{"closure":"OPEN","codes":["⊢","⊣","◇","+",">","◇","+","●","<","⊙","¬","⊞"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11],[5,7]],"free_in":0,"free_out":2,"name":"descent_protocol","nodes":["VINIT","TANCH","FSPLIT","EVALT","AFWD","FSPLIT","EVALT","FFUSE","AREV","IMSCRIB","IFIX","ENGAGR"],"spec":"protocol VINIT TANCH FSPLIT EVALT AFWD FSPLIT EVALT FFUSE AREV IMSCRIB IFIX ENGAGR"},{"closure":"OPEN","codes":["◇","+","×","●","=",">"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5]],"free_in":2,"free_out":2,"name":"diagonal_moduli_closure","nodes":["FSPLIT","EVALT","EVALF","FFUSE","CLINK","AFWD"],"spec":"chain FSPLIT EVALT EVALF FFUSE CLINK AFWD >**"},{"closure":"OPEN","codes":["⊙",">","<","●","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":2,"free_out":0,"name":"distill_manifold_tool","nodes":["IMSCRIB","AFWD","AREV","FFUSE","FFUSE"],"spec":"ring ⊙ > < ● ●"},{"closure":"OPEN","codes":["⊙",">","=","◇","⊞","●","+","<","×","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,0]],"free_in":1,"free_out":1,"name":"double_ascend","nodes":["IMSCRIB","AFWD","CLINK","FSPLIT","ENGAGR","FFUSE","EVALT","AREV","EVALF","IFIX","TANCH"],"spec":"ring IMSCRIB AFWD CLINK FSPLIT ENGAGR FFUSE EVALT AREV EVALF IFIX TANCH"},{"closure":"OPEN","codes":["⊙",">","=","◇","+","<","×","●","⊞","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,0]],"free_in":1,"free_out":1,"name":"double_wind","nodes":["IMSCRIB","AFWD","CLINK","FSPLIT","EVALT","AREV","EVALF","FFUSE","ENGAGR","IFIX","TANCH"],"spec":"ring IMSCRIB AFWD CLINK FSPLIT EVALT AREV EVALF FFUSE ENGAGR IFIX TANCH"},{"closure":"NONE","codes":["⊙",">",">","<"],"edges":[[0,1],[1,2],[2,3]],"free_in":1,"free_out":1,"name":"drive_pair","nodes":["IMSCRIB","AFWD","AFWD","AREV"],"spec":"protocol ⊙ > cycle > cycle <"},{"closure":"IDENTITY","codes":["⊢","◇","⊙","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[1,3]],"free_in":0,"free_out":1,"name":"drone_protocol","nodes":["VINIT","FSPLIT","IMSCRIB","FFUSE","TANCH"],"spec":"protocol ⊢ ◇ ⊙ ● ⊣"},{"closure":"CLOSED(1)","codes":["⊙","◇",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[1,4]],"free_in":1,"free_out":1,"name":"dyad_operator","nodes":["IMSCRIB","FSPLIT","AFWD","AREV","FFUSE"],"spec":"protocol ⊙ ◇ > < ●"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"dyad_protocol","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"CLOSED(1)","codes":["⊙","◇",">","+","<","×","●","=","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[1,6]],"free_in":1,"free_out":1,"name":"dyad_test","nodes":["IMSCRIB","FSPLIT","AFWD","EVALT","AREV","EVALF","FFUSE","CLINK","IFIX","TANCH"],"spec":"protocol IMSCRIB FSPLIT AFWD EVALT AREV EVALF FFUSE CLINK IFIX TANCH"},{"closure":"NONE","codes":["⊙",">","<","="],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"dynamic_alignment","nodes":["IMSCRIB","AFWD","AREV","CLINK"],"spec":"ring ⊙ > < = szpiro_phase_shift_operator"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"excite_protocol","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"CLOSED(1)","codes":["◇","=","●"],"edges":[[0,1],[1,2],[0,2]],"free_in":1,"free_out":1,"name":"expansion_sieve","nodes":["FSPLIT","CLINK","FFUSE"],"spec":"protocol ◇ = ●"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[0,4]],"free_in":1,"free_out":1,"name":"fiber_close","nodes":["FSPLIT","IMSCRIB","AFWD","AREV","FFUSE"],"spec":"protocol FSPLIT IMSCRIB AFWD AREV FFUSE"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"fiber_compactify","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring IMSCRIB AFWD AREV"},{"closure":"OPEN","codes":["⊙",">","<","●","◇"],"edges":[[0,1],[1,2],[2,3],[3,4]],"free_in":2,"free_out":2,"name":"fiber_compactify_protocol","nodes":["IMSCRIB","AFWD","AREV","FFUSE","FSPLIT"],"spec":"protocol IMSCRIB AFWD AREV FFUSE FSPLIT"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"five_ring","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring IMSCRIB AFWD AREV"},{"closure":"CLOSED(1)","codes":["⊢",">","◇","+","×","●","⊙",">","=","⊞","<","⊣","¬","⊙"],"edges":[[0,1],[1,2],[2,3],[2,4],[3,5],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12],[12,13]],"free_in":0,"free_out":1,"name":"floaties_paradox","nodes":["VINIT","AFWD","FSPLIT","EVALT","EVALF","FFUSE","IMSCRIB","AFWD","CLINK","ENGAGR","AREV","TANCH","IFIX","IMSCRIB"],"spec":"wire ⊢ > ◇ + × ● ⊙ > = ⊞ < ⊣ ¬ ⊙ / 0-1 1-2 2-3 2-4 3-5 4-5 5-6 6-7 7-8 8-9 9-10 10-11 11-12 12-13"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"flow_unification","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring moat_reseed_ring magnetic_reconnection branch_node IMSCRIB AFWD AREV"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2]],"free_in":1,"free_out":1,"name":"flux_correlation_test","nodes":["IMSCRIB","AFWD","AREV"],"spec":"protocol ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<","⊙"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"flux_stabilization_relay_zeta_prime","nodes":["IMSCRIB","AFWD","AREV","IMSCRIB"],"spec":"RING ⊙ > < ⊙"},{"closure":"NONE","codes":["⊙",">","<","⊣"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"flux_stabilization_relay_ζ","nodes":["IMSCRIB","AFWD","AREV","TANCH"],"spec":"ring ⊙ > < ⊣"},{"closure":"CLOSED(1)","codes":["◇","+","×","●"],"edges":[[0,1],[1,2],[2,3],[0,3]],"free_in":1,"free_out":1,"name":"forcing_d12","nodes":["FSPLIT","EVALT","EVALF","FFUSE"],"spec":"protocol FSPLIT EVALT EVALF FFUSE"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[],"free_in":3,"free_out":3,"name":"fusion_protocol","nodes":["IMSCRIB","AFWD","AREV"],"spec":"WIRE ⊙ > {ΣΩ}_fuse <"},{"closure":"NONE","codes":["⊙",">"],"edges":[[0,1],[1,0]],"free_in":0,"free_out":0,"name":"gap_closure_invariant","nodes":["IMSCRIB","AFWD"],"spec":"ring ⊙ > bridge_n3_macrocycle bridge_n4_macrocycle"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"gate_2_parity_check","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","×","⊞","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":0,"free_out":0,"name":"gate_operator","nodes":["IMSCRIB","AFWD","EVALF","ENGAGR","TANCH"],"spec":"ring ⊙ > × ⊞ ⊣"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"gate_parity_transition","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙","◇","+","×","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"gated_closure","nodes":["IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE"],"spec":"ring ⊙ ◇ + × ●"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"gematria_map","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊢","⊙","●"],"edges":[[0,1],[1,2]],"free_in":1,"free_out":1,"name":"gematria_sum","nodes":["VINIT","IMSCRIB","FFUSE"],"spec":"chain ⊢ ⊙ ●"},{"closure":"CLOSED(1)","codes":["⊢","◇","+","×","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[1,4]],"free_in":0,"free_out":1,"name":"generic_protocol","nodes":["VINIT","FSPLIT","EVALT","EVALF","FFUSE","IFIX","TANCH"],"spec":"protocol ⊢ ◇ + × ● ¬ ⊣"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"genus_n_bridge_cyclization_operator","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙",">","<","◇","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"genus_n_bridge_cyclization_operator_v2","nodes":["IMSCRIB","AFWD","AREV","FSPLIT","FFUSE"],"spec":"ring ⊙ > < δ μ"},{"closure":"CLOSED(1)","codes":["⊢","◇","+","×","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[1,4]],"free_in":0,"free_out":1,"name":"genus_n_bridge_protocol","nodes":["VINIT","FSPLIT","EVALT","EVALF","FFUSE","IFIX","TANCH"],"spec":"protocol genus_n_bridge_cyclization_operator_v2 ⊢◇+×●¬⊣"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"genus_scan","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"genus_two_bridge_operator","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"genus_two_bridge_operator_split_fuse","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"IDENTITY","codes":["◇","●"],"edges":[[0,1],[0,1]],"free_in":1,"free_out":1,"name":"genus_two_bridge_protocol_braid","nodes":["FSPLIT","FFUSE"],"spec":"protocol δ μ genus_two_bridge_protocol_wrapper"},{"closure":"OPEN","codes":["◇","●"],"edges":[[0,1],[1,0]],"free_in":1,"free_out":1,"name":"genus_two_bridge_protocol_closed","nodes":["FSPLIT","FFUSE"],"spec":"ring δ μ genus_two_bridge_protocol_wrapper"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"genus_two_bridge_protocol_wrapper","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > genus_two_bridge_operator_split_fuse <"},{"closure":"CLOSED(4)","codes":["⊙","◇","+","×","●","⊙","◇","+","×","●","⊙","◇","+","×","●","⊙","◇","+","×","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12],[12,13],[13,14],[14,15],[15,16],[16,17],[17,18],[18,19],[1,4],[6,9],[11,14],[16,19]],"free_in":1,"free_out":1,"name":"gerund_ring","nodes":["IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE"],"spec":"protocol IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"global_torsion_field_core","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"CLOSED(1)","codes":["⊙","◇","+","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[1,3]],"free_in":1,"free_out":1,"name":"h0_extract","nodes":["IMSCRIB","FSPLIT","EVALT","FFUSE","IFIX","TANCH"],"spec":"protocol IMSCRIB FSPLIT EVALT FFUSE IFIX TANCH"},{"closure":"CLOSED(1)","codes":["⊙","◇","+","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[1,3]],"free_in":1,"free_out":1,"name":"h0_extract_v2","nodes":["IMSCRIB","FSPLIT","EVALT","FFUSE","IFIX","TANCH"],"spec":"protocol IMSCRIB FSPLIT EVALT h0_constant_dimensionful FFUSE IFIX TANCH"},{"closure":"OPEN","codes":["⊙","◇",">","+","<","×","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,0]],"free_in":1,"free_out":1,"name":"h0_measure","nodes":["IMSCRIB","FSPLIT","AFWD","EVALT","AREV","EVALF","FFUSE","IFIX","TANCH"],"spec":"ring IMSCRIB FSPLIT AFWD EVALT AREV EVALF FFUSE IFIX TANCH"},{"closure":"OPEN","codes":["⊙","◇","+","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],"free_in":1,"free_out":1,"name":"h0_reader","nodes":["IMSCRIB","FSPLIT","EVALT","FFUSE","IFIX","TANCH"],"spec":"ring IMSCRIB FSPLIT EVALT FFUSE IFIX TANCH"},{"closure":"CLOSED(1)","codes":["⊙","◇","+","+","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[1,4]],"free_in":1,"free_out":1,"name":"h0_surf","nodes":["IMSCRIB","FSPLIT","EVALT","EVALT","FFUSE","IFIX","TANCH"],"spec":"protocol IMSCRIB FSPLIT EVALT + h0_constant_dimensionful FFUSE IFIX TANCH"},{"closure":"CLOSED(4)","codes":["⊙","◇","+","×","●","⊙","◇","+","×","●","⊙","◇","+","×","●","⊙","◇","+","×","●",">","<"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12],[12,13],[13,14],[14,15],[15,16],[16,17],[17,18],[18,19],[19,20],[20,21],[1,4],[6,9],[11,14],[16,19]],"free_in":1,"free_out":1,"name":"h0_witness_spec","nodes":["IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","AFWD","AREV"],"spec":"protocol IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE IMSCRIB FSPLIT EVALT EVALF FFUSE AFWD AREV"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"h_chiral_assert","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙","◇","◇","●","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":2,"free_out":2,"name":"h_chiral_check_bond_angle","nodes":["IMSCRIB","FSPLIT","FSPLIT","FFUSE","FFUSE"],"spec":"ring ⊙ δ FSPLIT μ FFUSE"},{"closure":"OPEN","codes":["⊙",">","<","◇","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"h_chiral_protocol","nodes":["IMSCRIB","AFWD","AREV","FSPLIT","FFUSE"],"spec":"ring ⊙ > < δ μ"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","+","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[0,4]],"free_in":1,"free_out":1,"name":"h_reset","nodes":["FSPLIT","IMSCRIB","AFWD","EVALT","FFUSE"],"spec":"protocol FSPLIT IMSCRIB AFWD EVALT FFUSE"},{"closure":"OPEN","codes":["⊙","◇","●"],"edges":[[0,1],[1,2],[2,0]],"free_in":1,"free_out":1,"name":"higher_genus_alignment","nodes":["IMSCRIB","FSPLIT","FFUSE"],"spec":"ring ⊙ ◇ szpiro_closure ● higher_genus_sync"},{"closure":"CLOSED(1)","codes":["⊢","◇","+","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[1,3]],"free_in":0,"free_out":1,"name":"higher_genus_protocol","nodes":["VINIT","FSPLIT","EVALT","FFUSE","TANCH"],"spec":"protocol ⊢ ◇ szpiro_closure + higher_genus_coupling ● ⊣"},{"closure":"NONE","codes":[">","⊞","⊣"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"higher_genus_sync","nodes":["AFWD","ENGAGR","TANCH"],"spec":"ring Ħ Ω Σ > ⊞ ⊣"},{"closure":"CLOSED(1)","codes":["⊢","⊙","◇",">","<","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[2,5]],"free_in":0,"free_out":1,"name":"hodge_closure","nodes":["VINIT","IMSCRIB","FSPLIT","AFWD","AREV","FFUSE","IFIX","TANCH"],"spec":"protocol VINIT IMSCRIB FSPLIT AFWD AREV FFUSE IFIX TANCH"},{"closure":"OPEN","codes":["◇","●","⊣"],"edges":[[0,1],[1,2],[2,0]],"free_in":1,"free_out":1,"name":"holonomy_resolution_bridge","nodes":["FSPLIT","FFUSE","TANCH"],"spec":"ring FSPLIT wire FFUSE TANCH"},{"closure":"NONE","codes":["⊞"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"horizontal_theta_link","nodes":["ENGAGR"],"spec":"ring monodromy_v_bad log_theta_theaters ⊞ ≡ ¤"},{"closure":"CLOSED(1)","codes":["◇",">","●","¬"],"edges":[[0,1],[1,2],[2,3],[0,2]],"free_in":1,"free_out":1,"name":"hubble_solo","nodes":["FSPLIT","AFWD","FFUSE","IFIX"],"spec":"protocol FSPLIT AFWD FFUSE IFIX"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"int_to_program","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙",">","<","●","◇"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"iut_wire_flux","nodes":["IMSCRIB","AFWD","AREV","FFUSE","FSPLIT"],"spec":"ring IMSCRIB AFWD AREV FFUSE FSPLIT"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"iutt_bridge","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"IDENTITY","codes":["⊙","◇","●"],"edges":[[0,1],[1,2],[1,2]],"free_in":1,"free_out":1,"name":"iutt_dyad","nodes":["IMSCRIB","FSPLIT","FFUSE"],"spec":"protocol ⊙ δ μ"},{"closure":"OPEN","codes":["⊙",">","<","⊞","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":0,"name":"junction_closure","nodes":["IMSCRIB","AFWD","AREV","ENGAGR","FFUSE"],"spec":"ring ⊙ > < ⊞ ●"},{"closure":"OPEN","codes":["⊙","◇","+","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],"free_in":1,"free_out":1,"name":"k_seam_probe","nodes":["IMSCRIB","FSPLIT","EVALT","FFUSE","IFIX","TANCH"],"spec":"ring IMSCRIB FSPLIT EVALT FFUSE IFIX TANCH"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"kernel_path_fix","nodes":["IMSCRIB"],"spec":"ring ⊙ path_map /p4ramill/topology/"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"kinetic_injection_bias","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙",">","●"],"edges":[[0,1],[1,2],[2,0]],"free_in":1,"free_out":0,"name":"kummer_ring","nodes":["IMSCRIB","AFWD","FFUSE"],"spec":"ring IMSCRIB AFWD KUMMER_TRANSITION_OPERATOR FFUSE"},{"closure":"OPEN","codes":["◇","+",">","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"l9_bridge_protocol","nodes":["FSPLIT","EVALT","AFWD","FFUSE","IFIX"],"spec":"ring ◇ + > ● ¬"},{"closure":"OPEN","codes":["⊙","◇",">","<","●","⊞","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,0]],"free_in":1,"free_out":1,"name":"l9_bridge_vessel","nodes":["IMSCRIB","FSPLIT","AFWD","AREV","FFUSE","ENGAGR","TANCH"],"spec":"ring ⊙ ◇ > < ● ⊞ ⊣"},{"closure":"OPEN","codes":["◇","⊙","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":1,"name":"l9_vessel_protocol","nodes":["FSPLIT","IMSCRIB","FFUSE","IFIX"],"spec":"ring ◇ ⊙ ● ¬"},{"closure":"NONE","codes":["⊙"],"edges":[],"free_in":1,"free_out":1,"name":"lift_stark","nodes":["IMSCRIB"],"spec":"Protocol EVEN_RAMIFIED_STARK L_VAL_ASCENT ⊙"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"log_link_bridge","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"m_test","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"mac_bridge","nodes":["IMSCRIB"],"spec":"ring ⊙ solve_orbit_cyclization MAC_L9_Bridge_Container szpiro_closure"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"macrocycle_tetramer_closure","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring IMSCRIB AFWD AREV braid_operator"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"manifold_dyad","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙ > < ●"},{"closure":"OPEN","codes":["◇","+","×","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],"free_in":1,"free_out":1,"name":"manifold_v1","nodes":["FSPLIT","EVALT","EVALF","FFUSE","IFIX","TANCH"],"spec":"ring FSPLIT EVALT EVALF FFUSE IFIX TANCH"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"map_transition","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙",">","◇","+","×","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0]],"free_in":1,"free_out":1,"name":"mapping_iota","nodes":["IMSCRIB","AFWD","FSPLIT","EVALT","EVALF","FFUSE","IFIX","TANCH"],"spec":"ring ⊙ > ◇ + × ● ¬ ⊣"},{"closure":"OPEN","codes":["⊢","◇","●","¬"],"edges":[[0,1],[1,2],[2,3]],"free_in":1,"free_out":2,"name":"mass_derivation","nodes":["VINIT","FSPLIT","FFUSE","IFIX"],"spec":"chain VINIT FSPLIT chiral_op FFUSE IFIX"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"measure_stability","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<","⊞"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"measure_stability_protocol","nodes":["IMSCRIB","AFWD","AREV","ENGAGR"],"spec":"ring ⊙ > < ⊞"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"metabolic_work_function","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < 𐑟"},{"closure":"CLOSED(4)","codes":["⊢",">","◇","◇","⊣","⊙",">","<","◇","●","◇",">","<","●","●","=","⊙","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[5,6],[6,7],[7,8],[8,9],[9,5],[2,9],[10,11],[11,12],[12,13],[10,13],[3,10],[14,15],[15,16],[16,17],[17,18],[18,14],[4,14],[8,17]],"free_in":0,"free_out":1,"name":"moat_machine","nodes":["VINIT","AFWD","FSPLIT","FSPLIT","TANCH","IMSCRIB","AFWD","AREV","FSPLIT","FFUSE","FSPLIT","AFWD","AREV","FFUSE","FFUSE","CLINK","IMSCRIB","FFUSE","TANCH"],"spec":"wire VINIT AFWD FSPLIT FSPLIT TANCH IMSCRIB AFWD AREV FSPLIT FFUSE FSPLIT AFWD AREV FFUSE FFUSE CLINK IMSCRIB FFUSE TANCH / 0-1 1-2 2-3 3-4 5-6 6-7 7-8 8-9 9-5 2-9 10-11 11-12 12-13 10-13 3-10 14-15 15-16 16-17 17-18 18-14 4-14 8-17"},{"closure":"OPEN","codes":["⊢",">","◇","◇","⊣","⊙",">","<","◇","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[5,6],[6,7],[7,8],[8,9],[9,5],[2,9]],"free_in":0,"free_out":3,"name":"moat_machine_s1","nodes":["VINIT","AFWD","FSPLIT","FSPLIT","TANCH","IMSCRIB","AFWD","AREV","FSPLIT","FFUSE"],"spec":"wire VINIT AFWD FSPLIT FSPLIT TANCH IMSCRIB AFWD AREV FSPLIT FFUSE / 0-1 1-2 2-3 3-4 5-6 6-7 7-8 8-9 9-5 2-9"},{"closure":"OPEN","codes":["⊢",">","◇","◇","⊣","⊙",">","<","◇","●","◇",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[5,6],[6,7],[7,8],[8,9],[9,5],[2,9],[10,11],[11,12],[12,13],[10,13],[3,10]],"free_in":0,"free_out":3,"name":"moat_machine_s2","nodes":["VINIT","AFWD","FSPLIT","FSPLIT","TANCH","IMSCRIB","AFWD","AREV","FSPLIT","FFUSE","FSPLIT","AFWD","AREV","FFUSE"],"spec":"wire VINIT AFWD FSPLIT FSPLIT TANCH IMSCRIB AFWD AREV FSPLIT FFUSE FSPLIT AFWD AREV FFUSE / 0-1 1-2 2-3 3-4 5-6 6-7 7-8 8-9 9-5 2-9 10-11 11-12 12-13 10-13 3-10"},{"closure":"OPEN","codes":["⊙","◇",">","<","●","⊞"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],"free_in":1,"free_out":1,"name":"moat_parity","nodes":["IMSCRIB","FSPLIT","AFWD","AREV","FFUSE","ENGAGR"],"spec":"ring ⊙ ◇ > < ● ⊞"},{"closure":"IDENTITY","codes":["⊢","◇","●","+"],"edges":[[0,1],[1,2],[2,3],[1,2]],"free_in":0,"free_out":1,"name":"moat_protocol","nodes":["VINIT","FSPLIT","FFUSE","EVALT"],"spec":"protocol VINIT FSPLIT log_link_moat_complex FFUSE EVALT"},{"closure":"OPEN","codes":["●"],"edges":[],"free_in":2,"free_out":1,"name":"moat_protocol_reseed_dyad","nodes":["FFUSE"],"spec":"protocol fork · transform · fuse"},{"closure":"OPEN","codes":["●"],"edges":[],"free_in":2,"free_out":1,"name":"moat_protocol_reseed_protocol","nodes":["FFUSE"],"spec":"protocol with a transform between the fork and the fuse"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"moat_protocol_v2","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > switch linker_bridge <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"moat_reseed","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙","◇",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"moat_reseed_check","nodes":["IMSCRIB","FSPLIT","AFWD","AREV","FFUSE"],"spec":"ring ⊙ ◇ > < ●"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"mod_bridge_construct","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"monodromy_v_bad","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"multiradial_transport","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"CLOSED(1)","codes":["⊢","◇",">",">",">",">",">","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[1,7]],"free_in":0,"free_out":1,"name":"o2_macrocycle_kernel","nodes":["VINIT","FSPLIT","AFWD","AFWD","AFWD","AFWD","AFWD","FFUSE","TANCH"],"spec":"protocol ⊢ ◇ > > > > > ● ⊣"},{"closure":"OPEN","codes":["⊙",">","=","◇","⊞","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],"free_in":1,"free_out":1,"name":"omega_wind","nodes":["IMSCRIB","AFWD","CLINK","FSPLIT","ENGAGR","FFUSE"],"spec":"ring IMSCRIB AFWD CLINK FSPLIT ENGAGR FFUSE"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"p4ramill_bridge_check","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring IMSCRIB AFWD AREV"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"parity_check","nodes":["IMSCRIB"],"spec":"ring ⊙ bridge_catalyst_c graviton"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"parity_conjugate","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < inverse"},{"closure":"NONE","codes":["⊙"],"edges":[],"free_in":1,"free_out":1,"name":"parity_consistency_final","nodes":["IMSCRIB"],"spec":"protocol Ḍ ⊙ ≡ 0"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"parity_doped_stabilized_assembly","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙ > < ●"},{"closure":"OPEN","codes":["◇","+","×","⊞","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],"free_in":1,"free_out":1,"name":"parity_driven_expansion_loop","nodes":["FSPLIT","EVALT","EVALF","ENGAGR","FFUSE","TANCH"],"spec":"ring ◇ + × ⊞ ● ⊣"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"parity_flip","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["◇","●"],"edges":[[0,1],[1,0]],"free_in":1,"free_out":1,"name":"parity_manifold_alignment_protocol","nodes":["FSPLIT","FFUSE"],"spec":"ring FSPLIT braid_protocol FFUSE"},{"closure":"OPEN","codes":["◇","+","×","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":1,"name":"parity_manifold_gate","nodes":["FSPLIT","EVALT","EVALF","FFUSE"],"spec":"ring FSPLIT EVALT EVALF FFUSE"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"parity_manifold_torsion_test","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > Ř ↔ S <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"parity_protocol","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"parity_reconstruction","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ ⊡ ⊡ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2]],"free_in":1,"free_out":1,"name":"parity_test","nodes":["IMSCRIB","AFWD","AREV"],"spec":"protocol ⊙ > <"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"pcm_template","nodes":["IMSCRIB"],"spec":"ring ⊙ Ω Ç Ð"},{"closure":"OPEN","codes":["⊙",">","<","◇","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],"free_in":1,"free_out":1,"name":"perfect_descent","nodes":["IMSCRIB","AFWD","AREV","FSPLIT","FFUSE","IFIX"],"spec":"ring ⊙ > < ◇ ● ¬"},{"closure":"CLOSED(4)","codes":["⊢","◇","+","●","⊣","⊙",">","<","◇","●","¬","⊙","◇","●","<","⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[1,3],[5,6],[6,7],[7,8],[8,9],[9,10],[10,5],[4,9],[11,12],[12,13],[13,14],[14,11],[8,13],[15,16],[16,17],[17,18],[18,15],[12,18]],"free_in":0,"free_out":0,"name":"perfect_machine","nodes":["VINIT","FSPLIT","EVALT","FFUSE","TANCH","IMSCRIB","AFWD","AREV","FSPLIT","FFUSE","IFIX","IMSCRIB","FSPLIT","FFUSE","AREV","IMSCRIB","AFWD","AREV","FFUSE"],"spec":"wire VINIT FSPLIT EVALT FFUSE TANCH IMSCRIB AFWD AREV FSPLIT FFUSE IFIX IMSCRIB FSPLIT FFUSE AREV IMSCRIB AFWD AREV FFUSE / 0-1 1-2 2-3 3-4 1-3 5-6 6-7 7-8 8-9 9-10 10-5 4-9 11-12 12-13 13-14 14-11 8-13 15-16 16-17 17-18 18-15 12-18"},{"closure":"NONE","codes":["⊙",">","<",">","<"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":0,"free_out":0,"name":"phase_gate_v2","nodes":["IMSCRIB","AFWD","AREV","AFWD","AREV"],"spec":"ring ⊙ > < > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"phase_neutralizer","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < projective_fiber_twist"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"phase_reversal_gate","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙","⊞","●"],"edges":[[0,1],[1,2],[2,0]],"free_in":1,"free_out":0,"name":"phi_lift","nodes":["IMSCRIB","ENGAGR","FFUSE"],"spec":"ring IMSCRIB ENGAGR FFUSE"},{"closure":"OPEN","codes":["⊢","◇","+","●","⊣","⊙",">","<","◇","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[1,3],[5,6],[6,7],[7,8],[8,9],[9,10],[10,5],[4,9]],"free_in":0,"free_out":1,"name":"pm_s1","nodes":["VINIT","FSPLIT","EVALT","FFUSE","TANCH","IMSCRIB","AFWD","AREV","FSPLIT","FFUSE","IFIX"],"spec":"wire VINIT FSPLIT EVALT FFUSE TANCH IMSCRIB AFWD AREV FSPLIT FFUSE IFIX / 0-1 1-2 2-3 3-4 1-3 5-6 6-7 7-8 8-9 9-10 10-5 4-9"},{"closure":"OPEN","codes":["⊢","◇","+","●","⊣","⊙",">","<","◇","●","¬","⊙","◇","●","<"],"edges":[[0,1],[1,2],[2,3],[3,4],[1,3],[5,6],[6,7],[7,8],[8,9],[9,10],[10,5],[4,9],[11,12],[12,13],[13,14],[14,11],[8,13]],"free_in":0,"free_out":1,"name":"pm_s2","nodes":["VINIT","FSPLIT","EVALT","FFUSE","TANCH","IMSCRIB","AFWD","AREV","FSPLIT","FFUSE","IFIX","IMSCRIB","FSPLIT","FFUSE","AREV"],"spec":"wire VINIT FSPLIT EVALT FFUSE TANCH IMSCRIB AFWD AREV FSPLIT FFUSE IFIX IMSCRIB FSPLIT FFUSE AREV / 0-1 1-2 2-3 3-4 1-3 5-6 6-7 7-8 8-9 9-10 10-5 4-9 11-12 12-13 13-14 14-11 8-13"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"polymerize","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"primality_test","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"prime_check","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"program_0","nodes":["IMSCRIB"],"spec":"ring ⊙"},{"closure":"NONE","codes":["⊢","⊣"],"edges":[[0,1]],"free_in":0,"free_out":1,"name":"program_1","nodes":["VINIT","TANCH"],"spec":"chain ⊢ ⊣"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"promote_phi_hbar","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring IMSCRIB AFWD AREV"},{"closure":"CLOSED(1)","codes":["◇","+","×","●"],"edges":[[0,1],[1,2],[2,3],[0,3]],"free_in":1,"free_out":1,"name":"promote_phi_hbar_real","nodes":["FSPLIT","EVALT","EVALF","FFUSE"],"spec":"protocol FSPLIT EVALT EVALF FFUSE"},{"closure":"CLOSED(1)","codes":["◇","+","×","●"],"edges":[[0,1],[1,2],[2,3],[0,3]],"free_in":1,"free_out":1,"name":"promote_scaffold_L9","nodes":["FSPLIT","EVALT","EVALF","FFUSE"],"spec":"protocol FSPLIT EVALT EVALF FFUSE"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"proof_protocol","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"protocol_dyad","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring moat_protocol_reseed ⊙ > <"},{"closure":"IDENTITY","codes":["◇","●"],"edges":[[0,1],[0,1]],"free_in":1,"free_out":1,"name":"protocol_dyad_closure","nodes":["FSPLIT","FFUSE"],"spec":"protocol moat_reseed_ring δ μ"},{"closure":"IDENTITY","codes":["◇","●"],"edges":[[0,1],[0,1]],"free_in":1,"free_out":1,"name":"protocol_o2_conductive_refined","nodes":["FSPLIT","FFUSE"],"spec":"protocol ◇ manifold_chiral_inversion_linker ● o2_conductive_scaffold_base"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","⊙","●","⊙"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[0,4]],"free_in":1,"free_out":1,"name":"protocol_o2_transform_loop","nodes":["FSPLIT","IMSCRIB","AFWD","IMSCRIB","FFUSE","IMSCRIB"],"spec":"protocol ◇ ⊙ > ⊙ transform_e_valence ● ⊙"},{"closure":"IDENTITY","codes":["◇","●"],"edges":[[0,1],[0,1]],"free_in":1,"free_out":1,"name":"protocol_reseed_dyad","nodes":["FSPLIT","FFUSE"],"spec":"protocol ◇ ●"},{"closure":"OPEN","codes":["⊢","⊙","●","●"],"edges":[[0,1],[1,2],[2,3]],"free_in":2,"free_out":1,"name":"protocol_reseed_topology","nodes":["VINIT","IMSCRIB","FFUSE","FFUSE"],"spec":"protocol bridge_to_ř_manifold ⊢ ⊙ ᐳ ● ●"},{"closure":"OPEN","codes":["⊙",">","<","●","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":2,"free_out":0,"name":"protocol_reseed_v2","nodes":["IMSCRIB","AFWD","AREV","FFUSE","FFUSE"],"spec":"ring ⊙ > < ● ●"},{"closure":"OPEN","codes":["◇","●","●","●"],"edges":[[0,1],[1,2],[2,3],[0,1]],"free_in":3,"free_out":1,"name":"protocol_reseed_v4","nodes":["FSPLIT","FFUSE","FFUSE","FFUSE"],"spec":"protocol FSPLIT ● FFUSE ●"},{"closure":"IDENTITY","codes":["◇","●"],"edges":[[0,1],[0,1]],"free_in":1,"free_out":1,"name":"protocol_reseed_v5","nodes":["FSPLIT","FFUSE"],"spec":"protocol moat_protocol_reseed ◇ Φ Ç ● Ř Γ"},{"closure":"OPEN","codes":["⊙","◇","●","<"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":1,"name":"protocol_transform_dyad","nodes":["IMSCRIB","FSPLIT","FFUSE","AREV"],"spec":"ring ⊙ ◇ phase_shift_operator ● <"},{"closure":"NONE","codes":["⊙",">","×","⊞","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":0,"free_out":0,"name":"re_balancing_gate","nodes":["IMSCRIB","AFWD","EVALF","ENGAGR","TANCH"],"spec":"ring ⊙ > × ⊞ ⊣"},{"closure":"CLOSED(1)","codes":["⊢","⊙",">","◇","+","×","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[3,6]],"free_in":0,"free_out":1,"name":"reduced_character_set_protocol","nodes":["VINIT","IMSCRIB","AFWD","FSPLIT","EVALT","EVALF","FFUSE","IFIX","TANCH"],"spec":"protocol VINIT IMSCRIB AFWD FSPLIT EVALT EVALF FFUSE IFIX TANCH"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","+","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[0,4]],"free_in":1,"free_out":1,"name":"relax_bridge","nodes":["FSPLIT","IMSCRIB","AFWD","EVALT","FFUSE"],"spec":"protocol ◇ ⊙ > + ●"},{"closure":"OPEN","codes":["⊢","¬","=","⊙","⊞",">",">","<","<","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10]],"free_in":1,"free_out":1,"name":"relax_ring","nodes":["VINIT","IFIX","CLINK","IMSCRIB","ENGAGR","AFWD","AFWD","AREV","AREV","FFUSE","TANCH"],"spec":"protocol ⊢¬=⊙⊞>><<●⊣"},{"closure":"CLOSED(1)","codes":["◇",">","+","<","×","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[0,5]],"free_in":1,"free_out":1,"name":"reseed_dyad","nodes":["FSPLIT","AFWD","EVALT","AREV","EVALF","FFUSE"],"spec":"protocol ◇ > + < × ●"},{"closure":"NONE","codes":["⊙",">","<","⊞"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"reseed_gap","nodes":["IMSCRIB","AFWD","AREV","ENGAGR"],"spec":"ring ⊙ > < ⊞ Ħ"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"reseed_index","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"CLOSED(1)","codes":["⊢","◇","+",">","=","×","<","=","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[1,8]],"free_in":0,"free_out":1,"name":"reseed_proto","nodes":["VINIT","FSPLIT","EVALT","AFWD","CLINK","EVALF","AREV","CLINK","FFUSE","TANCH"],"spec":"protocol ⊢ ◇ + > = × < = ● ⊣"},{"closure":"CLOSED(1)","codes":["◇",">",">",">",">",">",">","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[0,7]],"free_in":1,"free_out":1,"name":"reseed_protocol","nodes":["FSPLIT","AFWD","AFWD","AFWD","AFWD","AFWD","AFWD","FFUSE"],"spec":"protocol ◇ > > > > > > ●"},{"closure":"CLOSED(1)","codes":["⊢","⊙","◇",">","+","×","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[2,6]],"free_in":0,"free_out":1,"name":"reseed_protocol_dyad","nodes":["VINIT","IMSCRIB","FSPLIT","AFWD","EVALT","EVALF","FFUSE","IFIX","TANCH"],"spec":"protocol ⊢ ⊙ ◇ > + × ● ¬ ⊣"},{"closure":"CLOSED(1)","codes":["⊢","◇",">",">",">",">",">","●","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[1,7]],"free_in":0,"free_out":1,"name":"reseed_protocol_kernel","nodes":["VINIT","FSPLIT","AFWD","AFWD","AFWD","AFWD","AFWD","FFUSE","TANCH"],"spec":"protocol ⊢ ◇ > > > > > ● ⊣"},{"closure":"IDENTITY","codes":["◇","●"],"edges":[[0,1],[0,1]],"free_in":1,"free_out":1,"name":"reseed_protocol_v2","nodes":["FSPLIT","FFUSE"],"spec":"protocol ◇ shift_reseed_reg ●"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"reseed_ring_protocol","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[0,4]],"free_in":1,"free_out":1,"name":"reseed_ring_working_protocol","nodes":["FSPLIT","IMSCRIB","AFWD","AREV","FFUSE"],"spec":"protocol moat_reseed_ring ◇ ⊙ > < ●"},{"closure":"NONE","codes":["⊙",">","<","⊞"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"reseed_step","nodes":["IMSCRIB","AFWD","AREV","ENGAGR"],"spec":"ring ⊙ > < ⊞ ≡"},{"closure":"IDENTITY","codes":["◇","●"],"edges":[[0,1],[0,1]],"free_in":1,"free_out":1,"name":"reseed_transducer","nodes":["FSPLIT","FFUSE"],"spec":"protocol ◇ bridge_to_ř_manifold · conductive_path_modulus ● magnetic_reconnection"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"reseed_transform","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring moat_reseed_ring protocol_dyad IMSCRIB AFWD AREV"},{"closure":"NONE","codes":["⊞","¬"],"edges":[[0,1],[1,0]],"free_in":0,"free_out":0,"name":"resolve_engagr","nodes":["ENGAGR","IFIX"],"spec":"ring ENGAGR IFIX"},{"closure":"NONE","codes":["⊙",">","<","⊣"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"resolve_gaussian_moat","nodes":["IMSCRIB","AFWD","AREV","TANCH"],"spec":"ring ⊙ > < ⊣"},{"closure":"NONE","codes":["⊙",">","<","⊞"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"resolve_junction","nodes":["IMSCRIB","AFWD","AREV","ENGAGR"],"spec":"ring ⊙ > < ⊞"},{"closure":"OPEN","codes":["⊙",">","<","●","⊞"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":0,"name":"resolve_monodromy","nodes":["IMSCRIB","AFWD","AREV","FFUSE","ENGAGR"],"spec":"ring monodromy_v_bad ⊙ > < ● ⊞"},{"closure":"OPEN","codes":["⊙","◇","●"],"edges":[[0,1],[1,2],[2,0]],"free_in":1,"free_out":1,"name":"retort","nodes":["IMSCRIB","FSPLIT","FFUSE"],"spec":"ring IMSCRIB FSPLIT FFUSE"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"ring_insert_v2","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙ > < ● μ_fusion"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3]],"free_in":2,"free_out":1,"name":"rotat_measure","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"protocol IMSCRIB AFWD AREV FFUSE"},{"closure":"CLOSED(1)","codes":["⊙",">","=","◇","+","<","×","●","⊞","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[3,7]],"free_in":1,"free_out":1,"name":"rotat_probe","nodes":["IMSCRIB","AFWD","CLINK","FSPLIT","EVALT","AREV","EVALF","FFUSE","ENGAGR","IFIX"],"spec":"protocol IMSCRIB AFWD CLINK FSPLIT EVALT AREV EVALF FFUSE ENGAGR IFIX"},{"closure":"NONE","codes":["⊙","=",">","<","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":0,"free_out":0,"name":"saturation_check","nodes":["IMSCRIB","CLINK","AFWD","AREV","TANCH"],"spec":"ring ⊙ = > < ⊣"},{"closure":"OPEN","codes":["⊙","◇","●"],"edges":[[0,1],[1,2],[2,0]],"free_in":1,"free_out":1,"name":"saturation_check_augmented","nodes":["IMSCRIB","FSPLIT","FFUSE"],"spec":"ring ⊙ δ μ"},{"closure":"CLOSED(1)","codes":["⊙","◇","+","×","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[1,4]],"free_in":1,"free_out":1,"name":"seam_close","nodes":["IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","IFIX","TANCH"],"spec":"protocol IMSCRIB FSPLIT EVALT EVALF FFUSE IFIX TANCH"},{"closure":"OPEN","codes":["⊙","◇","+","×","●","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,0]],"free_in":1,"free_out":1,"name":"seam_probe","nodes":["IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","IFIX","TANCH"],"spec":"ring IMSCRIB FSPLIT EVALT EVALF FFUSE IFIX TANCH"},{"closure":"NONE","codes":["<",">","<","="],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"seed_braid","nodes":["AREV","AFWD","AREV","CLINK"],"spec":"ring AREV AFWD AREV CLINK"},{"closure":"OPEN","codes":["⊙","⊞","●","¬"],"edges":[[0,1],[1,2],[2,3]],"free_in":2,"free_out":1,"name":"seven_ring","nodes":["IMSCRIB","ENGAGR","FFUSE","IFIX"],"spec":"protocol IMSCRIB ENGAGR FFUSE IFIX"},{"closure":"CLOSED(1)","codes":["◇","⊙","⊞","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[0,3]],"free_in":1,"free_out":1,"name":"seven_ring_c","nodes":["FSPLIT","IMSCRIB","ENGAGR","FFUSE","IFIX"],"spec":"protocol FSPLIT IMSCRIB ENGAGR FFUSE IFIX"},{"closure":"OPEN","codes":["⊙","⊞","●","¬"],"edges":[[0,1],[1,2],[2,3]],"free_in":2,"free_out":1,"name":"seven_ring_closed","nodes":["IMSCRIB","ENGAGR","FFUSE","IFIX"],"spec":"protocol IMSCRIB ENGAGR FFUSE IFIX"},{"closure":"NONE","codes":["⊙",">","<","+","×"],"edges":[[0,1],[1,2],[2,3],[3,4]],"free_in":1,"free_out":1,"name":"sh_density_limit","nodes":["IMSCRIB","AFWD","AREV","EVALT","EVALF"],"spec":"protocol IMSCRIB AFWD AREV EVALT EVALF"},{"closure":"OPEN","codes":["◇","+",">","×","<","●","⊞"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,0]],"free_in":1,"free_out":1,"name":"sh_density_proof","nodes":["FSPLIT","EVALT","AFWD","EVALF","AREV","FFUSE","ENGAGR"],"spec":"ring FSPLIT EVALT AFWD EVALF AREV FFUSE ENGAGR"},{"closure":"OPEN","codes":["⊙","◇",">","<","●","⊞","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,0]],"free_in":1,"free_out":1,"name":"shielded_parity","nodes":["IMSCRIB","FSPLIT","AFWD","AREV","FFUSE","ENGAGR","TANCH"],"spec":"ring ɢ ⊙ ◇ > < ● ⊞ ⊣"},{"closure":"CLOSED(1)","codes":["⊙","◇",">","<","●","⊞","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[1,4]],"free_in":1,"free_out":1,"name":"shielded_parity_protocol","nodes":["IMSCRIB","FSPLIT","AFWD","AREV","FFUSE","ENGAGR","TANCH"],"spec":"protocol ɢ ⊙ ◇ > < ● ⊞ ⊣"},{"closure":"NONE","codes":["⊙"],"edges":[[0,0]],"free_in":0,"free_out":0,"name":"shift_parity_gate","nodes":["IMSCRIB"],"spec":"ring ⊙ switch Ç=𐑧 Ç=𐑪"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","⊙","●","⊙"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[0,4]],"free_in":1,"free_out":1,"name":"shift_protocol","nodes":["FSPLIT","IMSCRIB","AFWD","IMSCRIB","FFUSE","IMSCRIB"],"spec":"protocol ◇ ⊙ > ⊙ ● ⊙"},{"closure":"OPEN","codes":["⊙",">","◇","●"],"edges":[[0,1],[1,2],[2,3]],"free_in":2,"free_out":2,"name":"sic_povm_exists","nodes":["IMSCRIB","AFWD","FSPLIT","FFUSE"],"spec":"chain ⊙ > ◇ ●"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"simulate_fluctuating_iut","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<","⊞"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"simulate_limit","nodes":["IMSCRIB","AFWD","AREV","ENGAGR"],"spec":"ring ⊙ > < ⊞"},{"closure":"NONE","codes":["⊙",">","<","⊞","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":0,"free_out":0,"name":"solve_density_limit","nodes":["IMSCRIB","AFWD","AREV","ENGAGR","TANCH"],"spec":"ring ⊙ > < ⊞ α_s ⊣"},{"closure":"IDENTITY","codes":["◇","●"],"edges":[[0,1],[0,1]],"free_in":1,"free_out":1,"name":"solve_moat_parity","nodes":["FSPLIT","FFUSE"],"spec":"protocol bridge_comm gate_open δ μ"},{"closure":"OPEN","codes":["⊢","◇","⊣"],"edges":[[0,1],[1,2]],"free_in":0,"free_out":2,"name":"solve_orbit_cyclization","nodes":["VINIT","FSPLIT","TANCH"],"spec":"chain ⊢ ◇ mon_512_parity mon_512_identity mon_512_closure_link ⊣"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"solve_parity","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙","⊞","×",">"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"solve_spectral_lift","nodes":["IMSCRIB","ENGAGR","EVALF","AFWD"],"spec":"ring ⊙ ⊞ × >"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"spectral_coupling","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring fundamental_logic vacuum_manifold ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<","⊞","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":0,"free_out":0,"name":"spectral_lift","nodes":["IMSCRIB","AFWD","AREV","ENGAGR","TANCH"],"spec":"ring ⊙ > < ⊞ ⊣"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"spectral_solver","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring spectral_generator chiral_symmetry_breaker ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<",">"],"edges":[[0,1],[1,2],[2,3]],"free_in":1,"free_out":1,"name":"stability_check_g","nodes":["IMSCRIB","AFWD","AREV","AFWD"],"spec":"chain ⊙ > < input_g > gauss_bonnet_constraint"},{"closure":"OPEN","codes":["⊙",">","<","◇","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":1,"name":"stability_check_g_nonlinear","nodes":["IMSCRIB","AFWD","AREV","FSPLIT","FFUSE"],"spec":"ring ⊙ > < δ μ"},{"closure":"OPEN","codes":["⊙",">","<","⊞","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,0]],"free_in":1,"free_out":0,"name":"stabilization_protocol","nodes":["IMSCRIB","AFWD","AREV","ENGAGR","FFUSE"],"spec":"ring ⊙ > < ⊞ ●"},{"closure":"OPEN","codes":["⊙",">","<","⊞","●","⊢"],"edges":[],"free_in":6,"free_out":6,"name":"stabilize_ring","nodes":["IMSCRIB","AFWD","AREV","ENGAGR","FFUSE","VINIT"],"spec":"wire ⊙ > < ⊞ ● ⊢"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"stable_macro_parity_closure","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙ > < ●"},{"closure":"NONE","codes":["⊙",">","<","⊙",">","<","⊙",">","<"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,0]],"free_in":0,"free_out":0,"name":"star_alpha","nodes":["IMSCRIB","AFWD","AREV","IMSCRIB","AFWD","AREV","IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < ⊙ > < ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2]],"free_in":1,"free_out":1,"name":"star_polymer_assembly_containers","nodes":["IMSCRIB","AFWD","AREV"],"spec":"chain ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"synchronize","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring higher_order_torsion_space ⊙ > <"},{"closure":"NONE","codes":["⊙",">","<","="],"edges":[[0,1],[1,2],[2,3]],"free_in":1,"free_out":1,"name":"szpiro_check_loop","nodes":["IMSCRIB","AFWD","AREV","CLINK"],"spec":"protocol ⊙ szpiro_bridge_homomorphism > < ="},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"szpiro_closure","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙ > < ●"},{"closure":"NONE","codes":["⊙",">","<","⊞"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"szpiro_gap_align_dynamic","nodes":["IMSCRIB","AFWD","AREV","ENGAGR"],"spec":"ring ⊙ > < ⊞"},{"closure":"NONE","codes":["⊙","×","⊣"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"szpiro_residue_check","nodes":["IMSCRIB","EVALF","TANCH"],"spec":"ring ⊙ × Σ Ω Π Φ ⊣"},{"closure":"OPEN","codes":["⊙","◇","+","×","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],"free_in":1,"free_out":1,"name":"teichmuller_polymerization_bridge","nodes":["IMSCRIB","FSPLIT","EVALT","EVALF","FFUSE","IFIX"],"spec":"ring IMSCRIB FSPLIT EVALT EVALF FFUSE IFIX"},{"closure":"NONE","codes":["⊙",">","¬","⊣"],"edges":[[0,1],[1,2],[2,3]],"free_in":1,"free_out":1,"name":"tempd2","nodes":["IMSCRIB","AFWD","IFIX","TANCH"],"spec":"chain ⊙ > ¬ ⊣"},{"closure":"OPEN","codes":["⊢","◇",">","<","●","⊞","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7]],"free_in":1,"free_out":2,"name":"ternary_gap_chain","nodes":["VINIT","FSPLIT","AFWD","AREV","FFUSE","ENGAGR","IFIX","TANCH"],"spec":"chain VINIT FSPLIT AFWD AREV FFUSE ENGAGR IFIX TANCH"},{"closure":"OPEN","codes":["⊢","◇",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,4]],"free_in":1,"free_out":2,"name":"ternary_gap_ring","nodes":["VINIT","FSPLIT","AFWD","AREV","FFUSE"],"spec":"chain VINIT FSPLIT AFWD AREV FFUSE"},{"closure":"OPEN","codes":["⊢",">","◇","+","=","⊙","<","×","⊞","●","⊙","¬","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12]],"free_in":1,"free_out":2,"name":"ternary_protocol","nodes":["VINIT","AFWD","FSPLIT","EVALT","CLINK","IMSCRIB","AREV","EVALF","ENGAGR","FFUSE","IMSCRIB","IFIX","TANCH"],"spec":"chain VINIT AFWD FSPLIT EVALT CLINK IMSCRIB AREV EVALF ENGAGR FFUSE IMSCRIB IFIX TANCH"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"topological_scan_density_matrix","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["●"],"edges":[],"free_in":2,"free_out":1,"name":"torsion_decay_protocol","nodes":["FFUSE"],"spec":"chain LOG_SHELL archimedean_coupling_mechanism ●"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"trap_defect","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < Σ Ω"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"trap_gap_lift","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > material_ρ_2_6181 structure_parity_twist_suppression <"},{"closure":"NONE","codes":["⊙",">","⊞",">","⊞","⊣"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]],"free_in":0,"free_out":0,"name":"turnover_prot","nodes":["IMSCRIB","AFWD","ENGAGR","AFWD","ENGAGR","TANCH"],"spec":"ring ⊙ AFWD ⊞ AFWD ⊞ ⊣ returned OK"},{"closure":"OPEN","codes":[">",">",">","◇","+",">","×",">","●","¬"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,0]],"free_in":1,"free_out":1,"name":"turnover_ring","nodes":["AFWD","AFWD","AFWD","FSPLIT","EVALT","AFWD","EVALF","AFWD","FFUSE","IFIX"],"spec":"ring > AFWD AFWD FSPLIT EVALT AFWD EVALF AFWD FFUSE IFIX — but no that’s arbitrary"},{"closure":"CLOSED(1)","codes":["◇","+","×","●"],"edges":[[0,1],[1,2],[2,3],[0,3]],"free_in":1,"free_out":1,"name":"uniqueness_lemma","nodes":["FSPLIT","EVALT","EVALF","FFUSE"],"spec":"protocol FSPLIT EVALT EVALF FFUSE"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"vacuum_expectation_operator","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":1,"free_out":0,"name":"verify_closure","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"ring ⊙ > < ●"},{"closure":"NONE","codes":["⊙",">","<","⊞"],"edges":[[0,1],[1,2],[2,3],[3,0]],"free_in":0,"free_out":0,"name":"verify_gamma_stability","nodes":["IMSCRIB","AFWD","AREV","ENGAGR"],"spec":"ring ⊙ > < ⊞ R↔S"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"verify_stitch","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"OPEN","codes":["⊙",">","<","●"],"edges":[[0,1],[1,2],[2,3]],"free_in":2,"free_out":1,"name":"wire_hamiltonian","nodes":["IMSCRIB","AFWD","AREV","FFUSE"],"spec":"chain ⊙ > < ●"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","+","×","<","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[0,6]],"free_in":1,"free_out":1,"name":"Ħ_action_null","nodes":["FSPLIT","IMSCRIB","AFWD","EVALT","EVALF","AREV","FFUSE"],"spec":"protocol FSPLIT IMSCRIB AFWD EVALT EVALF AREV FFUSE"},{"closure":"CLOSED(1)","codes":["◇","⊙","<",">","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[0,4]],"free_in":1,"free_out":1,"name":"Ħ_braid_nonab","nodes":["FSPLIT","IMSCRIB","AREV","AFWD","FFUSE"],"spec":"protocol FSPLIT IMSCRIB AREV AFWD FFUSE"},{"closure":"CLOSED(1)","codes":["◇","⊙",">","+","×","●"],"edges":[[0,1],[1,2],[2,3],[3,4],[4,5],[0,5]],"free_in":1,"free_out":1,"name":"Ħ_floor_lock","nodes":["FSPLIT","IMSCRIB","AFWD","EVALT","EVALF","FFUSE"],"spec":"protocol FSPLIT IMSCRIB AFWD EVALT EVALF FFUSE"},{"closure":"CLOSED(1)","codes":["◇","⊙","<","●"],"edges":[[0,1],[1,2],[2,3],[0,3]],"free_in":1,"free_out":1,"name":"Ħ_residual_fuse","nodes":["FSPLIT","IMSCRIB","AREV","FFUSE"],"spec":"protocol FSPLIT IMSCRIB AREV FFUSE"},{"closure":"OPEN","codes":["●","◇","◇"],"edges":[[0,1],[1,2],[2,0]],"free_in":1,"free_out":2,"name":"Σ_closure","nodes":["FFUSE","FSPLIT","FSPLIT"],"spec":"ring ● Σ_gap_1.0 ◇ FSPLIT"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"Ω_stability_proof","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > < Ħ 𐑖 𐑟"},{"closure":"NONE","codes":["⊙",">","<"],"edges":[[0,1],[1,2],[2,0]],"free_in":0,"free_out":0,"name":"α_ring","nodes":["IMSCRIB","AFWD","AREV"],"spec":"ring ⊙ > <"},{"closure":"NONE","codes":["⊙",">"],"edges":[[0,1]],"free_in":1,"free_out":1,"name":"δ_map","nodes":["IMSCRIB","AFWD"],"spec":"chain ⊙ >"},{"closure":"NONE","codes":["⊙","<"],"edges":[[0,1]],"free_in":1,"free_out":1,"name":"μ_map","nodes":["IMSCRIB","AREV"],"spec":"chain ⊙ <"}]}</script>
+<script type="application/json" id="manifest">{}</script>
 <script>
-"use strict";
-let MAN = { opcodes: [], tools: [] };
-let nodes = [], wires = [], armed = null, nid = 0;
+// ── SVG ref ──
 const svg = document.getElementById('canvas');
 
-// The manifest travels INSIDE the page: `imasm export` splices its JSON into the
-// application/json block above, so opening the file directly (file://) needs no
-// server and no picker. The fetch and the picker remain as fallbacks for a page
-// that has not been exported into yet.
-(() => {
-  const inline = document.getElementById('manifest');
-  if (inline && inline.textContent.trim()) {
-    try { MAN = JSON.parse(inline.textContent); renderPalette(); return; } catch (e) {}
+// ── Token definitions ──
+const TOKEN_META = {
+  VINIT:{glyph:"⊢",ins:0,outs:1,fam:0}, TANCH:{glyph:"⊣",ins:1,outs:1,fam:3},
+  AFWD:{glyph:">",ins:1,outs:1,fam:3},  AREV:{glyph:"<",ins:1,outs:1,fam:3},
+  CLINK:{glyph:"=",ins:1,outs:1,fam:3}, IMSCRIB:{glyph:"⊙",ins:1,outs:1,fam:3},
+  FSPLIT:{glyph:"◇",ins:1,outs:2,fam:1}, FFUSE:{glyph:"●",ins:2,outs:1,fam:2},
+  EVALT:{glyph:"+",ins:1,outs:1,fam:3}, EVALF:{glyph:"×",ins:1,outs:1,fam:3},
+  ENGAGR:{glyph:"⊞",ins:1,outs:1,fam:3}, IFIX:{glyph:"¬",ins:1,outs:1,fam:3},
+  FSPLIT3:{glyph:"∈",ins:0,outs:3,fam:1}, FFUSE3:{glyph:"∋",ins:3,outs:1,fam:2},
+  EVALI:{glyph:"⊞",ins:1,outs:1,fam:3}, TNEG:{glyph:"~",ins:1,outs:1,fam:3},
+  INEG:{glyph:"≁",ins:1,outs:1,fam:3}
+};
+// FIX: FAM_SHAPE uses 'rect' not 'square' so element creation matches
+const FAM_SHAPE = ["circle","diamond","hexagon","rect"];
+const PEN_EDGE = {
+  VINIT:[null,1.5,"open",null], TANCH:["5,2,1,2,1,2",1.5,"open",null],
+  AFWD:[null,2.5,"filled",null], AREV:["6,4",1.5,"filled",null],
+  CLINK:["double",1,"filled",null], IMSCRIB:[null,1.5,"reverse","←"],
+  FSPLIT:[null,1.5,"filled","◇"], FFUSE:[null,1.5,"filled","●"],
+  EVALT:[null,1.5,"filled","+"], EVALF:[null,1.5,"filled","×"],
+  ENGAGR:["zigzag",1.5,"filled",null], IFIX:["2,2",1.5,"filled",null],
+  FSPLIT3:[null,2,"filled","∈"], FFUSE3:[null,2,"filled","∋"],
+  EVALI:["4,2,1,2",1.5,"filled","⊞"], TNEG:["1,3",1.5,"open","~"],
+  INEG:["2,1,1,1,1,1",1.5,"open","≁"]
+};
+const GLYPH_TO_TOKEN = Object.fromEntries(
+  Object.entries(TOKEN_META).map(([n,m])=>[m.glyph,n])
+);
+const GLYPH_SET = new Set(Object.keys(GLYPH_TO_TOKEN));
+const TOKEN_NAMES = new Set(Object.keys(TOKEN_META));
+
+// ── State ──
+let nodes = [];
+let wires = [];
+let armed = null;        // {node,side,slot} of selected out-port
+let wordMode = false;
+let nid = 0;
+let MAN = {opcodes:[],tools:[]};
+
+// ── Undo stack ──
+let undoStack = [];
+let redoStack = [];
+const MAX_UNDO = 50;
+function saveState(){
+  undoStack.push(JSON.stringify({nodes,wires,armed,wordMode,nid}));
+  if(undoStack.length>MAX_UNDO) undoStack.shift();
+  redoStack = [];
+  updateUndoUI();
+}
+function undo(){
+  if(!undoStack.length) return;
+  redoStack.push(JSON.stringify({nodes,wires,armed,wordMode,nid}));
+  const s = JSON.parse(undoStack.pop());
+  nodes=s.nodes; wires=s.wires; armed=s.armed; wordMode=s.wordMode; nid=s.nid;
+  draw(); speak(); updateUndoUI();
+}
+function redo(){
+  if(!redoStack.length) return;
+  undoStack.push(JSON.stringify({nodes,wires,armed,wordMode,nid}));
+  const s = JSON.parse(redoStack.pop());
+  nodes=s.nodes; wires=s.wires; armed=s.armed; wordMode=s.wordMode; nid=s.nid;
+  draw(); speak(); updateUndoUI();
+}
+function updateUndoUI(){
+  document.getElementById('undo-btn').disabled = !undoStack.length;
+  document.getElementById('redo-btn').disabled = !redoStack.length;
+  document.getElementById('undo-count').textContent =
+    undoStack.length ? `${undoStack.length} undo` : '';
+}
+document.getElementById('undo-btn').onclick = undo;
+document.getElementById('redo-btn').onclick = redo;
+// ── Manifest loader ──
+(async function loadManifest(){
+  try {
+    const r = await fetch('ob3ects/imasm_manifest.json');
+    MAN = await r.json();
+    renderPalette();
+  } catch(e){
+    document.getElementById('hint').textContent =
+      'no manifest — use file picker or serve locally';
   }
-  fetch('ob3ects/imasm_manifest.json').then(r => r.json()).then(m => { MAN = m; renderPalette(); })
-    .catch(() => { document.getElementById('hint').textContent =
-      'no inline manifest and fetch failed (file:// blocks it) — run `imasm export` to embed it, use the file picker, or serve the folder locally'; });
 })();
-document.getElementById('mfile').addEventListener('change', e => {
-  const f = e.target.files[0]; if (!f) return;
-  f.text().then(t => { MAN = JSON.parse(t); renderPalette(); });
+document.getElementById('mfile').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  f.text().then(t=>{ MAN=JSON.parse(t); renderPalette(); saveState(); });
 });
 document.getElementById('filter').addEventListener('input', renderPalette);
 
-function renderPalette() {
+function renderPalette(){
   const q = document.getElementById('filter').value.toLowerCase();
   const ops = document.getElementById('ops'); ops.innerHTML = '';
-  for (const o of MAN.opcodes) {
+  for(const o of MAN.opcodes){
     const d = document.createElement('div'); d.className = 'pitem';
     d.textContent = `${o.code} ${o.name}  ${o.arity_in}→${o.arity_out}`;
-    d.onclick = () => addNode({ kind:'op', name:o.name, code:o.code, ins:o.arity_in, outs:o.arity_out });
+    d.onclick = ()=>{ addNode({kind:'op',name:o.name,code:o.code,ins:o.arity_in,outs:o.arity_out}); };
     ops.appendChild(d);
   }
   const tl = document.getElementById('tools'); tl.innerHTML = '';
-  for (const t of MAN.tools) {
-    if (q && !t.name.toLowerCase().includes(q)) continue;
+  for(const t of MAN.tools){
+    if(q && !t.name.toLowerCase().includes(q)) continue;
     const d = document.createElement('div'); d.className = 'pitem';
     d.innerHTML = `${t.name} <span class="meta">${t.free_in}▸in ${t.free_out}▸out · ${t.closure}</span>`;
     d.title = t.spec;
-    d.onclick = () => addNode({ kind:'tool', name:t.name, code:t.codes.join(''), ins:t.free_in, outs:t.free_out });
+    d.onclick = ()=>{ addNode({kind:'tool',name:t.name,code:t.codes.join(''),ins:t.free_in,outs:t.free_out}); };
     tl.appendChild(d);
   }
 }
 
-function addNode(spec) {
-  const n = { id:nid++, x:80 + (nodes.length%5)*170, y:60 + Math.floor(nodes.length/5)*110, ...spec };
+function addNode(spec){
+  saveState();
+  const n = {id:nid++, x:60+(nodes.length%6)*155, y:80+Math.floor(nodes.length/6)*120, ...spec};
   nodes.push(n); draw(); speak();
 }
 
-function portsOf(n, side) {
+function portsOf(n, side){
   const c = side==='in' ? n.ins : n.outs, out = [];
-  for (let k=0;k<c;k++) out.push({ node:n.id, side, slot:k });
+  for(let k=0; k<c; k++) out.push({node:n.id, side, slot:k});
   return out;
 }
-function portUsed(p) {
-  return wires.some(w => (p.side==='out' ? w.from.node===p.node && w.from.slot===p.slot
-                                         : w.to.node===p.node && w.to.slot===p.slot));
+function portUsed(p){
+  return wires.some(w => (p.side==='out' ? w.from.node===p.node&&w.from.slot===p.slot
+                                         : w.to.node===p.node&&w.to.slot===p.slot));
 }
-function portXY(n, side, slot, count) {
-  const h = Math.max(46, 16*Math.max(n.ins,n.outs)+18);
-  const y = n.y + 14 + (slot+1) * h/(count+1);
-  return { x: side==='in' ? n.x : n.x+150, y };
+function portXY(n, side, slot, count){
+  const h = Math.max(48, 18*Math.max(n.ins,n.outs)+20);
+  const y = n.y + 16 + (slot+1)*h/(count+1);
+  return {x: side==='in' ? n.x : n.x+140, y};
 }
 
-function draw() {
-  svg.innerHTML = '';
-  for (const w of wires) {
-    const a = nodes.find(n=>n.id===w.from.node), b = nodes.find(n=>n.id===w.to.node);
-    if (!a||!b) continue;
-    const p1 = portXY(a,'out',w.from.slot,a.outs), p2 = portXY(b,'in',w.to.slot,b.ins);
-    const path = document.createElementNS(svg.namespaceURI,'path');
-    const dx = Math.max(40, (p2.x-p1.x)/2);
-    path.setAttribute('d',`M${p1.x},${p1.y} C${p1.x+dx},${p1.y} ${p2.x-dx},${p2.y} ${p2.x},${p2.y}`);
-    path.setAttribute('class','wire');
-    path.addEventListener('dblclick',()=>{ wires=wires.filter(x=>x!==w); draw(); speak(); });
-    svg.appendChild(path);
-  }
-  for (const n of nodes) {
-    const g = document.createElementNS(svg.namespaceURI,'g');
-    g.setAttribute('class','node'+(armed&&armed.node===n.id?' sel':''));
-    const h = Math.max(46, 16*Math.max(n.ins,n.outs)+18);
-    const r = document.createElementNS(svg.namespaceURI,'rect');
-    r.setAttribute('x',n.x); r.setAttribute('y',n.y); r.setAttribute('width',150); r.setAttribute('height',h);
-    g.appendChild(r);
-    const t1 = document.createElementNS(svg.namespaceURI,'text');
-    t1.setAttribute('x',n.x+75); t1.setAttribute('y',n.y+16); t1.setAttribute('text-anchor','middle');
-    t1.textContent = n.name.length>18 ? n.name.slice(0,17)+'…' : n.name;
-    g.appendChild(t1);
-    const t2 = document.createElementNS(svg.namespaceURI,'text');
-    t2.setAttribute('x',n.x+75); t2.setAttribute('y',n.y+30); t2.setAttribute('text-anchor','middle');
-    t2.setAttribute('class','code');
-    t2.textContent = n.code.length>20 ? n.code.slice(0,19)+'…' : n.code;
-    g.appendChild(t2);
-    for (const side of ['in','out']) {
-      const count = side==='in'?n.ins:n.outs;
-      for (let k=0;k<count;k++) {
-        const p = portXY(n,side,k,count);
-        const c = document.createElementNS(svg.namespaceURI,'circle');
-        const used = portUsed({node:n.id,side,slot:k});
-        c.setAttribute('cx',p.x); c.setAttribute('cy',p.y); c.setAttribute('r',5.5);
-        c.setAttribute('class','port '+(used?'used':'free')+
-          (armed&&armed.node===n.id&&armed.side===side&&armed.slot===k?' armed':''));
-        c.addEventListener('click',ev=>{ ev.stopPropagation(); clickPort({node:n.id,side,slot:k},used); });
-        g.appendChild(c);
-      }
+// ── SVG element factory ──
+function makeShape(shape, cx, cy, r, attrs){
+  const ns = svg.namespaceURI;
+  let el;
+  if(shape === 'circle'){
+    el = document.createElementNS(ns, 'circle');
+    el.setAttribute('cx', cx); el.setAttribute('cy', cy); el.setAttribute('r', r);
+  } else if(shape === 'rect'){
+    el = document.createElementNS(ns, 'rect');
+    el.setAttribute('x', cx-r); el.setAttribute('y', cy-r);
+    el.setAttribute('width', 2*r); el.setAttribute('height', 2*r);
+  } else {
+    el = document.createElementNS(ns, 'polygon');
+    const nPts = shape === 'diamond' ? 4 : 6;
+    let pts = '';
+    for(let k=0; k<nPts; k++){
+      const a = Math.PI/2 + 2*Math.PI*k/nPts;
+      pts += `${(cx+r*Math.cos(a)).toFixed(1)},${(cy+r*Math.sin(a)).toFixed(1)}${k<nPts-1?' ':''}`;
     }
-    // drag + remove
-    r.addEventListener('mousedown',ev=>{
-      const ox=ev.offsetX-n.x, oy=ev.offsetY-n.y;
-      const mv=e2=>{ n.x=e2.offsetX-ox; n.y=e2.offsetY-oy; draw(); };
-      const up=()=>{ svg.removeEventListener('mousemove',mv); svg.removeEventListener('mouseup',up); };
-      svg.addEventListener('mousemove',mv); svg.addEventListener('mouseup',up);
-    });
-    r.addEventListener('dblclick',()=>{
-      nodes=nodes.filter(x=>x!==n); wires=wires.filter(w=>w.from.node!==n.id&&w.to.node!==n.id);
+    el.setAttribute('points', pts);
+  }
+  if(attrs) for(const [k,v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+// ── Hatch pattern defs ──
+function ensureDefs(){
+  const ns = svg.namespaceURI;
+  if(svg.querySelector('defs')) return;
+  const defs = document.createElementNS(ns, 'defs');
+  defs.innerHTML = `<pattern id="hatch-T" width="4" height="4" patternUnits="userSpaceOnUse">
+    <path d="M2,0L2,4" stroke="#fff" stroke-width="0.8"/></pattern>
+    <pattern id="hatch-F" width="4" height="4" patternUnits="userSpaceOnUse">
+    <path d="M0,2L4,2" stroke="#fff" stroke-width="0.8"/></pattern>
+    <pattern id="hatch-B" width="4" height="4" patternUnits="userSpaceOnUse">
+    <path d="M2,0L2,4M0,2L4,2" stroke="#fff" stroke-width="0.8"/></pattern>`;
+  svg.prepend(defs);
+}
+// ── Main SVG renderer ──
+function draw(){
+  svg.innerHTML = '';
+  ensureDefs();
+  const ns = svg.namespaceURI;
+  const W = svg.clientWidth || 1200, H = svg.clientHeight || 600;
+
+  // Grid
+  for(let gx=0; gx<W; gx+=40){
+    const l = document.createElementNS(ns, 'line');
+    l.setAttribute('x1',gx); l.setAttribute('y1',0);
+    l.setAttribute('x2',gx); l.setAttribute('y2',H);
+    l.setAttribute('class', 'pen-grid'); svg.appendChild(l);
+  }
+  for(let gy=0; gy<H; gy+=40){
+    const l = document.createElementNS(ns, 'line');
+    l.setAttribute('x1',0); l.setAttribute('y1',gy);
+    l.setAttribute('x2',W); l.setAttribute('y2',gy);
+    l.setAttribute('class', 'pen-grid'); svg.appendChild(l);
+  }
+
+  // Wires first (behind nodes)
+  for(const w of wires){
+    const a = nodes.find(n => n.id === w.from.node);
+    const b = nodes.find(n => n.id === w.to.node);
+    if(!a || !b) continue;
+    const p1 = portXY(a, 'out', w.from.slot, a.outs);
+    const p2 = portXY(b, 'in', w.to.slot, b.ins);
+    const dx = Math.max(40, (p2.x-p1.x)/2);
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', `M${p1.x},${p1.y}C${p1.x+dx},${p1.y}${p2.x-dx},${p2.y}${p2.x},${p2.y}`);
+    const srcName = a.kind === 'op' ? a.name : null;
+    const style = srcName ? PEN_EDGE[srcName] : null;
+    let cls = 'pen-wire';
+    if(style){
+      if(style[0] === 'double') cls += ' dbl';
+      else if(style[0]) cls += ' dashed';
+      if(style[1] >= 2) cls += ' thick';
+      if(style[0]) path.setAttribute('stroke-dasharray', style[0]==='double'?'':style[0]);
+    }
+    path.setAttribute('class', cls);
+    // Double-click on wire to remove it
+    path.addEventListener('dblclick', e => {
+      e.stopPropagation();
+      saveState();
+      wires = wires.filter(x => x !== w);
       draw(); speak();
     });
+    svg.appendChild(path);
+    // Midpoint glyph
+    if(style && style[3]){
+      const mx = (p1.x+p2.x)/2, my = (p1.y+p2.y)/2;
+      const tg = document.createElementNS(ns, 'text');
+      tg.setAttribute('x', mx); tg.setAttribute('y', my+3);
+      tg.setAttribute('text-anchor', 'middle');
+      tg.setAttribute('fill', '#888'); tg.setAttribute('font-size', '9px');
+      tg.textContent = style[3];
+      svg.appendChild(tg);
+    }
+  }
+
+  // Nodes
+  for(const n of nodes){
+    const g = document.createElementNS(ns, 'g');
+    const sel = armed && armed.node === n.id;
+    const h = Math.max(48, 18*Math.max(n.ins,n.outs)+20);
+    const cx = n.x+70, cy = n.y+h/2;
+    const r = Math.min(28, Math.max(18, h/2-4));
+    const meta = n.kind==='op' ? TOKEN_META[n.name] : null;
+    const fam = meta ? meta.fam : 3;
+    const shape = FAM_SHAPE[fam];
+    const strokeColor = sel ? '#e3b341' : '#ddd';
+    const strokeW = sel ? '1.8' : '1.2';
+
+    // Draw shape (fill=none, pen-drawing style)
+    const shEl = makeShape(shape, cx, cy, r, {
+      'fill': 'none', 'stroke': strokeColor, 'stroke-width': strokeW
+    });
+    g.appendChild(shEl);
+
+    // Hatch fill overlay for tool nodes
+    if(n.kind === 'tool'){
+      const hatch = makeShape(shape, cx, cy, r-3, {
+        'fill': 'url(#hatch-T)', 'stroke': 'none', 'opacity': '0.15'
+      });
+      g.appendChild(hatch);
+    }
+
+    // Label above shape
+    const t1 = document.createElementNS(ns, 'text');
+    t1.setAttribute('x', cx); t1.setAttribute('y', cy-r-10);
+    t1.setAttribute('text-anchor', 'middle');
+    t1.setAttribute('fill', '#ddd'); t1.setAttribute('font-size', '10px');
+    t1.textContent = n.name.length > 16 ? n.name.slice(0,15)+'…' : n.name;
+    g.appendChild(t1);
+    // Glyph inside shape
+    const t2 = document.createElementNS(ns, 'text');
+    t2.setAttribute('x', cx); t2.setAttribute('y', cy+4);
+    t2.setAttribute('text-anchor', 'middle');
+    t2.setAttribute('fill', '#fff'); t2.setAttribute('font-size', '14px');
+    t2.setAttribute('font-weight','bold');
+    t2.textContent = n.code.length > 3 ? n.code.slice(0,3) : n.code;
+    g.appendChild(t2);
+
+    // Ports
+    for(const side of ['in','out']){
+      const count = side==='in' ? n.ins : n.outs;
+      for(let k=0; k<count; k++){
+        const p = portXY(n, side, k, count);
+        const used = portUsed({node:n.id, side, slot:k});
+        const isArmed = armed && armed.node===n.id && armed.side===side && armed.slot===k;
+        const c = document.createElementNS(ns, 'circle');
+        c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); c.setAttribute('r', 5);
+        c.setAttribute('class', 'pen-port '+(used?'used':'free')+(isArmed?' armed':''));
+        c.addEventListener('click', ev => { ev.stopPropagation(); clickPort({node:n.id,side,slot:k}, used); });
+        g.appendChild(c);
+        if(count > 1){
+          const pl = document.createElementNS(ns, 'text');
+          pl.setAttribute('x', side==='in' ? p.x-8 : p.x+8);
+          pl.setAttribute('y', p.y+3);
+          pl.setAttribute('text-anchor', side==='in' ? 'end' : 'start');
+          pl.setAttribute('class', 'port-lbl');
+          pl.textContent = k;
+          g.appendChild(pl);
+        }
+      }
+    }
+
+    // ── DRAG BOX: visible transparent rectangle — THE "BOX TO GRAB" ──
+    const dragBox = document.createElementNS(ns, 'rect');
+    dragBox.setAttribute('x', n.x-4); dragBox.setAttribute('y', n.y-4);
+    dragBox.setAttribute('width', 148); dragBox.setAttribute('height', h+8);
+    dragBox.setAttribute('rx', 3); dragBox.setAttribute('ry', 3);
+    dragBox.setAttribute('class', 'drag-box');
+    // Drag logic
+    dragBox.addEventListener('mousedown', ev => {
+      if(ev.button !== 0) return;
+      ev.preventDefault();
+      const rect = svg.getBoundingClientRect();
+      const ox = ev.clientX - rect.left - n.x;
+      const oy = ev.clientY - rect.top - n.y;
+      const mv = e2 => {
+        const r2 = svg.getBoundingClientRect();
+        n.x = e2.clientX - r2.left - ox;
+        n.y = e2.clientY - r2.top - oy;
+        draw();
+      };
+      const up = () => {
+        svg.removeEventListener('mousemove', mv);
+        svg.removeEventListener('mouseup', up);
+      };
+      svg.addEventListener('mousemove', mv);
+      svg.addEventListener('mouseup', up);
+    });
+    g.appendChild(dragBox);    // ── DELETE BUTTON (×) — visible, always works ──
+    const delBtn = document.createElementNS(ns, 'circle');
+    delBtn.setAttribute('cx', n.x+140); delBtn.setAttribute('cy', n.y);
+    delBtn.setAttribute('r', 7);
+    delBtn.setAttribute('class', 'del-btn');
+    delBtn.addEventListener('click', ev => {
+      ev.stopPropagation();
+      saveState();
+      nodes = nodes.filter(x => x !== n);
+      wires = wires.filter(w => w.from.node !== n.id && w.to.node !== n.id);
+      if(armed && armed.node === n.id) armed = null;
+      draw(); speak();
+    });
+    g.appendChild(delBtn);
+    const delX = document.createElementNS(ns, 'text');
+    delX.setAttribute('x', n.x+140); delX.setAttribute('y', n.y+3);
+    delX.setAttribute('text-anchor', 'middle');
+    
+    delX.setAttribute('style', 'fill:#f66;font:9px monospace;pointer-events:none;');
+    delX.textContent = '×';
+    g.appendChild(delX);
+
+    // Keep dblclick on shape as secondary delete (only works if not moved)
+    shEl.addEventListener('dblclick', ev => {
+      ev.stopPropagation();
+      saveState();
+      nodes = nodes.filter(x => x !== n);
+      wires = wires.filter(w => w.from.node !== n.id && w.to.node !== n.id);
+      if(armed && armed.node === n.id) armed = null;
+      draw(); speak();
+    });
+
     svg.appendChild(g);
+
+    // IFIX barrier markers
+    if(n.kind === 'op' && n.name === 'IFIX'){
+      for(const off of [-2.5, 2.5]){
+        const bar = document.createElementNS(ns, 'line');
+        bar.setAttribute('x1', cx+off); bar.setAttribute('y1', n.y-6);
+        bar.setAttribute('x2', cx+off); bar.setAttribute('y2', n.y+h+6);
+        bar.setAttribute('class', 'ifix-bar');
+        svg.appendChild(bar);
+      }
+      const xm = document.createElementNS(ns, 'text');
+      xm.setAttribute('x', cx-16); xm.setAttribute('y', n.y-10);
+      xm.setAttribute('fill', '#888'); xm.setAttribute('font-size', '8px');
+      xm.textContent = 'IFIX';
+      svg.appendChild(xm);
+    }
   }
 }
 
-function clickPort(p, used) {
-  if (used) return;
-  if (p.side==='out') { armed = p; draw(); return; }
-  if (armed && armed.side==='out' && armed.node!==p.node) {
-    wires.push({ from:armed, to:p }); armed=null; draw(); speak();
+// ── Port click / wire binding ──
+function clickPort(p, used){
+  if(used) return;
+  if(p.side === 'out'){
+    saveState();
+    armed = p;
+    draw();
+    return;
+  }
+  // p.side === 'in'
+  if(armed && armed.side === 'out' && armed.node !== p.node){
+    saveState();
+    wires.push({from:armed, to:p});
+    armed = null;
+    draw(); speak();
+  } else {
+    armed = null;
+    draw();
   }
 }
 
-function speak() {
+// ── SPEAK command generator ──
+function speak(){
   const lines = [];
-  const toolNodes = nodes.filter(n=>n.kind==='tool');
-  const opNodes = nodes.filter(n=>n.kind==='op');
-  // compose fold, in wire order, tools only
-  const bound = wires.filter(w=>{
-    const a=nodes.find(n=>n.id===w.from.node), b=nodes.find(n=>n.id===w.to.node);
-    return a&&b&&a.kind==='tool'&&b.kind==='tool';
+  const toolNodes = nodes.filter(n => n.kind === 'tool');
+  const opNodes = nodes.filter(n => n.kind === 'op');
+  const bound = wires.filter(w => {
+    const a = nodes.find(n => n.id === w.from.node);
+    const b = nodes.find(n => n.id === w.to.node);
+    return a && b && a.kind === 'tool' && b.kind === 'tool';
   });
-  let step=0;
-  for (const w of bound) {
-    const a=nodes.find(n=>n.id===w.from.node), b=nodes.find(n=>n.id===w.to.node);
+  let step = 0;
+  for(const w of bound){
+    const a = nodes.find(n => n.id === w.from.node);
+    const b = nodes.find(n => n.id === w.to.node);
     const name = step===0 ? `${a.name}__x__${b.name}`.slice(0,48) : `composite_${step+1}`;
-    lines.push(`imasm compose ${name} ${step===0?a.name:'composite_'+step} ${step===0? b.name : b.name}`);
+    lines.push(`imasm compose ${name} ${step===0?a.name:'composite_'+step} ${step===0?b.name:b.name}`);
     step++;
   }
-  if (toolNodes.length>=2 && toolNodes.length<=6)
+  if(toolNodes.length >= 2 && toolNodes.length <= 6)
     lines.push(`imasm chaos ${toolNodes.map(n=>n.name).join(' ')}`);
-  // pure-opcode arrangement → exact wire spec
-  if (opNodes.length>0 && opNodes.length===nodes.length) {
-    const idx = new Map(opNodes.map((n,i)=>[n.id,i]));
-    const es = wires.map(w=>`${idx.get(w.from.node)}-${idx.get(w.to.node)}`);
+  if(opNodes.length > 0 && opNodes.length === nodes.length){
+    const idx = new Map(opNodes.map((n,i)=> [n.id,i]));
+    const es = wires.map(w => `${idx.get(w.from.node)}-${idx.get(w.to.node)}`);
     lines.push(`imasm define composed_${Date.now()%10000} wire ${opNodes.map(n=>n.name).join(' ')} / ${es.join(' ')}`);
   }
-  for (const n of nodes) if (n.kind==='tool')
+  for(const n of nodes) if(n.kind === 'tool')
     lines.push(`imasm eval ${n.name}    # flow it   ·   imasm prove ${n.name}    # kernel`);
   document.getElementById('cmds').textContent =
-    lines.length ? lines.join('\n') : '(place programs, bind ports — command lines appear here)';
+    lines.length ? lines.join('\n') : '(place programs, bind ports — commands appear here)';
+}
+// ── Live IMASM word input ──
+(function initWordInput(){
+  const input = document.getElementById('imas-word-input');
+  const statusEl = document.getElementById('imas-word-status');
+  if(!input) return;
+
+  function parseImasmWord(text){
+    const t = text.trim();
+    if(!t) return null;
+    const chars = [...t];
+    const allGlyphs = chars.every(c => GLYPH_SET.has(c) || c === ' ');
+    let tokenNames;
+    if(allGlyphs && chars.length > 1){
+      tokenNames = chars.filter(c => GLYPH_SET.has(c)).map(c => GLYPH_TO_TOKEN[c]);
+    } else {
+      tokenNames = t.split(/\s+/).map(p => p.toUpperCase()).filter(p => TOKEN_NAMES.has(p));
+    }
+    return tokenNames.length ? tokenNames : null;
+  }
+
+  let timer = null;
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const text = input.value;
+      if(!text.trim()){ statusEl.textContent = '—'; return; }
+      const tokens = parseImasmWord(text);
+      if(!tokens || tokens.length === 0){
+        statusEl.textContent = 'unrecognized';
+        statusEl.style.color = '#ff6666';
+        return;
+      }
+      const glyphPreview = tokens.map(n => TOKEN_META[n].glyph).join(' ');
+      statusEl.textContent = `${tokens.length} tok: ${glyphPreview}`;
+      statusEl.style.color = '#888';
+    }, 150);
+  });
+  input.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){ clearTimeout(timer); composeWord(); }
+  });
+})();
+
+// ── Compose word on canvas ──
+window.composeWord = function(){
+  const input = document.getElementById('imas-word-input');
+  const statusEl = document.getElementById('imas-word-status');
+  const text = input.value.trim();
+  if(!text) return;
+  const chars = [...text];
+  const allGlyphs = chars.every(c => GLYPH_SET.has(c) || c === ' ');
+  let tokenNames;
+  if(allGlyphs && chars.length > 1){
+    tokenNames = chars.filter(c => GLYPH_SET.has(c)).map(c => GLYPH_TO_TOKEN[c]);
+  } else {
+    tokenNames = text.split(/\s+/).map(p => p.toUpperCase()).filter(p => TOKEN_NAMES.has(p));
+  }
+  if(!tokenNames || tokenNames.length === 0){
+    statusEl.textContent = 'unrecognized';
+    statusEl.style.color = '#ff6666';
+    return;
+  }
+  saveState();
+  nodes = []; wires = []; armed = null;
+  const placed = [];
+  for(let i=0; i<tokenNames.length; i++){
+    const name = tokenNames[i];
+    const meta = TOKEN_META[name];
+    if(!meta) continue;
+    const n = {id:nid++, x:40+i*130, y:180, kind:'op', name, code:meta.glyph, ins:meta.ins, outs:meta.outs};
+    nodes.push(n);
+    placed.push(n);
+  }
+  // Auto-wire: first free out → first free in of next
+  for(let i=0; i<placed.length-1; i++){
+    const from = placed[i], to = placed[i+1];
+    for(let so=0; so<from.outs; so++){
+      if(wires.some(w => w.from.node===from.id && w.from.slot===so)) continue;
+      for(let si=0; si<to.ins; si++){
+        if(wires.some(w => w.to.node===to.id && w.to.slot===si)) continue;
+        wires.push({from:{node:from.id,side:'out',slot:so}, to:{node:to.id,side:'in',slot:si}});
+        break;
+      }
+      break;
+    }
+  }
+  wordMode = true;
+  draw(); speak();
+  statusEl.textContent = `composed: ${tokenNames.map(n=>TOKEN_META[n].glyph).join(' ')}`;
+  statusEl.style.color = '#8c8';
+};
+
+function copyCmds(){
+  navigator.clipboard.writeText(document.getElementById('cmds').textContent);
+}
+function clearAll(){
+  saveState();
+  nodes = []; wires = []; armed = null; wordMode = false;
+  draw(); speak();
 }
 
-function copyCmds(){ navigator.clipboard.writeText(document.getElementById('cmds').textContent); }
-function clearAll(){ nodes=[]; wires=[]; armed=null; draw(); speak(); }
+// ── Init ──
 draw(); speak();
 </script>
 </body>

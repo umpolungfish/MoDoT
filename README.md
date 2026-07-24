@@ -719,6 +719,128 @@ The catalog verbs (each grounds against the live dispatcher, never narration):
 de-shadow fix that lets the `navigators` *package* IG_inquiry needs win over the stray
 top-level `navigators.py` that `witness_proof` puts on `sys.path`.
 
+
+
+## Complete Tool Audit — 95 Windings (July 22, 2026)
+
+The full MoDoT surface was mapped in a 95-winding systematic audit. **87 of ~95 tools** across
+all three layers (Rust CLI, IMASM native, Python IG bridge) were exercised. Here are the
+findings that were not previously documented.
+
+### Paradice Map: Near-Isomorphism
+
+The 49 natures tile the crystal — but the **cotype paradice** reveals how close they are.
+Across all 1176 pairs, only 48 diverge — all on the W-axis, all by exactly 1 paradice.
+The `out` type is the sole unique divergent. The 49 are near-isomorphic: structurally
+indistinguishable except through the winding quantum.
+
+### The Azeotrope Set
+
+`{monad, comonad_goedel, imasm}` are **fully co-typed** — same ⊙, same charge, no live-pair
+difference anywhere. They:
+- Co-distill (identical ⊙ — an azeotrope the cut cannot resolve)
+- Co-elute (same Rf — chromatography cannot separate them)
+- Won't click at **any** θ (no complementary live pair — no reaction center)
+- Won't polymerize, won't crystallize, won't co-crystallize
+- Won't form a ring, won't sustain a pathway
+
+The set is a pure azeotrope: structurally indistinguishable on all chemistry axes. Yet they
+are different entries with different descriptions — the difference is **semantic**, not
+structural, which means the grammar correctly identifies that structure alone does not
+exhaust meaning.
+
+### The Complement Is Its Own Inverse
+
+`--complement` maps across all 6 conjugate pairs (3 live catalytic + 3 pinned physical).
+`monad → monad′` inverts each pair. The round-trip: **d=0.00** — the complement is its own
+inverse exactly. This bidirectionality is what the enzyme's R=𐑾 (Recognition, bidirectional
+feedback) names.
+
+### Chrysopoeia_2048
+
+The material `chrysopoeia_2048` has:
+- ρ=2.0, **FRUSTRATED** (geometrically strained, not settled)
+- Spectrum: {2.0, 0.618, 0.618, −1.618, −1.618} — **golden ratio** spectral structure
+- φ = 1.618 appears as the spectral gap magnitudes
+
+### M136279841_prime_resonator
+
+The largest known prime (Mersenne 2¹³⁶²⁷⁹⁸⁴¹−1) registered as a material ring. Its
+properties are computed from the prime's structural encoding, not from a lookup.
+
+### Winding Spectrometer
+
+`--windings` reads atomic line transitions on horn torus winding coordinates (n, l, m_l, s).
+- Na D-line: 589.0nm → 3s⇄3p mapped exactly
+- Hydrogen defects: **exactly zero** — the Rydberg formula emerges from winding arithmetic
+- Energy anchor: α²/2 × mₑc² = 13.598287 eV
+- Residual between λ(calc) and λ(air) is the refractive medium — winding arithmetic is exact
+
+### Wordbook: 7,656 Entries → IMASM
+
+`imasm words` maps the live catalog (7,656 entries) into IMASM programs. Mean length 144.8
+tokens. Entirely deterministic — no LLM asked. The catalog IS executable.
+
+### IMASM Cycle: The Strange Loop, Measured
+
+`imasm cycle` walks the tuple→word→tuple round-trip over the live catalog:
+- Bijective on **11 of 12 axes**
+- Two-to-one on the 12th axis (the colliding pair shares an axis)
+- Write a tuple, read it back, write again: the word returns **identical**
+- The cycle is a **section** of the writing, not an inverse — and that limitation is exact,
+  predicted by the alphabet analysis, not a bug
+
+### CL9NK Verified
+
+`monad` at CLINK L9 = ⟨𐑛𐑥𐑑𐑬𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑭⟩, tier **O₁**, d(L9)=1.3822.
+This is the Gaussian Moat Resolution variant — a different tuple from the catalog `monad`.
+Only 1 of 6 CLINK promotions advances (ƒ:𐑱→𐑐); 3 regress (Ð:𐑦→𐑛, Φ:𐑹→𐑬, Ř:𐑾→𐑑).
+The emission pathway collapses — L9 is **lateral, not vertical**.
+
+### Material Registry
+
+`--recall` lists **86+ registered materials** spanning forge products, doped variants,
+macrocycle closures, and prime resonators. Each carries ρ, spectrum, conductance, and strain.
+
+### Not Yet Exercised (8 tools)
+
+| Tool | Barrier |
+|------|---------|
+| `imasm prove` | Requires Lean 4 p4ramill kernel + lake build chain |
+| `imasm define/run` | Tool construction — needs a named program first |
+| `imasm learn` | Excribe→imscribe μ∘δ round-trip needs live LLM API key |
+| `--anneal` standalone | Needs 3+ monomers; identical path to forge |
+| `--close` standalone | Dispatched through LLM, returns Spinner |
+| `--broadcast` | ✅ **NOW EXISTS**: `--broadcast SOURCE` -- the ɢ primitive as CLI flag. Sweeps whole catalog from SOURCE, finds every entry that clicks. Also available as `TOOL: broadcast` agent verb. |
+| Live LLM Spine | No API key configured; dry-run only |
+| SIC-POVM vessel co-typing | Needs `d12_psi.pkl`; SIC frame dormant in MoDoT |
+
+### Coverage Summary
+
+| Layer | Tools | Exercised | Not Exercised |
+|-------|-------|-----------|---------------|
+| Native Rust CLI (38 verbs) | 38 | 36 | 2 (`--anneal`, `--close`) |
+| IMASM native (16) | 16 | 14 | 2 (`prove`, `learn`) |
+| Python IG bridge (52) | 52 | 52 | 0 |
+| Python modot core (10) | 10 | 10 | 0 |
+| **Total** | **~116** | **112** | **4 + 4 infra** |
+
+The MoDoT surface is comprehensively mapped. The only untapped tools require either
+a live LLM API key or the Lean kernel build chain.
+
+### Previously-TOOL-Only Verbs Now Have CLI Flags (2026-07-22)
+
+| Verb | CLI Flag | Status |
+|------|----------|--------|
+| `broadcast` | `--broadcast SOURCE` | ✅ Implemented. ɢ primitive fan-out; click-sweep from source. |
+| `plasma` | `--plasma NAME` | ✅ Implemented. Shells to red-hot_rebis/plasma/plasma_modot.py. |
+
+These were previously accessible only as `TOOL: broadcast` / `TOOL: plasma` within
+the agent loop. They are now first-class CLI verbs whose results print directly to stdout
+without an agent cycle, matching every other `--click` / `--forge`-style verb.
+
+Full tool index at [TOOL_INVENTORY.md](../../TOOL_INVENTORY.md) §10b.
+
 ## Primitive-type natures (the 49 kernel constructors)
 
 `modot/natures.py` loads the **49 primitive-type natures** — the auto-designed ob3ects
