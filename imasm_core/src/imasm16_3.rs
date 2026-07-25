@@ -6,18 +6,22 @@
 //! THE REAL CONSTRUCTION (§5 of the paper). The base set is four initial truth
 //! values, not two and not a product of two FOURs:
 //!
+//! ```text
 //!     I = {T, F, t, f}
 //!       T — a sentence is constructively PROVEN
 //!       F — a sentence is constructively REFUTED
 //!       t — a sentence is (non-constructively) ACCEPTABLE
 //!       f — a sentence is (non-constructively) REJECTABLE
+//! ```
 //!
 //! SIXTEEN_3 is the full powerset P(I) — all 16 subsets of these four base
 //! values (N = {} = empty, A = {T,F,t,f} = full). Three orderings (Def. 5.2):
 //!
+//! ```text
 //!     x ≤_i y  ⟺  x ⊆ y                                        (information)
 //!     x ≤_t y  ⟺  x∩{T,t} ⊆ y∩{T,t}  and  y∩{F,f} ⊆ x∩{F,f}     (truth)
 //!     x ≤_c y  ⟺  x∩{T,F} ⊆ y∩{T,F}  and  y∩{t,f} ⊆ x∩{t,f}     (constructivity)
+//! ```
 //!
 //! Verified against the paper's own worked example: T ∧ t = N under ≤_t (the
 //! conjunction of two "truths" gives nothing) — `meet_t` below reproduces this
@@ -26,6 +30,7 @@
 //! Register: a real 4-bit subset of {T, F, t, f} (16 states, matching the
 //! paper's carrier exactly). Opcode → base-value mapping:
 //!
+//! ```text
 //!     EVALT sets T (constructive truth touched)
 //!     EVALF sets F (constructive falsity touched)
 //!     EVALI sets BOTH t and f (the acceptable/rejectable pair IS the
@@ -33,6 +38,7 @@
 //!     TNEG  swaps T ↔ F   (classical bilattice negation: inverts ≤_t,
 //!           leaves ≤_i exactly unchanged — a swap preserves |x|)
 //!     INEG  swaps t ↔ f   (the same negation, on the acceptable/rejectable pair)
+//! ```
 //!
 //! A sibling module, not a replacement: FSPLIT3/FFUSE3 (3-way fork/fuse) sit
 //! alongside FSPLIT/FFUSE — `imasm.rs`'s ancestry-pairing graph engine and the
@@ -286,19 +292,22 @@ enum Axis { T, F, I }
 struct Machine {
     reg: Reg16_3,
     fixed: bool,
-    in_split: bool,
-    split_touched: Vec<Axis>,
+    /// Fork state is a STACK, not a flag. Fsplit3 pushes a frame, Ffuse3 pops one
+    /// and folds its touches into the register AND into the enclosing frame, so
+    /// nested regions compose: an inner apex refines the outer one and μ∘δ=id at
+    /// each level composes to μ∘δ=id overall.
+    split_stack: Vec<Vec<Axis>>,
 }
 
 impl Machine {
     fn new() -> Self {
-        Self { reg: Reg16_3::default(), fixed: false, in_split: false, split_touched: Vec::new() }
+        Self { reg: Reg16_3::default(), fixed: false, split_stack: Vec::new() }
     }
 
     fn touch(&mut self, set: Reg16_3, a: Axis) {
         self.reg = self.reg.union(set);
-        if self.in_split && !self.split_touched.contains(&a) {
-            self.split_touched.push(a);
+        if let Some(frame) = self.split_stack.last_mut() {
+            if !frame.contains(&a) { frame.push(a); }
         }
     }
 
@@ -310,36 +319,45 @@ impl Machine {
         match tok {
             Vinit => {
                 self.reg = none;
-                self.in_split = false;
-                self.split_touched.clear();
+                self.split_stack.clear();
             }
             Tanch => {}
             Afwd => {
                 if self.reg == none { self.reg.big_t = true; }
             }
             Arev => {
+                // Reverse morphism: clears the register, but does NOT close the
+                // fork. Only Fsplit3 opens a split context and only Ffuse3 closes
+                // one; an Arev between two arms is work on an arm, not a fuse.
+                // Clearing in_split/split_touched here (the body was identical to
+                // Vinit's) discarded every touch the arms had accumulated, so a
+                // downstream Ffuse3 folded an empty set.
                 self.reg = none;
-                self.in_split = false;
-                self.split_touched.clear();
             }
             Clink => {}
             Imscrib => {
                 if self.reg == none { self.reg.big_t = true; }
             }
             Fsplit3 => {
-                self.in_split = true;
-                self.split_touched.clear();
+                self.split_stack.push(Vec::new());
             }
             Ffuse3 => {
-                for a in &self.split_touched {
-                    match a {
-                        Axis::T => self.reg.big_t = true,
-                        Axis::F => self.reg.big_f = true,
-                        Axis::I => { self.reg.small_t = true; self.reg.small_f = true; }
+                if let Some(closed) = self.split_stack.pop() {
+                    for a in &closed {
+                        match a {
+                            Axis::T => self.reg.big_t = true,
+                            Axis::F => self.reg.big_f = true,
+                            Axis::I => { self.reg.small_t = true; self.reg.small_f = true; }
+                        }
+                    }
+                    // Fold the inner apex into the enclosing fork: the outer ∋
+                    // must see what its sub-regions reconnected.
+                    if let Some(parent) = self.split_stack.last_mut() {
+                        for a in closed {
+                            if !parent.contains(&a) { parent.push(a); }
+                        }
                     }
                 }
-                self.in_split = false;
-                self.split_touched.clear();
             }
             Evalt => self.touch(Reg16_3 { big_t: true, ..none }, Axis::T),
             Evalf => self.touch(Reg16_3 { big_f: true, ..none }, Axis::F),
@@ -348,8 +366,10 @@ impl Machine {
                 let (t, f) = (self.reg.big_t, self.reg.big_f);
                 self.reg.big_t = f;
                 self.reg.big_f = t;
-                for a in self.split_touched.iter_mut() {
-                    *a = match *a { Axis::T => Axis::F, Axis::F => Axis::T, Axis::I => Axis::I };
+                for frame in self.split_stack.iter_mut() {
+                    for a in frame.iter_mut() {
+                        *a = match *a { Axis::T => Axis::F, Axis::F => Axis::T, Axis::I => Axis::I };
+                    }
                 }
             }
             Ineg => {
@@ -371,28 +391,87 @@ impl Machine {
 ///   N — paired, but no work ran inside — μ∘δ=id verifies nothing (identity).
 ///   B — a FSPLIT3 has no matching later FFUSE3 — a fork left open.
 ///   F — a FFUSE3 has no preceding FSPLIT3 — ill-typed.
-pub fn tri_ancestral_verdict(steps: &[Token16_3]) -> (char, String) {
-    let split_idx: Vec<usize> = steps.iter().enumerate().filter(|(_, t)| **t == Fsplit3).map(|(i, _)| i).collect();
-    let fuse_idx: Vec<usize> = steps.iter().enumerate().filter(|(_, t)| **t == Ffuse3).map(|(i, _)| i).collect();
+/// Run a word and return the final register's name — the parity handle the
+/// Python kernel is diffed against (see `tests/python_parity.rs`).
+pub fn run_word_register(steps: &[Token16_3]) -> String {
+    let mut m = Machine::new();
+    for &t in steps { m.step(t); }
+    m.reg.name()
+}
 
-    for &fj in &fuse_idx {
-        if !split_idx.iter().any(|&si| si < fj) {
-            return ('F', format!("FFUSE3 at step {} has no preceding FSPLIT3 — ill-typed", fj + 1));
+/// Pair FSPLIT3→FFUSE3 over the word read as a LOOP.
+///
+/// A word is a cycle and ROTAT is the cyclic shift (Weyl–Heisenberg X), so a
+/// rotation that cuts through a region's interior must not change the verdict.
+/// Pairing over the linearized slice makes it change: the ∋ of a cut region
+/// lands ahead of its ∈ and reads as ill-typed while the region is intact.
+/// Returns pairs `(si, fj)` with the region running forward around the cycle,
+/// or `None` on a true count imbalance that no rotation can repair.
+fn cyclic_pairs(steps: &[Token16_3]) -> Option<Vec<(usize, usize)>> {
+    let n = steps.len();
+    let splits: Vec<usize> = steps.iter().enumerate().filter(|(_, t)| **t == Fsplit3).map(|(i, _)| i).collect();
+    let fuses: Vec<usize> = steps.iter().enumerate().filter(|(_, t)| **t == Ffuse3).map(|(i, _)| i).collect();
+    if splits.is_empty() && fuses.is_empty() { return Some(Vec::new()); }
+    if splits.len() != fuses.len() { return None; }
+    // By the cycle lemma some start at a ∈ pairs every region without underflow.
+    for &start in &splits {
+        let mut stack: Vec<usize> = Vec::new();
+        let mut pairs: Vec<(usize, usize)> = Vec::new();
+        let mut ok = true;
+        for off in 0..n {
+            let i = (start + off) % n;
+            if steps[i] == Fsplit3 {
+                stack.push(i);
+            } else if steps[i] == Ffuse3 {
+                match stack.pop() {
+                    Some(si) => pairs.push((si, i)),
+                    None => { ok = false; break; }
+                }
+            }
+        }
+        if ok && stack.is_empty() { return Some(pairs); }
+    }
+    None
+}
+
+/// Tokens strictly inside the region, walking forward around the cycle.
+fn cyclic_interior(steps: &[Token16_3], si: usize, fj: usize) -> Vec<Token16_3> {
+    let n = steps.len();
+    let span = (fj + n - si) % n;
+    (1..span).map(|j| steps[(si + j) % n]).collect()
+}
+
+/// Tri-ancestral close condition, the arity-3 generalization of the classic
+/// `imasm check`'s ancestry rule. Pairing is CYCLIC (see `cyclic_pairs`):
+///   T — every FSPLIT3 pairs with a FFUSE3 around the cycle, and at least one
+///       work opcode ran inside that region (a real transformation).
+///   N — paired, but no work ran inside — μ∘δ=id verifies nothing (identity).
+///   B — a FSPLIT3 has no FFUSE3 to pair with — a fork left open.
+///   F — a FFUSE3 has no FSPLIT3 to pair with — ill-typed.
+pub fn tri_ancestral_verdict(steps: &[Token16_3]) -> (char, String) {
+    let splits: Vec<usize> = steps.iter().enumerate().filter(|(_, t)| **t == Fsplit3).map(|(i, _)| i).collect();
+    let fuses: Vec<usize> = steps.iter().enumerate().filter(|(_, t)| **t == Ffuse3).map(|(i, _)| i).collect();
+
+    match cyclic_pairs(steps) {
+        None => {
+            if fuses.len() > splits.len() {
+                ('F', format!("FFUSE3 at step {} has no FSPLIT3 to pair — ill-typed", fuses[0] + 1))
+            } else {
+                ('B', format!("FSPLIT3 at step {} dangles — no matching FFUSE3", splits[0] + 1))
+            }
+        }
+        Some(pairs) => {
+            if pairs.is_empty() {
+                return ('N', "No fork/fuse — void, never weighed alternatives".to_string());
+            }
+            for (si, fj) in pairs {
+                if cyclic_interior(steps, si, fj).iter().any(|t| t.is_work()) {
+                    return ('T', "Tri-ancestral reconnection over a transformed object — closes".to_string());
+                }
+            }
+            ('N', "Split/fused with no work on any arm — μ∘δ=id verifies nothing".to_string())
         }
     }
-    if split_idx.is_empty() && fuse_idx.is_empty() {
-        return ('N', "No fork/fuse — void, never weighed alternatives".to_string());
-    }
-    if let Some(&si) = split_idx.iter().find(|&&si| !fuse_idx.iter().any(|&fj| fj > si)) {
-        return ('B', format!("FSPLIT3 at step {} dangles — no matching FFUSE3", si + 1));
-    }
-    for &si in &split_idx {
-        let fj = *fuse_idx.iter().find(|&&fj| fj > si).unwrap();
-        if steps[si + 1..fj].iter().any(|t| t.is_work()) {
-            return ('T', "Tri-ancestral reconnection over a transformed object — closes".to_string());
-        }
-    }
-    ('N', "Split/fused with no work on any arm — μ∘δ=id verifies nothing".to_string())
 }
 
 fn run_trace(steps: &[Token16_3]) -> String {
@@ -474,6 +553,41 @@ mod tests {
         assert_eq!(steps.len(), 10);
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'T');
+    }
+
+    #[test]
+    fn verdict_is_rotat_invariant() {
+        // ROTAT is the cyclic shift, so every rotation is the same object and
+        // must return the same verdict. Linear pairing gave T,T,F,F,F,F,F,F,F,T,T,T.
+        let base: Vec<char> = "⊢∈=<>+×⊞∋⊙¬⊣".chars().collect();
+        let n = base.len();
+        for k in 0..n {
+            let rot: String = (0..n).map(|i| base[(i + k) % n]).collect();
+            let steps = parse_glyph_word(&rot);
+            let (verdict, _) = tri_ancestral_verdict(&steps);
+            assert_eq!(verdict, 'T', "rotation k={k} gave {verdict} for {rot}");
+        }
+    }
+
+    #[test]
+    fn arev_does_not_close_the_fork() {
+        // AREV is work on an arm, not a fuse. Its body used to be identical to
+        // VINIT's, which discarded the arms' touches so ∋ folded an empty set.
+        let steps = parse_glyph_word("⊢∈+=×<>⊞∋⊙¬⊣");
+        let mut m = Machine::new();
+        for &t in &steps { m.step(t); }
+        assert_eq!(m.reg.name(), "A", "the three arms must all reach the apex");
+    }
+
+    #[test]
+    fn nested_forks_compose() {
+        // Fork state is a stack: an inner ∋ must not close the enclosing fork.
+        // With in_split as a bool the outer region lost every touch after the
+        // first inner fuse and landed on Ftf instead of the top.
+        let steps = parse_glyph_word("⊢⊙=∈∈>+<∋∈×<∋⊞∋=⊙¬⊣");
+        let mut m = Machine::new();
+        for &t in &steps { m.step(t); }
+        assert_eq!(m.reg.name(), "A", "nested apexes must fold into the outer fork");
     }
 
     #[test]
