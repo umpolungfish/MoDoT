@@ -21,7 +21,6 @@ pub enum Token {
     Tneg,
     Ineg,
     Evali,
-    Rotat,
 }
 
 impl Token {
@@ -44,7 +43,6 @@ impl Token {
             Token::Tneg => "TNEG",
             Token::Ineg => "INEG",
             Token::Evali => "EVALI",
-            Token::Rotat => "ROTAT",
         }
     }
 
@@ -84,7 +82,6 @@ impl Token {
             Token::Tneg => "~",
             Token::Ineg => "≁",
             Token::Evali => "⊞",
-            Token::Rotat => "↻",
         }
     }
 
@@ -97,7 +94,6 @@ impl Token {
             self,
             Token::Afwd | Token::Arev | Token::Clink | Token::Evalt | Token::Evalf
                 | Token::Engagr | Token::Ifix | Token::Tneg | Token::Ineg | Token::Evali
-                | Token::Rotat
         )
     }
 
@@ -122,7 +118,6 @@ impl Token {
             Token::Imscrib, Token::Fsplit, Token::Ffuse, Token::Evalt,
             Token::Evalf, Token::Engagr, Token::Ifix,
             Token::Fsplit3, Token::Ffuse3, Token::Tneg, Token::Ineg, Token::Evali,
-            Token::Rotat,
         ];
         serde_json::Value::Array(
             all.iter()
@@ -159,7 +154,6 @@ impl Token {
             "TNEG" | "~" => Token::Tneg,
             "INEG" | "≁" => Token::Ineg,
             "EVALI" => Token::Evali,
-            "ROTAT" | "RT" | "↻" => Token::Rotat,
             _ => return None,
         })
     }
@@ -178,7 +172,7 @@ impl Token {
     pub fn family(self) -> Family {
         match self {
             Token::Vinit | Token::Tanch | Token::Afwd |
-            Token::Arev | Token::Clink | Token::Imscrib | Token::Rotat => Family::Logical,
+            Token::Arev | Token::Clink | Token::Imscrib => Family::Logical,
             Token::Fsplit | Token::Ffuse | Token::Fsplit3 | Token::Ffuse3 => Family::Frobenius,
             Token::Evalt | Token::Evalf | Token::Engagr | Token::Tneg | Token::Ineg | Token::Evali => Family::Dialetheia,
             Token::Ifix => Family::Linear,
