@@ -527,6 +527,8 @@ out-port), reported not fatal. The shape is named by circuit rank β = E−V+C
                                       an ill-typed one is REFUSED
   imasm run <name>  /  imasm tools    invoke a defined tool / list the space
   imasm types                        list the 49 Shavian TYPES (each is a program)
+  imasm diff <typeA> <typeB>          compare two Shavian type programs side-by-side
+                                      (opcode census, glyph diff, structural features)
   imasm expand <type>                unfold a type into its own IMASM sequence
   imasm words [out=<path>]           write the WORDBOOK: every catalog entry as the
                                       program its twelve types compose to. Deterministic,
@@ -975,6 +977,83 @@ pub fn entry_glyph_word(name: &str) -> Result<String, String> {
 /// equals the first and the recovered tuple equals the original. Reported
 /// whole, because the interesting number is not "does it work" but WHERE the
 /// alphabet stops being invertible.
+/// `imasm diff <typeA> <typeB>` — compare two Shavian type programs side-by-side.
+///
+/// Expands both types into their IMASM opcode sequences and reports opcode census,
+/// common positions, structural features (ENGAGR presence, IFIX count, FSPLIT/FFUSE
+/// pairs), and the glyph-code representation. The diff answers "what changes when a
+/// primitive crosses from trefoil to frobenioid?" without needing to read two expand
+/// reports and subtract by eye.
+fn diff_types(rest: &[String]) -> String {
+    if rest.len() < 2 {
+        return "diff needs two type names: imasm diff <typeA> <typeB>  (e.g. imasm diff ear ian)\n".into();
+    }
+    let a = rest[0].trim_start_matches("the_primitive_type_called_");
+    let b = rest[1].trim_start_matches("the_primitive_type_called_");
+    let (ops_a, name_a) = match expand_type(a) {
+        Ok((ops, _, _)) => (ops, a.to_string()),
+        Err(e) => return format!("type A ({}): {}\n", a, e),
+    };
+    let (ops_b, name_b) = match expand_type(b) {
+        Ok((ops, _, _)) => (ops, b.to_string()),
+        Err(e) => return format!("type B ({}): {}\n", b, e),
+    };
+    let mut out = String::new();
+    let _ = writeln!(out, "IMASM diff — {} ({} ops) vs {} ({} ops)",
+        name_a, ops_a.len(), name_b, ops_b.len());
+    let _ = writeln!(out, "  A: {}", ops_a.iter().map(|t| t.code()).collect::<String>());
+    let _ = writeln!(out, "  B: {}", ops_b.iter().map(|t| t.code()).collect::<String>());
+
+    let max_len = ops_a.len().max(ops_b.len());
+    let mut common = 0;
+    let mut diffs = Vec::new();
+    let _ = writeln!(out, "  {:<4} | {:<12} | {:<12} |", "Step", &name_a, &name_b);
+    for i in 0..max_len {
+        let sa = if i < ops_a.len() { ops_a[i].name().to_string() } else { "—".into() };
+        let sb = if i < ops_b.len() { ops_b[i].name().to_string() } else { "—".into() };
+        let marker = if i < ops_a.len() && i < ops_b.len() && ops_a[i] == ops_b[i] { " " } else { "←" };
+        if marker == " " { common += 1; } else { diffs.push((i+1, sa.clone(), sb.clone())); }
+        let _ = writeln!(out, "  {:<4} | {:<12} | {:<12} | {}", i+1, sa, sb, marker);
+    }
+
+    let _ = writeln!(out, "\n  Census:");
+    let mut all: Vec<&Token> = ops_a.iter().chain(ops_b.iter()).collect();
+    all.sort_by_key(|t| t.name());
+    all.dedup();
+    for t in &all {
+        let ca = ops_a.iter().filter(|&x| x == *t).count();
+        let cb = ops_b.iter().filter(|&x| x == *t).count();
+        let delta = cb as isize - ca as isize;
+        let mark = if delta != 0 { " ←" } else { "" };
+        let _ = writeln!(out, "    {:<10} {:>3} {:>3} {:>+4}{}", t.name(), ca, cb, delta, mark);
+    }
+
+    let _ = writeln!(out, "\n  Common: {}/{}  Diffs: {}", common, max_len, diffs.len());
+    if !diffs.is_empty() {
+        let _ = write!(out, "  At: ");
+        for (i, (pos, a, b)) in diffs.iter().enumerate() {
+            if i > 0 { let _ = write!(out, ", "); }
+            let _ = write!(out, "{}:{}→{}", pos, a, b);
+        }
+        let _ = writeln!(out);
+    }
+    let has_engagr = |ops: &[Token]| ops.iter().any(|&t| t == Token::Engagr);
+    let _ = writeln!(out, "  ENGAGR: {} → {}",
+        if has_engagr(&ops_a) { "✓" } else { "✗" },
+        if has_engagr(&ops_b) { "✓" } else { "✗" });
+    let _ = writeln!(out, "  IMSCRIB: {} → {}",
+        ops_a.iter().filter(|&&t| t == Token::Imscrib).count(),
+        ops_b.iter().filter(|&&t| t == Token::Imscrib).count());
+    let _ = writeln!(out, "  FSPLIT:  {} → {}",
+        ops_a.iter().filter(|&&t| t == Token::Fsplit).count(),
+        ops_b.iter().filter(|&&t| t == Token::Fsplit).count());
+    let _ = writeln!(out, "  IFIX:    {} → {}",
+        ops_a.iter().filter(|&&t| t == Token::Ifix).count(),
+        ops_b.iter().filter(|&&t| t == Token::Ifix).count());
+    out
+}
+
+
 fn cycle_verb(rest: &[String]) -> String {
     // `tuple=⟨…⟩` runs the cycle on ONE tuple, catalog entry or not: the way to
     // put an object through its own return leg.
@@ -2040,6 +2119,7 @@ pub fn run(args: &[String]) -> String {
                 Err(e) => e,
             }
         }
+        "diff" | "compare" => diff_types(rest),
         "types" | "list" => {
             let ts = list_types();
             format!(

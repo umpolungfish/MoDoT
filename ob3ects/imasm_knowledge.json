@@ -1,37 +1,37 @@
 {
   "confusions": {
-    "+→<": 86,
+    "+→<": 88,
     "+→=": 78,
-    "+→>": 135,
+    "+→>": 137,
     "+→~": 22,
-    "+→¬": 31,
+    "+→¬": 33,
     "+→×": 88,
     "+→∈": 85,
     "+→∋": 40,
     "+→≁": 6,
-    "+→⊙": 50,
-    "+→⊞": 13,
-    "+→◇": 2,
+    "+→⊙": 53,
+    "+→⊞": 14,
+    "+→◇": 5,
     "+→●": 3,
     "<→+": 95,
-    "<→=": 84,
-    "<→>": 87,
+    "<→=": 85,
+    "<→>": 90,
     "<→~": 10,
-    "<→¬": 75,
+    "<→¬": 76,
     "<→×": 37,
     "<→∈": 50,
     "<→∋": 24,
     "<→≁": 3,
-    "<→⊙": 50,
+    "<→⊙": 51,
     "<→⊞": 187,
     "<→⊣": 5,
-    "<→◇": 2,
-    "=→+": 71,
+    "<→◇": 4,
+    "=→+": 72,
     "=→<": 83,
     "=→>": 50,
     "=→~": 13,
     "=→¬": 128,
-    "=→×": 16,
+    "=→×": 17,
     "=→∈": 23,
     "=→∋": 42,
     "=→≁": 2,
@@ -39,20 +39,20 @@
     "=→⊞": 85,
     "=→⊢": 1,
     "=→⊣": 2,
-    "=→◇": 2,
-    "=→●": 1,
-    ">→+": 79,
+    "=→◇": 3,
+    "=→●": 2,
+    ">→+": 80,
     ">→<": 94,
-    ">→=": 38,
+    ">→=": 39,
     ">→~": 9,
-    ">→¬": 34,
+    ">→¬": 35,
     ">→×": 7,
     ">→∈": 14,
     ">→∋": 10,
     ">→≁": 3,
     ">→⊙": 46,
     ">→⊞": 3,
-    ">→◇": 2,
+    ">→◇": 4,
     ">→●": 1,
     "~→+": 16,
     "~→<": 21,
@@ -68,24 +68,24 @@
     "~→⊣": 1,
     "¬→+": 36,
     "¬→<": 77,
-    "¬→=": 171,
-    "¬→>": 26,
+    "¬→=": 172,
+    "¬→>": 28,
     "¬→~": 21,
     "¬→×": 30,
     "¬→∈": 6,
     "¬→∋": 14,
-    "¬→⊙": 18,
+    "¬→⊙": 19,
     "¬→⊞": 29,
     "¬→⊢": 1,
     "¬→⊣": 4,
     "¬→◇": 1,
     "¬→●": 3,
-    "×→+": 18,
-    "×→<": 42,
-    "×→=": 13,
-    "×→>": 13,
+    "×→+": 20,
+    "×→<": 43,
+    "×→=": 14,
+    "×→>": 16,
     "×→~": 2,
-    "×→¬": 23,
+    "×→¬": 25,
     "×→∈": 8,
     "×→∋": 3,
     "×→⊙": 6,
@@ -123,8 +123,8 @@
     "≁→⊙": 1,
     "≁→⊞": 5,
     "⊙→+": 39,
-    "⊙→<": 43,
-    "⊙→=": 35,
+    "⊙→<": 44,
+    "⊙→=": 36,
     "⊙→>": 27,
     "⊙→~": 2,
     "⊙→¬": 87,
@@ -135,19 +135,19 @@
     "⊙→⊞": 14,
     "⊙→⊢": 1,
     "⊙→⊣": 5,
-    "⊙→◇": 1,
+    "⊙→◇": 6,
     "⊙→●": 2,
-    "⊞→+": 36,
+    "⊞→+": 37,
     "⊞→<": 104,
     "⊞→=": 25,
-    "⊞→>": 10,
+    "⊞→>": 11,
     "⊞→~": 31,
-    "⊞→¬": 18,
+    "⊞→¬": 19,
     "⊞→×": 1,
     "⊞→∈": 1,
     "⊞→∋": 9,
-    "⊞→⊙": 6,
-    "⊞→●": 2,
+    "⊞→⊙": 8,
+    "⊞→●": 3,
     "⊢→∋": 2,
     "⊢→⊙": 6,
     "⊢→⊞": 2,
@@ -165,10 +165,11 @@
     "⊣→⊞": 193,
     "⊣→⊢": 3,
     "⊣→◇": 2,
-    "◇→+": 3,
-    "◇→=": 1,
-    "◇→>": 8,
-    "◇→¬": 2,
+    "◇→+": 4,
+    "◇→<": 1,
+    "◇→=": 2,
+    "◇→>": 10,
+    "◇→¬": 3,
     "◇→×": 38,
     "◇→⊙": 7,
     "◇→⊞": 3,
@@ -181,7 +182,7 @@
     "●→¬": 2,
     "●→×": 12,
     "●→⊙": 1,
-    "●→⊞": 48
+    "●→⊞": 51
   },
   "history": [
     {
@@ -291,9 +292,39 @@
       "model": "poolside/laguna-m.1:free",
       "perfect": 4,
       "tested": 138
+    },
+    {
+      "mean_residual": 124.92,
+      "model": "google/gemini-3-flash-preview",
+      "perfect": 0,
+      "tested": 12
+    },
+    {
+      "mean_residual": 118.5,
+      "model": "google/gemini-3-flash-preview",
+      "perfect": 0,
+      "tested": 2
+    },
+    {
+      "mean_residual": 7.17,
+      "model": "google/gemini-3-flash-preview",
+      "perfect": 0,
+      "tested": 12
+    },
+    {
+      "mean_residual": 7.33,
+      "model": "google/gemini-3-flash-preview",
+      "perfect": 0,
+      "tested": 3
+    },
+    {
+      "mean_residual": 24.0,
+      "model": "google/gemini-3-flash-preview",
+      "perfect": 0,
+      "tested": 12
     }
   ],
-  "rounds": 156,
+  "rounds": 166,
   "visited": {
     "⊢+": {
       "recovered": "⊢>",
@@ -1048,6 +1079,16 @@
       "residual": 2,
       "verdict": "T"
     },
+    "⊢+++>◇+<×●=⊞¬⊣": {
+      "guess": "A Peregrine falcon's stoop: an initial sequence of aerial dives that tightens into a high-speed descent, where the wings are tucked and then asymmetrically adjusted to counteract drag, before the bird engages its talons for a terminal strike that locks the prey upon impact.",
+      "recovered": "⊢>>◇¬<●⊞¬⊣",
+      "recovered_verdict": "B",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
+      "verdict": "B"
+    },
     "⊢+++¬<~∈+×⊞∋=¬⊣": {
       "guess": "celestial body orbiting a star",
       "recovered": "⊢++=++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣",
@@ -1078,6 +1119,16 @@
       "recovered_verdict": "T",
       "residual": 10,
       "verdict": "T"
+    },
+    "⊢+++⊙>◇+<×●=⊞¬⊣": {
+      "guess": "The somatic hypermutation and affinity maturation of a B-cell receptor within a germinal center.",
+      "recovered": "⊢◇>¬<◇=●+>¬⊣",
+      "recovered_verdict": "B",
+      "residual": 10,
+      "residuals": [
+        10
+      ],
+      "verdict": "B"
     },
     "⊢+++⊞>¬∈+×∋⊣": {
       "guess": "a ritualistic excavation of ancient sites, committing to the true axis of significance, evaluating multiple layers, rejoining them, affirming the genuine evidence, and closing the site's exploration",
@@ -1580,6 +1631,16 @@
       "residual": 12,
       "verdict": "T"
     },
+    "⊢++<>◇+<×●=⊞¬⊣": {
+      "guess": "An engraver’s manual correction of a survey baseline, where a perceived error is retracted and split into two possible triangulation points, the more accurate of which is verified and merged back into the master plate through an overlapping cross-hatch to permanently lock the coordinate grid.",
+      "recovered": "⊢<◇+●=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
+      "verdict": "B"
+    },
     "⊢++<¬<~∈+×⊞∋=¬⊣": {
       "guess": "peak descent with a fixed point",
       "recovered": "⊢++¬∈+∋¬<⊣",
@@ -1617,6 +1678,16 @@
       "recovered_verdict": "T",
       "residual": 3,
       "verdict": "T"
+    },
+    "⊢++<⊙>◇+<×●=⊞¬⊣": {
+      "guess": "The installation of a caged queen bee into a new colony, where her release is contingent on the workers consuming a sugar plug to create a timed, irreversible acceptance.",
+      "recovered": "⊢⊙◇>+¬<●=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "residuals": [
+        8
+      ],
+      "verdict": "B"
     },
     "⊢++=++>=∈+>∈×<=∋⊞⊙=¬>∈+∋⊙=¬<+∋⊙=¬⊣": {
       "guess": "celestial body orbiting path tracker",
@@ -2147,6 +2218,16 @@
       "residual": 9,
       "verdict": "T"
     },
+    "⊢++>◇+<×●=⊞¬⊣": {
+      "guess": "A sailor executing a snap-tack to clear a fouled line, momentarily back-winding the jib to force the bow through the wind before locking the new course.",
+      "recovered": "⊢>◇+<●=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "residuals": [
+        4
+      ],
+      "verdict": "B"
+    },
     "⊢++~<∈+∋¬<⊣": {
       "guess": "forge hammering process",
       "recovered": "⊢++><=∈+×⊞∋¬<=⊣",
@@ -2184,6 +2265,16 @@
       "recovered_verdict": "T",
       "residual": 7,
       "verdict": "T"
+    },
+    "⊢++¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬+⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The hierarchical fragmentation and recursive orbital stabilization of a nascent protoplanetary disk into a resonant multi-planet system.",
+      "recovered": "⊢⊙¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬+⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣",
+      "recovered_verdict": "F",
+      "residual": 2,
+      "residuals": [
+        2
+      ],
+      "verdict": "F"
     },
     "⊢++¬∈+∋¬<⊣": {
       "guess": "climber routing ascent and descent with commitment to one path, splitting options, rejoining all, reversing again, closing the journey",
@@ -2277,6 +2368,26 @@
       "recovered_verdict": "T",
       "residual": 11,
       "verdict": "T"
+    },
+    "⊢++⊙>◇+<×●=⊞¬⊣": {
+      "guess": "A recursive retrograde analysis of a smothered mate sequence resulting in a forced permanent draw by repetition.",
+      "recovered": "⊢⊙◇<+<+<+●=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
+      "verdict": "B"
+    },
+    "⊢++⊙¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬+⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "A double-faced compound satin weave with reinforced selvages and a pattern-integrated structural cinching.",
+      "recovered": "⊢◇>◇>+●¬=◇<●⊞¬=⊙>+¬⊣",
+      "recovered_verdict": "B",
+      "residual": 145,
+      "residuals": [
+        145
+      ],
+      "verdict": "F"
     },
     "⊢++⊞>¬∈+×∋⊣": {
       "guess": "a bird's migration route that is evaluated, affirmed, refuted, split into three parts, committed, split again, evaluated, refuted, recombined, and closed",
@@ -3014,6 +3125,16 @@
       "residual": 9,
       "verdict": "T"
     },
+    "⊢+<>◇+<×●=⊞¬⊣": {
+      "guess": "A thermostatic mixing valve adjusting for a sudden pressure drop to maintain a scald-protected equilibrium flow.",
+      "recovered": "⊢⊙◇>+<×⊞●=¬⊣",
+      "recovered_verdict": "B",
+      "residual": 5,
+      "residuals": [
+        5
+      ],
+      "verdict": "B"
+    },
     "⊢+<~==≁>⊞∈+=×<∋¬⊙⊣": {
       "guess": "musical score composition",
       "recovered": "⊢<++<<~∈+×⊞∋=¬⊣",
@@ -3058,6 +3179,16 @@
       "recovered_verdict": "T",
       "residual": 9,
       "verdict": "T"
+    },
+    "⊢+<¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬+⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The multi-stage tempering and lamination of a sourdough puff pastry dough via repeated folding, chilling, and rest-stabilization cycles.",
+      "recovered": "⊢⊙¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬<⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣",
+      "recovered_verdict": "F",
+      "residual": 3,
+      "residuals": [
+        3
+      ],
+      "verdict": "F"
     },
     "⊢+<∈+=<⊣": {
       "guess": "protein folding pathway",
@@ -3109,6 +3240,26 @@
       "recovered_verdict": "T",
       "residual": 8,
       "verdict": "T"
+    },
+    "⊢+<⊙>◇+<×●=⊞¬⊣": {
+      "guess": "A train dispatcher executing a manual override of a locked interlocking to clear a stalled locomotive from a block, forcing a turnout into an abnormal position before resetting the circuit to a permanent \"all-clear\" signal.",
+      "recovered": "⊢⊙◇+¬<+●=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
+      "verdict": "B"
+    },
+    "⊢+<⊙¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬+⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The preparation and synchronized performance of a complex orchestral fugue with a twelve-tone row subject and its mirrored inversions.",
+      "recovered": "⊢⊙>◇<+×⊞●=¬⊣",
+      "recovered_verdict": "B",
+      "residual": 153,
+      "residuals": [
+        153
+      ],
+      "verdict": "F"
     },
     "⊢+=++<<∈+=<⊣": {
       "guess": "three-ingredient compost pile management cycle",
@@ -4736,6 +4887,16 @@
       "residual": 6,
       "verdict": "T"
     },
+    "⊢+>◇+<×●=⊞¬⊣": {
+      "guess": "A tapestry weaver executing a double-weft insertion to lock a color-change boundary.",
+      "recovered": "⊢◇>+×●=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 4,
+      "residuals": [
+        4
+      ],
+      "verdict": "B"
+    },
     "⊢+~>⊞∈+=×<∋¬⊙⊣": {
       "guess": "site stratigraphy",
       "recovered": "⊢~>¬<∈+×⊞∋=¬⊣",
@@ -4759,6 +4920,36 @@
       "recovered_verdict": "T",
       "residual": 8,
       "verdict": "T"
+    },
+    "⊢+¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬+⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The hardening off and trellising of a hybridized climbing rose.",
+      "recovered": "⊢◇>¬=◇+●>¬⊣",
+      "recovered_verdict": "B",
+      "residual": 152,
+      "residuals": [
+        152
+      ],
+      "verdict": "F"
+    },
+    "⊢+¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙◇>+<×●=⊞¬⊣⊢⊙>◇+=<×●⊞¬⊣⊢⊙>◇+=●<⊞¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢>=◇+⊙●¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>◇+⊙●=¬⊣⊢⊙◇>+<×●=⊙¬⊣⊢⊙>◇+=+●¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The iterative calculation of a rhumb line across multiple meridians on a Mercator projection.",
+      "recovered": "⊢◇>+●⊙=¬◇>+●⊙=¬◇>+●⊙=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 116,
+      "residuals": [
+        116
+      ],
+      "verdict": "F"
+    },
+    "⊢+¬⊙>◇+<×●=⊞¬⊣": {
+      "guess": "A dual-flush pressure-assist toilet valve assembly with a self-cleaning bypass and a permanent hydraulic lock.",
+      "recovered": "⊢⊙◇+>×●=◇>¬<●⊞=¬⊣",
+      "recovered_verdict": "B",
+      "residual": 10,
+      "residuals": [
+        10
+      ],
+      "verdict": "B"
     },
     "⊢+×>⊞∈+=×<∋¬⊙⊣": {
       "guess": "celestial navigation system",
@@ -4894,6 +5085,36 @@
       "recovered_verdict": "T",
       "residual": 25,
       "verdict": "T"
+    },
+    "⊢+⊙>◇+<×●=⊞¬⊣": {
+      "guess": "A male bowerbird weaving a central structural spire within his display mound through repeated recursive placement and interlocking of twigs to secure a stable mating stage.",
+      "recovered": "⊢◇>+◇>●=¬<+×●=¬⊙◇>+●=¬⊞⊙⊣",
+      "recovered_verdict": "B",
+      "residual": 16,
+      "residuals": [
+        16
+      ],
+      "verdict": "B"
+    },
+    "⊢+⊙¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬+⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The braiding and cinching of a four-strand round leather leash into a reinforced swivel-knot.",
+      "recovered": "⊢◇◇>>●●¬=⊣",
+      "recovered_verdict": "T",
+      "residual": 154,
+      "residuals": [
+        154
+      ],
+      "verdict": "F"
+    },
+    "⊢+⊙¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙◇>+<×●=⊞¬⊣⊢⊙>◇+=<×●⊞¬⊣⊢⊙>◇+=●<⊞¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢>=◇+⊙●¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>◇+⊙●=¬⊣⊢⊙◇>+<×●=⊙¬⊣⊢⊙>◇+=+●¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The construction and wax-sealing of a series of hex-comb cells within a hive frame.",
+      "recovered": "⊢◇>>¬=◇>>¬=◇>>¬=●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 121,
+      "residuals": [
+        121
+      ],
+      "verdict": "F"
     },
     "⊢+⊞◇": {
       "recovered": "⊢+⊞",
@@ -5633,6 +5854,16 @@
       "residual": 8,
       "verdict": "T"
     },
+    "⊢<>◇+<×●=⊞¬⊣": {
+      "guess": "A conductor’s cue for an asymmetrical rubato phrasing that resolves into a locked orchestral tutti.",
+      "recovered": "⊢>◇+×⊞●¬=⊣",
+      "recovered_verdict": "B",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
+      "verdict": "B"
+    },
     "⊢<~∈+∋<⊣": {
       "guess": "fermentation process in a closed vessel with three stages: reverse, negate, split, affirm true, fuse, reverse again, close",
       "recovered": "⊣<~∈+∋<⊣",
@@ -5642,6 +5873,26 @@
         1
       ],
       "verdict": "T"
+    },
+    "⊢<¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬+⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The hot-punching and drift-expanding of a decorative mortise in a heavy architectural iron gate-scroll.",
+      "recovered": "⊢◇>¬+>◇<>●=¬⊣",
+      "recovered_verdict": "B",
+      "residual": 150,
+      "residuals": [
+        150
+      ],
+      "verdict": "F"
+    },
+    "⊢<¬⊙>◇+<×●=⊞¬⊣": {
+      "guess": "The permanent aerial locking of two mating eagles during a cartwheeling death-spiral descent.",
+      "recovered": "⊢◇>+⊞=¬●<×⊞¬⊣",
+      "recovered_verdict": "B",
+      "residual": 9,
+      "residuals": [
+        9
+      ],
+      "verdict": "B"
     },
     "⊢<∈++<¬<~∈+×⊞∋=¬⊣": {
       "guess": "site archaeologist mapping the surface of a cliff to record its features",
@@ -5724,6 +5975,26 @@
       "recovered_verdict": "T",
       "residual": 8,
       "verdict": "T"
+    },
+    "⊢<⊙>◇+<×●=⊞¬⊣": {
+      "guess": "A cartographer determining a coastline's fractal dimension by measuring it at two different scales and reconciling the discrepancy into a fixed scale-ratio on the final map.",
+      "recovered": "⊢◇>>●+¬⊣",
+      "recovered_verdict": "T",
+      "residual": 8,
+      "residuals": [
+        8
+      ],
+      "verdict": "B"
+    },
+    "⊢<⊙¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬+⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The excavation and reconstructive stabilization of a collapsed vaulted burial chamber.",
+      "recovered": "⊢◇>+¬<●=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 154,
+      "residuals": [
+        154
+      ],
+      "verdict": "F"
     },
     "⊢<⊞◇": {
       "recovered": "⊢⊣>⊙",
@@ -6230,6 +6501,16 @@
       "residual": 9,
       "verdict": "T"
     },
+    "⊢=>◇+<×●=⊞¬⊣": {
+      "guess": "Grafting a scion onto a rootstock using a whip-and-tongue notch.",
+      "recovered": "⊢◇>+×<●=¬⊞⊙>◇+×●=¬⊣",
+      "recovered_verdict": "B",
+      "residual": 11,
+      "residuals": [
+        11
+      ],
+      "verdict": "B"
+    },
     "⊢=~∈+∋<⊣": {
       "guess": "triangulation of a map's boundary",
       "recovered": "⊢×>¬<∈+×~∋=⊣",
@@ -6256,6 +6537,16 @@
         2
       ],
       "verdict": "T"
+    },
+    "⊢=¬⊙>◇+<×●=⊞¬⊣": {
+      "guess": "The continuous reduction and tempering of a cultured sourdough starter through recursive feeding, splitting for levain, and high-heat baking into a permanent loaf.",
+      "recovered": "⊢◇>⊙=◇+>●¬⊣",
+      "recovered_verdict": "B",
+      "residual": 7,
+      "residuals": [
+        7
+      ],
+      "verdict": "B"
     },
     "⊢=∈++<¬<~∈+×⊞∋=¬⊣": {
       "guess": "topographic mapmaker recording contours and features",
@@ -6387,6 +6678,16 @@
       "recovered_verdict": "T",
       "residual": 11,
       "verdict": "T"
+    },
+    "⊢=⊙>◇+<×●=⊞¬⊣": {
+      "guess": "The training of a hawk to return from a free flight to a gloved fist using a lure.",
+      "recovered": "⊢◇>+<●=¬+<⊞=¬⊣",
+      "recovered_verdict": "B",
+      "residual": 8,
+      "residuals": [
+        8
+      ],
+      "verdict": "B"
     },
     "⊢=⊞◇": {
       "recovered": "⊢⊣>⊙",
@@ -9187,6 +9488,16 @@
       "residual": 13,
       "verdict": "T"
     },
+    "⊢>>◇+<×●=⊞¬⊣": {
+      "guess": "A train passing through a spring-switch turnout that must be manually reset and locked after the maneuver.",
+      "recovered": "⊢>◇+<●=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 3,
+      "residuals": [
+        3
+      ],
+      "verdict": "B"
+    },
     "⊢>~=∈+⊙∋>=∈×<∋⊞¬⊣": {
       "guess": "a stratigraphic layer analysis process that records and recombines layers, evaluates their significance, negates opposing interpretations, splits into categories, commits to the final interpretation, and closes the process",
       "recovered": "⊞×>¬∋~",
@@ -9251,6 +9562,16 @@
         3
       ],
       "verdict": "T"
+    },
+    "⊢>¬⊙>◇+<×●=⊞¬⊣": {
+      "guess": "The permanent anchoring of a lead climber into a multi-pitch belay station using a self-belay hitch and a redundant equalization of two protection points.",
+      "recovered": "⊢⊙◇>+¬×<●=⊞¬⊣⊢⊙◇>+×<●=⊞¬⊣⊢⊙=¬>◇+●<×⊞=¬⊣",
+      "recovered_verdict": "F",
+      "residual": 28,
+      "residuals": [
+        28
+      ],
+      "verdict": "B"
     },
     "⊢>×=∈+⊙∋>=∈×<∋⊞¬⊣": {
       "guess": "celestial body classification and recombination process",
@@ -9499,6 +9820,16 @@
       "residual": 24,
       "verdict": "T"
     },
+    "⊢>⊙>◇+<×●=⊞¬⊣": {
+      "guess": "The synthesis and stabilization of a racemic tautomer through a transition state equilibrium.",
+      "recovered": "⊢◇><⊞=⊙¬●⊣",
+      "recovered_verdict": "B",
+      "residual": 8,
+      "residuals": [
+        8
+      ],
+      "verdict": "B"
+    },
     "⊢>⊙∈+⊙∋>=∈×<∋⊞¬⊣": {
       "guess": "a volcanic eruption monitoring and decision-making process",
       "recovered": "⊢>×⊞¬",
@@ -9531,6 +9862,16 @@
       "recovered_verdict": "B",
       "residual": 4,
       "verdict": "T"
+    },
+    "⊢>◇+<×●=⊞¬⊣": {
+      "guess": "The training and release of a hawk on a creance to strike and return for a secured reward.",
+      "recovered": "⊢◇>+<×●=⊞¬⊣",
+      "recovered_verdict": "B",
+      "residual": 2,
+      "residuals": [
+        2
+      ],
+      "verdict": "B"
     },
     "⊢>◇>+●¬⊣": {
       "guess": "A court appeal.",
@@ -9694,6 +10035,26 @@
       "residual": 4,
       "verdict": "T"
     },
+    "⊢¬+>◇+<×●=⊞¬⊣": {
+      "guess": "The permanent conservation of a fragmented ceramic vessel using reversible adhesive to align shards, followed by a double-agent chemical consolidation into a single, stabilized museum artifact.",
+      "recovered": "⊢◇>+<●=⊞¬⊣",
+      "recovered_verdict": "B",
+      "residual": 4,
+      "residuals": [
+        4
+      ],
+      "verdict": "B"
+    },
+    "⊢¬+⊙>◇+<×●=⊞¬⊣": {
+      "guess": "A dual-chamber thermostatic mixing valve with a permanent anti-scald pressure-balance lock and a cross-connected cold-water bypass.",
+      "recovered": "⊢◇>+●=¬◇+><×●=⊞¬◇+<×●=¬⊣",
+      "recovered_verdict": "B",
+      "residual": 13,
+      "residuals": [
+        13
+      ],
+      "verdict": "B"
+    },
     "⊢¬=¬<~∈+×⊞∋=¬⊣": {
       "guess": "bird trainer guiding falcons in flight",
       "recovered": "⊢><<∈+×⊞∋=¬⊣",
@@ -9741,6 +10102,16 @@
       "recovered_verdict": "T",
       "residual": 9,
       "verdict": "T"
+    },
+    "⊢¬>◇+<×●=⊞¬⊣": {
+      "guess": "The permanent reduction of a complex spirit-based sauce by flame-searing and folding.",
+      "recovered": "⊢⊙>◇+¬×<●⊞=¬⊣⊢>>+¬¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣",
+      "recovered_verdict": "F",
+      "residual": 83,
+      "residuals": [
+        83
+      ],
+      "verdict": "B"
     },
     "⊢¬∈+=¬<~∈+×⊞∋=¬⊣": {
       "guess": "site excavator",
@@ -9800,6 +10171,16 @@
       "recovered_verdict": "T",
       "residual": 12,
       "verdict": "T"
+    },
+    "⊢¬⊙>◇+<×●=⊞¬⊣": {
+      "guess": "A symphonic double-fugue, culminating in a stretto where the subject and its inversion are played simultaneously.",
+      "recovered": "⊢◇>+●¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣⊢◇⊞+<●=¬⊣",
+      "recovered_verdict": "F",
+      "residual": 101,
+      "residuals": [
+        101
+      ],
+      "verdict": "B"
     },
     "⊢¬⊞◇": {
       "recovered": "⊢⊣>¬",
@@ -9909,6 +10290,16 @@
       ],
       "verdict": "T"
     },
+    "⊢×>◇+<×●=⊞¬⊣": {
+      "guess": "The collapse of a massive star's core into a neutron star through electron capture and neutrino-driven rebound.",
+      "recovered": "⊢⊙¬>◇+●¬=¬◇+>×<●⊞=¬>◇+●¬=⊣",
+      "recovered_verdict": "B",
+      "residual": 17,
+      "residuals": [
+        17
+      ],
+      "verdict": "B"
+    },
     "⊢×∈++<¬<~∈+×⊞∋=¬⊣": {
       "guess": "flower bed layout with three-way division and coherence",
       "recovered": "⊢==¬<∈+×⊞∋=¬⊣",
@@ -9991,6 +10382,16 @@
       "recovered_verdict": "T",
       "residual": 10,
       "verdict": "T"
+    },
+    "⊢×⊙>◇+<×●=⊞¬⊣": {
+      "guess": "A double-weave pick-up technique where a weaver corrects a mis-crossed thread by unweaving back to the error and locking the interlaced layers with a permanent selvedge binder.",
+      "recovered": "⊢>◇><<◇+×●=¬⊣",
+      "recovered_verdict": "B",
+      "residual": 6,
+      "residuals": [
+        6
+      ],
+      "verdict": "B"
     },
     "⊢×⊞◇": {
       "recovered": "⊢+×⊞",
@@ -11204,6 +11605,46 @@
       "residual": 123,
       "residuals": [
         123
+      ],
+      "verdict": "F"
+    },
+    "⊢⊙¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬+⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The formation of a multi-star system through the gravitational collapse and fragmentation of a rotating molecular cloud core.",
+      "recovered": "⊢⊙◇>●+¬=◇>●+¬⊣",
+      "recovered_verdict": "T",
+      "residual": 149,
+      "residuals": [
+        149
+      ],
+      "verdict": "F"
+    },
+    "⊢⊙¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬<⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The preparation and reduction of a complex mother sauce via repeated skimming, tempering, and clarified emulsification.",
+      "recovered": "⊢◇>+●◇>+●◇>+●=¬⊣",
+      "recovered_verdict": "T",
+      "residual": 147,
+      "residuals": [
+        147
+      ],
+      "verdict": "F"
+    },
+    "⊢⊙¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬=⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The rigging and tensioning of a self-equalizing multi-point anchor system using a series of redundant friction hitches and load-distributing slings.",
+      "recovered": "⊢◇>+●=◇+×⊞●⊙¬>+<●=¬⊣",
+      "recovered_verdict": "B",
+      "residual": 143,
+      "residuals": [
+        143
+      ],
+      "verdict": "F"
+    },
+    "⊢⊙¬>◇+><×●=⊙¬⊣⊢⊙◇+>×<⊞●=¬⊣⊢⊙>◇+<×●=⊞¬⊣⊢⊙¬¬¬¬¬¬¬¬¬¬¬¬=⊣◇+>⊙●¬>⊙>◇+●=¬◇×<●⊞=¬⊣⊢⊙>◇+¬×<●=⊞¬⊣⊢⊙>◇+×●=⊙¬⊣⊢⊙¬=>◇+>×<●⊙=¬⊣⊢>=◇+⊙¬●<⊞⊣⊢⊙>◇+=¬<×●⊞⊙¬⊣⊢⊙◇+><●◇×●=¬⊣⊢⊙>◇+=●⊙¬⊣": {
+      "guess": "The installation of a multi-stage thermostatic mixing valve assembly with redundant backflow preventers and a pressure-balanced bypass loop.",
+      "recovered": "⊢=◇>¬<●=◇+×⊞●=¬⊣",
+      "recovered_verdict": "B",
+      "residual": 147,
+      "residuals": [
+        147
       ],
       "verdict": "F"
     },
