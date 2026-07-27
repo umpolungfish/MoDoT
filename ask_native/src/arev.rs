@@ -378,7 +378,7 @@ pub(crate) fn seam_sweep(max_len: usize) -> SeamReport {
         words: 0, t_fail: 0, k_fail: 0, phi_fail: 0, om_fail: 0,
         om_exact: 0, om_gated: 0, first_fail: None,
     };
-    let mut note = |r: &mut SeamReport, ax: char, w: &[Token]| {
+    let note = |r: &mut SeamReport, ax: char, w: &[Token]| {
         if r.first_fail.is_none() {
             let names: Vec<&str> = w.iter().map(|t| t.name()).collect();
             r.first_fail = Some((ax, names.join(" ")));

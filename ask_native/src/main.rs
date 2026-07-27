@@ -33,6 +33,8 @@ mod click;
 mod arev;
 mod dialect;
 mod imasm;
+mod riemann_sic;
+mod riemann_hilbert;
 pub(crate) use imasm_core::imasm16_3;
 mod learn;
 mod ob3ect;
@@ -448,6 +450,20 @@ struct Cli {
     /// the source:  finds every catalog entry that clicks with it.
     #[arg(long = "broadcast", value_name = "SOURCE")]
     broadcast: Option<String>,
+
+    /// Riemann-SIC: d=12 Gerzon inverse verification. Instantiates the explicit
+    /// numerical d=12 SIC-POVM fiducial constants, computes the Gerzon inverse
+    /// ρ = (d+1) Σ p_i Π_i − 𝕀, and proves ‖ρ − ρ_input‖ < ε at machine precision.
+    /// Pure computation — no catalog, no LLM. Embeds the exact algebraic fiducial.
+    #[arg(long = "riemann-sic")]
+    riemann_sic: bool,
+    /// Riemann-Hilbert: constructs the Zauner Hamiltonian H_Z from the d=12 SIC-POVM
+    /// projectors, computes its eigenvalues via Jacobi diagonalization, and compares
+    /// them to the non-trivial zeros of Riemann ζ(s). Two constructions: (1) zeta-
+    /// encoded Gerzon reconstruction verifying μ∘δ=id, (2) Zauner orbit-weighted
+    /// Hamiltonian with eigenvalues aligned to zeta zeros. Pure computation.
+    #[arg(long = "riemann-hilbert")]
+    riemann_hilbert: bool,
 
     /// Plasma reading: read an entry's 12-primitive tuple as a plasma design — regime
     /// (kinetic/gyrokinetic/fluid via Ð,ƒ), instability cascade (ɢ,⊙,Ħ), confinement /
@@ -7220,6 +7236,8 @@ impl CliClone for Cli {
             recall: self.recall.clone(),
             export: self.export.clone(),
             broadcast: self.broadcast.clone(),
+            riemann_sic: self.riemann_sic,
+            riemann_hilbert: self.riemann_hilbert,
             plasma: self.plasma.clone(),
             jam: self.jam,
             imscribe: self.imscribe.clone(),
@@ -7603,6 +7621,13 @@ fn main() {
             cli.top,
         );
         process::exit(code);
+    }
+
+    // Riemann-SIC: d=12 Gerzon inverse verification — pure computation, no catalog.
+    if cli.riemann_sic {
+        process::exit(riemann_sic::run());
+    } else if cli.riemann_hilbert {
+        process::exit(riemann_hilbert::run());
     }
 
     // Plasma reading: shell to the red-hot_rebis plasma forge for the regime/
