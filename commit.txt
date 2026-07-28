@@ -1,14 +1,9 @@
-The contrast was the concession.
+lattice_cycle and weight_flow reach MoDoT.
 
-The first pass kept "structural" wherever it stood against another register,
-on the reasoning that there it distinguished rather than hedged. That reasoning
-was backwards. "Structural claims as opposed to phenomenological ones" makes
-the Grammar one description among several and grants that some other register
-holds the claims it does not, which is precisely what retiring the word exists
-to refuse. A claim is a claim.
+The bridge already loads the live IG dispatcher, so both arrive by naming their
+arguments rather than by reimplementing anything.
 
-The guard is gone and those cases are swept too.
-
-Identifiers and records remain untouched, for the reasons given in the previous
-commit: renaming API breaks callers, and rewriting a log falsifies a record
-rather than correcting terminology.
+lattice_cycle walks a word around its ROTAT orbit: the verdict and the topology
+hold across it, the final register does not, so the phase is the only handle on
+where a word comes to rest. weight_flow counts what the union throws away, the
+fork being a set and the fuse a union.

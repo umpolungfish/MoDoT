@@ -27,6 +27,14 @@ IG_ROOT = os.environ.get(
 # Names with no positional args (or dict/list args) take a trailing JSON/kv blob.
 IG_TOOL_ARGS: Dict[str, List[str]] = {
     "lookup_catalog": ["keyword"],
+    # A word is a ring and ROTAT is the cyclic shift: the verdict and the
+    # topology hold across the orbit, the final register does not. `insert`
+    # places a token at every index of every rotation, which is the same
+    # question asked of an operation, since appending is insertion at the seam.
+    "lattice_cycle": ["word", "insert"],
+    # Where the weight moves. The fork is a set and the fuse a union, so a
+    # finished walk keeps which values were touched and nothing else.
+    "weight_flow": ["word"],
     "list_catalog": [],
     "encode_system": ["name", "description", "tuple"],
     "imscribe_system": ["name", "description", "tuple"],
