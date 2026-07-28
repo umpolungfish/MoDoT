@@ -1424,6 +1424,11 @@
     "title": "compose pm_s1 ∘ protocol_transform_dyad",
     "topology": "  topology: network | V=15 E=17 β=3 branch=2 merge=3 src=1 sink=0 ρ=2.4315\n  3 independent loop(s) with 2 branch / 3 fusion point(s)\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
   },
+  "polyklaxon_ring": {
+    "spec": "ring IMSCRIB AFWD AREV",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
   "polymerize": {
     "spec": "ring ⊙ > <",
     "title": "ring",
