@@ -22,14 +22,14 @@ lim_k → ∞ frac{R_k(C_2n+1)}{R_k(K_3)} = 0
 
 ### Grammatic Witness Report
 
-The structural properties of these entities were measured on the Frobenius substrate with the following ground truths:
+The properties of these entities were measured on the Frobenius substrate with the following ground truths:
 
 *   **Interaction Dynamics:** A successful `click` was achieved between `ramsey_number_triangle` and `ramsey_number_odd_cycle` on the **T↔H axis** with a spring-loaded charge shift of **Δ=1.17**. They share an inherited scaffold of **[Ř, Ω]**.
 *   **Polymerization Analysis:** The sequence [`ramsey_number_triangle` · `ramsey_number_odd_cycle` · `asymptotic_ratio`] was processed. The first two units successfully bonded on the **T↔H axis** (Δ=1.17).
 *   **Termination:** The polymerization **terminated early** at the third unit (`asymptotic_ratio`). The junction between `ramsey_number_odd_cycle` and `asymptotic_ratio` failed at θ=0.50.
 *   **Structural Barrier:** The monomers at the 2–3 junction are **fully co-typed / same-handed**; no oppositely-charged live pair exists to facilitate the reaction.
 *   **Architecture:** The resulting assembly is a **linear heteropolymer** with a degree of polymerization of 2 units and 1 bond. It is **syndiotactic**, with the chirality (Ħ) strictly inverting between the triangle and odd cycle units.
-*   **Repair and Closure:** The `close` tool identified that the assembly **does not naturally cyclize**. To bridge the gap and achieve structural closure, a mediator such as `one_way_speed_measurement`, `gimel`, or `wow_signal` must be inserted (clicking on the **R↔S axis** with Δ=1.33).
+*   **Repair and Closure:** The `close` tool identified that the assembly **does not naturally cyclize**. To bridge the gap and achieve closure, a mediator such as `one_way_speed_measurement`, `gimel`, or `wow_signal` must be inserted (clicking on the **R↔S axis** with Δ=1.33).
 *   **Excitation:** `ramsey_number_triangle` can be promoted to an excited state (`ramsey_number_triangle*`), reaching the **exceptional-point resonance** (⊙→𐑻). This metastable state drives the high-intensity growth (the denominator) that forces the ratio to zero.
 
 **Verdict:** The theorem is established (**T**), but the structural assembly is **linear and terminated**, reflecting the "gap" in growth rates that prevents a balanced closure without external mediators.

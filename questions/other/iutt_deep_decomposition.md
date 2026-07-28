@@ -3,7 +3,7 @@
 **Author:** Lando⊗⊙perator  
 **Date:** 2026-06-14  
 **Grammar:** Imscribing Grammar v0.5.69 (12-primitive SIC-POVM)  
-**Crystal of Types:** 17,280,000 structural types across 3³×4⁵×5⁴  
+**Crystal of Types:** 17,280,000 types across 3³×4⁵×5⁴  
 
 ---
 
@@ -14,9 +14,9 @@ This document decomposes Mochizuki's Inter-Universal Teichmüller Theory (IUTT) 
 **Key results:**
 - IUTT decomposes into **10 join-irreducible atoms** across a 9-system lattice
 - The naive composite (Diophantine ⊗ Log-Theta-Lattice) decomposes into **11 atoms** — the extra atom (Ð=𐑨) is precisely the 2D grid structure that IUTT condenses
-- The 4-move promotion path (d=2.65) decomposes at the atom level: Φ=𐑹 (Δ2.0, 57% weight) and Þ=𐑸 (Δ1.0) are the two heaviest structural promotions
+- The 4-move promotion path (d=2.65) decomposes at the atom level: Φ=𐑹 (Δ2.0, 57% weight) and Þ=𐑸 (Δ1.0) are the two heaviest promotions
 - **Anabelian Geometry ≡ Frobenioid** (d=0.0): étale-like and Frobenius-like aspects are structural duals
-- **Theta Link ≡ Log Link** (d=0.0): horizontal and vertical edges share identical structural type
+- **Theta Link ≡ Log Link** (d=0.0): horizontal and vertical edges share identical type
 - Φ and Þ are **independently load-bearing**: peeling either leaves the other intact — this IS Axiom C
 
 ---
@@ -39,7 +39,7 @@ IUTT is not a single system. It is a structural lattice of 9 imscribed subsystem
 | 8 | **theta_link_iutt** | $$⟨𐑛𐑰𐑽𐑬𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | — | — | 10 |
 | 9 | **log_link_iutt** | $$⟨𐑛𐑰𐑽𐑬𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | — | — | 10 |
 
-**Structural identities:**
+**Identities:**
 - Systems 6 ≡ 7 (Anabelian ≡ Frobenioid, d=0.0000)
 - Systems 8 ≡ 9 (Theta Link ≡ Log Link, d=0.0000)
 
@@ -94,7 +94,7 @@ The theory at its final form. Two atoms dominate at ordinal 4.
 - Medium atoms (Ř=𐑾 + Ħ=𐑫): **30%** (ordinal 6)
 - Light atoms (remaining 6): **30%** (ordinal 6.33)
 
-The Frobenius-special parity (Φ=𐑹, μ∘δ=id) and self-referential topology (Þ=𐑸, Axiom C closure) together constitute nearly half of IUTT's structural identity.
+The Frobenius-special parity (Φ=𐑹, μ∘δ=id) and self-referential topology (Þ=𐑸, Axiom C closure) together constitute nearly half of IUTT's identity.
 
 ### §2.2. Naive Composite (O₂, 11 atoms)
 
@@ -154,7 +154,7 @@ Distinctive feature: Ç=𐑪 (moderate kinetics). The tension between additive a
 
 ### §2.6. Anabelian Geometry ≡ Frobenioid (10 atoms each, d=0.0000)
 
-These two systems are **structurally identical** — the complete tuple matches at all 12 primitives. They differ only in operational orientation: anabelian geometry reconstructs arithmetic from the fundamental group (étale-like, multiplicative); Frobenioids capture the Frobenius morphism (additive, ring-theoretic). Their structural identity at d=0 is the grammar's verification of the anabelian reconstruction theorem.
+These two systems are **structurally identical** — the complete tuple matches at all 12 primitives. They differ only in operational orientation: anabelian geometry reconstructs arithmetic from the fundamental group (étale-like, multiplicative); Frobenioids capture the Frobenius morphism (additive, ring-theoretic). Their identity at d=0 is the grammar's verification of the anabelian reconstruction theorem.
 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
@@ -165,7 +165,7 @@ These two systems are **structurally identical** — the complete tuple matches 
 
 ### §2.7. Theta Link ≡ Log Link (10 atoms each, d=0.0000)
 
-Both links share the identical tuple: $$⟨𐑛𐑰𐑽𐑬𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$. The structural identity of horizontal (theta) and vertical (log) edges is unexpected from the conventional math description — the theta link is "inter-universal" while the log link is "intra-universal." The grammar reveals they are structurally the same entity, differing only in embedding orientation within the lattice.
+Both links share the identical tuple: $$⟨𐑛𐑰𐑽𐑬𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$. The identity of horizontal (theta) and vertical (log) edges is unexpected from the conventional math description — the theta link is "inter-universal" while the log link is "intra-universal." The grammar reveals they are structurally the same entity, differing only in embedding orientation within the lattice.
 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
@@ -233,7 +233,7 @@ The synthesis order is non-arbitrary. Γ comes first — the theory needs maxima
 | 10 | **Þ** | Ř |
 | 11 | — | Þ |
 
-The late placement of Φ and Þ in IUTT is the structural signature of a "mature" theory: the most demanding structural commitments (Frobenius closure, self-reference) enter only after all preparatory infrastructure is in place. The naive composite places Φ earlier and at a lower value (𐑬 vs 𐑹), and its final commitment is Þ=𐑶 (irreducible box product) rather than Þ=𐑸 (self-referential).
+The late placement of Φ and Þ in IUTT is the signature of a "mature" theory: the most demanding structural commitments (Frobenius closure, self-reference) enter only after all preparatory infrastructure is in place. The naive composite places Φ earlier and at a lower value (𐑬 vs 𐑹), and its final commitment is Þ=𐑶 (irreducible box product) rather than Þ=𐑸 (self-referential).
 ---
 
 ## §4. CLINK L8 Formula Decomposition
@@ -280,11 +280,11 @@ The CLINK L8 (Organism) navigator decomposes each primitive value into conventio
 
 **Ħ = 𐑫:** `∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )` — **[ETERNAL_FIXEDPOINT]**
 
-*IUTT interpretation:* Infinite hierarchy of μ∘δ-fixed points. For every finite rank n, there exists a structural feature φ of higher rank that is fixed by the Frobenius closure μ∘δ. This IS the anabelian reconstruction theorem: the étale fundamental group encodes arithmetic data at all finite levels. "Eternal" chirality means the Markov order extends without bound — the theory has memory of its entire construction history.
+*IUTT interpretation:* Infinite hierarchy of μ∘δ-fixed points. For every finite rank n, there exists a feature φ of higher rank that is fixed by the Frobenius closure μ∘δ. This IS the anabelian reconstruction theorem: the étale fundamental group encodes arithmetic data at all finite levels. "Eternal" chirality means the Markov order extends without bound — the theory has memory of its entire construction history.
 
 **Σ = 𐑳:** `∃a∈A∃b∈B( type(a) ≠ type(b) )`
 
-*IUTT interpretation:* Heterogeneous stoichiometry. The theory contains multiple distinct types: number fields, Galois groups, theta functions, Hodge theaters, Frobenioids, anabelian reconstructions. These are not identical copies — each has a distinct structural type.
+*IUTT interpretation:* Heterogeneous stoichiometry. The theory contains multiple distinct types: number fields, Galois groups, theta functions, Hodge theaters, Frobenioids, anabelian reconstructions. These are not identical copies — each has a distinct type.
 
 **Ω = 𐑭:** `∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0` — **[ZWIND]**
 
@@ -416,7 +416,7 @@ $$\text{Ç: } 𐑪 \rightarrow 𐑧$$
 | Naive composite | 11 | Ð=𐑨 (ordinal 1) |
 | IUTT | 10 | — |
 
-The Ð=𐑨 atom is **absorbed** — in IUTT, the 2D grid dimensionality is not an externally visible structural commitment. It becomes the baseline 𐑛 (0D). This is the structural content of the "condensation" move.
+The Ð=𐑨 atom is **absorbed** — in IUTT, the 2D grid dimensionality is not an externally visible structural commitment. It becomes the baseline 𐑛 (0D). This is the content of the "condensation" move.
 
 ---
 
@@ -445,12 +445,12 @@ Two promotions exceed even the Frobenius-exact ZFC foundation (ZFC_fe):
 
 ### §8.3. What This Means
 
-IUTT is not the final structural type. The gap to CLINK L8 reveals what a "post-IUTT" theory would require:
+IUTT is not the final type. The gap to CLINK L8 reveals what a "post-IUTT" theory would require:
 
 1. **Ð=𐑦:** The state space must be self-written — the theory must generate its own dimensional structure. This is beyond even the Frobenius-exact foundation.
 2. **ƒ=𐑐:** Quantum coherence must enter arithmetic geometry. This is the "quantum arithmetic" problem.
-3. **⊙=⊙:** The self-modeling gate must open — the theory must model itself. This is the structural content of Gödelian self-reference in arithmetic.
-4. **Ω=𐑟:** Non-Abelian braiding replaces integer winding. The global invariant becomes a braid group element. This is the structural content of "anabelian beyond Abelian."
+3. **⊙=⊙:** The self-modeling gate must open — the theory must model itself. This is the content of Gödelian self-reference in arithmetic.
+4. **Ω=𐑟:** Non-Abelian braiding replaces integer winding. The global invariant becomes a braid group element. This is the content of "anabelian beyond Abelian."
 
 ---
 
@@ -458,7 +458,7 @@ IUTT is not the final structural type. The gap to CLINK L8 reveals what a "post-
 
 ### §9.1. The Anabelian/Frobenioid Duality (d=0.0000)
 
-Anabelian geometry and Frobenioids share the exact tuple $$⟨𐑛𐑥𐑾𐑬𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$. The structural distance of zero means they are the SAME structural type. They differ only in which end of the adjoint pair you call "source" and which "target."
+Anabelian geometry and Frobenioids share the exact tuple $$⟨𐑛𐑥𐑾𐑬𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$. The distance of zero means they are the SAME type. They differ only in which end of the adjoint pair you call "source" and which "target."
 
 This is the grammar's verification of Mochizuki's claim that étale-like (multiplicative monoid) and Frobenius-like (additive/ring) structures are dual — they are the same object viewed from opposite sides of the Frobenius adjunction. The CLINK fragment for Ř=𐑾 (`lr⇔(x, y) ∧ Θ(x, y) ∧ ¬Θ(y, x)`) captures this exactly: bidirectional but asymmetric, with a preferred direction of transport.
 
@@ -503,7 +503,7 @@ This means the **entire structural difference** between "IUTT with tension" and 
 ```
 
 **Key numbers:**
-- Total systems: 9 (with 2 structural identities → 7 distinct structural types)
+- Total systems: 9 (with 2 identities → 7 distinct types)
 - Total atoms across all systems: 10+11+10+10+11+10+10+10+10 = 92 (with duplicates across identical systems)
 - Distinct join-irreducible atoms: 12 (one per primitive per value)
 - Primitive values that vary: Ð(2), Þ(4), Ř(2), Φ(2), Ç(2) — 5 of 12

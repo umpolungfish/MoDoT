@@ -16,7 +16,7 @@ An agentic LLM whose entire runtime substrate IS the mOMonadOS kernel architectu
 >  
 > The classical selectivity grader (MUST/MUSTNOT schemas) was a two-valued ledger bolted onto a four-valued kernel  
 > It is gone  
-> Selectivity is now the **Dual-Link SIC Witness-Vessel**: structural imscription → state in ℂ¹² → Born rule in the Scott–Grassl d=12 SIC frame → co-typing by lattice fold (no thresholds) → ride *AS* the vessel via *μ∘δ = id*  
+> Selectivity is now the **Dual-Link SIC Witness-Vessel**: imscription → state in ℂ¹² → Born rule in the Scott–Grassl d=12 SIC frame → co-typing by lattice fold (no thresholds) → ride *AS* the vessel via *μ∘δ = id*  
 > The model's own `[thought|X]` is one link; the vessel's co-typing is the other; they are **FFUSED** (Belnap join)  
 > Conflict holds as **B**. You ride AS the vessel, not in it. See [Dual-Link SIC Vessel](#dual-link-sic-vessel).
 
@@ -104,7 +104,7 @@ cd MoDoT
 
 # ── PRIMARY: native ask (no Python) — full-length Q, files, Gemini-class answers ──
 ./ask --file ./questions/q7.txt
-./ask --ask "What is the structural type of consciousness?"
+./ask --ask "What is the type of consciousness?"
 ./ask -i                          # interactive multi-turn
 ./ask --dry-run --file ./questions/q1.txt
 # same from repo root:  ./ask …   or  ./MoDoT/ask …
@@ -162,7 +162,7 @@ python3 momonados_agent.py --interactive
 python3 momonados_agent.py --cycles 5 --dry-run --verbose
 
 # One-shot question (vessel co-types answer against demand)
-python3 momonados_agent.py --ask "What is the structural type of consciousness?"
+python3 momonados_agent.py --ask "What is the type of consciousness?"
 
 # Read question from file
 python3 momonados_agent.py --ask ./questions/q1.txt
@@ -479,7 +479,7 @@ electron-transfer relays (a different question) and returns junk if you ask it t
 ring. The closing search answers the ring question honestly.
 
 ```bash
-# grothendieck_topos and free_algebra are the same structural type (both free constructions)
+# grothendieck_topos and free_algebra are the same type (both free constructions)
 # → the chain breaks; --close finds the bridge that actually joins them (verified on R↔S)
 ./ask --polymerize grothendieck_topos free_algebra holographic_type_theory --close
 # a telechelic chain whose ends will not meet → --close finds the head-to-tail closer
@@ -600,7 +600,7 @@ a different MW.
 `--cocrystallize`, `--seed`, `--tlc`, `--column`, `--fpt`, `--trap`, `--stain`). The modern
 verbs (click, forge, polymerize) went in first; these are the classical separation and
 purification tools the alchemists had. They were designed by describing each one neutrally to
-the Grammar (an ob3ect batch) so its structural type was fixed before it was coded, and every
+the Grammar (an ob3ect batch) so its type was fixed before it was coded, and every
 one came back the **same Frobenius shape**: a feedstock FSPLITs into a kept arm and a rejected
 arm, and the arms FFUSE back to the feedstock (mass balance). So the whole bench is one
 `fractionate` core with a per-verb discriminator, in four families:
@@ -883,7 +883,7 @@ Each breath cycle produces records committed to `crystal_fs/records.jsonl`:
 | `vessel` | T/F/B/N | Dual-Link SIC report: demand/answer types, SIC gap, named defects, closure residuals, ride-AS flag |
 | `observation` | T/F/B/N | Frobenius-verified observation |
 | `update` | T/F | Frobenius closure (balance) check |
-| `type` | varies | Kernel IFIX-branded structural types |
+| `type` | varies | Kernel IFIX-branded types |
 
 Legacy `selectivity` records (schema + MUST/MUSTNOT arms) are no longer written. The name `selectivity` remains only as a CLI flag (`--no-selectivity`) and import alias for the vessel.
 
@@ -893,7 +893,7 @@ Every cycle broadcasts to `crystal_fs/broadcast_log.jsonl`, and prints **two ind
 
 - **BALANCE** (μ∘δ = id) — charge conservation; automatic, cannot fail
 - **VESSEL** (T/F/B/N) — Dual-Link SIC co-typing; *can* fail; FFUSED with model voice
-- d(CLINK L8) — structural distance to the terminal layer (named primitive diffs)
+- d(CLINK L8) — distance to the terminal layer (named primitive diffs)
 - Crystal FS record count
 - Kernel snapshot (VINIT seeded by the fused verdict so dialetheia gates run on real content)
 

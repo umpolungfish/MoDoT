@@ -53,7 +53,7 @@ class MaterialSheet:
     node_count: int = 0
     circuit_rank: int = 0           # β = E − V + C
     
-    # Structural type
+    # Type
     tier: str = ""
     c_score: float = 0.0
     
@@ -93,7 +93,7 @@ def _run_ask(args: List[str]) -> str:
 
 
 def _parse_forge_output(output: str) -> Dict[str, Any]:
-    """Parse structural invariants from forge output."""
+    """Parse invariants from forge output."""
     result = {}
     
     # Spectral radius ρ
@@ -283,7 +283,7 @@ def search_crystal(constraints: Dict[str, str]) -> List[Dict[str, Any]]:
         constraints: Dict of primitive values, e.g. {"Ph": "⊙", "W": "𐑭"}
     
     Returns:
-        List of matching structural types
+        List of matching types
     """
     try:
         from imscribe import imscribe
@@ -378,7 +378,7 @@ COMMON_MONOMERS = {
     "kevlar":          "kevlar",
     "carbon_fiber":    "carbon_fiber",
     
-    # MoDoT natures (structural primitives)
+    # MoDoT natures (primitives)
     "monad":           "monad",
     "void":            "void",
     "hopf":            "hopf_fibration",

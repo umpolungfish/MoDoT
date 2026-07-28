@@ -142,7 +142,7 @@ print("Level 1: frob=3 types (5/49)  — 'heavy' Frobenius structure")
 print()
 print("The FSPLIT/FFUSE pairs for frob=3 types have MULTIPLE pair")
 print("groups, meaning their IMASM programs contain nested or")
-print("parallel Frobenius forks. This is the structural signature")
+print("parallel Frobenius forks. This is the signature")
 print("of higher-order self-reference.")
 print()
 # Show the frob=3 types in detail

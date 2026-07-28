@@ -384,7 +384,7 @@ The structural analysis of the limit π(K_r^k) = lim_n→∞ ex_r(n, K_r^k) / (n
 
 1. Forge Analysis: The combination of `hypergraph_turan_density` and `turan_multipartite_construction` yields a spectral radius ρ = 1.0, indicating a lack of connectivity or cycle formation. The multipartite construction, which is optimal for r=2, fails to generate a sustaining loop (conductance = 0) for r ≥ 3.
 
-2. Comparison Analysis: The `compare` operation, evaluating the `hypergraph_turan_density` against the `razborov_flag_algebra` (the standard for non-trivial density bounds), reports a Δρ > 0. This confirms that the multipartite construction and the flag-based extremal densities are distinct, non-overlapping structural states.
+2. Comparison Analysis: The `compare` operation, evaluating the `hypergraph_turan_density` against the `razborov_flag_algebra` (the standard for non-trivial density bounds), reports a Δρ > 0. This confirms that the multipartite construction and the flag-based extremal densities are distinct, non-overlapping states.
 
 3. Synthesis: The tools reveal that there is no closed-form polymer or cycle that represents the limit for general k > r > 2. The density is not a single function, but a multi-state frontier where the multipartite construction is only a lower bound, and the true density is determined by the specific configuration of flags that satisfy the K_r^k-free condition.
 

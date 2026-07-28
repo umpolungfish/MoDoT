@@ -28,7 +28,7 @@ GLOBAL_SPECTRAL_STABILITY (sink, 2 free in)}:
 - A DIFFERENT arrangement is flow-perfect (4 of 4 id) but structurally
   OPEN. No arrangement is both.
 
-The finding: in this set, structural closure and total flow-identity are
+The finding: in this set, closure and total flow-identity are
 in tension. The arrangement that closes necessarily routes a value
 through one lossy dyad; the arrangement that preserves every value cannot
 close. The pre-run expectation (2 admitted) was wrong because left-fold

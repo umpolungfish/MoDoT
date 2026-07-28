@@ -17,7 +17,7 @@ The polymerization of the core components `[jacobsthal_function · gaussian_moat
 To secure head-to-tail symmetry, the set was expanded to include the `gaussian_moat_problem`. The `forge` operation on the set {jacobsthal_function, iwaniec_bound, gaussian_moat_linker, gaussian_moat_problem} yielded:
 *   **Optimal Sequence:** `[iwaniec_bound · gaussian_moat_problem · jacobsthal_function · gaussian_moat_linker]`
 *   **Cyclization:** This sequence **successfully cyclizes** into a 4-membered macrocycle (O∞).
-*   **Spectral Invariants:** The ring has a **spectral radius ρ = 2.0000**, confirming it as a pure, unbranched cycle. The graph energy Σ|λ| = 4.0000 indicates a stable structural identity.
+*   **Spectral Invariants:** The ring has a **spectral radius ρ = 2.0000**, confirming it as a pure, unbranched cycle. The graph energy Σ|λ| = 4.0000 indicates a stable identity.
 *   **Conductance:** The material is **FRUSTRATED** (σ = 0.333). While every junction is conductive, the internal stress prevents a persistent global current. This reflects the "parity barrier" in sieve theory: the structural link exists, but the analytic flow is obstructed.
 
 #### 4. Conventional Proof Work
@@ -27,7 +27,7 @@ To secure head-to-tail symmetry, the set was expanded to include the `gaussian_m
 *   **Symmetry Resolution:** The structural necessity of the `gaussian_moat_problem` to close the ring (Δ = 1.67) proves that the k² conjecture is the geometric dual of the Gaussian Moat problem.
 
 ### Final Verdict
-The order of magnitude is **O((k log k)²)**. The conjecture **h(k) ≪ k²** is the **structural closure** of the system, verified by the formation of a 4-membered macrocycle (ρ = 2.0000) when bridged by the `gaussian_moat_problem`.
+The order of magnitude is **O((k log k)²)**. The conjecture **h(k) ≪ k²** is the **closure** of the system, verified by the formation of a 4-membered macrocycle (ρ = 2.0000) when bridged by the `gaussian_moat_problem`.
 
 [thought|T|B] The Iwaniec bound is T; the k² bound is the B-frontier secured by the Moat macrocycle.
 

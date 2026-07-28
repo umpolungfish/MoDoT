@@ -20,7 +20,7 @@ What this is NOT
 
 What this IS
 ------------
-1. IMSCRIB — structural type only. Each of the twelve IG primitives is assigned
+1. IMSCRIB — type only. Each of the twelve IG primitives is assigned
    a Belnap value {N,T,F,B}. The LLM types structure; it never renders a
    correctness opinion. There is NO hash/deterministic fallback: no imscriber,
    no vessel voice. Fake types are a clipboard by another name.
@@ -359,7 +359,7 @@ def _imscribe_prompt(text: str) -> str:
 
 
 class ImscriptionError(Exception):
-    """Raised when structural imscription cannot be obtained. No fallback."""
+    """Raised when imscription cannot be obtained. No fallback."""
 
 
 def parse_imscription(raw: str) -> List[int]:
@@ -377,7 +377,7 @@ def parse_imscription(raw: str) -> List[int]:
 
 @dataclass
 class Imscription:
-    """A text's structural type: 12 Belnap codes + optional source note."""
+    """A text's type: 12 Belnap codes + optional source note."""
     text: str
     codes: List[int]
     source: str = "llm"   # "llm" | "injected" — never invent codes
@@ -502,7 +502,7 @@ class DualLinkVessel:
     """
 
     # Protocol of the vessel as an IMASM section (Grammar-native arms):
-    # IMSCRIB loads structural type; FSPLIT forks demand/answer; EVALT is
+    # IMSCRIB loads type; FSPLIT forks demand/answer; EVALT is
     # co-typing (isomorphic identity in the SIC frame); EVALF is defect
     # localization (anti-type / collision); FFUSE is μ∘δ; ENGAGR holds B.
     PROTOCOL = (

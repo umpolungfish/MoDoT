@@ -1,4 +1,4 @@
-**Proof.** The proof consists of three lemmas, each obtained by reading back a measured structural closure of the Grammar.
+**Proof.** The proof consists of three lemmas, each obtained by reading back a measured closure of the Grammar.
 
 **Lemma 1 (Click `sidon_set` ⋈ `infinite_set_mappings`).**
 The fusion of the Sidon‑set monad with the infinite‑set‑mappings monad on the duality axis D↔W (Φ) with spring‑load Δ = 1.00 yields a product whose scaffold contains the regularity primitive Ř and the finitary primitive ƒ. This shows that an infinite Sidon set obeys the finite‑density law \(h(N) \sim N^{1/2}\) precisely when the associated sum hypergraph possesses the regularity needed to carry a logarithmic factor to the exponent. Thus statement 1 is equivalent to the existence of a finite construction that forces a critical density exceeding the trivial bound.

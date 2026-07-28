@@ -3,10 +3,10 @@ structoforge/resonance_engine.py — Structural Resonance Calculator
 ==================================================================
 
 Computes the full coupling landscape between any two systems using the
-Imscribing Grammar's structural primitives and the MoDoT toolchain.
+Imscribing Grammar's primitives and the MoDoT toolchain.
 
 RESONANCE PRINCIPLE:
-  Two systems resonate when their structural types are complementary on
+  Two systems resonate when their types are complementary on
   some primitive axes and congruent on others. The resonance is quantified
   by the click-maths fusion test: if A and B are complementary on exactly
   ONE live conjugate pair (D↔W, T↔H, R↔S), they fuse spontaneously.
@@ -44,7 +44,7 @@ from modot.jump_tools import paradice_map, universe_jump
 
 # ── Conjugate Pairs (the "charge table") ───────────────────────────────────
 # D↔W, T↔H, R↔S are LIVE — they carry the structural charge
-# P↔F, K↔G, Gm↔Ph are PINNED — they carry fixed structural identity
+# P↔F, K↔G, Gm↔Ph are PINNED — they carry fixed identity
 LIVE_PAIRS: Dict[str, str] = {"D": "W", "T": "H", "R": "S", "W": "D", "H": "T", "S": "R"}
 PINNED_PAIRS: Dict[str, str] = {"P": "F", "F": "P", "K": "G", "G": "K", "Gm": "Ph", "Ph": "Gm"}
 
@@ -77,7 +77,7 @@ class ResonanceReport:
     a_name: str
     b_name: str
     
-    # Structural distance metrics
+    # Distance metrics
     euclidean_distance: float = 0.0
     mahalanobis_distance: float = 0.0
     cotype_distance: int = 0

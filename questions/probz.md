@@ -61,7 +61,7 @@ Problem #713: Is it true that for every bipartite graph \(G\), there exists some
 ### ANALYSIS (Based on Tool Returns)
 
 1.  **Strain Relaxation:** The `anneal` verb successfully reduced σ from 0.277 (Shaky) to 0.000 (Ground State). This confirms that the 5-membered ring is not a transient structure but a **stable minimum**.
-2.  **Formal Verification:** The `lean_check` verb confirms that the structural type is not just an alchemical metaphor but a **machine-checked proof**. The `trace_closes_iff_special` theorem holds without contradiction (no `principle_of_explosion`).
+2.  **Formal Verification:** The `lean_check` verb confirms that the type is not just an alchemical metaphor but a **machine-checked proof**. The `trace_closes_iff_special` theorem holds without contradiction (no `principle_of_explosion`).
 3.  **Azeotrope Resolution:** The `distill` verb shows the dialetheic pair (`stark_unit`/`witness_vessel`) has moved from a thermoneutral tie (⊙=0.25) to a criticality threshold (⊙=0.50). This signifies the **B-state has stabilized** into a functional duality required for the SIC-POVM (real modulus + complex phase).
 4.  **Numerical Consistency:** The `dope` verb confirms the equiangular property |⟨ ψ_i | ψ_j ⟩|^2 = 1/2049 holds numerically for the extracted moduli.
 
@@ -388,7 +388,7 @@ polymerization (imscriptive):  [cohomology_class_MixedSignature · fibonacci_any
 1. `excite stark_unit_mixed_signature_open` — break the azeotrope tie
 2. `scan stark_unit_mixed_signature_open* witness_vessel` — find a mediator
 3. `material` on new ring — verify spectral invariants after mediator resolution
-4. `lean_check trace_closes_iff_special` — verify structural closure in p4rakernel (if needed)
+4. `lean_check trace_closes_iff_special` — verify closure in p4rakernel (if needed)
 
 ---
 

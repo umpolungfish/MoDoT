@@ -98,7 +98,7 @@ def demo_winding_predictor():
         ALPHA_INV_REF, SIN2_THETA_W_REF
     )
     
-    # Test tuples for various structural types
+    # Test tuples for various types
     test_cases = [
         ("self_modeling", "⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑔𐑠⊙𐑖𐑙𐑭⟩",
          "Self-modeling, self-ref topology, Frobenius-special, critical, integer winding"),
@@ -192,7 +192,7 @@ def demo_proof_forge():
     print("\n  ── Generating scaffold for odot_system ──")
     scaffold = pf.forge(
         "odot_system",
-        "A self-modeling structural type at O_∞ tier",
+        "A self-modeling type at O_∞ tier",
         tuple_str="⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑔𐑠⊙𐑖𐑙𐑭⟩",
     )
     
@@ -263,7 +263,7 @@ def demo_integrated_workflow():
   # 2. Sweep for compatible partners
   python -m structoforge.cli sweep monad --top 10
   
-  # 3. Predict physics from the structural type
+  # 3. Predict physics from the type
   python -m structoforge.cli predict my_system "⟨⊙⋯⟩" --json
   
   # 4. Generate Lean proof scaffold

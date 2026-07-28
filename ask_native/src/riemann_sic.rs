@@ -250,7 +250,7 @@ pub fn run() -> i32 {
         println!("  machine precision (error < 1e-14).");
         println!();
         println!("  This is the computational instantiation of the");
-        println!("  Riemann-SIC structural proof (§8-§9 of the PDF).");
+        println!("  Riemann-SIC proof (§8-§9 of the PDF).");
         println!("  The explicit d=12 fiducial constants are now");
         println!("  embedded in the Rust source and pass the");
         println!("  ‖ρ − ρ_input‖ < ε test.");

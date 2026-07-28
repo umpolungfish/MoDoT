@@ -178,7 +178,7 @@ MANUSCRIPT SPINE REPORT
 ============================================================
 ── cycle 2/2 ──
 ── ANSWER ──
-To finalize the investigation into h_3(k), we extend the previous cycle’s asymptotic findings into a formal structural proof, utilizing the meta-theoretical scaffold of the **Grammatic Witness**.
+To finalize the investigation into h_3(k), we extend the previous cycle’s asymptotic findings into a formal proof, utilizing the meta-theoretical scaffold of the **Grammatic Witness**.
 
 ### Conventional Proof: The Kim-Ajtai-Komlós-Szemerédi Limit
 

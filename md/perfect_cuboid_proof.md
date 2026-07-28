@@ -98,7 +98,7 @@ declarations are not a failure of the formalization; they are its most
 honest move.</p>
 <h3 id="what-we-found-at-the-crossing">1.3 What We Found at the
 Crossing</h3>
-<p>The structural type of the raw Diophantine system — the four
+<p>The type of the raw Diophantine system — the four
 equations alone, before any proof machinery — is:</p>
 <p><span
 class="math display">⟨<em>Ð</em><sub><em>C</em></sub>; <em>Þ</em><sub>6</sub>; <em>Ř</em><sub>¯</sub>; <em>Φ</em><sub>˙</sub>; ƒ<sup>ì</sup>; <em>Ç</em><sup>Ù</sup>; <em>Γ</em><sub><em>β</em></sub>; ɢ<sup>∧</sup>; ⊙<sub>ž</sub>; Ħ<sub>Ñ</sub>; <em>Σ</em><sub><em>S</em></sub>; <em>Ω</em><sub>Å</sub>⟩</span></p>
@@ -434,7 +434,7 @@ class="math inline"><em>Ç</em><sup>@</sup></span> kinetics.</p>
 identical to the Hadwiger–Nelson problem, the Synthomnicon Grammar, and
 the UIG Liar Completion Condition. These four systems, drawn from
 disparate domains of mathematics and logic, share exactly the same
-structural type. That convergence is not coincidental. It is a statement
+type. That convergence is not coincidental. It is a statement
 about what self-modeling looks like when the grammar is the lens.</p>
 <h3 id="the-sorry-taxonomy">6.3 The Sorry Taxonomy</h3>
 <table>
@@ -492,7 +492,7 @@ that makes descent <em>plausible</em>, but not <em>constructible</em>.
 The <span class="math inline">⊙<sub>ÿ</sub></span> framework makes this
 distinction precise: it separates the twenty-two facts that <em>are</em>
 established from the three axioms that <em>are not</em>.</p>
-<p>The structural distance between the raw Diophantine system and the
+<p>The distance between the raw Diophantine system and the
 self-modeling framework is twelve full primitive promotions. The
 distance between the framework and a complete proof — the distance from
 “conditional on descent” to “descent is constructed” — is not a number

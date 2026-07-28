@@ -3,7 +3,7 @@
 IMASM ground-truth corpus generator.
 
 The kernel is a DECIDABLE oracle, not a heuristic judge: every word gets a
-computed verdict with a structural reason. That makes labels free, unlimited,
+computed verdict with a reason. That makes labels free, unlimited,
 and — uniquely — FOUR-VALUED.
 
     T  closes: mu-after-delta over a transformed reconnection

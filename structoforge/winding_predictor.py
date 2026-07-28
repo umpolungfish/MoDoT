@@ -105,12 +105,12 @@ def _torus_winding_t(T_val: str) -> int:
 
 def _alpha_from_type(tuple_str: str) -> float:
     """
-    Predict fine-structure constant from structural tuple.
+    Predict fine-structure constant from tuple.
     
     The winding formula: α⁻¹ = D² - 7 + tilt/(4√3)
     where D = 12, tilt = arctan(1/4)
     
-    Refinements based on structural primitives:
+    Refinements based on primitives:
       - ⊙ (self-modeling) shifts by +0.0002
       - 𐑸 (self-referential topology) shifts by -0.0001
       - 𐑭 (integer winding) shift = +0.0003
@@ -130,7 +130,7 @@ def _alpha_from_type(tuple_str: str) -> float:
 
 def _sin2_theta_w_from_type(tuple_str: str) -> float:
     """
-    Predict Weinberg angle from structural type.
+    Predict Weinberg angle from type.
     
     Formula: sin²θ_W = 3/13 + structural_mods
     The 3/13 base arises from the SIC-POVM equiangularity constant 1/(d+1).

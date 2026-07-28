@@ -9,7 +9,7 @@ context-poor token there was nothing to reason from, so the tuple is closer to
 a coin flip than a reading.
 
 VAE-Vita was trained on all 17,280,000 Crystal-of-Types configurations and
-independently recovered the SIC-POVM geometry from structural type alone — it
+independently recovered the SIC-POVM geometry from type alone — it
 has learned what a genuinely well-formed point in Crystal space looks like,
 with no notion of English words at all. Running a freshly-imscribed tuple
 through its encoder/decoder (mu . delta) and reading back the reconstruction

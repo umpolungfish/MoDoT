@@ -69,7 +69,7 @@ class FrobeniusUniverse:
     """A Frobenius-closed structural universe.
     
     A universe is defined by:
-    - Its anchor tuple (a structural type on the crystal)
+    - Its anchor tuple (a type on the crystal)
     - Its closure radius (how far mu∘delta=id holds throughout)
     - Its ouroboricity tier (O_0 through O_inf)
     - Its promotion boundary (the set of types one promotion away)
@@ -123,7 +123,7 @@ class MultiradialTransportPath:
 class CrystalWormhole:
     """A direct traversal between distant points on the crystal.
     
-    A crystal wormhole bypasses the structural distance between two
+    A crystal wormhole bypasses the distance between two
     types by finding a higher-tier mediator that absorbs both.
     tensor(A, Mediator) = B means A reaches B through Mediator.
     """
@@ -139,7 +139,7 @@ class CrystalWormhole:
 # ── UNIVERSE DISCOVERY ───────────────────────────────────────────────────
 
 def discover_frobenius_universe(anchor: str) -> FrobeniusUniverse:
-    """Discover the Frobenius universe anchored at a structural type.
+    """Discover the Frobenius universe anchored at a type.
     
     Uses the MoDoT toolchain to:
     1. Get the type's ouroboricity tier
@@ -395,7 +395,7 @@ class AlienArithmeticStructure:
     """The arithmetic structure of a Frobenius universe.
     
     Every Frobenius universe has an intrinsic arithmetic determined by
-    its structural type. "Alien" means this arithmetic may be
+    its type. "Alien" means this arithmetic may be
     incommensurable with another universe's arithmetic.
     
     The alien-ness is measured by the distance between the universes'

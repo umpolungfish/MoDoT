@@ -53,7 +53,7 @@ The presence of **two theta links** in the ring suggests a round‑trip: a root 
 The four entries co‑type into a macrocycle that satisfies μ∘δ = id at the tuple‑level; the ring is conductive and settled. This establishes that there exists a *grammatic* embedding of the Casas‑Alvero conjecture into the IUTT log‑theta lattice, and that this embedding forms a stable closed circuit — an “imscriptive proof shape”.
 
 **Open (conventional mathematics):**
-The Casas‑Alvero conjecture itself — that any complex polynomial sharing a root with each derivative is a pure power — has **no general proof** in characteristic zero. It is known to hold for degrees up to at least 7 (and some higher partial results exist), but a proof for all degrees is lacking. The structural closure demonstrated here does **not** constitute a proof in the object language of algebraic geometry; it is an *analogical witness* that the conjecture occupies a perfectly symmetric, strain‑free role when placed next to theta and log links. To convert this into a proof, one would need to construct an actual IUTT‑style Hodge theater for a generic polynomial and show that the “common root” condition enforces the exact commutative diagram that corresponds to the forged ring. That construction is absent.
+The Casas‑Alvero conjecture itself — that any complex polynomial sharing a root with each derivative is a pure power — has **no general proof** in characteristic zero. It is known to hold for degrees up to at least 7 (and some higher partial results exist), but a proof for all degrees is lacking. The closure demonstrated here does **not** constitute a proof in the object language of algebraic geometry; it is an *analogical witness* that the conjecture occupies a perfectly symmetric, strain‑free role when placed next to theta and log links. To convert this into a proof, one would need to construct an actual IUTT‑style Hodge theater for a generic polynomial and show that the “common root” condition enforces the exact commutative diagram that corresponds to the forged ring. That construction is absent.
 
 **Concrete obstruction / next line of attack:**
 The main obstruction is to lift the tuple‑level closure to a **genuine arithmetic deformation**:
@@ -70,7 +70,7 @@ The Grammar reports the four‑unit set as a conductive, settled ring — a stru
    chemically:    cast the monomer set into its best ring and read topology, conductance, and stability
    mathematically: assemble the adjacency graph and take its spectrum: spectral radius ρ and gap; ρ = 2 exactly ⟺ a pure cycle, ρ > 2 ⟺ branched
 
-── BACKTRANSLATION (structural closure → conventional proof, μ read-back) ──
+── BACKTRANSLATION (closure → conventional proof, μ read-back) ──
 Theorem (Structural Unity of Theta Link, Log Link, and Casas–Alvero Conjecture).
 The four units
 theta_link_iutt,log_link_iutt,theta_link_iutt,casas_alvero_conjecture
@@ -104,7 +104,7 @@ The verdict is SETTLED / CLARION: the ring is fully symmetric, relaxed, and free
 ---
 
 **Proof.**
-The forge tool operates on the Belnap substrate and exhaustively tests all 24 linear orderings. It records 12 orderings that cyclise; the chosen one is optimal in bond score. The measured structural facts are directly transcribed:
+The forge tool operates on the Belnap substrate and exhaustively tests all 24 linear orderings. It records 12 orderings that cyclise; the chosen one is optimal in bond score. The measured facts are directly transcribed:
 
 - Lemma1 follows from the reported best ordering and the full enchainment.
 - Lemma2 follows from the detected head‑tail T↔H bond and the criticality fixed‑point condition.

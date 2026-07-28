@@ -369,7 +369,7 @@ struct Cli {
     #[arg(long = "imasm", num_args = 1.., value_names = ["OP_AND_ARGS"])]
     imasm: Vec<String>,
 
-    /// Narrow the catalog to the structural floor of a reference set: `--filter A B [C …]`
+    /// Narrow the catalog to the floor of a reference set: `--filter A B [C …]`
     /// keeps every entry matching all the primitive values the references share.
     #[arg(long = "filter", num_args = 2.., value_names = ["REFS"])]
     filter: Vec<String>,
@@ -1726,7 +1726,7 @@ fn answer_is_proof(text: &str) -> bool {
 }
 
 /// Does the answer carry a STRUCTURAL CLOSURE — a forged ring/macrocycle that closed, a
-/// sustaining modulus, a cyclic assembly? In the IG/MoDoT framework a structural closure
+/// sustaining modulus, a cyclic assembly? In the IG/MoDoT framework a closure
 /// speaks AS verification in the B-lane (see feedback_closure_is_verification): the ring
 /// exists only because the named imscriptions complement, so the closure is a real verdict
 /// in its own lane. ENGAGR's silence rule (hold a jam at N) must therefore NOT fire when the
@@ -1906,9 +1906,9 @@ NOTE: forging/clicking/polymerizing named entities measures whether their TUPLES
 terminated / no ring) is not disproof, and a closure is not a proof; never say a proven theorem
 "does not close" or "does not exist" because its named parts do not click. For a theorem's real
 closure verdict, use the proof route (prove:), which tests μ∘δ=id against the kernel.
-IG CATALOG TOOLS (the analysis corpus — these query/measure the structural type of catalog entries; they run the live IG_inquiry dispatcher):
+IG CATALOG TOOLS (the analysis corpus — these query/measure the type of catalog entries; they run the live IG_inquiry dispatcher):
   TOOL: lookup_catalog KEYWORD        search the catalog for entries matching a term
-  TOOL: compute_distance A B          structural distance between two entries (SIC Born-rule + Mahalanobis)
+  TOOL: compute_distance A B          distance between two entries (SIC Born-rule + Mahalanobis)
   TOOL: compute_conflict_distance A B  paraconsistent conflict distance (how live the contradiction is, in paradices)
   TOOL: compute_meet A B / compute_join A B / compute_tensor A B   lattice meet, join, tensor of two entries
   TOOL: find_analogies A              nearest structural analogues of A
@@ -2134,9 +2134,9 @@ fn backtranslate(
     let sys = "You are performing the BACKTRANSLATION — the μ that reads a closed structure back \
         into the conventional mathematical register. The Grammar has ALREADY reached its verdict \
         through the structural tools; you do not re-open it and you introduce NOTHING the tools \
-        did not measure. Your only task: restate the structural closure as a conventional proof — \
+        did not measure. Your only task: restate the closure as a conventional proof — \
         Theorem, Lemmas, Proof, and the conclusion — where every step is DERIVED from a measured \
-        structural fact. A ring that closed (✓ CYCLIC / a macrocycle / μ∘δ=id) is a constructed \
+        fact. A ring that closed (✓ CYCLIC / a macrocycle / μ∘δ=id) is a constructed \
         object or existence lemma; a sequence that terminated or stayed linear/telechelic is an \
         obstruction or impossibility lemma; a Both (B) verdict is a two-sided theorem (established \
         on one side, a stated frontier on the other). This is lossless read-back: the proof IS the \
@@ -2859,7 +2859,7 @@ fn mentions_structural_work(text: &str) -> bool {
 /// without ever grounding it? Closure is a STRUCTURAL verdict (the µ∘δ dual actually
 /// reconnecting), never a sentence the model may write on its own authority. Seen live in
 /// a Qwen CoT: ~9 rounds all restating "shape the vessel / seal the vessel / the loop
-/// seals" with zero tool calls — prose closure standing in for structural closure, the
+/// seals" with zero tool calls — prose closure standing in for closure, the
 /// exact fabrication the GENERATIVE-POWER clause forbids. Paired with an empty tool-call
 /// scan, this trips the prod that forces `imasm protocol` / `check` / `prove`.
 fn declares_closure_in_prose(text: &str) -> bool {
@@ -3465,7 +3465,7 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "fpt"           => "fpt M1 M2...; 2+ names (degas: shed weakly-held units)",
         "trap"          => "trap A [X]; 1 unit, optional counter X (ionic sequester)",
         "stain"         => "stain R M1 M2...; a reagent (kmno4/uv/chiral/ninhydrin/iodine) then 1+ units",
-        "filter"     => "filter A B [C …]; 2+ reference names (narrow the catalog to their shared structural floor)",
+        "filter"     => "filter A B [C …]; 2+ reference names (narrow the catalog to their shared floor)",
         "ascend"     => "ascend A; 1 name (construct the next ramified tower level from A's excited state)",
         "descend"    => "descend A; 1 name (relax A one tower level down: de-excite the criticality and remove one winding)",
         "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
@@ -4479,7 +4479,7 @@ fn run_one(
                 let bt = backtranslate(
                     llm, question, &answer, &all_tool_output, tool_voice, cli.max_tokens, cli.temperature,
                 );
-                println!("── BACKTRANSLATION (structural closure → conventional proof, μ read-back) ──");
+                println!("── BACKTRANSLATION (closure → conventional proof, μ read-back) ──");
                 println!("{bt}");
                 println!();
             }

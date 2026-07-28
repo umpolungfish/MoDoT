@@ -142,7 +142,7 @@ print("\n" + "="*80)
 print("III. THE OOO-IMASM ENCODING FUNCTOR")
 print("="*80)
 
-# Map each character to a canonical IMASM program based on their structural signature
+# Map each character to a canonical IMASM program based on their signature
 # Characters with high dimensionality (dead) get VINIT-heavy programs
 # Characters with complex criticality (roar) get FSPLIT/FFUSE heavy programs
 # Characters with self-written dimensionality (if) get IMSCRIB-heavy programs
@@ -267,7 +267,7 @@ print("V. THE PRISMO-ADJUNCTION (The Wishmaster Functor)")
 print("="*80)
 print()
 print("Definition: The Prismo Functor P: OOO → OOO is defined by")
-print("P(X) = the character whose structural tuple is the meet of")
+print("P(X) = the character whose tuple is the meet of")
 print("X's tuple with Prismo's tuple on agreed axes, joined on")
 print("divergent axes. P is adjoint to the Lich functor L.")
 print()
@@ -308,7 +308,7 @@ print("\n" + "="*80)
 print("VI. THE GOLB SINGULARITY")
 print("="*80)
 print()
-print("Theorem (GOLB Incommensurability): GOLB's structural type")
+print("Theorem (GOLB Incommensurability): GOLB's type")
 print("occupies a topological singularity in the OOO manifold.")
 print("Its tuple ⟨if,oil,tot,they,age,yea,bib,vow,woe,fee,aha,zeal⟩")
 print("is the ONLY O_∞ entity among all Adventure Time characters.")
@@ -319,7 +319,7 @@ golb_tup = CHARACTER_NATURE_TUPLES["golb"]
 golb_vec = [reg.get(v).ordinal if hasattr(reg.get(v), 'ordinal') else 0 
            for v in golb_tup.values()]
 
-print("Structural distance from GOLB (the Chaos Differential):")
+print("Distance from GOLB (the Chaos Differential):")
 golb_distances = []
 for cname, vec in char_vecs.items():
     d = math.sqrt(sum((vec[i]-golb_vec[i])**2 for i in range(len(vec))))

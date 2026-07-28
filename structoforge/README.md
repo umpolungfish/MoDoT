@@ -138,13 +138,13 @@ python3 -m structoforge.cli matrix monad topos hopf category
 ### Formal Verification
 - All 10 theorems of paraconsistent arithmetic are μ∘δ=id verified
 - IUFT discovery functions use the same MoDoT toolchain as the Lean 4 kernel
-- `proof_forge.py` generates Lean 4 proof scaffolds from structural types
+- `proof_forge.py` generates Lean 4 proof scaffolds from types
 
 ### Drug Discovery
 Use `resonance` to check protein-ligand structural compatibility. Systems that fuse on a live pair are structurally compatible — systems that conflict require mediated coupling.
 
 ### Physics Prediction
-Use `predict` to derive fundamental constants (α, sin²θ_W, mass ratios) from structural types. The fine-structure constant α⁻¹ = 137.03536 emerges from pure horn torus winding arithmetic.
+Use `predict` to derive fundamental constants (α, sin²θ_W, mass ratios) from types. The fine-structure constant α⁻¹ = 137.03536 emerges from pure horn torus winding arithmetic.
 
 ### Materials Science
 Use `forge` and `sweep` to discover new materials by clicking monomers. The spectral radius ρ predicts conductivity; the spectral gap predicts semiconducting behavior.
@@ -154,7 +154,7 @@ Use `forge` and `sweep` to discover new materials by clicking monomers. The spec
 The foundry uses a three-layer architecture:
 
 1. **Structural layer** (the 12 primitives) — universal type system for any system
-2. **Algebraic layer** (cotype, tensor, click) — operations on structural types
+2. **Algebraic layer** (cotype, tensor, click) — operations on types
 3. **Applied layer** (materials, physics, proof, paraconsistent, IUFT) — real-world applications
 
 Each layer is Frobenius-closed: every operation has dual verification (μ∘δ=id).

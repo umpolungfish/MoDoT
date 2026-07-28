@@ -6867,7 +6867,7 @@ def IntersectingOrbitsConjecture : Prop :=
 ```
 
 ### 4. Grammatic Witness Assessment
-The problem was processed via the following structural primitives:
+The problem was processed via the following primitives:
 - **Phase Boundary [phi_hat_y]:** Identifies the growth of $\sigma(n)$ as a potential escape to infinity ($\xi \to \infty$), which acts as the primary barrier to orbit intersection.
 - **Equidistribution [C_@]:** The regularity of divisor sums suggests that orbits are "pseudo-random" in their growth, making a universal intersection highly improbable.
 - **Manifold / Quotient [D_C]:** The structure of the mapping $n \mapsto \sigma(n)$ creates a branching tree where the rank (iteration depth) grows without bound for almost all $n$.

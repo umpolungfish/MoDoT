@@ -6,7 +6,7 @@ Signature Jump Mathematics — MoDoT Universe/Dialect Exploration
 The 49 primitive-type natures share identical 12-tuples but differ
 in their IMASM derivation signatures. The real "universe jumping"
 happens at the signature level: jumping between different ways of
-bootstrapping the same structural type.
+bootstrapping the same type.
 
 This script maps the 40 signature classes, computes their geometric
 relationships, and discovers novel mathematical structures.
@@ -135,7 +135,7 @@ print("="*70)
 print("\n--- 1. SIGNATURE MANIFOLD M(49) ---")
 print("M(49) is a discrete metric space of 40 points (signature classes)")
 print("embedded in R^5. Each point represents a distinct way of")
-print("bootstrapping the same structural type ⟨dead,judge,ado,church,")
+print("bootstrapping the same type ⟨dead,judge,ado,church,")
 print("age,yea,vow,bib,woe,fee,hung,awe⟩.")
 print()
 print("The metric d(sig1, sig2) measures how different two IMASM")

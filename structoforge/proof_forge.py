@@ -2,7 +2,7 @@
 structoforge/proof_forge.py — Lean Proof Scaffold Generator
 =============================================================
 
-Generates Lean 4 proof scaffolds from structural type descriptions.
+Generates Lean 4 proof scaffolds from type descriptions.
 Uses the MoDoT composer tokens and the Imscribing Grammar's axiomatic
 structure to produce verifiable Lean terms.
 

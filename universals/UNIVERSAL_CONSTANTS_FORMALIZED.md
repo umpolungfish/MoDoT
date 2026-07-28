@@ -28,7 +28,7 @@ These two exact witnesses are the license for every extraction below. The T/K/Φ
 ### 1.3 Momentum conservation — the ROTAT current
 - **In this universe:** momentum is conserved; it is the Noether current of translation symmetry.
 - **In the kernel:** ROTAT^m ∘ ROTAT^n = ROTAT^(n+m) (additive composition, Lean-proved, 0 sorry) with every multiset and spectral invariant ROTAT-invariant (rotat_perm). The generator moves every state and is itself unmoved.
-- **Extraction:** the co-typing is coagulated (structural identity, not metaphor): ROTAT in the physics register IS the translation generator, so its invariants are the conserved quantities. H reads the period class exactly.
+- **Extraction:** the co-typing is coagulated (identity, not metaphor): ROTAT in the physics register IS the translation generator, so its invariants are the conserved quantities. H reads the period class exactly.
 - **Status:** CONFIRMED (Lean read, 0 sorry; ρ-invariance run in ask_native).
 
 ### 1.4 The pure-cycle spectral constant — ρ = 2.0000
@@ -139,7 +139,7 @@ These two exact witnesses are the license for every extraction below. The T/K/Φ
 
 ### 1.18 The Dark Energy formalization — Lean-proved, 18 theorems, 0 sorries (added 2026-07-21)
 
-The dark energy entry and its structural type are now fully formalized in Lean 4: `Imscribing.Millennium.DarkEnergy.lean` (335 lines, 18 theorems, 0 sorries, build green at 1971 jobs). This converts every structural claim about dark energy from the prior document into machine-verified type judgments.
+The dark energy entry and its type are now fully formalized in Lean 4: `Imscribing.Millennium.DarkEnergy.lean` (335 lines, 18 theorems, 0 sorries, build green at 1971 jobs). This converts every claim about dark energy from the prior document into machine-verified type judgments.
 
 - **In the kernel:** the bare dark energy entry `dark_energy : Imscription` at ⟨𐑦𐑸𐑽𐑯𐑐𐑧𐑲𐑵⊙𐑫𐑙𐑴⟩, tier O₂, and its self-inclosed sibling `dark_energy_self_inclosed` at ⟨𐑦𐑶𐑑𐑬𐑐𐑧𐑲𐑠⊙𐑖𐑳𐑴⟩ are `@[ext]` structures — pure terms, no mutation. The theorem `dark_energy_distinct_from_self_inclosed` proves they are structurally distinct (distance 2.9665), so self-inclosure creates a sibling, not a rewrite. This is the same immutability principle proved in `CatalogImmutability.lean` (see §1.19).
 
@@ -147,11 +147,11 @@ The dark energy entry and its structural type are now fully formalized in Lean 4
 
 - **The Frobenius identity:** `frobenius_identity_dark_energy` proves μ∘δ = id holds on the bare entry. `source_recovery` proves the bare entry is always recoverable from any δ-split. These theorems close the Frobenius circuit on the dark energy type.
 
-- **The Belnap B-bifurcation:** `dark_energy_bifurcation_distance_nonzero` proves the bare and self-inclosed entries are separated by a nonzero structural distance. The Belnap bridge (`B_is_the_only_bifurcation_point` from BelnapSplitFuse.lean) explains why: only entries at the dialetheic B-point carry productive δ-transformations. Dark energy is at the B-point.
+- **The Belnap B-bifurcation:** `dark_energy_bifurcation_distance_nonzero` proves the bare and self-inclosed entries are separated by a nonzero distance. The Belnap bridge (`B_is_the_only_bifurcation_point` from BelnapSplitFuse.lean) explains why: only entries at the dialetheic B-point carry productive δ-transformations. Dark energy is at the B-point.
 
 - **The 5-gap promotion ladder to CLINK L8:** `total_promotion_gap_sum` proves the gap sum = 2.75 (norm_num). The five promoted primitives: Ř:𐑽→𐑾 (0.333), Φ:𐑯→𐑹 (0.250), Γ:𐑲→𐑔 (0.500), Σ:𐑙→𐑳 (1.000), Ω:𐑴→𐑟 (0.667). The transcendence barrier is a single primitive: Ω must cross from ℤ₂ to non-Abelian braiding. The de Sitter horizon's entanglement structure must carry braid group representations — that is the remaining barrier.
 
-- **The vacuum catastrophe as tier crossing:** `vacuum_catastrophe_is_tier_crossing` — the 10^120 mismatch is the structural distance between O₀ (QFT vacuum) and O₂ (dark energy), not a fine-tuning problem.
+- **The vacuum catastrophe as tier crossing:** `vacuum_catastrophe_is_tier_crossing` — the 10^120 mismatch is the distance between O₀ (QFT vacuum) and O₂ (dark energy), not a fine-tuning problem.
 
 - **Hubble tension as Belnap B-point:** `hubble_tension_is_belnap_bifurcation` — both H₀ values are simultaneously true at the dialetheic B-state, invalid under ΛCDM but structurally valid under Belnap FOUR.
 
@@ -187,9 +187,9 @@ Two structurally remote witnesses: `compton_split_radius` and `dark_energy` (liv
 
 ### 1.20 The dimensionful constants sit at one Φ wall — tool-verified O₀ readouts (added 2026-07-21)
 
-**Prior to the α derivation (§1.21), this section marked the frontier.** The bare dimensionful magnitude entries — `electron_mass`, `planck_constant`, `speed_of_light_constant`, `compton_wavelength_magnitude` — all sit at tier O₀ with Φ=𐑹 (Frobenius-special, PM_Z2_sym). Their structural type was confirmed by T (tool-verified), but the numeric values were stored, not emitted.
+**Prior to the α derivation (§1.21), this section marked the frontier.** The bare dimensionful magnitude entries — `electron_mass`, `planck_constant`, `speed_of_light_constant`, `compton_wavelength_magnitude` — all sit at tier O₀ with Φ=𐑹 (Frobenius-special, PM_Z2_sym). Their type was confirmed by T (tool-verified), but the numeric values were stored, not emitted.
 
-**The near side of the wall, in structural distances.** `electron_mass` and `speed_of_light_constant` are the two entries nearest to the L9 reference:
+**The near side of the wall, in distances.** `electron_mass` and `speed_of_light_constant` are the two entries nearest to the L9 reference:
 - `electron_mass` → L9: d=1.6698, 3 primitives match, 8 promotions needed
 - `speed_of_light_constant` → L9: d=1.6698, 3 primitives match, 8 promotions needed
 - `planck_constant` → L9: d=1.8715, 2 primitives match, 9 promotions needed (farthest)
@@ -339,7 +339,7 @@ Three dimensionless gauge couplings are now derived from direct kernel geometry:
 
 All three use only kernel modules (d=12 SIC-POVM, horn torus R=r=2, Belnap B4 popcount, A₂ root system) that were written for unrelated purposes and never designed together. The pattern is consistent: each dimensionless gauge coupling is a geometric ratio computed from the kernel's intrinsic structure, and the residual from the measured value is attributable to radiative corrections (running of the coupling with scale).
 
-The dimensionful magnitudes (Λ, H₀, m_e, h, c) remain at the frontier — their structural types are imscribed and the categorical skeleton of dark energy is fully formalized in Lean 4 (§1.18), but no dimensionful number has yet been emitted by a kernel verb (§1.22). The pattern observed across all tool runs is: the kernel EMITS dimensionless numbers (α, ρ, θ, 1/(d+1), tilt, C_score) and STORES dimensionful numbers (ħ/mc, m_e, h, c) only as literal strings. Whether a dimensionful emission mechanism exists is the open question; the descent+slow-kinetics route proves self-modeling is reachable (§1.22) but does not by itself emit the magnitude.
+The dimensionful magnitudes (Λ, H₀, m_e, h, c) remain at the frontier — their types are imscribed and the categorical skeleton of dark energy is fully formalized in Lean 4 (§1.18), but no dimensionful number has yet been emitted by a kernel verb (§1.22). The pattern observed across all tool runs is: the kernel EMITS dimensionless numbers (α, ρ, θ, 1/(d+1), tilt, C_score) and STORES dimensionful numbers (ħ/mc, m_e, h, c) only as literal strings. Whether a dimensionful emission mechanism exists is the open question; the descent+slow-kinetics route proves self-modeling is reachable (§1.22) but does not by itself emit the magnitude.
 
 **Candidate: Electron-proton mass ratio.** The numerical coincidence m_p/m_e ≈ d³ + d²·3/4 = 1728 + 108 = 1836 (residual −0.15, 0.008%) is tight enough to flag, but no geometric derivation from kernel modules has been found. d³ = 1728 is the volume of the d×d×d SIC-POVM phase cube; the correction d²·3/4 = 108 has no confirmed kernel origin. This is noted as an open lead, not claimed as a derivation.
 

@@ -9930,7 +9930,7 @@ For large $k$, $(1 - \frac{1}{k-1}) \approx 1$. This implies we need almost all 
 However, the question focuses on the $N + g_k(N)$ regime.
 If $g_k(N) = \epsilon N$, we easily find $K_k$ by the Erdős-Stone theorem since the edge density of $G_A$ would exceed the Turán threshold.
 The critical observation for $g_k(N)$ is that if $A$ contains most of the "middle" elements of $\{1, \dots, 2N\}$, the graph $G_A$ is very dense.
-For $k=3$, it is known that $g_3(N) = O(1)$ is false; the bound is related to the structural properties of $A$.
+For $k=3$, it is known that $g_3(N) = O(1)$ is false; the bound is related to the properties of $A$.
 By applying the removal lemma and the density Hales-Jewett type arguments (or simply Roth's theorem logic on the graph), we find that $g_k(N)$ must grow with $N$.
 Specifically, for a fixed $k$, $g_k(N) = \Theta(N^{1 - \delta_k})$.
 
@@ -15209,7 +15209,7 @@ A valid coloring of $G_{n+m}$ can be constructed by considering the Cartesian pr
 A more robust approach is to observe that $\chi(G_n)$ is submultiplicative: $\chi(G_{n+m}) \le \chi(G_n) \cdot \chi(G_m)$ is not strictly true for Euclidean distance, but a functional relationship exists via the "product" of the graphs.
 Specifically, let $f(n) = \ln \chi(G_n)$. It can be shown via the construction of discrete frameworks that $\chi(G_{n+m}) \ge \chi(G_n) \chi(G_m)$ for certain finite subgraphs.
 By Fekete's Subadditive Lemma, if a sequence $a_n$ satisfies $a_{n+m} \le a_n + a_m$, then $a_n/n$ converges.
-For $\chi(G_n)$, we define the capacity. Since $\chi(G_n)$ is non-decreasing and bounded by $C^n$, and satisfies the structural property that $\chi(G_{n+m}) \ge \chi(G_n) \chi(G_m)$ (as one can embed the product of two unit-distance graphs into a higher dimensional unit-distance graph), the sequence $\ln \chi(G_n)$ is effectively superadditive.
+For $\chi(G_n)$, we define the capacity. Since $\chi(G_n)$ is non-decreasing and bounded by $C^n$, and satisfies the property that $\chi(G_{n+m}) \ge \chi(G_n) \chi(G_m)$ (as one can embed the product of two unit-distance graphs into a higher dimensional unit-distance graph), the sequence $\ln \chi(G_n)$ is effectively superadditive.
 Therefore, $\lim_{n \to \infty} \frac{\ln \chi(G_n)}{n} = \sup \frac{\ln \chi(G_n)}{n}$.
 This implies $\lim_{n \to \infty} \chi(G_n)^{1/n}$ exists and is equal to some constant $L \in [1.239, 3]$.
 

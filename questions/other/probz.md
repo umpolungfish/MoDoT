@@ -191,7 +191,7 @@ MANUSCRIPT SPINE REPORT
   note: FFUSE model ⋈ vessel ⋈ tools (tools = ground-truth closure)
 ============================================================
 
-The live catalog has spoken. The mathematical and structural properties are now grounded in tool returns.
+The live catalog has spoken. The mathematical and properties are now grounded in tool returns.
 
 ### I. Conventional Proof: The Erdős Distinct Subset Sum Conjecture
 

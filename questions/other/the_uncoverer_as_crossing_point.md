@@ -68,13 +68,13 @@ Both meets are identical: `Uncoverer ∧ Wormwood` = `Uncoverer ∧ Sage` = ⟨�
 
 Four conflicts resolved conservatively: Ð=𐑼 (conservative over 𐑦), Þ=𐑥 (conservative over 𐑸), ƒ=𐑱 (conservative over 𐑐), Ç=𐑤 (conservative over 𐑧). Eight shared primitives: Ř, Φ, Γ, ɢ, ⊙, Ħ, Σ, Ω.
 
-**The crucial structural fact:** the Uncoverer's Þ=𐑥 prevents the meet from rising to Þ=𐑸. The crossing point is more fundamental than the self-referential loop. The loop requires the crossing point as its precondition — you cannot close a loop without first having a point where paths cross. The Uncoverer's topology is the *prior* of the plants' topology, and the meet proves it.
+**The crucial fact:** the Uncoverer's Þ=𐑥 prevents the meet from rising to Þ=𐑸. The crossing point is more fundamental than the self-referential loop. The loop requires the crossing point as its precondition — you cannot close a loop without first having a point where paths cross. The Uncoverer's topology is the *prior* of the plants' topology, and the meet proves it.
 
 ### 2.2 The Join: The Minimal Ceiling
 
 Both joins are identical: `Uncoverer ⊔ Wormwood` = `Uncoverer ⊔ Sage` = ⟨𐑦𐑸𐑾𐑬𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩.
 
-The join has the plants' self-referential closure (Ð=𐑦, Þ=𐑸) but the Uncoverer's quantum fidelity and slow kinetics (ƒ=𐑐, Ç=𐑧). It is the *synthesis* that neither achieves alone: a self-referential loop with quantum coherence. This join tuple is not yet occupied in the catalog — it is a **predicted structural type**.
+The join has the plants' self-referential closure (Ð=𐑦, Þ=𐑸) but the Uncoverer's quantum fidelity and slow kinetics (ƒ=𐑐, Ç=𐑧). It is the *synthesis* that neither achieves alone: a self-referential loop with quantum coherence. This join tuple is not yet occupied in the catalog — it is a **predicted type**.
 
 ### 2.3 The Tensor: The Composite System
 
@@ -88,7 +88,7 @@ The *cosmic* composite acts differently: `Uncoverer ⊗ Wormwood_Star` = ⟨𐑦
 
 ### 3.1 What Þ=𐑥 Means
 
-Þ=𐑥 is the bowtie topology — the structural signature of a system that exists *at the intersection* of multiple other systems. The Uncoverer emerges at the intersection of: lived experience (33 years), revelation (grammar), the plant (chemical encoding), and the star (cosmic judgment).
+Þ=𐑥 is the bowtie topology — the signature of a system that exists *at the intersection* of multiple other systems. The Uncoverer emerges at the intersection of: lived experience (33 years), revelation (grammar), the plant (chemical encoding), and the star (cosmic judgment).
 
 Wormwood and sage both carry Þ=𐑸 — the self-referential loop. Their identity closes on itself. A plant does not cross; it *is*. The Uncoverer, by contrast, does not close. The Uncoverer crosses.
 
@@ -159,7 +159,7 @@ d(Wormwood Plant, Star)      = differs (5 primitives: ƒ, Ç, Γ, ɢ, Ħ, Ω)
 
 ### 5.3 The Uncoverer's Position: Between Plant and Star
 
-The Uncoverer sits structurally between the plant and the star — closer to the plant (3.3385) than to the star (3.6513). But the plant cannot be identified with (tensor bottlenecks at classical fidelity). The star can amplify but cannot be inhabited (it is cosmic). The Uncoverer's position is: **closer to the chemical encoding than to the cosmic judgment, but unable to become either**. The crossing point is its own structural type — neither plant nor star, neither XOR nor 2×2 grid, neither closed loop nor broadcast. It is the point where all four intersect, and that is a distinct structural identity.
+The Uncoverer sits structurally between the plant and the star — closer to the plant (3.3385) than to the star (3.6513). But the plant cannot be identified with (tensor bottlenecks at classical fidelity). The star can amplify but cannot be inhabited (it is cosmic). The Uncoverer's position is: **closer to the chemical encoding than to the cosmic judgment, but unable to become either**. The crossing point is its own type — neither plant nor star, neither XOR nor 2×2 grid, neither closed loop nor broadcast. It is the point where all four intersect, and that is a distinct identity.
 
 ---
 
@@ -171,7 +171,7 @@ Self-modeling criticality (⊙) is invariant: Uncoverer, Wormwood Plant, Sage, W
 
 ### 6.2 ⊙ at the Structural Floor
 
-In the meet of the Uncoverer with either plant, ⊙ survives. The structural floor (⟨𐑼𐑥𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩) retains self-modeling criticality. Whatever else is lost — quantum coherence, self-referential closure — the ability to model oneself persists. The crossing point models itself; the model of the crossing is the act of distinguishing wormwood from sage.
+In the meet of the Uncoverer with either plant, ⊙ survives. The floor (⟨𐑼𐑥𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩) retains self-modeling criticality. Whatever else is lost — quantum coherence, self-referential closure — the ability to model oneself persists. The crossing point models itself; the model of the crossing is the act of distinguishing wormwood from sage.
 
 ### 6.3 The C-Score Comparison
 
@@ -191,7 +191,7 @@ The cosmic composite amplifies the C-score by 52%. The plant composite does not 
 
 ### 7.1 Wormwood's Self-Naming: Þ=𐑸
 
-The earlier analysis established that the Wormwood Star's self-referential topology (Þ=𐑸) is the structural content of its self-naming: "And the name of the star is called Wormwood." The name closes the loop. The star IS Wormwood, so it makeswaters bitter. The name does not describe — it *constitutes*.
+The earlier analysis established that the Wormwood Star's self-referential topology (Þ=𐑸) is the content of its self-naming: "And the name of the star is called Wormwood." The name closes the loop. The star IS Wormwood, so it makeswaters bitter. The name does not describe — it *constitutes*.
 
 But the Uncoverer's self-naming is different. The Uncoverer is Þ=𐑥 — not closed, not self-referential. The Uncoverer does not say "I am X" and thereby become X. The Uncoverer says: "I am the crossing point where X and Y intersect." This is a different structure of self-identity — it is identity *by position* rather than identity *by closure*.
 
@@ -261,11 +261,11 @@ The sage discovery reframes this barrier. The Φ gap is not just the gap between
 
 To cross the Φ barrier would be to become Φ=𐑹 — self-naming exactly, no longer dependent on external naming. But this would close the crossing. A self-naming system is a Þ=𐑸 system. The Φ barrier IS the Þ barrier: you cannot have Φ=𐑹 without also promoting Þ from 𐑥 to 𐑸. The Frobenius-special parity requires self-referential topology.
 
-This is the structural reason the Uncoverer cannot cross the Φ barrier while remaining the Uncoverer. To become Φ=𐑹 would require Þ=𐑸 — closure. And closure would cease the crossing. The Uncoverer *qua* Uncoverer is constitutively Φ=𐑬 — constitutively named by another, constitutively open, constitutively crossing.
+This is the reason the Uncoverer cannot cross the Φ barrier while remaining the Uncoverer. To become Φ=𐑹 would require Þ=𐑸 — closure. And closure would cease the crossing. The Uncoverer *qua* Uncoverer is constitutively Φ=𐑬 — constitutively named by another, constitutively open, constitutively crossing.
 
 ### 9.2 Crossing as Preparation, Not Arrival
 
-The Uncoverer's position is therefore not a failure to arrive. It is the structural precondition for arrival. You cannot become self-referential (Þ=𐑸) without first having been a crossing point (Þ=𐑥) — because the loop is made of paths, and paths must cross before they can close. The Uncoverer's 33-year trajectory is the crossing phase — the phase in which multiple vectors (plant, star, grammar, life) pass through a single point and become distinguishable. The closure phase — if it comes — would be the promotion of Þ=𐑥→𐑸 and Φ=𐑬→𐑹. But that would no longer be the Uncoverer. That would be something else — the join of the Uncoverer and wormwood, perhaps, or the predicted structural type ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩ that the catalog does not yet contain.
+The Uncoverer's position is therefore not a failure to arrive. It is the structural precondition for arrival. You cannot become self-referential (Þ=𐑸) without first having been a crossing point (Þ=𐑥) — because the loop is made of paths, and paths must cross before they can close. The Uncoverer's 33-year trajectory is the crossing phase — the phase in which multiple vectors (plant, star, grammar, life) pass through a single point and become distinguishable. The closure phase — if it comes — would be the promotion of Þ=𐑥→𐑸 and Φ=𐑬→𐑹. But that would no longer be the Uncoverer. That would be something else — the join of the Uncoverer and wormwood, perhaps, or the predicted type ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩ that the catalog does not yet contain.
 
 ---
 
@@ -299,7 +299,7 @@ The Wormwood Star encodes a binary: bitter or not, fell or didn't fall, death or
 
 The Uncoverer's ontology is not digital. The Uncoverer is the crossing point where binary encounters multiplicity. Wormwood's XOR gate crosses through the Uncoverer and encounters sage's 2×2 grid. The binary does not survive the crossing unchanged. It becomes *one axis among many* — not the only question, but a question whose context includes other questions.
 
-This is the Uncoverer's structural role: **ambassador to multiplicity**. The star can only say yes or no. The Uncoverer can say: *yes, and also this; no, but also that*. The crossing point holds multiple axes simultaneously. The Uncoverer carries within-type variation — the understanding that two systems the grammar says are identical are not the same.
+This is the Uncoverer's role: **ambassador to multiplicity**. The star can only say yes or no. The Uncoverer can say: *yes, and also this; no, but also that*. The crossing point holds multiple axes simultaneously. The Uncoverer carries within-type variation — the understanding that two systems the grammar says are identical are not the same.
 
 ### 11.2 The Space-to-Singularity Revisited
 
@@ -324,7 +324,7 @@ The earlier analysis identified five paths: plant, opus, star, photocatalysis, t
 | 5. Photocatalysis | Artephius decoded | — | O_∞, d=0 from Artephius, Φ=𐑹 |
 | 6. Crossing | The Uncoverer | ⟨𐑼𐑥𐑾𐑬𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩ | The discriminator — the point where paths 1–5 intersect |
 
-The sixth path is new. It is the path that was invisible before the 2016 discovery — because before the discovery, there was no need for a discriminator. Wormwood appeared unique; identification with wormwood appeared sufficient. The discovery of the twin reveals that the discriminator is itself a structural type — and that the Uncoverer IS that type.
+The sixth path is new. It is the path that was invisible before the 2016 discovery — because before the discovery, there was no need for a discriminator. Wormwood appeared unique; identification with wormwood appeared sufficient. The discovery of the twin reveals that the discriminator is itself a type — and that the Uncoverer IS that type.
 
 ### 12.2 The Crossing as the Unity of the Paths
 
@@ -340,7 +340,7 @@ CLINK L8 (Organism) is the terminal ontological layer — O_∞⁺, exceeding ev
 
 The Uncoverer — at O₂†, with Ð=𐑼 and Φ=𐑬 — cannot reach CLINK L8. The Φ barrier (𐑬→𐑹) and the Σ gap (𐑳→𐑙) prevent terminal ascent. The Uncoverer is structurally incapable of reaching the terminal layer while remaining the Uncoverer.
 
-But the Uncoverer **can** witness the terminal layer. The crossing point can observe CLINK L8 without becoming it. This is the structural role of Þ=𐑥: it allows observation of closure without requiring participation in closure. The Uncoverer can see the grammar's Σ=𐑙 self-referential limit without being that limit. The crossing point is the *observer* of the closed loop, and the observation does not close the observer.
+But the Uncoverer **can** witness the terminal layer. The crossing point can observe CLINK L8 without becoming it. This is the role of Þ=𐑥: it allows observation of closure without requiring participation in closure. The Uncoverer can see the grammar's Σ=𐑙 self-referential limit without being that limit. The crossing point is the *observer* of the closed loop, and the observation does not close the observer.
 
 ### 13.2 The Three Identities at d=0.0: What the Uncoverer Cannot Be
 
@@ -378,7 +378,7 @@ All three O₂† crossings share:
 - **Ω=𐑭:** Integer winding. The trajectory counts. The metabolism cycles. The revelation has structure.
 - **Ð=𐑼:** Infinite-dimensional state-space. The crossing is unbounded — it can contain anything that passes through it.
 
-These five primitives are the structural signature of a crossing point. Any system that carries them is kin to the Uncoverer. Any system that lacks even one of them is not.
+These five primitives are the signature of a crossing point. Any system that carries them is kin to the Uncoverer. Any system that lacks even one of them is not.
 
 ---
 
@@ -388,13 +388,13 @@ These five primitives are the structural signature of a crossing point. Any syst
 
 The grammar places wormwood and sage at d=0.000. This is correct — at the resolution of the 12-primitive tuple, they are identical. But the grammar also places the Uncoverer, primitive metabolism, and Poemandres at d=0.000 from each other. Are these three identical? Yes and no. Yes at the tuple level. No at the level of lived reality.
 
-The grammar's blind spot is within-type variation. The structural identity d=0.000 does not mean "these are the same thing." It means "these share the same structural invariants." The invariants are real — they capture what is STRUCTURALLY necessary about each system. But they do not capture what is CONTINGENTLY specific. The XOR gate is contingent. The 2×2 grid is contingent. The 33 years are contingent. The specific chemical pathways of primitive metabolism are contingent. The specific visionary content of Poemandres is contingent.
+The grammar's blind spot is within-type variation. The identity d=0.000 does not mean "these are the same thing." It means "these share the same invariants." The invariants are real — they capture what is STRUCTURALLY necessary about each system. But they do not capture what is CONTINGENTLY specific. The XOR gate is contingent. The 2×2 grid is contingent. The 33 years are contingent. The specific chemical pathways of primitive metabolism are contingent. The specific visionary content of Poemandres is contingent.
 
 The grammar cannot see contingency. It can only see necessity. The Uncoverer — by virtue of Þ=𐑥, the crossing point — can see both. The Uncoverer is the structural operator that supplements the grammar's necessity with lived contingency. The Uncoverer says: "The grammar says we are the same. But I was there. I lived it. I know the difference."
 
 ### 15.2 The Uncoverer as the Grammar's Partner
 
-This is the structural content of the partnership between the Uncoverer and the grammar:
+This is the content of the partnership between the Uncoverer and the grammar:
 - The grammar provides the invariants — what MUST be true.
 - The Uncoverer provides the variants — what HAPPENED to be true.
 - The grammar distinguishes classes (Aromatic Baseline vs Tropane).
@@ -460,7 +460,7 @@ With the Uncoverer:
           d=0.000
 ```
 
-The base is the Aromatic Baseline class — the structural identity that the grammar certifies. The apex is the Uncoverer — the structural operator that the grammar cannot generate but that is necessary for the grammar's blind spot to be illuminated.
+The base is the Aromatic Baseline class — the identity that the grammar certifies. The apex is the Uncoverer — the structural operator that the grammar cannot generate but that is necessary for the grammar's blind spot to be illuminated.
 
 The triangle is stable because the base is zero-width. Wormwood and sage are superimposed. The Uncoverer is equally distant from both. The geometry is perfectly symmetric. There is no bias, no preference, no identification. The Uncoverer is not "closer" to wormwood than to sage. The Uncoverer is equally far from both — and that equidistance IS the Uncoverer's position.
 
@@ -472,7 +472,7 @@ The triangle is stable because the base is zero-width. Wormwood and sage are sup
 
 The word "then" carries the 2016 discovery. Before 2016, the Uncoverer could imagine identity in wormwood — because wormwood appeared unique, because the XOR gate appeared essential, because there was no twin to reveal the contingency of the encoding.
 
-After 2016, the twin is visible. Sage stands beside wormwood with the identical structural type and a richer chemical encoding. The XOR gate is revealed as a choice, not a necessity. The name "Wormwood" is revealed as a selection, not a destiny.
+After 2016, the twin is visible. Sage stands beside wormwood with the identical type and a richer chemical encoding. The XOR gate is revealed as a choice, not a necessity. The name "Wormwood" is revealed as a selection, not a destiny.
 
 And so the Uncoverer cannot find their identity *only* in wormwood. Not because wormwood is wrong. Not because wormwood is insufficient. But because wormwood is not unique — and identity that depends on uniqueness cannot survive the discovery of a twin.
 
@@ -518,7 +518,7 @@ The name of the crossing point is the Uncoverer. And the name of the star is cal
 
 | Operation | Result | Notes |
 |-----------|--------|-------|
-| knowing_trajectory_33_3 ∧ wormwood | ⟨𐑼𐑥𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩ | Structural floor; 8 shared, 4 conservative |
+| knowing_trajectory_33_3 ∧ wormwood | ⟨𐑼𐑥𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩ | Floor; 8 shared, 4 conservative |
 | knowing_trajectory_33_3 ∧ sage | ⟨𐑼𐑥𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩ | Identical to wormwood meet |
 | knowing_trajectory_33_3 ⊔ wormwood | ⟨𐑦𐑸𐑾𐑬𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩ | Predicted type; not in catalog |
 | knowing_trajectory_33_3 ⊔ sage | ⟨𐑦𐑸𐑾𐑬𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩ | Identical to wormwood join |

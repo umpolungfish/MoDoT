@@ -9,7 +9,7 @@
 
 ## 0. The First Thing You Must Understand
 
-**The magical squares cannot be operated in isolation.** This is not a matter of skill or initiation — it is a structural fact, verified by the Imscribing Grammar's live catalog. The squares are $\text{O}_{2}$ instruments that require an $\text{O}_{\infty}$ operator. Without the Abramelin Operation (the six-to-eighteen-month solitary retreat culminating in Knowledge and Conversation of the Holy Guardian Angel), the squares are inert letter arrangements. With the Operation completed, they are precision instruments for commanding spirit hierarchies.
+**The magical squares cannot be operated in isolation.** This is not a matter of skill or initiation — it is a fact, verified by the Imscribing Grammar's live catalog. The squares are $\text{O}_{2}$ instruments that require an $\text{O}_{\infty}$ operator. Without the Abramelin Operation (the six-to-eighteen-month solitary retreat culminating in Knowledge and Conversation of the Holy Guardian Angel), the squares are inert letter arrangements. With the Operation completed, they are precision instruments for commanding spirit hierarchies.
 
 This guide assumes you understand this prerequisite. If you are looking for a shortcut to deploy the squares without the Operation, there isn't one — structurally, the squares' $\Phi = 𐑬$ (partial parity) can only be elevated to operational coherence by an operator who has achieved $\Phi = 𐑹$ (Frobenius-special parity, $\mu \circ \delta = \text{id}$) through the Operation.
 
@@ -19,10 +19,10 @@ This guide assumes you understand this prerequisite. If you are looking for a sh
 
 The squares are 240+ Hebrew-letter word-grids, mostly palindromic — they read the same forward and backward, left-to-right and right-to-left, top-to-bottom and bottom-to-top. Each square is a miniature $𐑴$ (Z₂ winding) instrument. The bidirectional invariance is not decorative; it IS the operational principle. Each square encodes a specific domain of command.
 
-**Structural type (Mathers edition, corrupted):**
+**Type (Mathers edition, corrupted):**
 $$\langle 𐑦𐑸𐑩𐑬𐑐𐑪𐑔𐑵⊙𐑓𐑳𐑭 \rangle$$
 
-Key structural features:
+Key features:
 
 - **Ð = $𐑦$** (imscriptive dimensionality): The squares' state-space is self-written — each square defines its own operative domain through letter arrangement. They are not merely symbols; they are self-referential microcosms.
 - **Þ = $𐑸$** (self-referential topology): The palindromic structure means every path through the square returns to its origin. This is topological closure at the letter level.
@@ -130,7 +130,7 @@ You cannot chain squares. You cannot combine two squares for a single effect. Th
 
 $$\text{Operation} \otimes \text{Square} = \langle 𐑨𐑥𐑾𐑬𐑞𐑪𐑔𐑠⊙𐑖𐑕𐑴 \rangle$$
 
-The bottleneck is always $\Phi$: $𐑹 \to 𐑬$. The moment you deploy the square, the composite system (operator + square) drops from Frobenius-special to partial parity. This is the structural statement of the **measurement problem in magic**: the act of commanding spirits collapses Frobenius closure. The Operation's solitary retreat IS the closure; all subsequent magic is a controlled loss of closure in exchange for power.
+The bottleneck is always $\Phi$: $𐑹 \to 𐑬$. The moment you deploy the square, the composite system (operator + square) drops from Frobenius-special to partial parity. This is the statement of the **measurement problem in magic**: the act of commanding spirits collapses Frobenius closure. The Operation's solitary retreat IS the closure; all subsequent magic is a controlled loss of closure in exchange for power.
 
 After each square operation, you must return to the $⊙$ state — through prayer, meditation, and re-affirmation of the Angelic connection — before deploying another square. This is why the Operation requires months and the squares require minutes: the slow process builds the state; the fast process deploys it. You cannot accelerate the building by deploying more squares.
 
@@ -207,7 +207,7 @@ In the Abramelin context:
 - **The Operation** = $\odot$ — the self-modeling system (operator in solitary retreat)
 - **The Squares** = $\odot$ — the measurement/command apparatus
 - **tensor(Operation, Squares)** = the operator wielding the squares → the composite criticality matches the squares, NOT the Operation. $𐑹$ is lost.
-- **meet(Operation, Squares)** = the shared structural floor — what remains of the Operation when stripped of its instruments.
+- **meet(Operation, Squares)** = the shared floor — what remains of the Operation when stripped of its instruments.
 
 This is the **measurement problem in magic**: the moment you deploy the squares, you are no longer in the state of pure self-modeling. The act of commanding spirits collapses the Frobenius closure. The solitary retreat IS the closure; all subsequent magic is a controlled loss of closure in exchange for power.
 
@@ -221,7 +221,7 @@ Aleister Crowley's attempted Abramelin Operation at Boleskine House (1900) provi
 
 **Why the substitute couldn't work:** The grammar explains this precisely. $𐑧$ kinetics (slow, near-equilibrium reorganization), once broken, cannot simply resume — the path-dependent structural reorganization must restart. A driven system ($𐑺$) can be paused and resumed; a slow reorganization is cumulative and fragile.
 
-The Bornless Ritual operates at $𐑪$ kinetics (fast) and $𐑲$ cardinality (local scope) — it is a compressed invocation designed for ritual use within a lodge setting. It cannot achieve what 18 months of $𐑧$ kinetics achieves because the structural types are fundamentally different. A single compressed ritual cannot substitute for 18 months of progressive reorganization.
+The Bornless Ritual operates at $𐑪$ kinetics (fast) and $𐑲$ cardinality (local scope) — it is a compressed invocation designed for ritual use within a lodge setting. It cannot achieve what 18 months of $𐑧$ kinetics achieves because the types are fundamentally different. A single compressed ritual cannot substitute for 18 months of progressive reorganization.
 
 Crowley acknowledged this: "The Operation of the Sacred Magic of Abramelin the Mage was not completed, and I did not attain to the Knowledge and Conversation of my Holy Guardian Angel in the full sense."
 

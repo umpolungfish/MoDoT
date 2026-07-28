@@ -31,7 +31,7 @@ Click-maths is the simplest operation on this register, and the smallest delta f
 
 ## 3. The azide–alkyne archetype
 
-CuAAC: azide (1,3-dipole, one electronic demand) + alkyne (dipolarophile, complementary demand) → triazole (a closed ring). In the register: fragment A carries the **high** member of a live conjugate pair, B carries the **low** member (complementary offset). They snap; the product is co-typed to the fused tuple, and the fusion closes a ring — a **T shift toward closed/cyclic topology** (Þ), which is the structural signature of a completed click.
+CuAAC: azide (1,3-dipole, one electronic demand) + alkyne (dipolarophile, complementary demand) → triazole (a closed ring). In the register: fragment A carries the **high** member of a live conjugate pair, B carries the **low** member (complementary offset). They snap; the product is co-typed to the fused tuple, and the fusion closes a ring — a **T shift toward closed/cyclic topology** (Þ), which is the signature of a completed click.
 
 ## 4. Mechanism
 

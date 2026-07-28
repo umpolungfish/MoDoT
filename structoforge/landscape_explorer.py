@@ -4,7 +4,7 @@ structoforge/landscape_explorer.py — Structural Landscape Explorer
 
 Navigate the 49 primitive-type natures as a structural landscape.
 Finds neighborhoods, clusters, bridges, and boundaries between
-structural types.
+types.
 
 CAPABILITIES:
   • Neighborhood exploration: find structurally similar types
@@ -186,7 +186,7 @@ def find_tier_boundary_types() -> Dict[str, List[str]]:
         boundary_flags = []
         
         for n, d, axes in neighbors.members:
-            # Check if any axis involves critical structural primitives
+            # Check if any axis involves critical primitives
             if any(a in "⊙⊕" or "odot" in a.lower() for a in axes):
                 boundary_flags.append((n, axes))
         

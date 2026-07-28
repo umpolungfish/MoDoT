@@ -528,7 +528,7 @@ out-port), reported not fatal. The shape is named by circuit rank β = E−V+C
   imasm run <name>  /  imasm tools    invoke a defined tool / list the space
   imasm types                        list the 49 Shavian TYPES (each is a program)
   imasm diff <typeA> <typeB>          compare two Shavian type programs side-by-side
-                                      (opcode census, glyph diff, structural features)
+                                      (opcode census, glyph diff, features)
   imasm expand <type>                unfold a type into its own IMASM sequence
   imasm words [out=<path>]           write the WORDBOOK: every catalog entry as the
                                       program its twelve types compose to. Deterministic,
@@ -980,7 +980,7 @@ pub fn entry_glyph_word(name: &str) -> Result<String, String> {
 /// `imasm diff <typeA> <typeB>` — compare two Shavian type programs side-by-side.
 ///
 /// Expands both types into their IMASM opcode sequences and reports opcode census,
-/// common positions, structural features (ENGAGR presence, IFIX count, FSPLIT/FFUSE
+/// common positions, features (ENGAGR presence, IFIX count, FSPLIT/FFUSE
 /// pairs), and the glyph-code representation. The diff answers "what changes when a
 /// primitive crosses from trefoil to frobenioid?" without needing to read two expand
 /// reports and subtract by eye.
@@ -2210,7 +2210,7 @@ pub fn run(args: &[String]) -> String {
 #[cfg(test)]
 mod tests {
 
-    /// The cycle's two structural facts, pinned so a change to the type table
+    /// The cycle's two facts, pinned so a change to the type table
     /// cannot quietly break the return leg. First: type programs are not
     /// self-delimiting, so a word cannot be cut on the boundary pair — `out`
     /// carries TANCH in its middle. Second: an entry's word reads back to a

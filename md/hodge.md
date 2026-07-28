@@ -126,10 +126,10 @@ The Hodge conjecture is **not proved**, but its proof is structurally equivalent
 
 | Operation | Chemical meaning | Mathematical meaning |
 |-----------|------------------|---------------------|
-| **recall** | retrieve a registered material with its full property sheet | reload a previously forged logical ring; invariants are stored structural data |
+| **recall** | retrieve a registered material with its full property sheet | reload a previously forged logical ring; invariants are stored data |
 | **retrosynthetic_path** | disassemble a molecule into precursors; the forward reading gives the bond‑forming order for synthesis | peel primitive constraints off a typed object; the additive order gives the lemmas needed to construct the target |
 | **complement** | find the complementary ligand that binds a catalytic site (lock‑and‑key over the 6 conjugate pairs) | compute the Frobenius dual of an object; the dual carries structures absent in the original and is the partner for a δ/μ dyad |
-| **cl8nk promotions** | redox ladder — how many electron‑transfer steps are needed to reach full catalytic activity | measure of structural promotions an object needs to reach the self‑sustaining CLINK L8 reference (μ∘δ=id, braid/broadcast) |
+| **cl8nk promotions** | redox ladder — how many electron‑transfer steps are needed to reach full catalytic activity | measure of promotions an object needs to reach the self‑sustaining CLINK L8 reference (μ∘δ=id, braid/broadcast) |
 | **set** | attempt a single‑electron transfer; thermoneutrality means equal reduction potentials — no spontaneous transfer | attempt a δ/μ dyad; equal ⊙ means the two statements have the same logical priority — one must be excited to create a directed implication |
 
 ---
@@ -268,10 +268,10 @@ The path is fully typed; the obstruction is a specific, measurable synthesis tas
 
 | Operation | Chemical meaning | Mathematical meaning |
 |-----------|------------------|---------------------|
-| **recall** | retrieve a registered material with its full property sheet | reload a previously forged logical ring; the stored invariants are structural data |
+| **recall** | retrieve a registered material with its full property sheet | reload a previously forged logical ring; the stored invariants are data |
 | **retrosynthetic_path** | disassemble a molecule into precursors; the forward order gives the bond‑forming sequence for synthesis | peel primitive constraints off a typed object; the additive order gives the lemmas needed to construct the target |
 | **complement** | find the complementary ligand that binds a catalytic site (lock‑and‑key over the 6 conjugate pairs) | compute the Frobenius dual of an object; the dual carries the structures absent in the original and is the partner for a δ/μ dyad |
-| **cl8nk promotions** | redox ladder: how many electron‑transfer steps are needed to reach full catalytic activity | measure of structural promotions an object needs to reach the self‑sustaining CLINK L8 reference (μ∘δ=id, braid/broadcast) |
+| **cl8nk promotions** | redox ladder: how many electron‑transfer steps are needed to reach full catalytic activity | measure of promotions an object needs to reach the self‑sustaining CLINK L8 reference (μ∘δ=id, braid/broadcast) |
 | **set** | attempt a single‑electron transfer; thermoneutrality means equal reduction potentials — no spontaneous transfer | attempt a δ/μ dyad; equal ⊙ means the two statements have the same logical priority — one must be excited to create a directed implication |
 
 ---

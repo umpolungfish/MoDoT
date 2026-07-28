@@ -38,7 +38,7 @@ Jabir also understood the structural stakes of iterative self-verification:
 > *"If you have not understood what I have said, do not despair. Go back to the beginning and read it again, and what you do not grasp the first time will reveal itself on the fourth."*
 > — attributed to Jabir ibn Hayyan
 
-The four readings are the four values of the Belnap lattice. The revelation that comes on the fourth pass is the dialetheia, the Both that the first three passes could not reach. Jabir is not offering pedagogy. He is stating a structural claim: the protocol is self-verifying, and the understanding is constructed inside the reader by iteration through the four-valued lattice.
+The four readings are the four values of the Belnap lattice. The revelation that comes on the fourth pass is the dialetheia, the Both that the first three passes could not reach. Jabir is not offering pedagogy. He is stating a claim: the protocol is self-verifying, and the understanding is constructed inside the reader by iteration through the four-valued lattice.
 
 So the problem is precise. We have a system that never fails its balance check, and we want a second, independent verdict that can fail, one that asks not "was anything lost" but "is this the correct resolution."
 
@@ -51,7 +51,7 @@ Look at what such a grader actually computes. Each criterion is judged two ways,
 > *"If a man begins with certainties, he shall end in doubts; but if he will be content to begin with doubts, he shall end in certainties."*
 > — Francis Bacon, *The Advancement of Learning* (1605)
 
-Bacon's dictum is a structural claim about the direction of the arrow. The clipboard begins with certainties — the requirements — and judges against them. It cannot end anywhere but in the doubt it smuggled in at the start: who chose the requirements? The alchemist who has spent enough time at the furnace knows that the checklist is not external to the work. It coagulates inside the work, as the work, and the attempt to extract it and hold it alongside is the original mistake.
+Bacon's dictum is a claim about the direction of the arrow. The clipboard begins with certainties — the requirements — and judges against them. It cannot end anywhere but in the doubt it smuggled in at the start: who chose the requirements? The alchemist who has spent enough time at the furnace knows that the checklist is not external to the work. It coagulates inside the work, as the work, and the attempt to extract it and hold it alongside is the original mistake.
 
 Worse, the whole apparatus presupposes a correspondence theory of correctness: that truth is matching an external list, that the standard lives outside the object and is applied to it. It chooses weights. It sets thresholds. It appoints an authority that stands apart from the answer and passes judgment on it. In a system whose entire commitment is that structure is identity and that contradiction is first-class, every one of these is a foreign body. The verifier is standing outside the thing it judges, holding a clipboard.
 
@@ -66,12 +66,12 @@ A regress that cannot be grounded can only be closed. You bend the endless line 
 
 ## 3. To verify is to imscribe
 
-The Grammar does not locate an object's truth in its correspondence to an external standard. It locates truth in the object's structural type. Imscription is the act of assigning that type. It is a full Read, Write, and eXecute correspondence between the bulk and the boundary, and it is lossless. This is the difference between imscription and mere encoding. Encoding is Write only, and it discards. Imscription reads the structure that is already there, writes it as a type, and can execute it back, with nothing lost.
+The Grammar does not locate an object's truth in its correspondence to an external standard. It locates truth in the object's type. Imscription is the act of assigning that type. It is a full Read, Write, and eXecute correspondence between the bulk and the boundary, and it is lossless. This is the difference between imscription and mere encoding. Encoding is Write only, and it discards. Imscription reads the structure that is already there, writes it as a type, and can execute it back, with nothing lost.
 
 > *"This [the Divine Water] is the all in everything; for it has life and pneuma... It is neither metal nor water which is always in motion nor a body for it does not hold of itself."*
 > — Zosimos of Panopolis, *On the Divine Water*
 
-Zosimos describes a medium that is neither the thing-in-itself nor an empty container — "it does not hold of itself." It is the imscribing medium exactly: a representation that carries the structure without being the structure, losslessly, so that what goes in can come out whole. The Divine Water is not a solvent in the chemical sense. It is a space of representation, the d=12 SIC frame before complex projective geometry existed to name it. And his insistence that it is "neither metal nor water" — that it is not a member of the class it represents — is the structural claim that the imscribing frame is not itself an imscribed object. It is the medium, and it must remain transparent or the reading is stained.
+Zosimos describes a medium that is neither the thing-in-itself nor an empty container — "it does not hold of itself." It is the imscribing medium exactly: a representation that carries the structure without being the structure, losslessly, so that what goes in can come out whole. The Divine Water is not a solvent in the chemical sense. It is a space of representation, the d=12 SIC frame before complex projective geometry existed to name it. And his insistence that it is "neither metal nor water" — that it is not a member of the class it represents — is the claim that the imscribing frame is not itself an imscribed object. It is the medium, and it must remain transparent or the reading is stained.
 
 Once truth is type, verification has an obvious form that owes nothing to a clipboard. To verify an answer is to imscribe it. You place it in the twelve-primitive type space and read the type it carries. You do not consult a list of what it should be. You read what it is. The verdict is the type, not a grade against something else.
 
@@ -90,12 +90,12 @@ This is the finding that Zosimos placed at the center of his advice to Theosebei
 
 ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑚𐑠⊙𐑖𐑳𐑭⟩
 
-The Portico is the fixed point where the distinctions between asymmetric and symmetric collapse — the system stands at the threshold where it is its own measure. And this is the claim of structural identity at distance zero. The Portico co-types with the parity primitive itself. It co-types with Gödel's incompleteness theorem — "the good is not in externals" is the statement that no consistent formal system can prove its own consistency. Zosimos spoke the exact language of structural mathematics, encoded in the only vocabulary available to a 3rd-century Egyptian Gnostic. The distance between his Portico and Gödel's theorem is zero. Not because he predicted Gödel. Because both describe the same structural fixed point: the threshold at which a system must either model itself or remain incomplete.
+The Portico is the fixed point where the distinctions between asymmetric and symmetric collapse — the system stands at the threshold where it is its own measure. And this is the claim of identity at distance zero. The Portico co-types with the parity primitive itself. It co-types with Gödel's incompleteness theorem — "the good is not in externals" is the statement that no consistent formal system can prove its own consistency. Zosimos spoke the exact language of structural mathematics, encoded in the only vocabulary available to a 3rd-century Egyptian Gnostic. The distance between his Portico and Gödel's theorem is zero. Not because he predicted Gödel. Because both describe the same structural fixed point: the threshold at which a system must either model itself or remain incomplete.
 
 > *"One becomes two, two becomes three, and out of the third comes the one as the fourth."*
 > — Maria the Jewess, *Axiom of Maria* (3rd century)
 
-Maria Prophetissima, a contemporary of Zosimos, left behind the *Axiom of Maria*, which C.G. Jung recognized as the deepest statement of the alchemical dialectic. It reads as a precise account of Belnap's FOUR. One (the undifferentiated state, N) becomes two (the first distinction, T and F). Two becomes three (division generates its own witness, the intermediate space). And out of the third comes the one as the fourth (Both, B, the fiducial that is its own other, the held contradiction that generates the entire lattice). The axiom is not numerological. It is the structural claim that the four-valued logic is not an addition of booleans but a single seed — the dialetheia — that unfolds into the full lattice without ever passing through explosion. The kernel's Belnap state machine is Maria's axiom running autonomously. Every state is T, F, Both, or Neither. Ex falso is disabled because Both does not reduce to False.
+Maria Prophetissima, a contemporary of Zosimos, left behind the *Axiom of Maria*, which C.G. Jung recognized as the deepest statement of the alchemical dialectic. It reads as a precise account of Belnap's FOUR. One (the undifferentiated state, N) becomes two (the first distinction, T and F). Two becomes three (division generates its own witness, the intermediate space). And out of the third comes the one as the fourth (Both, B, the fiducial that is its own other, the held contradiction that generates the entire lattice). The axiom is not numerological. It is the claim that the four-valued logic is not an addition of booleans but a single seed — the dialetheia — that unfolds into the full lattice without ever passing through explosion. The kernel's Belnap state machine is Maria's axiom running autonomously. Every state is T, F, Both, or Neither. Ex falso is disabled because Both does not reduce to False.
 
 ## 5. The SIC-POVM frame
 
@@ -115,7 +115,7 @@ In the older language this is a single image. The SIC is the perfectly transpare
 > *"This [the Divine Water] is the all in everything; for it has life and pneuma... It is neither metal nor water which is always in motion nor a body for it does not hold of itself."*
 > — Zosimos of Panopolis, *On the Divine Water* (again, because it carries both)
 
-One caution keeps the image honest. A solvent that dissolved everything would leave an empty flask, and the empty flask is the void, N, dissolution with no residue. The SIC is the perfect menstruum precisely because it is not that. It dissolves the contingent, the presentation and the bias, and it is lossless on the fixed, so the structural type survives the bath as the salt that precipitates when the liquor is drawn off. Solve et coagula is written into it directly. δ is the solve, the state taken up into its SIC probabilities. μ is the coagula, the salt returned whole. What is left in the flask is the type, and only the type.
+One caution keeps the image honest. A solvent that dissolved everything would leave an empty flask, and the empty flask is the void, N, dissolution with no residue. The SIC is the perfect menstruum precisely because it is not that. It dissolves the contingent, the presentation and the bias, and it is lossless on the fixed, so the type survives the bath as the salt that precipitates when the liquor is drawn off. Solve et coagula is written into it directly. δ is the solve, the state taken up into its SIC probabilities. μ is the coagula, the salt returned whole. What is left in the flask is the type, and only the type.
 
 > *"...drawing the spirits from bodies and bonding the spirits within bodies."*
 > — Zosimos of Panopolis, *On the Letter Omega*
@@ -132,7 +132,7 @@ Maria's axiom — "one becomes two, two becomes three, and out of the third come
 
 The verifier is still tempted to stand outside and measure. The Dual-Link dissolves that too. There are two imscriptions in play: the answer's own self-imscription, the voice it declares for itself, and the Grammar's imscription of the answer against the demand. These are the two links. They are not judge and judged. They are two readings of one object, and they are fused by the lattice join, μ. Where they agree, the fusion passes through. Where they genuinely conflict, the join lifts to Both and the contradiction is held, with the distance between the readings recorded as how live that contradiction is.
 
-This is the structural content of Zosimos's most remarkable claim:
+This is the content of Zosimos's most remarkable claim:
 
 > *"Nature, acquiring the opposite quality in its own right, becomes solid and fixed, dominating and dominated... It acquires its own sulphurous quality."*
 > — Zosimos of Panopolis, *On the Letter Omega*
@@ -142,7 +142,7 @@ This is the structural content of Zosimos's most remarkable claim:
 > *"Nature, turning on itself, is transformed."*
 > — Zosimos of Panopolis, *On the Letter Omega*
 
-This single sentence is the complete structural theorem. Nature (the system) turning on itself (self-modeling, the ⊙ gate open) is transformed (the round trip through δ and μ returns a co-typed state at a higher resolution). Zosimos needed no algebra because the algebra was already in the structure he was describing. The grammar's finding that co-typing is identity is Zosimos's finding that "all things by division and union come together in a harmony." The two statements are identical in meaning. The distance between them is zero.
+This single sentence is the complete theorem. Nature (the system) turning on itself (self-modeling, the ⊙ gate open) is transformed (the round trip through δ and μ returns a co-typed state at a higher resolution). Zosimos needed no algebra because the algebra was already in the structure he was describing. The grammar's finding that co-typing is identity is Zosimos's finding that "all things by division and union come together in a harmony." The two statements are identical in meaning. The distance between them is zero.
 
 ## 8. Failure is localized, not scalar
 
@@ -151,7 +151,7 @@ Because the verdict is a type and not a number, failure carries an address. When
 > *"The blacker the black, the more assured the work. Know then that the dissolution of the body is the coagulation of the spirit."*
 > — *Rosarium Philosophorum*
 
-Nigredo, the blackening, is not a uniform failure. It is a specific diagnosis. The alchemist reads the color not as a score on a continuum from black to white but as a phase with an address — *which* body is dissolving, *which* spirit is coagulating. The *Rosarium* links the two: dissolution of body *is* coagulation of spirit. This is the same structural claim as the primitive divergence: when two types part ways at a specific primitive, the failure is not a scalar. It is a named location, and the name tells you what to attend to. The clipboard returns 0.4 and you guess. The type returns "chirality" and you know where to look.
+Nigredo, the blackening, is not a uniform failure. It is a specific diagnosis. The alchemist reads the color not as a score on a continuum from black to white but as a phase with an address — *which* body is dissolving, *which* spirit is coagulating. The *Rosarium* links the two: dissolution of body *is* coagulation of spirit. This is the same claim as the primitive divergence: when two types part ways at a specific primitive, the failure is not a scalar. It is a named location, and the name tells you what to attend to. The clipboard returns 0.4 and you guess. The type returns "chirality" and you know where to look.
 
 A scalar verdict destroys localization because it folds the twelve axes into one number. The collapse is irreversible. No amount of post-hoc analysis can recover which primitives drove the score, because the score records only the magnitude of the divergence, not its structure. The clipboard's very output format — a single number — is a lossy compression that throws away the only information that could guide a repair.
 
@@ -166,7 +166,7 @@ The claims above are checkable and were checked rather than asserted. The loaded
 
 Newton, whose alchemical writings ran to over a million words and remained unpublished in his lifetime, understood that the only certification that matters is reproducibility. The protocol is laid before the reader to test. The claims are checkable, and they were checked. The d=12 fiducial is equiangular to machine precision. The verdicts are reachable. The frame is not a stand-in. Newton's furnace notes and the kernel's SIC probe are the same genre: a protocol, a test, and an invitation to verify.
 
-Zosimos built six computational engines (in the alchemical sense — stills, condensers, kerotakis) that performed the same promotion ladder across different substrates. His breakthrough, invisible to every later alchemist, was recognizing that the grammar is substrate-independent. The same structure that governs copper purification in a furnace governs the liberation of the soul from Fate's processions. The apparatus IS the practice, encoded in a different substrate. The Stilling Practice and the external alchemy are not two things. They are one structure, and Zosimos could write equally about furnaces and about freedom because he knew there was no contradiction between them. This is the structural claim that the tool that recognizes the doorway and the doorway are the same shape — the claim that co-typing is identity, made operational in the 3rd century.
+Zosimos built six computational engines (in the alchemical sense — stills, condensers, kerotakis) that performed the same promotion ladder across different substrates. His breakthrough, invisible to every later alchemist, was recognizing that the grammar is substrate-independent. The same structure that governs copper purification in a furnace governs the liberation of the soul from Fate's processions. The apparatus IS the practice, encoded in a different substrate. The Stilling Practice and the external alchemy are not two things. They are one structure, and Zosimos could write equally about furnaces and about freedom because he knew there was no contradiction between them. This is the claim that the tool that recognizes the doorway and the doorway are the same shape — the claim that co-typing is identity, made operational in the 3rd century.
 
 ## 10. As above, so below
 

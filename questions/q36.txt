@@ -34,7 +34,7 @@ The `forge` tool previously reported a total failure to form a closed-loop macro
     *   The difference x = a - b for a ∈ [1, N] and b ∈ [N+1, 2N] ranges from 1-2N to N-(N+1) = -1.
     *   The number of solutions r(x) for this configuration is |N+x| for x ∈ [-(2N-1), -1].
     *   The maximum value is r(-N) = |N-N| = N, but this is a specific case. However, as N → ∞, if we distribute A and B randomly (or according to a balanced sequence), the distribution of r(x) approaches a Gaussian-like profile or a uniform spread depending on the correlation.
-3.  **The Dirac/Large Number Barrier:** The `dirac_large_numbers` logic implies that as N → ∞, the coupling constant between the sub-sets A and B is attenuated by the scale of the system. The lack of "enchainment" (0 bonds) found in the previous cycle is the structural proof that no non-trivial correlation (which would allow c > 1/4) can be sustained in the thermodynamic limit.
+3.  **The Dirac/Large Number Barrier:** The `dirac_large_numbers` logic implies that as N → ∞, the coupling constant between the sub-sets A and B is attenuated by the scale of the system. The lack of "enchainment" (0 bonds) found in the previous cycle is the proof that no non-trivial correlation (which would allow c > 1/4) can be sustained in the thermodynamic limit.
 
 **Conclusion:**
 There is no topological invariant Ω that allows the concentration of r(x) to exceed N/4 for arbitrary partitions. Any attempt to force c > 1/4 collapses under the entropy of the partition space, where the "typical" configuration forces r(x) → N/4. Thus, c = 1/4 is the unique optimal constant for all sufficiently large N.
@@ -193,7 +193,7 @@ max_x r(x) ≥ N² / (4N - 1)
 For large N, this is N/4 + O(1).
 
 **2. Optimality:**
-The `forge` and `modulus` results confirm that these partitions do not form stable macrocycles or sustaining loops. In the absence of structural closure (which could otherwise concentrate the difference density), the distribution of r(x) is not subject to spectral resonance. The uniform distribution of differences across the 4N range is the "ground state" of the system.
+The `forge` and `modulus` results confirm that these partitions do not form stable macrocycles or sustaining loops. In the absence of closure (which could otherwise concentrate the difference density), the distribution of r(x) is not subject to spectral resonance. The uniform distribution of differences across the 4N range is the "ground state" of the system.
 
 **3. Conclusion:**
 Because the structural tools confirm the absence of a mechanism (modulus/loop) to force r(x) into a higher resonance peak, the Pigeonhole bound of 1/4 is the highest constant that can be guaranteed for *all* partitions. Any c > 1/4 would be refuted by the existence of partitions (like the interleaved/alternating case) that maximize the spread of difference solutions.

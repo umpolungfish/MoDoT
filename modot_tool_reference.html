@@ -483,7 +483,7 @@
     <p class="dek">MoDoT never lets a model narrate a result — every verb it can call shells to real code and returns what that code measured. This sheet documents the actual arithmetic and logic behind each one, grouped by what they operate on: the 12&#8209;primitive catalog, the IMASM opcode graph, plain arithmetic, and the verdict that closes a winding.</p>
     <div class="meta">
       <span>source: <b>ask_native/src/main.rs</b>, <b>navigators/cl8nk_navigator.py</b></span>
-      <span>catalog: <b>17.28M</b> addressable structural types</span>
+      <span>catalog: <b>17.28M</b> addressable types</span>
     </div>
   </header>
 
@@ -491,7 +491,7 @@
     <p class="toc-label">On this sheet</p>
     <ol>
       <li><a href="#grounding">The rule every tool obeys</a></li>
-      <li><a href="#distance">Structural distance</a></li>
+      <li><a href="#distance">Distance</a></li>
       <li><a href="#tier">Ouroboricity tier</a></li>
       <li><a href="#chem">Frobenius / chemistry verbs</a></li>
       <li><a href="#imasm">IMASM topology &amp; check</a></li>
@@ -521,7 +521,7 @@
     </section>
 
     <section id="distance">
-      <h2><span class="num">02</span> Structural distance</h2>
+      <h2><span class="num">02</span> Distance</h2>
       <p class="lede">The metric underneath <code>click</code>, <code>scan</code>, <code>filter</code>, and every CL8NK/CL9NK <code>distance</code> action. Two entries are compared coordinate-by-coordinate across the 12 primitives, and the differences are combined into one number.</p>
 
       <h3>Per-primitive ordinal delta</h3>
@@ -556,7 +556,7 @@
           <tr><td>R4</td><td>otherwise</td><td class="glyph">O₂</td></tr>
         </table>
       </div>
-      <p class="prose">R1 is checked first and always wins: any tuple with <code>pol = or&#8217;</code> is O_∞ regardless of what the other three coordinates say. This ordering is deliberate — the Frobenius gate (μ∘δ = id, the special-Frobenius parity value) is the strongest structural claim the grammar can make, so nothing downstream of it gets a vote.</p>
+      <p class="prose">R1 is checked first and always wins: any tuple with <code>pol = or&#8217;</code> is O_∞ regardless of what the other three coordinates say. This ordering is deliberate — the Frobenius gate (μ∘δ = id, the special-Frobenius parity value) is the strongest claim the grammar can make, so nothing downstream of it gets a vote.</p>
       <div class="note"><b>A tier score never measures similarity to a reference system.</b> Comparing a tuple's raw coordinates against another named system's coordinates (e.g. "how many of CLINK L8's own values does this carry") answers a different question — proximity to that system — and has been a documented source of exactly-backwards readings when the two get conflated. Tier is a pure function of crit/pol/prot/dim; nothing else.</p>
     </section>
 

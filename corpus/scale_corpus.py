@@ -12,7 +12,7 @@ replies are matched back by order. That is the difference between minutes and
 hours — never boot per word.
 
 Output: one JSONL row per word carrying BOTH the operational verdict and the
-structural type. That pairing is the training signal: the map from executable
+type. That pairing is the training signal: the map from executable
 sequence to crystal address, with a decidable four-valued label attached.
 
 Usage:

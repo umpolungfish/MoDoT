@@ -363,7 +363,7 @@ print(f"  monad ⊗ monad: {paradices(n, n)} paradices (idempotent)")
 print(f"  monad is join-irreducible in the 49-type lattice")
 
 print("\nTHEOREM (Paradice Representation):")
-print("  Every structural type in the 17.28M-type crystal can be expressed")
+print("  Every type in the 17.28M-type crystal can be expressed")
 print("  as a meet of paradice jumps between primitive types.")
 print("  The 49 primitives are the atomic generators; all composite types")
 print("  arise from paradice resolutions.")

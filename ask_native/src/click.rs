@@ -3568,7 +3568,7 @@ pub fn run_polymerize(
 }
 
 // ── Three verbs the agent kept reaching for and finding absent ───────────────
-// filter (narrow a candidate pool by the structural floor), ascend (construct the
+// filter (narrow a candidate pool by the floor), ascend (construct the
 // next ramified level of a tower from the excited state), and phase_reconstruct
 // (recover the relative phase word from a closed ring). Each does a REAL, defined
 // operation over the tuples and reports the honest result — including when the
@@ -3612,7 +3612,7 @@ pub fn run_filter(catalog: Option<&[CatalogEntry]>, refs: &[String]) -> i32 {
             shared.push(p);
         }
     }
-    println!("filter (narrow to the structural floor of {{{}}}):", refs.join(", "));
+    println!("filter (narrow to the floor of {{{}}}):", refs.join(", "));
     if shared.is_empty() {
         println!("  the references share NO common primitive value — the floor is empty, so every entry trivially passes (no narrowing). The refs are too dissimilar to define a floor.");
         return 0;

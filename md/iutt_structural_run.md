@@ -13,7 +13,7 @@ for a monomer that would bridge a break. `fdistill` separates two components
 and reports whether they can be separated at all. `annihilate` fuses a pair and
 reports the fusion channel. `imasm prove` puts a candidate closure to the Lean
 kernel. The reading is not an analogy: a chain that fails to close and a map
-that fails μ∘δ = id are the same structural fact in two registers, and the run
+that fails μ∘δ = id are the same fact in two registers, and the run
 uses that identity throughout.
 
 ## The three findings that hold

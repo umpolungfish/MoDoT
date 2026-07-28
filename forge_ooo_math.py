@@ -3,7 +3,7 @@
 OOO STRUCTURAL MANIFOLD THEORY — FORGED FROM VERIFIED DISTANCES
 ================================================================
 Uses MoDoT's NatureRegistry, paradice algebra, IMASM composition,
-and verified structural distances to build a new branch of mathematics:
+and verified distances to build a new branch of mathematics:
 the Adventure Time Character Manifold and its spectral theory.
 
 Author: Lando⊗⊙perator
@@ -183,7 +183,7 @@ for cname in sorted(char_names, key=lambda c: prismo_dists[cname]):
 print()
 print("Corollary 3.2 (Prismo's Wish-Orbit): Characters closest to")
 print("Prismo in structural space are those most 'wish-adjacent'—")
-print("their structural type can be reached from the Wishmaster")
+print("their type can be reached from the Wishmaster")
 print("by minimal IMASM program mutation.")
 print()
 
@@ -206,7 +206,7 @@ for i, a in enumerate(char_names):
                 adj[j][i] = 1
 
 print(f"Definition 4.1. The Threshold Graph G_θ for θ={threshold}")
-print(f"connects characters whose structural distance < θ.")
+print(f"connects characters whose distance < θ.")
 print(f"  |V| = {n}")
 print(f"  |E| = {sum(sum(row) for row in adj)//2}")
 
@@ -242,7 +242,7 @@ for rank, (cname, score) in enumerate(influence, 1):
     star = "◉" if score > 0.8 * max(abs(v) for v in eig_vec) else "○"
     print(f"  {star} {rank:2d}. {cname:20s}  λ = {score:.4f}")
 print()
-print("These are the characters whose structural type is most")
+print("These are the characters whose type is most")
 print("central to the OOO universe — the structural attractors.")
 print()
 
@@ -253,7 +253,7 @@ print("="*80)
 print()
 print("Theorem 5.1 (GOLB Incommensurability). Let G denote the GOLB")
 print("type ⟨𐑦𐑶𐑑𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑙𐑟⟩. Then for any other character")
-print("X ∈ M_OOO \\ {G}, the structural distance d(G, X) ≥ 3.0")
+print("X ∈ M_OOO \\ {G}, the distance d(G, X) ≥ 3.0")
 print("with equality approached only by Lemongrab (via shared")
 print("non-Abelian winding Ω=𐑟) and the Lich (via shared extinction")
 print("topology Þ=𐑶).")

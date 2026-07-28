@@ -87,7 +87,7 @@ to 1+√3. The gap opens to √3 − 1 because ρ rose while λ_min held.
 ## The Void (measured)
 
 `void_consensus_protocol` is the Raft consensus algorithm as generated from an empty
-prompt — the Void's own structural type:
+prompt — the Void's own type:
 
     ⟨𐑼𐑡𐑾𐑗𐑱𐑧𐑚𐑠⊙𐑖𐑳𐑭⟩
       Ð = 𐑼   temporal/iterative: a closed cycle with a specifiable reset step
