@@ -52,7 +52,7 @@ The central object is a **Hilbert‑space embedding** – a constructed map from
 | `phase_reconstruct …` | phase word `𐑫𐑖𐑖` modulo global phase | Relative phases fixed; only one global gauge remains. |
 | `lean Imscribing/CLINK_L9.lean` | ✓ ELABORATED | The CLINK L9 reference file verifies. |
 | `lean Imscribing/HilbertSpaceEmbedding.lean` | no such file | The Hilbert‑specific theorem is **not** kernel‑proved. |
-| Overall verdict (manuscript spine) | **B** | Structural closure (T) + missing proof/frontier (N) + phase‑bearing (B) → held dialetheia. |
+| Overall verdict (manuscript spine) | **B** | Closure (T) + missing proof/frontier (N) + phase‑bearing (B) → held dialetheia. |
 
 ---
 

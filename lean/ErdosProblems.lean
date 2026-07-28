@@ -1529,7 +1529,7 @@ forces O₀ tier. The construction is cold — it relies on sparsity
 This is the same tier as Erdős-Kac Interval and Triangle Partition,
 which are also subcritical problems.
 
-**Key structural features:**
+**Key features:**
   - T=mime (crossing): This IS the content of De Bruijn-
     Erdős failing at ℵ₁. When the finite-to-infinite transition is
     continuous (T=eat, inclusion), the theorem holds. When it crosses
@@ -1793,7 +1793,7 @@ boundary in infinite graph theory — a single primitive distinguishes
 the applicable from the inapplicable regime.
 
 **Connection to the Crystal of Types:**
-Among all 17.28M structural types, those with T=eat and K=egg
+Among all 17.28M types, those with T=eat and K=egg
 (like erdos_hajnal_linear_bound_case) occupy the tame region
 where compactness arguments hold. Types with T=mime and K=egg
 (like erdos_hajnal_aleph1_graph) occupy the wild region where

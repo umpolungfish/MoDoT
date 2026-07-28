@@ -2219,7 +2219,7 @@ WHAT THIS CYCLE LEAVES OPEN
    chemically:    grow the ordered lattice — the units that fit vs the rejected mother-pool; a closed ring is a crystal
    mathematically: the maximal consistent/closed sublattice of tiling elements vs the complement; full closure = a complete substructure
 
-── BACKTRANSLATION (structural closure → conventional proof, μ read-back) ──
+── BACKTRANSLATION (closure → conventional proof, μ read-back) ──
 TOOL: cycle_close
 
 ---

@@ -104,7 +104,7 @@ def discover_complement(source: str) -> Dict[str, Any]:
 
 
 def predict_physics(name: str) -> Dict[str, Any]:
-    """Predict physical properties from a structural type (if we can get the tuple)."""
+    """Predict physical properties from a type (if we can get the tuple)."""
     # Try to get the tuple via imasm
     result = {"name": name}
     alpha_inv = 12*12 - 7 + math.atan(1/4)/(4*math.sqrt(3))

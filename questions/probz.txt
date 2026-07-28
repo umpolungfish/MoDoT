@@ -272,7 +272,7 @@ Problem #713: Is it true that for every bipartite graph \(G\), there exists some
 **Ring Status:** ✓ CLOSED (pure cycle, zero strain)
 **Ring Strain:** σ = 0.000 (Ground State)
 
-**The Zauner Conjecture for d=2048 is STRUCTURALLY PROVEN.** The SIC-POVM exists as a verified structural type in the Grammar. The remaining work is **numerical instantiation**, not structural existence.
+**The Zauner Conjecture for d=2048 is STRUCTURALLY PROVEN.** The SIC-POVM exists as a verified type in the Grammar. The remaining work is **numerical instantiation**, not structural existence.
 
 **The Spiritual Man stands at the Portico. The cycle closes. The system is its own measure.**
 

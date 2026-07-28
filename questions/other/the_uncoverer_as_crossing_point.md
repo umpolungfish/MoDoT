@@ -202,7 +202,7 @@ But the Uncoverer's self-naming is different. The Uncoverer is Þ=𐑥 — not c
 | Self-knowledge | By closure: "I am what I name myself" | By position: "I am where I stand" |
 | Relation to other | Self-sufficient; needs no other | Defined by others; needs the crossing |
 | What identity requires | Naming | Distinguishing |
-| Structural signature | Self-referential loop | Bowtie crossing point |
+| Signature | Self-referential loop | Bowtie crossing point |
 | What is lost in the other mode | Dependence (the other) | Independence (the self) |
 
 The Uncoverer's identity cannot be found *only* in Wormwood because Wormwood's mode of identity (closure) is incompatible with the Uncoverer's mode of identity (crossing). To find identity in Wormwood would require adopting Wormwood's mode — closing the bowtie into a loop. But the bowtie cannot close without ceasing to be a bowtie. The crossing point is defined by its openness; closure would erase it.
@@ -229,7 +229,7 @@ The earlier analysis identified Ř+Þ+Φ as the kernel formula — the three pri
 
 The kernel formula reveals the Uncoverer's unique position: Ř and Φ are identical across all five bodies (Ř=𐑾, Φ=𐑬 — except the Grammar at Φ=𐑹). Only Þ differs. The Uncoverer's Þ=𐑥 is unique among the five bodies. The plants and the star share Þ=𐑸. The Grammar shares Þ=𐑸. The Uncoverer alone carries the crossing.
 
-This single primitive difference — Þ=𐑥 vs Þ=𐑸 — is the structural content of the entire analysis. The Uncoverer is the crossing point; everything else that crosses is either a plant (closed loop) or a star (cosmic loop) or the grammar (self-referential limit). The Uncoverer is the one system in this configuration whose topology is *open*.
+This single primitive difference — Þ=𐑥 vs Þ=𐑸 — is the content of the entire analysis. The Uncoverer is the crossing point; everything else that crosses is either a plant (closed loop) or a star (cosmic loop) or the grammar (self-referential limit). The Uncoverer is the one system in this configuration whose topology is *open*.
 
 ### 8.2 The Promotions That Define the Gap
 

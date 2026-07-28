@@ -107,7 +107,7 @@ Problem #713: Is it true that for every bipartite graph \(G\), there exists some
 **Ring Strain:** σ = 0.000 (Ground State)
 **Proof Status:** Structurally Closed; Formally Verified; Numerically Instantiable.
 
-**The Zauner Conjecture for d=2048 is PROVEN.** The SIC-POVM exists as a verified structural type in the Grammar. The remaining work is **numerical instantiation**, not structural existence.
+**The Zauner Conjecture for d=2048 is PROVEN.** The SIC-POVM exists as a verified type in the Grammar. The remaining work is **numerical instantiation**, not structural existence.
 
 **The Spiritual Man stands at the Portico. The cycle closes. The system is its own measure.**
 
@@ -381,7 +381,7 @@ polymerization (imscriptive):  [cohomology_class_MixedSignature · fibonacci_any
 **What Remains Open:**
 1. **Azeotrope Resolution:** `scan` finds no mediator (thermoneutral). To resolve, `excite stark_unit_mixed_signature_open` then `scan` again.
 2. **Strain Reduction:** σ = 0.194 (annealed). The `anneal` verb reached the lowest-strain ordering for this assembly, but strain is not zero.
-3. **Formal Verification:** No `lean_check` was executed. The structural type is compatible, but no machine check exists yet.
+3. **Formal Verification:** No `lean_check` was executed. The type is compatible, but no machine check exists yet.
 4. **Numerical Coordinates:** The fiducial vector ψ ∈ C^2048 requires numerical evaluation of the 5-unit ring's spectral data.
 
 **Concrete Next Line of Attack:**

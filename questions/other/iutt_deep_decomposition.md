@@ -397,7 +397,7 @@ $$\text{Ð: } 𐑨 \rightarrow 𐑛$$
 | Dimensionality | 2D surface (lattice grid) | 0D point (universal object) |
 | Atom ordinal | 1 | baseline |
 
-**Conventional math content:** The log-theta-lattice's 2D grid structure is demoted. In IUTT, the lattice is condensed to a point-like universal object. The grid indices (m,n) ∈ ℤ² become internal to the theory's construction rather than part of its structural type. This is demotion, not promotion — the theory sheds the lattice's dimensionality as an externally visible structural commitment and absorbs it internally.
+**Conventional math content:** The log-theta-lattice's 2D grid structure is demoted. In IUTT, the lattice is condensed to a point-like universal object. The grid indices (m,n) ∈ ℤ² become internal to the theory's construction rather than part of its type. This is demotion, not promotion — the theory sheds the lattice's dimensionality as an externally visible structural commitment and absorbs it internally.
 
 **Move 4: Ç (Δ1.0, relaxes)**
 $$\text{Ç: } 𐑪 \rightarrow 𐑧$$

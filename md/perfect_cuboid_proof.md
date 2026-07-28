@@ -306,7 +306,7 @@ class="math inline"><em>Ω</em><sub><em>z</em></sub></span> topological
 invariant: a conserved charge that counts completed constraint cycles.
 The number-theoretic interpretation is straightforward — each completed
 cycle represents one full check of the Diophantine system — but the
-structural role is deeper. The winding number is what makes the proof
+role is deeper. The winding number is what makes the proof
 <em>self-modeling</em> rather than merely <em>self-aware</em>. A
 self-aware proof knows its own status. A self-modeling proof carries a
 state variable that its own rules govern.</p>

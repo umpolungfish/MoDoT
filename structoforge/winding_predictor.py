@@ -3,16 +3,16 @@ structoforge/winding_predictor.py — Physical Property Predictor
 ================================================================
 
 Uses horn torus winding geometry to predict physical properties
-from structural types. Grounded in the MoDoT torus module which
+from types. Grounded in the MoDoT torus module which
 derives fundamental constants from pure winding arithmetic.
 
 KEY INSIGHT:
-  The 12 structural primitives map to winding coordinates on the
+  The 12 primitives map to winding coordinates on the
   horn torus (R=r, A/V=1, self-dual). Physical constants emerge
   as winding arithmetic on this geometry.
 
 PREDICTIONS:
-  • Fine-structure constant α from structural type
+  • Fine-structure constant α from type
   • Mass ratios from winding number coincidences
   • Energy scales from harmonic series on the torus
   • Spectral lines from winding transitions
@@ -44,7 +44,7 @@ D = 12                         # SIC-POVM dimension
 
 @dataclass
 class PhysicalPrediction:
-    """Predicted physical properties from a structural type."""
+    """Predicted physical properties from a type."""
     name: str
     
     # Fundamental constants
@@ -151,7 +151,7 @@ def _sin2_theta_w_from_type(tuple_str: str) -> float:
 def predict_from_tuple(name: str, tuple_str: str, 
                        winding: Optional[int] = None) -> PhysicalPrediction:
     """
-    Predict physical properties from a structural type tuple.
+    Predict physical properties from a type tuple.
     
     Args:
         name: Name for this prediction

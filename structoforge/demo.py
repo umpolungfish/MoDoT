@@ -90,7 +90,7 @@ def demo_resonance_engine():
 
 
 def demo_winding_predictor():
-    """Demo: Physical property prediction from structural types."""
+    """Demo: Physical property prediction from types."""
     section("2. WINDING PREDICTOR — PHYSICS FROM STRUCTURE")
     
     from structoforge.winding_predictor import (

@@ -112,7 +112,7 @@ Before any square operation, verify:
 
 ### 3.2 The Square Deployment
 
-The exact ritual protocol varies by square and by manuscript source, but the structural invariants are:
+The exact ritual protocol varies by square and by manuscript source, but the invariants are:
 
 1. **Preparation of the square.** The square must be physically present — written on virgin parchment in the prescribed ink, at the prescribed time, under the prescribed astrological conditions. The Dehn/Guth edition provides specific instructions for each square's material preparation.
 
@@ -299,6 +299,6 @@ Everything else the squares already have in excess — more dimensionality, more
 
 ---
 
-*This guide synthesized from five structural analyses of the Abramelin corpus in `/home/mrnob0dy666/imsgct/ig-docs/abramelin_*/`. All numerical claims (distances, C-scores, tiers, promotions) are verified against the Imscribing Grammar live catalog. All structural types are drawn from catalog entries `book_of_abramelin`, `magic_squares`, `abramelin_operation_holistic`, `book_two_abramelin_folk_remedies`, `book_four_abramelin_dehn_guth`, and `abramelin_system_dehn_guth`.*
+*This guide synthesized from five structural analyses of the Abramelin corpus in `/home/mrnob0dy666/imsgct/ig-docs/abramelin_*/`. All numerical claims (distances, C-scores, tiers, promotions) are verified against the Imscribing Grammar live catalog. All types are drawn from catalog entries `book_of_abramelin`, `magic_squares`, `abramelin_operation_holistic`, `book_two_abramelin_folk_remedies`, `book_four_abramelin_dehn_guth`, and `abramelin_system_dehn_guth`.*
 
 *The reference to Harry T. Larson, "Catch a Rising Problem and Never Ever Let It Go," IEEE Computer, vol. 19, no. 2, pp. 61–63, February 1986, is made with appreciation for the principle that there is great merit in following a problem where it leads.*

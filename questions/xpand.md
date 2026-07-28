@@ -1312,7 +1312,7 @@ MANUSCRIPT SPINE REPORT
 ============================================================
 ── cycle 9/10 ──
 ── ANSWER ──
-Building upon the previous cycle's establishment of the **4-membered cyclic macrocycle** `[erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph · time_concept]`, we now shift from structural verification to the **functional interrogation** of the internal stress within this macrocycle.
+Building upon the previous cycle's establishment of the **4-membered cyclic macrocycle** `[erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph · time_concept]`, we now shift from verification to the **functional interrogation** of the internal stress within this macrocycle.
 
 ### 1. Stress-Testing the Macrocycle (The "Internal Dynamics")
 The previous cycle confirmed the existence of the macrocycle (ρ = 2.0). We now probe the *conductance* of this ring by applying an external perturbation to the `collatz_graph` monomer.
