@@ -959,6 +959,146 @@
     ],
     "weakest": 1.25
   },
+  "goldbach_dissipative_closure": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 4.0,
+    "n": 3,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      -1.0,
+      -1.0
+    ],
+    "strain": 0.1571,
+    "units": [
+      "non_hermitian_circle_method",
+      "goldbach_atoms",
+      "Branch_the_system_into_distinct_eigenmode_trajectories"
+    ],
+    "weakest": 0.6667
+  },
+  "goldbach_final_closure": {
+    "branched": false,
+    "conductance": "INSULATING",
+    "energy": 12.9443,
+    "n": 10,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.618,
+      1.618,
+      0.618,
+      0.618,
+      -0.618,
+      -0.618,
+      -1.618,
+      -1.618,
+      -2.0
+    ],
+    "strain": 0.423,
+    "units": [
+      "singular_series_invariant",
+      "one_way_speed_measurement",
+      "extradimensional_entity",
+      "wow_signal",
+      "CH_false",
+      "goldbach_density_invariant",
+      "goldbach_conjecture_proven",
+      "riemann_zeta_function",
+      "goldbach_excitation_sequence",
+      "bridge_parity_product"
+    ],
+    "weakest": 1.0
+  },
+  "goldbach_final_completion": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.3246,
+    "n": 4,
+    "rho": 3.1623,
+    "spectrum": [
+      3.1623,
+      0.0,
+      -0.0,
+      -3.1623
+    ],
+    "strain": 0.0,
+    "units": [
+      "L9-transcendence_operator",
+      "goldbach_O1_manifold",
+      "modularity_theorem",
+      "goldbach_completion_mediator"
+    ],
+    "weakest": 1.0
+  },
+  "goldbach_superconducting_macrocycle": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 4.0,
+    "n": 3,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      -1.0,
+      -1.0
+    ],
+    "strain": 0.3425,
+    "units": [
+      "riemann_zeta_function",
+      "0xAF-M-2024_B",
+      "zeta_goldbach_mediator"
+    ],
+    "weakest": 0.5
+  },
+  "goldbach_superconducting_theorem_architecture": {
+    "branched": false,
+    "conductance": "INSULATING",
+    "energy": 9.6569,
+    "n": 8,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.4142,
+      1.4142,
+      0.0,
+      -0.0,
+      -1.4142,
+      -1.4142,
+      -2.0
+    ],
+    "strain": 0.6505,
+    "units": [
+      "modularity_theorem",
+      "O_inf_plus",
+      "magnetic_reconnection",
+      "minor_arc_bound",
+      "zeta_goldbach_mediator",
+      "hardy_littlewood_circle_method",
+      "goldbach_braid_resolver",
+      "addr_1231231"
+    ],
+    "weakest": 0.5
+  },
+  "goldbach_transfinite_theorem": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 5.4641,
+    "n": 3,
+    "rho": 2.7321,
+    "spectrum": [
+      2.7321,
+      -0.7321,
+      -2.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "trans_finite_regime",
+      "goldbach_braid_resolver",
+      "modularity_theorem"
+    ],
+    "weakest": 1.3333
+  },
   "h0_axis_seal_macrocycle": {
     "branched": false,
     "conductance": "FRUSTRATED",
