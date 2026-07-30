@@ -1,9 +1,40 @@
-lattice_cycle and weight_flow reach MoDoT.
+k3v: unbreak the scene, then make the panels usable on a phone
 
-The bridge already loads the live IG dispatcher, so both arrive by naming their
-arguments rather than by reimplementing anything.
+The first script block did not parse. Twenty-one material definitions carried
+_igKey: \'torusSurf\' — a backslash-escaped quote in bare code, not inside a
+string — so the whole block was a syntax error and the Three.js scene never
+initialised. Forty-two escapes removed; both inline blocks now parse under
+node --check. Everything below only matters because of this.
 
-lattice_cycle walks a word around its ROTAT orbit: the verdict and the topology
-hold across it, the final register does not, so the phase is the only handle on
-where a word comes to rest. weight_flow counts what the union throws away, the
-fork being a set and the fuse a union.
+Panels. Four of them opened expanded on every load, covered most of the scene,
+and could be neither moved nor shut, though the .collapsed CSS was already there
+with no buttons and no JS behind it. Each panel now has a title bar with a
+collapse button, drags by that bar, starts COLLAPSED, and remembers state and
+position in localStorage. A dock at top-right reopens anything collapsed, so a
+panel cannot be lost off-screen. The body wrapper is display:contents so a panel
+that is itself flex — the colour picker — still lays out its own children.
+
+Glyph bank. The page could render any of ~110 named programs and offered no way
+to enter a word. The twelve opcodes are now keys; the word they build is
+registered as a program and drawn through the same rebuildProgram path
+everything else uses, so it is not a second rendering route that could drift.
+Work tokens carry a thicker border.
+
+Colour. Thirty-one legend swatches were frozen inline hex, so changing a scene
+palette recoloured the torus and left the legend asserting the old colour —
+"blue WORK" beside a station that is no longer blue. Each now carries data-pal
+naming the palette key it describes and is repainted from the same merged
+palette the scene consumes.
+
+Mobile. Panels go full-width and stack, touch targets reach 40-44px, and panel
+dragging is disabled on coarse pointers, where it would compete with the orbit
+control for the same gesture.
+
+Glyphs. Nine visible ∈/∋ corrections in the legend and the displayed word, which
+had shown the older ◇/● while the token table used the canonical pair — the
+reason a specialist reported the word as ⊢⊙◇+¬+=⊞×<∋⊣. The 2344 occurrences in
+script comments and in CATALOG_WORDS data are deliberately untouched: they are
+not user-visible and replacing them would bury this diff.
+
+Not verified visually. Checks run are HTML tag balance, unique ids, both script
+blocks parsing, and the counts above.
