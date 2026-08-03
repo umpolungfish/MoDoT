@@ -7,7 +7,7 @@ Let A ⊆ ℕ with d^*(A) > 0. By the Furstenberg Correspondence Principle, ther
 d^*(∩_n ∈ F (A - n)) ≥ μ(∩_n ∈ F T^-n E).
 This encodes the density of A into the measure of E.
 
-**2. Inverse Structure [Þ]: Difference Set and Recurrence**
+**2. Inverse Structure [⊣]: Difference Set and Recurrence**
 D(A) is defined as the set of d such that A ∩ (A - d) is infinite. In the dynamical system, this is represented by the set of return times R(E) = {d ∈ ℕ : μ(E ∩ T^-d E) > 0}. The principle ensures R(E) ⊆ D(A).
 
 **3. Bidirectional [Ř]: Bohr Set Inclusion**

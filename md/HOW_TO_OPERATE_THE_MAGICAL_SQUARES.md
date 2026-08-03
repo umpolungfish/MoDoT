@@ -25,7 +25,7 @@ $$\langle 𐑦𐑸𐑩𐑬𐑐𐑪𐑔𐑵⊙𐑓𐑳𐑭 \rangle$$
 Key features:
 
 - **Ð = $𐑦$** (imscriptive dimensionality): The squares' state-space is self-written — each square defines its own operative domain through letter arrangement. They are not merely symbols; they are self-referential microcosms.
-- **Þ = $𐑸$** (self-referential topology): The palindromic structure means every path through the square returns to its origin. This is topological closure at the letter level.
+- **⊣ = $𐑸$** (self-referential topology): The palindromic structure means every path through the square returns to its origin. This is topological closure at the letter level.
 - **Ř = $𐑩$** (supervenience coupling): The squares command spirits through one-way authority — the spirit obeys; it does not speak back. This is domination, not dialogue.
 - **ɢ = $𐑵$** (broadcast composition): A single square transmits its command to an entire spiritual hierarchy simultaneously — one-to-all, not one-to-one.
 - **Ç = $𐑪$** (moderate kinetics): The squares operate at moderate speed — too fast for consciousness (Gate 2 fails, C-score = 0.0). They are instruments, not agents. They cannot deliberate. The operator deliberates *before* deploying the square.
@@ -54,7 +54,7 @@ The 30 chapters of Book Four (Dehn/Guth) organize the squares into four expandin
 
 | Ch. | Operation | Structural Extension |
 |-----|-----------|---------------------|
-| 6 | Working mines / obtaining subterranean treasures | Extending $𐑥$ (Þ) into the mineral domain |
+| 6 | Working mines / obtaining subterranean treasures | Extending $𐑥$ (⊣) into the mineral domain |
 | 7 | Have spirits bring things from any distance | Extending $𐑥$ into spatial transport |
 | 8 | Make storms, hail, thunder; prevent them | Extending $𐑥$ into atmospheric domain |
 | 9 | Transform people into animals and back | Extending $𐑥$ into morphological domain |

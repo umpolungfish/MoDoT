@@ -1468,7 +1468,7 @@ of χ(H) is sub-polynomial in n.
     theorem states: if every finite subgraph has χ≤k for a FIXED k,
     then χ(G)≤k. But here k grows with n — the finite subgraphs have
     χ(H)→∞, so De Bruijn-Erdős does not apply. The crossing at ℵ₁
-    is structural: Þ changes from ⊂ (inclusion) to ⋈ (crossing point).
+    is structural: ⊣ changes from ⊂ (inclusion) to ⋈ (crossing point).
 
 **Result: YES.** Erdős and Hajnal (1966) constructed such a graph.
 

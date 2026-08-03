@@ -256,7 +256,7 @@ print("type ⟨𐑦𐑶𐑑𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑙𐑟⟩. Then for any 
 print("X ∈ M_OOO \\ {G}, the distance d(G, X) ≥ 3.0")
 print("with equality approached only by Lemongrab (via shared")
 print("non-Abelian winding Ω=𐑟) and the Lich (via shared extinction")
-print("topology Þ=𐑶).")
+print("topology ⊣=𐑶).")
 print()
 
 golb_vec = vec(CHAR_TUPLES["golb"])

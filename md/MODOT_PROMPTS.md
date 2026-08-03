@@ -53,7 +53,7 @@ Instantiate templates in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
 renderer. Write plain Unicode symbols directly and NEVER LaTeX. Use Δ θ μ ∘ δ ↔ →
-⊙ Σ Ω Φ Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs Ð Ř ƒ Þ Ħ Ç ɢ, and Shavian
+⊙ Σ Ω Φ Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs Ð Ř ƒ ⊣ Ħ Ç ɢ, and Shavian
 directly. No `$` or `$$`, no `\command` (\Delta, \text, \frac, \left), no `_{...}`
 or `^{...}`. Write `Δ_T↔H = |−0.08 − 0.75| = 0.83 > θ`, never
 `$\Delta_{\text{T↔H}} = 0.83 > \theta$`. Never wrap a glyph in `$…$`.

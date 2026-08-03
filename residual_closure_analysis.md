@@ -47,7 +47,7 @@ The residual closure comes from promoting each constant through the morphism:
 | Promotion | Span | Physical meaning for constants |
 |-----------|------|-------------------------------|
 | Ð: 𐑨→𐑦 | 2 | Finite surface → self-written (constant exposed at all depths) |
-| Þ: 𐑥→𐑸 | 2 | Crossing → self-reference (δ/μ loop closes) |
+| ⊣: 𐑥→𐑸 | 2 | Crossing → self-reference (δ/μ loop closes) |
 | ƒ: 𐑱→𐑐 | 2 | Classical ratio → quantum value (dressing turns on) |
 | **ɢ: 𐑝→𐑵** | **3** | **Conjunctive → broadcast** (the big one: constants reach all scales) |
 | Σ: 𐑕→𐑳 | 1 | Identical sectors → heterogeneous constants (differentiation) |

@@ -47,7 +47,7 @@ it (04:00:43): 9 minutes.
 | `sic_d12_existence_proof` | ⟨𐑨𐑥𐑑𐑹𐑱𐑧𐑲𐑠𐑢𐑖𐑙𐑷⟩ | 𐑢 subcritical | 𐑷 | — |
 | `monotone_integer_winding` | ⟨𐑼𐑰𐑑𐑬𐑐𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩ | at criticality | 𐑭 | — |
 
-Closure signature carried by the stone: Ð=𐑦 with Þ=𐑸, Φ=𐑹 (μ∘δ=id provably exact), ⊙=⊙.
+Closure signature carried by the stone: Ð=𐑦 with ⊣=𐑸, Φ=𐑹 (μ∘δ=id provably exact), ⊙=⊙.
 
 ## Click — the frontier
 
@@ -60,7 +60,7 @@ click-maths:  stone_self_verifying_proof_kernel  ⋈  parity_phase_transition_ma
     T↔H    stone= +0.33   parity= -0.50   Δ=0.83
     R↔S    stone= +1.00   parity= +0.00   Δ=1.00
   ✓ CLICK on T↔H — spring-loaded Δ=0.83, single reaction center, closes.
-  product: ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩  (ring saturated on T↔H = Þ↔Ħ)
+  product: ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩  (ring saturated on T↔H = ⊣↔Ħ)
   inherited scaffold (blended from both partners): [Ç, Γ, Σ, Ω]
 ```
 
@@ -78,7 +78,7 @@ ob3ect, NOT from this run's stream; cross-reference only.*
 | axis | carved ring | axiom D | |
 |---|---|---|---|
 | Ð | 𐑛 | 𐑛 | = |
-| Þ | 𐑥 | 𐑸 | ≠ |
+| ⊣ | 𐑥 | 𐑸 | ≠ |
 | Ř | 𐑾 | 𐑽 | ≠ |
 | Φ | 𐑹 | 𐑹 | = |
 | ƒ | 𐑐 | 𐑐 | = |
@@ -177,7 +177,7 @@ accounts for 49 of the run's 179 `imscribe` calls.
 
 **Fix (committed).** `run_imscribe` in `ask_native` parses a well-formed 12-glyph
 notation and registers it verbatim — no generation, no model call, keys written in
-notation order ⟨Ð Þ Ř Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω⟩, catalog committed by temp-file + rename.
+notation order ⟨Ð ⊣ Ř Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω⟩, catalog committed by temp-file + rename.
 A trailing provenance note after the tuple is preserved. Anything not exactly 12
 glyphs still routes to `generate`.
 

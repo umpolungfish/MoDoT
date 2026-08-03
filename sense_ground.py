@@ -48,7 +48,7 @@ def load_model():
 
 
 def parse_notation(notation: str) -> dict:
-    """`⟨Ð=𐑨; Þ=𐑥; ...⟩` -> {'Ð': '𐑨', 'Þ': '𐑥', ...}"""
+    """`⟨Ð=𐑨; ⊣=𐑥; ...⟩` -> {'Ð': '𐑨', '⊣': '𐑥', ...}"""
     tup = {}
     inner = notation.strip().strip("⟨⟩")
     for part in inner.split(";"):

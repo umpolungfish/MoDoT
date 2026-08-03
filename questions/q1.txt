@@ -7,7 +7,7 @@ The multicolor Ramsey number for the triangle, R_k(K_3), grows at least exponent
 R_k(K_3) ≥ c · (3.199...)^k
 This lower bound is derived from the construction of large sum-free sets. The "rigidity" required to avoid monochromatic triangles in k colors necessitates a vertex set that grows with a base strictly greater than 3.
 
-**2. Upper Bound for Odd Cycles [Þ]**
+**2. Upper Bound for Odd Cycles [⊣]**
 For any fixed n ≥ 2, the multicolor Ramsey number for the odd cycle C_2n+1 grows at a slower exponential rate. A standard result in Ramsey theory provides the upper bound:
 R_k(C_2n+1) ≤ (2n) · 2^k
 This result stems from the fact that C_2n+1-free graphs (for n ≥ 2) can be bipartite, which allows for a significantly higher edge density than triangle-free graphs as k increases.

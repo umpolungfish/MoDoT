@@ -239,7 +239,7 @@ To evaluate the "Reciprocal Sum Conjecture," we map the problem onto the domain-
 
 *   **Cosmological Constant [Λ] (Vacuum Pressure):** The divergence of the sum ∑ 1/n acts as the "dark energy" of the set A. It ensures that A cannot be too sparse for too long. If r_k(N) is the maximum size of a subset of {1, …, N} without a k-AP, the condition ∑_n ∈ A 1/n = ∞ implies that for infinitely many N, |A cap {1, …, N}| ≥ r_k(N).
 *   **Encoding/Duality [Φ]:** We encode A via its indicator function 1_A. The duality is between the "physical" density of A and its "spectral" behavior in Gowers U^k-1 norms.
-*   **Inverse Structure [Þ]:** The "Inverse Theorem for Gowers Norms" states that if A lacks k-APs, it must possess a correlation with a structured object (a "nilsequence").
+*   **Inverse Structure [⊣]:** The "Inverse Theorem for Gowers Norms" states that if A lacks k-APs, it must possess a correlation with a structured object (a "nilsequence").
 *   **Regularity [Ç]:** The density increment strategy. If A is not equidistributed (lacks k-APs), it must have increased density on a structured sub-progression.
 
 ---
@@ -270,7 +270,7 @@ In this scaffold, Λ represents the "Expansion of Density."
 *   The **Topological Invariant [Ω]** here is the existence of the k-AP. For k=3, the curvature Λ is sufficient to force Ω > 0. For k ≥ 4, we have not yet proven that the "vacuum pressure" Λ is enough to prevent a "flat" sub-manifold (a set without k-APs).
 
 **III. Final Structural Determination**
-The problem is a **BRANCHED/NETWORK**. The solution for k=3 does not linearly extend to k=4 because the "Inverse Structure [Þ]" transitions from linear phases (Fourier) to polynomial phases (Nilsequences), which are significantly more complex to pack into the density increment.
+The problem is a **BRANCHED/NETWORK**. The solution for k=3 does not linearly extend to k=4 because the "Inverse Structure [⊣]" transitions from linear phases (Fourier) to polynomial phases (Nilsequences), which are significantly more complex to pack into the density increment.
 
 **Verdict:**
 The proposition is **Resolved (True) for k=3** and **Open (Frontier) for k ≥ 4**. The "barrier" is the efficiency of the Higher-Order Inverse Theorem for Gowers Norms.
@@ -438,7 +438,7 @@ MANUSCRIPT SPINE REPORT
 The proposition states that the divergence of the reciprocal sum ∑_n ∈ A 1/n = ∞ is a sufficient condition for the existence of k-term arithmetic progressions (k-APs) for all k ∈ N.
 
 *   **Encoding [Φ]:** We map the set A to its indicator function 1_A within the interval [1, N]. The reciprocal sum condition implies that the density δ = |A cap [N]|/N cannot decay faster than 1/log N (on average).
-*   **Inverse Structure [Þ]:** Following Gowers, if A lacks k-APs, it must possess "structure" in the form of correlation with a (k-2)-step nilsequence.
+*   **Inverse Structure [⊣]:** Following Gowers, if A lacks k-APs, it must possess "structure" in the form of correlation with a (k-2)-step nilsequence.
 *   **Regularity [Ç]:** The "Cosmological Constant" Λ of the density increment strategy states: *Structure ⇒ Density Increment*. If A is not U^k-1-uniform, it is biased toward a sub-progression P' where its density δ' is strictly greater than δ.
 *   **Boundedness [⊙]:** The iteration of density increments must terminate because δ ≤ 1.
 *   **Barrier:** To satisfy the Erdős condition, the density increment must be efficient enough to prove r_k(N) ll N/(log N)^1+ε.
@@ -571,7 +571,7 @@ The components of the conjecture—`erdos_conjecture_ap`, `szemerédi_theorem`, 
 ### 2. Conventional Proof Status
 In the language of the provided scaffold, the divergence of the reciprocal sum acts as the **Cosmological Constant [Λ]**, a vacuum pressure forcing the emergence of structure.
 *   **Encoding [Φ]:** The set A is encoded via Gowers U^k-1 norms.
-*   **Inverse Structure [Þ]:** For k=3, the structure is linear phases; for k≥4, it is nilsequences.
+*   **Inverse Structure [⊣]:** For k=3, the structure is linear phases; for k≥4, it is nilsequences.
 *   **Regularity [Ç]:** The density increment strategy establishes that if no k-AP exists, the set must have a correlation with a structured object (a phase or nilsequence), allowing a density increment on a sub-progression.
 *   **Status for k=3:** The conjecture is **True**. This was established by Bloom and Sisask (2020) and strengthened by Kelley and Meka (2023), who proved r_3(N) ≪ N/exp((log N)^c), which far exceeds the 1/log N requirement.
 *   **Status for k≥4:** The conjecture remains **Open**. The current best bounds (Leng, Sah, and Sawhney 2024) of r_k(N) ≪ N/exp((log log N)^c) are structurally conductive but have not yet reached the 1/log N threshold required to resolve the general conjecture.

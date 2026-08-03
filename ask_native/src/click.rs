@@ -119,7 +119,7 @@ pub const PRIMS: [&str; 12] = ["⊢", "⊣", ">", "<", "⋈", "⊤", "∈", "∋
 /// so certify always stayed correct; only the numeric ordinals were wrong).
 const GLYPHS: [&[(&str, u8)]; 12] = [
     /* Ð Dimensionality */ &[("𐑛", 0), ("𐑨", 1), ("𐑼", 2), ("𐑦", 3)],
-    /* Þ Topology       */ &[("𐑡", 0), ("𐑰", 1), ("𐑥", 2), ("𐑶", 3), ("𐑸", 4)],
+    /* ⊣ Topology       */ &[("𐑡", 0), ("𐑰", 1), ("𐑥", 2), ("𐑶", 3), ("𐑸", 4)],
     /* Ř Recognition    */ &[("𐑩", 0), ("𐑑", 1), ("𐑽", 2), ("𐑾", 3)],
     /* Φ Parity         */ &[("𐑗", 0), ("𐑿", 1), ("𐑬", 2), ("𐑯", 3), ("𐑹", 4)],
     /* ƒ Fidelity       */ &[("𐑱", 0), ("𐑞", 1), ("𐑐", 2)],
@@ -266,7 +266,7 @@ fn tier_score(ord: &[Option<u8>; 12]) -> u8 {
     if matches!(ord[11], Some(2) | Some(3)) { s += 1; } // Ω integer/non-Abelian winding
     if eq(0, 3) { s += 1; } // Ð = 𐑦 (holographic)
     if eq(5, 2) { s += 1; } // Ç = 𐑧 (slow/coherent kinetics)
-    if eq(1, 4) { s += 1; } // Þ = 𐑸 (self-referential topology)
+    if eq(1, 4) { s += 1; } // ⊣ = 𐑸 (self-referential topology)
     if eq(2, 3) { s += 1; } // Ř = 𐑾 (bidirectional recognition)
     s
 }
@@ -547,7 +547,7 @@ pub fn run_switch(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: &str, 
 // Canonical source: imscribing_grammar/scripts/gen_clay_canonical_tuples.py.
 const CTORS: [&[&str]; 12] = [
     /* Ð */ &["dead", "ash", "array", "if'"],
-    /* Þ */ &["judge", "eat", "mime", "oil", "are"],
+    /* ⊣ */ &["judge", "eat", "mime", "oil", "are"],
     /* Ř */ &["ado", "tot", "ear", "ian"],
     /* Φ */ &["church", "yew", "out", "nun", "or'"],
     /* ƒ */ &["age", "they", "peep"],
@@ -4078,7 +4078,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         _ => None,
     });
     let Some(ax) = idx else {
-        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (Ð Þ Ř Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
+        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (Ð ⊣ Ř Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
         return 2;
     };
 
@@ -4104,7 +4104,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         // ⊥=𐑫 co-occurring with ⊤=𐑪 is a TENDENCY, not an axiom — reported, never enforced.
         let mut notes: Vec<String> = Vec::new();
         if ax == 1 && *o == 4 && probe[0] != Some(3) {
-            notes.push("Þ=𐑸 forces Ð=𐑦 — this move requires Ð to follow".into());
+            notes.push("⊣=𐑸 forces Ð=𐑦 — this move requires Ð to follow".into());
         }
         if ax == 11 && *o >= 2 && probe[9].map(|c| c < 2).unwrap_or(false) {
             notes.push("Ω≥𐑭 requires Ħ≥𐑖 — raise chirality first or this will not hold".into());

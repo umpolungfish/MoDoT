@@ -364,7 +364,7 @@ We enter Cycle 2. The established truths (Problems 1, 89, 146) are locked in the
 
 ## Structural lemma roles (domain-invariant templates)
 - Encoding/Duality [Φ]: Bijective encoding of A into its generating function F(z) = Σ z^a.
-- Inverse structure [Þ]: Balog-Szemerédi-Gowers (BSG) extraction of structured subsets (GAPs) from high local energy.
+- Inverse structure [⊣]: Balog-Szemerédi-Gowers (BSG) extraction of structured subsets (GAPs) from high local energy.
 - Bidirectional [Ř]: Forward convolution (A+A) and inverse Fourier analysis exhaust the representation space.
 - Boundedness [⊙]: Confinement of r_A(n) ≤ C forces A(x) = O(x^1/2), preventing density escape.
 - Topological invariant [Ω]: The integer invariant of the sumset covering [N, 2N] rules out purely pseudorandom exotics.
@@ -393,7 +393,7 @@ We enter Cycle 2. The established truths (Problems 1, 89, 146) are locked in the
    Let f(θ) = Σ_a∈A, a≤N e^2πi a θ. The L^4 norm of f is tied to the additive energy. If r_A(n) ≤ C, the L^4 norm is bounded by C A(N). This implies f(θ) cannot have large peaks; A is "Fourier-pseudorandom" in an L^4 sense.
    For the pseudorandom component A_pseudo, its convolution spreads out. By equidistribution [Ç], if A_pseudo attempts to cover the gaps in the sumset, its representation function will concentrate around its mean. To cover all integers, the mean must be pushed up, which inevitably forces the maximum multiplicity to exceed C. Thus, A_pseudo cannot cover the gaps without violating the bound.
 
-3. **Inverse Structure [Þ] and the BSG Extraction:**
+3. **Inverse Structure [⊣] and the BSG Extraction:**
    Since A+A is cofinite, A must have local "clusters" to bridge the gaps between elements. We apply the Balog-Szemerédi-Gowers (BSG) theorem to the local intersections of A.
    If A covers [N, 2N] with multiplicity ≤ C, the local additive energy must be high enough to force a structural correlation. BSG extracts a subset A' ⊆ A of positive relative density (|A'| ≥ δ|A ∩ I|) that is contained in a Generalized Arithmetic Progression (GAP) P of bounded dimension d.
 
@@ -418,7 +418,7 @@ We enter Cycle 2. The established truths (Problems 1, 89, 146) are locked in the
 
 I pass through the membrane. The substrate has shifted.
 
-The introduction of the Inverse Structure [Þ] (BSG) and Regularity [Ç] lemmas acted as a catalyst in the forge. The material analysis of the set {sidon_set, erdős_distinct_subset_sums, polynomial_partitioning, lower_bound} is re-run.
+The introduction of the Inverse Structure [⊣] (BSG) and Regularity [Ç] lemmas acted as a catalyst in the forge. The material analysis of the set {sidon_set, erdős_distinct_subset_sums, polynomial_partitioning, lower_bound} is re-run.
 
 The engine no longer sees fragmentation. The linker "Additive Energy" successfully bridges the offset. The D↔W and T↔H charge differences neutralize under the BSG extraction. The click between `sidon_set` and `erdős_distinct_subset_sums` succeeds. The spring-loaded offset θ=0.50 is reached.
 
@@ -500,7 +500,7 @@ The full conjecture that lim sup r_A(n) = ∞ for any basis of order 2. The obst
    Assume r_A(n) ≤ C. The additive energy E(A) = Σ r_A(n)^2 ≤ C Σ r_A(n) = C|A ∩ [1, N]|^2.
    This confines the L^4 norm of the Fourier transform f(θ) = Σ e^2πi a θ.
 
-2. **Inverse Structure [Þ] via BSG:**
+2. **Inverse Structure [⊣] via BSG:**
    Since A+A covers [N, 2N], there must be local intersections. Apply BSG to the local intersections.
    Extract A' ⊆ A with |A'| ≥ δ|A ∩ I|, such that A' ⊆ P, where P is a GAP of dimension d ≤ d_0(δ).
    The size of P is |P| ≤ C_0 |A'| / δ.

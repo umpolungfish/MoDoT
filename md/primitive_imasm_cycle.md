@@ -59,7 +59,7 @@ is right. Ambiguity appears at exactly one axis, Ř, and nowhere else, which is
 the prediction the alphabet analysis makes.
 
 A single entry breaks, and it is a data defect rather than a cycle defect:
-`axiom_of_maria` carries a Þ value that is not one of the forty-nine glyphs, so
+`axiom_of_maria` carries a ⊣ value that is not one of the forty-nine glyphs, so
 the forward leg has nothing to expand. The cycle refusing it is the correct
 behaviour; the entry wants repair.
 

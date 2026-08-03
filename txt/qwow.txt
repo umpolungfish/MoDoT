@@ -10,7 +10,7 @@ The proposition is to characterize the convergence and closure of the set $S$ vi
 ### II. Structural Lemma Instantiation
 
 1.  **Encoding/Duality [Φ]:** The `landau_prime_ideal_theorem` acts as the analytic backbone. It maps the discrete set of prime ideals $\mathfrak{p}$ in a number field $K$ to the complex plane via the Dedekind Zeta function $\zeta_K(s)$.
-2.  **Inverse Structure [Þ]:** The `sefer_yetzirah` and `binah` monomers represent the combinatorial foundation—the 22 paths and 10 sephirot—which act as the dual lattice to the prime ideal distribution.
+2.  **Inverse Structure [⊣]:** The `sefer_yetzirah` and `binah` monomers represent the combinatorial foundation—the 22 paths and 10 sephirot—which act as the dual lattice to the prime ideal distribution.
 3.  **Topological Invariant [Ω]:** The `topo_bowtie` and `djed_pillar` serve as the Euler characteristic and the stability axis, respectively, ensuring that the `monad` (the unit) remains invariant under the `zosimos_alchemy` (the transformation process).
 
 ---

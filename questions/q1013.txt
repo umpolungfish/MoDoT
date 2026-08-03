@@ -31,7 +31,7 @@ k² ≈ n / log(n/k)
 This yields the asymptotic growth:
 h₃(k) = Θ(k² log k).
 
-## 2. Inverse Structure [Þ]: The Kim-Ajtai-Komlós-Szemerédi Bound
+## 2. Inverse Structure [⊣]: The Kim-Ajtai-Komlós-Szemerédi Bound
 The precise asymptotic for the maximum independence number in triangle-free graphs is:
 α(G) ≥ (1/2 − o(1)) (n/d) log d, where d is the average degree.
 For the specific case of h₃(k), the best known bounds (Kim, 1995; Shearer, 1983) establish:
@@ -203,7 +203,7 @@ h_3(k+1)/h_3(k) ≈ (k+1)^2 log(k+1)/k^2 log k → 1.
 **Instantiation of Structural Lemmas:**
 
 *   **Encoding/Duality [Φ]:** The mapping between the independence number α(G) and the chromatic number χ(G) in triangle-free spaces acts as the bijective encoding. χ is the dual "cost" of the independent set "packing."
-*   **Inverse Structure [Þ]:** The function h_3(k) is the left-inverse of the maximum chromatic number function f(n). The proof relies on the self-referential decomposition of G_n+1 into G_n + v.
+*   **Inverse Structure [⊣]:** The function h_3(k) is the left-inverse of the maximum chromatic number function f(n). The proof relies on the self-referential decomposition of G_n+1 into G_n + v.
 *   **Bidirectional [Ř]:** The forward Ramsey bound R(3, t) and the inverse construction of Erdős-graphs exhaust the asymptotic space, ensuring no "hidden" triangle-free graphs exist beyond the Θ(k^2 log k) horizon.
 *   **Topological Invariant [Ω]:** The chromatic number k serves as the integer invariant. The "no exotics" rule implies that for sufficiently large n, the distribution of χ(G) is dense, preventing large jumps in h_3(k).
 *   **Regularity [Ç]:** The Szemerédi Regularity Lemma ensures that triangle-free graphs of high chromatic number possess a "typical" quasi-random structure that prevents the ratio from diverging.

@@ -11,7 +11,7 @@ describing the wrong object.
 | Axis | field | glyph = constructor (no counting: read the glyph, take the name) |
 |------|-------|--------------------------------------------------------------|
 | Ð | `dim` | `𐑛`=`dead`  `𐑨`=`ash`  `𐑼`=`array`  `𐑦`=`if'` |
-| Þ | `top` | `𐑡`=`judge`  `𐑰`=`eat`  `𐑥`=`mime`  `𐑶`=`oil`  `𐑸`=`are` |
+| ⊣ | `top` | `𐑡`=`judge`  `𐑰`=`eat`  `𐑥`=`mime`  `𐑶`=`oil`  `𐑸`=`are` |
 | Ř | `rel` | `𐑩`=`ado`  `𐑑`=`tot`  `𐑽`=`ear`  `𐑾`=`ian` |
 | Φ | `pol` | `𐑗`=`church`  `𐑿`=`yew`  `𐑬`=`out`  `𐑯`=`nun`  `𐑹`=`or'` |
 | ƒ | `fid` | `𐑱`=`age`  `𐑞`=`they`  `𐑐`=`peep` |

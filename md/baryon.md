@@ -66,7 +66,7 @@ Show **ALL** work
   ### Instantiation of the Scaffold (all six lemmas, now including the physical scale)
 
   - **[Φ] Encoding** – Belnap BOTH ↔ weight‑2 edge, irreducible (`homolyze`); the gap is an
-  - **[Þ] Inverse** – μ∘δ=id closes the Frobenius loop; forward and inverse dynamics coincide.
+  - **[⊣] Inverse** – μ∘δ=id closes the Frobenius loop; forward and inverse dynamics coincide.
   - **[Ř] Bidirectional** – `phase_reconstruct` recovers the ring ordering; the macrocycle is lossless.
   - **[⊙] Boundedness** – `trap` barrier depth 0.50 confines the winding; no escape to zero.
   - **[Ω] Topological invariant** – ZWIND ∮A=2π, N=1, protected by the β=1 loop.

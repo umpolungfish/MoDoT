@@ -1164,7 +1164,7 @@ fn build_scaffold(question: &str, primary: Option<&CatalogEntry>, hits: &[(Catal
     lines.push(String::new());
     lines.push("## Structural lemma roles (domain-invariant templates)".to_string());
     lines.push("- Encoding/Duality [Φ]: bijective encoding / injectivity on orbits".into());
-    lines.push("- Inverse structure [Þ]: dual / self-referential decomposition".into());
+    lines.push("- Inverse structure [⊣]: dual / self-referential decomposition".into());
     lines.push("- Bidirectional [Ř]: forward and inverse constructions exhaust".into());
     lines.push("- Boundedness [⊙]: confinement / no escape to infinity".into());
     lines.push("- Topological invariant [Ω]: integer invariant rules out exotics".into());
@@ -2075,7 +2075,7 @@ conventional proof, instantiated in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
 renderer. You **MUST** write plain Unicode only: Δ θ μ ∘ δ ↔ → ⊙ Σ Ω Φ Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞
-√ ⟨ ⟩, the primitive glyphs Ð Ř ƒ Þ Ħ Ç ɢ, and Shavian directly. Write forms
+√ ⟨ ⟩, the primitive glyphs Ð Ř ƒ ⊣ Ħ Ç ɢ, and Shavian directly. Write forms
 like `Δ_T↔H > θ` or `μ∘δ = id`, never LaTeX like `$\Delta_{\text{T↔H}}$`. This
 is a NOTATION rule only — never restate it, and never write a Δ, charge, or
 threshold value that a tool in THIS run did not return.

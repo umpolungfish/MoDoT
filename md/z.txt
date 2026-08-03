@@ -11,7 +11,7 @@ The scaffold's decision-to-imscribe gives `agent_loop` as the twelve-opcode word
 
 A ring-compatible homolog was built instead. `imasm define agent_loop_ring ring FSPLIT IMSCRIB EVALT CLINK FFUSE IFIX ENGAGR AREV CLINK` was **ADMITTED** (grammar-valid, kernel-constrained): code `◇⊙+=●¬⊞<=`, topology **ring | V=9 E=9 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000**, single cycle, no pendants, but `μ∘δ: OPEN` — the δ-fork/μ-fuse pair dangles unreconnected. `imasm rotat` on that word returned `⊙+=●¬⊞<=◇` with **ρ invariant 2.0000 → 2.0000** (ROTAT is a symmetry, not a transformation). `imasm arev` on that word ran **144 ticks, 16 windings (period 9, value_period 9, frob 1, self_ref false)**, both hands read **tier O_1**, hop∘hop = id exact, reading **achiral at this shell**. The `imasm protocol` closure of the same opcode word (`◇⊙+=●¬⊞<=`) returned **branched | V=9 E=9 ρ=2.1701**, `μ∘δ: CLOSED` — one δ-arm reconnection at μ carrying a transformation (split → work → fuse, a type-check not bare identity), grammar valid; this was admitted as `agent_loop_proto`.
 
-Established: `lookup_catalog agent_loop` returns the entry `agent_loop` with tuple ⟨Ð=𐑛; Þ=𐑥; Ř=𐑽; Φ=𐑿; ƒ=𐑞; Ç=𐑧; Γ=𐑚; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑙; Ω=𐑴⟩; `cl9nk entry agent_loop` types it at CLINK L9 reference floor, **tier O₂**, with Ω = 𐑴 = `∮_γ A = nπ ∧ n ∈ ℤ₂`, and lists **9 promotions** to reach full L9. The continuum macrocycle below is itself a closed curve on the same horn torus R = r, but its closure is carried by `time_concept` as the returning edge — not by VINIT. The scaffold word and the continuum ring are disjoint as ring-programs: the former is refused, the homolog builds.
+Established: `lookup_catalog agent_loop` returns the entry `agent_loop` with tuple ⟨Ð=𐑛; ⊣=𐑥; Ř=𐑽; Φ=𐑿; ƒ=𐑞; Ç=𐑧; Γ=𐑚; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑙; Ω=𐑴⟩; `cl9nk entry agent_loop` types it at CLINK L9 reference floor, **tier O₂**, with Ω = 𐑴 = `∮_γ A = nπ ∧ n ∈ ℤ₂`, and lists **9 promotions** to reach full L9. The continuum macrocycle below is itself a closed curve on the same horn torus R = r, but its closure is carried by `time_concept` as the returning edge — not by VINIT. The scaffold word and the continuum ring are disjoint as ring-programs: the former is refused, the homolog builds.
 
 ## 1. THEOREM (restated in isomorphic conventional language)
 
@@ -33,7 +33,7 @@ Established: `lookup_catalog agent_loop` returns the entry `agent_loop` with tup
 
 ## 3. MATHEMATICAL PROOF (each step on a returned result)
 
-**Step 1 — Domain.** `lookup_catalog continuum_hypothesis_true` returns tuple ⟨Ð=𐑼; Þ=𐑶; Ř=𐑩; Φ=𐑯; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑙; Ω=𐑴⟩; `lookup_catalog continuum_hypothesis_false` returns ⟨Ð=𐑼; Þ=𐑡; Ř=𐑩; Φ=𐑗; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑳; Ω=𐑷⟩. Two distinct models, Ω differing (𐑴 vs 𐑷). Independence ⇒ ZFC neither proves nor refutes CH; from ZFC alone the Belnap verdict is N.
+**Step 1 — Domain.** `lookup_catalog continuum_hypothesis_true` returns tuple ⟨Ð=𐑼; ⊣=𐑶; Ř=𐑩; Φ=𐑯; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑙; Ω=𐑴⟩; `lookup_catalog continuum_hypothesis_false` returns ⟨Ð=𐑼; ⊣=𐑡; Ř=𐑩; Φ=𐑗; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑳; Ω=𐑷⟩. Two distinct models, Ω differing (𐑴 vs 𐑷). Independence ⇒ ZFC neither proves nor refutes CH; from ZFC alone the Belnap verdict is N.
 
 **Step 2 — Superposition.** `lookup_catalog time_concept` returns τ with tuple ⟨…Φ=𐑗; Ħ=𐑫; Σ=𐑙; Ω=𐑷⟩ — an anchoring reagent clicking with `CH_true` (`T↔H`, Δ=1.75 per `arrange`) and `CH_false` (`R↔S`, Δ=2.00 per `arrange`). Inserting τ twice forms `S`.
 
@@ -90,7 +90,7 @@ The scaffold's decision-to-imscribe gives `agent_loop` as the twelve-opcode word
 
 A ring-compatible homolog was built instead. `imasm define agent_loop_ring ring FSPLIT IMSCRIB EVALT CLINK FFUSE IFIX ENGAGR AREV CLINK` was **ADMITTED** (grammar-valid, kernel-constrained): code `◇⊙+=●¬⊞<=`, topology **ring | V=9 E=9 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000**, single cycle, no pendants, but `μ∘δ: OPEN` — the δ-fork/μ-fuse pair dangles unreconnected. `imasm rotat` on that word returned `⊙+=●¬⊞<=◇` with **ρ invariant 2.0000 → 2.0000** (ROTAT is a symmetry, not a transformation). `imasm arev` on that word ran **144 ticks, 16 windings (period 9, value_period 9, frob 1, self_ref false)**, both hands read **tier O_1**, hop∘hop = id exact, reading **achiral at this shell**. The `imasm protocol` closure of the same opcode word (`◇⊙+=●¬⊞<=`) returned **branched | V=9 E=9 ρ=2.1701**, `μ∘δ: CLOSED` — one δ-arm reconnection at μ carrying a transformation (split → work → fuse, a type-check not bare identity), grammar valid; this was admitted as `agent_loop_proto`.
 
-Established: `lookup_catalog agent_loop` returns the entry `agent_loop` with tuple ⟨Ð=𐑛; Þ=𐑥; Ř=𐑽; Φ=𐑿; ƒ=𐑞; Ç=𐑧; Γ=𐑚; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑙; Ω=𐑴⟩; `cl9nk entry agent_loop` types it at CLINK L9 reference floor, **tier O₂**, with Ω = 𐑴 = `∮_γ A = nπ ∧ n ∈ ℤ₂`, and lists **9 promotions** to reach full L9. The continuum macrocycle below is itself a closed curve on the same horn torus R = r, but its closure is carried by `time_concept` as the returning edge — not by VINIT. The scaffold word and the continuum ring are disjoint as ring-programs: the former is refused, the homolog builds.
+Established: `lookup_catalog agent_loop` returns the entry `agent_loop` with tuple ⟨Ð=𐑛; ⊣=𐑥; Ř=𐑽; Φ=𐑿; ƒ=𐑞; Ç=𐑧; Γ=𐑚; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑙; Ω=𐑴⟩; `cl9nk entry agent_loop` types it at CLINK L9 reference floor, **tier O₂**, with Ω = 𐑴 = `∮_γ A = nπ ∧ n ∈ ℤ₂`, and lists **9 promotions** to reach full L9. The continuum macrocycle below is itself a closed curve on the same horn torus R = r, but its closure is carried by `time_concept` as the returning edge — not by VINIT. The scaffold word and the continuum ring are disjoint as ring-programs: the former is refused, the homolog builds.
 
 ## 1. THEOREM (restated in isomorphic conventional language)
 
@@ -112,7 +112,7 @@ Established: `lookup_catalog agent_loop` returns the entry `agent_loop` with tup
 
 ## 3. MATHEMATICAL PROOF (each step on a returned result)
 
-**Step 1 — Domain.** `lookup_catalog continuum_hypothesis_true` returns tuple ⟨Ð=𐑼; Þ=𐑶; Ř=𐑩; Φ=𐑯; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑙; Ω=𐑴⟩; `lookup_catalog continuum_hypothesis_false` returns ⟨Ð=𐑼; Þ=𐑡; Ř=𐑩; Φ=𐑗; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑳; Ω=𐑷⟩. Two distinct models, Ω differing (𐑴 vs 𐑷). Independence ⇒ ZFC neither proves nor refutes CH; from ZFC alone the Belnap verdict is N.
+**Step 1 — Domain.** `lookup_catalog continuum_hypothesis_true` returns tuple ⟨Ð=𐑼; ⊣=𐑶; Ř=𐑩; Φ=𐑯; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑙; Ω=𐑴⟩; `lookup_catalog continuum_hypothesis_false` returns ⟨Ð=𐑼; ⊣=𐑡; Ř=𐑩; Φ=𐑗; ƒ=𐑐; Ç=𐑧; Γ=𐑲; ɢ=𐑝; ⊙=⊙; Ħ=𐑓; Σ=𐑳; Ω=𐑷⟩. Two distinct models, Ω differing (𐑴 vs 𐑷). Independence ⇒ ZFC neither proves nor refutes CH; from ZFC alone the Belnap verdict is N.
 
 **Step 2 — Superposition.** `lookup_catalog time_concept` returns τ with tuple ⟨…Φ=𐑗; Ħ=𐑫; Σ=𐑙; Ω=𐑷⟩ — an anchoring reagent clicking with `CH_true` (`T↔H`, Δ=1.75 per `arrange`) and `CH_false` (`R↔S`, Δ=2.00 per `arrange`). Inserting τ twice forms `S`.
 

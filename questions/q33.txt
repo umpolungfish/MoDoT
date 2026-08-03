@@ -323,7 +323,7 @@ MANUSCRIPT SPINE REPORT
 #### 1. Encoding and Duality [Φ]
 Define the counting function A(N) = |A cap {1, …, N}|. The condition that every m is covered by {n^2 + a : n ≥ 0, a ∈ A} implies that the set of squares S = {n^2 : n ≥ 0} and the set A form a covering system. For a fixed N, the number of representable integers up to N is at most ∑_n=0^{lfloor √{N} rfloor} |A cap {1, …, N - n^2}|. Summing this, the density constraint requires √{N} · A(N) gtrsim N, leading to A(N) gtrsim N^1/2.
 
-#### 2. Inverse Structure [Þ] and Boundedness [⊙]
+#### 2. Inverse Structure [⊣] and Boundedness [⊙]
 We construct a witness set A that achieves the limsup of 1. Let A = {k^2 + 1 : k ≥ 0}. This set is sparse, but to satisfy the covering condition, we consider the "greedy" construction: start with A_0 = {1}. For each m, if m is not covered, add m - lfloor √{m} rfloor^2 to A. This construction ensures that A(N) ≤ √{N} + o(√{N}). Since the density is bounded by the number of square roots, the limsup cannot be less than 1.
 
 #### 3. Topological Invariant [Ω] and Regularity [Ç]

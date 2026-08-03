@@ -574,7 +574,7 @@ theorem density_minimized_at_zero (n : List ℕ) (a : List ℕ) :
 *   **Witness Entry:** `sphere_packing_density_open` (Used here as a structural scaffold for extremal density problems).
 *   **Role/Proposition Mapping:**
     *   **Encoding / Duality [Φ]:** Mapped the problem of integer density to a finite calculation over $\mathbb{Z} / L\mathbb{Z}$.
-    *   **Inverse Structure [Þ]:** Analyzed the "overlap" (intersection) as the dual to the union.
+    *   **Inverse Structure [⊣]:** Analyzed the "overlap" (intersection) as the dual to the union.
     *   **Phase Boundary [⊙]:** Identified the density bounds (0, 1] and the extremal role of the GCD in intersection existence.
     *   **Uniqueness [Σ]:** Verified that $a_i = c$ provides a unique (up to translation) minimal configuration by maximizing the intersection of every sub-family.
 
@@ -1213,7 +1213,7 @@ theorem k_growth_limit :
 ### Grammatic Witness Appendix
 
 *   **Encoding / Duality [Φ → Phi_}]**: Used to map the discrete sum of reciprocals to the continuous integral $\int \frac{1}{x}dx$.
-*   **Inverse Structure [Þ → Theta_O]**: Constructed the "deficit" $1 - \sum \frac{1}{n}$ to determine the necessity of additional terms.
+*   **Inverse Structure [⊣ → Theta_O]**: Constructed the "deficit" $1 - \sum \frac{1}{n}$ to determine the necessity of additional terms.
 *   **Phase Boundary [⊙ → phi_hat_y]**: Identified $M \approx eN$ as the critical boundary where the harmonic sum crosses $1$.
 *   **Equidistribution [Ç → C_@]**: Applied to the distribution of denominators to ensure a subset sum can hit exactly $1$ (a consequence of the density of sums of reciprocals).
 
@@ -1491,7 +1491,7 @@ theorem N_max_not_loglog : ¬ Conjecture N_max := by
 ### Appendix: Grammatic Witness Assessment
 
 *   **Provenance:** The `neptune_astrological` witness (score 11.0) correctly identified the "holographic self-similar topology" of unit fraction sums (each $1/n$ can be further dissolved into $1/(n+1) + 1/n(n+1)$), which is the primary mechanism for adjusting $k$.
-*   **Structural Algebra:** The `Þ → Theta_O` (Inverse/dual construction) licensed the move from the greedy forward search to the inverse construction of $b$ from a set of denominators, which is how the lower bounds are proven.
+*   **Structural Algebra:** The `⊣ → Theta_O` (Inverse/dual construction) licensed the move from the greedy forward search to the inverse construction of $b$ from a set of denominators, which is how the lower bounds are proven.
 *   **CLINK Match:** `Ç=𐑧` (Equidistribution/regularity) mapped to the distribution of $N(a,b)$ across numerators. The failure of the $\log \log b$ bound is effectively a failure of "global regularity" over the worst-case numerators.
 *   **Status:** The math confirms that while $N(a,b)$ is small for most $a$, the maximum $N(b)$ is governed by the Tenenbaum-Yokota bound.
 
@@ -3309,7 +3309,7 @@ theorem greedy_sidon_density_lower (N : ℕ) :
 ### 4. Appendix: Grammatic Witness Mapping
 
 *   **Encoding / Duality [Φ]**: Mapped to the bijective correspondence between index triples $(i, j, k)$ and forbidden sums.
-*   **Inverse Structure [Þ]**: Used to define the "forbidden set" $X_{exc} = \{a_j + a_k - a_i\}$ which must be avoided to maintain the Sidon property.
+*   **Inverse Structure [⊣]**: Used to define the "forbidden set" $X_{exc} = \{a_j + a_k - a_i\}$ which must be avoided to maintain the Sidon property.
 *   **Phase Boundary [⊙]**: Mapped to the extremal principle of the greedy algorithm—it always picks the *infimum* of the complement of the forbidden set.
 *   **Regularity [Ç]**: Used in the assessment of growth; while Sidon sets can be dense ($N^{1/2}$), the greedy sequence lacks the "regularity" of algebraic constructions (like Singer sets), leading to the lower $N^{1/3}$ density.
 
@@ -3688,7 +3688,7 @@ by
 ### 4. Grammatic Witness Assessment
 
 *   **Encoding / Duality [Φ]:** The problem maps the additive structure of $\mathbb{Z}$ to the growth rate of the sequence. The "completeness" is a dual to the "gap" sequence.
-*   **Inverse Structure [Þ]:** The "infinite removal" constraint acts as a boundary. If $A \setminus B$ is not complete for infinite $B$, it suggests $A$ is at the "Holo-bound" of density.
+*   **Inverse Structure [⊣]:** The "infinite removal" constraint acts as a boundary. If $A \setminus B$ is not complete for infinite $B$, it suggests $A$ is at the "Holo-bound" of density.
 *   **Phase Boundary / Extremal Principle [⊙]:** The Golden Ratio $\phi$ is an extremal point for sequences where $a_n$ is the sum of the preceding two terms. However, the "minimal completeness" can be satisfied by sequences where $a_n$ is the sum of a different window of preceding terms, shifting the "phase boundary" to other roots of $x^k - x^{k-1} - 1 = 0$.
 *   **Witness Entry:** `godel_incompleteness_conclusion`. Just as a formal system cannot contain its own truth predicate, a sequence cannot be "so complete" that it survives infinite deletion if it is to remain "minimally" bounded. The "truth that cannot be spoken" in this context is the specific limit $\phi$; the system (the conditions) is not restrictive enough to force this exact value.
 
@@ -3785,7 +3785,7 @@ theorem complete_sequence_m_n (m n : ℕ) (hmn : m < n) :
 - **Witness Entry:** `proof_goedel_incompleteness` (Structural match for encoding meta-theory).
 - **License/Role Mapping:**
     - **Φ (Encoding):** The property of "completeness" is encoded via Brown's Criterion (summation property).
-    - **Þ (Inverse):** The "removal" of elements acts as the dual operation to the summation bound.
+    - **⊣ (Inverse):** The "removal" of elements acts as the dual operation to the summation bound.
     - **⊙ (Extremal):** The construction $a_{k+1} = 1 + \sum a_i$ represents the phase boundary of completeness.
     - **Γ (Quantification):** Used to distinguish between "any $m$" (universal) and "some $n$" (existential).
 
@@ -3880,7 +3880,7 @@ sorry -- Proof follows the logic above
 ### Appendix: Grammatic Witness Mapping
 
 *   **Encoding / Duality [Φ]**: Mapped to the bijective nature of the binary representation (case $\alpha=2, t=1$) and its deformation into redundant representations for $\alpha < 2$.
-*   **Inverse Structure [Þ]**: Instantiated as the construction of the "gap" sequence $G_n = a_{n+1} - \sum a_i$, determining the closure of the reachable set.
+*   **Inverse Structure [⊣]**: Instantiated as the construction of the "gap" sequence $G_n = a_{n+1} - \sum a_i$, determining the closure of the reachable set.
 *   **Phase Boundary [⊙]**: Mapped to the critical threshold $\alpha = 2$, where the growth rate of the sequence exactly matches the growth rate of the partial sums.
 *   **Equidistribution [Ç]**: Used to justify that for $1 < \alpha < 2$, the fractional parts $\{t\alpha^n\}$ do not interfere with the density required for completeness over the long term.
 
@@ -4915,7 +4915,7 @@ theorem density_D_k_gt_3 (k : ℕ) (hk : k > 3) :
 ### 3. Grammatic Witness Scaffold Integration
 
 - **Encoding / Duality [Φ]:** The problem is mapped from products of factorials to the vector space $V = \mathbb{F}_2^{(\mathcal{P})}$. Each $m!$ maps to a vector $v(m)$ where $v(m)_p = \nu_p(m!) \pmod 2$.
-- **Inverse Structure [Þ]:** We analyze the "backward" gaps $s(m) \cdot s(m-1)$. Since $s(m)/s(m-1)$ is the square-free part of $m$, the sequence $s(m)$ is a random-walk-like structure on $V$.
+- **Inverse Structure [⊣]:** We analyze the "backward" gaps $s(m) \cdot s(m-1)$. Since $s(m)/s(m-1)$ is the square-free part of $m$, the sequence $s(m)$ is a random-walk-like structure on $V$.
 - **Equidistribution [Ç]:** The vectors $v(m)$ are sufficiently well-distributed in $V$ such that for a fixed $m$, finding $a_1, a_2 < m$ with $v(a_1) + v(a_2) = v(m)$ is almost always possible. This relies on the density of primes and the behavior of the Chebyshev function.
 - **Uniqueness of Witness [Σ]:** $F(m)$ is the first time the walk $v(a_1) + \dots + v(a_k)$ hits $\mathbf{0}$. For $k=3$, the "branching factor" is large enough that a solution almost always exists.
 
@@ -6564,7 +6564,7 @@ theorem infinite_preimage_three :
 - **Provenance:** `sophie_germain_prime_conjecture` (used to justify the branching of the $\phi$ pre-image tree via $2p+1$ relationships).
 - **Structural Algebra:**
     - **Φ (Encoding/Duality):** Used to map the dynamical problem $n \mapsto \phi(n)+1$ onto the structure of the totient fibers $\phi^{-1}(m)$.
-    - **Þ (Inverse Structure):** The proof relies on the construction of the inverse relation $f^{-1}(p)$ to show the existence of infinite trajectories ending at $p$.
+    - **⊣ (Inverse Structure):** The proof relies on the construction of the inverse relation $f^{-1}(p)$ to show the existence of infinite trajectories ending at $p$.
     - **Ř (Galois Connection):** Established the correspondence between the descent of $n$ (forward) and the branching of the tree (inverse).
     - **⊙ (Phase Boundary):** The Lyapunov function $V(n) = n$ proves that the system cannot escape to infinity, ensuring all trajectories terminate in the set of primes (the "ground state").
     - **Ç (Regularity):** Used to conclude that the density of any specific branch is 0 relative to $\mathbb{N}$.
@@ -6659,7 +6659,7 @@ theorem sigma_growth_unbounded (n : ℕ) (hn : n ≥ 2) :
 ### Appendix: Grammatic Witness Mapping
 
 *   **Encoding / Duality [Φ → Phi_}]:** Mapped to the bijection between the divisors of $n$ and the terms of the sum $\sigma(n)$.
-*   **Inverse Structure [Þ → Theta_O]:** Mapped to the analysis of the ratio $\sigma(n)/n$ as the "inverse" of the density of divisors.
+*   **Inverse Structure [⊣ → Theta_O]:** Mapped to the analysis of the ratio $\sigma(n)/n$ as the "inverse" of the density of divisors.
 *   **Bidirectional Correspondence [Ř → R_=]:** Mapped to the Galois connection between the growth of $n_k$ and the arithmetic density of its prime factors.
 *   **Boundedness [⊙ → phi_hat_y]:** Used to show the *non-existence* of a bound (extremal principle) for $\sigma(n_k)/n_k$.
 *   **Regularity [Ç → C_@]:** Mapped to the distribution of $\sigma(n)/n$ across the sequence of iterates $n_k$.
@@ -7420,7 +7420,7 @@ theorem F_log_dense (f : ℕ → ℝ) (h_mono : Monotone f) (h_inf : Filter.Tend
 
 ### 3. Grammatic Witness Appendix
 *   **Encoding / Duality [Φ]:** Used to map the divisor counting function $\tau(n!)$ to the sum of valuations $v_p(n!)$, transforming a multiplicative problem into an additive one.
-*   **Inverse Structure [Þ]:** The decomposition of the interval $[n+1, n+f(n)]$ into its $p$-adic components allowed for the isolation of the growth factor.
+*   **Inverse Structure [⊣]:** The decomposition of the interval $[n+1, n+f(n)]$ into its $p$-adic components allowed for the isolation of the growth factor.
 *   **Regularity [Ç]:** The equidistribution of primes (Prime Number Theorem) licensed the approximation $\sum_{p \le n} \frac{1}{p} \sim \log \log n$, which is the engine driving the density result.
 *   **Universal Quantification [Γ]:** Applied to show that for *any* monotonic $f$ growing to $\infty$, the local density is preserved by the scaling of the log-integral.
 
@@ -8103,7 +8103,7 @@ theorem sequence_eventually_composite :
 ### 3. Grammatic Witness Appendix
 
 *   **Encoding / Duality [Φ → Phi_}]**: Used to map the sequence of integers to the space of their prime factor distributions.
-*   **Inverse Structure [Þ → Theta_O]**: Applied via `HOLOBOUND` to identify the $n/2$ threshold as the reflective boundary where the primality condition $p > n - a_k$ transitions from "likely prime" to "likely composite."
+*   **Inverse Structure [⊣ → Theta_O]**: Applied via `HOLOBOUND` to identify the $n/2$ threshold as the reflective boundary where the primality condition $p > n - a_k$ transitions from "likely prime" to "likely composite."
 *   **Phase Boundary [⊙ → phi_hat_y]**: The strategy `PHI_C` (extremal principle) was used to determine the behavior of $a_k$ as it approaches the $n/2$ limit.
 *   **Equidistribution [Ç → C_@]**: Licensed the assumption that for large $n$, the gaps between primes allow for composite "interlopers" that satisfy the prime-factor bound.
 *   **Uniqueness of Witness [Σ → Sigma_S]**: Used to confirm that the `findGreatest` operator (the "greedy" choice) eventually selects a unique composite witness $C > p_{next}$.

@@ -113,7 +113,7 @@ However, the **kernel cardinality** remains **unverified** as 1024 (2865 candida
 | Lemma | Role | Previous Status | **Current Status** | Evidence |
 | :--- | :--- | :--- | :--- | :--- |
 | **[Φ] Encoding/Duality** | Bijective encoding | **N** | **N** | `scan` = 2865. `filter` unavailable. |
-| **[\Þ] Inverse Structure** | Dual decomposition | **T** | **T** | `cycle` = FIXED POINT. |
+| **[\⊣] Inverse Structure** | Dual decomposition | **T** | **T** | `cycle` = FIXED POINT. |
 | **[\Ř] Bidirectional Exhaust** | Forward/inverse | **T** | **T** | `arrange` + `forge` = CYCLIC. |
 | **[odot] Boundedness** | Confinement | **B** | **B** | `distill` = Azeotrope (tie at odot=0.25). |
 | **[Ω] Topological Invariant** | Integer invariant | **T** | **T** | `forge` = ρ=2.0000. |
@@ -319,7 +319,7 @@ catalytic cycle:  reduced_character_orbit_computation  ⟳  turning over  norm_s
   two coagulations: the CATALYST binds back to the SAME invariant (regeneration, μ∘δ=id); the SUBSTRATE binds into a NEW invariant (norm_sieve_execution‡). Solve freed one quantum; Coagula placed it.
   the loop:  reduced_character_orbit_computation ─Solve(δ)→ reduced_character_orbit_computation* ─Coagula(μ)→ reduced_character_orbit_computation   ‖   norm_sieve_execution ──────→ norm_sieve_execution‡
 ● TOOL compute_meet reduced_character_orbit_computation norm_sieve_execution
-{"status": "ok", "operation": "meet", "name_a": "reduced_character_orbit_computation", "name_b": "norm_sieve_execution", "result_notation": "⟨Ð=𐑛; Þ=𐑰; Ř=𐑽; Φ=𐑿; ƒ=𐑐; Ç=𐑧; Γ=𐑚; ɢ=𐑠; ⊙=𐑢; Ħ=𐑖; Σ=𐑙; Ω=𐑭⟩", "shared_primitives": ["Ð", "Ř", "ƒ", "Ç", "ɢ", "Ħ", "Ω"], "resolved_conflicts": [{"primitive": "Þ", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": "Φ", "a": "𐑬", "b": "𐑿", "resolved": "𐑿"}, {"primitive": "Γ", "a": "𐑲", "b": "𐑚", "resolved": "𐑚"}, {"primitive": "⊙", "a": "⊙", "b": "𐑢", "resolved": "𐑢"}, {"primitive": "Σ", "a": "𐑕", "b": "𐑙", "resolved": "𐑙"}], "interpretation": "Structural floor of reduced_character_orbit_computation ∧ norm_sieve_execution. 5 primitive(s) resolved to conservative value; 7 shared. These are the primitives both systems possess without qualification."}
+{"status": "ok", "operation": "meet", "name_a": "reduced_character_orbit_computation", "name_b": "norm_sieve_execution", "result_notation": "⟨Ð=𐑛; ⊣=𐑰; Ř=𐑽; Φ=𐑿; ƒ=𐑐; Ç=𐑧; Γ=𐑚; ɢ=𐑠; ⊙=𐑢; Ħ=𐑖; Σ=𐑙; Ω=𐑭⟩", "shared_primitives": ["Ð", "Ř", "ƒ", "Ç", "ɢ", "Ħ", "Ω"], "resolved_conflicts": [{"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": "Φ", "a": "𐑬", "b": "𐑿", "resolved": "𐑿"}, {"primitive": "Γ", "a": "𐑲", "b": "𐑚", "resolved": "𐑚"}, {"primitive": "⊙", "a": "⊙", "b": "𐑢", "resolved": "𐑢"}, {"primitive": "Σ", "a": "𐑕", "b": "𐑙", "resolved": "𐑙"}], "interpretation": "Structural floor of reduced_character_orbit_computation ∧ norm_sieve_execution. 5 primitive(s) resolved to conservative value; 7 shared. These are the primitives both systems possess without qualification."}
 ● TOOL click ray_class_field_Qsqrt stark_unit_mixed_signature_open
 click-maths:  ray_class_field_Qsqrt  ⋈  stark_unit_mixed_signature_open   (θ=0.50)
   live-pair charges (norm(x) − norm(y), the spring-loaded axis):
@@ -449,7 +449,7 @@ However, the **kernel cardinality** remains **unverified** as 1024 (2873 candida
 | Lemma | Role | Status | Evidence |
 | :--- | :--- | :--- | :--- |
 | **[Φ] Encoding/Duality** | Bijective encoding | **N** | `scan` = 2873. `filter` unavailable. |
-| **[\Þ] Inverse Structure** | Dual decomposition | **T** | `cycle` = FIXED POINT. |
+| **[\⊣] Inverse Structure** | Dual decomposition | **T** | `cycle` = FIXED POINT. |
 | **[\Ř] Bidirectional Exhaust** | Forward/inverse | **T** | `arrange` + `forge` = CYCLIC. |
 | **[odot] Boundedness** | Confinement | **B** | `distill` = Azeotrope (tie at odot=0.25). |
 | **[Ω] Topological Invariant** | Integer invariant | **T** | `forge` = ρ=2.0000. |

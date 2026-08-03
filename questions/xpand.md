@@ -444,14 +444,14 @@ The last cycle noted that `erdos_szekeres_lattice` (#107) and `collatz_graph` (#
 ### Instantiation: Problem #66 (Sumset density)
 **Restatement**: Does there exist a set A such that 1_A * 1_A(n) ∼ C log n?
 **Status**: Open.
-**Next Line of Attack**: This is a question of the existence of a "logarithmic Sidon set." If A is a Sidon set, 1_A * 1_A(n) ≤ 1. To reach log n, A must possess a specific "additive density" that is neither sparse (Sidon) nor dense (Arithmetic progression). The next step is to construct a set A using the **greedy algorithm modulo n** and verify the growth rate of the convolution using the **Inverse Structure [Þ]** (the Fourier transform of the indicator function).
+**Next Line of Attack**: This is a question of the existence of a "logarithmic Sidon set." If A is a Sidon set, 1_A * 1_A(n) ≤ 1. To reach log n, A must possess a specific "additive density" that is neither sparse (Sidon) nor dense (Arithmetic progression). The next step is to construct a set A using the **greedy algorithm modulo n** and verify the growth rate of the convolution using the **Inverse Structure [⊣]** (the Fourier transform of the indicator function).
 
 ### Summary of the Web
 The web is characterized by a **phase transition in density**:
 1.  **Exponential/Super-polynomial** (Subset sums, Ramsey, Collatz): The system is dominated by branching and growth.
 2.  **Polynomial** (Turán, Sidon, Distances): The system is dominated by geometric constraint and packing.
 
-The "bridge" between these is the **Inverse Structure [Þ]**—the realization that the constraints in #1 (distinct sums) are the duals of the constraints in #41 (distinct triple sums). We are essentially mapping the "entropy" of the set A across these different sum-constraints.
+The "bridge" between these is the **Inverse Structure [⊣]**—the realization that the constraints in #1 (distinct sums) are the duals of the constraints in #41 (distinct triple sums). We are essentially mapping the "entropy" of the set A across these different sum-constraints.
 
 ── PROD (narrated tools, ran none — forcing action) ──
 TOOL: imscribe erdos_szekeres_lattice "lattice of points in R2 for convex polygon theorem"

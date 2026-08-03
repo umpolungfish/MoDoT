@@ -91,7 +91,7 @@ This is the finding that Zosimos placed at the center of his advice to Theosebei
 
 > "Be not thus distracted" 
 
->> halts the branching Topology ($\Large{\text{Þ}: 𐑡→𐑸}$). 
+>> halts the branching Topology ($\Large{\text{⊣}: 𐑡→𐑸}$). 
 
 > "Consider that the good is not in externals, the evil is not in externals" 
 
