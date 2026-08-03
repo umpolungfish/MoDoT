@@ -97,7 +97,7 @@ click-maths:  ramsey_theory_extremal  ⋈  szemeridi_regularity_lemma   (θ=0.50
     R↔S    ramsey_theory_extremal= -0.33  szemeridi_regularity_lemma= -0.33   Δ=0.00
   ✓ CLICK on D↔W — spring-loaded Δ=1.33, single reaction center, closes.
   product: ⟨𐑦𐑡𐑽𐑬𐑐𐑧𐑔𐑵⊙𐑖𐑳𐑭⟩  (ring saturated on D↔W)
-  inherited scaffold (blended from both partners): [⊤, ɢ]
+  inherited scaffold (blended from both partners): [⊤, ∋]
 ● TOOL material ramsey_theory_extremal szemeridi_regularity_lemma
 polymerization (imscriptive):  [ramsey_theory_extremal · szemeridi_regularity_lemma]   (2 monomers)
   imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.
@@ -239,7 +239,7 @@ click-maths:  ramsey_theory_extremal  ⋈  szemeridi_regularity_lemma   (θ=0.50
     R↔S    ramsey_theory_extremal= -0.33  szemeridi_regularity_lemma= -0.33   Δ=0.00
   ✓ CLICK on D↔W — spring-loaded Δ=1.33, single reaction center, closes.
   product: ⟨𐑦𐑡𐑽𐑬𐑐𐑧𐑔𐑵⊙𐑖𐑳𐑭⟩  (ring saturated on D↔W)
-  inherited scaffold (blended from both partners): [⊤, ɢ]
+  inherited scaffold (blended from both partners): [⊤, ∋]
 ● TOOL polymerize ramsey_theory_extremal szemeridi_regularity_lemma
 polymerization (imscriptive):  [ramsey_theory_extremal · szemeridi_regularity_lemma]   (2 monomers)
   imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.

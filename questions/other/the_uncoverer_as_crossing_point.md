@@ -21,7 +21,7 @@ The Uncoverer — the 33-year knowing trajectory, `knowing_trajectory_33_3`:
 
 $$\langle\text{𐑼𐑥𐑾𐑬𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭}\rangle \quad \text{O}_2^\dagger \quad \text{C}=0.5455$$
 
-Infinite-dimensional state-space (⊢=𐑼). Crossing-point topology (⊣=𐑥). Bidirectional coupling (>=𐑾). Partial symmetry — named by another (<=𐑬). Quantum coherence (⋈=𐑐). Slow kinetics (⊤=𐑧). Mesoscale cardinality (∈=𐑔). Sequential composition (ɢ=𐑠). Self-modeling criticality (⊙). Two-step chirality (Ħ=𐑖). Heterogeneous components (Σ=𐑳). Integer winding — irreducible trajectory (Ω=𐑭).
+Infinite-dimensional state-space (⊢=𐑼). Crossing-point topology (⊣=𐑥). Bidirectional coupling (>=𐑾). Partial symmetry — named by another (<=𐑬). Quantum coherence (⋈=𐑐). Slow kinetics (⊤=𐑧). Mesoscale cardinality (∈=𐑔). Sequential composition (∋=𐑠). Self-modeling criticality (⊙). Two-step chirality (Ħ=𐑖). Heterogeneous components (Σ=𐑳). Integer winding — irreducible trajectory (Ω=𐑭).
 
 Wormwood plant (`wormwood`):
 
@@ -66,7 +66,7 @@ The distance geometry forms a perfect isosceles triangle: the Uncoverer at the a
 
 Both meets are identical: `Uncoverer ∧ Wormwood` = `Uncoverer ∧ Sage` = ⟨𐑼𐑥𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩.
 
-Four conflicts resolved conservatively: ⊢=𐑼 (conservative over 𐑦), ⊣=𐑥 (conservative over 𐑸), ⋈=𐑱 (conservative over 𐑐), ⊤=𐑤 (conservative over 𐑧). Eight shared primitives: >, <, ∈, ɢ, ⊙, Ħ, Σ, Ω.
+Four conflicts resolved conservatively: ⊢=𐑼 (conservative over 𐑦), ⊣=𐑥 (conservative over 𐑸), ⋈=𐑱 (conservative over 𐑐), ⊤=𐑤 (conservative over 𐑧). Eight shared primitives: >, <, ∈, ∋, ⊙, Ħ, Σ, Ω.
 
 **The crucial fact:** the Uncoverer's ⊣=𐑥 prevents the meet from rising to ⊣=𐑸. The crossing point is more fundamental than the self-referential loop. The loop requires the crossing point as its precondition — you cannot close a loop without first having a point where paths cross. The Uncoverer's topology is the *prior* of the plants' topology, and the meet proves it.
 
@@ -152,9 +152,9 @@ The Uncoverer does not encode an XOR gate. Does not encode a 2×2 grid. The Unco
 ```
 d(Uncoverer, Wormwood Plant) = 3.3385  (⊢, ⊣, ⋈, ⊤)
 d(Uncoverer, Sage)           = 3.3385  (same four)
-d(Uncoverer, Wormwood Star)  = 3.6513  (⊢, ⊣, ⋈, ∈, ɢ, Ħ, Ω — cosmic scaling)
+d(Uncoverer, Wormwood Star)  = 3.6513  (⊢, ⊣, ⋈, ∈, ∋, Ħ, Ω — cosmic scaling)
 d(Wormwood, Sage)            = 0.0000  (identical)
-d(Wormwood Plant, Star)      = differs (5 primitives: ⋈, ⊤, ∈, ɢ, Ħ, Ω)
+d(Wormwood Plant, Star)      = differs (5 primitives: ⋈, ⊤, ∈, ∋, Ħ, Ω)
 ```
 
 ### 5.3 The Uncoverer's Position: Between Plant and Star
@@ -243,7 +243,7 @@ Demotions:  [⋈, ⊤]    → Classical fidelity, frozen kinetics
 The promotion signature from the Uncoverer to the star is more extensive:
 
 ```
-Promotions (to star): ⊢, ⊣, ∈, ɢ, Ħ    → Self-writing, closure, universal, broadcast, eternal
+Promotions (to star): ⊢, ⊣, ∈, ∋, Ħ    → Self-writing, closure, universal, broadcast, eternal
 Demotions (to star):  ⋈, Ω             → Thermal fidelity, Z₂ winding
 ```
 
@@ -490,7 +490,7 @@ The name of the crossing point is the Uncoverer. And the name of the star is cal
 
 ## Appendix A: Complete Tuple Reference
 
-| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ɢ | ⊙ | Ħ | Σ | Ω | Tier | C-score |
+| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | Ħ | Σ | Ω | Tier | C-score |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|---|---|------|---------|
 | knowing_trajectory_33_3 | 𐑼 | 𐑥 | 𐑾 | 𐑬 | 𐑐 | 𐑧 | 𐑔 | 𐑠 | ⊙ | 𐑖 | 𐑳 | 𐑭 | O₂† | 0.5455 |
 | wormwood | 𐑦 | 𐑸 | 𐑾 | 𐑬 | 𐑱 | 𐑤 | 𐑔 | 𐑠 | ⊙ | 𐑖 | 𐑳 | 𐑭 | O₂ | 0.652 |
@@ -509,7 +509,7 @@ The name of the crossing point is the Uncoverer. And the name of the star is cal
 |----------|----------|-------------|-----------------|-----------|
 | knowing_trajectory_33_3 | wormwood | 3.1623 | 3.3385 | ⊢, ⊣, ⋈, ⊤ |
 | knowing_trajectory_33_3 | sage | 3.1623 | 3.3385 | ⊢, ⊣, ⋈, ⊤ |
-| knowing_trajectory_33_3 | wormwood_star_revelation | 3.0822 | 3.6513 | ⊢, ⊣, ⋈, ∈, ɢ, Ħ, Ω |
+| knowing_trajectory_33_3 | wormwood_star_revelation | 3.0822 | 3.6513 | ⊢, ⊣, ⋈, ∈, ∋, Ħ, Ω |
 | wormwood | sage | 0.0 | 0.0 | none |
 | knowing_trajectory_33_3 | primitive_metabolism | 0.0 | 0.0 | none |
 | knowing_trajectory_33_3 | poemandres | 0.0 | 0.0 | none |

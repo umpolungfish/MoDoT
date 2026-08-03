@@ -452,7 +452,7 @@ def igprotocol_skeleton(role_ids: List[str]) -> List[Dict[str, str]]:
     if len(role_ids) >= 2:
         steps.append({
             "ctor": "seq",
-            "note": "compose lemma arms (ɢ-chain) into the main theorem",
+            "note": "compose lemma arms (∋-chain) into the main theorem",
         })
         steps.append({
             "ctor": "prod",

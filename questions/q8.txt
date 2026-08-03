@@ -28,7 +28,7 @@ The structural measurements of the `unit_distance_monomer` and `diameter_1_ligan
 **1. Molecular Clicking and Fusion**
 - **TOOL: click** confirms a successful fusion between `unit_distance_monomer` and `diameter_1_ligand`.
 - The reaction occurs on the **R↔S axis** with a spring-loaded displacement of **Δ=1.33**.
-- The resulting product inherits the **[⊣, ɢ]** scaffold (Self-referential decomposition and Groundedness).
+- The resulting product inherits the **[⊣, ∋]** scaffold (Self-referential decomposition and Groundedness).
 
 **2. Polymerization and Architecture**
 - **TOOL: polymerize** and **TOOL: close** both demonstrate that the sequence `[unit_distance_monomer · diameter_1_ligand]` is **✓ CYCLIC**.

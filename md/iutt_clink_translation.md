@@ -444,7 +444,7 @@ The doping experiments show that a *single* dopant cannot simultaneously replace
    mathematically: analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum Ω — one ramified level of the extension tower
 ● broadcast
    chemically:    one source unit fires to every subsystem it couples with at once — swept from the whole catalog, the receivers found in a single pass, not enumerated by hand
-   mathematically: the ɢ broadcast primitive f → all(x): the source composed with all subsystems it fuses with, discovered by sweeping the catalog from the source; the signal reaches every coupling subsystem in one step, which is exactly what CLINK L8 (ɢ) demands
+   mathematically: the ∋ broadcast primitive f → all(x): the source composed with all subsystems it fuses with, discovered by sweeping the catalog from the source; the signal reaches every coupling subsystem in one step, which is exactly what CLINK L8 (∋) demands
 
 
 ============================================================

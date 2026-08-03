@@ -36,7 +36,7 @@ const MAP: [(u8, &str, &str, &str, &str); 12] = [
 
 const TRAPS: &str = "\
   TRAPS — same glyph, DIFFERENT axis across the faces:\n\
-    navigator ∈ = core G (Scope/Granularity)   but   core ∈ = navigator ɢ (Interaction Grammar)\n\
+    navigator ∈ = core G (Scope/Granularity)   but   core ∈ = navigator ∋ (Interaction Grammar)\n\
     navigator < = core P (Parity/Symmetry)     but   core < = navigator ⊙ (Criticality)\n\
     Ω is the one glyph at the SAME axis in both faces (Topological Protection).\n\
   Never assume same glyph = same axis across dialects. Content and family\n\

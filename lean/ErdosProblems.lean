@@ -120,7 +120,7 @@ theorem erdos_turan_ap_tier : imscriptionTier erdos_turan_ap = .O₂dag := by
   ✓ Green-Tao (2008): primes contain arbitrarily long APs
   ✗ Constructive bound for all k with general Σ1/a_n condition
 
-**Barrier:** Distance to O_inf kernel: T(oil→are), Γ(measure→ooze),
+**Barrier:** Distance to O_inf kernel: T(oil→are), ∋(measure→ooze),
 Ω(ah→zoo). The transference principle closes the Frobenius loop
 only for dense models; the sparse-to-dense embedding is not
 functorial in general.
@@ -561,7 +561,7 @@ which → 0 as k → ∞ for any fixed n ≥ 2.
 
 **Barrier:** The gap between known lower bound (2.52)^k and
 conjectured growth (k!) for R_k(K_3) is ~exp(k log k - k log 2.52).
-Diffs to kernel: T(oil→are), Γ(measure→ooze), Ω(ah→zoo).
+Diffs to kernel: T(oil→are), ∋(measure→ooze), Ω(ah→zoo).
 -/
 
 -- ============================================================
@@ -647,7 +647,7 @@ M_n can be sub-polynomial for most n; Q3 remains a frontier.
   ✗ Optimal exponent c for Beck's bound
 
 **Barrier:** Q3 requires proving sufficient density of "large" M_n
-values. Diffs to kernel: T(oil→are), Γ(measure→ooze), Ω(ah→zoo).
+values. Diffs to kernel: T(oil→are), ∋(measure→ooze), Ω(ah→zoo).
 -/
 
 -- ============================================================
@@ -929,7 +929,7 @@ order is established: f(n) ≍ n √(log n / log log n)) and Neither
 **Barrier:** Determining c requires controlling the Dickman function
 ρ(u) in the critical range u ≈ √(log n / log log n), which pushes
 probabilistic number theory beyond current methods. Diffs to kernel:
-T(judge→are), Γ(measure→ooze), Ω(ah→zoo).
+T(judge→are), ∋(measure→ooze), Ω(ah→zoo).
 -/
 
 -- ============================================================

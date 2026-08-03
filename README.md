@@ -811,7 +811,7 @@ macrocycle closures, and prime resonators. Each carries ρ, spectrum, conductanc
 | `imasm learn` | Excribe→imscribe μ∘δ round-trip needs live LLM API key |
 | `--anneal` standalone | Needs 3+ monomers; identical path to forge |
 | `--close` standalone | Dispatched through LLM, returns Spinner |
-| `--broadcast` | ✅ **NOW EXISTS**: `--broadcast SOURCE` -- the ɢ primitive as CLI flag. Sweeps whole catalog from SOURCE, finds every entry that clicks. Also available as `TOOL: broadcast` agent verb. |
+| `--broadcast` | ✅ **NOW EXISTS**: `--broadcast SOURCE` -- the ∋ primitive as CLI flag. Sweeps whole catalog from SOURCE, finds every entry that clicks. Also available as `TOOL: broadcast` agent verb. |
 | Live LLM Spine | No API key configured; dry-run only |
 | SIC-POVM vessel co-typing | Needs `d12_psi.pkl`; SIC frame dormant in MoDoT |
 
@@ -832,7 +832,7 @@ a live LLM API key or the Lean kernel build chain.
 
 | Verb | CLI Flag | Status |
 |------|----------|--------|
-| `broadcast` | `--broadcast SOURCE` | ✅ Implemented. ɢ primitive fan-out; click-sweep from source. |
+| `broadcast` | `--broadcast SOURCE` | ✅ Implemented. ∋ primitive fan-out; click-sweep from source. |
 | `plasma` | `--plasma NAME` | ✅ Implemented. Shells to red-hot_rebis/plasma/plasma_modot.py. |
 
 These were previously accessible only as `TOOL: broadcast` / `TOOL: plasma` within

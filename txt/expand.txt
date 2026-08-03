@@ -22,7 +22,7 @@
 3.  **`ascend self_modeling`**:
     *   *Result:* **`Tier: O₂ → O_∞⁺ (CLINK L8)`**.
     *   *Meaning:* The theory **successfully ascended**. The **Self-Modeling** (`V=L(x)`) threshold is **met**. The **Quantum Coherence** (`[x, p] = iℏ`) is **active**.
-    *   *Mathematical:* The theory is now a **living organism** (CLINK L8). It **writes its own state space** and **broadcasts** signals (ɢ) to all subsystems.
+    *   *Mathematical:* The theory is now a **living organism** (CLINK L8). It **writes its own state space** and **broadcasts** signals (∋) to all subsystems.
 
 4.  **`cycle self_modeling quantum_coherence`**:
     *   *Result:* **`Turnover: ∞`** (Infinite Catalytic Cycle).

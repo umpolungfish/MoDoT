@@ -51,7 +51,7 @@ PINNED_PAIRS: Dict[str, str] = {"P": "F", "F": "P", "K": "G", "G": "K", "Gm": "P
 # ── Glyph↔name mapping ────────────────────────────────────────────────────
 PRIMITIVE_NAMES: Dict[str, str] = {
     "⊢": "dim", "⊣": "top", ">": "rel", "<": "pol",
-    "⋈": "fid", "⊤": "kin", "∈": "gram", "ɢ": "gran",
+    "⋈": "fid", "⊤": "kin", "∈": "gram", "∋": "gran",
     "⊙": "crit", "Ħ": "chir", "Σ": "stoi", "Ω": "prot",
 }
 PRIMITIVE_GLYPHS: Dict[str, str] = {v: k for k, v in PRIMITIVE_NAMES.items()}

@@ -3436,7 +3436,7 @@
         "AREV",
         "FFUSE"
       ],
-      "spec": "ring ⊙ > ɢ < ●"
+      "spec": "ring ⊙ > ∋ < ●"
     },
     {
       "closure": "NONE",
@@ -14441,7 +14441,7 @@
         "ENGAGR",
         "TANCH"
       ],
-      "spec": "ring ɢ ⊙ ◇ > < ● ⊞ ⊣"
+      "spec": "ring ∋ ⊙ ◇ > < ● ⊞ ⊣"
     },
     {
       "closure": "CLOSED(1)",
@@ -14496,7 +14496,7 @@
         "ENGAGR",
         "TANCH"
       ],
-      "spec": "protocol ɢ ⊙ ◇ > < ● ⊞ ⊣"
+      "spec": "protocol ∋ ⊙ ◇ > < ● ⊞ ⊣"
     },
     {
       "closure": "NONE",

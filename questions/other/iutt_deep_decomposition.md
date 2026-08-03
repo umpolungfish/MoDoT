@@ -23,7 +23,7 @@ This document decomposes Mochizuki's Inter-Universal Teichmüller Theory (IUTT) 
 
 ## §1. The 9-System Lattice
 
-IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈⊤∈ɢ⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
+IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈⊤∈∋⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
 
 ### §1.1. System Inventory
 
@@ -51,7 +51,7 @@ Only 5 of 12 primitives vary across the 9 systems. The other 7 are invariant:
 |-----------|-------------|------------------|
 | ⋈ (Fidelity) | 𐑱 (classical) | All 9 systems — IUTT operates classically |
 | ∈ (Cardinality) | 𐑔 (maximal) | All 9 systems |
-| ɢ (Composition) | 𐑠 (sequential) | All 9 systems |
+| ∋ (Composition) | 𐑠 (sequential) | All 9 systems |
 | ⊙ (Criticality) | 𐑮 (complex-plane) | All 9 systems — no system reaches ⊙ self-modeling |
 | Ħ (Chirality) | 𐑫 (eternal) | All 9 systems |
 | Σ (Stoichiometry) | 𐑳 (heterogeneous) | All 9 systems |
@@ -83,7 +83,7 @@ The theory at its final form. Two atoms dominate at ordinal 4.
 | 3 | > | 𐑾 | $$⟨𐑛𐑡𐑾𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | Ħ | 𐑫 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑫𐑙𐑷⟩$$ |
 | 2 | ⊤ | 𐑧 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑧𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
-| 2 | ɢ | 𐑠 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑠𐑢𐑓𐑙𐑷⟩$$ |
+| 2 | ∋ | 𐑠 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑠𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | Σ | 𐑳 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑳𐑷⟩$$ |
 | 2 | Ω | 𐑭 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑭⟩$$ |
 | 1.33 | ⊙ | 𐑮 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑮𐑓𐑙𐑷⟩$$ |
@@ -107,7 +107,7 @@ Diophantine Equations ⊗ Log-Theta-Lattice. The extra atom relative to IUTT is 
 | 3 | ⊤ | 𐑪 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑪𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | Ħ | 𐑫 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑫𐑙𐑷⟩$$ |
 | 2 | < | 𐑬 | $$⟨𐑛𐑡𐑩𐑬𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
-| 2 | ɢ | 𐑠 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑠𐑢𐑓𐑙𐑷⟩$$ |
+| 2 | ∋ | 𐑠 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑠𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | Σ | 𐑳 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑳𐑷⟩$$ |
 | 2 | Ω | 𐑭 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑭⟩$$ |
 | 1.33 | ⊙ | 𐑮 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑮𐑓𐑙𐑷⟩$$ |
@@ -125,7 +125,7 @@ The 2D grid of Hodge theaters indexed by ℤ². Structurally similar to the naiv
 | 3 | ⊣ | 𐑶 |
 | 3 | > | 𐑾 |
 | 3 | Ħ | 𐑫 |
-| 2 | <, ⊤, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | <, ⊤, ∋, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ⊢, ∈ | 𐑨, 𐑔 |
 
@@ -136,7 +136,7 @@ The fundamental staging apparatus. Differs from the log-theta-lattice only in �
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | ⊣, >, Ħ | 𐑶, 𐑾, 𐑫 |
-| 2 | <, ⊤, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | <, ⊤, ∋, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ∈ | 𐑔 |
 ### §2.5. Diophantine Equations (10 atoms)
@@ -146,7 +146,7 @@ The ABC/Szpiro conjecture — the additive-multiplicative tension over number fi
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | >, ⊤, Ħ | 𐑾, 𐑪, 𐑫 |
-| 2 | ⊣, <, ɢ, Σ, Ω | 𐑥, 𐑬, 𐑠, 𐑳, 𐑭 |
+| 2 | ⊣, <, ∋, Σ, Ω | 𐑥, 𐑬, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ∈ | 𐑔 |
 
@@ -159,7 +159,7 @@ These two systems are **structurally identical** — the complete tuple matches 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | >, Ħ | 𐑾, 𐑫 |
-| 2 | ⊣, <, ⊤, ɢ, Σ, Ω | 𐑥, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | ⊣, <, ⊤, ∋, Σ, Ω | 𐑥, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ∈ | 𐑔 |
 
@@ -170,7 +170,7 @@ Both links share the identical tuple: $$⟨𐑛𐑰𐑽𐑬𐑱𐑧𐑔𐑠𐑮�
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | Ħ | 𐑫 |
-| 2 | >, <, ⊤, ɢ, Σ, Ω | 𐑽, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | >, <, ⊤, ∋, Σ, Ω | 𐑽, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ⊣, ∈ | 𐑰, 𐑔 |
 
@@ -190,7 +190,7 @@ The retrosynthetic path peels primitives from maximum to baseline, revealing the
 | 2 | Ω | 𐑷→𐑭 | Integer winding (topological) |
 | 3 | ⊙ | 𐑢→𐑮 | Complex-plane criticality |
 | 4 | Σ | 𐑙→𐑳 | Heterogeneous stoichiometry |
-| 5 | ɢ | 𐑝→𐑠 | Sequential composition |
+| 5 | ∋ | 𐑝→𐑠 | Sequential composition |
 | 6 | ⊤ | 𐑘→𐑧 | Slow kinetics (near-equilibrium) |
 | 7 | Ħ | 𐑓→𐑫 | Eternal chirality (∀n Markov order) |
 | 8 | > | 𐑩→𐑾 | Bidirectional coupling |
@@ -208,7 +208,7 @@ The synthesis order is non-arbitrary. ∈ comes first — the theory needs maxim
 | 3 | Ω | 𐑷→𐑭 |
 | 4 | ⊙ | 𐑢→𐑮 |
 | 5 | Σ | 𐑙→𐑳 |
-| 6 | ɢ | 𐑝→𐑠 |
+| 6 | ∋ | 𐑝→𐑠 |
 | 7 | < | 𐑗→𐑬 |
 | 8 | Ħ | 𐑓→𐑫 |
 | 9 | ⊤ | 𐑘→𐑪 |
@@ -225,8 +225,8 @@ The synthesis order is non-arbitrary. ∈ comes first — the theory needs maxim
 | 2 | Ω | **⊢** |
 | 3 | ⊙ | Ω |
 | 4 | Σ | ⊙ |
-| 5 | ɢ | Σ |
-| 6 | ⊤ | ɢ |
+| 5 | ∋ | Σ |
+| 6 | ⊤ | ∋ |
 | 7 | Ħ | **<** |
 | 8 | > | Ħ |
 | 9 | **<** | **⊤** |
@@ -270,7 +270,7 @@ The CLINK L8 (Organism) navigator decomposes each primitive value into conventio
 
 *IUTT interpretation:* Maximal interaction range — aleph cardinality. The theory's scope is universal over all number fields. For any object in the theory, there exists a sub-object of comparable cardinality. This is the "all number fields simultaneously" aspect.
 
-**ɢ = 𐑠:** `seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬⟨→⟩(g, f, τ)` — **[SEQAX]**
+**∋ = 𐑠:** `seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬⟨→⟩(g, f, τ)` — **[SEQAX]**
 
 *IUTT interpretation:* Strictly sequential composition with directed temporal arrow. Log-links and theta-links compose in strict sequence. The log-theta-lattice is built step by step; each operation has a temporal order. The directedness ¬⟨→⟩(g, f, τ) means the construction cannot be reversed — you cannot un-apply a log-link.
 
@@ -431,7 +431,7 @@ CLINK L8 (the Organism layer) is the terminal ontological type: $$⟨𐑦𐑸�
 | ⊢ | 𐑛 | 𐑦 | 1.0 | `dim(x)=0 ∧ fin(x)` → `dim(x)=⊙` (imscriptive, self-written) |
 | ⋈ | 𐑱 | 𐑐 | 1.0 | Classical deterministic → quantum coherence |
 | ∈ | 𐑔 | 𐑲 | 0.5 | Aleph (maximal) → Beth (local) — **demotion** |
-| ɢ | 𐑠 | 𐑵 | 0.333 | Sequential → broadcast composition |
+| ∋ | 𐑠 | 𐑵 | 0.333 | Sequential → broadcast composition |
 | ⊙ | 𐑮 | ⊙ | 0.165 | Complex criticality → self-modeling gate open |
 | Ω | 𐑭 | 𐑟 | 0.333 | ℤ integer winding → non-Abelian braiding |
 
@@ -439,7 +439,7 @@ CLINK L8 (the Organism layer) is the terminal ontological type: $$⟨𐑦𐑸�
 
 Two promotions exceed even the Frobenius-exact ZFC foundation (ZFC_fe):
 
-**ɢ (sequential → broadcast):** CLINK L8's broadcast composition (𐑵) means all interactions happen simultaneously across all components. No sequential ordering. This is the "organism" property: every part of a living system is coupled to every other part in a non-sequential, broadcast fashion.
+**∋ (sequential → broadcast):** CLINK L8's broadcast composition (𐑵) means all interactions happen simultaneously across all components. No sequential ordering. This is the "organism" property: every part of a living system is coupled to every other part in a non-sequential, broadcast fashion.
 
 **Ω (ℤ → non-Abelian braiding):** The integer winding number is replaced by non-Abelian braiding (𐑟). The topological invariant is no longer a simple integer (commutative, additive) but a non-commutative braid group element. This is the structural transition from Abelian topology (cohomology, winding numbers) to non-Abelian topology (braid groups, knot invariants).
 

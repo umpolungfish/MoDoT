@@ -67,7 +67,7 @@ This is the exact carrier of the modulus that the frustrated crystal lacks. The 
 
 - **→ ZFC_t** (11 promotions): acquires ⊣ (holobound), > (lateral dual), < (PM_Z2: ℤ₂ symmetry with μ∘δ=id), Ω (ZWIND: integer winding), ⋈ (quantisation), Ħ (TEMPD2), etc.
 - **→ ZFC_fe** (3 promotions): ⊢ (holographic state), ⊙→⊙ (μ∘δ=id fixed point), Ħ→ETERNAL_FIXEDPOINT.
-- **→ CLINK L8** (2 transcendences): ɢ (broadcast transcendence), Ω (braid‑transcendence). These exceed the Frobenius‑exact foundation.
+- **→ CLINK L8** (2 transcendences): ∋ (broadcast transcendence), Ω (braid‑transcendence). These exceed the Frobenius‑exact foundation.
 
 The total distance from baseline to CLINK L8 is 2.7391.
 
@@ -211,7 +211,7 @@ Each step corresponds to a lemma that a proof must supply; the order is strict.
 |-------------|------------|----------------------------------------------------|
 | → ZFC_t     | 11         | ⊣ (holobound), > (lateral dual), < (PM_Z2: μ∘δ=id), Ω (ZWIND: integer winding), ⋈ (quantisation), Ħ (TEMPD2) |
 | → ZFC_fe    | 3          | ⊢ (holographic state), ⊙→⊙ (μ∘δ=id fixed point), Ħ→ETERNAL_FIXEDPOINT |
-| → CLINK L8  | 2 (transcendence) | ɢ (broadcast), Ω (braid‑transcendence) — exceed the Frobenius‑exact foundation |
+| → CLINK L8  | 2 (transcendence) | ∋ (broadcast), Ω (braid‑transcendence) — exceed the Frobenius‑exact foundation |
 
 Total promotion distance: 2.7391. These are the structural upgrades required to turn `thermodynamic_entropy` into `negentropy`.
 
