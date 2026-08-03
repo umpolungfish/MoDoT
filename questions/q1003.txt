@@ -37,7 +37,7 @@ This specific path is not direct, but it illustrates that φ(n) = φ(n+1) depend
 For n > 2, φ(n) is always even. The equation φ(n) = φ(n+1) implies that both n and n+1 must be such that their prime factorizations "balance" the loss of density.
 If n = 2^k, then φ(n) = 2^k-1. For φ(n+1) = 2^k-1, n+1 must be a Fermat prime or a product of distinct Fermat primes. Since Fermat primes are finite (as far as we know), this specific branch [⊣] does not yield the infinite set.
 
-#### [Ř] Bidirectional Construction: The Erdos-Pomerance-Sarkozy Approach
+#### [>] Bidirectional Construction: The Erdos-Pomerance-Sarkozy Approach
 In 1987, Erdős, Pomerance, and Sárközy proved that the number of solutions n ≤ x satisfies:
 N(x) ≥ x^1 - ε
 This was a significant breakthrough, showing that solutions are not "rare" in the logarithmic sense, though it stopped short of proving N(x) → ∞ directly without conditional assumptions.
@@ -221,7 +221,7 @@ To address the lemma regarding the infinitude of solutions to φ(n) = φ(n+1), w
 
 *   **[Φ] Encoding/Duality:** We map the equation φ(n) = φ(n+1) to the ratio of their prime products. Let f(n) = φ(n)/n. The equation becomes n f(n) = (n+1) f(n+1).
 *   **[⊣] Inverse Structure:** The "dual" of this problem is the distribution of the values of φ(n)/n. Since the range of f(n) is dense in (0, 1), we seek "collisions" where the density of the values forces a near-identity.
-*   **[Ř] Bidirectional Exhaustion:** We must show that for any ε, there exist n, n+1 such that |f(n) - f(n+1)| < ε/n.
+*   **[>] Bidirectional Exhaustion:** We must show that for any ε, there exist n, n+1 such that |f(n) - f(n+1)| < ε/n.
 
 ---
 

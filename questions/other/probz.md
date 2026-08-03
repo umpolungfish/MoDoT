@@ -316,7 +316,7 @@ excite:  ⊙_c_critical_boundary_operator  →hν→  ⊙_c_critical_boundary_op
     μ (relaxation / fluorescence): ⊙_c_critical_boundary_operator* → ⊙_c_critical_boundary_operator  — returns to the ground form, lossless (μ∘δ=id).
     productive: the elevated ⊙ drives chemistry the ground state cannot — ⊙_c_critical_boundary_operator* is a far stronger donor/acceptor (see `--set ⊙_c_critical_boundary_operator <acceptor> --excite`).
 ● TOOL tlc erdos_moser_bound halasz_inequality extradimensional_entity
-TLC (spread by Rf = mobility, the inverse of retention Ř; count the bands):  {erdos_moser_bound, halasz_inequality, extradimensional_entity}
+TLC (spread by Rf = mobility, the inverse of retention >; count the bands):  {erdos_moser_bound, halasz_inequality, extradimensional_entity}
   band  1 (Rf=1.00): extradimensional_entity
   band  2 (Rf=0.00): erdos_moser_bound, halasz_inequality   ⚠ co-elution (same Rf)
   2 distinct band(s) over 3 unit(s).

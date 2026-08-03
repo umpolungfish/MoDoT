@@ -365,7 +365,7 @@ We enter Cycle 2. The established truths (Problems 1, 89, 146) are locked in the
 ## Structural lemma roles (domain-invariant templates)
 - Encoding/Duality [Φ]: Bijective encoding of A into its generating function F(z) = Σ z^a.
 - Inverse structure [⊣]: Balog-Szemerédi-Gowers (BSG) extraction of structured subsets (GAPs) from high local energy.
-- Bidirectional [Ř]: Forward convolution (A+A) and inverse Fourier analysis exhaust the representation space.
+- Bidirectional [>]: Forward convolution (A+A) and inverse Fourier analysis exhaust the representation space.
 - Boundedness [⊙]: Confinement of r_A(n) ≤ C forces A(x) = O(x^1/2), preventing density escape.
 - Topological invariant [Ω]: The integer invariant of the sumset covering [N, 2N] rules out purely pseudorandom exotics.
 - Regularity [Ç]: Equidistribution of the pseudorandom component of A forces its convolution to concentrate around the mean.

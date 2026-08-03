@@ -1355,7 +1355,7 @@
     "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },
   "parity_manifold_torsion_test": {
-    "spec": "ring ⊙ > Ř ↔ S <",
+    "spec": "ring ⊙ > > ↔ S <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
@@ -1565,7 +1565,7 @@
     "topology": "  topology: branched | V=4 E=4 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2882\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 3 in — reactive, not errors"
   },
   "protocol_reseed_v5": {
-    "spec": "protocol moat_protocol_reseed ◇ Φ Ç ● Ř Γ",
+    "spec": "protocol moat_protocol_reseed ◇ Φ Ç ● > Γ",
     "title": "protocol",
     "topology": "  topology: branched | V=2 E=2 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: identity — δ arms reconnect at μ but nothing transforms between them; μ∘δ=id does no work and type-checks nothing\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
   },

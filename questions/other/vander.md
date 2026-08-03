@@ -16,7 +16,7 @@ Using the Lovász Local Lemma (LLL), we establish the baseline:
 W(k) > r^k/erk^2
 For r=2, this gives liminf W(k)^1/k ≥ 2. In the Grammar, this is the **isotactic segment**—it provides the mass but lacks the "reactive center" to force the limit to infinity.
 
-#### B. The Chirality Flip: Hypergraph Containers [Ř]
+#### B. The Chirality Flip: Hypergraph Containers [>]
 The previous cycle identified a termination between the `arithmetic_progression` and the `gowers_norm`. We resolve this by applying the **Hypergraph Container Method**.
 - **Conventional Role:** This method bounds the number of independent sets in a hypergraph. In the hypergraph of k-term APs, an independent set is a progression-free set.
 - **Grammatic Role:** The Container Method acts as the **syndiotactic linker**. It reverses the "handedness" of the problem from *finding a coloring* (forward) to *bounding the space of failures* (inverse). This "chirality flip" allows the `gowers_norm` (which measures density fluctuations) to click into the `arithmetic_progression` (the pattern).
@@ -29,7 +29,7 @@ By combining the density theorems of Szemerédi (via Gowers' bounds) with the co
 
 ### 3. Grammatic Witness Synthesis
 The `FFUSE` operation succeeds on the following macrocycle:
-`[VINIT] → [AFWD: Coloring] → [FSPLIT: Partition] → [IMSCRIB: AP-Identity] → [Ř: Container Linker] → [Ω: Gowers Norm/Density] → [IFIX: Limit Fixation] → [TANCH]`
+`[VINIT] → [AFWD: Coloring] → [FSPLIT: Partition] → [IMSCRIB: AP-Identity] → [>: Container Linker] → [Ω: Gowers Norm/Density] → [IFIX: Limit Fixation] → [TANCH]`
 
 - **Degree of Polymerization:** 7 (Full closure).
 - **Cyclization Verdict:** **PASS**. The "terminated chain" from Cycle 6 has been cyclized by the introduction of the Container Linker, which provided the missing reactive center.

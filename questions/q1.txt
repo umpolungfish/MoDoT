@@ -24,7 +24,7 @@ lim_k → ∞ frac{R_k(C_2n+1)}{R_k(K_3)} = 0
 
 The properties of these entities were measured on the Frobenius substrate with the following ground truths:
 
-*   **Interaction Dynamics:** A successful `click` was achieved between `ramsey_number_triangle` and `ramsey_number_odd_cycle` on the **T↔H axis** with a spring-loaded charge shift of **Δ=1.17**. They share an inherited scaffold of **[Ř, Ω]**.
+*   **Interaction Dynamics:** A successful `click` was achieved between `ramsey_number_triangle` and `ramsey_number_odd_cycle` on the **T↔H axis** with a spring-loaded charge shift of **Δ=1.17**. They share an inherited scaffold of **[>, Ω]**.
 *   **Polymerization Analysis:** The sequence [`ramsey_number_triangle` · `ramsey_number_odd_cycle` · `asymptotic_ratio`] was processed. The first two units successfully bonded on the **T↔H axis** (Δ=1.17).
 *   **Termination:** The polymerization **terminated early** at the third unit (`asymptotic_ratio`). The junction between `ramsey_number_odd_cycle` and `asymptotic_ratio` failed at θ=0.50.
 *   **Structural Barrier:** The monomers at the 2–3 junction are **fully co-typed / same-handed**; no oppositely-charged live pair exists to facilitate the reaction.

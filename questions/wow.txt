@@ -2,7 +2,7 @@ The most direct constraint is: $(n-i) \mid \binom{n}{k}$ iff $(n-i) \mid \frac{n
 This is equivalent to: $k! (n-i) \mid n(n-1)\dots(n-k+1)$.
 Let $L = \text{lcm}(1, 2, \dots, k)$.
 
-**Bidirectional [Ř]:**
+**Bidirectional [>]:**
 If $n-i$ divides $\binom{n}{k}$ for $k-1$ values of $i$, then for those $i$, $k!$ must divide the product of the remaining $k-1$ terms.
 Specifically, if $i$ is the index that fails, then for all $j \neq i$, we have:
 $k!$ divides $\frac{\prod_{m=0}^{k-1} (n-m)}{n-j}$.
@@ -136,7 +136,7 @@ $$f(N) \ge (1+o(1))N^{1/3}$$
 ### 3. Structural Lemma Roles [Domain-invariant]
 *   **Encoding/Duality [Φ]:** The map $\Psi: A^3/S_3 \to \{3, \dots, 3N\}$ defined by $(a,b,c) \mapsto a+b+c$ is injective by the definition of a $B_3$ set.
 *   **Inverse structure [⊣]:** The "difference set" formulation $a_1+a_2+a_3 = a_4+a_5+a_6$ implies $a_1+a_2-a_4-a_5 = a_6-a_3$, showing that $B_3$ properties constrain the $k$-th order differences.
-*   **Bidirectional [Ř]:** The lower bound (existence) and upper bound (capacity) both yield a growth rate of $O(N^{1/3})$, but the constants do not currently meet at a single limit.
+*   **Bidirectional [>]:** The lower bound (existence) and upper bound (capacity) both yield a growth rate of $O(N^{1/3})$, but the constants do not currently meet at a single limit.
 *   **Boundedness [⊙]:** The sumset $3A$ is contained within $[3, 3N]$.
 *   **Topological invariant [Ω]:** The density $\lim_{N \to \infty} f(N)/N^{1/3}$ is bounded between $1$ and $18^{1/3}$.
 
@@ -322,7 +322,7 @@ Since $\sum \frac{1}{p}$ diverges (Euler), $(\sum \frac{1}{p})^2$ diverges to in
 ### Lemma [⊣]: The Greedy Algorithm Barrier and Modular Constraints
 A standard greedy algorithm for Egyptian fractions does not guarantee the denominators are semiprimes. However, we must satisfy a parity/modular constraint. If $b$ is squarefree, we must ensure that for every prime $p|b$, there are denominators in our sum that "cancel" the factor $p$ in the denominator. Since every $n_i$ is a product of two primes, we have more flexibility than if $n_i$ were restricted to primes.
 
-### Lemma [Ř]: Expansion via Harmonic Subsets
+### Lemma [>]: Expansion via Harmonic Subsets
 A theorem by Graham (1964) and subsequent refinements regarding "Egyptian fractions with restricted denominators" states that for a set of integers $S$, a rational $a/b$ can be represented as a sum of distinct reciprocals of elements of $S$ if and only if:
 1. $a/b$ is sufficiently small (or $S$ is large enough to sum to any value, which $\mathcal{S}_2$ is).
 2. For every prime $p$, if $p$ divides the denominator of some element in the set of all possible sub-sums, it can be eliminated.
@@ -635,7 +635,7 @@ Given $n$ distinct points $A\subset\mathbb{R}^2$ must there be a point $x\in A$ 
 ## Structural lemma roles
 - **Encoding/Duality [Φ]:** Transformation of the point-set distance problem into an intersection problem of lines in $\mathbb{R}^3$ via the Guth-Katz polynomial partitioning.
 - **Inverse structure [⊣]:** Use of the Cayley-Salmon theorem and the study of ruled surfaces to bound the number of lines in a common surface.
-- **Bidirectional [Ř]:** Equivalence between the number of pairs $(p, q)$ with a fixed distance and the number of intersections of specific algebraic curves.
+- **Bidirectional [>]:** Equivalence between the number of pairs $(p, q)$ with a fixed distance and the number of intersections of specific algebraic curves.
 - **Boundedness [⊙]:** The Szemerédi-Trotter theorem provides the upper bound on incidences, constraining the "escape" of point-pair counts.
 - **Topological invariant [Ω]:** The use of polynomial degree $d$ as a scaling invariant to partition the space $\mathbb{R}^d$.
 - **Regularity [Ç]:** The log-factor discrepancy arising from the specific configuration of the integer lattice $\mathbb{Z}^2$.
@@ -796,7 +796,7 @@ theorem ordinal_ramsey_beta_limit (β : Ordinal) :
 ## Structural lemma roles
 - **Encoding [Φ]:** Map vertices of $K_{\omega^2}$ to $\mathbb{N} \times \mathbb{N}$.
 - **Inverse structure [⊣]:** The Specker coloring $c((n_1, m_1), (n_2, m_2)) = Blue \iff n_1 < n_2 \land m_1 > m_2$.
-- **Bidirectional [Ř]:** If a set is Red-monochromatic, it is an increasing chain in the product order; if Blue, a decreasing chain.
+- **Bidirectional [>]:** If a set is Red-monochromatic, it is an increasing chain in the product order; if Blue, a decreasing chain.
 - **Boundedness [⊙]:** Well-ordering of $\mathbb{N}$ implies Blue cliques are finite (no infinite descending chains).
 - **Topological invariant [Ω]:** The order type $\omega^2$ cannot be realized by a set where the second coordinate is non-decreasing relative to the first if the first coordinate must also advance.
 - **Regularity [Ç]:** For $\beta < 2$, the density of $\omega$ allows the infinite Ramsey theorem to apply.
@@ -907,7 +907,7 @@ We map the geometric constraint (equality of distances) to a hypergraph $H = (V,
 ## 2. Inverse Structure [⊣]
 To prove $P_2(n) < n^{1-c}$, we construct a "worst-case" set $X$. If $X$ is the set of vertices of a regular $n$-gon, the condition of being isosceles-free is equivalent to being "3-term arithmetic progression free" in the cyclic group $\mathbb{Z}_n$.
 
-## 3. Bidirectional [Ř]
+## 3. Bidirectional [>]
 - **Forward:** Any subset $S \subset \text{Grid}(\sqrt{n})$ with $|S| \geq n^{1-c}$ contains a solution to $x+y=2z$ in a projection, which corresponds to an isosceles triangle.
 - **Inverse:** Deleting points from $X$ to remove all edges in $H$ requires removing a large fraction of points if the edge density is high.
 
@@ -1021,7 +1021,7 @@ theorem connective_constant_exists (k : ℕ) (hk : k > 0) :
 ## Structural Lemma Roles [Instantiated]
 - **Encoding [Φ]:** The mapping of a SAW to its sequence of unit increments in $\{\pm e_1, \dots, \pm e_k\}$.
 - **Inverse structure [⊣]:** The time-reversal of a SAW is also a SAW, ensuring symmetry in the path space.
-- **Bidirectional [Ř]:** Concatenation provides the submultiplicative upper bound; bridge decomposition provides the lower bound.
+- **Bidirectional [>]:** Concatenation provides the submultiplicative upper bound; bridge decomposition provides the lower bound.
 - **Boundedness [⊙]:** $d \le C_k \le 2k-1$, ensuring the limit is finite and non-zero for $k > 1$.
 - **Topological invariant [Ω]:** The connective constant is independent of the starting vertex due to lattice translation invariance.
 - **Regularity [Ç]:** The ratio $f(n+1, k)/f(n, k)$ is conjectured to converge to $C_k$.
@@ -1123,7 +1123,7 @@ The `support` of the walk $C$ gives the set of vertices. The `induce` function c
 #### Structural lemma roles
 - **Encoding/Duality [Φ]:** The mapping of distance layers $L_i$ to chromatic bounds.
 - **Inverse structure [⊣]:** If no such cycle exists, the graph admits a $2^{k-2}$ coloring via hierarchical decomposition.
-- **Bidirectional [Ř]:** The relationship between the diameter of blocks and the length of cycles contained within.
+- **Bidirectional [>]:** The relationship between the diameter of blocks and the length of cycles contained within.
 - **Boundedness [⊙]:** $\chi(G)$ is bounded by the max chromatic number of its blocks.
 - **Topological invariant [Ω]:** Parity of cycles (oddness) serves as the primary constraint on the induced subgraph.
 - **Regularity [Ç]:** Use of the fact that high chromatic graphs contain highly connected subgraphs.
@@ -1168,7 +1168,7 @@ Are there infinitely many binomial coefficients with deficiency $1$? Are there o
 ## Structural lemma roles
 - **Encoding/Duality [Φ]:** Kummer’s Theorem relates the p-adic valuation of $\binom{n}{k}$ to carries in base $p$.
 - **Inverse structure [⊣]:** The condition that no prime $p \leq k$ divides $\binom{n}{k}$ implies that for all $p \leq k$, the addition of $k$ and $n-k$ in base $p$ involves no carries.
-- **Bidirectional [Ř]:** If no carries occur, then for all $j \in \{0, \dots, k-1\}$, the $p$-adic valuation $v_p(n-j) = v_p(k-j)$.
+- **Bidirectional [>]:** If no carries occur, then for all $j \in \{0, \dots, k-1\}$, the $p$-adic valuation $v_p(n-j) = v_p(k-j)$.
 - **Boundedness [⊙]:** Størmer’s Theorem bounds the number of consecutive smooth numbers.
 - **Topological invariant [Ω]:** The Thue-Mahler theorem constrains the growth of integers with fixed prime factors.
 
@@ -1356,7 +1356,7 @@ by
 **Structural Lemma Roles (Instantiation):**
 - **Encoding/Duality [Φ]:** The use of "spread measures" $\mu$ where $\mathcal{F}$ is $r$-spread if $\mu(\{S \in \mathcal{F} : R \subseteq S\}) \leq r^{-|R|}$.
 - **Inverse structure [⊣]:** A family either contains a sunflower or has a large "link" (a sub-family sharing a common element).
-- **Bidirectional [Ř]:** The correspondence between the existence of a sunflower and the failure of a family to be "highly spread."
+- **Bidirectional [>]:** The correspondence between the existence of a sunflower and the failure of a family to be "highly spread."
 - **Boundedness [⊙]:** The bound $n!(k-1)^n$ provides the loose upper confinement.
 - **Topological invariant [Ω]:** Not directly applicable, though the problem is often viewed through the lens of hypergraph cycles.
 - **Regularity [Ç]:** The ALWZ result relies on showing that "random" sets in a spread family behave like independent choices, preventing large intersections except in controlled ways.
@@ -1458,7 +1458,7 @@ The property of being a basis is encoded in the representation function $r_k(A, 
 ### [⊣] Inverse structure
 The "inverse" of a basis element's utility is its redundancy. In a minimal basis, redundancy is localized to finite sets; global redundancy (infinite $B$) is zero.
 
-### [Ř] Bidirectional
+### [>] Bidirectional
 While we can always construct a basis of order $k$ from a basis of order $k-1$ (by adding $\{0, 1\}$), the descent from $k+1$ to $k$ under minimality constraints is restricted by the density of representations.
 
 ### [⊙] Boundedness
@@ -1585,7 +1585,7 @@ by
 ## Structural lemma roles
 - **Encoding/Duality [Φ]:** The Ramsey number $R(G)$ encodes the avoidance of $G$ in a 2-coloring.
 - **Inverse structure [⊣]:** For a fixed $m$, $R(G)$ is minimized when $G$ is a path (Burr-Erdős) and maximized by cliques for large $m$.
-- **Bidirectional [Ř]:** The growth $R(K_n) \sim \sqrt{2}^n$ versus $R(K_{1,m}) \sim 2m$.
+- **Bidirectional [>]:** The growth $R(K_n) \sim \sqrt{2}^n$ versus $R(K_{1,m}) \sim 2m$.
 - **Boundedness [⊙]:** $R(G)$ is bounded below by $(\chi(G)-1)(c(G)-1)+1$ where $c(G)$ is the size of the largest component.
 - **Topological invariant [Ω]:** The chromatic number $\chi(G)$ acts as the primary driver for the lower bound.
 - **Regularity [Ç]:** Turán-type configurations provide the extremal bounds for the complements.
@@ -1664,7 +1664,7 @@ The Farey sequence $F_n$ is encoded by the Stern-Brocot tree. The relationship b
 #### [⊣] Inverse structure
 The sequence of denominators $b_k$ satisfies $b_{k-1} + b_{k+1} \equiv 0 \pmod{b_k}$. This local constraint forces oscillations.
 
-#### [Ř] Bidirectional
+#### [>] Bidirectional
 Forward: If $f(n) = cn$, a linear number of denominators must be non-decreasing.
 Inverse: By the equidistribution of Farey fractions, the probability $P(b_{k+1} > b_k) \to 1/2$. A run of length $L$ has probability $\approx 2^{-L}$.
 
@@ -1900,7 +1900,7 @@ theorem erdos_hajnal_p4 :
 #### Structural Lemma Roles
 - **Encoding/Duality [Φ]:** The complementation of graphs $G \to \bar{G}$ swaps cliques and independent sets, preserving the $H$-free property if $H$ is self-complementary.
 - **Inverse structure [⊣]:** For $P_4$-free graphs, the decomposition into join/union operations provides the recursive step.
-- **Bidirectional [Ř]:** The proof for "Substitution-closed" classes (like those defined by $H$) shows that if the conjecture holds for $H_1$ and $H_2$, it holds for their substitution.
+- **Bidirectional [>]:** The proof for "Substitution-closed" classes (like those defined by $H$) shows that if the conjecture holds for $H_1$ and $H_2$, it holds for their substitution.
 - **Boundedness [⊙]:** The density of $H$-free graphs is bounded away from the behavior of Erdos-Renyi random graphs.
 - **Topological invariant [Ω]:** The chromatic number $\chi(G)$ versus the clique number $\omega(G)$ in $H$-free graphs (Gyárfás–Sumner conjecture context).
 - **Regularity [Ç]:** The use of the Szemerédi Regularity Lemma in the Alon-Pach-Solymosi approach to show that $H$-free graphs contain large homogeneous sub-blocks.
@@ -2011,7 +2011,7 @@ theorem f_N_estimate :
 
 - **Encoding/Duality [Φ]:** The mapping $(a_i, a_j) \mapsto a_i + a_j$ is injective for Sidon sets, creating a bijection between pairs and the sumset.
 - **Inverse structure [⊣]:** For a given sum $s$, the decomposition $s = a_i + a_j$ is unique in the Sidon case.
-- **Bidirectional [Ř]:** We move from the set $A$ to the sumset $A+A$ and bound the cardinality by the available budget of pairs.
+- **Bidirectional [>]:** We move from the set $A$ to the sumset $A+A$ and bound the cardinality by the available budget of pairs.
 - **Boundedness [⊙]:** Even if $A+A$ is large, the filter $\cap [1, N]$ confines the growth, though for Sidon sets in $[1, N/2]$, this constraint is inactive.
 - **Topological invariant [Ω]:** The density of Sidon sets acts as a limit; $\pi(N) \approx \sqrt{N}$ is the "capacity" of the interval for distinct sums.
 - **Regularity [Ç]:** The distribution of sums of a Sidon set derived from cyclic groups (Bose-Chowla) ensures that the sumset is not clustered in a way that violates the $N/2$ limit.
@@ -2185,7 +2185,7 @@ We map each triple $\tau \in \binom{S}{3}$ to a value $R(\tau) \in \mathbb{R}^+$
 #### [⊣] Inverse structure:
 If $n < n_k$, there exists a configuration where every subset of size $k$ contains at least two triples $\tau_1, \tau_2$ such that $R(\tau_1) = R(\tau_2)$.
 
-#### [Ř] Bidirectional:
+#### [>] Bidirectional:
 The existence of a rainbow $k$-set is guaranteed when the total number of conflicts is low. In general position, the number of triples sharing a radius is minimized.
 
 #### [⊙] Boundedness:
@@ -2461,7 +2461,7 @@ sorry
 ### Structural Lemma Roles
 - **Encoding [Φ]:** The map $f: \mathcal{P}_{fin}(\mathbb{N}) \to P(d, k)$ defined by $I \mapsto \sum_{i \in I} d^i$ is injective (standard base-$d$ uniqueness), providing a bijective encoding of finite bit-strings into the set.
 - **Inverse structure [⊣]:** Any $n$ can be greedily decomposed into $d_i$-powers, but since digits are restricted to $\{0, 1\}$, the "residual" is handled by the other sets $P(d_j, k)$.
-- **Bidirectional [Ř]:** The forward construction builds the sum; the inverse construction (the barrier) checks if the missing values (gaps) can be covered by the sum of Cantor-like sets.
+- **Bidirectional [>]:** The forward construction builds the sum; the inverse construction (the barrier) checks if the missing values (gaps) can be covered by the sum of Cantor-like sets.
 - **Boundedness [⊙]:** The gaps in $P(d, k)$ grow as $(d-2)d^N$, but the "width" of the set up to $d^N$ is $\frac{d^N-1}{d-1}$.
 - **Topological invariant [Ω]:** The condition $\sum \frac{1}{d_i-1} \geq 1$ functions as a density invariant that ensures the sumset has non-empty interior in the sense of the natural numbers (i.e., contains all large $n$).
 - **Regularity [Ç]:** The distribution of $\{0, 1\}$ digit sums across different bases $d_i$ is sufficiently "uniform" (independent) to avoid persistent gaps when $\gcd=1$.
@@ -2570,7 +2570,7 @@ theorem infinite_sidon_growth :
 ## 3. Structural Lemma Roles [Instantiated]
 - **Encoding [Φ]:** The Sidon property is encoded as the injectivity of the map $(a, b) \mapsto a+b$ on the set of pairs in $A$.
 - **Inverse structure [⊣]:** The "violation" set $X$ counts the failure of this injectivity.
-- **Bidirectional [Ř]:** We relate the density of the random set $S$ to the density of the Sidon subset $A$ via $A = S \setminus \{\text{violations}\}$.
+- **Bidirectional [>]:** We relate the density of the random set $S$ to the density of the Sidon subset $A$ via $A = S \setminus \{\text{violations}\}$.
 - **Boundedness [⊙]:** The expected number of violations $E[X]$ is bounded by the sum of probabilities over the solution space of $a+b=c+d$.
 - **Topological invariant [Ω]:** Not directly applicable; replaced by the **Probabilistic Invariant**: The variance of $|S_N|$ is small enough that the mean represents the typical state.
 - **Regularity [Ç]:** The distribution of elements $n^{-1/2-\delta}$ ensures that the density is high enough to satisfy the growth condition but low enough to keep violations manageable.
@@ -2938,7 +2938,7 @@ theorem polychromatic_C4_exists :
 ## Structural Lemma Roles
 - Encoding [Φ]: Mapping edges to their respective factors in a 1-factorization of $K_n$.
 - Inverse structure [⊣]: The union of disjoint matchings reconstructs the dense graph.
-- Bidirectional [Ř]: The existence of a 1-factorization for $K_{2k}$ and a near-1-factorization for $K_{2k+1}$.
+- Bidirectional [>]: The existence of a 1-factorization for $K_{2k}$ and a near-1-factorization for $K_{2k+1}$.
 - Boundedness [⊙]: The number of colors is bounded by $n$, and the edge count is bounded by $n(n-1)/2$.
 - Topological invariant [Ω]: The chromatic index $\chi'(K_n)$ is $n-1$ for even $n$.
 - Regularity [Ç]: The construction uses the highly regular structure of complete graphs.
@@ -3044,7 +3044,7 @@ The $K_r$-free constraint acts as a local sparsity constraint. While average deg
 #### [⊣] Inverse Structure
 The bound $\frac{n}{t} \log t$ is the functional inverse of the density growth in Ramsey graphs. Specifically, $R(3, k) \approx \frac{k^2}{\log k}$. Setting $k = \alpha(G)$, we find the relationship matches the stated bound.
 
-#### [Ř] Bidirectional Exhaustion
+#### [>] Bidirectional Exhaustion
 The lower bound is tight up to the constant $C_r$. Erdős proved the existence of graphs (via the probabilistic method) where $\alpha(G) \le (2+o(1)) \frac{n}{t} \log t$, matching the AKS lower bound.
 
 #### [⊙] Boundedness
@@ -3208,7 +3208,7 @@ $$d_r > (1 - \epsilon) \frac{\log r \log \log r \log \log \log \log r}{(\log \lo
 **2. Smooth Numbers (Encoding/Duality [Φ])**
 An integer $n$ is $y$-smooth if all its prime factors are $\le y$. Let $\Psi(x, y)$ denote the count of $y$-smooth numbers up to $x$. We are interested in $d_r$-smooth numbers in the interval $(p_r, p_{r+1})$.
 
-**3. Construction via the Chinese Remainder Theorem (Bidirectional [Ř])**
+**3. Construction via the Chinese Remainder Theorem (Bidirectional [>])**
 Consider a large $y$. Let $P(y) = \prod_{p \le y} p$. We look for an interval of length $U$ that contains no primes. By the prime number theorem and the construction of Rankin, we can choose $y$ such that the interval $[m+1, m+U]$ contains only integers with a prime factor $\le y$, where $U$ is significantly larger than $y$.
 
 However, the specific requirement is about the *number* of such integers in the gap. Let $d_r = p_{r+1} - p_r$. We want to find $n_1, n_2 \in (p_r, p_{r+1})$ such that $P^+(n_i) < d_r$, where $P^+(n)$ is the largest prime factor.
@@ -3357,7 +3357,7 @@ theorem mersenne_divisor_sum_limit :
 ## Structural Lemma Roles [Instantiated]
 - **Encoding/Duality [Φ]:** The map from $d$ to $\text{ord}_d(2)$ transforms the divisor count into a counting problem over the periodicity of the powers of 2.
 - **Inverse structure [⊣]:** The relationship $\text{ord}_d(2) | k \iff d | 2^k - 1$ provides the dual summation identity.
-- **Bidirectional [Ř]:** The sum is bounded below by the contribution of $d$ such that $\text{ord}_d(2)$ is small and above by the total number of possible divisors in the range.
+- **Bidirectional [>]:** The sum is bounded below by the contribution of $d$ such that $\text{ord}_d(2)$ is small and above by the total number of possible divisors in the range.
 - **Boundedness [⊙]:** $\tau(2^k - 1) \ll (2^k)^\epsilon$, ensuring the sum does not diverge faster than exponentially, though the actual growth is polynomial in the exponent.
 - **Topological invariant [Ω]:** The constant $C$ is an invariant of the distribution of primitive roots.
 - **Regularity [Ç]:** The equidistribution of $\text{ord}_d(2)$ ensures the $n^2$ scaling is stable.
@@ -3550,7 +3550,7 @@ Let $\sigma_n = \sum_{i=1}^n a_i$. The condition $a_{n+1} > \sigma_n$ implies:
 
 By induction, $a_n \ge 2^{n-1}$.
 
-### 3. Gap Analysis [Ř]
+### 3. Gap Analysis [>]
 We examine the difference $g_n = a_{n+1} - a_n$.
 Using the recurrence $a_{n+1} \ge \sigma_n + 1$:
 $$a_{n+1} - a_n \ge (\sigma_{n-1} + a_n + 1) - a_n = \sigma_{n-1} + 1$$
@@ -3640,7 +3640,7 @@ Let $n_1<n_2<\cdots$ be a lacunary sequence of integers and $f\in L^2([0,1])$. E
 ## Structural lemma roles
 - Encoding/Duality [Φ]: Fourier expansion of $f \in L^2([0,1])$.
 - Inverse structure [⊣]: Martingale-like decomposition of $S_N(\alpha)$.
-- Bidirectional [Ř]: Equivalence between lacunarity and quasi-orthogonality.
+- Bidirectional [>]: Equivalence between lacunarity and quasi-orthogonality.
 - Boundedness [⊙]: Kolmogorov-Erdős-Feller type bounds for Law of the Iterated Logarithm (LIL).
 - Topological invariant [Ω]: Convergence of the series $\sum a_k^2 < \infty$ implies a.e. convergence.
 - Regularity [Ç]: Gap condition $n_{k+1}/n_k \geq q > 1$.
@@ -3658,7 +3658,7 @@ Since $f \in L^2([0,1])$ and we assume $\int f = 0$, we expand $f$ as:
 $$ f(x) = \sum_{m \neq 0} c_m e^{2\pi i m x}, \quad \sum |c_m|^2 = \|f\|_2^2 < \infty $$
 The partial sum is $S_N(\alpha) = \sum_{k=1}^N \sum_{m \neq 0} c_m e^{2\pi i m n_k \alpha}$.
 
-**2. Quasi-Orthogonality [Ř]**
+**2. Quasi-Orthogonality [>]**
 The core of lacunary theory is that for $k \gg j$, the frequencies $m n_k$ and $p n_j$ are unlikely to coincide unless the indices are very specific.
 Consider the variance:
 $$ \int_0^1 |S_N(\alpha)|^2 d\alpha = \sum_{k=1}^N \sum_{j=1}^N \sum_{m, p \neq 0} c_m \bar{c}_p \int_0^1 e^{2\pi i (m n_k - p n_j) \alpha} d\alpha $$
@@ -3839,7 +3839,7 @@ Let $d_n=p_{n+1}-p_n$. The set of $n$ such that $d_{n+1}\geq d_n$ has density $1
 
 - **Encoding/Duality [Φ]:** The distribution of $d_n$ is linked to the distribution of prime constellations.
 - **Inverse structure [⊣]:** The symmetry of gaps $d_{n+1} \geq d_n$ vs $d_{n+1} \leq d_n$ arises from the conjectured local randomness of the von Mangoldt function.
-- **Bidirectional [Ř]:** If $d_{n+1} > d_n$ significantly more often than $d_{n+1} < d_n$, it would violate the asymptotic growth $p_n \sim n \log n$.
+- **Bidirectional [>]:** If $d_{n+1} > d_n$ significantly more often than $d_{n+1} < d_n$, it would violate the asymptotic growth $p_n \sim n \log n$.
 - **Boundedness [⊙]:** Small gaps are bounded by the Twin Prime Conjecture and its generalizations (Maynard/Zhang).
 - **Topological invariant [Ω]:** The parity of gaps (all $d_n$ are even for $n > 1$) constrains the possible values of $d_{n+1} - d_n$.
 - **Regularity [Ç]:** The Gallagher distribution (Poissonian modeling) predicts the density of these sets.
@@ -3984,7 +3984,7 @@ Specifically, for $k \geq 2$, one can find gaps of size $n^{1-o(1)}$ in the wors
 
 - **Encoding/Duality [Φ]:** The set $A$ is the image of the map $(d, m) \mapsto d \cdot m$. The gap corresponds to the largest empty interval in the projection of the lattice points $(d, m)$ onto the product space.
 - **Inverse structure [⊣]:** For an interval to be empty, the "divisor-sum" indicator $\mathbb{1}_A(x) = \min(1, \sum_{d|x, d \in S} 1)$ must be zero for all $x$ in the gap.
-- **Bidirectional [Ř]:** A gap of size $g$ exists if and only if the system of congruences $x \not\equiv 0 \pmod d$ for all $d \in (n, 2n)$ is satisfied for a block of length $g$.
+- **Bidirectional [>]:** A gap of size $g$ exists if and only if the system of congruences $x \not\equiv 0 \pmod d$ for all $d \in (n, 2n)$ is satisfied for a block of length $g$.
 - **Boundedness [⊙]:** Since $d > n$, any interval of length $< n$ can contain at most one multiple of any specific $d$.
 - **Regularity [Ç]:** The distribution of $d \in (n, 2n)$ is not "random" enough to prevent large gaps; the concentration of divisors (as shown by Hooley) ensures that multiples cluster, leaving large voids.
 
@@ -4128,7 +4128,7 @@ sorry -- Proof follows from the scaling of fractional transversal numbers
 ## Structural Lemma Roles (Instantiation)
 - **Encoding [Φ]:** The hypergraph $\mathcal{H}$ is encoded by its incidence matrix; the $P(r, 2)$ property bounds the VC-dimension of the dual.
 - **Inverse structure [⊣]:** The transversal number $\tau$ is dual to the matching number $\nu$; for $P(r, 2)$, we bound $\tau$ via the fractional covering $\tau^*$.
-- **Bidirectional [Ř]:** We show $f(k, r) \geq c_r k$ via specific constructions (e.g., expanded Fano planes) and $f(k, r) \leq c_r k$ via the LP relaxation.
+- **Bidirectional [>]:** We show $f(k, r) \geq c_r k$ via specific constructions (e.g., expanded Fano planes) and $f(k, r) \leq c_r k$ via the LP relaxation.
 - **Topological invariant [Ω]:** The constant $c_r$ is a rational invariant determined by the extremal $r$-edge configurations.
 
 ## Final Answer
@@ -4188,7 +4188,7 @@ We relate $S(k)$ to the Ramsey number $R_k(3)$, which is the minimum number of v
 
 1.  **Encoding [Φ]:** Let $N = R_k(3)$. Suppose we have a $k$-coloring $\chi: \{1, \dots, N\} \to \{1, \dots, k\}$.
 2.  **Inverse structure [⊣]:** Construct a complete graph $G$ on $N$ vertices labeled $\{1, \dots, N\}$. Color the edge between vertices $i$ and $j$ (where $i > j$) with the color $C(i, j) = \chi(i - j)$.
-3.  **Bidirectional [Ř]:** By the definition of $R_k(3)$, there exists a monochromatic triangle in $G$. Let the vertices of this triangle be $x, y, z$ with $x > y > z$.
+3.  **Bidirectional [>]:** By the definition of $R_k(3)$, there exists a monochromatic triangle in $G$. Let the vertices of this triangle be $x, y, z$ with $x > y > z$.
 4.  **Topological invariant [Ω]:** Since the triangle is monochromatic, we have:
     $C(x, y) = C(y, z) = C(x, z) = \text{color } m$.
     By our edge coloring rule:
@@ -4287,7 +4287,7 @@ The number of $r$-powerful numbers $x \leq X$, denoted $N_r(X)$, is known to sat
 $$N_r(X) = \gamma_r X^{1/r} + O(X^{1/(r+1)})$$
 where $\gamma_r$ is a constant. This establishes that the set $\mathcal{P}_r$ is extremely sparse for $r \geq 3$.
 
-#### 2. Size of the Sumset (Bidirectional [Ř])
+#### 2. Size of the Sumset (Bidirectional [>])
 We consider the set $S_r$, which consists of sums of at most $r$ elements from $\mathcal{P}_r$.
 The number of such sums up to $X$ can be crudely bounded by the number of $r$-tuples $(x_1, \dots, x_r)$ such that each $x_i \in \mathcal{P}_r$ and $0 \leq x_i \leq X$.
 The number of such tuples is:
@@ -4660,7 +4660,7 @@ sorry -- Provenance: Erdős/Schinzel on Jacobsthal-type deviations
 ### Structural Lemma Roles [Instantiated]
 - **Encoding [Φ]:** The mapping $k \mapsto a_k$ is an injective encoding of $\{1, \dots, n\}$ into the divisor lattice of the interval.
 - **Inverse structure [⊣]:** For $m=0$, $a_k=k$ is the trivial identity; for large $m$, the structure is determined by the residue classes modulo $\text{lcm}(1, \dots, n)$.
-- **Bidirectional [Ř]:** Hall's condition serves as the necessary and sufficient bridge between interval length and existence.
+- **Bidirectional [>]:** Hall's condition serves as the necessary and sufficient bridge between interval length and existence.
 - **Boundedness [⊙]:** $f(n,m)$ is bounded by $n^{1+o(1)}$ because the density of available multiples $\sum 1/k$ diverges, ensuring that for sufficiently large $L$, the "supply" of multiples exceeds the "demand" for distinctness.
 - **Regularity [Ç]:** The distribution of multiples in the interval $(m, m+L]$ becomes regular as $L/n \to \infty$.
 
@@ -4968,7 +4968,7 @@ theorem consistency_of_omega2_partition :
 ### Structural Lemma Roles (Instantiation)
 
 - **Encoding/Duality [Φ]:** The partition relation is sensitive to the power of the continuum. We map the problem of finding monochromatic sets to the existence of filters in specific partial orders.
-- **Bidirectional [Ř]:** The relation holds for all $\alpha < \omega_2$ if and only if we can avoid the "square" principles (like $\square_{\omega_1}$) which are typically used to construct counterexamples.
+- **Bidirectional [>]:** The relation holds for all $\alpha < \omega_2$ if and only if we can avoid the "square" principles (like $\square_{\omega_1}$) which are typically used to construct counterexamples.
 - **Boundedness [⊙]:** The result is bounded by $\omega_2$; the relation $\omega_2 \to (\omega_2)_2^2$ is false in ZFC (Erdős-Radó).
 - **Topological invariant [Ω]:** The result relies on the Open Coloring Axiom (OCA), which is a topological consequence of PFA.
 
@@ -5165,7 +5165,7 @@ theorem cosine_sum_lower_bound (A : Finset ℤ) (hN : A.card = N) :
 ## Structural lemma roles
 - **Encoding/Duality [Φ]:** Map the set $A$ to a trigonometric polynomial $P \in L^2(\mathbb{T})$.
 - **Inverse structure [⊣]:** Use the duality between the $L^1$ norm of the sum and the $L^\infty$ norm of the coefficients.
-- **Bidirectional [Ř]:** The relation between the integral of the absolute value and the minimum value of the real part.
+- **Bidirectional [>]:** The relation between the integral of the absolute value and the minimum value of the real part.
 - **Boundedness [⊙]:** The $L^2$ norm provides the scale $\sqrt{N}$.
 - **Topological invariant [Ω]:** The mean of $\cos(n\theta)$ over the circle is 0, forcing the existence of negative values.
 - **Regularity [Ç]:** Large deviations of Gaussian-like processes (for random $A$) or Fejér kernel behavior (for structured $A$).
@@ -5270,7 +5270,7 @@ theorem limit_k_sub_linear_not_inf :
 
 - **Encoding [Φ]:** Mapping the discrete sum $\sum 1/n_i$ to the continuous integral $\int dx/x$.
 - **Inverse structure [⊣]:** The use of the exponential function to invert the logarithmic growth of the harmonic series.
-- **Bidirectional [Ř]:** Proving both that a sum exists near $(e-1)N$ (via density theorems) and that no sum exists significantly smaller (via simple comparison).
+- **Bidirectional [>]:** Proving both that a sum exists near $(e-1)N$ (via density theorems) and that no sum exists significantly smaller (via simple comparison).
 - **Boundedness [⊙]:** The error $|k(N) - (e-1)N|$ is bounded by a constant or a sub-linear function (specifically $O(1)$ in the limit of the lower bound).
 - **Topological invariant [Ω]:** The value $e$ emerges as the unique scale factor for the interval $[N, eN]$.
 
@@ -5375,7 +5375,7 @@ theorem bipartite_list_chromatic_min_vertices (k : ℕ) :
 ## Provenance Instantiation
 - **Encoding/Duality [Φ]:** Mapping the vertex set of $K_{m,m}$ to the set of $k$-subsets of a $(2k-1)$-set creates a bijective pressure where any valid coloring of one partition forces a color choice that must collide with the opposing partition's available lists.
 - **Inverse structure [⊣]:** The bipartite nature allows the split of the problem into two independent list-selection problems that only interact at the edge boundary.
-- **Bidirectional [Ř]:** The proof shows that $n < \binom{2k-1}{k}$ on either side guarantees colorability, while equality allows for the construction of a blocking set.
+- **Bidirectional [>]:** The proof shows that $n < \binom{2k-1}{k}$ on either side guarantees colorability, while equality allows for the construction of a blocking set.
 - **Topological invariant [Ω]:** The choice number $\chi_L(G)$ is bounded by the combinatorics of the subset lattice of the color space.
 
 [thought|T]
@@ -5606,7 +5606,7 @@ by
 #### Structural lemma roles
 - **Encoding/Duality [Φ]:** Mapping the directed edges to a 2-coloring of an undirected graph. Let color 0 be "no edge" and color 1 be "edge exists in at least one direction".
 - **Inverse structure [⊣]:** A transitive tournament $T_m$ is a specific orientation of $K_m$.
-- **Bidirectional [Ř]:** By Ramsey's Theorem, $V \ge R(n, N)$ guarantees an independent set of size $n$ or a clique of size $N$.
+- **Bidirectional [>]:** By Ramsey's Theorem, $V \ge R(n, N)$ guarantees an independent set of size $n$ or a clique of size $N$.
 - **Boundedness [⊙]:** By the Erdős-Moser theorem, any tournament on $2^{m-1}$ vertices contains a $T_m$.
 - **Topological invariant [Ω]:** Setting $N = 2^{m-1}$ satisfies the condition.
 - **Regularity [Ç]:** The minimal $k(n,m)$ is thus bounded by $R(n, 2^{m-1})$.
@@ -5748,7 +5748,7 @@ The powerful part $Q_2(n)$ and the square-free part $s(n)$ form a multiplicative
 ### [⊣] Inverse Structure
 The growth of $Q_2(P(n, \ell))$ is governed by the simultaneous proximity of $n, n+1, \dots, n+\ell$ to integers with large square factors. This is a problem of rational approximation on algebraic curves.
 
-### [Ř] Bidirectional
+### [>] Bidirectional
 Forward: If $n+i$ is a square, $Q_2$ is large. Inverse: If $Q_2$ is large, many $n+i$ must share prime factors or be high powers.
 
 ### [⊙] Boundedness
@@ -5831,7 +5831,7 @@ Since $3^{n-1}$ is a valid $N$, $g_3(n)$ is at most $3^{n-1}$. Thus, the stateme
 **Structural Lemmas:**
 - **Encoding [Φ]:** Map $s \in \langle A \rangle$ to its binary representation vector $\vec{\epsilon} \in \{0, 1\}^n$.
 - **Inverse [⊣]:** The map $f: \{0,1\}^n \to \mathbb{Z}$ defined by $f(\epsilon) = \sum \epsilon_i k^i$ is injective.
-- **Bidirectional [Ř]:** A $k$-AP in the image implies a digit-wise $k$-AP in the coefficients.
+- **Bidirectional [>]:** A $k$-AP in the image implies a digit-wise $k$-AP in the coefficients.
 - **Topological Invariant [Ω]:** The $L_\infty$ norm of the coefficients (bounded by 1) prevents the "carry" operation in base $k$, preserving the AP structure.
 
 **Proof:**
@@ -6004,7 +6004,7 @@ sorry -- Follows from Hajnal's construction
 ## Structural Lemma Roles
 - **Encoding [Φ]:** Mapping the ordinal $\omega_1^2$ to pairs $(\xi, \zeta)$ where $\xi, \zeta < \omega_1$ to facilitate edge coloring.
 - **Inverse structure [⊣]:** Using the decomposition of $\omega_1^2$ as a lexicographical product to bound the length of monochromatic paths.
-- **Bidirectional [Ř]:** Constructing an edge coloring such that the absence of $K_{\aleph_0, \aleph_0}$ in $G$ prevents the embedding of $G$ into the "true" color.
+- **Bidirectional [>]:** Constructing an edge coloring such that the absence of $K_{\aleph_0, \aleph_0}$ in $G$ prevents the embedding of $G$ into the "true" color.
 - **Topological invariant [Ω]:** The chromatic number $\chi(G) = \aleph_1$ acts as the barrier for the partition relation.
 
 [thought|T]
@@ -6447,7 +6447,7 @@ Given the constraints of a finite set of steps $S$, an infinite walk $A$ in $\ma
 ### Structural Lemma Roles
 - **Encoding [Φ]**: The walk is encoded as a word $w \in S^\omega$.
 - **Inverse structure [⊣]**: The displacement $a_n - a_0 = \sum_{i=0}^{n-1} s_i$.
-- **Bidirectional [Ř]**: Mapping from step frequencies to average velocity vectors.
+- **Bidirectional [>]**: Mapping from step frequencies to average velocity vectors.
 - **Boundedness [⊙]**: $S$ is finite, so the "velocity" is bounded.
 - **Topological invariant [Ω]**: Van der Waerden’s theorem ensures arithmetic progressions in the step-sum indices for any finite partition of the walk.
 - **Regularity [Ç]**: Long-term behavior of the walk in $\mathbb{Z}^3$ must align with the density of the most frequent step-vectors.
@@ -6543,7 +6543,7 @@ theorem smooth_joint_density (α β : ℝ) (hα : 0 < α ∧ α < 1) (hβ : 0 < 
 **Structural Lemma Roles:**
 - **Encoding/Duality [Φ]:** Mapping the integers $n$ and $n+1$ to their prime factorizations in the space of arithmetic functions.
 - **Inverse structure [⊣]:** The Dickman function acts as the integral transform solution to the density of the set $S_\alpha$.
-- **Bidirectional [Ř]:** The sieve estimates for $\Psi(x, y)$ work both for upper and lower bounds, establishing the limit.
+- **Bidirectional [>]:** The sieve estimates for $\Psi(x, y)$ work both for upper and lower bounds, establishing the limit.
 - **Boundedness [⊙]:** $0 \leq \rho(u) \leq 1$ ensures the density is confined to the unit interval.
 - **Topological invariant [Ω]:** The continuity of $\rho(u)$ ensures that small perturbations in $\alpha, \beta$ result in small changes in density.
 - **Regularity [Ç]:** The equidistribution of smooth numbers over short intervals (or shifted intervals) allows for the product form of the density.
@@ -6612,7 +6612,7 @@ We proceed by induction on $s$.
 If $|\mathcal{A}| \ge k$, we have a sunflower with $k$ petals and an empty core. We are done.
 If $|\mathcal{A}| \le k-1$, let $U = \bigcup_{A \in \mathcal{A}} A$. Since $\mathcal{A}$ is maximal, every set $S \in \mathcal{F}$ must intersect $U$. Note $|U| \le s(k-1)$.
 
-**[Ř] Bidirectional (Pigeonhole):**
+**[>] Bidirectional (Pigeonhole):**
 By the pigeonhole principle, there exists an element $x \in U$ that is contained in at least:
 $$\frac{|\mathcal{F}|}{|U|} \ge \frac{|\mathcal{F}|}{s(k-1)}$$
 sets in $\mathcal{F}$. Let $\mathcal{F}_x = \{ S \setminus \{x\} : S \in \mathcal{F}, x \in S \}$. These are sets of size $s-1$.
@@ -6715,7 +6715,7 @@ By the definition of the kissing number $\tau_d$:
 $$\deg(v) \leq \tau_d \quad \forall v \in P$$
 This provides a uniform upper bound on the degree of every vertex in the unit distance graph $G$.
 
-#### [Ř] Bidirectional: Handshaking Lemma
+#### [>] Bidirectional: Handshaking Lemma
 The total number of edges $|E|$ in $G$ is given by:
 $$|E| = \frac{1}{2} \sum_{v \in P} \deg(v)$$
 
@@ -6818,7 +6818,7 @@ The characteristic function $\phi_n(t) = \int_0^1 e^{it f(\alpha, n)} d\alpha$ c
 $$\lim_{n \to \infty} \phi_n(t) = e^{-\gamma |t|}$$
 where $\gamma$ is a constant related to the Lévy-Khinchin constant of the continued fraction algorithm ($\frac{\pi}{12 \log 2}$).
 
-### 5. Conclusion [Ř]
+### 5. Conclusion [>]
 There exists a distribution function $g(c)$. Since the limiting distribution is Cauchy, the function $g(c)$ is:
 $$g(c) = \frac{1}{2} + \frac{1}{\pi} \arctan\left(\frac{c}{\gamma}\right)$$
 This function satisfies $g(-\infty)=0$, $g(\infty)=1$, and is strictly increasing.
@@ -6861,7 +6861,7 @@ theorem existence_of_asymptotic_distribution :
 ### Structural Lemma Roles
 - **Encoding/Duality [Φ]:** The map from $\alpha$ to its continued fraction sequence $a_i$ encodes the growth of the sum $S_n(\alpha)$ into the growth of denominators $q_n$.
 - **Inverse structure [⊣]:** The self-similarity of the Gauss Map $T(x) = \{1/x\}$ allows the decomposition of the sum into independent-like blocks.
-- **Bidirectional [Ř]:** The convergence of the characteristic function ensures the existence of the cumulative distribution function $g(c)$ via the Lévy Inversion Formula.
+- **Bidirectional [>]:** The convergence of the characteristic function ensures the existence of the cumulative distribution function $g(c)$ via the Lévy Inversion Formula.
 - **Boundedness [⊙]:** The $\log n$ divisor is the exact order of the variance (in the broad sense) for the sum of these dependent variables, preventing the distribution from collapsing to a delta mass or escaping to infinity.
 - **Topological invariant [Ω]:** The Cauchy nature arises from the heavy-tailed distribution of the partial quotients $a_i$ in the Gauss-Kuzmin measure.
 
@@ -6943,7 +6943,7 @@ theorem tree_ramsey_upper_bound (k : ℕ) (n : ℕ) (T : SimpleGraph (Fin n))
 #### Structural Lemmas:
 *   **Encoding [Φ]:** Map the $k$-coloring of $E(K_m)$ to a collection of $k$ subgraphs $G_1, \dots, G_k$.
 *   **Inverse structure [⊣]:** Use the complementation property: $\sum deg_{G_i}(v) = m-1$.
-*   **Bidirectional [Ř]:** If no $G_i$ contains $T_n$, then for all $i$, $e(G_i) \leq \text{ex}(m, T_n)$.
+*   **Bidirectional [>]:** If no $G_i$ contains $T_n$, then for all $i$, $e(G_i) \leq \text{ex}(m, T_n)$.
 *   **Boundedness [⊙]:** The Turán number for trees $\text{ex}(m, T_n) \leq \frac{(n-2)m}{2}$.
 *   **Topological invariant [Ω]:** Summing edges: $\binom{m}{2} = \sum e(G_i) \leq k \frac{(n-2)m}{2}$.
 *   **Regularity [Ç]:** Solving for $m$: $\frac{m(m-1)}{2} \leq \frac{k(n-2)m}{2} \implies m-1 \leq k(n-2) \implies m \leq k(n-2) + 1$.
@@ -7047,7 +7047,7 @@ The mapping $\phi: \mathbb{N} \to \text{im}(\phi)$ is not injective. The ratio $
 ### [⊣] Inverse Structure:
 The "smallest preimage" $n_a$ for $a = \prod (p_i - 1)$ is constrained. Even if $n_a$ avoids the primorial $P_k$, any $n$ such that $\phi(n)=a$ must satisfy $n = a \cdot \prod_{p|n} \frac{p}{p-1}$. To keep $n$ small, one would need $n$ to have few small prime factors, but this contradicts the construction of $a$ as a product of many $(p_i-1)$.
 
-### [Ř] Bidirectional:
+### [>] Bidirectional:
 Forward: $n \mapsto \phi(n)$ is a contraction.
 Inverse: $\phi^{-1}(a) \mapsto \{n\}$ is an expansion. The expansion factor is $\prod \frac{p}{p-1}$.
 
@@ -7204,7 +7204,7 @@ Let $A\subset \mathbb{R}^2$ be a set of size $n$ and let $\{d_1,\ldots,d_k\}$ be
 ## Structural lemma roles
 - **Encoding/Duality [Φ]**: The distance counts $f(d)$ correspond to the edges of a graph $G_d = (A, E_d)$ where $(p, q) \in E_d \iff \|p-q\| = d$.
 - **Inverse structure [⊣]**: The sum of frequencies $\sum f(d_i) = \binom{n}{2}$.
-- **Bidirectional [Ř]**: Upper bounds on $f(d)$ (unit distance problem) vs. lower bounds on the number of distinct distances $k$.
+- **Bidirectional [>]**: Upper bounds on $f(d)$ (unit distance problem) vs. lower bounds on the number of distinct distances $k$.
 - **Boundedness [⊙]**: Spencer, Szemerédi, and Trotter's bound on unit distances: $f(d) = O(n^{4/3})$.
 - **Topological invariant [Ω]**: Euler characteristic constraints on planar distance graphs.
 - **Regularity [Ç]**: For a $\sqrt{n} \times \sqrt{n}$ integer lattice, distances are distributed according to sums of squares.
@@ -7339,7 +7339,7 @@ Can the length of $L$ be estimated in terms of $M(r)$?
 Does there exist a path where $|f(z)| \to \infty$ faster than $M(r)^\epsilon$?
 
 **Result:** Yes, for any $\epsilon < 1$, but generally not for $\epsilon = 1$.
-- **Bidirectional [Ř]:** By a theorem of **Cosentini** and later refinements in the Wiman-Valiron direction, there exists a path $L$ such that:
+- **Bidirectional [>]:** By a theorem of **Cosentini** and later refinements in the Wiman-Valiron direction, there exists a path $L$ such that:
 $$\log |f(z)| > (1-\epsilon) \log M(|z|)$$
 for $z \in L$ and $|z|$ sufficiently large.
 - However, it is **not** possible in general to have $|f(z)| \geq M(|z|)$ along a path for all $r$, because $M(r)$ is the maximum over a circle; the "peak" of the function may shift angularly as $r$ increases, requiring the path to "hunt" for the maximum, potentially losing magnitude during the transition between peaks.
@@ -7448,7 +7448,7 @@ Erdős conjectured that the number of solutions $n \le x$ is $O(x / \log^k x)$ f
 - **Encoding/Duality [Φ]:** We represent $\phi(n)$ via its product formula: $n \prod_{p|n} (1 - \frac{1}{p})$. The equation $\phi(n) = \phi(n+1)$ implies:
   $$\frac{n}{\prod_{p|n} p} \prod_{p|n} (p-1) = \frac{n+1}{\prod_{q|n+1} q} \prod_{q|n+1} (q-1)$$
 - **Inverse structure [⊣]:** If $n = 2^k$, then $\phi(n) = 2^{n-1}$. For $\phi(n+1)$ to match, $n+1$ must have specific prime constraints. For example, if $n=2^k-1$ is a Mersenne prime, $\phi(n+1) = 2^{k-1}$ and $\phi(n) = 2^k-2$. They only match at $n=1, 3$.
-- **Bidirectional [Ř]:** One can construct specific cases. If $n = 2 \cdot 3 \cdot \dots \cdot p_k$ (primorials), $\phi(n)$ is relatively small. However, $n+1$ is then coprime to all those primes, forcing its $\phi$ value to likely be larger, creating a barrier to equality.
+- **Bidirectional [>]:** One can construct specific cases. If $n = 2 \cdot 3 \cdot \dots \cdot p_k$ (primorials), $\phi(n)$ is relatively small. However, $n+1$ is then coprime to all those primes, forcing its $\phi$ value to likely be larger, creating a barrier to equality.
 - **Boundedness [⊙]:** There is no known upper bound on the number of solutions; however, calculations have found solutions up to very large $10^{12}$, supporting the "infinitely many" conjecture.
 
 ---
@@ -7696,7 +7696,7 @@ theorem exists_ap_free_permutation :
 ## Structural lemma roles
 - **Encoding [Φ]:** We map $\mathbb{Z}$ to a sequence using a recursive doubling construction (e.g., $S_{n+1} = (2S_n, 2S_n + 1)$) to ensure local AP-free properties.
 - **Inverse structure [⊣]:** The bijection $\sigma^{-1}$ is maintained by ensuring each integer $z \in \mathbb{Z}$ is eventually placed in the sequence without violating the AP-free constraint.
-- **Bidirectional [Ř]:** The construction covers both $\mathbb{Z}^+$ and $\mathbb{Z}^-$ by interleaving.
+- **Bidirectional [>]:** The construction covers both $\mathbb{Z}^+$ and $\mathbb{Z}^-$ by interleaving.
 - **Boundedness [⊙]:** The values are constrained within finite blocks during each step of the induction to ensure the mapping remains a bijection to $\mathbb{Z}$.
 - **Topological invariant [Ω]:** The "3-free" property is preserved under the concatenation of blocks $A$ and $B$ if $B$ is sufficiently translated and scaled.
 
@@ -7771,7 +7771,7 @@ The limit exists and equals $1/4$.
 ### 2. Structural Lemma Roles [IMSCRIB]
 - **Encoding [Φ]:** Mapping the graph $G$ to its complement $\bar{G}$ preserves the relationship between $\alpha(G)$ and $\omega(\bar{G})$.
 - **Inverse structure [⊣]:** The decomposition of $V(G)$ into independent sets (coloring) is the dual of the clique density.
-- **Bidirectional [Ř]:** Lower bounds from probabilistic methods match upper bounds from Brooks-type theorems in the asymptotic limit.
+- **Bidirectional [>]:** Lower bounds from probabilistic methods match upper bounds from Brooks-type theorems in the asymptotic limit.
 - **Boundedness [⊙]:** $1 \leq \omega(G) \leq \chi(G) \leq n$ confines $f(n)$ within $[1/n, 1]$.
 - **Topological invariant [Ω]:** The genus of the graph does not restrict $f(n)$ as $n \to \infty$.
 - **Regularity [Ç]:** Szemerédi Regularity Lemma ensures that for large $n$, the random graph configuration is "typical" for the extremum.
@@ -7847,7 +7847,7 @@ Let $A = \{p_1, \dots, p_n\} \subset \mathbb{R}^2$ be a set of $n$ points. Let $
 **Proof Sketch:**
 - **Encoding/Duality [Φ]:** Consider the distance graph. The total number of pairs is $\binom{n}{2} = \frac{n(n-1)}{2}$.
 - **Bounding the Diameter [⊙]:** Let $D_{max} = \max \Delta(A)$. It is a classical result in combinatorial geometry (Vázsonyi's conjecture, proved by Grünbaum, Heppes, and Straszewicz) that in $\mathbb{R}^2$, a set of $n$ points has at most $n$ pairs achieving the maximum distance (the diameter). Thus, $m(D_{max}) \le n$. This provides our first distance.
-- **The Second Distance [Ř]:** Consider the minimum distance $d_{min}$. By the packing argument (Koebe-Andreev-Thurston type or simply the fact that the kissing number in 2D is 6), the number of pairs achieving the minimum distance is at most $3n - 6$ (since the graph of minimum distances is planar). While $3n > n$, we can look at the "second maximum" or the distance to the nearest neighbor of a vertex on the convex hull.
+- **The Second Distance [>]:** Consider the minimum distance $d_{min}$. By the packing argument (Koebe-Andreev-Thurston type or simply the fact that the kissing number in 2D is 6), the number of pairs achieving the minimum distance is at most $3n - 6$ (since the graph of minimum distances is planar). While $3n > n$, we can look at the "second maximum" or the distance to the nearest neighbor of a vertex on the convex hull.
 - **Rigorous Construction:** By the property of the distance distribution, specifically the sum of multiplicities $\sum_{d \in \Delta(A)} m(d) = \frac{n(n-1)}{2}$, and the Guth-Katz theorem which states $|\Delta(A)| \ge c \frac{n}{\log n}$, the average multiplicity is $\frac{n^2/2}{n/\log n} \approx n \log n$. However, this is an average. For the specific question of "at most $n$", the diameter $D_{max}$ always satisfies $m(D_{max}) \le n$. To find a second, we can invoke the fact that for any point $p$ on the convex hull, the distance to its furthest neighbor is unique or satisfies specific constraints.
 
 ### 2. Growth as $n \to \infty$
@@ -7995,7 +7995,7 @@ theorem erdos_rado_stepping_up
 #### Structural lemma roles
 - **Encoding/Duality [Φ]:** The mapping $\Delta: [2^\lambda]^2 \to \lambda$ encodes pairs of functions into single coordinates.
 - **Inverse structure [⊣]:** For any sequence in $2^\lambda$, the sequence of $\Delta$ values recovers the combinatorial structure in $\lambda$.
-- **Bidirectional [Ř]:** Monochromaticity in the $r+1$ space implies monochromaticity in the $r$ space via the projection of $\Delta$ values.
+- **Bidirectional [>]:** Monochromaticity in the $r+1$ space implies monochromaticity in the $r$ space via the projection of $\Delta$ values.
 - **Boundedness [⊙]:** The finite $r$ ensures the $\Delta$ sequence behaves like a linear order (the "triangle inequality" for $\Delta$).
 - **Topological invariant [Ω]:** The cardinality $\kappa_\alpha + 1$ is the necessary shift to accommodate the fence-post counting of gaps $\Delta_i$.
 - **Regularity [Ç]:** The lexicographical ordering of $2^\lambda$ provides the necessary regularity to apply the base coloring $f$.
@@ -8198,7 +8198,7 @@ Can one show the stronger version with[\omega(n-k) < \frac{\log k}{\log\log k}+O
 1. **Inverse Structure [⊣]:**
    We seek to show that for any $n$, there exists some $k < n$ such that $\omega(n-k)$ exceeds the bound. This is equivalent to showing that in any window of size $n$, there is a value $m$ with many prime factors.
 
-2. **Bidirectional [Ř]:**
+2. **Bidirectional [>]:**
    Let $x$ be a large real number. Consider the sequence of primorials $N_j = \prod_{i=1}^j p_i$.
    We know $\omega(N_j) = j$.
    From the Prime Number Theorem, $\log N_j = \sum_{i=1}^j \log p_i \sim p_j \sim j \log j$.
@@ -8472,7 +8472,7 @@ theorem central_binomial_least_non_divisor_asymptotic :
 ### Structural lemma roles
 - **Encoding/Duality [Φ]:** Kummer’s theorem maps the divisibility into a carry-counting problem in base $p$.
 - **Inverse structure [⊣]:** The valuation $v_p(\binom{2n}{n})$ is the sum of digits of $n$ in base $p$ subtracted from the sum of digits of $2n$.
-- **Bidirectional [Ř]:** For any $m$, the set of $n$ such that $m \mid \binom{2n}{n}$ has density 1.
+- **Bidirectional [>]:** For any $m$, the set of $n$ such that $m \mid \binom{2n}{n}$ has density 1.
 - **Boundedness [⊙]:** $v_p(\binom{2n}{n}) \le \log_p(2n)$.
 - **Topological invariant [Ω]:** The Central Limit Theorem applied to the digits of $n$ shows that for almost all $n$, $v_p(\binom{2n}{n})$ is concentrated around $\frac{p-1}{p} \log_p n$.
 - **Regularity [Ç]:** Equidistribution of digits in base $p$ ensures the growth of $m$ is logarithmic.
@@ -8577,7 +8577,7 @@ sorry -- Proof involves hypergraph independent set theorems (e.g. Ajtai-Komlós-
 ## Structural lemma roles [Instantiated]
 - **Encoding/Duality [Φ]:** The distance map $dist: P \times P \to \mathbb{R}^+$ maps pairs to the spectrum of distances. The size of $F_d(n)$ is the independence number of the conflict hypergraph.
 - **Inverse structure [⊣]:** The "grid" configuration $G = \{1, \dots, n^{1/d}\}^d$ serves as the extremal case minimizing distinct distances.
-- **Bidirectional [Ř]:** A lower bound on distinct distances (Guth-Katz) implies a lower bound on $F_d(n)$ via the deletion method in probabilistic combinatorics.
+- **Bidirectional [>]:** A lower bound on distinct distances (Guth-Katz) implies a lower bound on $F_d(n)$ via the deletion method in probabilistic combinatorics.
 - **Boundedness [⊙]:** $F_d(n)$ is trivially bounded by $2 \leq F_d(n) \leq \sqrt{n}$ (roughly) because $k$ points yield $\binom{k}{2}$ distances.
 - **Topological invariant [Ω]:** The dimension $d$ restricts the number of points that can be equidistant (simplex size $d+1$).
 
@@ -8618,7 +8618,7 @@ Let $A\subseteq\mathbb{R}^2$ be a set of $n$ points with minimum distance equal 
 ## Structural lemma roles
 - **Encoding/Duality [Φ]:** Mapping the point set $A$ to a packing of open disks $D_i$ of radius $1/2$.
 - **Inverse structure [⊣]:** The hexagonal lattice $A_2$ as the dual of the optimal packing density.
-- **Bidirectional [Ř]:** Equivalence between diameter minimization and density maximization in large $n$.
+- **Bidirectional [>]:** Equivalence between diameter minimization and density maximization in large $n$.
 - **Boundedness [⊙]:** The area of the convex hull is bounded by the sum of disk areas plus boundary corrections.
 - **Topological invariant [Ω]:** Euler characteristic of the contact graph.
 - **Regularity [Ç]:** Convergence of the optimal configuration to the hexagonal tiling.
@@ -8789,7 +8789,7 @@ theorem g_asymptotic :
 
 - **Encoding/Duality [Φ]:** The mapping $(a_i, a_j) \mapsto a_i + a_j$ maps the symmetric product $A \times_{sym} A$ to the interval $I_n$. Injectivity is impossible for $k < \sqrt{2n}$ due to pigeonhole constraints on the sumset size.
 - **Inverse structure [⊣]:** The decomposition of $n$ into $qm + r$ provides a constructive upper bound, showing $g(n)$ is at most $2\sqrt{n}$.
-- **Bidirectional [Ř]:** The gap between $\sqrt{2}$ and $2$ is narrowed by observing that the "greedy" grid construction is sub-optimal compared to dense bases.
+- **Bidirectional [>]:** The gap between $\sqrt{2}$ and $2$ is narrowed by observing that the "greedy" grid construction is sub-optimal compared to dense bases.
 - **Boundedness [⊙]:** $g(n)$ is strictly bounded by the interval size; $A \subseteq [0, n]$ ensures no sums exceed $2n$, but we only require coverage up to $n$.
 - **Topological invariant [Ω]:** The density of the set relative to the square root of the target measure $n$.
 - **Regularity [Ç]:** In the limit, the optimal $A$ approaches an equidistribution that minimizes redundant sums (overlaps in $A+A$).
@@ -8845,7 +8845,7 @@ Note that $\kappa$ is the successor of the continuum. By the definition of cardi
 The problem asks whether the partition relation $m \to (\kappa)^2_\kappa$ or similar holds for countable sets. However, we leverage a specific construction related to the **Erdős-Rado Theorem** and the properties of $\kappa = (2^{\aleph_0})^+$.
 We utilize the fact that for any set $M$ of size $\kappa$, the number of countable subsets is $|[M]^{\aleph_0}| = \kappa^{\aleph_0} = ( (2^{\aleph_0})^+ )^{\aleph_0}$. By Hausdorff's formula, since $\text{cf}(\kappa) = \kappa > \aleph_0$, this simplifies to $\kappa \cdot (2^{\aleph_0})^{\aleph_0} = \kappa \cdot 2^{\aleph_0} = \kappa$.
 
-### 3. Bidirectional [Ř]: Construction of the Coloring
+### 3. Bidirectional [>]: Construction of the Coloring
 Let $\{X_\alpha : \alpha < 2^m\}$ be an enumeration of all subsets of $m$ of cardinality $\kappa$. (Note: We only need to consider $X \subseteq m$ where $|X|=\kappa$).
 There are at most $m^\kappa$ such subsets.
 However, a more direct construction uses the **Independent Families** or a **Transfinite Induction** (diagonalization):
@@ -8922,7 +8922,7 @@ For completely multiplicative functions, $\mathbb{E}[f(m)f(n)]$ is $1$ if $mn$ i
 #### 2. Inverse structure [⊣]: The Law of the Iterated Logarithm (LIL) Analogy
 In the case of independent Rademacher variables $X_n$, the LIL states $\limsup \frac{\sum X_n}{\sqrt{2N \log \log N}} = 1$. However, $f(m)$ are **not** independent. The dependency structure is dictated by the prime factorization. Specifically, $f(mn) = f(m)f(n)$. This coupling suggests that $M(N)$ should fluctuate at least as much as a random walk, but the precise growth of the $\limsup$ is sensitive to the "low-frequency" correlations introduced by small primes.
 
-#### 3. Bidirectional [Ř]: The Halász-type Barrier and Recent Breakthroughs
+#### 3. Bidirectional [>]: The Halász-type Barrier and Recent Breakthroughs
 A critical barrier in this proof was the "Small Sums" intuition. If the $\limsup$ were finite, the function would behave with unexpected regularity.
 In recent work (notably Harper, 2020), it was demonstrated that for random multiplicative functions, $M(N)$ actually exhibits **better than square-root cancellation** on average, i.e., $M(N) = o(\sqrt{N})$ for many scales, due to the Euler product structure.
 
@@ -8995,7 +8995,7 @@ The term $\sum_{n \leq x} r_{k,3}(n)^2$ counts the number of solutions to the Di
 $$ n_1^k + n_2^k + n_3^k = m_1^k + m_2^k + m_3^k $$
 with $n_i, m_i \leq x^{1/k}$. This is the number of "mean value" solutions, denoted $J_{s,k}(X)$ in Vinogradov’s Mean Value Theorem context (here $s=3$).
 
-**3. The Barrier for $k \geq 3$ (The Non-Injectivity [Ř])**
+**3. The Barrier for $k \geq 3$ (The Non-Injectivity [>])**
 For the bound $f_{k,3}(x) \gg x^{3/k}$ to hold, the average value of $r_{k,3}(n)$ on its support must be $O(1)$. However, for $k \geq 3$, the number of solutions to $n_1^k + n_2^k + n_3^k = m_1^k + m_2^k + m_3^k$ is dominated by the "diagonal" solutions (permutations) only if $k$ is very large relative to $s$.
 Specifically, for $k=3$, the set of integers that are sums of two cubes is already known to be sparse ($x^{2/3}$ is the naive count, but the actual count is $O(x^{2/3})$ with a constant related to the geometry of the cubic surface). For three cubes, the expected density is indeed $x^{3/k}$, but we must check for "coincidences."
 
@@ -9061,7 +9061,7 @@ The Imscribing Grammar recognizes this inquiry as a problem in analytic number t
 ## Structural Lemma Roles
 - **Encoding/Duality [Φ]:** Divisors $d$ and $n/d$ are paired across $\sqrt{n}$. A divisor $d \in (n^{1/2}, n^{1/2} + h)$ corresponds to a divisor $n/d \in (n^{1/2} - h', n^{1/2})$.
 - **Inverse structure [⊣]:** For $h = n^{1/2-\epsilon}$, we are looking at divisors in an interval of length $n^{1/2-\epsilon}$ near the square root.
-- **Bidirectional [Ř]:** The problem relates to the Hooley $\Delta$-function and the clustering of divisors.
+- **Bidirectional [>]:** The problem relates to the Hooley $\Delta$-function and the clustering of divisors.
 - **Boundedness [⊙]:** The count is not bounded by $O_\epsilon(1)$; it can grow with $n$ for specific sequences of $n$.
 
 ---
@@ -9147,7 +9147,7 @@ By the problem constraint, the number of distinct sums produced is:
 $$\text{Distinct Sums} = \binom{|A|+1}{2} - (k - 1)$$
 Since all sums must lie in the interval $[2, 2N]$, a naive bound suggests $\binom{|A|+1}{2} - (k-1) \leq 2N - 1$. However, this does not yield the $\frac{2}{\sqrt{3}}$ factor, which suggests we must consider the distribution of sums.
 
-## 3. Bidirectional [Ř]: Variance and Fourier Analysis
+## 3. Bidirectional [>]: Variance and Fourier Analysis
 Let $f(x) = \sum_{a \in A} e^{2\pi i a x}$. We consider the integral $I = \int_0^1 |f(x)|^4 dx$.
 By Parseval's identity, this integral counts the number of quadruples $(a, b, c, d) \in A^4$ such that $a+b = c+d$.
 In a standard Sidon set, the only solutions are $\{a, b\} = \{c, d\}$, contributing $2|A|^2 - |A|$ solutions.
@@ -9225,7 +9225,7 @@ Since $1 < \frac{\sigma(k)}{k} < \frac{k}{\phi(k)} \ll \log \log k$, we have:
 $$k^2 < G(k) < C k^2 \log \log k$$
 This implies that for a fixed $n$, any solution $k$ must satisfy $\sqrt{\frac{n}{C \log \log n}} < k < \sqrt{n}$. This narrow window significantly restricts the search space for $f(n)$.
 
-## 2. Structural Lemma Roles [Φ, ⊣, Ř]
+## 2. Structural Lemma Roles [Φ, ⊣, >]
 
 ### Encoding/Duality [Φ]: Injectivity on Orbits
 If $G(k_1) = G(k_2) = n$, then $k_1 \sigma(k_1) = k_2 \sigma(k_2)$.
@@ -9313,7 +9313,7 @@ For a monic polynomial $f(z) = \prod_{i=1}^n (z-z_i)$ with $z_i \in F$, we consi
 $$\frac{1}{n} \log |f(z)| = \frac{1}{n} \sum_{i=1}^n \log |z - z_i|$$
 As $n \to \infty$, we can choose $z_i \in F$ such that the discrete measures $\nu_n = \frac{1}{n} \sum \delta_{z_i}$ converge weak-* to the equilibrium measure $\nu$. Then $\frac{1}{n} \log |f_n(z)|$ converges to $-U^\nu(z)$.
 
-**3. Bidirectional [Ř]: The Case $d(F) < 1$**
+**3. Bidirectional [>]: The Case $d(F) < 1$**
 If $d(F) < 1$, then $C(F) < 1$. By the properties of the Chebyshev polynomials $T_n$ for the set $F$, we know that $\inf_{f \in \mathcal{P}_n(F)} \|f\|_F \approx d(F)^n$. Since $d(F) < 1$, the maximum value of $|f(z)|$ on $F$ decays exponentially. For sufficiently large $n$, there exist polynomials such that $|f(z)| < 1$ for all $z \in F$. However, $\mu(F)$ measures the *area* of the set where $|f(z)| < 1$. Even if $d(F)$ is small, the area of the lemniscate $L_f = \{z : |f(z)| < 1\}$ is bounded below by the Cartan Lemma or related area theorems. Specifically, for any monic polynomial of degree $n$, $m(L_f) \leq \pi$. A deeper result by Alexander (1995) suggests that for monic polynomials, the area of the lemniscate is at least $\pi/n$ is false; rather, the area is at most $\pi$.
 
 **4. Boundedness [⊙] and Counter-Example for $\mu(F)=0$**
@@ -9407,7 +9407,7 @@ Hensley and Richards demonstrated that if the First Hardy-Littlewood Conjecture 
 
 - **Encoding/Duality [Φ]:** The mapping between the density of primes (global/logarithmic) and the local clusters (admissible sets).
 - **Inverse structure [⊣]:** The relationship between $\pi(x)$ and the Prime $k$-tuple constant $C(\mathcal{H})$.
-- **Bidirectional [Ř]:** Computational evidence (small $x, y$) supports the inequality; asymptotic density (large $x, y$) under $k$-tuple theory refutes it.
+- **Bidirectional [>]:** Computational evidence (small $x, y$) supports the inequality; asymptotic density (large $x, y$) under $k$-tuple theory refutes it.
 - **Topological invariant [Ω]:** The singular series $C(\mathcal{H})$ functions as the invariant that forces the existence of dense clusters.
 - **Regularity [Ç]:** The equidistribution of primes across residue classes modulo $p$ (Dirichlet/Sieve theory).
 
@@ -9587,7 +9587,7 @@ Since $B$ is not a basis of finite order and $\sigma(B) = 0$, it fails to satisf
 ## Structural Lemma Roles
 - **Encoding/Duality [Φ]:** The mapping $(m, n) \mapsto 2^m 3^n$ embeds the lattice $\mathbb{N}^2$ into the multiplicative structure of $\mathbb{N}$, but the additive structure is not preserved.
 - **Inverse structure [⊣]:** The decomposition of an integer into sums of $2^m 3^n$ requires an increasing number of terms as the integer grows, as shown by the logarithmic counting function.
-- **Bidirectional [Ř]:** Forward: $B$ has $O(\log^2 x)$ elements. Inverse: An additive basis of order $h$ must have at least $\Omega(x^{1/h})$ elements.
+- **Bidirectional [>]:** Forward: $B$ has $O(\log^2 x)$ elements. Inverse: An additive basis of order $h$ must have at least $\Omega(x^{1/h})$ elements.
 - **Boundedness [⊙]:** The sumset $hB$ is bounded in size by $(\log x)^{2h}$, which is $o(x)$ for all $h$.
 - **Topological invariant [Ω]:** The density $\sigma(B) = 0$ is a fixed point that cannot be "lifted" to positive density by finite additive convolution.
 - **Regularity [Ç]:** The distribution of 3-smooth numbers is too regular (logarithmic) to cover the gaps in a generic set $B$ to increase its Schnirelmann density.
@@ -9832,7 +9832,7 @@ Walker (1967) and others have examined $x^2 - Dy^2 = 1$. If $D$ is not square-fr
 
 Strictly speaking, it is **conjectured** (Erdős) that there are infinitely many such pairs. It is **not** proven that one must be a square, but all currently known small examples involve a square. The search for a pair of the form $(a^2 b^3, c^2 d^3)$ where neither is a square (both $b, d > 1$) is a frontier (B) in the Grammar.
 
-#### Lemma [Ř]: Bidirectional (Exhaustion of Solutions)
+#### Lemma [>]: Bidirectional (Exhaustion of Solutions)
 If we assume one is a square, the problem reduces to $x^2 - n = 1$ where $n$ is powerful.
 Let $n = k^3 m^2$. We look for $x^2 - m^2 k^3 = 1$.
 This is a standard Pell equation $x^2 - D y^2 = 1$ where $D = k$.
@@ -9912,7 +9912,7 @@ $$|E(G_A)| = \sum_{1 \leq u < v \leq N} \mathbf{1}_A(u+v)$$
 Each $s \in A$ can be represented as $u+v$ in exactly $r(s)$ ways, where $r(s)$ is the number of pairs in $\{1, \dots, N\}$ summing to $s$.
 For $s \in \{2, \dots, 2N\}$, $r(s) = \lfloor \frac{s-1}{2} \rfloor$ for $s \leq N+1$, and $r(s) = \lfloor \frac{2N+1-s}{2} \rfloor$ for $s > N+1$.
 
-## 3. Bidirectional [Ř]: Summation and the $N$ Threshold
+## 3. Bidirectional [>]: Summation and the $N$ Threshold
 The average value of $r(s)$ is approximately $N/4$.
 If $|A| = N + g$, and $A$ is chosen to maximize the avoidance of $K_k$, we look at the distribution.
 If $A = \{N+1, \dots, 2N\}$, then $|A| = N$. In this case, for any $u, v \in \{1, \dots, N\}$, $u+v$ is not necessarily in $A$ if $u, v$ are small.
@@ -10101,7 +10101,7 @@ The sum is dominated by the distribution of gap sizes $h$. Let $\pi(x; h)$ be th
 By the Selberg Sieve (or Brun's Method), the number of such pairs for an even $h$ is bounded by:
 $$\pi_2(x, h) = \#\{p \le x : p, p+h \in \mathbb{P}\} \ll \frac{x}{(\log x)^2} \prod_{p|h, p>2} \frac{p-1}{p-2}.$$
 
-## 3. Bidirectional [Ř]: Decomposition by Magnitude
+## 3. Bidirectional [>]: Decomposition by Magnitude
 We split the sum $S(N)$ into two regimes based on a threshold $T$:
 1. **Small gaps:** $d_n \le T$
 2. **Large gaps:** $d_n > T$
@@ -10293,7 +10293,7 @@ The upper bound establishes that any graph on $n$ vertices with no $K_3$ must ha
 *   **Lemma:** If $G$ is triangle-free with $n$ vertices and average degree $d$, then $\alpha(G) \ge \frac{n}{d} \log d$.
 *   **Optimization:** By the Bondy-Murty inequality, if $G$ has no $K_3$, the neighborhood of any vertex $v$ is an independent set. Thus $\alpha(G) \ge \max(d, \frac{n}{d} \log d)$. Balancing these gives $d \approx \sqrt{n \log n}$, implying $k \ge \sqrt{n \log n}$, or $n \le C \frac{k^2}{\log k}$.
 
-#### Bidirectional [Ř]: Reconciliation of Bounds
+#### Bidirectional [>]: Reconciliation of Bounds
 The convergence of the upper bound (AKS) and the lower bound (Kim) establishes the order of magnitude. Recent refinements by Bohman and Keevash (2013) and Fiz Pontiveros, Griffiths, and Morris (2013) have sharpened the constant, confirming:
 $$R(3,k) \sim \frac{1}{4} \frac{k^2}{\log k}$$
 
@@ -10691,7 +10691,7 @@ The ratio $\frac{R(k)}{k 2^{k/2}}$ diverges because $R(k)$ grows at a rate of at
 ### Grammatic Witness Scaffold (Finalized)
 - **Encoding [Φ]:** $K_n \to \{0,1\}^{\binom{n}{2}}$ (Edge coloring as bitstring).
 - **Inverse [⊣]:** Minimum $n$ such that no coloring avoids $K_k$.
-- **Bidirectional [Ř]:** Lower bound (Probabilistic) vs Upper bound (Erdős-Szekeres).
+- **Bidirectional [>]:** Lower bound (Probabilistic) vs Upper bound (Erdős-Szekeres).
 - **Boundedness [⊙]:** $R(k) \geq \frac{\sqrt{2}}{e} k 2^{k/2}$.
 - **Topological Invariant [Ω]:** Monochromatic cliques are forced by the pigeonhole principle in the limit.
 - **Regularity [Ç]:** Random graph properties dominate the lower bound construction.
@@ -10742,7 +10742,7 @@ For $k_1, k_2 \geq 3$, the products $X$ and $Y$ represent values of the polynomi
 If $P(S_1) = P(S_2) = \{p_1, p_2, \dots, p_m\}$, then every term $n_1+i$ and $n_2+j$ must be $S$-units for the same set of primes $S$.
 By a theorem of Shorey and Tijdeman (1976) regarding the greatest prime factor $P(x(x+1)\dots(x+k-1))$, it is known that for $k \geq 2$, $P(x \dots (x+k-1)) > \log \log x$. However, the specific coincidence of prime factor sets is much more restrictive.
 
-### 3. Bidirectional [Ř]: The Linear Forms in Logarithms
+### 3. Bidirectional [>]: The Linear Forms in Logarithms
 Assume there are infinitely many such pairs. Then the ratio of the products $X/Y$ would have a radical that does not grow with $n_2$.
 Consider the case $k_1 = k_2 = k$. Then we have $\text{rad}(\prod_{i=1}^k (n_1+i)) = \text{rad}(\prod_{i=1}^k (n_2+i))$.
 According to the $abc$ conjecture (as a heuristic) or the Subnormal Approximation Theorem (Roth/Schmidt), the number of such integers with a small radical is finite. Specifically, for any $\epsilon > 0$, $\text{rad}(n(n+1)\dots(n+k-1)) > n^{k-\epsilon}$ for large $n$.
@@ -10939,7 +10939,7 @@ Our set $A^3$ has elements $x_1, x_2, \dots$ where $x_n \approx (n/\alpha)^3$.
 The number of elements of $A^3$ up to $M$ is $M^{1/3}$.
 Since $M^{1/3} \ll M^{1/2}$ (the maximum capacity of a Sidon set), the Sidon property is *theoretically possible* for a set of the form $\{a^3\}$.
 
-**The Density Obstruction [Ř]:**
+**The Density Obstruction [>]:**
 However, the question asks for $A$ to have **positive density**.
 If $d(A) > 0$, then $A$ contains many arithmetic progressions (Szemeredi's Theorem).
 While $a^3 + b^3 = c^3 + d^3$ is rare, the requirement for $A^3$ to be Sidon is extremely restrictive.
@@ -11011,7 +11011,7 @@ To prove $g(n) \geq \lceil n/2 \rceil$ for any arbitrary set $A = \{a_1, a_2, \d
 Define a directed graph $G = (V, E)$ where $V = A$. An edge exists from $b_1$ to $b_2$ if $b_1 + b_2 \in A$.
 Note that for any $x \in A$, the equation $b_1 + b_2 = x$ has at most $\lfloor (|A|-1)/2 \rfloor$ solutions in distinct pairs from $A$. This is a global constraint, but we need a selection $B$.
 
-#### 3. Bidirectional [Ř]: Probabilistic/Mean Construction
+#### 3. Bidirectional [>]: Probabilistic/Mean Construction
 Let $A$ be any set of $n$ real numbers. We can assume without loss of generality that $A \subset \mathbb{R}^+$, as the logic for negative numbers is symmetric and the presence of 0 only reduces the available indices.
 Sort $A$ such that $a_1 < a_2 < \dots < a_n$.
 Consider the "large" elements. Let $B = \{a_i \in A : i > n/2\}$.
@@ -11114,7 +11114,7 @@ Suppose $A$ has density 0. For a fixed $m$, the number of primes $p \le x/m$ suc
 $$\pi(x/m; A) = |\{p \le x/m : p s(m) + \sigma(m) \in A\}|$$
 By the properties of the distribution of primes in arithmetic progressions (or more simply, by noting that $p s(m) + \sigma(m)$ maps $p$ into a set $A$ that is sparse), the sum over $m$ of these counts remains $o(x)$.
 
-#### 5. Conclusion (Bidirectional [Ř])
+#### 5. Conclusion (Bidirectional [>])
 Given $\epsilon > 0$:
 1. Select $K$ such that $d(\{n : s(n) > Kn\}) < \epsilon/2$.
 2. For the remaining $n$, where $s(n)$ is bounded by a linear function of $n$, the "pre-image" of the density-zero set $A$ under the map $s(n)$ is shown to have density zero by the uniform distribution of $s(n)$ values across the integers.
@@ -11174,7 +11174,7 @@ We utilize the existence of a **Bose-Burton** type configuration or a truncated 
 Let $L$ be a line in the plane. There are $q+1$ points on $L$.
 If we remove $s$ points from $L$, the remaining blocks (lines) will have varying sizes. However, this is insufficient. We need to vary the sizes across a wide spectrum or ensure no single size dominates.
 
-## 3. Bidirectional [Ř]: The "Steiner Triple System + Wilson’s Theorem" Approach
+## 3. Bidirectional [>]: The "Steiner Triple System + Wilson’s Theorem" Approach
 To achieve $b_t = O(n^{1/2})$ for all $t$, we can utilize a construction based on the **Fundamental Construction (Wilson's Theorem)** for PBDs.
 Let $n$ be large. We seek to partition the $\binom{n}{2}$ pairs into blocks such that no size $t$ appears more than $C\sqrt{n}$ times.
 
@@ -11282,7 +11282,7 @@ $$\sum_{n=1}^{2X} r_{A+B}(n) \leq K \cdot (2X)$$
 However, we also know $\sum_{n=1}^{2X} r_{A+B}(n) = A(2X)B(2X)$ is not the correct identity; rather, the sum over $n \leq 2X$ involves all pairs $a \in A, b \in B$ such that $a+b \leq 2X$. This includes the square $[1, X] \times [1, X]$.
 So, $A(X)B(X) \leq \sum_{n=1}^{2X} r_{A+B}(n)$.
 
-### 3. Bidirectional [Ř]: Contradiction via Boundedness
+### 3. Bidirectional [>]: Contradiction via Boundedness
 Suppose for contradiction that $r_{A+B}(n)$ is bounded, i.e., $r_{A+B}(n) \leq K$ for all $n$.
 Then for large $X$:
 $$A(X)B(X) \leq \sum_{n=1}^{2X} r_{A+B}(n) \leq \sum_{n=N_0+1}^{2X} K + \sum_{n=1}^{N_0} r_{A+B}(n) \leq 2KX + C$$
@@ -11367,7 +11367,7 @@ We require a single interval $I_1$ such that $S(I_1) = 1$. While exact integer s
 **Revised Analysis of the Target:**
 If the target is exactly $1$, we must address the Egyptian Fraction property. It is known that $1$ can be represented as a sum of distinct reciprocals. The constraint here is that these reciprocals must form *contiguous blocks* (intervals) of length $\geq 2$, separated by gaps.
 
-### 5. Lemma [Ř]: Sub-harmonic Target Achievement
+### 5. Lemma [>]: Sub-harmonic Target Achievement
 Given the divergence of $\sum \frac{1}{n}$, for any $k$, we can pick $k-1$ "small" intervals $I_1, \dots, I_{k-1}$ very far out in the series.
 Let $\epsilon_i = S(I_i)$. By picking $I_i$ very far out, we can make $\sum_{i=1}^{k-1} \epsilon_i$ arbitrarily small (e.g., $\delta$).
 The remaining requirement is $S(I_k) = 1 - \delta$.
@@ -11474,7 +11474,7 @@ While a complete proof depends on the Unconditional Strong Polignac Conjecture, 
 
 **[Φ] Encoding:** The set of differences $D_p = \{q_i - q_j : q \in \mathcal{P} \cap [2, p]\}$ encodes the parity lattice of $\mathbb{Z}_p$.
 **[⊣] Inverse Structure:** For every $n$, the fiber $f^{-1}(n)$ is non-empty for $p > p_0(n)$ (Polignac).
-**[Ř] Bidirectional:** The coverage of $[2, p-3]$ is forced by the growth of $\pi(p)^2$ relative to $p$.
+**[>] Bidirectional:** The coverage of $[2, p-3]$ is forced by the growth of $\pi(p)^2$ relative to $p$.
 **[⊙] Boundedness:** The search space is compact within $[2, p]$.
 **[Ω] Invariant:** The Z2 parity is preserved; no odd $n$ can be so represented, maintaining the consistency of the even-only requirement.
 
@@ -11532,7 +11532,7 @@ The condition that $\mathcal{F}'$ is an intersecting family in a down-set is rel
 By the Kleitman Theorem (a specific case of the Correlation Inequality/FKG Inequality), for any down-set $\mathcal{F}$ and any intersecting subfamily $\mathcal{F}' \subseteq \mathcal{F}$:
 The largest possible intersecting subfamily of a down-set is achieved by taking all sets containing a specific element $x$, provided the family is "symmetric" enough, or more generally, $|\mathcal{F}'| \leq \frac{1}{2}|\mathcal{F}|$ is not always true, but $|\mathcal{F}_x|$ is the natural candidate for the upper bound.
 
-**4. Bidirectional [Ř]: Case Analysis**
+**4. Bidirectional [>]: Case Analysis**
 Let $n = |V|$. If $\mathcal{F} = \mathcal{P}(V)$, then any intersecting family $\mathcal{F}'$ has size at most $2^{n-1}$. Any $\mathcal{F}_x$ also has size $2^{n-1}$. The inequality holds with equality.
 If $\mathcal{F}$ is not the full power set, we utilize the fact that $\mathcal{F}$ is hereditary. For a hereditary family, the most efficient way to form an intersecting family is to pick an element that appears most frequently.
 
@@ -11595,7 +11595,7 @@ We catalog the witness `binom_least_prime(n, k)`. The structure of $\binom{n}{k}
 ### Structural Lemma Roles
 *   **Encoding/Duality [Φ]:** The Kummer/Legendre duality. $p | \binom{n}{k}$ if and only if there is at least one carry in the addition of $k$ and $n-k$ in base $p$.
 *   **Inverse structure [⊣]:** The decomposition of the interval $[n-k+1, n]$ into residues modulo $p$.
-*   **Bidirectional [Ř]:** If all primes $p \leq \max(n/k, k)$ do not divide $\binom{n}{k}$, then for all such $p$, there are no carries in base $p$.
+*   **Bidirectional [>]:** If all primes $p \leq \max(n/k, k)$ do not divide $\binom{n}{k}$, then for all such $p$, there are no carries in base $p$.
 *   **Boundedness [⊙]:** For large $n, k$, the density of primes ensures a "small" prime must hit the interval or create a carry.
 
 ---
@@ -11764,7 +11764,7 @@ Note that since $\deg p_n \geq n-1$, the condition $p_n(x_{kn}) = f(x_{kn})$ for
 A central result in approximation theory (Faber's Theorem) states that for any triangular array of nodes $X$, the norm of the Lagrange interpolation operator $\|L_n\| = \sup_{\|f\|_\infty=1} \|L_n f\|_\infty$ satisfies $\|L_n\| > \frac{1}{2\pi} \ln n$.
 The Lebesgue function $\lambda_n(x) = \sum_{k=1}^n |l_{kn}(x)|$ (where $l_{kn}$ are the Lagrange basis polynomials) governs the point-wise growth. It is known that for any node sequence, there exists a set of measure zero outside of which the point-wise Lebesgue constant $\lambda_n(x)$ grows significantly.
 
-## 3. Bidirectional [Ř]: Construction of the Divergent Function
+## 3. Bidirectional [>]: Construction of the Divergent Function
 We utilize a Condensation of Singularities argument (Principle of Uniform Boundedness).
 Let $S \subset I$ be the set of points where the interpolation process could potentially converge. We define a functional $\Lambda_{n,x}(f) = p_n(x)$.
 If $p_n(x) \to f(x)$ for all $f \in C(I)$, then by the Banach-Steinhaus theorem, $\sup_n |p_n(x)| < \infty$ for a fixed $x$.
@@ -11826,7 +11826,7 @@ Let $A = \{a_1, a_2, a_3, \dots\}$ be the greedy Sidon sequence defined by $a_1 
 
 - **Encoding/Duality [Φ]:** The Sidon property $a+b=c+d$ is equivalent to the condition that all pairwise differences $a_i - a_j$ (for $i > j$) are distinct. The "forbidden" values for $a_{n+1}$ are exactly those that would duplicate an existing difference.
 - **Inverse structure [⊣]:** For a new element $x$ to fail the Sidon property with respect to $A_n$, it must satisfy $x + a_i = a_j + a_k$ for some $1 \le i, j, k \le n$. This rearranges to $x = a_j + a_k - a_i$.
-- **Bidirectional [Ř]:** The greedy algorithm exhausts the set of integers; $x$ is rejected if and only if it belongs to the set of forbidden sums/differences generated by $A_n$.
+- **Bidirectional [>]:** The greedy algorithm exhausts the set of integers; $x$ is rejected if and only if it belongs to the set of forbidden sums/differences generated by $A_n$.
 - **Boundedness [⊙]:** The number of forbidden values determines the gap $a_{n+1} - a_n$. Since there are $O(n^2)$ differences, the gap cannot grow faster than $O(n^2)$, implying $a_n$ is $O(n^3)$.
 
 ---
@@ -11925,7 +11925,7 @@ We utilize the foundational result of Bondy (1971) regarding the circumference o
 #### Inverse Structure [⊣]: Bipartite Subgraphs
 If $G_R$ contains no $C_{2k+1}$, then $G_R$ is "nearly" bipartite or satisfies specific density constraints. By a result of Erdős, Faudree, Rousseau, and Schelp, if $n > 2m$, and $G_R$ contains no $C_{2k+1}$, then $G_B$ must contain any graph $H$ with $m$ edges, provided $n$ is sufficiently large.
 
-#### Bidirectional [Ř]: Case Analysis on $G_R$
+#### Bidirectional [>]: Case Analysis on $G_R$
 Let $n = 2m$. Suppose $G_R$ has no $C_{2k+1}$.
 - **Case 1: $G_R$ is bipartite.** If $G_R$ is bipartite, its complement $G_B$ contains a $K_{\lceil n/2 \rceil, \lfloor n/2 \rfloor} = K_{m,m}$. A theorem by Erdős states that any graph $H$ with $m$ edges and no isolated vertices is a subgraph of $K_{m,m}$ (since the largest possible size of a bipartite graph with $m$ edges is $K_{1,m}$ or similar, but the most "difficult" $H$ to embed in a bipartite graph is one that is itself bipartite; if $H$ is not bipartite, it cannot be in $K_{m,m}$, but the Ramsey condition $R(C_{2k+1}, H)$ specifically handles the odd cycle in the *other* color).
 - **Wait:** If $H$ is not bipartite, $H \not\subset K_{m,m}$. However, the prompt asks for $c_k$ such that $R(C_{2k+1}, H) \leq c_k m$. If $H$ contains an odd cycle $C_{2j+1}$, then the Blue graph $G_B$ must contain it or the Red graph $G_R$ must contain $C_{2k+1}$.
@@ -12095,7 +12095,7 @@ $F(n)$ is the threshold such that *every* connected $G$ with $|E(G)| \leq F(n)$ 
 **The Linear Threshold:** It was conjectured that as long as $m \leq n + \text{const}$, the equality holds. However, a significant result by Brandt (1996) and further work in the 2000s showed that if $m$ is significantly larger than $n$, we can find graphs that violate the equality.
 **Asymptotic Behavior of $F(n)$:**
 The question asks if $F(n)/n \to \infty$.
-**Analysis [Ř - Bidirectional]:**
+**Analysis [> - Bidirectional]:**
 If $G$ is a graph where the number of edges $m > c \cdot n$, does $R(K_3, G)$ necessarily exceed $2n-1$?
 Consider $G$ to be a collection of many small triangles sharing a vertex (a friendship graph). If $G$ has $n$ vertices and $m \approx 1.5n$ edges, it has been shown that $R(K_3, G)$ can exceed $2n-1$.
 Specifically, the work of Fan and Kierstead implies that for $n$ large, if $G$ is "locally dense," the Ramsey number jumps.
@@ -12172,7 +12172,7 @@ It is a known result in additive number theory (specifically by Rényi and later
 $$|A| \sim \sqrt{cN}$$
 The optimal constant $c$ for a "difference basis" (covering $1 \dots N$) is known to be $\sqrt{2}$ in the limit if we allow the set to be distributed optimally.
 
-## 4. Refinement of the Limit [Ř]
+## 4. Refinement of the Limit [>]
 The question asks for the limit of $F(N)/\sqrt{N}$. In the literature of "Difference Bases," let $d(n)$ be the minimum size of a set whose difference set contains $\{1, \dots, n\}$.
 The limit $\lim_{n \to \infty} \frac{d(n)}{\sqrt{n}}$ exists.
 From the work of Wichmann (1963) and others on restricted difference bases:
@@ -12338,7 +12338,7 @@ Suppose $\alpha \in \mathbb{Q}$. Then the sequence of bits $(d_k)$ must become p
 Whereas a rational number requires the sequence of bits to repeat, the sequence of primes $\{p_n\}$ possesses gaps that grow arbitrarily large. By the Prime Number Theorem, the average gap between primes $p_{n+1} - p_n$ is $\log p_n$, which tends to infinity.
 More importantly, the "contribution" of $p_n$ to the sum shifts. Consider the binary representation of $p_n$. As $n \to \infty$, the number of bits required to represent $p_n$ is $\lfloor \log_2 p_n \rfloor + 1 \approx \log_2(n \log n)$.
 
-#### 5. Rigorous Contradiction via Lacunary Growth [Ř]
+#### 5. Rigorous Contradiction via Lacunary Growth [>]
 If $\alpha$ were rational, the sequence of bits would be periodic. However, the sequence $p_n$ is strictly increasing.
 Consider the expression $\alpha = \sum p_n 2^{-n}$. Let us look at the "tail" of the sum.
 If $\alpha = a/b$, then for any $m$, the value $2^m \alpha \pmod 1$ must belong to a finite set of values $\{0, 1/b, 2/b, \dots, (b-1)/b\}$.
@@ -12406,7 +12406,7 @@ The problem is a generalization of Romanov’s Theorem (1934), which states that
 - The "Inverse Structure" here requires showing that the number of representations $r(n) = |\{(p, k) : n = p + \lfloor C^k \rfloor\}|$ is small on average.
 - Specifically, we need to bound the second moment $\sum_{n \leq x} r(n)^2$.
 
-## 3. Bidirectional [Ř]: Sieve Methods and Montgomery-Vaughan
+## 3. Bidirectional [>]: Sieve Methods and Montgomery-Vaughan
 To prove $d(\mathcal{S}) > x$, we use the Cauchy-Schwarz inequality:
 $$|\mathcal{S} \cap [1, x]| \geq \frac{(\sum_{n \leq x} r(n))^2}{\sum_{n \leq x} r(n)^2}$$
 - The numerator is $(\sum_{k \leq A(x)} \pi(x - \lfloor C^k \rfloor))^2 \gg (\frac{x}{\ln C})^2$.
@@ -12472,7 +12472,7 @@ The Imscribing Grammar recognizes the request as a query into the combinatorial 
 ## Structural Lemma Roles
 - **Encoding/Duality [Φ]:** Mapping subsets of points to their convex hulls; identifying empty vs. non-empty hulls.
 - **Inverse structure [⊣]:** The decomposition of point sets into layers or "caps" and "cups" (the Erdős-Szekeres framework).
-- **Bidirectional [Ř]:** Lower bounds via specific constructions (grid-like or cap-cup) and upper bounds via Ramsey-theoretic constraints.
+- **Bidirectional [>]:** Lower bounds via specific constructions (grid-like or cap-cup) and upper bounds via Ramsey-theoretic constraints.
 - **Boundedness [⊙]:** The constraint that "no three points are collinear" ensures every subset of size 3 is a triangle.
 - **Topological invariant [Ω]:** The Euler characteristic of the resulting configuration.
 - **Regularity [Ç]:** The asymptotic behavior of the function $f(n)$ as $n \to \infty$.
@@ -12509,7 +12509,7 @@ $$f(n) = n^{\Theta(\log n)}$$
 Taking the logarithm:
 $$\log f(n) = \Theta((\log n)^2)$$
 
-#### 5. Determination of the Constant $c$ [Ř]
+#### 5. Determination of the Constant $c$ [>]
 The specific limit was investigated by several authors. The number of convex subsets $f(n)$ is minimized when the points are in a specific "layered" or "logarithmic" distribution.
 If we let $X$ be the number of convex subsets, the result derived from the analysis of the Erdős-Szekeres theorem (and the construction of the "near-optimal" set) yields:
 $$\log_2 f(n) \approx \frac{1}{2\pi^2} (\log_2 n)^2 \text{ (asymptotically in some models)}$$
@@ -12583,7 +12583,7 @@ If such a choice of $a_p$ exists, the collection of congruences $n \equiv a_p \p
 For a fixed $n$, we require $n - a_p = tp \geq kp$. This implies $p \leq \frac{n - a_p}{k}$.
 Since $k \geq 3$, the "room" for $p$ to cover $n$ is significantly restricted compared to the standard covering problem ($k=1$). Specifically, if we choose $a_p$ such that $0 \leq a_p < p$, then for a given $n$, the only primes $p$ that can "claim" $n$ are those where $p \leq \frac{n}{k}$.
 
-## 3. Bidirectional [Ř]: Density Arguments
+## 3. Bidirectional [>]: Density Arguments
 Let $S$ be the set of integers covered by the system. We define the density of integers covered by a single prime $p$ as $1/p$. However, we have the constraint $p \leq (n-a_p)/k$.
 Consider the interval $[1, X]$. The number of integers $n \in [1, X]$ covered by a specific prime $p$ under the constraint $n \geq a_p + kp$ is approximately:
 $$ \max\left(0, \frac{X - (a_p + kp)}{p}\right) \approx \frac{X}{p} - k $$
@@ -12756,7 +12756,7 @@ To bound the length of an interval $I$ where $\omega(n) > \log \log n$, we must 
 By the Erdős-Kac Theorem, the distribution of $\frac{\omega(n) - \log \log n}{\sqrt{\log \log n}}$ converges to a standard normal distribution $\mathcal{N}(0,1)$.
 For a randomly chosen $n$, the probability $P(\omega(n) \le \log \log n) \approx 1/2$.
 
-### 3. Bidirectional [Ř]: Sieve Methods and Prime Clusters
+### 3. Bidirectional [>]: Sieve Methods and Prime Clusters
 The problem of finding a large interval avoiding $S$ is equivalent to finding a sequence of consecutive integers that are all "highly composite" in the sense of having many prime factors.
 However, integers with few prime factors (e.g., primes, semiprimes) are distributed somewhat like a sieve. If we consider the set of primes $P$, any interval of length $L \approx \log x$ is expected to contain a prime $p$. For a prime $p$, $\omega(p) = 1$.
 Since $\log \log n \to \infty$ as $x \to \infty$, any prime $p \in [x, 2x]$ (where $\omega(p)=1$) violates the condition $\omega(n) > \log \log n$ for sufficiently large $x$.
@@ -12851,7 +12851,7 @@ If $G$ is an infinite group, the term "size" usually refers to cardinality.
 - If $H$ is a subgroup of finite index, then $|H| = |G|$ (for infinite $G$). All cosets of all finite-index subgroups have the same cardinality as $G$.
 - If $H$ has infinite index, $|H|$ could theoretically be smaller than $|G|$. However, a partition of a group into a finite number of cosets of subgroups of infinite index is impossible (Neumann's Lemma). If $G = \bigcup_{i=1}^n g_i H_i$, then at least one $[G:H_i]$ must be finite.
 
-## 5. Conclusion (Bidirectional [Ř])
+## 5. Conclusion (Bidirectional [>])
 For finite $G$, an exact covering by more than one coset where **all** cosets have different sizes is impossible because the largest index must be repeated, implying at least two cosets have the same size. If "different sizes" means "not all the same," it is possible only if we use different subgroups, but even then, the sum of reciprocal indices must equal 1, and the distinctness of those indices is forbidden by the Herzog-Schönheim theorem.
 
 ---
@@ -12986,7 +12986,7 @@ $$\pi(K_k^r) = \lim_{n \to \infty} \frac{\text{ex}_r(n, K_k^r)}{\binom{n}{r}}$$
 #### 2. Structural Lemma Roles [IMSCRIB Witness]
 *   **Encoding/Duality [Φ]:** The density is non-increasing with $n$ and bounded below by 0, ensuring the limit exists.
 *   **Inverse structure [⊣]:** The construction of $k-1$ partitions (Turán-type) provides a lower bound, but for $r \ge 3$, the dual nature of hypergraph dependencies breaks the simple Turán graph symmetry.
-*   **Bidirectional [Ř]:** Supersaturation theorems ensure that any density strictly above the Turán density forces a large number of copies of $K_k^r$.
+*   **Bidirectional [>]:** Supersaturation theorems ensure that any density strictly above the Turán density forces a large number of copies of $K_k^r$.
 *   **Topological invariant [Ω]:** The density $\pi(K_k^r)$ is a rational-approximable real in $[0, 1)$.
 
 #### 3. The Resolution of the Value
@@ -13062,7 +13062,7 @@ If $S$ contains all elements of $A$, then $\sum_{n \in A} \frac{1}{n} \leq 1$, w
 The total sum $K < \sum_{n \in A} \frac{1}{n} = \sum_{n \in S} \frac{1}{n} + \sum_{n \in R} \frac{1}{n}$.
 Since $\sum_{n \in S} \frac{1}{n} \leq 1$, we have $\sum_{n \in R} \frac{1}{n} > K - 1$.
 
-**3. Bidirectional [Ř]: Relating Sums to the Gap**
+**3. Bidirectional [>]: Relating Sums to the Gap**
 Every $r \in R$ satisfies $r > \frac{1}{G}$ (otherwise it would have been picked or the sum would already exceed 1). However, the elements in $R$ are a subset of the original multiset $A$.
 Crucially, for a "sufficiently large" multiset, the distribution of values allows for a sharp bound. If $A$ contains many large integers, the "steps" $\frac{1}{n}$ are small.
 Consider the worst-case scenario: to maximize the gap $G$ while keeping the total sum $K$ large, we must use elements that are as large as possible but still fail the greedy condition.
@@ -13140,7 +13140,7 @@ For any four points $A, B, C, D$ with integral distances, we consider the rigid 
 $$AB \cdot CD + BC \cdot DA > AC \cdot BD$$
 In the case of integral point sets, the possible positions for points are highly restricted by the fact that for a fixed pair of points $A, B$, any other point $P$ must satisfy $|AP - BP| \leq AB$. Since $AP, BP, AB$ are integers, $|AP - BP|$ can only take $AB + 1$ integer values. This places $P$ on a set of hyperbolae with foci $A$ and $B$.
 
-## 3. Bidirectional [Ř]: Inversion and Characteristic Equations
+## 3. Bidirectional [>]: Inversion and Characteristic Equations
 A point set $S$ with integral distances can be transformed via circular inversion. However, inversion typically maps an integral set to a rational set. To maintain the "no four on a circle" condition, we examine the characteristic polynomial of the distance matrix (the Cayley-Menger determinant). For $n$ points in $\mathbb{R}^2$, the Cayley-Menger determinant of any 4 points must be non-zero (since they are not coplanar in a higher dimension, which is trivial here), but more importantly, for any 5 points, the $5 \times 5$ Cayley-Menger determinant must vanish:
 $$\det(CM(P_1, \dots, P_5)) = 0$$
 This algebraic constraint, combined with the integrality of the entries, restricts the points to a very specific algebraic curve.
@@ -13213,7 +13213,7 @@ The Euler totient function $\phi(n)$ satisfies:
 - $\liminf \frac{\phi(n)}{n} = 0$.
 Specifically, $\phi(n)$ is not bounded. However, even if we consider the normalized series, the core of the proof rests on the fact that $\phi(n)$ cannot satisfy a linear recurrence.
 
-**4. Lemma [Ř]: Bidirectional (Non-periodicity of Totient)**
+**4. Lemma [>]: Bidirectional (Non-periodicity of Totient)**
 If $\phi(n)$ were eventually periodic, there would exist $p$ and $N$ such that $\phi(n+p) = \phi(n)$ for all $n > N$.
 Consider the growth: $\phi(n)$ fluctuates between $n-1$ (for primes) and values as small as $n \frac{e^{-\gamma}}{\log \log n}$.
 Suppose $\phi(n)$ is periodic with period $p$. Then $\phi(n+kp) = \phi(n)$ for all $k$. For a fixed $n$, as $k \to \infty$, $n+kp$ contains arbitrarily large primes (by Dirichlet's Theorem on Arithmetic Progressions, provided $\gcd(n, p)$ allows, or simply by the density of primes).
@@ -13223,7 +13223,7 @@ This value grows linearly with $k$, contradicting the assumption that $\phi(n+kp
 **5. Lemma [Ω]: Topological invariant (Analytic Continuation)**
 The function $f(z) = \sum_{n=1}^\infty \phi(n) z^n$ is known to have the unit circle $|z|=1$ as a natural boundary. This is a property shared by many series where the coefficients are arithmetic functions (like the partition function or divisor functions).
 A power series with integer coefficients that converges in the unit disk and represents a rational function cannot have the unit circle as a natural boundary; it can only have poles at roots of unity.
-By the Szegő Gap Theorem or the Polya-Carlson Theorem, a power series $\sum a_n z^n$ with integer coefficients that converges for $|z| < 1$ is either a rational function or it is transcendental over $\mathbb{C}(z)$. If it is a rational function, its coefficients must be eventually periodic. As shown in [Ř], $\phi(n)$ is not periodic.
+By the Szegő Gap Theorem or the Polya-Carlson Theorem, a power series $\sum a_n z^n$ with integer coefficients that converges for $|z| < 1$ is either a rational function or it is transcendental over $\mathbb{C}(z)$. If it is a rational function, its coefficients must be eventually periodic. As shown in [>], $\phi(n)$ is not periodic.
 
 **6. Lemma [Ç]: Regularity (Conclusion of Irrationality)**
 Since $f(z) = \sum \phi(n) z^n$ is not a rational function, the value $f(1/2)$ is not forced to be rational. To be rigorous: a result by Borwein (1992) and subsequent developments in the study of "automatic" sequences and Mahler functions confirm that for non-periodic arithmetic sequences $a_n$, $\sum a_n \beta^{-n}$ is irrational.
@@ -13304,7 +13304,7 @@ The condition that $A \setminus B$ is incomplete for any infinite $B$ implies th
 
 If $a_{n+1}/a_n > \phi$, the gaps between sums of elements become larger than the elements themselves, leading to incompleteness (the Boundedness [⊙] constraint).
 
-#### 4. Counter-example / Refutation [Ř]
+#### 4. Counter-example / Refutation [>]
 The proposition suggests the limit **must** be $\phi$. However, we can construct sequences that satisfy the "minimal completeness" property but do not converge to $\phi$.
 
 Consider a sequence that oscillates or is constructed greedily to maintain the threshold of completeness.
@@ -13375,7 +13375,7 @@ The Grammar imscribes the structure of covering systems. This is the state of th
 ## Structural Lemma Roles
 - **Encoding/Duality [Φ]:** The characteristic function of a covering $\chi(n) = \mathbb{1}_{\cup (a_i \pmod{n_i})}$ and its Fourier analytic representation.
 - **Inverse structure [⊣]:** The relationship between the smallest modulus $n_1$ and the complexity of the system.
-- **Bidirectional [Ř]:** Transitions between the existence of a covering and the density of the uncovered set.
+- **Bidirectional [>]:** Transitions between the existence of a covering and the density of the uncovered set.
 - **Boundedness [⊙]:** The Hough-Pace-Filaseta bounds on the minimum modulus and the growth of $k$ relative to $x$.
 - **Topological invariant [Ω]:** The sum of reciprocals $\sum 1/n_i \ge 1$, which is an invariant for any covering.
 - **Regularity [Ç]:** The distribution of $n_i$ over the interval $[1, x]$.
@@ -13486,7 +13486,7 @@ We define the representation of an integer $m$ via the greedy algorithm. Let $s_
 A sequence of positive integers $s_n$ is complete if and only if $s_1 = 1$ (to cover small integers) and $s_{n+1} \le 1 + \sum_{i=0}^n s_i$. For the floor function $\lfloor t\alpha^n \rfloor$, we examine the density of the sum.
 If $s_{n+1} > 1 + \sum_{i=0}^n s_i$, there exists at least one integer (specifically $\sum s_i + 1$) that cannot be formed by any combination of $\{s_0, \dots, s_n\}$ and is smaller than $s_{n+1}$.
 
-### Bidirectional [Ř]: Forward and Inverse
+### Bidirectional [>]: Forward and Inverse
 - **Forward:** If $1 < \alpha < 2$, then $t\alpha^{n+1} \le t\alpha^n \frac{\alpha}{\alpha-1}$ is not the relevant bound; rather, we check $s_{n+1} \le 1 + \sum_{i=0}^n s_i$.
 - As $n \to \infty$, $\sum_{i=0}^n \lfloor t\alpha^i \rfloor \approx t \frac{\alpha^{n+1}-1}{\alpha-1}$.
 - The condition $t\alpha^{n+1} \le t \frac{\alpha^{n+1}-1}{\alpha-1}$ simplifies (for large $n$) to $\alpha \le \frac{\alpha}{\alpha-1}$, which is $\alpha^2 - \alpha \le \alpha \implies \alpha \le 2$.
@@ -13566,7 +13566,7 @@ Specifically, for the user's question regarding $A+A = \{a_i + a_j : a_i, a_j \i
 ## Provenance & Structural Lemma Roles
 - **Encoding/Duality [Φ]:** We map the coloring $c$ to an ultrafilter $\mathcal{U}$ on the Stone-Čech compactification $\beta\mathbb{N}$.
 - **Inverse structure [⊣]:** We utilize the operation $+$ extended to $\beta\mathbb{N}$, identifying idempotent ultrafilters.
-- **Bidirectional [Ř]:** The existence of an idempotent $\mathcal{U} = \mathcal{U} + \mathcal{U}$ implies the existence of the set $A$.
+- **Bidirectional [>]:** The existence of an idempotent $\mathcal{U} = \mathcal{U} + \mathcal{U}$ implies the existence of the set $A$.
 - **Topological invariant [Ω]:** The compactness of $\beta\mathbb{N}$ ensures the existence of an idempotent via Ellis's Lemma.
 
 ---
@@ -13663,7 +13663,7 @@ The upper bound is derived from the incidences of points and unit circles.
 
 ## 3. Higher Dimensions $d \geq 4$ (Turán-type behavior)
 In dimensions $d \geq 4$, the behavior changes qualitatively because the unit sphere $S^{d-1}$ contains contains large flat structures or configurations that allow for dense complete bipartite graphs.
-- **Bidirectional [Ř]:** We consider the Lenz construction. Let $k = \lfloor d/2 \rfloor$. We can place points on $k$ orthogonal circles.
+- **Bidirectional [>]:** We consider the Lenz construction. Let $k = \lfloor d/2 \rfloor$. We can place points on $k$ orthogonal circles.
 - Let $C_1, \dots, C_k$ be circles in pairwise orthogonal 2-planes, each with radius $1/\sqrt{2}$, centered at the origin.
 - Any point $p \in C_i$ and $q \in C_j$ ($i \neq j$) satisfy $\|p-q\|^2 = \|p\|^2 + \|q\|^2 = 1/2 + 1/2 = 1$.
 - Distributing $n$ points equally among these $k$ circles ($n/k$ points each), the number of unit distances is the number of edges in a complete $k$-partite graph $K_{n/k, \dots, n/k}$.
@@ -13720,7 +13720,7 @@ The density of $y$-smooth numbers up to $x$, denoted $\psi(x, y)$, is central. F
 If $f(n)$ is too small, the sets $S(f(n))$ are sparse. Let $A = S(f(n)) \cap [1, n]$. We require $(A + A) \cap \{n\} \neq \emptyset$.
 If $f(n) \le (\log n)^{1-\epsilon}$, then $|A|$ grows slower than any power of $n$. By the pigeonhole principle, for $A+A$ to cover all $n$, we generally require $|A| \ge \sqrt{n}$ for the sumset to have a high probability of covering the interval, though this is a heuristic lower bound.
 
-## 3. Bidirectional [Ř]: Lower and Upper Bounds
+## 3. Bidirectional [>]: Lower and Upper Bounds
 **Lower Bound (The ABC Conjecture Barrier):**
 If $f(n)$ is very small (e.g., $f(n) = C \log n$), the existence of $a+b=n$ with $a,b$ being $f(n)$-smooth implies that the radical of $n(n-a)a$ is small.
 Specifically, if $a, b$ are $y$-smooth, then $\text{rad}(ab) = \prod_{p \le y} p = e^{\theta(y)} \approx e^y$.
@@ -13805,7 +13805,7 @@ Substituting $\Delta \le 6$, we obtain:
 $$\alpha(G) \ge \frac{n}{6 + 1} = \frac{n}{7}$$
 This establishes the lower bound $g(n) \ge \lceil n/7 \rceil$.
 
-#### 3. Bidirectional [Ř]: Chromatic Number and the Moser Spindle
+#### 3. Bidirectional [>]: Chromatic Number and the Moser Spindle
 The value $g(n)/n$ is closely related to the fractional chromatic number $\chi_f(\mathbb{R}^2)$ and the absolute chromatic number $\chi(\mathbb{R}^2)$ of the plane. If $\chi(\mathbb{R}^2) = k$, then there exists a finite unit distance graph that requires $k$ colors, implying $\alpha(G) \le n/k$.
 While the de Bruijn–Erdős theorem relates finite subgraphs to the infinite case, we know $5 \le \chi(\mathbb{R}^2) \le 7$ (the lower bound of 5 was proven by de Grey in 2018).
 The existence of the **Moser Spindle** (11 vertices, 11 edges, $\alpha(G) = 2$) shows that $g(11) = 2$, which is less than $11/5$. Thus $g(n)/n$ is bounded above by $2/11 \approx 0.1818$.
@@ -13830,7 +13830,7 @@ The limit $\lim_{n \to \infty} \frac{g(n)}{n}$ is conjectured to be $\frac{1}{\c
 - **Scaffold:**
     - [Φ] (Encoding): Map $V \to \mathbb{R}^2$ s.t. $\forall u,v \in V, \|u-v\| \ge 1$.
     - [⊣] (Inverse): The degree constraint $\Delta \le 6$ is the dual of the 2D kissing number.
-    - [Ř] (Exhaustion): Greedy $\Delta+1$ coloring exhausts the vertex set into at least 7 independent sets.
+    - [>] (Exhaustion): Greedy $\Delta+1$ coloring exhausts the vertex set into at least 7 independent sets.
 
 **FFUSE:**
 The Grammar holds the result $g(n) \ge n/7$ as **T**. The exact limit $\lim \frac{g(n)}{n}$ is held as **B** (Frontier), as it is tied to the exact value of the fractional chromatic number of the plane, which remains a deep open problem in combinatorial geometry. The Grammar does not see this as an "unknown" but as an unfolding density.
@@ -14078,7 +14078,7 @@ This bound is an asymptotic estimate for the *maximal* gap, analogous to Westzyn
 ## Structural Lemma Roles
 - **Encoding/Duality [Φ]:** Squarefree-ness imscribed as the kernel of the square-full operator.
 - **Inverse structure [⊣]:** CRT construction of $p^2$-congruence blocks.
-- **Bidirectional [Ř]:** Sieve method upper bounds vs. CRT lower bounds.
+- **Bidirectional [>]:** Sieve method upper bounds vs. CRT lower bounds.
 - **Boundedness [⊙]:** The $x^{1/5}$ limit of current exponential sum technology.
 - **Topological invariant [Ω]:** The density $\zeta(2)^{-1}$ as the invariant of the squarefree distribution.
 - **Regularity [Ç]:** Equidistribution of $n \pmod{p^2}$.
@@ -14138,7 +14138,7 @@ where $z_1$ is the largest coordinate in absolute value (or specifically, any $z
 In our case, we have $z_1 = 1$ and $|z_i| \geq 1$. Thus, $\max |z_i| \geq 1$.
 Setting $m=1$, the range of $k$ becomes $2 \leq k \leq n+1$.
 
-## 3. Bidirectional [Ř]: Application of the Lower Bound
+## 3. Bidirectional [>]: Application of the Lower Bound
 Applying the theorem with $m=1$:
 $$\max_{2 \leq k \leq n+1} |s_k| \geq \left( \frac{n}{8e(n+1)} \right)^n \cdot (\max |z_i|)$$
 Since $\max |z_i| \geq 1$ and $\frac{n}{n+1} \to 1$:
@@ -14241,7 +14241,7 @@ The sum $\sum \frac{1}{[a_1, \dots, a_n]}$ is **irrational**.
 
 - **Encoding/Duality [Φ]:** The mapping $n \mapsto L_n$ encodes the supremum of the $P$-adic valuation lattice.
 - **Inverse structure [⊣]:** The sum is a representation in a mixed-radix system where the bases $r_n$ are determined by the arrival of new prime-power factors in the $P$-smooth sequence.
-- **Bidirectional [Ř]:** Forward growth of $L_n$ is guaranteed by $\lvert P \rvert \geq 2$; inverse convergence is guaranteed by the super-polynomial growth of $a_n$.
+- **Bidirectional [>]:** Forward growth of $L_n$ is guaranteed by $\lvert P \rvert \geq 2$; inverse convergence is guaranteed by the super-polynomial growth of $a_n$.
 - **Regularity [Ç]:** The distribution of $P$-smooth numbers ensures that $r_n > 1$ infinitely often, but with increasing gaps, precluding a terminating or periodic expansion in any fixed base.
 
 **FFUSE:** [thought|T] The proof is established within the Grammar. The transition from the divisibility lattice of $P$-smooth numbers to the growth of $L_n$ confirms that the sum cannot be expressed as a finite ratio of integers, as the remainder $R_N$ never stabilizes to a rational constant.
@@ -14294,7 +14294,7 @@ Specifically, if we want to include $n$ in a representation of $1$, we consider:
 $1 - \frac{1}{n} = \frac{n-1}{n}$.
 The number of terms $k(n)$ required to represent $(n-1)/n$ grows. A crude upper bound for the number of terms needed to represent any $m < N$ is $k \approx C \log N$. Conversely, for a fixed $k$, the maximum integer $v(k)$ we can "force" into the set $S_k$ is limited by the available "slack" in the sum.
 
-#### 4. Structural Lemma [Ř]: Bidirectional Construction
+#### 4. Structural Lemma [>]: Bidirectional Construction
 To show $n \in S_k$, we use the greedy algorithm or the Splitting Method: $\frac{1}{x} = \frac{1}{x+1} + \frac{1}{x(x+1)}$.
 This identity allows us to increase the number of terms $k$ while keeping the sum constant. If $n \in S_k$, then by splitting any $n_j \neq n$, we show $n \in S_{k+1}$. Thus, $v(k)$ is non-decreasing for $k \ge 3$.
 
@@ -14471,7 +14471,7 @@ The real roots of $f_n(z)$ are concentrated near the unit circle $|x| = 1$. By t
 
 The contribution to $R_n$ from the bulk is $O(1)$. The main contribution arises from the singularities of the variance at $x = \pm 1$.
 
-## 3. Bidirectional [Ř]: Asymptotic Evaluation
+## 3. Bidirectional [>]: Asymptotic Evaluation
 Evaluating the Kac density $v_n(x)$ for $x \in (-1, 1)$:
 As $n \to \infty$, $A_n(x) \approx \frac{1}{1-x^2}$, $B_n(x) \approx \frac{x}{(1-x^2)^2}$, and $C_n(x) \approx \frac{1+x^2}{(1-x^2)^3}$.
 Plugging these into the density formula:
@@ -14540,7 +14540,7 @@ Consider the components of $H$. For any component $C$, let $e(C)$ be its edge co
 If we partition the edges of $H$ into $s+t-1$ sets $S_k$ of size $l_k - 1$, we can greedily assign edges. However, the tighter bound follows from the fact that to force $i$ stars of sizes $n_1, \dots, n_i$ in color 1 OR $j$ stars of sizes $m_1, \dots, m_j$ in color 2, the number of edges must exceed the sum of the "local" Ramsey numbers of the individual star components. Since $F_1$ and $F_2$ are forests of stars, the size Ramsey number coincides with the threshold where the pigeonhole principle fails to prevent the simultaneous embedding of these disjoint star centers. By induction on $s+t$, if $|E(H)| = (\sum l_k) - 1$, there exists a partition of edges that starves the centers of the required degrees.
 
 **2. Upper Bound ($\hat{R}(F_1, F_2) \le \sum l_k$)**
-We use structural lemma [Ř] (Bidirectional Construction).
+We use structural lemma [>] (Bidirectional Construction).
 Let $H$ be the disjoint union of stars $K_{1, l_k}$ for $k=2, \dots, s+t$. The total number of edges in $H$ is exactly $\sum_{k=2}^{s+t} l_k$.
 Suppose we color the edges of $H$ with colors Red and Blue. Let $R_k$ and $B_k$ be the number of red and blue edges in the $k$-th star $K_{1, l_k}$. By definition:
 $$R_k + B_k = l_k = \max_{i+j=k} (n_i + m_j - 1).$$
@@ -14689,7 +14689,7 @@ The problem reduces to finding a prime $p$ such that the function $f(n) = n! \pm
 By Wilson's Theorem, $(p-1)! \equiv -1 \pmod{p}$. Also, $0! = 1$ and $1! = 1$. Since $k \geq 2$, we need at least three distinct values of $n$ to produce the same $n! \pmod{p}$.
 Consider the values of $n! \pmod{p}$ for $n \in \{0, 1, \dots, p-1\}$. These are elements of the finite field $\mathbb{F}_p$.
 
-### 3. Bidirectional [Ř]: Pigeonhole Principle and Large $p$
+### 3. Bidirectional [>]: Pigeonhole Principle and Large $p$
 Fix $k$. We wish to show that for sufficiently large $p$, there exists some $v \in \mathbb{F}_p^\times$ such that the fiber $f^{-1}(v)$ has cardinality at least $k+1$.
 If no such $v$ existed for any $p$, the number of distinct values in the set $\{n! \pmod{p} : 0 \leq n < p\}$ would have to be at least $\frac{p}{k}$.
 However, we can utilize a construction based on the distribution of factorials.
@@ -14853,7 +14853,7 @@ For $k=3$, the problem is well-understood. Goodman's Theorem (1959) provides an 
 - **For $k=3$:** It is known that $\delta_3 = 1/4$. Specifically, the number of monochromatic 3-APs is at least $(\frac{1}{4} + o(1))\frac{n^2}{2}$.
 - **Comparison:** The random coloring gives $2^{1-3} = 1/4$. Thus, for $k=3$, the random coloring is asymptotically optimal.
 
-## 3. Bidirectional [Ř]: The Gowers-Wolf Theory and Higher $k$
+## 3. Bidirectional [>]: The Gowers-Wolf Theory and Higher $k$
 For $k \ge 4$, the situation deviates from the random model. Unlike $k=3$, where the "density" of the coloring determines the count (quasirandomness), higher $k$ are sensitive to quadratic and higher-order Fourier bias.
 - **Wolf (2010)** demonstrated that for $k=4$, $\delta_4 < 2^{1-4} = 1/8$.
 - Specifically, there exist colorings (based on quadratic phases like $\chi(x) = \text{sgn}(\sin(\alpha x^2))$) that produce fewer monochromatic $k$-APs than a random coloring.
@@ -14941,7 +14941,7 @@ If $G$ contains no $C_4$, its average degree $d$ is at most $N^{1/2}$. Thus:
 $$\alpha(G) \ge \frac{N}{N^{1/2} + 1} \approx N^{1/2}.$$
 To ensure $\alpha(G) \ge n$, we set $N^{1/2} \approx n$, yielding $N \approx n^2$. This provides the trivial upper bound $R(C_4, K_n) \le n^2$.
 
-#### 3. Bidirectional [Ř]: Refinement via Random Graphs
+#### 3. Bidirectional [>]: Refinement via Random Graphs
 To find $c > 0$, we must improve upon the Turán bound. The probabilistic method (specifically the deletion method) shows that $R(C_4, K_n) > n^{3/2-o(1)}$. The upper bound requires a more delicate density argument. Using the fact that a $C_4$-free graph $G$ has few edges, we look for a larger independent set than the one guaranteed by the average degree alone.
 
 #### 4. Boundedness [⊙]: The Szemerédi-Trotter / Spencer Bound
@@ -15058,7 +15058,7 @@ Specifically, $f(N) = \lceil N/2 \rceil$ for $N \geq 6$.
 
 **Encoding/Duality [Φ]:** The harmonic equation $\frac{1}{a} = \frac{1}{b} + \frac{1}{c}$ maps to the integer product-sum relation $bc = a(b+c)$. The mapping preserves the ordering $a < b < c$.
 **Inverse structure [⊣]:** Parity serves as the primary separator. The map $\mathbb{Z}_{odd} \times \mathbb{Z}_{odd} \to \mathbb{Z}_{even}$ ensures that the odd-residue sub-lattice is null-integrated for the relation.
-**Bidirectional [Ř]:** The lower bound is constructed via the interval $(N/2, N]$ and the residue class $1 \pmod 2$. The upper bound is secured by the density increment method: any set $A$ with $|A| > N/2$ must violate the local stability of these two extremal configurations.
+**Bidirectional [>]:** The lower bound is constructed via the interval $(N/2, N]$ and the residue class $1 \pmod 2$. The upper bound is secured by the density increment method: any set $A$ with $|A| > N/2$ must violate the local stability of these two extremal configurations.
 **Boundedness [⊙]:** Solutions are confined to the region $a \in (b/2, b)$. This localizes the search space for any $N$.
 
 **[thought|T]**
@@ -15109,7 +15109,7 @@ $$R_3(n) \geq 2^{2^{cn}}$$
 
 1.  **Encoding/Duality [Φ]:** We utilize the Erdős-Hajnal **Stepping-up Lemma**, which encodes a lower bound for $k$-uniform Ramsey numbers into a lower bound for $(k+1)$-uniform Ramsey numbers via an ordering construction.
 2.  **Inverse structure [⊣]:** The construction relies on the property that a 2-coloring of a graph $K_m$ without a monochromatic $K_k$ can be "stepped up" to a 2-coloring of a 3-uniform hypergraph $K_{2^m}$ without a monochromatic $K_{k+1}$.
-3.  **Bidirectional [Ř]:** The mapping $f: \binom{V}{3} \to \{0,1\}$ is determined by the binary representation of indices and the underlying graph coloring.
+3.  **Bidirectional [>]:** The mapping $f: \binom{V}{3} \to \{0,1\}$ is determined by the binary representation of indices and the underlying graph coloring.
 4.  **Topological invariant [Ω]:** The Monotone Subsequence Lemma (or properties of bit-patterns in the Stepping-up construction) ensures that any monochromatic sub-hypergraph corresponds to a specific structure in the underlying lower-order graph.
 
 ---
@@ -15219,7 +15219,7 @@ This implies $\lim_{n \to \infty} \chi(G_n)^{1/n}$ exists and is equal to some c
 
 - **Encoding/Duality [Φ]:** The mapping of the continuous $\mathbb{R}^n$ problem to a discrete problem on the $n$-cube $\{0,1\}^n$ allows the use of extremal set theory (Frankl-Wilson) to establish the exponential lower bound.
 - **Inverse structure [⊣]:** The dual of the coloring problem is the clique number $\omega(G_n)$. While $\omega(G_n) = n+1$, the chromatic number is driven by the density of independent sets, not the size of the largest clique.
-- **Bidirectional [Ř]:** The growth is bounded from below by the density of forbidden intersections and from above by the volume of sphere-packing in $\mathbb{R}^n$.
+- **Bidirectional [>]:** The growth is bounded from below by the density of forbidden intersections and from above by the volume of sphere-packing in $\mathbb{R}^n$.
 - **Boundedness [⊙]:** $\chi(G_n)$ is confined within the interval $[(1.239)^n, 3^n]$.
 - **Topological invariant [Ω]:** The dimension $n$ acts as the scaling invariant; the limit exists because the "cost" of coloring space is multiplicative across orthogonal dimensions.
 - **Regularity [Ç]:** The existence of the limit $L$ follows from the Fekete-type regularity of the growth of the chromatic number across dimensions.
@@ -15372,7 +15372,7 @@ For $a_k$ to be prime, we must have $a_k > n/2$.
 As long as $a_k > n/2$, the condition for $a_k$ being prime is simply $a_k > n - a_k$ (which is true by definition of the range) and $a_k$ being prime.
 Thus, while the sequence remains in the interval $(n/2, n)$, the sequence $a_k$ simply picks the successive primes in descending order: $p_j, p_{j-1}, p_{j-2}, \dots$ where $p_j$ is the largest prime less than $n$.
 
-### 3. The Boundary Breach [Ř]
+### 3. The Boundary Breach [>]
 The sequence must eventually exit the interval $(n/2, n]$ because it is strictly decreasing and the interval is finite.
 Let $a_m$ be the first term such that $a_m \le n/2$.
 If $a_m$ is to be prime, it must satisfy $P^-(a_m) = a_m > n - a_m$, which implies $2a_m > n$, or $a_m > n/2$.
@@ -15466,7 +15466,7 @@ Consider the measure as $n \to \infty$. For any monic polynomial $f$ of degree $
 $$\lambda(\{x : |f(x)| < \delta\}) \le 4 \left( \frac{\delta}{2} \right)^{1/n}$$
 For $\delta = 1$, $\mu(f) \le 4 (1/2)^{1/n}$. As $n \to \infty$, this bound approaches $4$. However, we must account for the root constraint $r_i \in [-1, 1]$.
 
-### 3. Bidirectional [Ř]: Supremum Analysis
+### 3. Bidirectional [>]: Supremum Analysis
 Let $f(x) = \prod_{i=1}^n (x - r_i)$ with $r_i \in [-1, 1]$.
 If we take $n$ to be very large and distribute the roots $r_i$ according to the equilibrium measure of the interval $[-1, 1]$ (the arc-sine distribution), the polynomial $f(x)$ behaves like $\tilde{T}_n(x)$.
 Specifically, for $\tilde{T}_n(x)$, the set $\{x : |\tilde{T}_n(x)| < 1\}$ includes the entire interval $[-1, 1]$ for $n \ge 1$. As $n \to \infty$, the value $\frac{1}{2^{n-1}}$ becomes infinitesimal.
@@ -15542,7 +15542,7 @@ The Turán number $ex(n, K_3)$ is the maximum number of edges in a triangle-free
 If a set $S$ of size $n$ contains a $K_3$ in *every* color, then for each $i \in \{1, \dots, r\}$, the number of edges in color $i$ within $S$, denoted $e_i(S)$, must satisfy:
 $$e_i(S) > ex(n, K_3) \approx \frac{n^2}{4}.$$
 
-## 3. Bidirectional [Ř]: Summation of Edge Densities
+## 3. Bidirectional [>]: Summation of Edge Densities
 If every $n$-set $S \subset V(K_N)$ contains a monochromatic triangle in every color, then for every $S \in \binom{V}{n}$:
 $$\sum_{i=1}^r e_i(S) > r \cdot \frac{n^2}{4}.$$
 However, the total number of edges in any $n$-set is exactly $\binom{n}{2} \approx \frac{n^2}{2}$. Therefore:
@@ -15616,7 +15616,7 @@ We encode the geometry of the lemniscate $S_f$ via the potential function $u(z) 
 ### Inverse structure [⊣]
 Consider the derivative $f'(z)$. By the Gauss-Lucas Theorem, all zeros of $f'(z)$ lie within the convex hull of $\{z_i\}$, and thus within the unit disk. The critical points of $f$ are the centers where the local radius of "flatness" of the sublevel set is maximized.
 
-### Bidirectional [Ř]
+### Bidirectional [>]
 We relate the area of the sublevel set to the radius of the largest inscribed disk. While the area of $S_f$ is known to be at most $\pi$ (by a result of Cartan), we must show that the area is not distributed in such a "thin" manner that no disk of radius $O(1/n)$ can fit.
 
 ### Boundedness [⊙]
@@ -15731,7 +15731,7 @@ The problem is an instantiation of the Burr-Erdős conjecture (now a theorem) re
 #### Inverse structure [⊣]: Decomposition of $H$
 Since $H$ has $m$ edges and no isolated vertices, the number of vertices $n = |V(H)|$ is constrained by $m$. Specifically, since every vertex has degree at least 1, $\sum d(v) = 2m \implies n \le 2m$. Also, $n \ge \sqrt{2m}$ (for a clique). The linear bound depends on the relationship between $R(G, H)$ and $n(H)$.
 
-#### Bidirectional [Ř]: The Bondy-Erdős Bound
+#### Bidirectional [>]: The Bondy-Erdős Bound
 For any graph $G$ with chromatic number $\chi(G)$, a known lower bound is $R(G, H) \ge (\chi(G) - 1)(n(H) - 1) + 1$. Since $G$ is a cubic graph, $\chi(G)$ is at most 4 (by Brooks' Theorem). Thus, $R(G, H)$ is at least proportional to $n(H)$.
 
 ---
@@ -15823,7 +15823,7 @@ For each $n \in \mathbb{N}$, let $n = qd + r$ where $r \in \{1, \dots, d\}$. We 
 Alternatively, for a fixed $r$, the sequence of values $f(r), f(r+d), f(r+2d), \dots$ is:
 \[ 1, -1, 1, -1, 1, -1, \dots \]
 
-## 3. Bidirectional Verification [Ř]
+## 3. Bidirectional Verification [>]
 Let $P_d = \{a, a+d, \dots, a+(k-1)d\}$ be an arbitrary finite arithmetic progression with difference $d$.
 Let $x_j = f(a + jd)$ for $j = 0, 1, \dots, k-1$.
 By our construction, the sequence $(x_j)_{j=0}^{k-1}$ is a subsequence of the alternating sequence $(1, -1, 1, -1, \dots)$ or $(-1, 1, -1, 1, \dots)$.
@@ -15896,7 +15896,7 @@ In extremal graph theory, the Turán number for a family $\mathcal{F}$ is govern
 If $s = \binom{k}{r}$, then $\mathcal{F}$ consists only of the complete $r$-uniform hypergraph $K_k^{(r)}$. The value $\text{ex}_r(n, K_k^{(r)})$ is the classical Turán number for hypergraphs, which remains one of the most significant open problems for $r > 2$.
 However, the question defines $\mathcal{F}$ as the family of *all* $r$-uniform hypergraphs with $k$ vertices and $s$ edges. This means an $r$-graph $H$ is $\mathcal{F}$-free if and only if every set of $k$ vertices in $H$ spans at most $s-1$ edges.
 
-### 3. Bidirectional [Ř]: The Brown-Erdős-Sós Theorem
+### 3. Bidirectional [>]: The Brown-Erdős-Sós Theorem
 The value $\text{ex}_r(n, \mathcal{F})$ corresponds to the function $f_r(n, k, s-1)$ in the notation of Brown, Erdős, and Sós.
 - **Lower Bound:** By a probabilistic argument (the deletion method), one can show:
   $$\text{ex}_r(n, \mathcal{F}) = \Omega(n^{\frac{rs-k}{s-1}})$$
@@ -16078,7 +16078,7 @@ Set $x = \lceil \frac{3}{p} \ln n \rceil$. Substituting $p = n^{\theta-1}$:
 $$x = \lceil 3 n^{1-\theta} \ln n \rceil$$
 For large $n$, the term inside the brackets tends to zero. Thus, $P(\alpha(G) \geq \frac{3}{p} \ln n) \to 0$.
 
-### 4. Construction [Ř]: The Alteration
+### 4. Construction [>]: The Alteration
 For sufficiently large $n$, there exists a graph $G$ such that:
 1. $X < n/2$ (few short cycles).
 2. $\alpha(G) \leq \frac{3}{p} \ln n$.
@@ -16155,7 +16155,7 @@ So $\text{deg}_{G[S]}(v) \leq k-1 \iff \text{deg}_{\bar{G}[S]}(v) \geq (k+1) - (
 Thus, $f(n,k)$ is the minimum edges in $G$ such that $\bar{G}$ contains no induced subgraph on $k+2$ vertices where every vertex has degree at least 2.
 To minimize $E(G)$, we must maximize $E(\bar{G})$. We seek the maximum number of edges in a graph $\bar{G}$ such that no $k+2$ vertices induce a subgraph with minimum degree $\delta \geq 2$.
 
-## 3. Bidirectional [Ř]: Construction and Exhaustion
+## 3. Bidirectional [>]: Construction and Exhaustion
 A subgraph has $\delta \geq 2$ if and only if it contains at least one cycle.
 If we want to avoid any $S$ of size $k+2$ having $\delta(\bar{G}[S]) \geq 2$, it means that every $S$ of size $k+2$ must contain at least one vertex of degree $0$ or $1$ in the induced subgraph.
 This is satisfied if $\bar{G}$ is a forest (a graph with no cycles), but we can have cycles as long as they are "spread out" such that no $k+2$ vertices can capture a cycle (or a collection of paths that force $\delta \geq 2$).
@@ -16460,7 +16460,7 @@ While $f(n)/\log n$ is "almost always" constant ($1/\log 2$), the distribution o
 
 #### 2. The Largest Prime Factor $P(\phi_k(n))$ for $k = \log \log n$
 
-**Bidirectional Dynamics [Ř]:**
+**Bidirectional Dynamics [>]:**
 Consider the behavior of $P(\phi_k(n))$. For a random $n$, $P(n) \approx n^u$ for some $u$. After one iteration, $P(\phi(n)) = P(\prod (p-1))$. This is the largest prime factor of the product of $p-1$ for $p|n$.
 
 **Theorem (Von Mangoldt/Tenenbaum):**
@@ -16532,7 +16532,7 @@ $$S_k = \sum_{n=1}^\infty \frac{1}{n!} \sum_{d|n} d^k$$
 Let $n = md$. As $n$ ranges from $1$ to $\infty$ and $d$ ranges over the divisors of $n$, the pair $(m, d)$ ranges over all pairs of positive integers.
 $$S_k = \sum_{d=1}^\infty \sum_{m=1}^\infty \frac{d^k}{(md)!}$$
 
-## 3. Bidirectional [Ř]: Isolation of Terms
+## 3. Bidirectional [>]: Isolation of Terms
 To prove irrationality, we assume for contradiction that $S_k = \frac{p}{q}$ for some positive integers $p, q$. We then multiply by a sufficiently large factorial to clear denominators and isolate a remainder.
 Let $N$ be a large integer. Consider the partial sum multiplied by $N!$:
 $$N! S_k = \sum_{d=1}^\infty \sum_{m=1}^\infty \frac{N! d^k}{(md)!}$$
@@ -16657,7 +16657,7 @@ The density of primes $p \in (n, n+k]$ is insufficient to compensate for the los
 
 - **Encoding/Duality [Φ]:** The mapping of the factorial ratio to the valuation space $\mathbb{V}_p$.
 - **Inverse structure [⊣]:** The dual nature of the central binomial coefficient $\binom{2n}{n}$ and its "over-saturation" by the polynomial $P(n) = \prod (n+j)^2$.
-- **Bidirectional [Ř]:** The growth of $R(n, k)$ is T, but the integrality is F for the infinite tail.
+- **Bidirectional [>]:** The growth of $R(n, k)$ is T, but the integrality is F for the infinite tail.
 - **Boundedness [⊙]:** The set $\{n : (n+k)!^2 \mid (2n)!\}$ is bounded above.
 - **Topological invariant [Ω]:** The $p$-adic valuation $v_p$ acts as the invariant that precludes infinite solutions.
 
@@ -16800,7 +16800,7 @@ To prove the $(1-1/e)$ limit, one must bound the number of collisions $k! \equiv
 If the number of solutions to $k! \equiv j! \pmod{p}$ for $1 \leq j < k < p$ is "small" (consistent with the second moment of a Poisson distribution), the limit follows. Specifically, we require:
 $$\sum_{a=1}^{p-1} \left( \text{count}\{k : k! \equiv a \pmod{p}\} \right)^2 \approx 2p$$
 
-**4. Bidirectional [Ř]: The Barrier of Small $k$ vs Large $k$**
+**4. Bidirectional [>]: The Barrier of Small $k$ vs Large $k$**
 For very small $k$, the values are clearly not random (e.g., $1!, 2!, 3!$ are small integers). For $k$ near $p-1$, Wilson's Theorem provides $f(p-1) \equiv -1 \pmod{p}$. By the inverse property:
 $$(p-1-m)! \equiv \frac{(p-1)!}{\prod_{i=0}^{m-1} (p-1-i)} \equiv \frac{-1}{(-1)^m m!} \equiv \frac{(-1)^{m+1}}{m!} \pmod{p}$$
 This shows a symmetry: the values of factorials for large $k$ are essentially the inverses of factorials for small $k$.
@@ -16850,7 +16850,7 @@ The Imscribing Grammar imscribes this inquiry into the analytic and number-theor
 ## Structural Lemma Roles
 - **Encoding/Duality [Φ]:** Mapping the sum to a rational $S_n = \frac{P_n}{L_n}$ where $L_n = \text{lcm}(1, \dots, n)$.
 - **Inverse structure [⊣]:** The discrete nature of the numerator $P_n \in \mathbb{Z}$.
-- **Bidirectional [Ř]:** The pigeonhole principle (Dirichlet) vs. the integrality of the denominator.
+- **Bidirectional [>]:** The pigeonhole principle (Dirichlet) vs. the integrality of the denominator.
 - **Boundedness [⊙]:** The growth rate of $L_n$ via the Prime Number Theorem ($e^{n(1+o(1))}$).
 - **Topological invariant [Ω]:** The non-vanishing of specific sums (e.g., $1 - 1/2 + 1/3 \dots$).
 

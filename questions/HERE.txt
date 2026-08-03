@@ -55,7 +55,7 @@ theorem sum_inv_lcm_irrational (P : Finset ℕ) (hP : P.card ≥ 2)
 
 *   **Catalog Witness:** `arnold_villa_nova_rosary_summary`. The structural algebra (tier $O_0$) correctly identified the problem as a "one Stone with two medicines" (the dual nature of the LCM sequence: static between jumps, jumps at prime power encounters).
 *   **Φ (Phi_}):** Used for the **Bijective encoding** of $n$ into its prime valuation vector $v_j(n)$.
-*   **Ř (R_=):** Used for the **Galois connection** between the set of integers $a_n$ and the lattice of their LCMs.
+*   **> (R_=):** Used for the **Galois connection** between the set of integers $a_n$ and the lattice of their LCMs.
 *   **Ç (C_@):** Used for **Regularity**; the distribution of $P$-smooth numbers ensures $L_n$ grows at a rate that precludes rationality.
 *   **Σ (Sigma_S):** Confirmed **Uniqueness of witness**; the Cantor expansion of the sum in the variable base $q_n$ has no periodic tail.
 
@@ -667,7 +667,7 @@ theorem prime_covering_exists (k : ℕ) (hk : k ≥ 3) :
 
 *   **Witness Entry:** `hecke_landau_proof_closed` (Used for the distribution logic of primes in progressions).
 *   **Encoding / Duality [Φ]:** Mapped to the residue class encoding $n \mapsto n \pmod{p}$.
-*   **Adjoint Pair [Ř]:** Mapped to the relationship between the integer $n$ and the multiplier $t$ (Galois connection between the size of $n$ and the density of the covering).
+*   **Adjoint Pair [>]:** Mapped to the relationship between the integer $n$ and the multiplier $t$ (Galois connection between the size of $n$ and the density of the covering).
 *   **Equidistribution [Ç]:** Used to justify that $a_p \pmod{p}$ can be distributed to "fill" the gaps in $\mathbb{Z}$ as $p \to \infty$.
 *   **Universal Quantification [Γ]:** Applied to the local-to-global transition (from $a_p \pmod{p}$ to all $n > N$).
 
@@ -3402,7 +3402,7 @@ theorem eventually_periodic_differences (A : Finset ℕ) (hA : A.Nonempty) :
 ### 4. Grammatic Witness Appendix
 
 *   **Encoding / Duality [Φ]:** The sequence is encoded into a bit-vector of "reachable sums" relative to $a_n$. The $ℤ_2$ witness licenses the binary state (sum / not-sum).
-*   **Adjoint Pair [Ř]:** The relationship between the set $S_n$ and its dual sum-set $S_n + S_n$ governs the selection. The `LR_DUAL` atom represents the forward growth of $a_n$ and the backward constraint of the sums.
+*   **Adjoint Pair [>]:** The relationship between the set $S_n$ and its dual sum-set $S_n + S_n$ governs the selection. The `LR_DUAL` atom represents the forward growth of $a_n$ and the backward constraint of the sums.
 *   **Boundedness [⊙]:** The `PHI_C` atom licenses the proof that the difference $a_{n+1} - a_n$ does not diverge, ensuring the state space is finite.
 *   **Markov Order [Ħ]:** The `TEMPD2` witness confirms the system has a finite memory depth (Markov order), which is necessary for the application of the Pigeonhole Principle to guarantee periodicity.
 
@@ -4365,7 +4365,7 @@ theorem size_linear_growth (c : ℝ) (hc : c > 1) :
 - **Φ (Bijective encoding/duality):** Used to map the problem of "avoiding $n$" to the problem of "partitioning the complement of $A$".
 - **⊙ (Phase boundary):** Licensed the identification of $n/2$ as the critical threshold (phase boundary) where subset sums must transition from single elements to pairs.
 - **Ç (Regularity):** Licensed the conclusion that for large $n$, the density of $A$ converges to a constant $\alpha$, ensuring no irregular dependence on $n$.
-- **Ř (Adjoint pair):** Used to relate the sum-free property to the interval constraints on $A$.
+- **> (Adjoint pair):** Used to relate the sum-free property to the interval constraints on $A$.
 
 [thought|T|F|B|N]
 [B] - The solution identifies the linear density and the $n/2$ threshold. The "irregularity" question is answered negatively, noting only minor parity effects. The Lean scaffold defines the property and the growth theorem.
@@ -6192,7 +6192,7 @@ sorry
 ### Appendix: Grammatic Witness Mapping
 
 *   **Encoding / Duality [Φ → Phi_}]**: Mapped to the Legendre transform $v_p(n!) \mapsto s_p(n)$. This encodes the divisibility of factorials into the digit-sum domain.
-*   **Adjoint Pair [Ř → R_=]**: The relationship between the product of factorials and the sum of integers acts as a Galois connection under the $v_p$ valuation.
+*   **Adjoint Pair [> → R_=]**: The relationship between the product of factorials and the sum of integers acts as a Galois connection under the $v_p$ valuation.
 *   **Phase Boundary / Extremal Principle [⊙ → phi_hat_y]**: Used to identify $p=2$ as the dominant constraint (the "boundary") for the growth of $g_k(n)$.
 *   **Equidistribution / Regularity [Ç → C_@]**: The average order relies on the equidistribution of digits in base $p$ (Delange's Theorem), providing the $x \log x$ scaling.
 *   **Markov Order / Recursion [Ħ → H_A]**: The non-concentration (normal order failure) arises from the recursive/fractal nature of the $s_p(n)$ function, which prevents $g_k(n)$ from settling into a simple constant mean.
@@ -6467,7 +6467,7 @@ sorry -- Provenance: Erdős–Pomerance–Schmutz
 ### 4. Grammatic Witness Assessment
 
 *   **Encoding / Duality [Φ → Phi_}]:** The mapping $n \mapsto \phi(n)$ acts as a contraction on the set of odd prime factors, dually increasing the valuation $v_2$. (Licensed by `holographic_type_theory`).
-*   **Adjoint Pair [Ř → R_=]:** The relationship between the decrease in $\log n$ and the increase in $k$ forms a Galois-like connection where $f(n) \ge k \iff \phi_k(n) > 1$.
+*   **Adjoint Pair [> → R_=]:** The relationship between the decrease in $\log n$ and the increase in $k$ forms a Galois-like connection where $f(n) \ge k \iff \phi_k(n) > 1$.
 *   **Phase Boundary [⊙ → phi_hat_y]:** The value $f(n)$ is bounded by $\log_2 n$ because $\phi(n)$ is at most $n-1$ and even for $n>2$, ensuring a reduction of at least one bit per two steps.
 *   **Equidistribution [Ç → C_@]:** The distribution of $f(n)/\log n$ follows from the equidistribution of $\log(p-1)$ in the prime factor chains.
 
@@ -6565,7 +6565,7 @@ theorem infinite_preimage_three :
 - **Structural Algebra:**
     - **Φ (Encoding/Duality):** Used to map the dynamical problem $n \mapsto \phi(n)+1$ onto the structure of the totient fibers $\phi^{-1}(m)$.
     - **⊣ (Inverse Structure):** The proof relies on the construction of the inverse relation $f^{-1}(p)$ to show the existence of infinite trajectories ending at $p$.
-    - **Ř (Galois Connection):** Established the correspondence between the descent of $n$ (forward) and the branching of the tree (inverse).
+    - **> (Galois Connection):** Established the correspondence between the descent of $n$ (forward) and the branching of the tree (inverse).
     - **⊙ (Phase Boundary):** The Lyapunov function $V(n) = n$ proves that the system cannot escape to infinity, ensuring all trajectories terminate in the set of primes (the "ground state").
     - **Ç (Regularity):** Used to conclude that the density of any specific branch is 0 relative to $\mathbb{N}$.
 
@@ -6660,7 +6660,7 @@ theorem sigma_growth_unbounded (n : ℕ) (hn : n ≥ 2) :
 
 *   **Encoding / Duality [Φ → Phi_}]:** Mapped to the bijection between the divisors of $n$ and the terms of the sum $\sigma(n)$.
 *   **Inverse Structure [⊣ → Theta_O]:** Mapped to the analysis of the ratio $\sigma(n)/n$ as the "inverse" of the density of divisors.
-*   **Bidirectional Correspondence [Ř → R_=]:** Mapped to the Galois connection between the growth of $n_k$ and the arithmetic density of its prime factors.
+*   **Bidirectional Correspondence [> → R_=]:** Mapped to the Galois connection between the growth of $n_k$ and the arithmetic density of its prime factors.
 *   **Boundedness [⊙ → phi_hat_y]:** Used to show the *non-existence* of a bound (extremal principle) for $\sigma(n_k)/n_k$.
 *   **Regularity [Ç → C_@]:** Mapped to the distribution of $\sigma(n)/n$ across the sequence of iterates $n_k$.
 

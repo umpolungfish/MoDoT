@@ -124,7 +124,7 @@ def diff_all_pairs() -> str:
     pairs = [
         ('⊢', 'dead', 'dead',   '0D anchor (shared)'),
         ('⊣', 'mime', 'mime',   'crossing topology (shared)'),
-        ('Ř', 'ear',  'ian',    'coupling: trefoil→frobenioid'),
+        ('>', 'ear',  'ian',    'coupling: trefoil→frobenioid'),
         ('Φ', 'yew',  'out',    'parity: trefoil→frobenioid'),
         ('ƒ', 'peep', 'age',    'fidelity: trefoil→frobenioid'),
         ('Ç', 'egg',  'egg',    'kinetics (shared)'),

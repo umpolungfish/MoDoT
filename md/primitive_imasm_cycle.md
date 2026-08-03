@@ -44,7 +44,7 @@ refinement of the reading can separate them.
 Position separates one pair and not the other. The types `loll` and `yew`
 collide, but the catalog only ever writes `loll` at the Ç axis and `yew` at Φ,
 so the axis a segment sits at tells the reading which one it is. The types `ear`
-and `tot` collide AND both live at Ř. There, a segment carrying that program has
+and `tot` collide AND both live at >. There, a segment carrying that program has
 two pre-images and the return leg reports both rather than choosing.
 
 This is why the cycle closes to within one axis rather than exactly. The
@@ -55,7 +55,7 @@ persist under any parser.
 
 Walking the live catalog, no entry loses its original type: wherever the reading
 is ambiguous the truth is among the pre-images, and wherever it is determined it
-is right. Ambiguity appears at exactly one axis, Ř, and nowhere else, which is
+is right. Ambiguity appears at exactly one axis, >, and nowhere else, which is
 the prediction the alphabet analysis makes.
 
 A single entry breaks, and it is a data defect rather than a cycle defect:
@@ -69,7 +69,7 @@ The return leg has been imscribed as an ob3ect through the live designer (never
 by hand), and put through its own reading with `imasm cycle tuple=⟨…⟩`. It
 recovers exactly at every one of its twelve axes.
 
-Two details of that tuple are worth naming. Its Ř axis carries neither member of
+Two details of that tuple are worth naming. Its > axis carries neither member of
 the colliding pair, so the one place the cycle can be ambiguous is not where
 this object sits. And its Φ axis carries `yew`, which IS one of the two
 byte-identical programs; it survives only because position separates it from its
@@ -78,7 +78,7 @@ mechanism it describes.
 
 ## Why the ambiguity is not a defect to be patched
 
-The honest reading of the Ř collision is that the type alphabet distinguishes
+The honest reading of the > collision is that the type alphabet distinguishes
 two types at that axis which the opcode composition does not. Either the two
 types differ in something the program does not carry, in which case the programs
 are an incomplete face and the alphabet is right; or they do not differ, in

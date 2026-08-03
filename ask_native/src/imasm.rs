@@ -1177,7 +1177,7 @@ fn cycle_verb(rest: &[String]) -> String {
             out,
             "The cause is in the ALPHABET, not the reading: the 49 types emit 47 distinct \
              programs. 'loll' and 'yew' collide but sit on different axes, so position separates \
-             them; 'ear' and 'tot' collide AND share axis Ř, so a Ř segment carrying that program \
+             them; 'ear' and 'tot' collide AND share axis >, so a > segment carrying that program \
              has two pre-images and no amount of reading can choose between them."
         );
     }

@@ -120,7 +120,7 @@ pub const PRIMS: [&str; 12] = ["⊢", "⊣", ">", "<", "⋈", "⊤", "∈", "∋
 const GLYPHS: [&[(&str, u8)]; 12] = [
     /* ⊢ Dimensionality */ &[("𐑛", 0), ("𐑨", 1), ("𐑼", 2), ("𐑦", 3)],
     /* ⊣ Topology       */ &[("𐑡", 0), ("𐑰", 1), ("𐑥", 2), ("𐑶", 3), ("𐑸", 4)],
-    /* Ř Recognition    */ &[("𐑩", 0), ("𐑑", 1), ("𐑽", 2), ("𐑾", 3)],
+    /* > Recognition    */ &[("𐑩", 0), ("𐑑", 1), ("𐑽", 2), ("𐑾", 3)],
     /* Φ Parity         */ &[("𐑗", 0), ("𐑿", 1), ("𐑬", 2), ("𐑯", 3), ("𐑹", 4)],
     /* ƒ Fidelity       */ &[("𐑱", 0), ("𐑞", 1), ("𐑐", 2)],
     /* Ç Kinetics       */ &[("𐑘", 0), ("𐑤", 1), ("𐑧", 2), ("𐑪", 3), ("𐑺", 4)],
@@ -267,7 +267,7 @@ fn tier_score(ord: &[Option<u8>; 12]) -> u8 {
     if eq(0, 3) { s += 1; } // ⊢ = 𐑦 (holographic)
     if eq(5, 2) { s += 1; } // Ç = 𐑧 (slow/coherent kinetics)
     if eq(1, 4) { s += 1; } // ⊣ = 𐑸 (self-referential topology)
-    if eq(2, 3) { s += 1; } // Ř = 𐑾 (bidirectional recognition)
+    if eq(2, 3) { s += 1; } // > = 𐑾 (bidirectional recognition)
     s
 }
 fn tier_label(score: u8) -> &'static str {
@@ -548,7 +548,7 @@ pub fn run_switch(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: &str, 
 const CTORS: [&[&str]; 12] = [
     /* ⊢ */ &["dead", "ash", "array", "if'"],
     /* ⊣ */ &["judge", "eat", "mime", "oil", "are"],
-    /* Ř */ &["ado", "tot", "ear", "ian"],
+    /* > */ &["ado", "tot", "ear", "ian"],
     /* Φ */ &["church", "yew", "out", "nun", "or'"],
     /* ƒ */ &["age", "they", "peep"],
     /* Ç */ &["yea", "loll", "egg", "on", "air"],
@@ -1236,9 +1236,9 @@ fn complement_type(site: &[Option<u8>; 12]) -> [Option<u8>; 12] {
 /// One-line reading of a Recognition (>, index 2) ordinal as binding directionality.
 fn recognition_reading(r: Option<u8>) -> (&'static str, f32) {
     match r {
-        Some(3) => ("Ř=𐑾 (bidirectional — substrate↔enzyme feedback): a true catalytic/binding site", 1.0),
-        Some(2) => ("Ř=𐑽 (lateral dual): partial bidirectional binding", 0.5),
-        _ => ("Ř low: weak / one-way binding, not a strong bidirectional site", 0.0),
+        Some(3) => (">=𐑾 (bidirectional — substrate↔enzyme feedback): a true catalytic/binding site", 1.0),
+        Some(2) => (">=𐑽 (lateral dual): partial bidirectional binding", 0.5),
+        _ => ("> low: weak / one-way binding, not a strong bidirectional site", 0.0),
     }
 }
 
@@ -1439,9 +1439,9 @@ pub fn run_cycle(
     let bind_d = tuple_dist(&comp, &sub_t);
     let recog = recognition_reading(cat_t[2]).1;
     let grip = if bind_d < 0.5 && recog >= 1.0 {
-        "a real catalytic grip (Ř=𐑾 bidirectional, complement fits)"
+        "a real catalytic grip (>=𐑾 bidirectional, complement fits)"
     } else if bind_d < 0.5 {
-        "binds, but weak recognition (Ř not bidirectional)"
+        "binds, but weak recognition (> not bidirectional)"
     } else {
         "weak grip — expect sluggish turnover"
     };
@@ -2828,7 +2828,7 @@ pub fn run_tlc(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32
     let mut scored: Vec<(String, f32)> =
         units.iter().map(|u| (u.name.clone(), 1.0 - u.norm(2).unwrap_or(0.0))).collect();
     scored.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
-    println!("TLC (spread by Rf = mobility, the inverse of retention Ř; count the bands):  {{{}}}", monomers.join(", "));
+    println!("TLC (spread by Rf = mobility, the inverse of retention >; count the bands):  {{{}}}", monomers.join(", "));
     let mut bands: Vec<Vec<(String, f32)>> = Vec::new();
     for (n, rf) in scored {
         match bands.last() {
@@ -2881,7 +2881,7 @@ pub fn run_column(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: 
     };
     let mut scored: Vec<(String, f32)> = sample.iter().map(|u| (u.name.clone(), retention(u))).collect();
     scored.sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal));
-    let phase = stat.as_ref().map(|s| format!("affinity to {}", s.name)).unwrap_or_else(|| "intrinsic retention Ř".to_string());
+    let phase = stat.as_ref().map(|s| format!("affinity to {}", s.name)).unwrap_or_else(|| "intrinsic retention >".to_string());
     println!("column chromatography (elute by {phase}, least-retained first):  {{{}}}", sample_names.join(", "));
     let mut co = 0;
     for i in 0..scored.len() {
@@ -2984,7 +2984,7 @@ pub fn run_stain(catalog: Option<&[CatalogEntry]>, reagent: &str, monomers: &[St
     let (prim, feature): (Option<usize>, &str) = match reagent.to_lowercase().as_str() {
         "kmno4" | "permanganate" | "uv" => (Some(8), "Criticality ⊙ (unsaturation / excitation)"),
         "chiral" | "chirality" => (Some(9), "Chirality Ħ (handedness)"),
-        "ninhydrin" => (Some(2), "Recognition Ř (binding center)"),
+        "ninhydrin" => (Some(2), "Recognition > (binding center)"),
         "iodine" | "i2" => (None, "any live reaction center (D↔W / T↔H / R↔S)"),
         _ => { eprintln!("stain: unknown reagent `{reagent}` (try: kmno4, uv, chiral, ninhydrin, iodine)"); return 2; }
     };
@@ -4078,7 +4078,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         _ => None,
     });
     let Some(ax) = idx else {
-        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ Ř Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
+        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
         return 2;
     };
 

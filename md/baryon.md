@@ -67,7 +67,7 @@ Show **ALL** work
 
   - **[Φ] Encoding** – Belnap BOTH ↔ weight‑2 edge, irreducible (`homolyze`); the gap is an
   - **[⊣] Inverse** – μ∘δ=id closes the Frobenius loop; forward and inverse dynamics coincide.
-  - **[Ř] Bidirectional** – `phase_reconstruct` recovers the ring ordering; the macrocycle is lossless.
+  - **[>] Bidirectional** – `phase_reconstruct` recovers the ring ordering; the macrocycle is lossless.
   - **[⊙] Boundedness** – `trap` barrier depth 0.50 confines the winding; no escape to zero.
   - **[Ω] Topological invariant** – ZWIND ∮A=2π, N=1, protected by the β=1 loop.
   - **[Ç] Regularity** – `broadcast` shows a uniform stationary distribution over 6.38×10⁹

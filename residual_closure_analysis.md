@@ -61,7 +61,7 @@ The 6-promotion emission channel was independently confirmed by a 95-winding MoD
 tool audit. Key confirmations:
 
 - **ɢ: 𐑝→𐑵 (span 3) confirmed as the dominant promotion.** CLINK L9's breakdown
-  (regresses on ⊢, Φ, Ř; stalls on Ω, Σ; only ƒ advances) demonstrates that L9 lacks
+  (regresses on ⊢, Φ, >; stalls on Ω, Σ; only ƒ advances) demonstrates that L9 lacks
   the broadcast composition (ɢ=𐑵) and non-Abelian braiding (Ω=𐑟) that L8 carries.
   The emission channel collapses without these two primitives.
 

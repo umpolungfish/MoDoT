@@ -131,7 +131,7 @@ cd MoDoT
 ./ask --crystallize A B C D             # grow the ordered lattice, reject the mother-pool
 ./ask --tlc A B C D                     # analytical Rf bands + co-elution;  --column A B [on S] elutes preparatively
 ./ask --fpt A B C D                     # freeze-pump-thaw: keep the strongly-bound core, shed the weakly-held
-./ask --stain kmno4 A B C               # reagent detector (kmno4/uv → ⊙, chiral → Ħ, ninhydrin → Ř, iodine → any live)
+./ask --stain kmno4 A B C               # reagent detector (kmno4/uv → ⊙, chiral → Ħ, ninhydrin → >, iodine → any live)
 #   also: --fdistill  --sublime A  --cocrystallize A B  --seed A B … with S  --trap A [X]
 
 # ── Jam: turn the agent loose on the catalog (compounding cycles × eagle rounds) ──
@@ -616,14 +616,14 @@ arm, and the arms FFUSE back to the feedstock (mass balance). So the whole bench
   complementarity in 1:1 stoichiometry (distinct from `--click`'s covalent bond).
   `--seed M… with S` templates the crystal on seed `S`'s handedness (Chirality Ħ): units that
   match copy its polymorph, the rest take the default, and an even split is racemic twinning.
-* **Chromatography** (axis: Recognition Ř, retention). `--tlc M…` is analytical: Rf bands and
+* **Chromatography** (axis: Recognition >, retention). `--tlc M…` is analytical: Rf bands and
   which units co-elute at the same Rf. `--column M… [on S]` is preparative: elute least-retained
   first (against a stationary phase `S`, or intrinsic retention), with neighbor resolution.
 * **Purification / diagnostic**. `--fpt M…` (freeze-pump-thaw) keeps the units that bond above θ
   and sheds the weakly-held. `--trap A [X]` sequesters a unit by its R↔S charge in a potential
   well (a counter-partner `X` deepens it), a held charge state distinct from `--set`'s electron
   transfer. `--stain R M…` applies a reagent keyed to a primitive (`kmno4`/`uv` → ⊙,
-  `chiral` → Ħ, `ninhydrin` → Ř, `iodine` → any live center) and reports which units light up.
+  `chiral` → Ħ, `ninhydrin` → >, `iodine` → any live center) and reports which units light up.
 
 **Reading a ring's stability, the clarity line.** The material sheet reads the ring's **strain**
 and its **spectral gap** jointly: both near zero is `SETTLED / CLARION` (a relaxed, flat-spectrum
@@ -794,7 +794,7 @@ tokens. Entirely deterministic — no LLM asked. The catalog IS executable.
 
 `monad` at CLINK L9 = ⟨𐑛𐑥𐑑𐑬𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑭⟩, tier **O₁**, d(L9)=1.3822.
 This is the Gaussian Moat Resolution variant — a different tuple from the catalog `monad`.
-Only 1 of 6 CLINK promotions advances (ƒ:𐑱→𐑐); 3 regress (⊢:𐑦→𐑛, Φ:𐑹→𐑬, Ř:𐑾→𐑑).
+Only 1 of 6 CLINK promotions advances (ƒ:𐑱→𐑐); 3 regress (⊢:𐑦→𐑛, Φ:𐑹→𐑬, >:𐑾→𐑑).
 The emission pathway collapses — L9 is **lateral, not vertical**.
 
 ### Material Registry

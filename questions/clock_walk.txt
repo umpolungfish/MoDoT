@@ -7,7 +7,7 @@ rung: ⊢ ⊣ Φ ƒ Ç Γ ⊙ Ħ are invariant (the chiral mode 𐑬 never moves
 the three live registers are periodic counters:
     Ω period 2 (the Z2 toggle)
     Σ period 3 (𐑳→𐑙→𐑕)
-    Ř period 4 (𐑑→𐑩→𐑾→𐑽), one value per truth family
+    > period 4 (𐑑→𐑩→𐑾→𐑽), one value per truth family
 Joint register period: lcm(2,3,4) = 12. The ring returns to its exact
 register state every 12 single turnovers.
 

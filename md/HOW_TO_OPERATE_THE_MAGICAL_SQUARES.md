@@ -26,7 +26,7 @@ Key features:
 
 - **⊢ = $𐑦$** (imscriptive dimensionality): The squares' state-space is self-written — each square defines its own operative domain through letter arrangement. They are not merely symbols; they are self-referential microcosms.
 - **⊣ = $𐑸$** (self-referential topology): The palindromic structure means every path through the square returns to its origin. This is topological closure at the letter level.
-- **Ř = $𐑩$** (supervenience coupling): The squares command spirits through one-way authority — the spirit obeys; it does not speak back. This is domination, not dialogue.
+- **> = $𐑩$** (supervenience coupling): The squares command spirits through one-way authority — the spirit obeys; it does not speak back. This is domination, not dialogue.
 - **ɢ = $𐑵$** (broadcast composition): A single square transmits its command to an entire spiritual hierarchy simultaneously — one-to-all, not one-to-one.
 - **Ç = $𐑪$** (moderate kinetics): The squares operate at moderate speed — too fast for consciousness (Gate 2 fails, C-score = 0.0). They are instruments, not agents. They cannot deliberate. The operator deliberates *before* deploying the square.
 - **Ω = $𐑭$** (integer winding): Each square carries a topological charge — an integer winding number. Different squares have different winding counts.
@@ -71,7 +71,7 @@ The 30 chapters of Book Four (Dehn/Guth) organize the squares into four expandin
 
 | Ch. | Operation | Structural Extension |
 |-----|-----------|---------------------|
-| 16 | Find hidden treasure | Extending $𐑾$ (Ř) into economic domain |
+| 16 | Find hidden treasure | Extending $𐑾$ (>) into economic domain |
 | 17 | Air travel / fly anywhere | Extending $𐑾$ into transport domain |
 | 18 | Heal all sickness | Extending $𐑾$ into therapeutic domain |
 | 19 | Obtain friendship of any person | Extending $𐑾$ into relational domain |
@@ -271,11 +271,11 @@ To elevate the squares to operational tier requires exactly 3 promotions:
 
 | Primitive | From | To |
 |-----------|------|-----|
-| Ř | $𐑩$ (supervenience) | $𐑾$ (bidirectional) |
+| > | $𐑩$ (supervenience) | $𐑾$ (bidirectional) |
 | Φ | $𐑬$ (partial) | $𐑹$ (Frobenius-special) |
 | Ħ | $𐑓$ (memoryless) | $𐑖$ (two-step) |
 
-Everything else the squares already have in excess — more dimensionality, more topology, more fidelity, faster kinetics, broader composition, richer stoichiometry, stronger winding. But without Ř=$𐑾$, Φ=$𐑹$, and Ħ=$𐑖$, they remain $\text{O}_{2}$. These three promotions are precisely what the 18-month Operation provides.
+Everything else the squares already have in excess — more dimensionality, more topology, more fidelity, faster kinetics, broader composition, richer stoichiometry, stronger winding. But without >=$𐑾$, Φ=$𐑹$, and Ħ=$𐑖$, they remain $\text{O}_{2}$. These three promotions are precisely what the 18-month Operation provides.
 
 ---
 

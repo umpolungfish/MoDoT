@@ -210,8 +210,8 @@ d=12 calibration, reproduced through it:
 
 even and odd differ in exactly two of twelve primitives; ten are identical:
 
-    even   Ř = 𐑽    f ⊣ g ∧ L Adj(f, g)          cl9nk tier O₀
-    odd    Ř = 𐑩    x ↑ y ∧ ¬(y ↑ x)             cl9nk tier O_∞
+    even   > = 𐑽    f ⊣ g ∧ L Adj(f, g)          cl9nk tier O₀
+    odd    > = 𐑩    x ↑ y ∧ ¬(y ↑ x)             cl9nk tier O_∞
 
     even   ⊙ = 𐑢    ¬∃ξ( diverges(ξ) )
     odd    ⊙ = ⊙    ξ → ∞ ∧ μ∘δ = id
@@ -262,7 +262,7 @@ The conductor is (d)∞₁∞₂; ∞₁, ∞₂ are the archimedean places.
                                                              fully co-typed / same-handed
     tlc d2048_ray_class_characters
         2048_ray_class_characters                          → band 1 Rf=1.00, band 2 Rf=0.33
-                                                             (Rf = mobility = inverse of Ř)
+                                                             (Rf = mobility = inverse of >)
     ascend K19_ray_class_field                             → tier O_∞ → O₂, Ω → 𐑟
     filter                                                 → 6 survivors
     click ray_class_field_Qsqrt

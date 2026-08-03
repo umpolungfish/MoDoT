@@ -11,7 +11,7 @@ The maximum modulus M_n is analyzed via the logarithmic potential u_n(z) = ∑_i
 **2. The Discrepancy Barrier [Ç]**
 Such uniformity is impossible for an infinite sequence. Schmidt's Theorem establishes that the discrepancy D_n (the irregularity of distribution) must satisfy D_n > c log n / n infinitely often. This inherent irregularity ensures the existence of "voids" on the unit circle where the roots are sparse.
 
-**3. The Wagner Divergence [Ř]**
+**3. The Wagner Divergence [>]**
 In these sparse regions, the product |p_n(z)| is not suppressed. Wagner (1980) proved that these voids lead to a potential spike M_n > n^γ for some γ > 0. Thus, the maximum modulus must diverge as n → ∞.
 
 ***

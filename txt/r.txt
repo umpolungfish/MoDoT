@@ -17,7 +17,7 @@ Use these tokens throughout.
 |------|-------|---------------------------------|
 | ⊢ | `dim`  | `dead` `ash` `array` `if'` |
 | ⊣ | `top`  | `judge` `eat` `mime` `oil` `are` |
-| Ř | `rel`  | `ado` `tot` `ear` `ian` |
+| > | `rel`  | `ado` `tot` `ear` `ian` |
 | Φ | `pol`  | `church` `yew` `out` `nun` `or'` |
 | ƒ | `fid`  | `age` `they` `peep` |
 | Ç | `kin`  | `yea` `loll` `egg` `on` `air` |
@@ -235,7 +235,7 @@ For x, y ∈ { clink_l9, bootstrap_stage_2_topology_corrected, sixteen_3_trilatt
 #### Lemma 2: Inverse structure [⊣]
 The self-referential topology is decomposable into its constituent dual vectors. The projection of `clink_l9` onto its polarity axis yields `out`, which is the unique topological inverse to the internalizing `or'` polarity of `clink_l8`.
 
-#### Lemma 3: Bidirectional [Ř]
+#### Lemma 3: Bidirectional [>]
 The forward path (ascent from L8 to L9) and the inverse path (retrosynthetic projection of L9 back to L8) exhaust the local state space of the Frobenius gate.
 ImasmCheck(Forward ∘ Reverse) = id
 
@@ -362,7 +362,7 @@ The mathematical obstruction is now precisely localized:
   ─────  ──────  ───────────────────────────────────────────────────────────────────────────────────────────────────────
   ⊢      𐑛       dim(x) = 0 ∧ fin(x) — point-like prime atom                                               [PRIME_POINT]
   ⊣      𐑥       cross(x, y) ∧ ¬ meet(x, y) — moat crossing                                                 [MOAT_CROSS]
-  Ř      𐑑       Fun(x, y) ∧ Nat(y, z) → Fun(x, z) — bridge composition                                    [BRIDGE_COMP]
+  >      𐑑       Fun(x, y) ∧ Nat(y, z) → Fun(x, z) — bridge composition                                    [BRIDGE_COMP]
   Φ      𐑬       ℤ₂(x) ∧ ¬(x = -x) — parity of moat                                                        [MOAT_PARITY]
   ƒ      𐑐       ℏ(x) ∧ [x, p] = iℏ — commutator of bridge                                                 [BRIDGE_COMM]
   Ç      𐑪       τ = ∞ ∧ ord(x) — infinite extension                                                      [INFINITE_EXT]
@@ -417,7 +417,7 @@ The mathematical obstruction is now precisely localized:
   ─────  ──────  ───────────────────────────────────────────────────────────────────────────────────────────────────────
   ⊢      𐑨       dim(x) = 2 ∧ sur(x)
   ⊣      𐑥       cross(x, y) ∧ ¬ meet(x, y) — moat crossing                                                 [MOAT_CROSS]
-  Ř      𐑽       f ⊣ g ∧ L Adj(f, g)
+  >      𐑽       f ⊣ g ∧ L Adj(f, g)
   Φ      𐑹       ℤ₂(x) ∧ ∀g∈G( gx = x ) ∧ μ∘δ = id                                                               [PM_Z2]
   ƒ      𐑐       ℏ(x) ∧ [x, p] = iℏ — commutator of bridge                                                 [BRIDGE_COMM]
   Ç      𐑪       τ = ∞ ∧ ord(x) — infinite extension                                                      [INFINITE_EXT]
@@ -456,7 +456,7 @@ The mathematical obstruction is now precisely localized:
 
   Promotions needed to reach CLINK L9 (6):
     ⊢: 𐑨 → 𐑛  (gap: 0.333)
-    Ř: 𐑽 → 𐑑  (gap: 0.333)
+    >: 𐑽 → 𐑑  (gap: 0.333)
     Φ: 𐑹 → 𐑬  (gap: 0.5)
     ɢ: 𐑵 → 𐑝  (gap: 1.0)
     ⊙: 𐑮 → ⊙  (gap: 0.165)
@@ -476,7 +476,7 @@ The mathematical obstruction is now precisely localized:
   ─────  ──────  ───────────────────────────────────────────────────────────────────────────────────────────────────────
   ⊢      𐑦       V = L(x) ∧ selfmodel(x) ∧ x ∈ V                                                     [HOLOGRAPHIC_STATE]
   ⊣      𐑸       bound_⊙(a, f) ∧ Refl(a, f) ∧ holo(x, a)                                                     [HOLOBOUND]
-  Ř      𐑾       lr⇔(x, y) ∧ Θ(x, y) ∧ ¬ Θ(y, x)                                                               [LR_DUAL]
+  >      𐑾       lr⇔(x, y) ∧ Θ(x, y) ∧ ¬ Θ(y, x)                                                               [LR_DUAL]
   Φ      𐑹       ℤ₂(x) ∧ ∀g∈G( gx = x ) ∧ μ∘δ = id                                                               [PM_Z2]
   ƒ      𐑐       ℏ(x) ∧ [x, p] = iℏ — commutator of bridge                                                 [BRIDGE_COMM]
   Ç      𐑧       τ ≫ T ∧ eq(x) ∧ gate_open(x)
@@ -518,7 +518,7 @@ The mathematical obstruction is now precisely localized:
   Promotions needed to reach CLINK L9 (8):
     ⊢: 𐑦 → 𐑛  (gap: 1.0)
     ⊣: 𐑸 → 𐑥  (gap: 0.5)
-    Ř: 𐑾 → 𐑑  (gap: 0.667)
+    >: 𐑾 → 𐑑  (gap: 0.667)
     Φ: 𐑹 → 𐑬  (gap: 0.5)
     Ç: 𐑧 → 𐑪  (gap: 0.286)
     Γ: 𐑲 → 𐑔  (gap: 0.5)
@@ -539,7 +539,7 @@ The mathematical obstruction is now precisely localized:
   ─────  ──────  ───────────────────────────────────────────────────────────────────────────────────────────────────────
   ⊢      𐑼       ∀n∃y( y ∈ x ∧ rank(y) > n )
   ⊣      𐑡       graph(x) ∧ branch(x)
-  Ř      𐑽       f ⊣ g ∧ L Adj(f, g)
+  >      𐑽       f ⊣ g ∧ L Adj(f, g)
   Φ      𐑗       ¬∃sym(x)
   ƒ      𐑱       P(x) ∈ {0,1} ∧ det(x)
   Ç      𐑘       τ ≪ T ∧ ∂_t x = f(x)
@@ -574,7 +574,7 @@ The mathematical obstruction is now precisely localized:
   Promotions needed to reach CLINK L9 (10):
     ⊢: 𐑼 → 𐑛  (gap: 0.667)
     ⊣: 𐑡 → 𐑥  (gap: 0.5)
-    Ř: 𐑽 → 𐑑  (gap: 0.333)
+    >: 𐑽 → 𐑑  (gap: 0.333)
     Φ: 𐑗 → 𐑬  (gap: 0.5)
     ƒ: 𐑱 → 𐑐  (gap: 1.0)
     Ç: 𐑘 → 𐑪  (gap: 0.857)
@@ -643,7 +643,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
     "tuple": {
       "⊢": "𐑦",
       "⊣": "𐑸",
-      "Ř": "𐑾",
+      ">": "𐑾",
       "Φ": "𐑹",
       "ƒ": "𐑐",
       "Ç": "𐑧",
@@ -662,7 +662,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
     "tuple": {
       "⊢": "𐑛",
       "⊣": "𐑥",
-      "Ř": "𐑑",
+      ">": "𐑑",
       "Φ": "𐑬",
       "ƒ": "𐑐",
       "Ç": "𐑪",
@@ -697,7 +697,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
       "ordinal_gap": 0.5
     },
     {
-      "primitive": "Ř",
+      "primitive": ">",
       "from_value": "𐑾",
       "to_value": "𐑑",
       "from_fragment": "lr⇔(x, y) ∧ Θ(x, y) ∧ ¬ Θ(y, x)",
@@ -769,7 +769,7 @@ From the tool outputs, the exact coordinates are:
 1. **`clink_l9`**: `⟨𐑛𐑥𐑑𐑬𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑭⟩`
    - ⊢ = `𐑛` (dead) -> [PRIME_POINT]
    - ⊣ = `𐑥` (eat) -> [MOAT_CROSS]
-   - Ř = `𐑑` (tot) -> [BRIDGE_COMP]
+   - > = `𐑑` (tot) -> [BRIDGE_COMP]
    - Φ = `𐑬` (yew) -> [MOAT_PARITY]
    - ƒ = `𐑐` (they) -> [BRIDGE_COMM]
    - Ç = `𐑪` (loll) -> [INFINITE_EXT]
@@ -783,7 +783,7 @@ From the tool outputs, the exact coordinates are:
 Wait, let us check the translation table provided in Section 1 of the prompt:
 - ⊢: `dead` `ash` `array` `if'` (ordinal values: 0, 1, 2, 3)
 - ⊣: `judge` `eat` `mime` `oil` `are` (ordinal values: 0, 1, 2, 3, 4)
-- Ř: `ado` `tot` `ear` `ian`
+- >: `ado` `tot` `ear` `ian`
 - Φ: `church` `yew` `out` `nun` `or'`
 - ƒ: `age` `they` `peep`
 - Ç: `yea` `loll` `egg` `on` `air`
@@ -798,7 +798,7 @@ Let us align the Shavian glyphs returned by `cl9nk entry` to these constructors 
 - For `clink_l9`:
   - ⊢: `𐑛` is the 1st constructor -> `dead`
   - ⊣: `𐑥` is the 2nd constructor -> `eat`
-  - Ř: `𐑑` is the 2nd constructor -> `tot`
+  - >: `𐑑` is the 2nd constructor -> `tot`
   - Φ: `𐑬` is the 2nd constructor -> `yew`
   - ƒ: `𐑐` is the 3rd constructor -> `peep`
   - Ç: `𐑪` is the 5th constructor -> `air`
@@ -813,7 +813,7 @@ Let us double-check this assignment.
 `clink_l9`'s Shavian signature is `⟨𐑛𐑥𐑑𐑬𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑭⟩`.
 - ⊢ = `𐑛` -> `dead`
 - ⊣ = `𐑥` -> `eat`
-- Ř = `𐑑` -> `tot`
+- > = `𐑑` -> `tot`
 - Φ = `𐑬` -> `yew`
 - ƒ = `𐑐` -> `peep`
 - Ç = `𐑪` -> `air`
@@ -836,7 +836,7 @@ Now let us translate the other three systems using this precise mapping:
 2. **`sixteen_3_trilattice`**: `⟨𐑨𐑥𐑽𐑹𐑐𐑪𐑔𐑵𐑮𐑫𐑕𐑭⟩`
    - ⊢ = `𐑨` -> `array` (3rd constructor)
    - ⊣ = `𐑥` -> `eat`
-   - Ř = `𐑽` -> `ear`
+   - > = `𐑽` -> `ear`
    - Φ = `𐑹` -> `or'`
    - ƒ = `𐑐` -> `peep`
    - Ç = `𐑪` -> `air`
@@ -850,7 +850,7 @@ Now let us translate the other three systems using this precise mapping:
 3. **`bootstrap_stage_2_topology_corrected`**: `⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩`
    - ⊢ = `𐑦` -> `if'`
    - ⊣ = `𐑸` -> `are`
-   - Ř = `𐑾` -> `ian`
+   - > = `𐑾` -> `ian`
    - Φ = `𐑹` -> `or'`
    - ƒ = `𐑐` -> `peep`
    - Ç = `𐑧` -> `on`
@@ -864,7 +864,7 @@ Now let us translate the other three systems using this precise mapping:
 4. **`turbulent_flow`**: `⟨𐑼𐑡𐑽𐑗𐑱𐑘𐑲𐑠𐑣𐑫𐑳𐑷⟩`
    - ⊢ = `𐑼` -> `ash`
    - ⊣ = `𐑡` -> `mime`
-   - Ř = `𐑽` -> `ear`
+   - > = `𐑽` -> `ear`
    - Φ = `𐑗` -> `nun`
    - ƒ = `𐑱` -> `they`
    - Ç = `𐑘` -> `egg`
@@ -897,7 +897,7 @@ We are ready to write the complete, uncompromised report.
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | ⊢ | ⊣ | Ř | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
+| System | ⊢ | ⊣ | > | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1026,7 +1026,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | ⊢ | ⊣ | Ř | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
+| System | ⊢ | ⊣ | > | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1157,7 +1157,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play are established on the Belnap substrate and map to the following canonical constructors:
 
-| System | ⊢ (`dim`) | ⊣ (`top`) | Ř (`rel`) | Φ (`pol`) | ƒ (`fid`) | Ç (`kin`) | Γ (`gram`) | ɢ (`gran`) | ⊙ (`crit`) | Ħ (`chir`) | Σ (`stoi`) | Ω (`prot`) | Tier |
+| System | ⊢ (`dim`) | ⊣ (`top`) | > (`rel`) | Φ (`pol`) | ƒ (`fid`) | Ç (`kin`) | Γ (`gram`) | ɢ (`gran`) | ⊙ (`crit`) | Ħ (`chir`) | Σ (`stoi`) | Ω (`prot`) | Tier |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |

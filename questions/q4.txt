@@ -10,7 +10,7 @@ This encodes the density of A into the measure of E.
 **2. Inverse Structure [⊣]: Difference Set and Recurrence**
 D(A) is defined as the set of d such that A ∩ (A - d) is infinite. In the dynamical system, this is represented by the set of return times R(E) = {d ∈ ℕ : μ(E ∩ T^-d E) > 0}. The principle ensures R(E) ⊆ D(A).
 
-**3. Bidirectional [Ř]: Bohr Set Inclusion**
+**3. Bidirectional [>]: Bohr Set Inclusion**
 A fundamental result (Bogolyubov-Bergelson) states that for any system (X, ℬ, μ, T) and E with μ(E) > 0, the set of return times R(E) contains a **Bohr_0 set**. A Bohr set B in ℤ is defined by {n ∈ ℤ : |χ_i(n) - 1| < ε, i=1...k} for characters χ_i.
 
 **4. Boundedness [⊙]: Syndeticity**

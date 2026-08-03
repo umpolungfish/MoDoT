@@ -21,7 +21,7 @@ The Uncoverer — the 33-year knowing trajectory, `knowing_trajectory_33_3`:
 
 $$\langle\text{𐑼𐑥𐑾𐑬𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭}\rangle \quad \text{O}_2^\dagger \quad \text{C}=0.5455$$
 
-Infinite-dimensional state-space (⊢=𐑼). Crossing-point topology (⊣=𐑥). Bidirectional coupling (Ř=𐑾). Partial symmetry — named by another (Φ=𐑬). Quantum coherence (ƒ=𐑐). Slow kinetics (Ç=𐑧). Mesoscale cardinality (Γ=𐑔). Sequential composition (ɢ=𐑠). Self-modeling criticality (⊙). Two-step chirality (Ħ=𐑖). Heterogeneous components (Σ=𐑳). Integer winding — irreducible trajectory (Ω=𐑭).
+Infinite-dimensional state-space (⊢=𐑼). Crossing-point topology (⊣=𐑥). Bidirectional coupling (>=𐑾). Partial symmetry — named by another (Φ=𐑬). Quantum coherence (ƒ=𐑐). Slow kinetics (Ç=𐑧). Mesoscale cardinality (Γ=𐑔). Sequential composition (ɢ=𐑠). Self-modeling criticality (⊙). Two-step chirality (Ħ=𐑖). Heterogeneous components (Σ=𐑳). Integer winding — irreducible trajectory (Ω=𐑭).
 
 Wormwood plant (`wormwood`):
 
@@ -66,7 +66,7 @@ The distance geometry forms a perfect isosceles triangle: the Uncoverer at the a
 
 Both meets are identical: `Uncoverer ∧ Wormwood` = `Uncoverer ∧ Sage` = ⟨𐑼𐑥𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩.
 
-Four conflicts resolved conservatively: ⊢=𐑼 (conservative over 𐑦), ⊣=𐑥 (conservative over 𐑸), ƒ=𐑱 (conservative over 𐑐), Ç=𐑤 (conservative over 𐑧). Eight shared primitives: Ř, Φ, Γ, ɢ, ⊙, Ħ, Σ, Ω.
+Four conflicts resolved conservatively: ⊢=𐑼 (conservative over 𐑦), ⊣=𐑥 (conservative over 𐑸), ƒ=𐑱 (conservative over 𐑐), Ç=𐑤 (conservative over 𐑧). Eight shared primitives: >, Φ, Γ, ɢ, ⊙, Ħ, Σ, Ω.
 
 **The crucial fact:** the Uncoverer's ⊣=𐑥 prevents the meet from rising to ⊣=𐑸. The crossing point is more fundamental than the self-referential loop. The loop requires the crossing point as its precondition — you cannot close a loop without first having a point where paths cross. The Uncoverer's topology is the *prior* of the plants' topology, and the meet proves it.
 
@@ -215,11 +215,11 @@ The previous analysis identified the "Two Witnesses" as Uncoverer⊗Star (C=0.82
 
 ## VIII. THE KERNEL FORMULA AND THE CROSSING
 
-### 8.1 The Kernel Formula: Ř+⊣+Φ
+### 8.1 The Kernel Formula: >+⊣+Φ
 
-The earlier analysis identified Ř+⊣+Φ as the kernel formula — the three primitives that anchor identity across the Wormwood system. For the five bodies:
+The earlier analysis identified >+⊣+Φ as the kernel formula — the three primitives that anchor identity across the Wormwood system. For the five bodies:
 
-| System | Ř | ⊣ | Φ | Kernel Signature |
+| System | > | ⊣ | Φ | Kernel Signature |
 |--------|---|---|---|----------------|
 | Wormwood Star | 𐑾 | 𐑸 | 𐑬 | Bidirectional self-ref, asymmetric |
 | Wormwood Plant | 𐑾 | 𐑸 | 𐑬 | Bidirectional self-ref, asymmetric |
@@ -227,7 +227,7 @@ The earlier analysis identified Ř+⊣+Φ as the kernel formula — the three pr
 | Uncoverer | 𐑾 | 𐑥 | 𐑬 | Bidirectional CROSSING, asymmetric |
 | Grammar | 𐑾 | 𐑸 | 𐑹 | Bidirectional self-ref, Frobenius-special |
 
-The kernel formula reveals the Uncoverer's unique position: Ř and Φ are identical across all five bodies (Ř=𐑾, Φ=𐑬 — except the Grammar at Φ=𐑹). Only ⊣ differs. The Uncoverer's ⊣=𐑥 is unique among the five bodies. The plants and the star share ⊣=𐑸. The Grammar shares ⊣=𐑸. The Uncoverer alone carries the crossing.
+The kernel formula reveals the Uncoverer's unique position: > and Φ are identical across all five bodies (>=𐑾, Φ=𐑬 — except the Grammar at Φ=𐑹). Only ⊣ differs. The Uncoverer's ⊣=𐑥 is unique among the five bodies. The plants and the star share ⊣=𐑸. The Grammar shares ⊣=𐑸. The Uncoverer alone carries the crossing.
 
 This single primitive difference — ⊣=𐑥 vs ⊣=𐑸 — is the content of the entire analysis. The Uncoverer is the crossing point; everything else that crosses is either a plant (closed loop) or a star (cosmic loop) or the grammar (self-referential limit). The Uncoverer is the one system in this configuration whose topology is *open*.
 
@@ -490,7 +490,7 @@ The name of the crossing point is the Uncoverer. And the name of the star is cal
 
 ## Appendix A: Complete Tuple Reference
 
-| System | ⊢ | ⊣ | Ř | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier | C-score |
+| System | ⊢ | ⊣ | > | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier | C-score |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|---|---|------|---------|
 | knowing_trajectory_33_3 | 𐑼 | 𐑥 | 𐑾 | 𐑬 | 𐑐 | 𐑧 | 𐑔 | 𐑠 | ⊙ | 𐑖 | 𐑳 | 𐑭 | O₂† | 0.5455 |
 | wormwood | 𐑦 | 𐑸 | 𐑾 | 𐑬 | 𐑱 | 𐑤 | 𐑔 | 𐑠 | ⊙ | 𐑖 | 𐑳 | 𐑭 | O₂ | 0.652 |

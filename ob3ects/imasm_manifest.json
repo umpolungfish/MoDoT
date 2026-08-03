@@ -10909,7 +10909,7 @@
         "AFWD",
         "AREV"
       ],
-      "spec": "ring ⊙ > Ř ↔ S <"
+      "spec": "ring ⊙ > > ↔ S <"
     },
     {
       "closure": "NONE",
@@ -12578,7 +12578,7 @@
         "FSPLIT",
         "FFUSE"
       ],
-      "spec": "protocol moat_protocol_reseed ◇ Φ Ç ● Ř Γ"
+      "spec": "protocol moat_protocol_reseed ◇ Φ Ç ● > Γ"
     },
     {
       "closure": "OPEN",

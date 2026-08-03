@@ -3,7 +3,7 @@ PHASE TWIN PROBES
 STATE OF KNOWLEDGE (audited):
 C1 is PROVED on the contiguous canonized walk, pairs 20 through 40: the
 substrate's registers are a joint mod-12-pair clock (Ω period 2, Σ period
-3, Ř period 4), and pair 34's register state is glyph-identical to pair 22,
+3, > period 4), and pair 34's register state is glyph-identical to pair 22,
 its phase twin. This is measured on derived:cycle rungs and survives audit.
 
 C2 is OPEN, not refuted: the prior report asserted identical containment

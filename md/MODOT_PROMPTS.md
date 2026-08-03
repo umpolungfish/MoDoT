@@ -53,7 +53,7 @@ Instantiate templates in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
 renderer. Write plain Unicode symbols directly and NEVER LaTeX. Use Δ θ μ ∘ δ ↔ →
-⊙ Σ Ω Φ Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs ⊢ Ř ƒ ⊣ Ħ Ç ɢ, and Shavian
+⊙ Σ Ω Φ Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs ⊢ > ƒ ⊣ Ħ Ç ɢ, and Shavian
 directly. No `$` or `$$`, no `\command` (\Delta, \text, \frac, \left), no `_{...}`
 or `^{...}`. Write `Δ_T↔H = |−0.08 − 0.75| = 0.83 > θ`, never
 `$\Delta_{\text{T↔H}} = 0.83 > \theta$`. Never wrap a glyph in `$…$`.
@@ -134,11 +134,11 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: crystallize M1 M2… grow the ordered lattice from a set: the units that fit (lattice) vs the rejected mother-pool; a closed ring is a crystal, a partial fit is interfacial, none is amorphous
   TOOL: cocrystallize A B  one NON-covalent lattice of two complementary components (opposite charge on a live pair), 1:1, no bond consumed — distinct from click (covalent)
   TOOL: seed M1 M2… with S template the crystal on seed S's handedness Ħ: units matching S copy its polymorph (templated) vs the default (spontaneous); an even split is racemic twinning
-  TOOL: tlc M1 M2…         analytical chromatography: spread the set by Rf (mobility, inverse of retention Ř), count the bands, and flag units that co-elute at the same Rf. Counts, does not isolate
+  TOOL: tlc M1 M2…         analytical chromatography: spread the set by Rf (mobility, inverse of retention >), count the bands, and flag units that co-elute at the same Rf. Counts, does not isolate
   TOOL: column M1 M2… [on S]  preparative chromatography: elute the set least-retained first, with the resolution gap to each next fraction; `on S` ranks by affinity to stationary phase S, else intrinsic retention
   TOOL: fpt M1 M2…         freeze-pump-thaw degassing: keep the strongly-bound core (bonds ≥ θ to a neighbor), shed the weakly-held filtrate that bonds with nothing
   TOOL: trap A [X]         ionic trapping: sequester A by its R↔S charge in a potential well (add a counter X of opposite charge to deepen it); a held charge state, distinct from set (electron transfer)
-  TOOL: stain R M1 M2…     apply a diagnostic reagent R (kmno4/uv→⊙, chiral→Ħ, ninhydrin→Ř, iodine→any live center): units carrying the feature light up, the rest stay dark
+  TOOL: stain R M1 M2…     apply a diagnostic reagent R (kmno4/uv→⊙, chiral→Ħ, ninhydrin→>, iodine→any live center): units carrying the feature light up, the rest stay dark
   TOOL: register NAME M1 M2…  forge the set into a ring and store its full sheet in the material library under NAME (recall it later by name)
   TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
