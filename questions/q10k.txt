@@ -5,7 +5,7 @@ Let $r_k(N)$ be the largest possible size of a subset of $\{1,\ldots,N\}$ that d
 
 The determination of r_k(N) is a problem of detecting structure within pseudorandomness. We define the density δ = r_k(N)/N.
 
-**1. Encoding and Duality [Φ]:**
+**1. Encoding and Duality [<]:**
 We represent a set A ⊆ {1, …, N} by its balance function f = 1_A - δ. The count of k-term arithmetic progressions (k-APs) is multilinear in f. The Gowers U^k-1 norm controls this count: if ‖f‖_{U^k-1} is small, A behaves like a random set and contains the expected number of k-APs (≈ δ^k N^2).
 
 **2. Inverse Structure [⊣]:**
@@ -119,7 +119,7 @@ The determination of the maximum size r_k(N) of a subset of {1, …, N} lacking 
 
 ### I. Conventional Proof: The Density Increment Method
 
-**1. Encoding and Duality [Φ]:**
+**1. Encoding and Duality [<]:**
 Let A ⊆ {1, …, N} have density δ = |A|/N. We define the balance function f = 1_A − δ. The count of k-term arithmetic progressions in A is controlled by the Gowers U^k−1 norm, ‖f‖_U^k−1. If A contains no non-trivial k-APs, then f must have a large Gowers norm.
 
 **2. Inverse Structure [⊣]:**

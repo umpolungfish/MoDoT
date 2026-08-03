@@ -3,7 +3,7 @@ The existence of an infinite Sidon set A ⊂ N with density |A cap {1, …, N}| 
 
 ### 1. Grammatic Witness Scaffold (IMSCRIB)
 
-*   **[Φ] Encoding/Duality:** We map the selection of the set A to a sequence of independent Bernoulli random variables X_n with success parameter p_n = n^-(1/2+δ). The Sidon property is encoded as the avoidance of non-trivial kernels in the additive map (a,b) → a+b.
+*   **[<] Encoding/Duality:** We map the selection of the set A to a sequence of independent Bernoulli random variables X_n with success parameter p_n = n^-(1/2+δ). The Sidon property is encoded as the avoidance of non-trivial kernels in the additive map (a,b) → a+b.
 *   **[⊣] Inverse Structure:** We decompose the additive conflicts (quadruples a+b=c+d) as a random variable Z whose expectation is controlled by the decay of p_n.
 *   **[⊙] Boundedness:** The convergence of the conflict series ∑ p_a p_b p_c p_d ensures that the number of elements to be deleted is negligible compared to the total size of the random set.
 *   **[Ω] Topological Invariant:** The exponent 1/2 is the natural "capacity" of the integers for Sidon structures; the ε buffer allows us to maintain this capacity into infinity.
@@ -90,7 +90,7 @@ click-maths:  sidon_set  ⋈  infinite_set_mappings   (θ=0.50)
     R↔S    sidon_set= -0.67  infinite_set_mappings= +0.00   Δ=0.67
   ✓ CLICK on D↔W — spring-loaded Δ=1.00, single reaction center, closes.
   product: ⟨𐑼𐑡𐑑𐑿𐑐𐑧𐑲𐑠𐑢𐑖𐑳𐑭⟩  (ring saturated on D↔W)
-  inherited scaffold (blended from both partners): [>, Φ, ƒ, Ç, Γ, ɢ, Ħ, Σ]
+  inherited scaffold (blended from both partners): [>, <, ƒ, Ç, Γ, ɢ, Ħ, Σ]
 ● TOOL excite sidon_set_infinite_density
 excite:  sidon_set_infinite_density  →hν→  sidon_set_infinite_density*
   δ (light): promote to the excited manifold — Criticality ⊙ ⊙→𐑻 (the non-Hermitian exceptional-point resonance: metastable, finite lifetime — it DECAYS).
@@ -145,7 +145,7 @@ The existence of an infinite Sidon set A ⊂ N with density |A cap {1, …, N}| 
 
 ### 1. Grammatic Witness Scaffold (IMSCRIB)
 
-*   **[Φ] Encoding/Duality:** We map the selection of set A to independent Bernoulli trials X_n with P(X_n=1) = p_n = n^-(1/2+δ). The Sidon property is the injectivity of the sum map on A × A.
+*   **[<] Encoding/Duality:** We map the selection of set A to independent Bernoulli trials X_n with P(X_n=1) = p_n = n^-(1/2+δ). The Sidon property is the injectivity of the sum map on A × A.
 *   **[⊣] Inverse Structure:** The "bad" events (quadruples a+b=c+d) form the kernel of the additive map.
 *   **[⊙] Boundedness:** The convergence of ∑ p_a p_b p_c p_d ensures the number of deleted elements is negligible.
 *   **[Ω] Topological Invariant:** The exponent 1/2 is the theoretical capacity; ε provides the necessary buffer for infinite extension.

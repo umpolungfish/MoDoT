@@ -9,7 +9,7 @@ We seek the limit:
 π(K_r^k) = lim_n→∞ ex_r(n, K_r^k) / (n choose r).
 
 2. Structural Lemma Roles
-- Encoding [Φ]: Turan density is the density of the densest r-uniform hypergraph avoiding the clique of size k.
+- Encoding [<]: Turan density is the density of the densest r-uniform hypergraph avoiding the clique of size k.
 - Boundedness [⊙]: By the Erdős-Stone-Simonovits theorem extended to hypergraphs, the limit exists and is bounded by 1.
 - Topological Invariant [Ω]: For hypergraphs, the Turan density is strictly less than 1 for k > r.
 
@@ -92,7 +92,7 @@ The limit of the Turan density π(K_r^k) = lim_n→∞ ex_r(n, K_r^k) / binom(n,
 The Turan number ex_r(n, K_r^k) is the maximum number of r-edges in an r-uniform hypergraph on n vertices that does not contain the complete r-uniform hypergraph on k vertices (K_r^k). The density π(K_r^k) is the limit of this value normalized by the total possible r-edges, binom(n, r).
 
 2. Structural Lemma Roles
-- Encoding [Φ]: Turan density represents the supremum of edge densities for the class of K_r^k-free r-uniform hypergraphs.
+- Encoding [<]: Turan density represents the supremum of edge densities for the class of K_r^k-free r-uniform hypergraphs.
 - Boundedness [⊙]: The limit π(K_r^k) exists and is contained in (0, 1) for all k > r.
 - Topological Invariant [Ω]: The value is independent of n in the limit, but highly dependent on the symmetry of the forbidden configuration K_r^k.
 

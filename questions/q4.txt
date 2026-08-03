@@ -2,7 +2,7 @@ A sufficient condition for A ⊆ ℕ to ensure that the difference set D(A) has 
 
 ### Conventional Proof
 
-**1. Encoding/Duality [Φ]: Furstenberg Correspondence**
+**1. Encoding/Duality [<]: Furstenberg Correspondence**
 Let A ⊆ ℕ with d^*(A) > 0. By the Furstenberg Correspondence Principle, there exists a measure-preserving system (X, ℬ, μ, T) and a set E ∈ ℬ with μ(E) = d^*(A) such that for any finite set F ⊆ ℤ:
 d^*(∩_n ∈ F (A - n)) ≥ μ(∩_n ∈ F T^-n E).
 This encodes the density of A into the measure of E.

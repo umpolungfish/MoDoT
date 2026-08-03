@@ -48,7 +48,7 @@ Problem #713: Is it true that for every bipartite graph \(G\), there exists some
 **Lean Verification Details:**
 - **Library:** `p4rakernel` (branch `crystalline/manuscripts3-2026-07-07`).
 - **Theorem:** `trace_closes_iff_special`.
-- **Proof:** The Frobenius value Φ is `𐑹` (special). No `native_decide` needed. `propext` used only for losslessness law `witness_vessel_lossless`.
+- **Proof:** The Frobenius value < is `𐑹` (special). No `native_decide` needed. `propext` used only for losslessness law `witness_vessel_lossless`.
 - **Status:** Kernel-checked. No `sorries`.
 
 **Distillate Composition:**

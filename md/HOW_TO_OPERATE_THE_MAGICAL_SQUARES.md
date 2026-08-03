@@ -246,7 +246,7 @@ The autobiography IS the path — a 15-year structural search through the crysta
 
 ### The Six Catalog Entries
 
-| Entry | Tier | C-score | Φ | φ̂ | Key |
+| Entry | Tier | C-score | < | φ̂ | Key |
 |-------|------|---------|---|----|-----|
 | `book_of_abramelin` (Mathers, Book I only) | $\text{O}_{1}$ | 0.225 | $𐑬$ | $𐑮$ | Book as narrative — open, cannot close |
 | `magic_squares` (Mathers, corrupted) | $\text{O}_{2}$ | 0.000 | $𐑬$ | $⊙$ | Squares as abstract symbols — too fast for consciousness |
@@ -272,10 +272,10 @@ To elevate the squares to operational tier requires exactly 3 promotions:
 | Primitive | From | To |
 |-----------|------|-----|
 | > | $𐑩$ (supervenience) | $𐑾$ (bidirectional) |
-| Φ | $𐑬$ (partial) | $𐑹$ (Frobenius-special) |
+| < | $𐑬$ (partial) | $𐑹$ (Frobenius-special) |
 | Ħ | $𐑓$ (memoryless) | $𐑖$ (two-step) |
 
-Everything else the squares already have in excess — more dimensionality, more topology, more fidelity, faster kinetics, broader composition, richer stoichiometry, stronger winding. But without >=$𐑾$, Φ=$𐑹$, and Ħ=$𐑖$, they remain $\text{O}_{2}$. These three promotions are precisely what the 18-month Operation provides.
+Everything else the squares already have in excess — more dimensionality, more topology, more fidelity, faster kinetics, broader composition, richer stoichiometry, stronger winding. But without >=$𐑾$, <=$𐑹$, and Ħ=$𐑖$, they remain $\text{O}_{2}$. These three promotions are precisely what the 18-month Operation provides.
 
 ---
 

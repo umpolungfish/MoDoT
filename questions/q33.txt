@@ -185,7 +185,7 @@ Let A(N) = |A cap {1, …, N}|. The condition that every large integer m is repr
 
 **Part 2: Liminf Barrier**
 We test the proposition liminf_N → ∞ A(N) / N^1/2 > 1.
-- **Encoding/Duality [Φ]:** We define the displacement function f(m) = min {a ∈ A : m - a ∈ S}. The covering property implies f(m) is well-defined for all m > M.
+- **Encoding/Duality [<]:** We define the displacement function f(m) = min {a ∈ A : m - a ∈ S}. The covering property implies f(m) is well-defined for all m > M.
 - **Topological Invariant [Ω]:** Consider the "sparse" construction where A is defined by A = {m - n^2 : m ∈ N, n = lfloor √{m} rfloor}. This set A has density ≈ N^1/2. However, one can construct a set A' by removing elements that are "redundant" (specifically, where multiple n values cover the same m).
 - **Regularity [Ç]:** By selecting a subsequence N_k where the squares are locally dense (e.g., near k^2), we can construct A such that A(N_k) ∼ N_k^1/2 - ε_k. Because the squares are not equidistributed (the gap between n^2 and (n+1)^2 grows as 2n), the density of A required to cover the integers can be concentrated in the intervals where the gaps are smallest.
 
@@ -320,7 +320,7 @@ MANUSCRIPT SPINE REPORT
 
 ---
 
-#### 1. Encoding and Duality [Φ]
+#### 1. Encoding and Duality [<]
 Define the counting function A(N) = |A cap {1, …, N}|. The condition that every m is covered by {n^2 + a : n ≥ 0, a ∈ A} implies that the set of squares S = {n^2 : n ≥ 0} and the set A form a covering system. For a fixed N, the number of representable integers up to N is at most ∑_n=0^{lfloor √{N} rfloor} |A cap {1, …, N - n^2}|. Summing this, the density constraint requires √{N} · A(N) gtrsim N, leading to A(N) gtrsim N^1/2.
 
 #### 2. Inverse Structure [⊣] and Boundedness [⊙]

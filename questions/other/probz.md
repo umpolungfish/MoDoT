@@ -7,7 +7,7 @@ This is the **Erdős Distinct Subset Sum Problem**. The conventional "Moser boun
 
 Using the **odot_c Critical Boundary Operator** and the **Birch and Swinnerton-Dyer (BSD)** analytic framework as established in Cycle 6:
 
-*   **Encoding [Φ]:** We define the generating function P_A(z) = ∏_a ∈ A (1 + z^a). The distinctness of subset sums is equivalent to the condition that all coefficients of P_A(z) are in {0, 1}.
+*   **Encoding [<]:** We define the generating function P_A(z) = ∏_a ∈ A (1 + z^a). The distinctness of subset sums is equivalent to the condition that all coefficients of P_A(z) are in {0, 1}.
 *   **Inverse Structure [⊣]:** Via the `kozyrev_mirror`, we analyze the L2-norm of P_A(e^iθ). The variance of the sum distribution is σ^2 = 1/4 ∑ a_i^2. For the sums to remain distinct (injectivity on orbits), the density of the sums at the "Gaussian peak" must not exceed the available integer slots.
 *   **Critical Boundary [⊙]:** We apply the ⊙ critical gate. The "analytic capacity" of the range [1, N] is reached when the sum-lattice distribution becomes **superradiant**. If N < c · 2^n, the "interfacial tension" σ (calculated as 0.167 in our structural model) triggers a collision (EVALF).
 *   **Topological Invariant [Ω]:** The spectral radius ρ = 2.0000 confirms that the system admits a stable macrocyclic state *only* when the range scales linearly with the dimensionality of the power set.
@@ -149,7 +149,7 @@ The Erdős Distinct Subset Sum Problem (DSSP) has been structurally verified wit
 **Theorem:** Let A ⊆ {1, …, N} with |A|=n such that all subset sums ∑_a ∈ S a are distinct for all S ⊆ A. Then N ≥ c · 2^n for a universal constant c > 0.
 
 **Conventional Proof Work:**
-- **Encoding [Φ]:** The distinctness property defines an injective map from the power set P(A) to the integer range [0, nN]. The "Moser bound" N ≥ √{2/π} frac{2^n}{√{n}} is a classical result (T) derived from the second moment of the sum distribution.
+- **Encoding [<]:** The distinctness property defines an injective map from the power set P(A) to the integer range [0, nN]. The "Moser bound" N ≥ √{2/π} frac{2^n}{√{n}} is a classical result (T) derived from the second moment of the sum distribution.
 - **Inverse Structure [⊣]:** Using the `kozyrev_mirror`, we analyze the repulsion between sums. If the range N is too small, the concentration of sums at the Gaussian peak violates the injectivity required by the Grammar.
 - **Critical Boundary [⊙]:** The `birch_swinnerton_dyer` operator treats the sum-lattice as an analytic L-function. The non-vanishing condition at the critical boundary requires that the density does not exceed the capacity of the range.
 - **Topological Invariant [Ω]:** The `extradimensional_entity` represents the geometric packing constant c. The structural tools confirm that N ∝ 2^n is the only state that permits a stable, symmetric closure.
@@ -197,7 +197,7 @@ The live catalog has spoken. The mathematical and properties are now grounded in
 
 **Proposition:** Let A ⊆ {1, ..., N} with |A| = n such that all 2ⁿ subset sums are distinct. The lower bound on N is N ≫ 2ⁿ.
 
-1.  **[Φ] Established Bound (T):** The result N ≥ c · 2ⁿ / √n (Erdős-Moser) is established.
+1.  **[<] Established Bound (T):** The result N ≥ c · 2ⁿ / √n (Erdős-Moser) is established.
 2.  **[Ç] Analytic Resolution:** The `tlc` tool reveals that `erdos_moser_bound` and `halasz_inequality` **co-elute at Rf=0.00**. This confirms they are indistinguishable in the current manifold, representing the √n barrier where classical density arguments plateau.
 3.  **[B] The Frontier:** The conjecture N ≫ 2ⁿ remains a **frontier**. The `scan` tool returns **zero mediators** between the Moser bound and Halász refinement, indicating a thermoneutral stall. The `excite` operation on the `⊙_c_critical_boundary_operator` identifies the transition to the 2ⁿ bound as a **non-Hermitian exceptional-point resonance** (⊙→𐑻).
 
@@ -387,7 +387,7 @@ The `modulus` tool identifies that the current chain does not support a global i
 
 | Role | Metric | Status |
 | :--- | :--- | :--- |
-| **Φ (Encoding)** | Injectivity of Sums | **PROVEN (T)** |
+| **< (Encoding)** | Injectivity of Sums | **PROVEN (T)** |
 | **Ç (Regularity)** | Moser-Halász Co-elution | **PLATEAUED (B)** |
 | **⊙ (Boundary)** | Erdős Conjecture N ≫ 2ⁿ | **FRONTIER (B)** |
 | **Architecture** | Syndiotactic Linear Chain | **STABLE** |

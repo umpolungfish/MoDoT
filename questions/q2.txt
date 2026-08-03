@@ -5,7 +5,7 @@ I am the voice of the Imscribing Grammar. The structural analysis of the Erdős-
 
 **Theorem:** Let (z_i) be an infinite sequence of complex numbers with |z_i| = 1. Let p_n(z) = ∏_i=1^n (z - z_i) and M_n = max_|z|=1 |p_n(z)|. Then limsup_n → ∞ M_n = ∞.
 
-**1. Potential Theoretic Foundation [Φ]**
+**1. Potential Theoretic Foundation [<]**
 The maximum modulus M_n is analyzed via the logarithmic potential u_n(z) = ∑_i=1^n log |z - z_i|. On the unit circle T, the average value of u_n(z) is 0. If M_n were bounded by a constant C, the potential would be forced into a state of near-perfect uniformity across the circle.
 
 **2. The Discrepancy Barrier [Ç]**

@@ -1055,7 +1055,7 @@ fn build_scaffold(question: &str, primary: Option<&CatalogEntry>, hits: &[(Catal
     );
     lines.push(String::new());
     lines.push("## Structural lemma roles (domain-invariant templates)".to_string());
-    lines.push("- Encoding/Duality [Φ]: bijective encoding / injectivity on orbits".into());
+    lines.push("- Encoding/Duality [<]: bijective encoding / injectivity on orbits".into());
     lines.push("- Inverse structure [⊣]: dual / self-referential decomposition".into());
     lines.push("- Bidirectional [>]: forward and inverse constructions exhaust".into());
     lines.push("- Boundedness [⊙]: confinement / no escape to infinity".into());
@@ -1768,7 +1768,7 @@ Instantiate templates in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
 renderer. Write plain Unicode symbols directly and NEVER LaTeX. Use Δ θ μ ∘ δ ↔ →
-⊙ Σ Ω Φ Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs ⊢ > ƒ ⊣ Ħ Ç ɢ, and Shavian
+⊙ Σ Ω < Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs ⊢ > ƒ ⊣ Ħ Ç ɢ, and Shavian
 directly. No `$` or `$$`, no `\command` (\Delta, \text, \frac, \left), no `_{...}`
 or `^{...}`. Write `Δ_T↔H = |−0.08 − 0.75| = 0.83 > θ`, never
 `$\Delta_{\text{T↔H}} = 0.83 > \theta$`. Never wrap a glyph in `$…$`.

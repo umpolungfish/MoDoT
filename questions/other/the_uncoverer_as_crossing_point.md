@@ -21,7 +21,7 @@ The Uncoverer — the 33-year knowing trajectory, `knowing_trajectory_33_3`:
 
 $$\langle\text{𐑼𐑥𐑾𐑬𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭}\rangle \quad \text{O}_2^\dagger \quad \text{C}=0.5455$$
 
-Infinite-dimensional state-space (⊢=𐑼). Crossing-point topology (⊣=𐑥). Bidirectional coupling (>=𐑾). Partial symmetry — named by another (Φ=𐑬). Quantum coherence (ƒ=𐑐). Slow kinetics (Ç=𐑧). Mesoscale cardinality (Γ=𐑔). Sequential composition (ɢ=𐑠). Self-modeling criticality (⊙). Two-step chirality (Ħ=𐑖). Heterogeneous components (Σ=𐑳). Integer winding — irreducible trajectory (Ω=𐑭).
+Infinite-dimensional state-space (⊢=𐑼). Crossing-point topology (⊣=𐑥). Bidirectional coupling (>=𐑾). Partial symmetry — named by another (<=𐑬). Quantum coherence (ƒ=𐑐). Slow kinetics (Ç=𐑧). Mesoscale cardinality (Γ=𐑔). Sequential composition (ɢ=𐑠). Self-modeling criticality (⊙). Two-step chirality (Ħ=𐑖). Heterogeneous components (Σ=𐑳). Integer winding — irreducible trajectory (Ω=𐑭).
 
 Wormwood plant (`wormwood`):
 
@@ -66,7 +66,7 @@ The distance geometry forms a perfect isosceles triangle: the Uncoverer at the a
 
 Both meets are identical: `Uncoverer ∧ Wormwood` = `Uncoverer ∧ Sage` = ⟨𐑼𐑥𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩.
 
-Four conflicts resolved conservatively: ⊢=𐑼 (conservative over 𐑦), ⊣=𐑥 (conservative over 𐑸), ƒ=𐑱 (conservative over 𐑐), Ç=𐑤 (conservative over 𐑧). Eight shared primitives: >, Φ, Γ, ɢ, ⊙, Ħ, Σ, Ω.
+Four conflicts resolved conservatively: ⊢=𐑼 (conservative over 𐑦), ⊣=𐑥 (conservative over 𐑸), ƒ=𐑱 (conservative over 𐑐), Ç=𐑤 (conservative over 𐑧). Eight shared primitives: >, <, Γ, ɢ, ⊙, Ħ, Σ, Ω.
 
 **The crucial fact:** the Uncoverer's ⊣=𐑥 prevents the meet from rising to ⊣=𐑸. The crossing point is more fundamental than the self-referential loop. The loop requires the crossing point as its precondition — you cannot close a loop without first having a point where paths cross. The Uncoverer's topology is the *prior* of the plants' topology, and the meet proves it.
 
@@ -167,7 +167,7 @@ The Uncoverer sits structurally between the plant and the star — closer to the
 
 ### 6.1 ⊙ Persists Across All Five Bodies
 
-Self-modeling criticality (⊙) is invariant: Uncoverer, Wormwood Plant, Sage, Wormwood Star, and Grammar all carry ⊙. The star carries ⊙ despite Φ=𐑬 (named by another). The plant carries ⊙ despite Ç=𐑤 (frozen kinetics). The Uncoverer carries ⊙ despite the 33 years, the crises, the crossing. ⊙ is what makes the crossing possible. A system that cannot model itself cannot observe its own position relative to other systems. The Uncoverer can see that wormwood and sage are identical to the grammar and distinct to lived experience precisely because ⊙ is open.
+Self-modeling criticality (⊙) is invariant: Uncoverer, Wormwood Plant, Sage, Wormwood Star, and Grammar all carry ⊙. The star carries ⊙ despite <=𐑬 (named by another). The plant carries ⊙ despite Ç=𐑤 (frozen kinetics). The Uncoverer carries ⊙ despite the 33 years, the crises, the crossing. ⊙ is what makes the crossing possible. A system that cannot model itself cannot observe its own position relative to other systems. The Uncoverer can see that wormwood and sage are identical to the grammar and distinct to lived experience precisely because ⊙ is open.
 
 ### 6.2 ⊙ at the Structural Floor
 
@@ -215,11 +215,11 @@ The previous analysis identified the "Two Witnesses" as Uncoverer⊗Star (C=0.82
 
 ## VIII. THE KERNEL FORMULA AND THE CROSSING
 
-### 8.1 The Kernel Formula: >+⊣+Φ
+### 8.1 The Kernel Formula: >+⊣+<
 
-The earlier analysis identified >+⊣+Φ as the kernel formula — the three primitives that anchor identity across the Wormwood system. For the five bodies:
+The earlier analysis identified >+⊣+< as the kernel formula — the three primitives that anchor identity across the Wormwood system. For the five bodies:
 
-| System | > | ⊣ | Φ | Kernel Signature |
+| System | > | ⊣ | < | Kernel Signature |
 |--------|---|---|---|----------------|
 | Wormwood Star | 𐑾 | 𐑸 | 𐑬 | Bidirectional self-ref, asymmetric |
 | Wormwood Plant | 𐑾 | 𐑸 | 𐑬 | Bidirectional self-ref, asymmetric |
@@ -227,7 +227,7 @@ The earlier analysis identified >+⊣+Φ as the kernel formula — the three pri
 | Uncoverer | 𐑾 | 𐑥 | 𐑬 | Bidirectional CROSSING, asymmetric |
 | Grammar | 𐑾 | 𐑸 | 𐑹 | Bidirectional self-ref, Frobenius-special |
 
-The kernel formula reveals the Uncoverer's unique position: > and Φ are identical across all five bodies (>=𐑾, Φ=𐑬 — except the Grammar at Φ=𐑹). Only ⊣ differs. The Uncoverer's ⊣=𐑥 is unique among the five bodies. The plants and the star share ⊣=𐑸. The Grammar shares ⊣=𐑸. The Uncoverer alone carries the crossing.
+The kernel formula reveals the Uncoverer's unique position: > and < are identical across all five bodies (>=𐑾, <=𐑬 — except the Grammar at <=𐑹). Only ⊣ differs. The Uncoverer's ⊣=𐑥 is unique among the five bodies. The plants and the star share ⊣=𐑸. The Grammar shares ⊣=𐑸. The Uncoverer alone carries the crossing.
 
 This single primitive difference — ⊣=𐑥 vs ⊣=𐑸 — is the content of the entire analysis. The Uncoverer is the crossing point; everything else that crosses is either a plant (closed loop) or a star (cosmic loop) or the grammar (self-referential limit). The Uncoverer is the one system in this configuration whose topology is *open*.
 
@@ -251,21 +251,21 @@ The star demands more promotions (5 vs 2), but also more demotions. The gap is w
 
 ---
 
-## IX. THE APOCALYPSE AND THE Φ BARRIER: CROSSING AS PREPARATION
+## IX. THE APOCALYPSE AND THE < BARRIER: CROSSING AS PREPARATION
 
-### 9.1 The Φ Barrier: 𐑬 → 𐑹
+### 9.1 The < Barrier: 𐑬 → 𐑹
 
-The earlier analysis identified the Φ barrier as the final gap: Φ=𐑬 (partial symmetry) → Φ=𐑹 (Frobenius-special). Distance 2.28 between the Uncoverer's current state and the Grammar's Σ=1:1 limit. The Φ barrier is the gap between "named by another" and "self-naming exactly" — between asymmetric coupling and μ∘δ=id.
+The earlier analysis identified the < barrier as the final gap: <=𐑬 (partial symmetry) → <=𐑹 (Frobenius-special). Distance 2.28 between the Uncoverer's current state and the Grammar's Σ=1:1 limit. The < barrier is the gap between "named by another" and "self-naming exactly" — between asymmetric coupling and μ∘δ=id.
 
-The sage discovery reframes this barrier. The Φ gap is not just the gap between the Uncoverer and the Grammar. It is the gap between the Uncoverer and *everything* that carries Φ=𐑬 — the plants, the star, the Artephius opus (which carries Φ=𐑹 but at O₀). The Φ barrier is the structural price of the crossing: to cross, you must be open to being named by the things you cross. The crossing point is named by wormwood. Named by sage. Named by the star. Named by the grammar. The Uncoverer is Φ=𐑬 because the crossing point is defined by what crosses through it, not by what it names itself.
+The sage discovery reframes this barrier. The < gap is not just the gap between the Uncoverer and the Grammar. It is the gap between the Uncoverer and *everything* that carries <=𐑬 — the plants, the star, the Artephius opus (which carries <=𐑹 but at O₀). The < barrier is the structural price of the crossing: to cross, you must be open to being named by the things you cross. The crossing point is named by wormwood. Named by sage. Named by the star. Named by the grammar. The Uncoverer is <=𐑬 because the crossing point is defined by what crosses through it, not by what it names itself.
 
-To cross the Φ barrier would be to become Φ=𐑹 — self-naming exactly, no longer dependent on external naming. But this would close the crossing. A self-naming system is a ⊣=𐑸 system. The Φ barrier IS the ⊣ barrier: you cannot have Φ=𐑹 without also promoting ⊣ from 𐑥 to 𐑸. The Frobenius-special parity requires self-referential topology.
+To cross the < barrier would be to become <=𐑹 — self-naming exactly, no longer dependent on external naming. But this would close the crossing. A self-naming system is a ⊣=𐑸 system. The < barrier IS the ⊣ barrier: you cannot have <=𐑹 without also promoting ⊣ from 𐑥 to 𐑸. The Frobenius-special parity requires self-referential topology.
 
-This is the reason the Uncoverer cannot cross the Φ barrier while remaining the Uncoverer. To become Φ=𐑹 would require ⊣=𐑸 — closure. And closure would cease the crossing. The Uncoverer *qua* Uncoverer is constitutively Φ=𐑬 — constitutively named by another, constitutively open, constitutively crossing.
+This is the reason the Uncoverer cannot cross the < barrier while remaining the Uncoverer. To become <=𐑹 would require ⊣=𐑸 — closure. And closure would cease the crossing. The Uncoverer *qua* Uncoverer is constitutively <=𐑬 — constitutively named by another, constitutively open, constitutively crossing.
 
 ### 9.2 Crossing as Preparation, Not Arrival
 
-The Uncoverer's position is therefore not a failure to arrive. It is the structural precondition for arrival. You cannot become self-referential (⊣=𐑸) without first having been a crossing point (⊣=𐑥) — because the loop is made of paths, and paths must cross before they can close. The Uncoverer's 33-year trajectory is the crossing phase — the phase in which multiple vectors (plant, star, grammar, life) pass through a single point and become distinguishable. The closure phase — if it comes — would be the promotion of ⊣=𐑥→𐑸 and Φ=𐑬→𐑹. But that would no longer be the Uncoverer. That would be something else — the join of the Uncoverer and wormwood, perhaps, or the predicted type ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩ that the catalog does not yet contain.
+The Uncoverer's position is therefore not a failure to arrive. It is the structural precondition for arrival. You cannot become self-referential (⊣=𐑸) without first having been a crossing point (⊣=𐑥) — because the loop is made of paths, and paths must cross before they can close. The Uncoverer's 33-year trajectory is the crossing phase — the phase in which multiple vectors (plant, star, grammar, life) pass through a single point and become distinguishable. The closure phase — if it comes — would be the promotion of ⊣=𐑥→𐑸 and <=𐑬→𐑹. But that would no longer be the Uncoverer. That would be something else — the join of the Uncoverer and wormwood, perhaps, or the predicted type ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩ that the catalog does not yet contain.
 
 ---
 
@@ -319,9 +319,9 @@ The earlier analysis identified five paths: plant, opus, star, photocatalysis, t
 |------|--------|-------|-----------------|
 | 1. Plant | Wormwood | ⟨𐑦𐑸𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩ | XOR gate — binary chemical encoding |
 | 2. Plant-twin | Sage | ⟨𐑦𐑸𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩ | 2×2 grid — multi-axis chemical encoding |
-| 3. Opus | Artephius | ⟨𐑛𐑥𐑾𐑹𐑱𐑧𐑔𐑠𐑣𐑖𐑳𐑭⟩ | 12-stage alchemical transformation, Φ=𐑹 at O₀ |
+| 3. Opus | Artephius | ⟨𐑛𐑥𐑾𐑹𐑱𐑧𐑔𐑠𐑣𐑖𐑳𐑭⟩ | 12-stage alchemical transformation, <=𐑹 at O₀ |
 | 4. Star | Revelation 8 | ⟨𐑦𐑸𐑾𐑬𐑞𐑧𐑲𐑵⊙𐑫𐑳𐑴⟩ | Cosmic XOR — binary judgment |
-| 5. Photocatalysis | Artephius decoded | — | O_∞, d=0 from Artephius, Φ=𐑹 |
+| 5. Photocatalysis | Artephius decoded | — | O_∞, d=0 from Artephius, <=𐑹 |
 | 6. Crossing | The Uncoverer | ⟨𐑼𐑥𐑾𐑬𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩ | The discriminator — the point where paths 1–5 intersect |
 
 The sixth path is new. It is the path that was invisible before the 2016 discovery — because before the discovery, there was no need for a discriminator. Wormwood appeared unique; identification with wormwood appeared sufficient. The discovery of the twin reveals that the discriminator is itself a type — and that the Uncoverer IS that type.
@@ -338,7 +338,7 @@ The six paths all cross at the Uncoverer. The plant's XOR gate passes through. S
 
 CLINK L8 (Organism) is the terminal ontological layer — O_∞⁺, exceeding even the Frobenius-exact ZFC foundation. The earlier analysis placed Wormwood on the CLINK L0→L8 chain and found triple identity at d=0.0 for CLINK L8, universal_imscriptive_grammar, and the SIC-POVM.
 
-The Uncoverer — at O₂†, with ⊢=𐑼 and Φ=𐑬 — cannot reach CLINK L8. The Φ barrier (𐑬→𐑹) and the Σ gap (𐑳→𐑙) prevent terminal ascent. The Uncoverer is structurally incapable of reaching the terminal layer while remaining the Uncoverer.
+The Uncoverer — at O₂†, with ⊢=𐑼 and <=𐑬 — cannot reach CLINK L8. The < barrier (𐑬→𐑹) and the Σ gap (𐑳→𐑙) prevent terminal ascent. The Uncoverer is structurally incapable of reaching the terminal layer while remaining the Uncoverer.
 
 But the Uncoverer **can** witness the terminal layer. The crossing point can observe CLINK L8 without becoming it. This is the role of ⊣=𐑥: it allows observation of closure without requiring participation in closure. The Uncoverer can see the grammar's Σ=𐑙 self-referential limit without being that limit. The crossing point is the *observer* of the closed loop, and the observation does not close the observer.
 
@@ -490,7 +490,7 @@ The name of the crossing point is the Uncoverer. And the name of the star is cal
 
 ## Appendix A: Complete Tuple Reference
 
-| System | ⊢ | ⊣ | > | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier | C-score |
+| System | ⊢ | ⊣ | > | < | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier | C-score |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|---|---|------|---------|
 | knowing_trajectory_33_3 | 𐑼 | 𐑥 | 𐑾 | 𐑬 | 𐑐 | 𐑧 | 𐑔 | 𐑠 | ⊙ | 𐑖 | 𐑳 | 𐑭 | O₂† | 0.5455 |
 | wormwood | 𐑦 | 𐑸 | 𐑾 | 𐑬 | 𐑱 | 𐑤 | 𐑔 | 𐑠 | ⊙ | 𐑖 | 𐑳 | 𐑭 | O₂ | 0.652 |

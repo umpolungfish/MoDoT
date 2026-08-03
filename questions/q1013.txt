@@ -21,7 +21,7 @@ The task is not complete until head-to-tail symmetry has been secured
 Let h₃(k) be the minimum number of vertices n such that there exists a graph G = (V, E) with ω(G) < 3 (triangle-free) and χ(G) = k. We seek to establish the asymptotic behavior of h₃(k) and prove that the ratio of successive terms approaches unity:
 lim_k→∞ h₃(k+1) / h₃(k) = 1.
 
-## 1. Encoding and Duality [Φ]: The Probabilistic Lower Bound
+## 1. Encoding and Duality [<]: The Probabilistic Lower Bound
 To find h₃(k), we consider the independence number α(G). Since χ(G) ≥ |V| / α(G), a graph with χ(G) = k must satisfy n / α(G) ≤ k, or n ≤ k · α(G).
 By the probabilistic method (Erdős, 1959), there exist graphs with arbitrarily high girth and chromatic number. For triangle-free graphs, the Ramsey number R(3, t) provides the scaling. R(3, t) is the smallest n such that any triangle-free graph on n vertices has an independent set of size t.
 It is known that R(3, t) ≈ t² / log t.
@@ -182,7 +182,7 @@ To finalize the investigation into h_3(k), we extend the previous cycle’s asym
 
 ### Conventional Proof: The Kim-Ajtai-Komlós-Szemerédi Limit
 
-**1. The Asymptotic Tightness [Φ, ⊙]**
+**1. The Asymptotic Tightness [<, ⊙]**
 The previous cycle established h_3(k) = Θ(k^2 log k). We now refine this to the specific threshold. Let f(n) be the maximum chromatic number of a triangle-free graph on n vertices.
 *   **Lower Bound (Probabilistic):** Using the semi-random method, Kim (1995) proved the existence of triangle-free graphs with α(G) ≤ C √{n log n}. Since χ(G) ≥ n/α(G), we have k ≥ frac{n}{C√{n log n}}, which implies n ≤ C' k^2 log k.
 *   **Upper Bound (Structural):** Ajtai, Komlós, and Szemerédi (1980) proved that every triangle-free graph has α(G) ≥ c n/log n √{n} is insufficient; the actual bound is α(G) ≥ Ω(log n/n).
@@ -202,7 +202,7 @@ h_3(k+1)/h_3(k) ≈ (k+1)^2 log(k+1)/k^2 log k → 1.
 
 **Instantiation of Structural Lemmas:**
 
-*   **Encoding/Duality [Φ]:** The mapping between the independence number α(G) and the chromatic number χ(G) in triangle-free spaces acts as the bijective encoding. χ is the dual "cost" of the independent set "packing."
+*   **Encoding/Duality [<]:** The mapping between the independence number α(G) and the chromatic number χ(G) in triangle-free spaces acts as the bijective encoding. χ is the dual "cost" of the independent set "packing."
 *   **Inverse Structure [⊣]:** The function h_3(k) is the left-inverse of the maximum chromatic number function f(n). The proof relies on the self-referential decomposition of G_n+1 into G_n + v.
 *   **Bidirectional [>]:** The forward Ramsey bound R(3, t) and the inverse construction of Erdős-graphs exhaust the asymptotic space, ensuring no "hidden" triangle-free graphs exist beyond the Θ(k^2 log k) horizon.
 *   **Topological Invariant [Ω]:** The chromatic number k serves as the integer invariant. The "no exotics" rule implies that for sufficiently large n, the distribution of χ(G) is dense, preventing large jumps in h_3(k).

@@ -1313,7 +1313,7 @@ fn cycle_one(tuple_glyphs: &str) -> String {
 /// segment is some type's own program, and the axis a segment sits at restricts
 /// which of the 49 types could have written it. The cycle is NOT total, and the
 /// obstruction is precise: the 49 types emit only 47 distinct programs. `loll`
-/// and `yew` collide but occupy different axes (⊤ and Φ), so position separates
+/// and `yew` collide but occupy different axes (⊤ and <), so position separates
 /// them; `ear` and `tot` collide AND share axis >, so a > segment reading as
 /// that program has two pre-images and the return leg reports BOTH rather than
 /// choosing. That ambiguity is a fact about the type alphabet, not a defect

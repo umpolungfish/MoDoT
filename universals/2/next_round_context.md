@@ -21,7 +21,7 @@ self-modeling form was put through the whole battery: `homolyze` returns the dia
 (a,a), `click` finds no complementarity (the magnitude is charge-balanced on the live pairs
 that ⊙/K do not touch), `forge`/`close` do not close a clean ring, `phase-reconstruct`
 returns N, `cl9nk` types it without emitting a number. The one entry that already
-self-models AND sits at the L9 target Φ=𐑬 (`compton_split_radius_l9_magnitude`) carries
+self-models AND sits at the L9 target <=𐑬 (`compton_split_radius_l9_magnitude`) carries
 "ħ/mc = 2.426310238e-12 m" only as a stored literal in its description string, computed
 externally. Every value the engine EMITS is dimensionless (ρ=2, θ=0.50, arctan(1/4),
 1/(d+1), 12π, the tier scores, C_score); every value that is STORED is dimensionful.
@@ -31,7 +31,7 @@ FORCED: arctan(1/4) = 14.036243° (tan = 1/4), from the 1:1:2 popcount. But α�
 14.036243 / 0.10242732 = 137.036 is a restatement: the denominator 0.10242732 has no
 structural origin independent of 137. It first appears in the reasoning as tilt/α⁻¹, its
 only computed source is 14.036243/137.036, and searching the kernel finds no computable
-"residual of the Φ-junction wall" and the literal 0.10242732 in zero code files. Do not
+"residual of the <-junction wall" and the literal 0.10242732 in zero code files. Do not
 present this as a derivation of α.
 
 **One more correction to carry:** "a non-B state cannot fork, by B_is_the_only_productive_split"

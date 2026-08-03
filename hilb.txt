@@ -4,7 +4,7 @@
 
 The transcript records an interactive formal session (cycles 1–53) in a system that combines:
 
-- A **catalog** (`cl9nk`) of named mathematical objects, each annotated with a 12‑primitive tuple (Shavian symbols like `⊢`, `⊣`, `Φ`, …) and associated logical fragments.
+- A **catalog** (`cl9nk`) of named mathematical objects, each annotated with a 12‑primitive tuple (Shavian symbols like `⊢`, `⊣`, `<`, …) and associated logical fragments.
 - An **IMASM** grammar for composing 12 opcodes into polymers (chains, rings, protocols) and checking their topology and **Frobenius closure** (`μ∘δ`).
 - A **Lean kernel** backend that can elaborate proof files under the `p4ramill` path.
 - A **containment boundary** test that verifies whether an object’s primitive values lie at or above a fixed “floor” (`SIXTEEN_3 ∧ CLINK_L8`).
@@ -29,11 +29,11 @@ The central object is a **Hilbert‑space embedding** – a constructed map from
 
 ## 3. Evolution of the Experiment (Highlights)
 
-- **Early cycles (1–37):** Many imscriptions of variants (`hilbert_embed_floor`, `hilbert_embed_grounded`, `hilbert_embed_L9_*`) and containment checks. Most return `B` or `F` due to primitive breaches (especially `Φ` and `Ω`).
-- **Cycle 38:** `hilbert_embed_phi_floor_l9` – with `Φ=𐑹` and all primitives at floor – returns **T** (fully contained). This establishes a clean contained object.
+- **Early cycles (1–37):** Many imscriptions of variants (`hilbert_embed_floor`, `hilbert_embed_grounded`, `hilbert_embed_L9_*`) and containment checks. Most return `B` or `F` due to primitive breaches (especially `<` and `Ω`).
+- **Cycle 38:** `hilbert_embed_phi_floor_l9` – with `<=𐑹` and all primitives at floor – returns **T** (fully contained). This establishes a clean contained object.
 - **Cycle 48:** The core split–fuse pair `FSPLIT AREV AFWD FFUSE` is tested as a ring (`◇<>●`). It is **OPEN** (μ∘δ not closed). When re‑wired as a **protocol**, it becomes **CLOSED** with one transformed reconnection (`imasm check ◇<>●` → T).
 - **Cycle 49:** The full 12‑opcode word `⊢ ⊙ > = ◇ + < × ● ⊞ ¬ ⊣` is checked: **B** (paradox held) but μ∘δ CLOSED. `imasm prove` → green (kernel admits closure class). `imasm arev` on the spaced word runs successfully, showing achiral tier O₁.
-- **Cycle 50:** Attempt to define a ROTAT‑measuring tool fails (VINIT in‑degree error). The Z₂ boundary of `hilbert_space_generic` breaches Φ (F).
+- **Cycle 50:** Attempt to define a ROTAT‑measuring tool fails (VINIT in‑degree error). The Z₂ boundary of `hilbert_space_generic` breaches < (F).
 - **Cycle 51:** `containment_boundary hilbert_embed_phi_floor_l9` reconfirmed **T**. `imasm prove` on the full word green. Lean elaboration of `CLINK_L9.lean` succeeds, but `HilbertSpaceEmbedding.lean` not found.
 - **Cycle 52:** `imasm check ⊙>=◇+<×●⊞¬` (the protocol without VINIT/TANCH) returns **B**. `phase_reconstruct` on the closed ring of `hilbert_embed_phi_floor_l9`, `hilbert_space_generic`, `conventional_sic_povm_hilbert` yields phase word `𐑫 𐑖 𐑖` modulo one global phase.
 - **Final verdict (spine report):** **B** – the object is a held dialetheia: structurally closed as a Frobenius protocol, but its Lean proof is missing and its ROTAT invariance is phase‑bearing.

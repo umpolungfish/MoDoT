@@ -121,7 +121,7 @@ const GLYPHS: [&[(&str, u8)]; 12] = [
     /* ⊢ Dimensionality */ &[("𐑛", 0), ("𐑨", 1), ("𐑼", 2), ("𐑦", 3)],
     /* ⊣ Topology       */ &[("𐑡", 0), ("𐑰", 1), ("𐑥", 2), ("𐑶", 3), ("𐑸", 4)],
     /* > Recognition    */ &[("𐑩", 0), ("𐑑", 1), ("𐑽", 2), ("𐑾", 3)],
-    /* Φ Parity         */ &[("𐑗", 0), ("𐑿", 1), ("𐑬", 2), ("𐑯", 3), ("𐑹", 4)],
+    /* < Parity         */ &[("𐑗", 0), ("𐑿", 1), ("𐑬", 2), ("𐑯", 3), ("𐑹", 4)],
     /* ƒ Fidelity       */ &[("𐑱", 0), ("𐑞", 1), ("𐑐", 2)],
     /* Ç Kinetics       */ &[("𐑘", 0), ("𐑤", 1), ("𐑧", 2), ("𐑪", 3), ("𐑺", 4)],
     /* Γ Granularity    */ &[("𐑚", 0), ("𐑔", 1), ("𐑲", 2)],
@@ -261,7 +261,7 @@ fn tier_score(ord: &[Option<u8>; 12]) -> u8 {
     let eq = |i: usize, v: u8| ord[i] == Some(v);
     let mut s = 0u8;
     if eq(8, 1) { s += 1; } // ⊙ = ⊙ (self-modeling critical)
-    if eq(3, 4) { s += 1; } // Φ = 𐑹 (Frobenius-special parity)
+    if eq(3, 4) { s += 1; } // < = 𐑹 (Frobenius-special parity)
     if eq(9, 3) { s += 1; } // Ħ = 𐑫 (eternal chirality)
     if matches!(ord[11], Some(2) | Some(3)) { s += 1; } // Ω integer/non-Abelian winding
     if eq(0, 3) { s += 1; } // ⊢ = 𐑦 (holographic)
@@ -349,7 +349,7 @@ pub fn run_click_sweep(
 /// the catalyst is verified unchanged (IMSCRIB — μ∘δ=id, regenerated, not consumed).
 ///
 /// The catalyst's strength is its self-restoring / Frobenius-special character:
-/// discriminated by its Parity Φ (Φ=𐑹 is the Frobenius-special value, the lossless
+/// discriminated by its Parity < (<=𐑹 is the Frobenius-special value, the lossless
 /// μ∘δ=id map — e.g. `math_isomorphism`). Strength scales the barrier reduction.
 /// Crucially the catalyst lowers only the threshold, NEVER the complementarity: a
 /// same-sign or neutral pair still cannot fuse (a catalyst lowers ΔG‡, not ΔG — it
@@ -365,7 +365,7 @@ pub fn click_pair_catalyzed(
     base_theta: f32,
 ) -> (Result<ClickProduct, ClickFail>, f32) {
     // Catalyst strength = Frobenius-special / self-restoring character, discriminated
-    // by Parity Φ (index 3). Φ=𐑹 (norm 1.0) is the maximal μ∘δ=id catalyst.
+    // by Parity < (index 3). <=𐑹 (norm 1.0) is the maximal μ∘δ=id catalyst.
     let strength = catalyst.norm(3).unwrap_or(0.0);
     // Barrier reduction: the catalyst lowers the effective threshold.
     let theta_eff = base_theta * (1.0 - strength);
@@ -549,7 +549,7 @@ const CTORS: [&[&str]; 12] = [
     /* ⊢ */ &["dead", "ash", "array", "if'"],
     /* ⊣ */ &["judge", "eat", "mime", "oil", "are"],
     /* > */ &["ado", "tot", "ear", "ian"],
-    /* Φ */ &["church", "yew", "out", "nun", "or'"],
+    /* < */ &["church", "yew", "out", "nun", "or'"],
     /* ƒ */ &["age", "they", "peep"],
     /* Ç */ &["yea", "loll", "egg", "on", "air"],
     /* Γ */ &["bib", "thigh", "ice"],
@@ -686,7 +686,7 @@ pub fn run_click(
 
     match &catalyst {
         Some((cn, _, strength)) => println!(
-            "click-maths:  {name_a}  ⋈  {name_b}   (θ={theta:.2}, catalyst {cn}: Φ-strength {strength:.2})"
+            "click-maths:  {name_a}  ⋈  {name_b}   (θ={theta:.2}, catalyst {cn}: <-strength {strength:.2})"
         ),
         None => println!("click-maths:  {name_a}  ⋈  {name_b}   (θ={theta:.2})"),
     }
@@ -4078,7 +4078,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         _ => None,
     });
     let Some(ax) = idx else {
-        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
+        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ƒ Ç Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
         return 2;
     };
 

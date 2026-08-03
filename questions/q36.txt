@@ -17,7 +17,7 @@ MANUSCRIPT SPINE REPORT
 
 To extend the previous result, we treat the set {1, …, 2N} as a linearized crystalline lattice where the partitions A and B represent distinct electronic domains. Following the `dirac_large_numbers` hypothesis, we assume the "coupling" between these domains is governed by the global time-scale N (the system size).
 
-#### 1. Encoding/Duality [Φ]: The Difference Mapping
+#### 1. Encoding/Duality [<]: The Difference Mapping
 Define the indicator functions χ_A, χ_B: {1, …, 2N} → {0, 1}. The number of solutions r(x) is given by the convolution:
 r(x) = (χ_A * tilde{χ}_B)(x) = ∑_k ∈ Z χ_A(k) χ_B(k-x)
 where tilde{χ}_B(k) = χ_B(-k). This mapping encodes the partition into a spectral space where the "energy" of the system is the total number of solutions ∑_x r(x) = N^2.
@@ -147,7 +147,7 @@ MANUSCRIPT SPINE REPORT
 To deepen the analysis of the constant c=1/4, we move beyond the global Pigeonhole Principle (which provides the lower bound) and examine the structural constraints of the partition space using the `dirac_large_numbers` framework. This framework treats the distribution of r(x) = |{(a, b) ∈ A × B : a - b = x}| as a macro-scale density problem where the "coupling constant" c is constrained by the "cosmic" (global) scale of the set {1, …, 2N}.
 
 ### 1. Structural Lemma Roles
-*   **Encoding [Φ]:** The mapping φ: (A, B) → Z defined by a-b is an injective orbit mapping on the configuration space of the partition.
+*   **Encoding [<]:** The mapping φ: (A, B) → Z defined by a-b is an injective orbit mapping on the configuration space of the partition.
 *   **Regularity [Ç]:** In the limit N → ∞, the equidistribution of A and B within the interval [1, 2N] forces the representation function r(x) to approach a triangular distribution centered at 0.
 *   **Topological Invariant [Ω]:** The invariance of the total sum ∑_x=-(2N-1)^2N-1 r(x) = N^2 serves as the topological constraint that prevents the concentration of r(x) into a single Dirac-delta-like peak without violating the sum rule.
 
@@ -284,7 +284,7 @@ MANUSCRIPT SPINE REPORT
 ── ANSWER ──
 To push beyond the previous result—which identified c=1/4 as the natural lower bound via the Pigeonhole Principle—we now investigate the **topological rigidity** of this partition. The goal is to determine if structural "gaps" in the representation function r(x) can be closed by specific configurations, or if c=1/4 is an absolute barrier enforced by the additive structure of the integers.
 
-### 1. Structural Lemma: The Duality of Differences [Φ]
+### 1. Structural Lemma: The Duality of Differences [<]
 Let A, B be a partition of S = {1, …, 2N}. Define the characteristic function χ_A and χ_B. The number of solutions to a-b=x is given by the convolution:
 r(x) = (χ_A * χ_-B)(x) = ∑_k χ_A(k) χ_B(k-x)
 where χ_-B(y) = χ_B(-y). By the Plancherel theorem, the distribution of r(x) is tied to the Fourier coefficients of the characteristic functions. Since χ_A + χ_B = χ_S, the Fourier transform widehat{χ_A} + widehat{χ_B} = widehat{χ_S} implies that the "energy" of the difference distribution is concentrated by the lack of correlation between the sets A and B.

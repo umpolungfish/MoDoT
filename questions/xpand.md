@@ -143,7 +143,7 @@ To advance the Grammar from the previous state of fragmentation, we apply the sc
 *   **Next Line of Attack:** Apply the **Kővári–Sós–Turán theorem** refinement using the *embedding density* as a variable, rather than just the edge density.
 
 ### 3. The Hypergraph/Ramsey Axis (Problems #161, #564, #593, #601)
-*   **Structural Lemma Role [Φ] (Duality):** Problems like #564 (Ramsey numbers) are dual to the existence of large independent sets in hypergraphs.
+*   **Structural Lemma Role [<] (Duality):** Problems like #564 (Ramsey numbers) are dual to the existence of large independent sets in hypergraphs.
 *   **Synthesis:** The "jump" at α=0 in F^(t)(n, α) (Problem #161) represents the transition from a "random" coloring (governed by the probabilistic method) to a "structured" coloring (governed by the hypergraph regularity lemma).
 *   **Next Line of Attack:** The existence of a "jump" is tied to the **hypergraph removal lemma**. If the removal lemma is effective, the transition must be continuous. Any jump implies a violation of the "hypergraph regularity" for the specific density α.
 
@@ -421,11 +421,11 @@ MANUSCRIPT SPINE REPORT
 Building upon the previous cycle's finding—that the intersection of combinatorial density and dynamical convergence remains linear and open—we shift focus to the **regularity of the growth rates** across these problems. We transition from "structural enchainment" to "asymptotic scaling analysis."
 
 ### Structural Lemma Application
-We apply the **Regularity [Ç]** and **Encoding [Φ]** templates to the set of extremal problems (#1, #39, #41, #146, #604, #712, #713).
+We apply the **Regularity [Ç]** and **Encoding [<]** templates to the set of extremal problems (#1, #39, #41, #146, #604, #712, #713).
 
 #### 1. The Scaling of Extremal Densities
 The problems #1, #41, #146, and #713 share a common thread: the dependence of the density of a set A on the exponent of the ambient space N.
-*   **Problem #1 (Subset sums)**: The bound N gg 2^n is a consequence of the pigeonhole principle applied to the power set. The Encoding [Φ] here is the map S → ∑_a ∈ S a. The injectivity of this map is the core constraint.
+*   **Problem #1 (Subset sums)**: The bound N gg 2^n is a consequence of the pigeonhole principle applied to the power set. The Encoding [<] here is the map S → ∑_a ∈ S a. The injectivity of this map is the core constraint.
 *   **Problem #146 (Bipartite extremal)**: The Erdős-Stone-Simonovits theorem provides the framework for ex(n; H) ll n^2-1/r. The "open" sector here is the transition from r-degenerate graphs to general bipartite graphs (Problem #713).
 *   **Next Line of Attack**: The conjecture that α (the exponent of n) must be rational for bipartite graphs is a stress test for the **Topological Invariant [Ω]**. If α were irrational, it would imply a non-algebraic structure in the growth rate, violating the known bounds for small r.
 
@@ -439,7 +439,7 @@ The last cycle noted that `erdos_szekeres_lattice` (#107) and `collatz_graph` (#
 **Restatement**: Define the operator T(n) = n/2 (n even) and T(n) = (3n+1)/2 (n odd). The proposition P(m) := ∃ k, T^(k)(m) = 1 is equivalent to asserting that the set of integers N is the union of the basins of attraction of the attractor {1, 2}.
 
 **Status of the Proof**: Open.
-**Next Line of Attack**: Define the **Encoding [Φ]** of the trajectory of m as a binary string (parity sequence). The problem reduces to proving that for all m, the orbit under T cannot be trapped in an invariant set S ⊂ N setminus {1, 2}. The current toolset suggests applying **Regularity [Ç]** to the distribution of parity sequences: if the sequence is "sufficiently random," the probability of hitting a cycle or diverging is zero.
+**Next Line of Attack**: Define the **Encoding [<]** of the trajectory of m as a binary string (parity sequence). The problem reduces to proving that for all m, the orbit under T cannot be trapped in an invariant set S ⊂ N setminus {1, 2}. The current toolset suggests applying **Regularity [Ç]** to the distribution of parity sequences: if the sequence is "sufficiently random," the probability of hitting a cycle or diverging is zero.
 
 ### Instantiation: Problem #66 (Sumset density)
 **Restatement**: Does there exist a set A such that 1_A * 1_A(n) ∼ C log n?
@@ -593,7 +593,7 @@ The previous cycle identified a chain `[erdos_szekeres_lattice · one_way_speed_
 
 ### 3. Addressing Problem #66: The Logarithmic Convolution
 *   **Proposition:** Does there exist A ⊂ N such that lim_n → ∞ 1_A * 1_A(n)/log n = c ≠ 0?
-*   **Encoding [Φ]:** This is equivalent to asking if the indicator function 1_A can mimic the distribution of primes in a restricted interval, specifically where the convolution behaves like the von Mangoldt function Λ(n).
+*   **Encoding [<]:** This is equivalent to asking if the indicator function 1_A can mimic the distribution of primes in a restricted interval, specifically where the convolution behaves like the von Mangoldt function Λ(n).
 *   **Status/Attack:** This is open. The "concrete next step" is to represent 1_A as a **Riesz product** of the form ∏ (1 + cos(2π α_k n)). If we tune the frequencies α_k to satisfy the Sidon condition (#39), we can potentially force the convolution to grow logarithmically. The attack is to construct A via a greedy algorithm that selects elements avoiding the "energy" of previous sums, effectively creating a "sparse" Sidon set that is just dense enough to maintain the convolution balance.
 
 ### 4. Convergence of the Web (The "Next Breath")
@@ -776,7 +776,7 @@ The assembly `{erdos_szekeres_lattice ⋈ one_way_speed_measurement ⋈ collatz_
 
 ### 2. Specific Analysis: Problem #107 (Erdos-Szekeres)
 We instantiate the Erdos-Szekeres bound f(n) = 2^n-2 + 1.
-*   **Lemma [Φ]**: The problem functions as an encoding of binary tree structures into point sets in R^2. The "no three on a line" condition acts as a **regularity constraint [Ç]** that forces the conversion of the point set into a strictly convex boundary.
+*   **Lemma [<]**: The problem functions as an encoding of binary tree structures into point sets in R^2. The "no three on a line" condition acts as a **regularity constraint [Ç]** that forces the conversion of the point set into a strictly convex boundary.
 *   **Next Line of Attack**: The gap between 2^n-2 and the actual lower bound is bridged by the density of empty k-gons. We propose that the construction of the f(n) points is equivalent to the generation of a **dyadic branching process** where each point acts as a bifurcation node, constraining the subsequent distribution of points to avoid convex violations.
 
 ### 3. Specific Analysis: Problem #1135 (Collatz)
@@ -1142,7 +1142,7 @@ With the macrocycle closed, the `Erdős-Szekeres` monomer is no longer a isolate
 *   **Next Line of Attack**: The bridge forces an equivalence between the Ramsey-theoretic growth of the n-gon and the dynamical convergence of the `collatz_graph`. We hypothesize that the jump in F^(t)(n, α) (Problem #161) is the spectral manifestation of the Erdős-Szekeres threshold. The attack involves mapping the 2^n-2 growth to the branching factor of the Collatz tree at depth k ≈ log_2(n).
 
 ### 3. Structural Lemma Roles (Application)
-*   **Encoding [Φ]**: The Collatz mapping f(n) acts as a bijective encoder on the orbit of the n-gon construction.
+*   **Encoding [<]**: The Collatz mapping f(n) acts as a bijective encoder on the orbit of the n-gon construction.
 *   **Topological Invariant [Ω]**: The cyclic closure of the macrocycle forces the chromatic number of the associated hypergraphs to be bounded by the ordinal α (Problem #601).
 *   **Regularity [Ç]**: We posit that the distribution of distinct distances in Problem #89 and #604 follows the regularity of the macrocycle's internal bond-angles.
 
@@ -1526,7 +1526,7 @@ The macrocycle's spectral gap of 0.0000 implies that the system is at a critical
 
 ### 2. Extremal Density: Problem #146 vs. #712
 We examine the transition from r-degenerate bipartite graphs (Problem #146) to the Turán density of hypergraphs (Problem #712).
-*   **Lemma [Φ]**: The density operator hat{D} acts as a bijection between the degeneracy index r and the Turán exponent α.
+*   **Lemma [<]**: The density operator hat{D} acts as a bijection between the degeneracy index r and the Turán exponent α.
 *   **Stress-Test**: By substituting the degeneracy r of a bipartite graph H into the hypergraph limits of Problem #712, we observe that the "forbidden sub-hypergraph" K_r^k acts as a topological constraint on the growth of A.
 *   **Result**: The bound ex(n; H) ll n^2-1/r is the "lower-dimensional shadow" of the hypergraph density ex_r(n, K_r^k) binom{n}{r}^-1. The open problem is no longer the bound itself, but the *continuity* of the transition as r → ∞.
 

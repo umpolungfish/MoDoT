@@ -302,10 +302,10 @@ fn witness_line(s: &Snapshot) -> String {
     )
 }
 
-// ─── The seam sweep: exact witnesses for the T/K/Φ/Ω axes ─────────────
+// ─── The seam sweep: exact witnesses for the T/K/</Ω axes ─────────────
 //
 // H (ROTAT period class) and S (δ/μ balance) hold exact witnesses; the
-// kernel↔cosmos seam left T/K/Φ/Ω open. Each axis gets a decidable witness,
+// kernel↔cosmos seam left T/K/</Ω open. Each axis gets a decidable witness,
 // certified by exhausting the word space (every word of length 1..=4, every
 // rotation, every mirror, every word run twice at two budgets). A sweep over
 // the whole space is a ZFC_fe certificate — the same standard as `by decide`.
@@ -319,7 +319,7 @@ fn witness_line(s: &Snapshot) -> String {
 //                   after 16 wraps and after 32 wraps gives the same period.
 //                   The rate class is time-translation invariant, not an
 //                   artifact of when the observer looks.
-//   Φ (Polarity)  — the ⊥ mirror is an involution on the witness plane:
+//   < (Polarity)  — the ⊥ mirror is an involution on the witness plane:
 //                   mirror∘mirror restores all six witnesses and the tier,
 //                   for every word. The or'/flipped fork is a true parity.
 //   Ω (Protection)— the winding ledger is exact: deterministic (two identical
@@ -405,7 +405,7 @@ pub(crate) fn seam_sweep(max_len: usize) -> SeamReport {
             let (_, st32) = dyn_snap(&w, 32);
             if st16.value_period != st32.value_period { r.k_fail += 1; note(&mut r, 'K', &w); }
 
-            // Φ — mirror involution on the witness plane, tier restored
+            // < — mirror involution on the witness plane, tier restored
             let m = s16.mirrored();
             let mm = m.mirrored();
             let wit = |s: &Snapshot| (
@@ -429,11 +429,11 @@ pub(crate) fn seam_sweep(max_len: usize) -> SeamReport {
 fn seam_report(max_len: usize) -> String {
     let r = seam_sweep(max_len);
     let mut out = String::new();
-    let _ = writeln!(out, "SEAM SWEEP — exact witnesses for the T/K/Φ/Ω axes, exhausted over every word of length 1..={max_len} ({} words):", r.words);
+    let _ = writeln!(out, "SEAM SWEEP — exact witnesses for the T/K/</Ω axes, exhausted over every word of length 1..={max_len} ({} words):", r.words);
     let verdict = |f: u64| if f == 0 { "EXACT".to_string() } else { format!("{f} counterexamples") };
     let _ = writeln!(out, "  T (Topology)   fork census (δ-count, μ-count, atomic) invariant under every ROTAT: {}", verdict(r.t_fail));
     let _ = writeln!(out, "  K (Kinetic)    value_period stationary (16-wrap read = 32-wrap read):             {}", verdict(r.k_fail));
-    let _ = writeln!(out, "  Φ (Polarity)   mirror∘mirror restores all six witnesses and the tier:             {}", verdict(r.phi_fail));
+    let _ = writeln!(out, "  < (Polarity)   mirror∘mirror restores all six witnesses and the tier:             {}", verdict(r.phi_fail));
     let _ = writeln!(out, "  Ω (Protection) winding deterministic, monotone, quantized, never reset:           {}", verdict(r.om_fail));
     let _ = writeln!(out, "  Ω ledger census: {} words wind exactly (winding = wraps granted); {} withheld windings through fork-resume or root TANCH — withheld, not lost: no ledger ever decreased.", r.om_exact, r.om_gated);
     if let Some((ax, w)) = &r.first_fail {
@@ -461,7 +461,7 @@ pub fn run(args: &[String]) -> String {
                 b_live↔winding, gates↔bifurcation) over the same substrate and reads again. \
                 O_inf_dag through the mirror is O_inf: the lateral partner at the same shell. \
                 hop∘hop = id is verified on every call. `imasm arev seam [len]` exhausts the \
-                word space and certifies the exact witnesses for the T/K/Φ/Ω axes.\n"
+                word space and certifies the exact witnesses for the T/K/</Ω axes.\n"
             .into();
     }
 
@@ -515,7 +515,7 @@ pub fn run(args: &[String]) -> String {
 mod tests {
     use super::*;
 
-    /// The seam certificate, pinned: all four T/K/Φ/Ω witnesses hold with no
+    /// The seam certificate, pinned: all four T/K/</Ω witnesses hold with no
     /// counterexample over the exhausted word space. Length 3 in the test lane
     /// for speed; `imasm arev seam 5` carries the full-space certificate.
     #[test]
@@ -523,7 +523,7 @@ mod tests {
         let r = seam_sweep(3);
         assert_eq!(r.t_fail, 0, "T: fork census moved under ROTAT");
         assert_eq!(r.k_fail, 0, "K: value_period not stationary");
-        assert_eq!(r.phi_fail, 0, "Φ: mirror involution broke");
+        assert_eq!(r.phi_fail, 0, "<: mirror involution broke");
         assert_eq!(r.om_fail, 0, "Ω: winding ledger violated");
         assert!(r.om_exact > 0 && r.om_gated > 0, "Ω census should see both classes");
     }

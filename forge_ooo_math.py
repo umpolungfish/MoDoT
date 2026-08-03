@@ -113,7 +113,7 @@ print()
 print("Definition 1.1. The OOO Character Space M_OOO is a discrete")
 print("metric space whose points are the structural 12-tuples of")
 print("Adventure Time characters, embedded in R^12 via the Shavian")
-print("glyph encoding Φ: {𐑛,𐑨,...,𐑟} → ℕ.")
+print("glyph encoding <: {𐑛,𐑨,...,𐑟} → ℕ.")
 print()
 
 # Compute the metric structure

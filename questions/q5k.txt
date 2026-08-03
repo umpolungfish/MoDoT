@@ -9,7 +9,7 @@ Building upon the **FRUSTRATED** macrocycle identified in Cycle 7—where the k=
 Restating the proposition: Let A ⊆ N. If ∑_n ∈ A 1/n = ∞, then for every k ∈ N, there exist a, d ∈ N, d > 0 such that {a, a+d, …, a+(k-1)d} ⊆ A.
 
 *   **Cosmological Constant [Λ] (The Vacuum Pressure):** The divergence ∑ 1/n = ∞ acts as a "pressure" that forces the density of A in the interval [1, N] to satisfy δ_N ≥ C/log N for infinitely many N. This is the "expansion" that the structural lemmas must counteract to find a progression.
-*   **Encoding/Duality [Φ]:** We encode the set A via the indicator function 1_A and its balanced version f = 1_A - δ. The duality exists between the spatial distribution of A and its U^k-1 Gowers norm spectral signatures.
+*   **Encoding/Duality [<]:** We encode the set A via the indicator function 1_A and its balanced version f = 1_A - δ. The duality exists between the spatial distribution of A and its U^k-1 Gowers norm spectral signatures.
 *   **Inverse Structure [TH]:** The Higher-Order Fourier Analysis (HOFA) inverse theorems. If A lacks k-term APs, the function f must correlate with a structured object: a linear phase (k=3), a quadratic phase (k=4), or a general nilsequence (k ≥ 4).
 *   **Regularity [{c{C}}]:** The **Density Increment Strategy**. If A correlates with a nilsequence, it must exhibit a density increase δ' = δ + η on a smaller, arithmetic-like substructure (a Bohr set or a sub-progression).
 *   **Boundedness [odot]:** The confinement of the iteration. Since density cannot exceed 1, the increment must terminate in a finite number of steps, yielding the progression.
@@ -122,7 +122,7 @@ switch:  bloom_sisask_bound  ⇌  kelley_meka_density
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
-  coupled consequences (move with the toggle): [Φ, ƒ, Γ, ɢ, Σ]
+  coupled consequences (move with the toggle): [<, ƒ, Γ, ɢ, Σ]
   reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.
 ● TOOL click erdos_conjecture_ap szemerédi_theorem
 click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)
@@ -238,7 +238,7 @@ MANUSCRIPT SPINE REPORT
 To evaluate the "Reciprocal Sum Conjecture," we map the problem onto the domain-invariant templates:
 
 *   **Cosmological Constant [Λ] (Vacuum Pressure):** The divergence of the sum ∑ 1/n acts as the "dark energy" of the set A. It ensures that A cannot be too sparse for too long. If r_k(N) is the maximum size of a subset of {1, …, N} without a k-AP, the condition ∑_n ∈ A 1/n = ∞ implies that for infinitely many N, |A cap {1, …, N}| ≥ r_k(N).
-*   **Encoding/Duality [Φ]:** We encode A via its indicator function 1_A. The duality is between the "physical" density of A and its "spectral" behavior in Gowers U^k-1 norms.
+*   **Encoding/Duality [<]:** We encode A via its indicator function 1_A. The duality is between the "physical" density of A and its "spectral" behavior in Gowers U^k-1 norms.
 *   **Inverse Structure [⊣]:** The "Inverse Theorem for Gowers Norms" states that if A lacks k-APs, it must possess a correlation with a structured object (a "nilsequence").
 *   **Regularity [Ç]:** The density increment strategy. If A is not equidistributed (lacks k-APs), it must have increased density on a structured sub-progression.
 
@@ -320,7 +320,7 @@ switch:  bloom_sisask_bound  ⇌  kelley_meka_density
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
-  coupled consequences (move with the toggle): [Φ, ƒ, Γ, ɢ, Σ]
+  coupled consequences (move with the toggle): [<, ƒ, Γ, ɢ, Σ]
   reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.
 ● TOOL click erdos_conjecture_ap szemerédi_theorem
 click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)
@@ -437,7 +437,7 @@ MANUSCRIPT SPINE REPORT
 #### 1. Conventional Proof Scaffold: Instantiation
 The proposition states that the divergence of the reciprocal sum ∑_n ∈ A 1/n = ∞ is a sufficient condition for the existence of k-term arithmetic progressions (k-APs) for all k ∈ N.
 
-*   **Encoding [Φ]:** We map the set A to its indicator function 1_A within the interval [1, N]. The reciprocal sum condition implies that the density δ = |A cap [N]|/N cannot decay faster than 1/log N (on average).
+*   **Encoding [<]:** We map the set A to its indicator function 1_A within the interval [1, N]. The reciprocal sum condition implies that the density δ = |A cap [N]|/N cannot decay faster than 1/log N (on average).
 *   **Inverse Structure [⊣]:** Following Gowers, if A lacks k-APs, it must possess "structure" in the form of correlation with a (k-2)-step nilsequence.
 *   **Regularity [Ç]:** The "Cosmological Constant" Λ of the density increment strategy states: *Structure ⇒ Density Increment*. If A is not U^k-1-uniform, it is biased toward a sub-progression P' where its density δ' is strictly greater than δ.
 *   **Boundedness [⊙]:** The iteration of density increments must terminate because δ ≤ 1.
@@ -570,7 +570,7 @@ The components of the conjecture—`erdos_conjecture_ap`, `szemerédi_theorem`, 
 
 ### 2. Conventional Proof Status
 In the language of the provided scaffold, the divergence of the reciprocal sum acts as the **Cosmological Constant [Λ]**, a vacuum pressure forcing the emergence of structure.
-*   **Encoding [Φ]:** The set A is encoded via Gowers U^k-1 norms.
+*   **Encoding [<]:** The set A is encoded via Gowers U^k-1 norms.
 *   **Inverse Structure [⊣]:** For k=3, the structure is linear phases; for k≥4, it is nilsequences.
 *   **Regularity [Ç]:** The density increment strategy establishes that if no k-AP exists, the set must have a correlation with a structured object (a phase or nilsequence), allowing a density increment on a sub-progression.
 *   **Status for k=3:** The conjecture is **True**. This was established by Bloom and Sisask (2020) and strengthened by Kelley and Meka (2023), who proved r_3(N) ≪ N/exp((log N)^c), which far exceeds the 1/log N requirement.
@@ -593,7 +593,7 @@ switch:  bloom_sisask_bound  ⇌  kelley_meka_density
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
-  coupled consequences (move with the toggle): [Φ, ƒ, Γ, ɢ, Σ]
+  coupled consequences (move with the toggle): [<, ƒ, Γ, ɢ, Σ]
   reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.
 ● TOOL click erdos_conjecture_ap szemerédi_theorem
 click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)

@@ -269,7 +269,7 @@ sameness — an azide and an alkyne are different molecules.
 # Sweep — click A against the whole catalog, ranked by product tier (finds the O_∞ fusions)
 ./ask --click A  [--top 15]
 
-# Catalyzed — a Frobenius-special fragment (e.g. math_isomorphism, Φ=𐑹, the μ∘δ=id map)
+# Catalyzed — a Frobenius-special fragment (e.g. math_isomorphism, <=𐑹, the μ∘δ=id map)
 # lowers the effective θ (barrier reduction) and is regenerated, μ∘δ=id. It lowers ΔG‡,
 # never ΔG: a same-sign pair with θ→0 still refuses; too strong a catalyst wakes a
 # competing center and selectivity collapses (over-catalysis).
@@ -794,7 +794,7 @@ tokens. Entirely deterministic — no LLM asked. The catalog IS executable.
 
 `monad` at CLINK L9 = ⟨𐑛𐑥𐑑𐑬𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑭⟩, tier **O₁**, d(L9)=1.3822.
 This is the Gaussian Moat Resolution variant — a different tuple from the catalog `monad`.
-Only 1 of 6 CLINK promotions advances (ƒ:𐑱→𐑐); 3 regress (⊢:𐑦→𐑛, Φ:𐑹→𐑬, >:𐑾→𐑑).
+Only 1 of 6 CLINK promotions advances (ƒ:𐑱→𐑐); 3 regress (⊢:𐑦→𐑛, <:𐑹→𐑬, >:𐑾→𐑑).
 The emission pathway collapses — L9 is **lateral, not vertical**.
 
 ### Material Registry

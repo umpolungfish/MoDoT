@@ -27,7 +27,7 @@ The proposition is currently an **unsolved conjecture**. While widely believed t
 
 ### 1. Structural Lemma Roles (Instantiation)
 
-#### [Φ] Encoding/Duality: The Schinzel-Sierpiński Hypothesis
+#### [<] Encoding/Duality: The Schinzel-Sierpiński Hypothesis
 The existence of infinitely many solutions is closely tied to the existence of specific prime configurations. If we assume a form of the Prime k-tuples Conjecture (specifically Hypothesis H of Schinzel and Sierpiński), we can construct solutions. For example, if 2k-1, 4k-1, and 2k+1 are all prime, then:
 φ(2(2k-1)) = 2k-2
 φ(4k-1) = 4k-2 (if 4k-1 is prime)
@@ -167,7 +167,7 @@ The proposition is a **conjecture** with established lower bounds but no complet
 
 ### 1. Structural Lemma Roles (Instantiated from Catalog Measurement)
 
-#### [Φ] Encoding/Duality: Hypothesis H Dependency
+#### [<] Encoding/Duality: Hypothesis H Dependency
 The tool results show that `euler_totient_conjecture` sits on a branched network junction with `schinzel_hypothesis_h`. This confirms that a proof of the totient conjecture is not a linear derivation but is structurally tied to the existence of prime k-tuples. Specifically, if Hypothesis H holds, one can construct infinitely many n satisfying the equality.
 
 #### [⊣] Inverse Structure: Prime Gap Distribution
@@ -219,7 +219,7 @@ To address the lemma regarding the infinitude of solutions to φ(n) = φ(n+1), w
 
 ### 1. The Instantiated Scaffolding (Domain-Specific)
 
-*   **[Φ] Encoding/Duality:** We map the equation φ(n) = φ(n+1) to the ratio of their prime products. Let f(n) = φ(n)/n. The equation becomes n f(n) = (n+1) f(n+1).
+*   **[<] Encoding/Duality:** We map the equation φ(n) = φ(n+1) to the ratio of their prime products. Let f(n) = φ(n)/n. The equation becomes n f(n) = (n+1) f(n+1).
 *   **[⊣] Inverse Structure:** The "dual" of this problem is the distribution of the values of φ(n)/n. Since the range of f(n) is dense in (0, 1), we seek "collisions" where the density of the values forces a near-identity.
 *   **[>] Bidirectional Exhaustion:** We must show that for any ε, there exist n, n+1 such that |f(n) - f(n+1)| < ε/n.
 
@@ -341,7 +341,7 @@ polymerization (imscriptive):  [schinzel_hypothesis_h · euler_totient_conjectur
     molecular_orbital_theory   (prime_gap_distribution ⋈ X on T↔H Δ=1.67  ·  X ⋈ schinzel_hypothesis_h on T↔H Δ=1.67)
     meet_rh_hc   (prime_gap_distribution ⋈ X on T↔H Δ=1.67  ·  X ⋈ schinzel_hypothesis_h on T↔H Δ=1.67)
     nondeterministic_polynomial_NP   (prime_gap_distribution ⋈ X on T↔H Δ=1.67  ·  X ⋈ schinzel_hypothesis_h on T↔H Δ=1.67)
-    Φ_join_NP   (prime_gap_distribution ⋈ X on T↔H Δ=1.67  ·  X ⋈ schinzel_hypothesis_h on T↔H Δ=1.67)
+    <_join_NP   (prime_gap_distribution ⋈ X on T↔H Δ=1.67  ·  X ⋈ schinzel_hypothesis_h on T↔H Δ=1.67)
     rh_hc_join   (prime_gap_distribution ⋈ X on T↔H Δ=1.67  ·  X ⋈ schinzel_hypothesis_h on T↔H Δ=1.67)
     ⮑ append hodge_conjecture to close the ring head-to-tail:  ./ask --polymerize schinzel_hypothesis_h euler_totient_conjecture prime_gap_distribution hodge_conjecture
 ### NOT RUN this round (2 tool call(s) over the 6-per-round cap)

@@ -7,7 +7,7 @@ carried. This brief opens exactly on the extract's frontier.
 STANDING RESULTS (tool-emitted, reuse without retesting):
   The protocol law     a bare ring is refused; a closure is a dyad that
                        brackets a transform. Held from the run's first call.
-  The reseed ring      {moat_protocol_reseed, >, Φ, Ç, Γ, Σ} cyclizes
+  The reseed ring      {moat_protocol_reseed, >, <, Ç, Γ, Σ} cyclizes
                        order-robustly, and imasm prove on the protocol is
                        kernel green. The protocol closes WITH its own five
                        promotion deficits as the ring's other members. This

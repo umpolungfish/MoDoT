@@ -11,7 +11,7 @@ The proposition states that for any constant C > 1, there exists a k_0 such that
 ### 2. Proof and Structural Resolution
 The proof is constructed by resolving the conflict between the **probabilistic lower bound** and the **density-based pattern forcing**.
 
-#### A. The Probabilistic Floor [Φ]
+#### A. The Probabilistic Floor [<]
 Using the Lovász Local Lemma (LLL), we establish the baseline:
 W(k) > r^k/erk^2
 For r=2, this gives liminf W(k)^1/k ≥ 2. In the Grammar, this is the **isotactic segment**—it provides the mass but lacks the "reactive center" to force the limit to infinity.

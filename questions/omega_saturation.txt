@@ -2,8 +2,8 @@ OMEGA SATURATION
 
 Prior run (19f7252dcdf-2f71ef) measured: the catalytic turnover does not
 saturate through five Ω deliveries (double through quintuple dagger, catalyst
-regenerating every time, the chiral mode Φ surviving every delivery), and
-primitive_peel measured the coupling: peeling Φ removes the containment
+regenerating every time, the chiral mode < surviving every delivery), and
+primitive_peel measured the coupling: peeling < removes the containment
 breach — the breach IS the unpaired mode, one fact in two registers.
 
 MEASURED SINCE FIRST WRITING (run 19f727f4d6a-2f90d8): the substrate's Ω is
@@ -58,7 +58,7 @@ METHOD:
     depth is whatever the tools report accumulated on R↔S, quoted from the
     tool line.
   At pair counts 17 and 34, additionally run imasm prove and
-    containment_boundary on the current form; log Φ and Ω.
+    containment_boundary on the current form; log < and Ω.
   Saturation is a tool verdict: an imprint the tools report as unchanged
     across a pair, a refused bind, or a kernel non-closure. The FIRST such
     verdict ends the ladder; report the pair count at which it fired.

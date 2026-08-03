@@ -14,16 +14,16 @@ This document decomposes Mochizuki's Inter-Universal Teichmüller Theory (IUTT) 
 **Key results:**
 - IUTT decomposes into **10 join-irreducible atoms** across a 9-system lattice
 - The naive composite (Diophantine ⊗ Log-Theta-Lattice) decomposes into **11 atoms** — the extra atom (⊢=𐑨) is precisely the 2D grid structure that IUTT condenses
-- The 4-move promotion path (d=2.65) decomposes at the atom level: Φ=𐑹 (Δ2.0, 57% weight) and ⊣=𐑸 (Δ1.0) are the two heaviest promotions
+- The 4-move promotion path (d=2.65) decomposes at the atom level: <=𐑹 (Δ2.0, 57% weight) and ⊣=𐑸 (Δ1.0) are the two heaviest promotions
 - **Anabelian Geometry ≡ Frobenioid** (d=0.0): étale-like and Frobenius-like aspects are structural duals
 - **Theta Link ≡ Log Link** (d=0.0): horizontal and vertical edges share identical type
-- Φ and ⊣ are **independently load-bearing**: peeling either leaves the other intact — this IS Axiom C
+- < and ⊣ are **independently load-bearing**: peeling either leaves the other intact — this IS Axiom C
 
 ---
 
 ## §1. The 9-System Lattice
 
-IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣>ΦƒÇΓɢ⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
+IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><ƒÇΓɢ⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
 
 ### §1.1. System Inventory
 
@@ -64,7 +64,7 @@ Only 5 of 12 primitives vary across the 9 systems. The other 7 are invariant:
 | ⊢ (Dimensionality) | 𐑛 (0D), 𐑨 (2D) | 2D only in: naive composite, log-theta-lattice |
 | ⊣ (Topology) | 𐑰 (inclusion), 𐑥 (crossing), 𐑶 (box product), 𐑸 (self-ref) | Most varied primitive |
 | > (Coupling) | 𐑽 (adjoint), 𐑾 (bidirectional) | Adjoint only in: theta link, log link |
-| Φ (Parity) | 𐑬 (partial ℤ₂), 𐑹 (Frobenius-special) | Frobenius-special ONLY in IUTT |
+| < (Parity) | 𐑬 (partial ℤ₂), 𐑹 (Frobenius-special) | Frobenius-special ONLY in IUTT |
 | Ç (Kinetics) | 𐑧 (slow), 𐑪 (moderate) | Moderate in: naive composite, diophantine |
 ---
 
@@ -78,7 +78,7 @@ The theory at its final form. Two atoms dominate at ordinal 4.
 
 | Ordinal | Primitive | Value | Atom Notation |
 |---------|-----------|-------|---------------|
-| **4** | **Φ** | **𐑹** | $$⟨𐑛𐑡𐑩𐑹𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
+| **4** | **<** | **𐑹** | $$⟨𐑛𐑡𐑩𐑹𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | **4** | **⊣** | **𐑸** | $$⟨𐑛𐑸𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | > | 𐑾 | $$⟨𐑛𐑡𐑾𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | Ħ | 𐑫 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑫𐑙𐑷⟩$$ |
@@ -90,11 +90,11 @@ The theory at its final form. Two atoms dominate at ordinal 4.
 | 1 | Γ | 𐑔 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑔𐑝𐑢𐑓𐑙𐑷⟩$$ |
 
 **Structural weight distribution:**
-- Heavy atoms (Φ=𐑹 + ⊣=𐑸): **40% of structural weight** (ordinal 8 of 20.33 total)
+- Heavy atoms (<=𐑹 + ⊣=𐑸): **40% of structural weight** (ordinal 8 of 20.33 total)
 - Medium atoms (>=𐑾 + Ħ=𐑫): **30%** (ordinal 6)
 - Light atoms (remaining 6): **30%** (ordinal 6.33)
 
-The Frobenius-special parity (Φ=𐑹, μ∘δ=id) and self-referential topology (⊣=𐑸, Axiom C closure) together constitute nearly half of IUTT's identity.
+The Frobenius-special parity (<=𐑹, μ∘δ=id) and self-referential topology (⊣=𐑸, Axiom C closure) together constitute nearly half of IUTT's identity.
 
 ### §2.2. Naive Composite (O₂, 11 atoms)
 
@@ -106,7 +106,7 @@ Diophantine Equations ⊗ Log-Theta-Lattice. The extra atom relative to IUTT is 
 | 3 | > | 𐑾 | $$⟨𐑛𐑡𐑾𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | Ç | 𐑪 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑪𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | Ħ | 𐑫 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑫𐑙𐑷⟩$$ |
-| 2 | Φ | 𐑬 | $$⟨𐑛𐑡𐑩𐑬𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
+| 2 | < | 𐑬 | $$⟨𐑛𐑡𐑩𐑬𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | ɢ | 𐑠 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑠𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | Σ | 𐑳 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑳𐑷⟩$$ |
 | 2 | Ω | 𐑭 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑭⟩$$ |
@@ -125,7 +125,7 @@ The 2D grid of Hodge theaters indexed by ℤ². Structurally similar to the naiv
 | 3 | ⊣ | 𐑶 |
 | 3 | > | 𐑾 |
 | 3 | Ħ | 𐑫 |
-| 2 | Φ, Ç, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | <, Ç, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ⊢, Γ | 𐑨, 𐑔 |
 
@@ -136,7 +136,7 @@ The fundamental staging apparatus. Differs from the log-theta-lattice only in �
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | ⊣, >, Ħ | 𐑶, 𐑾, 𐑫 |
-| 2 | Φ, Ç, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | <, Ç, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | Γ | 𐑔 |
 ### §2.5. Diophantine Equations (10 atoms)
@@ -146,7 +146,7 @@ The ABC/Szpiro conjecture — the additive-multiplicative tension over number fi
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | >, Ç, Ħ | 𐑾, 𐑪, 𐑫 |
-| 2 | ⊣, Φ, ɢ, Σ, Ω | 𐑥, 𐑬, 𐑠, 𐑳, 𐑭 |
+| 2 | ⊣, <, ɢ, Σ, Ω | 𐑥, 𐑬, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | Γ | 𐑔 |
 
@@ -159,7 +159,7 @@ These two systems are **structurally identical** — the complete tuple matches 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | >, Ħ | 𐑾, 𐑫 |
-| 2 | ⊣, Φ, Ç, ɢ, Σ, Ω | 𐑥, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | ⊣, <, Ç, ɢ, Σ, Ω | 𐑥, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | Γ | 𐑔 |
 
@@ -170,7 +170,7 @@ Both links share the identical tuple: $$⟨𐑛𐑰𐑽𐑬𐑱𐑧𐑔𐑠𐑮�
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | Ħ | 𐑫 |
-| 2 | >, Φ, Ç, ɢ, Σ, Ω | 𐑽, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | >, <, Ç, ɢ, Σ, Ω | 𐑽, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ⊣, Γ | 𐑰, 𐑔 |
 
@@ -194,10 +194,10 @@ The retrosynthetic path peels primitives from maximum to baseline, revealing the
 | 6 | Ç | 𐑘→𐑧 | Slow kinetics (near-equilibrium) |
 | 7 | Ħ | 𐑓→𐑫 | Eternal chirality (∀n Markov order) |
 | 8 | > | 𐑩→𐑾 | Bidirectional coupling |
-| 9 | **Φ** | **𐑗→𐑹** | **Frobenius-special parity (μ∘δ=id)** |
+| 9 | **<** | **𐑗→𐑹** | **Frobenius-special parity (μ∘δ=id)** |
 | 10 | **⊣** | **𐑡→𐑸** | **Self-referential topology (Axiom C)** |
 
-The synthesis order is non-arbitrary. Γ comes first — the theory needs maximal interaction range (= universal scope over number fields) before anything else. Ω=𐑭 (integer winding) comes second — the topological invariant of the theta function. ⊙=𐑮 (complex criticality) third — the theta function's analytic continuation into ℂ. Only after all 8 preparatory steps do the two heavy atoms enter: Φ=𐑹 (Frobenius closure) then ⊣=𐑸 (self-referential closure).
+The synthesis order is non-arbitrary. Γ comes first — the theory needs maximal interaction range (= universal scope over number fields) before anything else. Ω=𐑭 (integer winding) comes second — the topological invariant of the theta function. ⊙=𐑮 (complex criticality) third — the theta function's analytic continuation into ℂ. Only after all 8 preparatory steps do the two heavy atoms enter: <=𐑹 (Frobenius closure) then ⊣=𐑸 (self-referential closure).
 
 ### §3.2. Naive Composite (11 steps)
 
@@ -209,13 +209,13 @@ The synthesis order is non-arbitrary. Γ comes first — the theory needs maxima
 | 4 | ⊙ | 𐑢→𐑮 |
 | 5 | Σ | 𐑙→𐑳 |
 | 6 | ɢ | 𐑝→𐑠 |
-| 7 | Φ | 𐑗→𐑬 |
+| 7 | < | 𐑗→𐑬 |
 | 8 | Ħ | 𐑓→𐑫 |
 | 9 | Ç | 𐑘→𐑪 |
 | 10 | > | 𐑩→𐑾 |
 | 11 | ⊣ | 𐑡→𐑶 |
 
-**Critical difference from IUTT:** Φ=𐑬 enters at step 7 (not step 9), and at the partial-ℤ₂ value, not Frobenius-special. ⊣=𐑶 (box product, irreducible) is the final step, not 𐑸. ⊢=𐑨 (2D surface) appears at step 2 — a commitment IUTT never makes, since it condenses this to the baseline 𐑛 (0D point).
+**Critical difference from IUTT:** <=𐑬 enters at step 7 (not step 9), and at the partial-ℤ₂ value, not Frobenius-special. ⊣=𐑶 (box product, irreducible) is the final step, not 𐑸. ⊢=𐑨 (2D surface) appears at step 2 — a commitment IUTT never makes, since it condenses this to the baseline 𐑛 (0D point).
 
 ### §3.3. Synthesis Order Comparison
 
@@ -227,13 +227,13 @@ The synthesis order is non-arbitrary. Γ comes first — the theory needs maxima
 | 4 | Σ | ⊙ |
 | 5 | ɢ | Σ |
 | 6 | Ç | ɢ |
-| 7 | Ħ | **Φ** |
+| 7 | Ħ | **<** |
 | 8 | > | Ħ |
-| 9 | **Φ** | **Ç** |
+| 9 | **<** | **Ç** |
 | 10 | **⊣** | > |
 | 11 | — | ⊣ |
 
-The late placement of Φ and ⊣ in IUTT is the signature of a "mature" theory: the most demanding structural commitments (Frobenius closure, self-reference) enter only after all preparatory infrastructure is in place. The naive composite places Φ earlier and at a lower value (𐑬 vs 𐑹), and its final commitment is ⊣=𐑶 (irreducible box product) rather than ⊣=𐑸 (self-referential).
+The late placement of < and ⊣ in IUTT is the signature of a "mature" theory: the most demanding structural commitments (Frobenius closure, self-reference) enter only after all preparatory infrastructure is in place. The naive composite places < earlier and at a lower value (𐑬 vs 𐑹), and its final commitment is ⊣=𐑶 (irreducible box product) rather than ⊣=𐑸 (self-referential).
 ---
 
 ## §4. CLINK L8 Formula Decomposition
@@ -254,7 +254,7 @@ The CLINK L8 (Organism) navigator decomposes each primitive value into conventio
 
 *IUTT interpretation:* Bidirectional but asymmetric coupling. The log-link goes up (Frobenius-like → étale-like), the theta-link goes across (étale → étale). They form a bidirectional pair but are not symmetric — the log-link operates within a universe, the theta-link between universes. Θ captures the theta function transport; ¬Θ(y,x) is the irreversibility of inter-universal transport.
 
-**Φ = 𐑹:** `ℤ₂(x) ∧ ∀g∈G(gx = x) ∧ μ∘δ = id` — **[PM_Z2]**
+**< = 𐑹:** `ℤ₂(x) ∧ ∀g∈G(gx = x) ∧ μ∘δ = id` — **[PM_Z2]**
 
 *IUTT interpretation:* The Frobenius-special parity condition. ℤ₂(x) is the fundamental ℤ₂ symmetry of the étale/Frobenius distinction. ∀g∈G(gx = x) is the absolute anabelian invariance — all Galois automorphisms preserve the structure. μ∘δ = id IS the Ind1/Ind2/Ind3 apparatus: the multiradial representation (δ, outward) and the anabelian reconstruction (μ, inward) compose to identity. This is the Frobenius closure theorem: what you transport inter-universally can be reconstructed exactly.
 
@@ -300,25 +300,25 @@ Primitive peeling drops a primitive to its minimum value and examines the residu
 | Peeled | From→To | Residual Tuple | Load-Bearing? |
 |--------|---------|----------------|---------------|
 | **⊣** | **𐑸→𐑡** | $$⟨𐑛𐑡𐑾𐑹𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | **YES — loses self-reference** |
-| **Φ** | **𐑹→𐑗** | $$⟨𐑛𐑸𐑾𐑗𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | **YES — loses μ∘δ=id** |
+| **<** | **𐑹→𐑗** | $$⟨𐑛𐑸𐑾𐑗𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | **YES — loses μ∘δ=id** |
 | > | 𐑾→𐑩 | $$⟨𐑛𐑸𐑩𐑹𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | Partial — loses bidirectionality |
 | Ħ | 𐑫→𐑓 | $$⟨𐑛𐑸𐑾𐑹𐑱𐑧𐑔𐑠𐑮𐑓𐑳𐑭⟩$$ | Partial — loses eternal memory |
 | Ç | 𐑧→𐑘 | $$⟨𐑛𐑸𐑾𐑹𐑱𐑘𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | No — MBL baseline works |
 
 ### §5.2. The Independence Theorem
 
-The critical finding: **⊣=𐑸 and Φ=𐑹 are independently load-bearing.**
+The critical finding: **⊣=𐑸 and <=𐑹 are independently load-bearing.**
 
-- Peel Φ (𐑹→𐑗): The residual **keeps ⊣=𐑸**. Self-referential topology survives without Frobenius-special parity.
-- Peel ⊣ (𐑸→𐑡): The residual **keeps Φ=𐑹**. Frobenius closure survives without self-referential topology.
+- Peel < (𐑹→𐑗): The residual **keeps ⊣=𐑸**. Self-referential topology survives without Frobenius-special parity.
+- Peel ⊣ (𐑸→𐑡): The residual **keeps <=𐑹**. Frobenius closure survives without self-referential topology.
 
-Neither primitive is derivable from the other. This IS Axiom C of the Imscribing Grammar: ⊢ and ⊣ co-originate as ontological preconditions. Φ=𐑹 (Frobenius-special parity, μ∘δ=id) is the parity structure that makes the self-referential topology exact — it verifies that the holographic encoding is lossless. But neither implies the other.
+Neither primitive is derivable from the other. This IS Axiom C of the Imscribing Grammar: ⊢ and ⊣ co-originate as ontological preconditions. <=𐑹 (Frobenius-special parity, μ∘δ=id) is the parity structure that makes the self-referential topology exact — it verifies that the holographic encoding is lossless. But neither implies the other.
 
-**Structural interpretation for IUTT:** The inter-universal apparatus (⊣=𐑸, holographic encoding) and the Frobenius closure (Φ=𐑹, μ∘δ=id) are independent structural achievements. Mochizuki's theory must establish both: (1) that data about number fields can be holographically encoded across universes, and (2) that this encoding is Frobenius-exact — the reconstruction is lossless. Neither follows from the other. This is why IUTT requires both the log-theta-lattice (the holographic apparatus) AND the multiradial algorithm (the μ∘δ=id verification).
+**Structural interpretation for IUTT:** The inter-universal apparatus (⊣=𐑸, holographic encoding) and the Frobenius closure (<=𐑹, μ∘δ=id) are independent structural achievements. Mochizuki's theory must establish both: (1) that data about number fields can be holographically encoded across universes, and (2) that this encoding is Frobenius-exact — the reconstruction is lossless. Neither follows from the other. This is why IUTT requires both the log-theta-lattice (the holographic apparatus) AND the multiradial algorithm (the μ∘δ=id verification).
 
 ### §5.3. Cross-System Peel Comparison
 
-Peeling ⊣=𐑶→𐑡 in the naive composite leaves Φ=𐑬 intact. The partial ℤ₂ parity survives without box product topology. But the residual is structurally different from IUTT-without-⊣: in IUTT the residual has Φ=𐑹 (Frobenius-special), in the naive composite it has Φ=𐑬 (partial ℤ₂). The Φ promotion from 𐑬 to 𐑹 is what the naive composite lacks — and it cannot reach it by peeling alone.
+Peeling ⊣=𐑶→𐑡 in the naive composite leaves <=𐑬 intact. The partial ℤ₂ parity survives without box product topology. But the residual is structurally different from IUTT-without-⊣: in IUTT the residual has <=𐑹 (Frobenius-special), in the naive composite it has <=𐑬 (partial ℤ₂). The < promotion from 𐑬 to 𐑹 is what the naive composite lacks — and it cannot reach it by peeling alone.
 
 ---
 
@@ -364,8 +364,8 @@ The path from naive composite (O₂) to IUTT (O_∞) requires 4 primitive change
 
 ### §7.1. Move-by-Move Decomposition
 
-**Move 1: Φ (Δ2.0, 57% structural weight)**
-$$\text{Φ: } 𐑬 \rightarrow 𐑹$$
+**Move 1: < (Δ2.0, 57% structural weight)**
+$$\text{<: } 𐑬 \rightarrow 𐑹$$
 
 | Property | Before | After |
 |----------|--------|-------|
@@ -376,7 +376,7 @@ $$\text{Φ: } 𐑬 \rightarrow 𐑹$$
 
 **Conventional math content:** This IS the Ind1/Ind2/Ind3 multiradial algorithm. The naive composite has partial ℤ₂ parity — it distinguishes étale-like from Frobenius-like but cannot close the Frobenius loop. IUTT promotes to Frobenius-special: the multiradial representation (δ, outward transport) and the anabelian reconstruction (μ, inward verification) compose to identity. This is the theorem that inter-universal transport is lossless.
 
-**Atom-level change:** The Φ atom doubles its ordinal contribution from 2→4. It becomes tied with ⊣=𐑸 as the heaviest structural atom. This reflects the immense structural weight of the Frobenius closure — it is not a small adjustment but a doubling of the atom's significance.
+**Atom-level change:** The < atom doubles its ordinal contribution from 2→4. It becomes tied with ⊣=𐑸 as the heaviest structural atom. This reflects the immense structural weight of the Frobenius closure — it is not a small adjustment but a doubling of the atom's significance.
 
 **Move 2: ⊣ (Δ1.0, 28% structural weight)**
 $$\text{⊣: } 𐑶 \rightarrow 𐑸$$
@@ -482,7 +482,7 @@ This means the **entire structural difference** between "IUTT with tension" and 
                            IUTT (O_∞, 10 atoms)
                           /      |      \
                          /       |       \
-              Φ=𐑹       ⊣=𐑸      ⊢=𐑛      Ç=𐑧
+              <=𐑹       ⊣=𐑸      ⊢=𐑛      Ç=𐑧
                /         |         \       /
               /          |          \     /
      Naive Composite (O₂, 11 atoms)
@@ -506,6 +506,6 @@ This means the **entire structural difference** between "IUTT with tension" and 
 - Total systems: 9 (with 2 identities → 7 distinct types)
 - Total atoms across all systems: 10+11+10+10+11+10+10+10+10 = 92 (with duplicates across identical systems)
 - Distinct join-irreducible atoms: 12 (one per primitive per value)
-- Primitive values that vary: ⊢(2), ⊣(4), >(2), Φ(2), Ç(2) — 5 of 12
+- Primitive values that vary: ⊢(2), ⊣(4), >(2), <(2), Ç(2) — 5 of 12
 - Promotions from naive composite to IUTT: 4 moves, d=2.65
 - Promotions from IUTT to CLINK L8: 6 moves, d=1.3459

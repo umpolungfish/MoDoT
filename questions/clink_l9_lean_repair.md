@@ -13,7 +13,7 @@ describing the wrong object.
 | ⊢ | `dim` | `𐑛`=`dead`  `𐑨`=`ash`  `𐑼`=`array`  `𐑦`=`if'` |
 | ⊣ | `top` | `𐑡`=`judge`  `𐑰`=`eat`  `𐑥`=`mime`  `𐑶`=`oil`  `𐑸`=`are` |
 | > | `rel` | `𐑩`=`ado`  `𐑑`=`tot`  `𐑽`=`ear`  `𐑾`=`ian` |
-| Φ | `pol` | `𐑗`=`church`  `𐑿`=`yew`  `𐑬`=`out`  `𐑯`=`nun`  `𐑹`=`or'` |
+| < | `pol` | `𐑗`=`church`  `𐑿`=`yew`  `𐑬`=`out`  `𐑯`=`nun`  `𐑹`=`or'` |
 | ƒ | `fid` | `𐑱`=`age`  `𐑞`=`they`  `𐑐`=`peep` |
 | Ç | `kin` | `𐑘`=`yea`  `𐑤`=`loll`  `𐑧`=`egg`  `𐑪`=`on`  `𐑺`=`air` |
 | Γ | `gran` | `𐑚`=`bib`  `𐑔`=`thigh`  `𐑲`=`ice` |

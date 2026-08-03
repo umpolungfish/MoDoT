@@ -62,14 +62,14 @@ C_m = (1/d)(1 − 1/(d+1)) = 1/(d+1). ∎
 
 ## THE NUMERICAL ROUTE  —  REFUTED
 
-    Φ(ψ) = Σ_(p≠0) ( |⟨ψ, D_p ψ⟩|² − 1/(d+1) )²      over d²−1 = 4,194,303 overlaps
+    <(ψ) = Σ_(p≠0) ( |⟨ψ, D_p ψ⟩|² − 1/(d+1) )²      over d²−1 = 4,194,303 overlaps
 
 **Proposition (spurious minimum).** The best Zauner-symmetric seed is a genuine local
 minimum:
 
     residual max_p | |⟨ψ,D_pψ⟩|² − 1/(d+1) |   =  3.87 × 10⁻³
     gradient norm                              =  1.96 × 10⁻⁸
-    every line-search direction increases Φ
+    every line-search direction increases <
 
     integer-relation recognition needs          ≈ 12 significant digits
     a fiducial at residual 3.9×10⁻³ pins        2–3 digits

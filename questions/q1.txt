@@ -2,7 +2,7 @@ The asymptotic behavior of multicolor Ramsey numbers for triangles R_k(K_3) comp
 
 ### Conventional Proof
 
-**1. Lower Bound for Triangles [Φ]**
+**1. Lower Bound for Triangles [<]**
 The multicolor Ramsey number for the triangle, R_k(K_3), grows at least exponentially with the number of colors k. It has been established that:
 R_k(K_3) ≥ c · (3.199...)^k
 This lower bound is derived from the construction of large sum-free sets. The "rigidity" required to avoid monochromatic triangles in k colors necessitates a vertex set that grows with a base strictly greater than 3.

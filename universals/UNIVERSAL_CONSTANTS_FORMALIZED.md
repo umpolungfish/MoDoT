@@ -1,6 +1,6 @@
 # The Universal Constants, Extracted From the Kernel
 
-The constants of this universe, as derived. Each entry names the literal constant, states the kernel quantity it is, and gives the extraction — the reading that carries the kernel value onto the cosmos. Dated 2026-07-18 (updated 2026-07-21: DarkEnergy.lean, CatalogImmutability.lean, promote_l9_full bridge, Φ-wall unification; revised 2026-07-21 second pass: α geometrically derived §1.21, Weinberg angle §1.23, α_s §1.24, universal gear ratio 4 §1.25) (supersedes the 2026-07-17 draft, which listed the kernel quantities but never made the extraction explicit).
+The constants of this universe, as derived. Each entry names the literal constant, states the kernel quantity it is, and gives the extraction — the reading that carries the kernel value onto the cosmos. Dated 2026-07-18 (updated 2026-07-21: DarkEnergy.lean, CatalogImmutability.lean, promote_l9_full bridge, <-wall unification; revised 2026-07-21 second pass: α geometrically derived §1.21, Weinberg angle §1.23, α_s §1.24, universal gear ratio 4 §1.25) (supersedes the 2026-07-17 draft, which listed the kernel quantities but never made the extraction explicit).
 
 ## 0. The extraction principle
 
@@ -9,7 +9,7 @@ The operational kernel and the cosmic kernel share one crystal: the 12 axis card
 - **H (Chirality) = the ROTAT period class.** ROTAT is the Weyl-Heisenberg shift X — in the physics register, the generator of translation, whose conserved current is momentum (Noether). The unmoved mover axis.
 - **S (Stoichiometry) = the δ/μ (FSPLIT/FFUSE) balance.** In the physics register: pair production / annihilation. Matched δ/μ counts are charge balance.
 
-These two exact witnesses are the license for every extraction below. The T/K/Φ/Ω seam that was the open frontier of the same identification is now closed (§1.13): each of the four axes holds a decidable witness, certified by exhausting the word space (every word through length 5, every rotation, every mirror, two budgets, no counterexample). Six axes exact; the remaining frontier is the dimensionful magnitudes (§3).
+These two exact witnesses are the license for every extraction below. The T/K/</Ω seam that was the open frontier of the same identification is now closed (§1.13): each of the four axes holds a decidable witness, certified by exhausting the word space (every word through length 5, every rotation, every mirror, two budgets, no counterexample). Six axes exact; the remaining frontier is the dimensionful magnitudes (§3).
 
 ## 1. The literal constants, with their extractions
 
@@ -76,8 +76,8 @@ These two exact witnesses are the license for every extraction below. The T/K/Φ
 - **In the kernel:** established by *running* the dyad, not by inspecting coordinates. Imscription is the closure `Bulk → (Boundary-projection, Bulk-remainder) → Bulk` with μ∘δ = id and ΔS ≈ 0 — EVALT the exact-encoding arm, EVALF the lossy arm that is declared but never fires because the split is complementary, not contradictory. This is the shared content of kernel Axioms A, C, D (each closes a bulk/boundary dyad; they differ only in which coordinates name the split). The catalog says the same from the other side: the isomorphs of `imscribing` are boundary objects that carry their interior — septum, exon, the Jacobian-conjecture invertibility boundaries, isotype/neotype — a partition through which the interior is expressed.
 - **Extraction:** the correspondence is imscriptive, not "holographic": the missing F-lane is the proof it is lossless, not a reason to doubt it. To imscribe is to write the bulk on a boundary with no loss; the physical law of that writing is the holographic principle. See [[feedback_holographic_vs_imscriptive]], [[project_axioms_are_closure_conditions]].
 - **The catalog witness — a declension, not a collapse.** The four grammatical forms of the word do NOT co-type to one thing (that would be the name-resemblance artifact caught in the axioms session); each resolves to its own structural fingerprint, and the differences are correct. The noun is the fixed point and the others radiate from it by single-coordinate shifts:
-  - **imscription** (noun — the result/object) ≡ `residual_notation_floor` at **100%**, differing on nothing: the *containment floor*, "designed to floor the 𐑬-mode," derived from a Φ-breach residual. Imscription is not merely a boundary — it is the greatest-lower-bound boundary that *contains*, and it co-types with the residual left when the dimensional boundary is breached (rhyming with the never-firing F-lane above: what remains after the breach is the boundary that holds). ⊙=⊙ preserved.
-  - **imscribe** (verb — the act) → septum / osmophile, 81%, differing R, Φ: the making of the partition.
+  - **imscription** (noun — the result/object) ≡ `residual_notation_floor` at **100%**, differing on nothing: the *containment floor*, "designed to floor the 𐑬-mode," derived from a <-breach residual. Imscription is not merely a boundary — it is the greatest-lower-bound boundary that *contains*, and it co-types with the residual left when the dimensional boundary is breached (rhyming with the never-firing F-lane above: what remains after the breach is the boundary that holds). ⊙=⊙ preserved.
+  - **imscribe** (verb — the act) → septum / osmophile, 81%, differing R, <: the making of the partition.
   - **imscribing** (gerund — the ongoing act) → the Jacobian/Druzkowski invertibility boundaries, exon, and `hubble_constant`, ~90–92%, differing G: the boundary *being drawn*, in progress — a rate. That `hubble_constant` lands here and not on the noun is the signal that H₀ is the ongoing-act form (see §3).
   - **imscriptive** (adjective — the property/mode) → `reasoning_mandate` 92.5%, and `uncoverer_of_the_imscribing_grammar` 90.2% (differing P, S): the property of being of the imscriptive kind. The uncoverer of the Grammar co-types with the *property*, not the finished floor — the same mode carrying the two coordinates (P, S: Stoichiometry, the δ/μ balance) that keep it open, an imscriptive mode with a live valence rather than a sealed μ∘δ=id object.
 - **Status:** CONFIRMED (dyad bootstrap run in the axioms session; A/C/D close at T on the affirmative lane, B at B dialetheia-complete). The 100% noun co-type is navigator-scored; the clean confirmation is to `imasm eval16` imscription and residual_notation_floor and check they land on the same register — not yet run.
@@ -88,14 +88,14 @@ These two exact witnesses are the license for every extraction below. The T/K/Φ
 - **Extraction:** the two figures are two grammars — the classic dyad (FSPLIT/FFUSE, 1↔2) on the torus, the tri-dyad (FSPLIT3/FFUSE3, 1↔3) on the sphere — meeting at exactly one glyph, ⊙, the identity element of both programs. IMSCRIB is that identity, and it is the Frobenius closure of the fork: **IMSCRIB = FFUSE3 ∘ FSPLIT3 = μ₃ ∘ δ₃**, the tri-fork re-fused, whose fixed point is the pinch. O_inf_dag is not comparable to O_∞ on the tier axis (it is the chiral R2 twin, not a rung above); the geometry draws that as containment-with-single-tangency rather than as a higher shell. See [[feedback_o_class_tuple_derived]], [[project_vessel_contents_origin]].
 - **Status:** CONFIRMED (containment and volumes computed exactly this session; fiber cardinalities 160 (O_∞) vs 8 (O_inf_dag), a 20:1 degeneracy, no bijection — genuinely distinct classes, not an isomorphism).
 
-### 1.13 The seam witnesses — T/K/Φ/Ω, each exact by exhaustion
+### 1.13 The seam witnesses — T/K/</Ω, each exact by exhaustion
 - **In this universe:** four laws that are usually stated as separate principles: topology is gauge-invariant (no coordinate choice changes connectivity); a rate constant is stationary (measuring it later gives the same value, the time-translation symmetry whose Noether shadow is energy); parity is an involution (P applied twice restores every observable); and a topologically protected charge is integer, conserved, and cannot be un-wound (the winding ledger of §1.2, now with its proof).
 - **In the kernel:** one sweep, exhausting every opcode word through length 5 with every rotation, every mirror, and two run budgets, finds no counterexample to any of the four:
   - **T (Topology) = the ROTAT-invariant fork census.** The census (δ-count, μ-count, atomic re-entry) is unchanged under every rotation of every word. The phase-bearing quantities (tri-ancestral verdict, final register, topology *class*) demonstrably DO move under ROTAT (the discerning ob3ect's own audit shows it); the census does not. Topology is exactly the sector of the word that does not move when the ring is entered elsewhere.
   - **K (Kinetic) = the stationary value-period.** The measured period of the stack-top value trace read after 16 wraps equals the read after 32 wraps, for every word. The rate class is a property of the word, not of when the observer looks.
-  - **Φ (Polarity) = the Ħ-mirror involution.** mirror∘mirror restores all six evidence witnesses and the tier, for every word; at the kernel the door itself (arev_hop) is parity over untouched accumulators, so hop∘hop = id holds raw-field exact. The or'/flipped fork of the R1/R2 gate is a true parity, and the mirror carries O_inf_dag exactly onto O_∞ (the lateral partner at the same shell, verified live in QEMU and in the native tool).
+  - **< (Polarity) = the Ħ-mirror involution.** mirror∘mirror restores all six evidence witnesses and the tier, for every word; at the kernel the door itself (arev_hop) is parity over untouched accumulators, so hop∘hop = id holds raw-field exact. The or'/flipped fork of the R1/R2 gate is a true parity, and the mirror carries O_inf_dag exactly onto O_∞ (the lateral partner at the same shell, verified live in QEMU and in the native tool).
   - **Ω (Protection) = the winding ledger.** Deterministic (two identical runs agree), monotone under budget extension, integer-quantized (never exceeds the wraps granted), and never reset by anything. Words that withhold windings do so through fork-resume or root TANCH: withheld, not lost; no ledger ever decreased. This is the exact-witness proof the charge extraction of §1.2 was owed.
-- **Extraction:** the four principles are one discipline read on four axes: what survives re-entry (T), what survives re-reading (K), what survives reflection (Φ), and what survives everything (Ω). The exhaustive sweep is the certificate, at the same standard as `by decide`: not sampled, exhausted.
+- **Extraction:** the four principles are one discipline read on four axes: what survives re-entry (T), what survives re-reading (K), what survives reflection (<), and what survives everything (Ω). The exhaustive sweep is the certificate, at the same standard as `by decide`: not sampled, exhausted.
 - **Status:** CONFIRMED (native sweep `imasm arev seam 5`, no counterexample over the full space; pinned in the test lane so regression is impossible silently; the kernel-side involution verified in QEMU).
 
 ### 1.14 The recombination sightline: syzygy, the impact parameter, and the golden tangent (added 2026-07-20)
@@ -149,13 +149,13 @@ The dark energy entry and its type are now fully formalized in Lean 4: `Imscribi
 
 - **The Belnap B-bifurcation:** `dark_energy_bifurcation_distance_nonzero` proves the bare and self-inclosed entries are separated by a nonzero distance. The Belnap bridge (`B_is_the_only_bifurcation_point` from BelnapSplitFuse.lean) explains why: only entries at the dialetheic B-point carry productive δ-transformations. Dark energy is at the B-point.
 
-- **The 5-gap promotion ladder to CLINK L8:** `total_promotion_gap_sum` proves the gap sum = 2.75 (norm_num). The five promoted primitives: >:𐑽→𐑾 (0.333), Φ:𐑯→𐑹 (0.250), Γ:𐑲→𐑔 (0.500), Σ:𐑙→𐑳 (1.000), Ω:𐑴→𐑟 (0.667). The transcendence barrier is a single primitive: Ω must cross from ℤ₂ to non-Abelian braiding. The de Sitter horizon's entanglement structure must carry braid group representations — that is the remaining barrier.
+- **The 5-gap promotion ladder to CLINK L8:** `total_promotion_gap_sum` proves the gap sum = 2.75 (norm_num). The five promoted primitives: >:𐑽→𐑾 (0.333), <:𐑯→𐑹 (0.250), Γ:𐑲→𐑔 (0.500), Σ:𐑙→𐑳 (1.000), Ω:𐑴→𐑟 (0.667). The transcendence barrier is a single primitive: Ω must cross from ℤ₂ to non-Abelian braiding. The de Sitter horizon's entanglement structure must carry braid group representations — that is the remaining barrier.
 
 - **The vacuum catastrophe as tier crossing:** `vacuum_catastrophe_is_tier_crossing` — the 10^120 mismatch is the distance between O₀ (QFT vacuum) and O₂ (dark energy), not a fine-tuning problem.
 
 - **Hubble tension as Belnap B-point:** `hubble_tension_is_belnap_bifurcation` — both H₀ values are simultaneously true at the dialetheic B-state, invalid under ΛCDM but structurally valid under Belnap FOUR.
 
-- **Coincidence problem resolved:** `coincidence_is_tier_boundary` and `full_symmetry_blocks_self_modeling` — Φ=𐑯 (full symmetry) is the bottleneck that blocks ⊙ self-modeling. The coincidence is the B-state signature, not a problem to solve.
+- **Coincidence problem resolved:** `coincidence_is_tier_boundary` and `full_symmetry_blocks_self_modeling` — <=𐑯 (full symmetry) is the bottleneck that blocks ⊙ self-modeling. The coincidence is the B-state signature, not a problem to solve.
 
 - **ΛCDM bridge:** `dark_energy_vs_cosmology_distinct` proves the dark energy entry and the whole ΛCDM cosmology entry are structurally distinct — dark energy is not a substance inside ΛCDM, it is a verdict/flow outside it.
 
@@ -176,7 +176,7 @@ The structural immutability of all catalog entries is now a Lean 4 theorem: `Ims
 - **Frobenius level:** μ∘δ = id guarantees source recovery — the original entry is structurally conserved through every operation.
 - **Belnap bifurcation:** `B_is_the_only_bifurcation_point` from BelnapSplitFuse.lean proves only the B-state (dialetheia) carries productive δ-transformations. Non-B splits are diagonal — no transformation. The catalog analog: verbs produce new entries; the source is always recoverable.
 
-Two structurally remote witnesses: `compton_split_radius` and `dark_energy` (live-measured distance 3.2863, differing in ⊢, Φ, Ħ, Σ). Neither can be mutated into the other. The dark energy self-inclosure protocol — the most ambitious verb attempted — produces a sibling, not a mutation. The Belnap bridge explains *why* mutations are structurally impossible.
+Two structurally remote witnesses: `compton_split_radius` and `dark_energy` (live-measured distance 3.2863, differing in ⊢, <, Ħ, Σ). Neither can be mutated into the other. The dark energy self-inclosure protocol — the most ambitious verb attempted — produces a sibling, not a mutation. The Belnap bridge explains *why* mutations are structurally impossible.
 
 **Status:** FORMALIZED. All 8 theorems are sorry-free. This is the structural foundation for every other result in this document: the constants read from the kernel are not mutable approximations — they are imscriptive invariants.
 
@@ -185,18 +185,18 @@ Two structurally remote witnesses: `compton_split_radius` and `dark_energy` (liv
 **Companion:** `/home/mrnob0dy666/imsgct/ig-docs/catalog_immutability_proof/PROOF.md`
 
 
-### 1.20 The dimensionful constants sit at one Φ wall — tool-verified O₀ readouts (added 2026-07-21)
+### 1.20 The dimensionful constants sit at one < wall — tool-verified O₀ readouts (added 2026-07-21)
 
-**Prior to the α derivation (§1.21), this section marked the frontier.** The bare dimensionful magnitude entries — `electron_mass`, `planck_constant`, `speed_of_light_constant`, `compton_wavelength_magnitude` — all sit at tier O₀ with Φ=𐑹 (Frobenius-special, PM_Z2_sym). Their type was confirmed by T (tool-verified), but the numeric values were stored, not emitted.
+**Prior to the α derivation (§1.21), this section marked the frontier.** The bare dimensionful magnitude entries — `electron_mass`, `planck_constant`, `speed_of_light_constant`, `compton_wavelength_magnitude` — all sit at tier O₀ with <=𐑹 (Frobenius-special, PM_Z2_sym). Their type was confirmed by T (tool-verified), but the numeric values were stored, not emitted.
 
 **The near side of the wall, in distances.** `electron_mass` and `speed_of_light_constant` are the two entries nearest to the L9 reference:
 - `electron_mass` → L9: d=1.6698, 3 primitives match, 8 promotions needed
 - `speed_of_light_constant` → L9: d=1.6698, 3 primitives match, 8 promotions needed
 - `planck_constant` → L9: d=1.8715, 2 primitives match, 9 promotions needed (farthest)
 
-The L9 reference Σ is 𐑳 (moat-bridge), which mass and speed already carry and planck lacks. The Φ:𐑹→𐑬 promotion was identified as the concrete path, not yet run against a dimensionful entry.
+The L9 reference Σ is 𐑳 (moat-bridge), which mass and speed already carry and planck lacks. The <:𐑹→𐑬 promotion was identified as the concrete path, not yet run against a dimensionful entry.
 
-**With the α derivation (§1.21), this wall has been partially breached.** The fine-structure constant is now derived directly from kernel geometry — a dimensionless constant has been emitted. The dimensionful magnitudes (λ_C, m_e, h, c, Λ, H₀) remain at the Φ-wall frontier, but the precedent is set: the kernel produces dimensionless numbers; the dimensionful numbers await the corresponding emission mechanism.
+**With the α derivation (§1.21), this wall has been partially breached.** The fine-structure constant is now derived directly from kernel geometry — a dimensionless constant has been emitted. The dimensionful magnitudes (λ_C, m_e, h, c, Λ, H₀) remain at the <-wall frontier, but the precedent is set: the kernel produces dimensionless numbers; the dimensionful numbers await the corresponding emission mechanism.
 
 ### 1.21 The fine-structure constant — derived from kernel geometry (revised 2026-07-21)
 
@@ -206,7 +206,7 @@ The L9 reference Σ is 𐑳 (moat-bridge), which mass and speed already carry an
 
 with three independent kernel modules:
 
-- **d = 12** — the SIC-POVM dimension. d² − 7 = 137 gives the integer core. The 7 is the kernel's internal lattice offset: 12 primitive axes minus the 5 non-Abelian degrees (Ω, Φ, K, T, D) that do not commute on the horn torus. The 7 is not fitted; it is the count of commuting primitive axes in the kernel crystal.
+- **d = 12** — the SIC-POVM dimension. d² − 7 = 137 gives the integer core. The 7 is the kernel's internal lattice offset: 12 primitive axes minus the 5 non-Abelian degrees (Ω, <, K, T, D) that do not commute on the horn torus. The 7 is not fitted; it is the count of commuting primitive axes in the kernel crystal.
 
 - **arctan(1/4)** — the Belnap B4 tri-fork resultant tilt. The evaluator triangle (EVALT/EVALF/EVALI) sits at 120° increments on the horn torus tangency plane x = LR. The popcount weighting T:F:I = 1:1:2 (forced because the "both" state touches two Belnap bits) yields an axial component of 4 and a transverse component of 1, giving tan(tilt) = 1/4 exactly. The tilt angle is arctan(1/4) = 0.244978663... rad. This is not fitted; it is forced by the Belnap bit-popcount structure (§1.15).
 
@@ -233,7 +233,7 @@ This is a derivation, not a restatement. None of the three input quantities — 
 
 ### 1.22 The self-modeling crossing is DOWN, not up: descend + slow kinetics (added 2026-07-21, built and run-verified)
 
-The whole frontier assumed the crossing was UP the tower (ascend, the promotion Φ/⊙ toward the complex-axis fixed point). Building the missing inverse verb and running it shows the opposite, and this is the strongest result of the session because it is fully tool-verified.
+The whole frontier assumed the crossing was UP the tower (ascend, the promotion </⊙ toward the complex-axis fixed point). Building the missing inverse verb and running it shows the opposite, and this is the strongest result of the session because it is fully tool-verified.
 
 `descend` did not exist in the engine; it was built this session as the μ-inverse of `ascend` (ascend = δ: excite ⊙ to the exceptional point, IFIX-continue to the complex-axis fixed point 𐑮, add a winding; descend = μ: relax ⊙ to the real-axis Hermitian ground fixed point ⊙, release a winding). Run on the Compton magnitude: `--descend compton_wavelength_magnitude` gives ⟨𐑦𐑸𐑾𐑹𐑐𐑺𐑔𐑵⊙𐑫𐑳𐑭⟩ at tier **O_∞** (6→7), with ⊙ and Ω now matching the L9 reference. `consciousness_score` on the descended form: **Gate 1 (⊙ criticality) OPEN** (the bare magnitude had it CLOSED). So the self-modeling PHI_C fixed point is reached by relaxing DOWN to the real-axis Hermitian criticality, not by ascending.
 

@@ -363,7 +363,7 @@ We enter Cycle 2. The established truths (Problems 1, 89, 146) are locked in the
 - **Status:** scaffold instantiated. The frontier (Problem #28) is now subjected to the full IMSCRIB decomposition.
 
 ## Structural lemma roles (domain-invariant templates)
-- Encoding/Duality [Φ]: Bijective encoding of A into its generating function F(z) = Σ z^a.
+- Encoding/Duality [<]: Bijective encoding of A into its generating function F(z) = Σ z^a.
 - Inverse structure [⊣]: Balog-Szemerédi-Gowers (BSG) extraction of structured subsets (GAPs) from high local energy.
 - Bidirectional [>]: Forward convolution (A+A) and inverse Fourier analysis exhaust the representation space.
 - Boundedness [⊙]: Confinement of r_A(n) ≤ C forces A(x) = O(x^1/2), preventing density escape.

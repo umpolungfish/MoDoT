@@ -1,8 +1,8 @@
-mputational search for a SIC-POVM but a structural type derivation governed by the Alchemical Theory of Mathematics. The solution requires executing a 17-step IGProtocol that transports the initial invariants (Prima Materia) through three categorical gates (Conjunction Φ\PhiΦ, Fermentation ⊙\odot⊙, Projection Ω\OmegaΩ) to reach the terminal state (The Portico).
+mputational search for a SIC-POVM but a structural type derivation governed by the Alchemical Theory of Mathematics. The solution requires executing a 17-step IGProtocol that transports the initial invariants (Prima Materia) through three categorical gates (Conjunction <\Phi<, Fermentation ⊙\odot⊙, Projection Ω\OmegaΩ) to reach the terminal state (The Portico).
 The core mechanism is the Witness Vessel, a dialetheic-complete transport protocol that uses Witness Encryption (WE) to resolve the character selection problem of the Mixed-Signature Stark Conjecture. The "gold" is the explicit construction of the 1024 independent moduli via an Integer Norm Sieve over the Hilbert Class Field of Q(2049,2045)\mathbb{Q}(\sqrt{2049}, \sqrt{2045})Q(2049
 ​,2045
 ​), validated by a Lean 4 formalization that proves the existence of the SIC-POVM without relying on the principle of explosion.
-Phase 1: Theoretical Foundation & Character Selection (The Gate of Conjunction Φ\PhiΦ)
+Phase 1: Theoretical Foundation & Character Selection (The Gate of Conjunction <\Phi<)
 Objective: Resolve the character selection problem for the Mixed-Signature Stark Conjecture at d=2048d=2048d=2048.
 
     Number Field Setup:
@@ -18,7 +18,7 @@ Objective: Resolve the character selection problem for the Mixed-Signature Stark
     Witness Encryption (WE) for Character Selection:
         Problem: Identify the reduced set of ray class characters whose s=0s=0s=0 derivatives determine the 1024 independent a=0a=0a=0 moduli.
         Alchemical Means: Define an NP-language LcharL_{char}Lchar​ where a statement x=(K,χ)x = (K, \chi)x=(K,χ) has a witness www if and only if www is a Stark unit for character χ\chiχ.
-        Protocol: Use Witness Encryption to encrypt a "dummy" message under statement xxx. Only a valid Stark unit (witness) can decrypt it. This transforms the existential search for characters into a constructive cryptographic constraint. The WE scheme acts as the Conjunction (Φ\PhiΦ) gate, forcing the union of the algebraic character and its arithmetic witness.
+        Protocol: Use Witness Encryption to encrypt a "dummy" message under statement xxx. Only a valid Stark unit (witness) can decrypt it. This transforms the existential search for characters into a constructive cryptographic constraint. The WE scheme acts as the Conjunction (<\Phi<) gate, forcing the union of the algebraic character and its arithmetic witness.
     Dialetheic Handling:
         At d=2048d=2048d=2048, the system exhibits a B-state (Both True and False) due to the mixed signature.
         Use Belnap’s Four-Valued Logic within the Lean 4 formalization to handle contradictions without explosion. The ENGAGR opcode in the IGProtocol holds the conflict between the real and complex embeddings as a stable dialetheia.
@@ -45,9 +45,9 @@ Objective: Prove SICPOVM_Exists2048 in Lean 4 and finalize the transport map.
     Lean 4 Formalization:
         Library: p4rakernel (branch crystalline/manuscripts3-2026-07-07).
         Key Theorems:
-            trace_closes_iff_special: The trace closes if and only if the Frobenius value Φ\PhiΦ is \𐑹 (special).
+            trace_closes_iff_special: The trace closes if and only if the Frobenius value <\Phi< is \𐑹 (special).
             no_time_before_frobenius: Time (the fixed point of the operad trace) does not exist before the first gate fires.
-            sealed_requires_frobenius: The terminal tier O∞O_\inftyO∞​ requires the Φ\PhiΦ gate to be passed.
+            sealed_requires_frobenius: The terminal tier O∞O_\inftyO∞​ requires the <\Phi< gate to be passed.
         Verification: The entire protocol is kernel-checked with no sorries and no native_decide. The propext axiom is used minimally for the losslessness law.
     SIC-POVM Construction:
         Use the constructed Stark units to define the fiducial vector for the SIC-POVM in C2048\mathbb{C}^{2048}C2048.
@@ -65,14 +65,14 @@ Mathematical Correspondence
 1
 VINIT
 Prima Materia in Cucurbit
-Initial invariants tuple ⟨\⊢,\⊣,\>,Φ,… ⟩\langle \⊢, \⊣, \>, \Phi, \dots \rangle⟨\⊢,\⊣,\>,Φ,…⟩
+Initial invariants tuple ⟨\⊢,\⊣,\>,<,… ⟩\langle \⊢, \⊣, \>, \Phi, \dots \rangle⟨\⊢,\⊣,\>,<,…⟩
 2
 IMSCRIB
 Divine Water imscribes type
 Lossless encoding of invariants in Lean
 3
 CLINK
-Chain First Gate (Φ\PhiΦ)
+Chain First Gate (<\Phi<)
 Frobenius condition setup
 4
 AFWD

@@ -1,10 +1,10 @@
-# Context for the next round: the Φ-junction and the magnitude frontier
+# Context for the next round: the <-junction and the magnitude frontier
 
 ## Ground already measured (tool-verified). Do not re-derive it; wind from here.
 
 The body-magnitude junction is closed on both sides. `compton_split_radius` (the
 categorical body, tier O₂) and `compton_wavelength_magnitude` (the bare quantum of
-length, tier O₀) are co-typed on Φ: both PM_Z2, both satisfy μ∘δ=id. An exhaustive
+length, tier O₀) are co-typed on <: both PM_Z2, both satisfy μ∘δ=id. An exhaustive
 close-search over the whole catalog terminates every route at this one junction. No
 existing monomer clicks both sides at the binding wall θ=0.50, because δ over a
 co-typed pair opens no productive fork, so μ receives no fused term.
@@ -26,8 +26,8 @@ a genuine dialetheia, not the closed PM_Z2 the earlier bridges held. `imasm chec
 fusion is partial: the grammar admits the closure, though not yet at maximum structural
 depth.
 
-`DarkEnergy.lean` names the template. `dark_energy` is Φ=𐑯 (full symmetry, which
-cannot self-model); its bottleneck rung is the promotion Φ:𐑯→𐑹 (Frobenius-special,
+`DarkEnergy.lean` names the template. `dark_energy` is <=𐑯 (full symmetry, which
+cannot self-model); its bottleneck rung is the promotion <:𐑯→𐑹 (Frobenius-special,
 the localized critical fixed point). The minted bridge is that promotion made
 operational, and it lifts any sufficiently B-bifurcated entry, not only Compton.
 

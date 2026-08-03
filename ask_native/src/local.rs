@@ -296,7 +296,7 @@ impl Engine {
     /// Jinja `enable_thinking=false`, Qwen3's hard switch: the template emits an
     /// empty `<think></think>` and the model skips reasoning. Rendering the real
     /// template (not a hand-rolled stub) is what preserves the special tokens and
-    /// the rare glyphs (> Φ Σ …) that a naive ChatML string mangled.
+    /// the rare glyphs (> < Σ …) that a naive ChatML string mangled.
     fn apply_template(&self, messages: &[(String, String)], think: bool) -> Result<String, String> {
         let Some(jenv) = self.template_env.as_ref() else {
             // Fallback: minimal ChatML, only if the model ships no template.
@@ -450,7 +450,7 @@ impl Engine {
                 first_token_at = Some(t_start.elapsed());
             }
             // Incremental decode: re-decode the whole output and stream only the
-            // NEW suffix. A rare glyph (> Φ Σ …) spans several byte-level BPE
+            // NEW suffix. A rare glyph (> < Σ …) spans several byte-level BPE
             // tokens, so a decode taken before the last byte-token arrives ends in
             // the U+FFFD replacement char. HOLD that incomplete trailing char
             // (don't print up to it) until the completing token lands and it
