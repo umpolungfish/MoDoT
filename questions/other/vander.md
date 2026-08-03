@@ -88,7 +88,7 @@ polymerization (imscriptive):  [van_der_waerden_number · density_limit · arith
   degree of polymerization: 3 unit(s), 2 bond(s) (terminated early)
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): isotactic (𐑫𐑫𐑫) — one chirality throughout, a single stereo-configuration
+  tacticity (⊥ chirality per unit): isotactic (𐑫𐑫𐑫) — one chirality throughout, a single stereo-configuration
   cyclization: linear — the chain terminated, so it cannot close into a ring.
 ● TOOL arrange {van_der_waerden_number, gowers_norm, arithmetic_progression, hypergraph_container_method}
 arrange (unordered set → best order):  {van_der_waerden_number, gowers_norm, arithmetic_progression, hypergraph_container_method}
@@ -151,7 +151,7 @@ polymerization (imscriptive):  [van_der_waerden_number · density_limit · arith
   degree of polymerization: 3 unit(s), 2 bond(s) (terminated early)
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): isotactic (𐑫𐑫𐑫) — one chirality throughout, a single stereo-configuration
+  tacticity (⊥ chirality per unit): isotactic (𐑫𐑫𐑫) — one chirality throughout, a single stereo-configuration
   cyclization: linear — the chain terminated, so it cannot close into a ring.
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 ● TOOL forge {van_der_waerden_number, gowers_norm, arithmetic_progression, hypergraph_container_method}

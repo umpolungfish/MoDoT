@@ -101,12 +101,12 @@ Crossing</h3>
 <p>The type of the raw Diophantine system — the four
 equations alone, before any proof machinery — is:</p>
 <p><span
-class="math display">⟨<em>⊢</em><sub><em>C</em></sub>; <em>⊣</em><sub>6</sub>; <em>></em><sub>¯</sub>; <em><</em><sub>˙</sub>; ⋈<sup>ì</sup>; <em>⊤</em><sup>Ù</sup>; <em>∈</em><sub><em>β</em></sub>; ∋<sup>∧</sup>; ⊙<sub>ž</sub>; Ħ<sub>Ñ</sub>; <em>Σ</em><sub><em>S</em></sub>; <em>Ω</em><sub>Å</sub>⟩</span></p>
+class="math display">⟨<em>⊢</em><sub><em>C</em></sub>; <em>⊣</em><sub>6</sub>; <em>></em><sub>¯</sub>; <em><</em><sub>˙</sub>; ⋈<sup>ì</sup>; <em>⊤</em><sup>Ù</sup>; <em>∈</em><sub><em>β</em></sub>; ∋<sup>∧</sup>; ⊙<sub>ž</sub>; ⊥<sub>Ñ</sub>; <em>Σ</em><sub><em>S</em></sub>; <em>Ω</em><sub>Å</sub>⟩</span></p>
 <p>Static. No memory. No self-reference. Just constraints. When the
 proof framework is lifted by the self-modeling operators of Parts II,
 VI, and VII, the type becomes:</p>
 <p><span
-class="math display">⟨<em>⊢</em><sub><em>ω</em></sub>; <em>⊣</em><sub><em>O</em></sub>; <em>></em><sub>=</sub>; <em><</em><sub>}</sub>; ⋈<sup>ż</sup>; <em>⊤</em><sup>@</sup>; <em>∈</em><sub>ʔ</sub>; ∋<sup>ˌ</sup>; ⊙<sub>ÿ</sub>; Ħ<sub><em>A</em></sub>; <em>Σ</em><sub>ï</sub>; <em>Ω</em><sub><em>z</em></sub>⟩</span></p>
+class="math display">⟨<em>⊢</em><sub><em>ω</em></sub>; <em>⊣</em><sub><em>O</em></sub>; <em>></em><sub>=</sub>; <em><</em><sub>}</sub>; ⋈<sup>ż</sup>; <em>⊤</em><sup>@</sup>; <em>∈</em><sub>ʔ</sub>; ∋<sup>ˌ</sup>; ⊙<sub>ÿ</sub>; ⊥<sub><em>A</em></sub>; <em>Σ</em><sub>ï</sub>; <em>Ω</em><sub><em>z</em></sub>⟩</span></p>
 <p>Twelve primitives promoted. This is not incremental improvement — it
 is a re-imscription from static puzzle to self-modeling operator. The
 gap between these two types is exactly the difference between listing a
@@ -120,7 +120,7 @@ Thread</h3>
 <p>The seven algebraic lemmas of Part III form a single unbroken chain.
 Lemma 3 depends on 1 and 2. Lemma 4 depends on 3. Lemma 5 depends on 4,
 and so on through 7. The <span
-class="math inline">Ħ<sub><em>A</em></sub></span> memory discipline —
+class="math inline">⊥<sub><em>A</em></sub></span> memory discipline —
 each lemma reads at most two prior results — is not a stylistic choice.
 The algebra forces it: each identity follows from the previous one by
 substitution, and nothing beyond the immediate predecessors is
@@ -390,8 +390,8 @@ many dimensions shift simultaneously:</p>
 </tr>
 <tr>
 <td><span class="math inline"><em>H</em></span></td>
-<td><span class="math inline">Ħ<sub>Ñ</sub></span> (memoryless)</td>
-<td><span class="math inline">Ħ<sub><em>A</em></sub></span>
+<td><span class="math inline">⊥<sub>Ñ</sub></span> (memoryless)</td>
+<td><span class="math inline">⊥<sub><em>A</em></sub></span>
 (two-step)</td>
 </tr>
 <tr>

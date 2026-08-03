@@ -127,7 +127,7 @@ const GLYPHS: [&[(&str, u8)]; 12] = [
     /* ∈ Granularity    */ &[("𐑚", 0), ("𐑔", 1), ("𐑲", 2)],
     /* ∋ Composition    */ &[("𐑝", 0), ("𐑜", 1), ("𐑠", 2), ("𐑵", 3)],
     /* ⊙ Criticality    */ &[("𐑢", 0), ("⊙", 1), ("𐑮", 2), ("𐑻", 3), ("𐑣", 4)],
-    /* Ħ Chirality      */ &[("𐑓", 0), ("𐑒", 1), ("𐑖", 2), ("𐑫", 3)],
+    /* ⊥ Chirality      */ &[("𐑓", 0), ("𐑒", 1), ("𐑖", 2), ("𐑫", 3)],
     /* Σ Stoichiometry  */ &[("𐑙", 0), ("𐑕", 1), ("𐑳", 2)],
     /* Ω Protection     */ &[("𐑷", 0), ("𐑴", 1), ("𐑭", 2), ("𐑟", 3)],
 ];
@@ -262,7 +262,7 @@ fn tier_score(ord: &[Option<u8>; 12]) -> u8 {
     let mut s = 0u8;
     if eq(8, 1) { s += 1; } // ⊙ = ⊙ (self-modeling critical)
     if eq(3, 4) { s += 1; } // < = 𐑹 (Frobenius-special parity)
-    if eq(9, 3) { s += 1; } // Ħ = 𐑫 (eternal chirality)
+    if eq(9, 3) { s += 1; } // ⊥ = 𐑫 (eternal chirality)
     if matches!(ord[11], Some(2) | Some(3)) { s += 1; } // Ω integer/non-Abelian winding
     if eq(0, 3) { s += 1; } // ⊢ = 𐑦 (holographic)
     if eq(5, 2) { s += 1; } // ⊤ = 𐑧 (slow/coherent kinetics)
@@ -555,7 +555,7 @@ const CTORS: [&[&str]; 12] = [
     /* ∈ */ &["bib", "thigh", "ice"],
     /* ∋ */ &["vow", "gag", "measure", "ooze"],
     /* ⊙ */ &["woe", "monad", "roar", "err", "haha"],
-    /* Ħ */ &["fee", "kick", "sure", "wool"],
+    /* ⊥ */ &["fee", "kick", "sure", "wool"],
     /* Σ */ &["hung", "so", "up"],
     /* Ω */ &["awe", "oak", "ah", "zoo"],
 ];
@@ -1700,7 +1700,7 @@ fn working_stroke(
 // out its degree of polymerization, regioregularity, copolymer architecture, tacticity
 // (the chirality ⊥ sequence), and whether it cyclizes head-to-tail into a macrocycle (O∞).
 
-const CHIR: usize = 9; // Ħ Chirality — the stereochemistry axis; its ordered sequence IS the polymer's tacticity
+const CHIR: usize = 9; // ⊥ Chirality — the stereochemistry axis; its ordered sequence IS the polymer's tacticity
 
 /// One enchainment bond in the polymer walk.
 enum Bond {
@@ -1738,7 +1738,7 @@ fn classify_architecture(seq: &[String]) -> String {
 fn classify_tacticity(chir: &[Option<u8>]) -> String {
     let glyphs: String = chir.iter().map(|o| o.map(|v| glyph_of(CHIR, v)).unwrap_or("?")).collect();
     if chir.iter().any(|o| o.is_none()) {
-        return format!("{glyphs} — incomplete (a unit lacks Ħ)");
+        return format!("{glyphs} — incomplete (a unit lacks ⊥)");
     }
     let v: Vec<u8> = chir.iter().map(|o| o.unwrap()).collect();
     if v.iter().all(|&x| x == v[0]) {
@@ -2789,9 +2789,9 @@ pub fn run_seed(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f3
         Err(e) => { eprintln!("seed: {e}"); return 2; }
     };
     let Some(seed_h) = seed.ord[9] else {
-        eprintln!("seed: {} has no Ħ (chirality) to template with", seed_names[0]); return 2;
+        eprintln!("seed: {} has no ⊥ (chirality) to template with", seed_names[0]); return 2;
     };
-    println!("seeding (template the crystal on {}'s handedness Ħ={}):  {{{}}}", seed_names[0], glyph_of(9, seed_h), pool_names.join(", "));
+    println!("seeding (template the crystal on {}'s handedness ⊥={}):  {{{}}}", seed_names[0], glyph_of(9, seed_h), pool_names.join(", "));
     let mut templated = Vec::new();
     let mut spontaneous = Vec::new();
     for u in &pool {
@@ -2983,7 +2983,7 @@ pub fn run_stain(catalog: Option<&[CatalogEntry]>, reagent: &str, monomers: &[St
     if monomers.is_empty() { eprintln!("stain needs a reagent then at least one unit: stain R M1 …"); return 2; }
     let (prim, feature): (Option<usize>, &str) = match reagent.to_lowercase().as_str() {
         "kmno4" | "permanganate" | "uv" => (Some(8), "Criticality ⊙ (unsaturation / excitation)"),
-        "chiral" | "chirality" => (Some(9), "Chirality Ħ (handedness)"),
+        "chiral" | "chirality" => (Some(9), "Chirality ⊥ (handedness)"),
         "ninhydrin" => (Some(2), "Recognition > (binding center)"),
         "iodine" | "i2" => (None, "any live reaction center (D↔W / T↔H / R↔S)"),
         _ => { eprintln!("stain: unknown reagent `{reagent}` (try: kmno4, uv, chiral, ninhydrin, iodine)"); return 2; }
@@ -3419,7 +3419,7 @@ pub fn run_polymerize(
     if dp >= 2 {
         println!("  architecture: {}", classify_architecture(&monomers[..dp]));
         let chir: Vec<Option<u8>> = units[..dp].iter().map(|t| t.ord[CHIR]).collect();
-        println!("  tacticity (Ħ chirality per unit): {}", classify_tacticity(&chir));
+        println!("  tacticity (⊥ chirality per unit): {}", classify_tacticity(&chir));
     } else {
         println!("  no chain formed — the feed did not enchain past the first monomer (0 bonds); these are unreacted monomers, not a polymer.");
     }
@@ -3854,9 +3854,9 @@ pub fn run_phase_reconstruct(
     println!("  ✓ ring closes — the relative phase word is FIXED (modulo one global phase):");
     for (k, t) in ordered.iter().enumerate() {
         let ph = t.ord[CHIR].map(|c| glyph_of(CHIR, c)).unwrap_or("·");
-        println!("    ψ[{k}] = {}   Ħ-phase {ph}", t.name);
+        println!("    ψ[{k}] = {}   ⊥-phase {ph}", t.name);
     }
-    println!("  reconstructed phase word Ħ: {word}");
+    println!("  reconstructed phase word ⊥: {word}");
     println!(
         "  residual freedom: ONE global phase (the ring's rotational symmetry over {n} units) — the flat autocorrelation fixes every RELATIVE phase but not the overall gauge, exactly as C_m = 1/(d+1) fixes ψ modulo a global phase."
     );
@@ -4078,7 +4078,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         _ => None,
     });
     let Some(ax) = idx else {
-        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
+        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ Σ Ω) or a name (chirality, protection, kinetics…).");
         return 2;
     };
 
@@ -4107,13 +4107,13 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
             notes.push("⊣=𐑸 forces ⊢=𐑦 — this move requires ⊢ to follow".into());
         }
         if ax == 11 && *o >= 2 && probe[9].map(|c| c < 2).unwrap_or(false) {
-            notes.push("Ω≥𐑭 requires Ħ≥𐑖 — raise chirality first or this will not hold".into());
+            notes.push("Ω≥𐑭 requires ⊥≥𐑖 — raise chirality first or this will not hold".into());
         }
         if ax == 9 && *o < 2 && probe[11].map(|p| p >= 2).unwrap_or(false) {
-            notes.push("lowering Ħ below 𐑖 breaks Ω≥𐑭 — the protection would fall with it".into());
+            notes.push("lowering ⊥ below 𐑖 breaks Ω≥𐑭 — the protection would fall with it".into());
         }
         if ax == 9 && *o == 3 && probe[5] != Some(3) {
-            notes.push("tendency only (not an axiom): Ħ=𐑫 usually co-occurs with ⊤=𐑪".into());
+            notes.push("tendency only (not an axiom): ⊥=𐑫 usually co-occurs with ⊤=𐑪".into());
         }
         let dir = if step > 0 { "↑" } else { "↓" };
         println!("    {g}  {dir}{}   {}", step.abs(), fmt_tuple(&probe));

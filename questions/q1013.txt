@@ -109,7 +109,7 @@ polymerization (imscriptive):  [ramsey_theory_extremal · szemeridi_regularity_l
   degree of polymerization: 2 unit(s), 1 bond(s)
   backbone: regioregular — every condensation bond on D↔W (a clean head-to-tail repeat unit).
   architecture: heteropolymer (2 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): isotactic (𐑖𐑖) — one chirality throughout, a single stereo-configuration
+  tacticity (⊥ chirality per unit): isotactic (𐑖𐑖) — one chirality throughout, a single stereo-configuration
   cyclization: szemeridi_regularity_lemma ⋈ ramsey_theory_extremal → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on D↔W (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 2-membered ring
@@ -251,7 +251,7 @@ polymerization (imscriptive):  [ramsey_theory_extremal · szemeridi_regularity_l
   degree of polymerization: 2 unit(s), 1 bond(s)
   backbone: regioregular — every condensation bond on D↔W (a clean head-to-tail repeat unit).
   architecture: heteropolymer (2 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): isotactic (𐑖𐑖) — one chirality throughout, a single stereo-configuration
+  tacticity (⊥ chirality per unit): isotactic (𐑖𐑖) — one chirality throughout, a single stereo-configuration
   cyclization: szemeridi_regularity_lemma ⋈ ramsey_theory_extremal → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on D↔W (O∞).
 ● TOOL close ramsey_theory_extremal szemeridi_regularity_lemma
 polymerization (imscriptive):  [ramsey_theory_extremal · szemeridi_regularity_lemma]   (2 monomers)
@@ -264,7 +264,7 @@ polymerization (imscriptive):  [ramsey_theory_extremal · szemeridi_regularity_l
   degree of polymerization: 2 unit(s), 1 bond(s)
   backbone: regioregular — every condensation bond on D↔W (a clean head-to-tail repeat unit).
   architecture: heteropolymer (2 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): isotactic (𐑖𐑖) — one chirality throughout, a single stereo-configuration
+  tacticity (⊥ chirality per unit): isotactic (𐑖𐑖) — one chirality throughout, a single stereo-configuration
   cyclization: szemeridi_regularity_lemma ⋈ ramsey_theory_extremal → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on D↔W (O∞).
 ● TOOL material ramsey_theory_extremal szemeridi_regularity_lemma
 polymerization (imscriptive):  [ramsey_theory_extremal · szemeridi_regularity_lemma]   (2 monomers)
@@ -277,7 +277,7 @@ polymerization (imscriptive):  [ramsey_theory_extremal · szemeridi_regularity_l
   degree of polymerization: 2 unit(s), 1 bond(s)
   backbone: regioregular — every condensation bond on D↔W (a clean head-to-tail repeat unit).
   architecture: heteropolymer (2 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): isotactic (𐑖𐑖) — one chirality throughout, a single stereo-configuration
+  tacticity (⊥ chirality per unit): isotactic (𐑖𐑖) — one chirality throughout, a single stereo-configuration
   cyclization: szemeridi_regularity_lemma ⋈ ramsey_theory_extremal → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on D↔W (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 2-membered ring

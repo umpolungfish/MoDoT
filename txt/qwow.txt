@@ -96,7 +96,7 @@ polymerization (imscriptive):  [binah · monad · ankh · zosimos_alchemy · sef
   degree of polymerization: 3 unit(s), 2 bond(s) (terminated early)
   backbone: regioirregular — bonds on T↔H, R↔S (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑒𐑓𐑒) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑒𐑓𐑒) — chirality strictly inverts each unit, a regular alternation
   cyclization: linear — the chain terminated, so it cannot close into a ring.
   ── closing search: a monomer X with ankh ⋈ X and X ⋈ zosimos_alchemy (a real click test, NOT a SET-mediator scan) ──
     plutonium_normal   (ankh ⋈ X on T↔H Δ=1.42  ·  X ⋈ zosimos_alchemy on T↔H Δ=1.33)

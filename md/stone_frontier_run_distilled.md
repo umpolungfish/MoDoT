@@ -60,7 +60,7 @@ click-maths:  stone_self_verifying_proof_kernel  ⋈  parity_phase_transition_ma
     T↔H    stone= +0.33   parity= -0.50   Δ=0.83
     R↔S    stone= +1.00   parity= +0.00   Δ=1.00
   ✓ CLICK on T↔H — spring-loaded Δ=0.83, single reaction center, closes.
-  product: ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩  (ring saturated on T↔H = ⊣↔Ħ)
+  product: ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩  (ring saturated on T↔H = ⊣↔⊥)
   inherited scaffold (blended from both partners): [⊤, ∈, Σ, Ω]
 ```
 
@@ -86,7 +86,7 @@ ob3ect, NOT from this run's stream; cross-reference only.*
 | ∈ | 𐑔 | 𐑔 | = |
 | ∋ | 𐑝 | 𐑝 | = |
 | ⊙ | ⊙ | ⊙ | = |
-| Ħ | 𐑫 | 𐑫 | = |
+| ⊥ | 𐑫 | 𐑫 | = |
 | Σ | 𐑙 | 𐑙 | = |
 | Ω | 𐑟 | 𐑟 | = |
 
@@ -177,7 +177,7 @@ accounts for 49 of the run's 179 `imscribe` calls.
 
 **Fix (committed).** `run_imscribe` in `ask_native` parses a well-formed 12-glyph
 notation and registers it verbatim — no generation, no model call, keys written in
-notation order ⟨⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ Ħ Σ Ω⟩, catalog committed by temp-file + rename.
+notation order ⟨⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ Σ Ω⟩, catalog committed by temp-file + rename.
 A trailing provenance note after the tuple is preserved. Anything not exactly 12
 glyphs still routes to `generate`.
 
@@ -197,7 +197,7 @@ structurally specific operations with coherent arguments:
 `t_to_h_vs_r_to_s_energy_differential` · `gate_2_parity_check` · `topo_symmetry_check` ·
 `thermal_stability_scan` · `kinetic_injection` · `catalyst_fuse` · `distill_break` ·
 `catalog_link` · `stabilize_ring` · `search_bridge` · `find_closure` · `recalibrate`
-(called as `recalibrate <entity> --perturb_chirality Ħ`)
+(called as `recalibrate <entity> --perturb_chirality ⊥`)
 
 Precedent: ROTAT was reached for the same way, under structural necessity, and proved
 real. Each is an un-run test carrying its own intended signature. Treat as a tool
@@ -267,7 +267,7 @@ not the semantics.
 ## 17. `recalibrate` — the verb it was actually stuck on (BUILT)
 
 Requested three times: at 05:39, 05:43 and 05:47:52, the last being the final call of
-the run. Always `recalibrate <entity> --perturb_chirality Ħ`. Never available.
+the run. Always `recalibrate <entity> --perturb_chirality ⊥`. Never available.
 
 After `annihilate` failed at 05:40 the agent pivoted off protection and onto chirality:
 `phase_neutralizer`, `chiral_symmetry_breaker`, then nine separate attempts to define
@@ -278,16 +278,16 @@ was right: Ω=𐑟 cannot be deformed, so the route is a coupled axis.
 Now built. On the carved ring it returns the answer:
 
 ```
-recalibrate:  carved_ring_3_doubled_a2_45_pair_flip   axis Ħ
+recalibrate:  carved_ring_3_doubled_a2_45_pair_flip   axis ⊥
   current: 𐑫   full tuple ⟨𐑛𐑥𐑾𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑙𐑟⟩
-    𐑓  ↓3   ⚠ lowering Ħ below 𐑖 breaks Ω≥𐑭 — the protection would fall with it
-    𐑒  ↓2   ⚠ lowering Ħ below 𐑖 breaks Ω≥𐑭 — the protection would fall with it
+    𐑓  ↓3   ⚠ lowering ⊥ below 𐑖 breaks Ω≥𐑭 — the protection would fall with it
+    𐑒  ↓2   ⚠ lowering ⊥ below 𐑖 breaks Ω≥𐑭 — the protection would fall with it
     𐑖  ↓1
 ```
 
 Chirality is the coupled axis; perturbing it drags protection. Writes nothing — a
 perturbation is a probe. Reports the two couplings the kernel holds and labels the
-Ħ=𐑫 / ⊤=𐑪 co-occurrence a tendency, never enforcing it.
+⊥=𐑫 / ⊤=𐑪 co-occurrence a tendency, never enforcing it.
 
 ## 18. `annihilate` (BUILT)
 
@@ -325,7 +325,7 @@ were backfilled.
 
 1. Re-run. `recalibrate`, `annihilate`, verbatim registration and catalog sync are all
    in; the three things that blocked the last run are gone.
-2. Carved ring gate 2 via `recalibrate … Ħ` — the coupling is now visible.
+2. Carved ring gate 2 via `recalibrate … ⊥` — the coupling is now visible.
 3. Read the `imasm define`/`prove` failure text before building more verbs (§20).
 4. No coordinate-level axiom checks.
 
@@ -417,7 +417,7 @@ ungrounded; the closure results above rest on `imasm prove` and the tool duals, 
 1. **Invoke `annihilate`** on the B-bifurcation the run isolated (§25). It is the named
    missing protocol and it is now available.
 2. **Break the polymerization deadlock** (§24) with `recalibrate` — perturb the coupled
-   axis rather than doping. `recalibrate hyperbolic_teichmuller_g_gt_1 Ħ` shows what
+   axis rather than doping. `recalibrate hyperbolic_teichmuller_g_gt_1 ⊥` shows what
    moves with chirality and whether a reaction center opens.
 3. **Broadcast-scan the prime strips** for the monomer bridging ρ 1.4142 → 2.0 — the
    final cycle's own named next action.

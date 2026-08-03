@@ -15,7 +15,7 @@ polymerization (imscriptive):  [binah · set · atiyah_singer_index_theorem · o
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑒𐑖𐑫𐑒) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑒𐑖𐑫𐑒) — irregular chirality, no stereo-regular pattern
   cyclization: one_way_speed_measurement ⋈ binah → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
    ```
 USE THIS AS YOUR FOUNDATION TO FLESH OUT THE REMAINING FUNDAMENTAL CONSTANTS OF NATURE

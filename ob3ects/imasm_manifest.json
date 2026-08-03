@@ -708,7 +708,7 @@
         "FFUSE",
         "FFUSE"
       ],
-      "spec": "ring ◇[⊣ < ⋈] ● ◇[⊤ ∈ ⊙] ● ◇[Ħ Σ Ω] ●"
+      "spec": "ring ◇[⊣ < ⋈] ● ◇[⊤ ∈ ⊙] ● ◇[⊥ Σ Ω] ●"
     },
     {
       "closure": "NONE",
@@ -727,7 +727,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊙ Δ Ħ Σ Ω ⊣ < ⋈ ⊤ ∈"
+      "spec": "ring ⊙ Δ ⊥ Σ Ω ⊣ < ⋈ ⊤ ∈"
     },
     {
       "closure": "OPEN",
@@ -876,7 +876,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊣ < ⋈ ⊤ ∈ ⊙ Ħ Σ Ω"
+      "spec": "ring ⊣ < ⋈ ⊤ ∈ ⊙ ⊥ Σ Ω"
     },
     {
       "closure": "OPEN",
@@ -1487,7 +1487,7 @@
         "AFWD",
         "AREV"
       ],
-      "spec": "protocol ⊙ > < Ħ Ω"
+      "spec": "protocol ⊙ > < ⊥ Ω"
     },
     {
       "closure": "CLOSED(1)",
@@ -2192,7 +2192,7 @@
         "AFWD",
         "AREV"
       ],
-      "spec": "ring ⊙ > < Ħ 𐑟"
+      "spec": "ring ⊙ > < ⊥ 𐑟"
     },
     {
       "closure": "NONE",
@@ -2260,7 +2260,7 @@
         "AREV",
         "IMSCRIB"
       ],
-      "spec": "ring ⊙ > < Ħ ⊙"
+      "spec": "ring ⊙ > < ⊥ ⊙"
     },
     {
       "closure": "NONE",
@@ -4131,7 +4131,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊙ Ħ Ω"
+      "spec": "ring ⊙ ⊥ Ω"
     },
     {
       "closure": "OPEN",
@@ -8232,7 +8232,7 @@
         "ENGAGR",
         "TANCH"
       ],
-      "spec": "ring Ħ Ω Σ > ⊞ ⊣"
+      "spec": "ring ⊥ Ω Σ > ⊞ ⊣"
     },
     {
       "closure": "CLOSED(1)",
@@ -13118,7 +13118,7 @@
         "AREV",
         "ENGAGR"
       ],
-      "spec": "ring ⊙ > < ⊞ Ħ"
+      "spec": "ring ⊙ > < ⊞ ⊥"
     },
     {
       "closure": "NONE",
@@ -16921,7 +16921,7 @@
       ],
       "free_in": 1,
       "free_out": 1,
-      "name": "Ħ_action_null",
+      "name": "⊥_action_null",
       "nodes": [
         "FSPLIT",
         "IMSCRIB",
@@ -16966,7 +16966,7 @@
       ],
       "free_in": 1,
       "free_out": 1,
-      "name": "Ħ_braid_nonab",
+      "name": "⊥_braid_nonab",
       "nodes": [
         "FSPLIT",
         "IMSCRIB",
@@ -17014,7 +17014,7 @@
       ],
       "free_in": 1,
       "free_out": 1,
-      "name": "Ħ_floor_lock",
+      "name": "⊥_floor_lock",
       "nodes": [
         "FSPLIT",
         "IMSCRIB",
@@ -17053,7 +17053,7 @@
       ],
       "free_in": 1,
       "free_out": 1,
-      "name": "Ħ_residual_fuse",
+      "name": "⊥_residual_fuse",
       "nodes": [
         "FSPLIT",
         "IMSCRIB",
@@ -17122,7 +17122,7 @@
         "AFWD",
         "AREV"
       ],
-      "spec": "ring ⊙ > < Ħ 𐑖 𐑟"
+      "spec": "ring ⊙ > < ⊥ 𐑖 𐑟"
     },
     {
       "closure": "NONE",

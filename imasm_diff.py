@@ -131,7 +131,7 @@ def diff_all_pairs() -> str:
         ('∈', 'bib',  'bib',    'cardinality (shared)'),
         ('∋', 'measure','measure','composition (shared)'),
         ('⊙', 'monad','roar',   'criticality: trefoil→frobenioid'),
-        ('Ħ', 'sure', 'wool',   'chirality: trefoil→frobenioid'),
+        ('⊥', 'sure', 'wool',   'chirality: trefoil→frobenioid'),
         ('Σ', 'hung', 'up',     'stoichiometry: trefoil→frobenioid'),
         ('Ω', 'ah',   'ah',     'winding (shared)'),
     ]

@@ -88,7 +88,7 @@ However, the **kernel cardinality** remains **unverified** as 1024 (2865 candida
 
 #### 10. Compute Meet (Structural Floor) — **T (Established)**
 *   **Tool:** `compute_meet reduced_character_orbit_computation norm_sieve_execution`
-*   **Result:** ✓ **EXISTENCE**. 7 shared primitives (`⊢, >, ⋈, ⊤, ∋, Ħ, Ω`).
+*   **Result:** ✓ **EXISTENCE**. 7 shared primitives (`⊢, >, ⋈, ⊤, ∋, ⊥, Ω`).
 *   **Verdict:** **T (Established)**.
 
 #### 11. Click (Portal) — **T (Established)**
@@ -244,7 +244,7 @@ polymerization (imscriptive):  [reduced_character_orbit_computation · ray_class
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑖𐑖𐑖𐑒) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑖𐑖𐑖𐑒) — irregular chirality, no stereo-regular pattern
   cyclization: fibonacci_anyon_o2 ⋈ reduced_character_orbit_computation → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL forge reduced_character_orbit_computation norm_sieve_execution ray_class_field_Qsqrt fibonacci_anyon_o2
 arrange (unordered set → best order):  {reduced_character_orbit_computation, norm_sieve_execution, ray_class_field_Qsqrt, fibonacci_anyon_o2}
@@ -268,7 +268,7 @@ polymerization (imscriptive):  [reduced_character_orbit_computation · ray_class
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑖𐑖𐑖𐑒) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑖𐑖𐑖𐑒) — irregular chirality, no stereo-regular pattern
   cyclization: fibonacci_anyon_o2 ⋈ reduced_character_orbit_computation → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 4-membered ring
@@ -297,7 +297,7 @@ polymerization (imscriptive):  [d2048_SIC_moduli_complete · ray_class_field_Qsq
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioregular — every condensation bond on D↔W (a clean head-to-tail repeat unit).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑖𐑖𐑫𐑒) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑖𐑖𐑫𐑒) — irregular chirality, no stereo-regular pattern
   cyclization: fibonacci_anyon_o2 ⋈ d2048_SIC_moduli_complete → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on D↔W (O∞).
 ● TOOL crystallize phase_strata_a_neq0 d2048_SIC_moduli_complete
 crystallization (grow the ordered lattice from the pool; reject what will not fit):  {phase_strata_a_neq0, d2048_SIC_moduli_complete}
@@ -319,7 +319,7 @@ catalytic cycle:  reduced_character_orbit_computation  ⟳  turning over  norm_s
   two coagulations: the CATALYST binds back to the SAME invariant (regeneration, μ∘δ=id); the SUBSTRATE binds into a NEW invariant (norm_sieve_execution‡). Solve freed one quantum; Coagula placed it.
   the loop:  reduced_character_orbit_computation ─Solve(δ)→ reduced_character_orbit_computation* ─Coagula(μ)→ reduced_character_orbit_computation   ‖   norm_sieve_execution ──────→ norm_sieve_execution‡
 ● TOOL compute_meet reduced_character_orbit_computation norm_sieve_execution
-{"status": "ok", "operation": "meet", "name_a": "reduced_character_orbit_computation", "name_b": "norm_sieve_execution", "result_notation": "⟨⊢=𐑛; ⊣=𐑰; >=𐑽; <=𐑿; ⋈=𐑐; ⊤=𐑧; ∈=𐑚; ∋=𐑠; ⊙=𐑢; Ħ=𐑖; Σ=𐑙; Ω=𐑭⟩", "shared_primitives": ["⊢", ">", "⋈", "⊤", "∋", "Ħ", "Ω"], "resolved_conflicts": [{"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": "<", "a": "𐑬", "b": "𐑿", "resolved": "𐑿"}, {"primitive": "∈", "a": "𐑲", "b": "𐑚", "resolved": "𐑚"}, {"primitive": "⊙", "a": "⊙", "b": "𐑢", "resolved": "𐑢"}, {"primitive": "Σ", "a": "𐑕", "b": "𐑙", "resolved": "𐑙"}], "interpretation": "Structural floor of reduced_character_orbit_computation ∧ norm_sieve_execution. 5 primitive(s) resolved to conservative value; 7 shared. These are the primitives both systems possess without qualification."}
+{"status": "ok", "operation": "meet", "name_a": "reduced_character_orbit_computation", "name_b": "norm_sieve_execution", "result_notation": "⟨⊢=𐑛; ⊣=𐑰; >=𐑽; <=𐑿; ⋈=𐑐; ⊤=𐑧; ∈=𐑚; ∋=𐑠; ⊙=𐑢; ⊥=𐑖; Σ=𐑙; Ω=𐑭⟩", "shared_primitives": ["⊢", ">", "⋈", "⊤", "∋", "⊥", "Ω"], "resolved_conflicts": [{"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": "<", "a": "𐑬", "b": "𐑿", "resolved": "𐑿"}, {"primitive": "∈", "a": "𐑲", "b": "𐑚", "resolved": "𐑚"}, {"primitive": "⊙", "a": "⊙", "b": "𐑢", "resolved": "𐑢"}, {"primitive": "Σ", "a": "𐑕", "b": "𐑙", "resolved": "𐑙"}], "interpretation": "Structural floor of reduced_character_orbit_computation ∧ norm_sieve_execution. 5 primitive(s) resolved to conservative value; 7 shared. These are the primitives both systems possess without qualification."}
 ● TOOL click ray_class_field_Qsqrt stark_unit_mixed_signature_open
 click-maths:  ray_class_field_Qsqrt  ⋈  stark_unit_mixed_signature_open   (θ=0.50)
   live-pair charges (norm(x) − norm(y), the spring-loaded axis):
@@ -328,7 +328,7 @@ click-maths:  ray_class_field_Qsqrt  ⋈  stark_unit_mixed_signature_open   (θ=
     R↔S    ray_class_field_Qsqrt= -0.67  stark_unit_mixed_signature_open= +0.00   Δ=0.67
   ✓ CLICK on D↔W — spring-loaded Δ=0.67, single reaction center, closes.
   product: ⟨𐑦𐑰𐑑𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑟⟩  (ring saturated on D↔W = ⊢↔Ω)
-  inherited scaffold (blended from both partners): [>, <, ∋, Ħ, Σ]
+  inherited scaffold (blended from both partners): [>, <, ∋, ⊥, Σ]
 ● TOOL anneal reduced_character_orbit_computation norm_sieve_execution ray_class_field_Qsqrt fibonacci_anyon_o2
 anneal (relax the ring to its lowest-strain ordering):
   quenched (forge order): [reduced_character_orbit_computation · ray_class_field_Qsqrt · norm_sieve_execution · fibonacci_anyon_o2]
@@ -424,7 +424,7 @@ However, the **kernel cardinality** remains **unverified** as 1024 (2873 candida
 
 #### 10. Compute Meet (Structural Floor) — **T (Established)**
 *   **Tool:** `compute_meet reduced_character_orbit_computation norm_sieve_execution`
-*   **Result:** ✓ **EXISTENCE**. 7 shared primitives (`⊢`, `>`, `⋈`, `⊤`, `∋`, `Ħ`, `Ω`).
+*   **Result:** ✓ **EXISTENCE**. 7 shared primitives (`⊢`, `>`, `⋈`, `⊤`, `∋`, `⊥`, `Ω`).
 *   **Verdict:** **T (Established)**.
 
 #### 11. Click (Portal) — **T (Established)**

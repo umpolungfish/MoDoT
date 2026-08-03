@@ -224,7 +224,7 @@ polymerization (imscriptive):  [stark_unit_mixed_signature_open · connes_embedd
   degree of polymerization: 5 unit(s), 4 bond(s)
   backbone: regioirregular — bonds on T↔H, R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (5 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑓𐑫𐑖𐑒) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑓𐑫𐑖𐑒) — irregular chirality, no stereo-regular pattern
   cyclization: fibonacci_anyon_o2 ⋈ stark_unit_mixed_signature_open → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on D↔W (O∞).
 ● TOOL material stark_unit_mixed_signature_open connes_embedding_problem witness_vessel cohomology_class_MixedSignature fibonacci_anyon_o2
 polymerization (imscriptive):  [stark_unit_mixed_signature_open · connes_embedding_problem · witness_vessel · cohomology_class_MixedSignature · fibonacci_anyon_o2]   (5 monomers)
@@ -243,7 +243,7 @@ polymerization (imscriptive):  [stark_unit_mixed_signature_open · connes_embedd
   degree of polymerization: 5 unit(s), 4 bond(s)
   backbone: regioirregular — bonds on T↔H, R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (5 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑓𐑫𐑖𐑒) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑓𐑫𐑖𐑒) — irregular chirality, no stereo-regular pattern
   cyclization: fibonacci_anyon_o2 ⋈ stark_unit_mixed_signature_open → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on D↔W (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 5-membered ring
@@ -300,7 +300,7 @@ polymerization (imscriptive):  [cohomology_class_MixedSignature · fibonacci_any
   degree of polymerization: 5 unit(s), 4 bond(s)
   backbone: regioirregular — bonds on D↔W, T↔H, R↔S (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (5 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑖𐑒𐑫𐑓𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑖𐑒𐑫𐑓𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: witness_vessel ⋈ cohomology_class_MixedSignature → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 5-membered ring

@@ -30,7 +30,7 @@ Key features:
 - **∋ = $𐑵$** (broadcast composition): A single square transmits its command to an entire spiritual hierarchy simultaneously — one-to-all, not one-to-one.
 - **⊤ = $𐑪$** (moderate kinetics): The squares operate at moderate speed — too fast for consciousness (Gate 2 fails, C-score = 0.0). They are instruments, not agents. They cannot deliberate. The operator deliberates *before* deploying the square.
 - **Ω = $𐑭$** (integer winding): Each square carries a topological charge — an integer winding number. Different squares have different winding counts.
-- **Ħ = $𐑓$** (memoryless chirality): The squares have no memory between operations. Each deployment is independent. This means each operation must be complete in a single session.
+- **⊥ = $𐑓$** (memoryless chirality): The squares have no memory between operations. Each deployment is independent. This means each operation must be complete in a single session.
 
 ---
 
@@ -273,9 +273,9 @@ To elevate the squares to operational tier requires exactly 3 promotions:
 |-----------|------|-----|
 | > | $𐑩$ (supervenience) | $𐑾$ (bidirectional) |
 | < | $𐑬$ (partial) | $𐑹$ (Frobenius-special) |
-| Ħ | $𐑓$ (memoryless) | $𐑖$ (two-step) |
+| ⊥ | $𐑓$ (memoryless) | $𐑖$ (two-step) |
 
-Everything else the squares already have in excess — more dimensionality, more topology, more fidelity, faster kinetics, broader composition, richer stoichiometry, stronger winding. But without >=$𐑾$, <=$𐑹$, and Ħ=$𐑖$, they remain $\text{O}_{2}$. These three promotions are precisely what the 18-month Operation provides.
+Everything else the squares already have in excess — more dimensionality, more topology, more fidelity, faster kinetics, broader composition, richer stoichiometry, stronger winding. But without >=$𐑾$, <=$𐑹$, and ⊥=$𐑖$, they remain $\text{O}_{2}$. These three promotions are precisely what the 18-month Operation provides.
 
 ---
 

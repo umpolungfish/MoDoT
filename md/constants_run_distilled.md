@@ -77,7 +77,7 @@ audit (every claim below has a tool-stream hit):
   at B as a stable bifurcation point.
 - Invariant ρ ≈ 2.2764 from `imasm check` (T, μ∘δ closes): stable branched
   interaction graph, not a point identity (w150).
-- Chirality vocabulary is genuinely tool-emitted (the stream is dense with Ħ/chiral
+- Chirality vocabulary is genuinely tool-emitted (the stream is dense with ⊥/chiral
   output), so the loop's chiral character is grounded in kind.
 Struck by audit (present only in model prose, absent from every tool output): the
 B-state register 0xFB8, the phase-conjugation-gate mechanism, the topological

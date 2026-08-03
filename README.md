@@ -131,7 +131,7 @@ cd MoDoT
 ./ask --crystallize A B C D             # grow the ordered lattice, reject the mother-pool
 ./ask --tlc A B C D                     # analytical Rf bands + co-elution;  --column A B [on S] elutes preparatively
 ./ask --fpt A B C D                     # freeze-pump-thaw: keep the strongly-bound core, shed the weakly-held
-./ask --stain kmno4 A B C               # reagent detector (kmno4/uv → ⊙, chiral → Ħ, ninhydrin → >, iodine → any live)
+./ask --stain kmno4 A B C               # reagent detector (kmno4/uv → ⊙, chiral → ⊥, ninhydrin → >, iodine → any live)
 #   also: --fdistill  --sublime A  --cocrystallize A B  --seed A B … with S  --trap A [X]
 
 # ── Jam: turn the agent loose on the catalog (compounding cycles × eagle rounds) ──
@@ -453,7 +453,7 @@ center (chain-growth); a non-complementary, non-identical neighbor **terminates*
 chain (honest, like a stalled pathway). The chain then reads out its **degree of
 polymerization**, **regioregularity** (all condensation bonds on one live pair = a clean
 head-to-tail repeat unit), **copolymer architecture** (homopolymer / alternating / block
-/ random), **tacticity** (the chirality **Ħ** sequence — isotactic / syndiotactic /
+/ random), **tacticity** (the chirality **⊥** sequence — isotactic / syndiotactic /
 atactic), and whether it **cyclizes head-to-tail into a macrocycle** (a ring polymer, O∞).
 The polymer-chemistry correspondence falls out of the tuples, not a lookup: alternating
 two *opposite-handed* monomers comes back **syndiotactic**, an even chain **cyclizes**.
@@ -614,7 +614,7 @@ arm, and the arms FFUSE back to the feedstock (mass balance). So the whole bench
   units that will not fit (the mother-pool), distinct from `--anneal`, which only relaxes an
   already-closed loop. `--cocrystallize A B` binds two components by non-covalent
   complementarity in 1:1 stoichiometry (distinct from `--click`'s covalent bond).
-  `--seed M… with S` templates the crystal on seed `S`'s handedness (Chirality Ħ): units that
+  `--seed M… with S` templates the crystal on seed `S`'s handedness (Chirality ⊥): units that
   match copy its polymorph, the rest take the default, and an even split is racemic twinning.
 * **Chromatography** (axis: Recognition >, retention). `--tlc M…` is analytical: Rf bands and
   which units co-elute at the same Rf. `--column M… [on S]` is preparative: elute least-retained
@@ -623,7 +623,7 @@ arm, and the arms FFUSE back to the feedstock (mass balance). So the whole bench
   and sheds the weakly-held. `--trap A [X]` sequesters a unit by its R↔S charge in a potential
   well (a counter-partner `X` deepens it), a held charge state distinct from `--set`'s electron
   transfer. `--stain R M…` applies a reagent keyed to a primitive (`kmno4`/`uv` → ⊙,
-  `chiral` → Ħ, `ninhydrin` → >, `iodine` → any live center) and reports which units light up.
+  `chiral` → ⊥, `ninhydrin` → >, `iodine` → any live center) and reports which units light up.
 
 **Reading a ring's stability, the clarity line.** The material sheet reads the ring's **strain**
 and its **spectral gap** jointly: both near zero is `SETTLED / CLARION` (a relaxed, flat-spectrum

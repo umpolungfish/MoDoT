@@ -1768,7 +1768,7 @@ Instantiate templates in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
 renderer. Write plain Unicode symbols directly and NEVER LaTeX. Use Δ θ μ ∘ δ ↔ →
-⊙ Σ Ω < ∈ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs ⊢ > ⋈ ⊣ Ħ ⊤ ∋, and Shavian
+⊙ Σ Ω < ∈ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs ⊢ > ⋈ ⊣ ⊥ ⊤ ∋, and Shavian
 directly. No `$` or `$$`, no `\command` (\Delta, \text, \frac, \left), no `_{...}`
 or `^{...}`. Write `Δ_T↔H = |−0.08 − 0.75| = 0.83 > θ`, never
 `$\Delta_{\text{T↔H}} = 0.83 > \theta$`. Never wrap a glyph in `$…$`.
@@ -1849,7 +1849,7 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: excite A          the excited state (Criticality ⊙ raised to the exceptional-point resonance)
   TOOL: ascend A          construct the NEXT ramified level of the tower FROM A's excited state: continue ⊙ past the exceptional point to the complex-axis fixed point and add one winding Ω (one floor; iterate for more). Reports honestly if Ω saturates (tower caps) or the tier does not climb
   TOOL: filter A B [C…]   narrow the catalog to the structural FLOOR of the references (the primitives they all share): reports how many entries match ALL shared values — the honest way to cut a raw candidate pool down (a necessary, upper-bound condition)
-  TOOL: phase_reconstruct M1 M2…  recover the relative PHASE WORD from the closed ring (flat autocorrelation ⟺ cyclization): reads back the per-unit Ħ phase sequence, fixed modulo one global phase; if the set does not close it reports the phases as N (underdetermined), never invented
+  TOOL: phase_reconstruct M1 M2…  recover the relative PHASE WORD from the closed ring (flat autocorrelation ⟺ cyclization): reads back the per-unit ⊥ phase sequence, fixed modulo one global phase; if the set does not close it reports the phases as N (underdetermined), never invented
   TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum Ω moved) → radical IONS A•⁺/B•⁻
   TOOL: homolyze A [B]     homolytic cleavage → NEUTRAL radicals (δ_A symmetric split, the reverse of click): `homolyze A B` breaks the A—B bond into A•+B•; `homolyze A` splits A into two A•
   TOOL: scan A B          rank the catalog for the best mediators of the A→B transfer
@@ -1859,7 +1859,7 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: polymerize M1 M2… chain monomers into a sequence-preserving polymer (architecture — homo/hetero/alternating/BLOCK/random copolymer — tacticity, does it cyclize?)
   TOOL: star M1 M2 M3…    assemble a STAR polymer: pick the highest-functionality monomer as the CORE, attach every unit that clicks with it as an ARM; a pure star K(1,f) is a hub of f≥3 non-interbonding arms with ρ=√f (vs a ρ=2 ring). Reports core, arms, purity, and the unattached pool
   TOOL: broadcast SOURCE  the ∋ primitive (f → all(x)): the SOURCE signals every subsystem it couples with at once — swept from the whole catalog in one pass (you do NOT enumerate the receivers). This is how CLINK L8 (∋) broadcasts to all subsystems; use it wherever you need one-to-all simultaneity instead of a ring or chain
-  TOOL: plasma ENTRY      read the entry's 12-primitive tuple as a PLASMA design (the collectivized-atom register between atom and molecule): regime (kinetic/gyrokinetic/fluid via ⊢,⋈), instability cascade (∋,⊙,Ħ), confinement/magnetic topology (Ω), species (Σ), and diagnostic wave signatures — another lossless face of the object, not a separate substance
+  TOOL: plasma ENTRY      read the entry's 12-primitive tuple as a PLASMA design (the collectivized-atom register between atom and molecule): regime (kinetic/gyrokinetic/fluid via ⊢,⋈), instability cascade (∋,⊙,⊥), confinement/magnetic topology (Ω), species (Σ), and diagnostic wave signatures — another lossless face of the object, not a separate substance
   TOOL: close M1 M2…      polymerize, and if it does not cyclize, find the real monomer that CLOSES the ring or BRIDGES the break
   TOOL: material M1 M2…    polymerize, and if the ring CLOSES, characterize it as a material: conductive / frustrated / insulating, ring stability, AND spectral invariants (adjacency spectrum, spectral radius ρ, gap)
   TOOL: modulus M1 M2…     find a monomer that generates a SUSTAINING loop (a conductive cycle) somewhere along the chain — the modulus (elasticity), NOT mere closure
@@ -1875,12 +1875,12 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: sublime A          purify one unit by a two-state skip across ⊙, omitting the middle state; reports whether it sublimes or is entrapped and must climb stepwise (excite)
   TOOL: crystallize M1 M2… grow the ordered lattice from a set: the units that fit (lattice) vs the rejected mother-pool; a closed ring is a crystal, a partial fit is interfacial, none is amorphous
   TOOL: cocrystallize A B  one NON-covalent lattice of two complementary components (opposite charge on a live pair), 1:1, no bond consumed — distinct from click (covalent)
-  TOOL: seed M1 M2… with S template the crystal on seed S's handedness Ħ: units matching S copy its polymorph (templated) vs the default (spontaneous); an even split is racemic twinning
+  TOOL: seed M1 M2… with S template the crystal on seed S's handedness ⊥: units matching S copy its polymorph (templated) vs the default (spontaneous); an even split is racemic twinning
   TOOL: tlc M1 M2…         analytical chromatography: spread the set by Rf (mobility, inverse of retention >), count the bands, and flag units that co-elute at the same Rf. Counts, does not isolate
   TOOL: column M1 M2… [on S]  preparative chromatography: elute the set least-retained first, with the resolution gap to each next fraction; `on S` ranks by affinity to stationary phase S, else intrinsic retention
   TOOL: fpt M1 M2…         freeze-pump-thaw degassing: keep the strongly-bound core (bonds ≥ θ to a neighbor), shed the weakly-held filtrate that bonds with nothing
   TOOL: trap A [X]         ionic trapping: sequester A by its R↔S charge in a potential well (add a counter X of opposite charge to deepen it); a held charge state, distinct from set (electron transfer)
-  TOOL: stain R M1 M2…     apply a diagnostic reagent R (kmno4/uv→⊙, chiral→Ħ, ninhydrin→>, iodine→any live center): units carrying the feature light up, the rest stay dark
+  TOOL: stain R M1 M2…     apply a diagnostic reagent R (kmno4/uv→⊙, chiral→⊥, ninhydrin→>, iodine→any live center): units carrying the feature light up, the rest stay dark
   TOOL: register NAME M1 M2…  forge the set into a ring and store its full sheet in the material library under NAME (recall it later by name)
   TOOL: recall NAME        reload a registered material by name and print its stored sheet (ring order, ρ, spectrum, conductance, strain, energy)
   TOOL: imscribe NAME [description]   CREATE a missing entry by imscribing it (the real generate pipeline). Use this the moment a verb reports a name is "not found" — then re-run the verb.
@@ -3554,7 +3554,7 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         ),
         "plasma" => (
             "read the entry as a collectivized-atom plasma: its regime (kinetic/gyrokinetic/fluid), instabilities, confinement class, and diagnostic wave signatures — the state where units surrender individual identity to the electromagnetic collective",
-            "map the 12-primitive tuple to plasma parameters via the forge: ⊢→phase-space/kinetic regime, ⋈→collisionality, ⊤→transport, ∋→instability cascade, ⊙→threshold/spectral structure, Ħ→reversibility (Vlasov vs Boltzmann), Ω→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
+            "map the 12-primitive tuple to plasma parameters via the forge: ⊢→phase-space/kinetic regime, ⋈→collisionality, ⊤→transport, ∋→instability cascade, ⊙→threshold/spectral structure, ⊥→reversibility (Vlasov vs Boltzmann), Ω→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
         ),
         "imasm" => (
             "compose the 12 IMASM opcodes into a free polymer — a chain, a ring, a star (hub + arms), a comb (backbone + grafts), a bubble (fork that reconverges), or a network — not only a line; reports the topology, its independent-loop count, and whether the grammar holds (only FSPLIT branches, only FFUSE fuses)",

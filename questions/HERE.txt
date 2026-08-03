@@ -3404,7 +3404,7 @@ theorem eventually_periodic_differences (A : Finset ℕ) (hA : A.Nonempty) :
 *   **Encoding / Duality [<]:** The sequence is encoded into a bit-vector of "reachable sums" relative to $a_n$. The $ℤ_2$ witness licenses the binary state (sum / not-sum).
 *   **Adjoint Pair [>]:** The relationship between the set $S_n$ and its dual sum-set $S_n + S_n$ governs the selection. The `LR_DUAL` atom represents the forward growth of $a_n$ and the backward constraint of the sums.
 *   **Boundedness [⊙]:** The `PHI_C` atom licenses the proof that the difference $a_{n+1} - a_n$ does not diverge, ensuring the state space is finite.
-*   **Markov Order [Ħ]:** The `TEMPD2` witness confirms the system has a finite memory depth (Markov order), which is necessary for the application of the Pigeonhole Principle to guarantee periodicity.
+*   **Markov Order [⊥]:** The `TEMPD2` witness confirms the system has a finite memory depth (Markov order), which is necessary for the application of the Pigeonhole Principle to guarantee periodicity.
 
 [thought|T|F|B|N]
 **Assessment:** The proof relies on the fact that the "memory" of the sum-exclusion rule is bounded by the magnitude of the elements, creating a finite state space.
@@ -6195,7 +6195,7 @@ sorry
 *   **Adjoint Pair [> → R_=]**: The relationship between the product of factorials and the sum of integers acts as a Galois connection under the $v_p$ valuation.
 *   **Phase Boundary / Extremal Principle [⊙ → phi_hat_y]**: Used to identify $p=2$ as the dominant constraint (the "boundary") for the growth of $g_k(n)$.
 *   **Equidistribution / Regularity [⊤ → C_@]**: The average order relies on the equidistribution of digits in base $p$ (Delange's Theorem), providing the $x \log x$ scaling.
-*   **Markov Order / Recursion [Ħ → H_A]**: The non-concentration (normal order failure) arises from the recursive/fractal nature of the $s_p(n)$ function, which prevents $g_k(n)$ from settling into a simple constant mean.
+*   **Markov Order / Recursion [⊥ → H_A]**: The non-concentration (normal order failure) arises from the recursive/fractal nature of the $s_p(n)$ function, which prevents $g_k(n)$ from settling into a simple constant mean.
 
 [thought|T|F|B|N]
 [type|N] IFIX(N)
@@ -7136,7 +7136,7 @@ theorem decreasing_not_unique_failure :
 *   **Catalog Witness:** `holographic_qft_vacuum` — utilized for the "density of states" analogy in the distribution of $f(n) = \phi(n)/n$.
 *   **Structural Primitives:**
     *   **⊤=𐑧 (Equidistribution):** Licensed the use of the distribution of $\phi(n)/n$ (Erdős-Wintner theorem context) to prove all patterns eventually appear.
-    *   **Ħ=𐑫 (Markov/Recursion):** Applied to the scaling of prime factors required to force a pattern of length $k$.
+    *   **⊥=𐑫 (Markov/Recursion):** Applied to the scaling of prime factors required to force a pattern of length $k$.
     *   **⊙=⊙ (Phase Boundary):** Used to identify the $F(n)$ limit as a boundary between "all patterns realized" and "sparsity of permutations."
 
 [thought|T]

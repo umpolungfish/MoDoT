@@ -455,7 +455,7 @@ pub fn run(args: &[String]) -> String {
         }
     }
     if names.is_empty() {
-        return "AREV — the Ħ door: imasm arev <opcode word> reads the word's tier from both \
+        return "AREV — the ⊥ door: imasm arev <opcode word> reads the word's tier from both \
                 hands. The or' hand is the R1-dominant reading (compute_tier as-is); the \
                 flipped hand exchanges the R1/R2 evidence triples (dialetheia↔atomic_reentry, \
                 b_live↔winding, gates↔bifurcation) over the same substrate and reads again. \
@@ -487,7 +487,7 @@ pub fn run(args: &[String]) -> String {
     let s2 = s1.mirrored();
 
     let mut out = String::new();
-    let _ = writeln!(out, "AREV — the Ħ door on: {}", names.join(" "));
+    let _ = writeln!(out, "AREV — the ⊥ door on: {}", names.join(" "));
     let _ = writeln!(
         out,
         "  run: {} ticks, {} windings{}  (period {}, value_period {}, frob {}, self_ref {})",

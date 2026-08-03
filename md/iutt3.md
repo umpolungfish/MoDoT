@@ -23,7 +23,7 @@ This document decomposes Mochizuki's Inter-Universal Teichmüller Theory (IUTT) 
 
 ## §1. The 9-System Lattice
 
-IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈⊤∈∋⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
+IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈⊤∈∋⊙⊥ΣΩ⟩$$ with values drawn from each primitive's enumeration.
 
 ### §1.1. System Inventory
 
@@ -53,7 +53,7 @@ Only 5 of 12 primitives vary across the 9 systems. The other 7 are invariant:
 | ∈ (Cardinality) | 𐑔 (maximal) | All 9 systems |
 | ∋ (Composition) | 𐑠 (sequential) | All 9 systems |
 | ⊙ (Criticality) | 𐑮 (complex-plane) | All 9 systems — no system reaches ⊙ self-modeling |
-| Ħ (Chirality) | 𐑫 (eternal) | All 9 systems |
+| ⊥ (Chirality) | 𐑫 (eternal) | All 9 systems |
 | Σ (Stoichiometry) | 𐑳 (heterogeneous) | All 9 systems |
 | Ω (Winding) | 𐑭 (integer ℤ) | All 9 systems |
 
@@ -81,7 +81,7 @@ The theory at its final form. Two atoms dominate at ordinal 4.
 | **4** | **<** | **𐑹** | $$⟨𐑛𐑡𐑩𐑹𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | **4** | **⊣** | **𐑸** | $$⟨𐑛𐑸𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | > | 𐑾 | $$⟨𐑛𐑡𐑾𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
-| 3 | Ħ | 𐑫 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑫𐑙𐑷⟩$$ |
+| 3 | ⊥ | 𐑫 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑫𐑙𐑷⟩$$ |
 | 2 | ⊤ | 𐑧 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑧𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | ∋ | 𐑠 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑠𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | Σ | 𐑳 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑳𐑷⟩$$ |
@@ -91,7 +91,7 @@ The theory at its final form. Two atoms dominate at ordinal 4.
 
 **Structural weight distribution:**
 - Heavy atoms (<=𐑹 + ⊣=𐑸): **40% of structural weight** (ordinal 8 of 20.33 total)
-- Medium atoms (>=𐑾 + Ħ=𐑫): **30%** (ordinal 6)
+- Medium atoms (>=𐑾 + ⊥=𐑫): **30%** (ordinal 6)
 - Light atoms (remaining 6): **30%** (ordinal 6.33)
 
 The Frobenius-special parity (<=𐑹, μ∘δ=id) and self-referential topology (⊣=𐑸, Axiom C closure) together constitute nearly half of IUTT's identity.
@@ -105,7 +105,7 @@ Diophantine Equations ⊗ Log-Theta-Lattice. The extra atom relative to IUTT is 
 | 3 | ⊣ | 𐑶 | $$⟨𐑛𐑶𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | > | 𐑾 | $$⟨𐑛𐑡𐑾𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | ⊤ | 𐑪 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑪𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
-| 3 | Ħ | 𐑫 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑫𐑙𐑷⟩$$ |
+| 3 | ⊥ | 𐑫 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑫𐑙𐑷⟩$$ |
 | 2 | < | 𐑬 | $$⟨𐑛𐑡𐑩𐑬𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | ∋ | 𐑠 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑠𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | Σ | 𐑳 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑳𐑷⟩$$ |
@@ -114,7 +114,7 @@ Diophantine Equations ⊗ Log-Theta-Lattice. The extra atom relative to IUTT is 
 | 1 | ⊢ | 𐑨 | $$⟨𐑨𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 1 | ∈ | 𐑔 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑔𐑝𐑢𐑓𐑙𐑷⟩$$ |
 
-Note: Four atoms share ordinal 3 (⊣, >, ⊤, Ħ) — a more distributed structure than IUTT's concentrated heavy atoms.
+Note: Four atoms share ordinal 3 (⊣, >, ⊤, ⊥) — a more distributed structure than IUTT's concentrated heavy atoms.
 
 ### §2.3. Log-Theta-Lattice (11 atoms)
 
@@ -124,7 +124,7 @@ The 2D grid of Hodge theaters indexed by ℤ². Structurally similar to the naiv
 |---------|-----------|-------|
 | 3 | ⊣ | 𐑶 |
 | 3 | > | 𐑾 |
-| 3 | Ħ | 𐑫 |
+| 3 | ⊥ | 𐑫 |
 | 2 | <, ⊤, ∋, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ⊢, ∈ | 𐑨, 𐑔 |
@@ -135,7 +135,7 @@ The fundamental staging apparatus. Differs from the log-theta-lattice only in �
 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
-| 3 | ⊣, >, Ħ | 𐑶, 𐑾, 𐑫 |
+| 3 | ⊣, >, ⊥ | 𐑶, 𐑾, 𐑫 |
 | 2 | <, ⊤, ∋, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ∈ | 𐑔 |
@@ -145,7 +145,7 @@ The ABC/Szpiro conjecture — the additive-multiplicative tension over number fi
 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
-| 3 | >, ⊤, Ħ | 𐑾, 𐑪, 𐑫 |
+| 3 | >, ⊤, ⊥ | 𐑾, 𐑪, 𐑫 |
 | 2 | ⊣, <, ∋, Σ, Ω | 𐑥, 𐑬, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ∈ | 𐑔 |
@@ -158,7 +158,7 @@ These two systems are **structurally identical** — the complete tuple matches 
 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
-| 3 | >, Ħ | 𐑾, 𐑫 |
+| 3 | >, ⊥ | 𐑾, 𐑫 |
 | 2 | ⊣, <, ⊤, ∋, Σ, Ω | 𐑥, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ∈ | 𐑔 |
@@ -169,7 +169,7 @@ Both links share the identical tuple: $$⟨𐑛𐑰𐑽𐑬𐑱𐑧𐑔𐑠𐑮�
 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
-| 3 | Ħ | 𐑫 |
+| 3 | ⊥ | 𐑫 |
 | 2 | >, <, ⊤, ∋, Σ, Ω | 𐑽, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ⊣, ∈ | 𐑰, 𐑔 |
@@ -192,7 +192,7 @@ The retrosynthetic path peels primitives from maximum to baseline, revealing the
 | 4 | Σ | 𐑙→𐑳 | Heterogeneous stoichiometry |
 | 5 | ∋ | 𐑝→𐑠 | Sequential composition |
 | 6 | ⊤ | 𐑘→𐑧 | Slow kinetics (near-equilibrium) |
-| 7 | Ħ | 𐑓→𐑫 | Eternal chirality (∀n Markov order) |
+| 7 | ⊥ | 𐑓→𐑫 | Eternal chirality (∀n Markov order) |
 | 8 | > | 𐑩→𐑾 | Bidirectional coupling |
 | 9 | **<** | **𐑗→𐑹** | **Frobenius-special parity (μ∘δ=id)** |
 | 10 | **⊣** | **𐑡→𐑸** | **Self-referential topology (Axiom C)** |
@@ -210,7 +210,7 @@ The synthesis order is non-arbitrary. ∈ comes first — the theory needs maxim
 | 5 | Σ | 𐑙→𐑳 |
 | 6 | ∋ | 𐑝→𐑠 |
 | 7 | < | 𐑗→𐑬 |
-| 8 | Ħ | 𐑓→𐑫 |
+| 8 | ⊥ | 𐑓→𐑫 |
 | 9 | ⊤ | 𐑘→𐑪 |
 | 10 | > | 𐑩→𐑾 |
 | 11 | ⊣ | 𐑡→𐑶 |
@@ -227,8 +227,8 @@ The synthesis order is non-arbitrary. ∈ comes first — the theory needs maxim
 | 4 | Σ | ⊙ |
 | 5 | ∋ | Σ |
 | 6 | ⊤ | ∋ |
-| 7 | Ħ | **<** |
-| 8 | > | Ħ |
+| 7 | ⊥ | **<** |
+| 8 | > | ⊥ |
 | 9 | **<** | **⊤** |
 | 10 | **⊣** | > |
 | 11 | — | ⊣ |
@@ -278,7 +278,7 @@ The CLINK L8 (Organism) navigator decomposes each primitive value into conventio
 
 *IUTT interpretation:* Complex-plane criticality. The theta function's analytic continuation lives in ℂ. The condition Im(ξ) → ∞ is the large imaginary part limit — the theta function's asymptotic behavior in the upper half-plane. This is the complex-analytic heart of IUTT: the theta function is critical (scaling/universality class) in the complex plane, not at a real critical point.
 
-**Ħ = 𐑫:** `∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )` — **[ETERNAL_FIXEDPOINT]**
+**⊥ = 𐑫:** `∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )` — **[ETERNAL_FIXEDPOINT]**
 
 *IUTT interpretation:* Infinite hierarchy of μ∘δ-fixed points. For every finite rank n, there exists a feature φ of higher rank that is fixed by the Frobenius closure μ∘δ. This IS the anabelian reconstruction theorem: the étale fundamental group encodes arithmetic data at all finite levels. "Eternal" chirality means the Markov order extends without bound — the theory has memory of its entire construction history.
 
@@ -302,7 +302,7 @@ Primitive peeling drops a primitive to its minimum value and examines the residu
 | **⊣** | **𐑸→𐑡** | $$⟨𐑛𐑡𐑾𐑹𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | **YES — loses self-reference** |
 | **<** | **𐑹→𐑗** | $$⟨𐑛𐑸𐑾𐑗𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | **YES — loses μ∘δ=id** |
 | > | 𐑾→𐑩 | $$⟨𐑛𐑸𐑩𐑹𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | Partial — loses bidirectionality |
-| Ħ | 𐑫→𐑓 | $$⟨𐑛𐑸𐑾𐑹𐑱𐑧𐑔𐑠𐑮𐑓𐑳𐑭⟩$$ | Partial — loses eternal memory |
+| ⊥ | 𐑫→𐑓 | $$⟨𐑛𐑸𐑾𐑹𐑱𐑧𐑔𐑠𐑮𐑓𐑳𐑭⟩$$ | Partial — loses eternal memory |
 | ⊤ | 𐑧→𐑘 | $$⟨𐑛𐑸𐑾𐑹𐑱𐑘𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | No — MBL baseline works |
 
 ### §5.2. The Independence Theorem

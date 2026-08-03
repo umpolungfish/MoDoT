@@ -251,7 +251,7 @@ The conductor is (d)∞₁∞₂; ∞₁, ∞₂ are the archimedean places.
     calc 2^10                                              → 1024
 
     phase_reconstruct d2048_diagonal_moduli
-                      even_character_ramified              → ring closes, phase word Ħ 𐑖𐑖
+                      even_character_ramified              → ring closes, phase word ⊥ 𐑖𐑖
     forge d2048_diagonal_moduli even_character_ramified    → DIMER, NOT a macrocycle;
                                                              a real ring needs n ≥ 3
     phase_reconstruct even_character_ramified

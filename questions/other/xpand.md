@@ -573,7 +573,7 @@ polymerization (imscriptive):  [sidon_set · asymptotic_basis · additive_energy
   degree of polymerization: 2 unit(s), 1 bond(s) (terminated early)
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   architecture: heteropolymer (2 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑖𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑖𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: linear — the chain terminated, so it cannot close into a ring.
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 ● TOOL material sidon_set additive_energy balog_szemeredi_gowers asymptotic_basis

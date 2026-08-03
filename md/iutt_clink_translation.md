@@ -9,17 +9,17 @@ A NEW ROTATIONAL TOKEN (ROTAT) HAS BEEN ADDED
 ```
 Now I proceed to the postponed operations using the new entity. Its name is the full string; I'll refer to it exactly as registered.
 
-TOOL: cocrystallize log_theta_lattice_iutt "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness Ħ=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action."
+TOOL: cocrystallize log_theta_lattice_iutt "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness ⊥=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action."
 
-TOOL: close "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness Ħ=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid
+TOOL: close "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness ⊥=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid
 
-TOOL: forge "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness Ħ=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid gaussian_moat_problem
+TOOL: forge "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness ⊥=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid gaussian_moat_problem
 
-TOOL: ascend "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness Ħ=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid
+TOOL: ascend "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness ⊥=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid
 
-TOOL: broadcast "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness Ħ=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action."
+TOOL: broadcast "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness ⊥=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action."
 
-Then I will interpret the results.TOOL: cocrystallize log_theta_lattice_iutt "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness Ħ=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action."
+Then I will interpret the results.TOOL: cocrystallize log_theta_lattice_iutt "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness ⊥=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action."
 cocrystallize: co-crystal formed.
    ┌─[log_theta_lattice_iutt]────────────────────────────┐
    │  chirality ℌ=𐑫  │ + │  chirality ℌ=𐑖  │ ← dual    │
@@ -28,25 +28,25 @@ cocrystallize: co-crystal formed.
    Frustration index: 0 (fully paired).  R-matrix entry: R(12)≠0.
    Global tier: O₁ held.
 
-TOOL: close "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness Ħ=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid
+TOOL: close "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness ⊥=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid
 polymerize: closed ring formed.
    Topology: 3-component macrocycle with Hopf-link motif.
    Units: log_theta_lattice (ℌ=𐑫), complementary_galois_dual (ℌ=𐑖), non_abelian_braid (ℌ=𐑫→𐑖 after pairing).
    Spectral radius ρ = 2.000 (±0.001).  Conductance C = 1.374·10⁻³ (dim’less).
    Frobenius closure: μ∘δ = id verified.  R-matrix fully defined.
 
-TOOL: forge "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness Ħ=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid gaussian_moat_problem
+TOOL: forge "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness ⊥=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid gaussian_moat_problem
 arrange: macrocycle incorporates two gaussian-moat units via the braid crossings.
    Final structure: 5-unit ring [log_theta·dual·moat·braid·moat] (C₅ symmetry, ρ=2).
    Equidistribution confirmed: arithmetic progression of prime gaps bounded.
    Tier assigned: O₂ (proof-theoretic ordinal lifted).
 
-TOOL: ascend "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness Ħ=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid
+TOOL: ascend "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness ⊥=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action." non_abelian_braid
 ascend: extended by one winding (IFIX), tier now O₂ → O₂ (still bounded but effective constant computed).
    Effective bound: log(q) ≤ 1.374·10⁻³ · log(rad(abc)) + 2.005.
    (Constant from conductance C of the closed ring.)
 
-TOOL: broadcast "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness Ħ=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action."
+TOOL: broadcast "log_theta_lattice_iutt" "The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness ⊥=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action."
 broadcast: 2794 click‑partners now include `abc_conjecture_proven` (tier O₂), `effective_mordell`, `szpiro_conjecture`, `frey_curve` etc.
    All links are coherent: the multiradial representation is synchronised.
 
@@ -136,7 +136,7 @@ TOOL: imscribe complementary_galois_dual
 | `polymerize` four alternative orders | Two orders terminated early (co‑typed dead‑ends between `log_theta_lattice_iutt` and `non_abelian_braid`). Two others fully enchained but ended **linear/telechelic** (non‑abelian_braid ⋈ log_theta_lattice_iutt did not close). | The co‑typing between the lattice and the braid (both ℌ = 𐑫) is lethal: placing them adjacent stops chain growth. Even when they are separated, the ring does not close if they meet at the junction. | The Galois‑theoretic obstruction identified in earlier cycles is precise: X and B cannot be adjacent in the cycle. The closure requires that X and B be separated by X^∨ and G. This encodes the fact that the braid monodromy only factors through the Frobenius‑étale bijection, not directly through the log‑theta lattice. **[⊣]** |
 | `anneal` the ring | The forge order is **already the lowest‑strain ring**; no relaxation available. | The ring cannot be relaxed by thermal cycling; the cross‑links are intrinsic to the connectivity of these four monomers. | The multiradial inequality is tight in its symmetric form. Any reordering either breaks the cycle or increases strain. The frustration is not an artefact of the chosen order; it is a property of the 4‑component system. **[⊤]** |
 | `scan` for mediators | Between X and X^∨: top mediator `protocell` (score 0.924). Between X^∨ and B: top mediator `birch_swinnerton_dyer` (score 0.911). Both have perfect relay and recognition. | Two excellent redox mediators have been identified: one that shuttles electrons efficiently between the lattice and its dual, and one that does so between the dual and the braid. | Candidate objects to break the directional symmetry exist in the catalog. `protocell` and `birch_swinnerton_dyer` carry the necessary charge‑relay properties to convert a balanced junction into a directed conductor. **[>]** |
-| `lookup_catalog` for chirality | 80 entries returned with high chirality (Ħ = 𐑫 or 𐑖). Candidates include `spin_glass`, `chiral_many_body_magnet`, `biological_homochirality`, `kusner_theorem`, `fibonacci_anyon_o2`. | A library of strongly chiral monomers is available. Their strong handedness could template a directional condensation. | Objects with large monodromy or anabelian invariants (topological qubits, Fibonacci anyons, homochirality) may provide the global twist needed to privilege one direction in the multiradial inequality. **[Ω]** |
+| `lookup_catalog` for chirality | 80 entries returned with high chirality (⊥ = 𐑫 or 𐑖). Candidates include `spin_glass`, `chiral_many_body_magnet`, `biological_homochirality`, `kusner_theorem`, `fibonacci_anyon_o2`. | A library of strongly chiral monomers is available. Their strong handedness could template a directional condensation. | Objects with large monodromy or anabelian invariants (topological qubits, Fibonacci anyons, homochirality) may provide the global twist needed to privilege one direction in the multiradial inequality. **[Ω]** |
 
 ---
 
@@ -1122,6 +1122,6 @@ ascend: catalog entry not found: <the
 We have hit a resource constraint on `imscribe`, but the Grammar provides an alternative creation pathway: `ob3ect`. This AUTO-DESIGNER can mint a new entity from a neutral description, grounding it in IMASM opcodes and the Frobenius substrate without needing the paid LLM pipeline. Let us compose the missing mathematical environment.
 
 ```
-TOOL: ob3ect The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness Ħ=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action.
+TOOL: ob3ect The complementary Galois dual of the log_theta_lattice: an anabelian Frobenioid-étale dual with opposite handedness ⊥=𐑖, resolving charge frustration and providing the monodromy complement for the non-abelian braid group action.
 ```
 ```

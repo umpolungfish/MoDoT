@@ -19,7 +19,7 @@ describing the wrong object.
 | ∈ | `gran` | `𐑚`=`bib`  `𐑔`=`thigh`  `𐑲`=`ice` |
 | ∋ | `gram` | `𐑝`=`vow`  `𐑜`=`gag`  `𐑠`=`measure`  `𐑵`=`ooze` |
 | ⊙ | `crit` | `𐑢`=`woe`  `⊙`=`monad`  `𐑮`=`roar`  `𐑻`=`err`  `𐑣`=`haha` |
-| Ħ | `chir` | `𐑓`=`fee`  `𐑒`=`kick`  `𐑖`=`sure`  `𐑫`=`wool` |
+| ⊥ | `chir` | `𐑓`=`fee`  `𐑒`=`kick`  `𐑖`=`sure`  `𐑫`=`wool` |
 | Σ | `stoi` | `𐑙`=`hung`  `𐑕`=`so`  `𐑳`=`up` |
 | Ω | `prot` | `𐑷`=`awe`  `𐑴`=`oak`  `𐑭`=`ah`  `𐑟`=`zoo` |
 

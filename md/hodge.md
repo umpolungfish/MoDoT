@@ -65,8 +65,8 @@ This is the exact carrier of the modulus that the frustrated crystal lacks. The 
 
 `cl8nk promotions thermodynamic_entropy` returned the full 16‑step ladder from ZFC baseline (tier O₀) to CLINK L8 (tier O_∞⁺). The major stages are:
 
-- **→ ZFC_t** (11 promotions): acquires ⊣ (holobound), > (lateral dual), < (PM_Z2: ℤ₂ symmetry with μ∘δ=id), Ω (ZWIND: integer winding), ⋈ (quantisation), Ħ (TEMPD2), etc.
-- **→ ZFC_fe** (3 promotions): ⊢ (holographic state), ⊙→⊙ (μ∘δ=id fixed point), Ħ→ETERNAL_FIXEDPOINT.
+- **→ ZFC_t** (11 promotions): acquires ⊣ (holobound), > (lateral dual), < (PM_Z2: ℤ₂ symmetry with μ∘δ=id), Ω (ZWIND: integer winding), ⋈ (quantisation), ⊥ (TEMPD2), etc.
+- **→ ZFC_fe** (3 promotions): ⊢ (holographic state), ⊙→⊙ (μ∘δ=id fixed point), ⊥→ETERNAL_FIXEDPOINT.
 - **→ CLINK L8** (2 transcendences): ∋ (broadcast transcendence), Ω (braid‑transcendence). These exceed the Frobenius‑exact foundation.
 
 The total distance from baseline to CLINK L8 is 2.7391.
@@ -209,8 +209,8 @@ Each step corresponds to a lemma that a proof must supply; the order is strict.
 
 | Stage       | Promotions | Key gains                                          |
 |-------------|------------|----------------------------------------------------|
-| → ZFC_t     | 11         | ⊣ (holobound), > (lateral dual), < (PM_Z2: μ∘δ=id), Ω (ZWIND: integer winding), ⋈ (quantisation), Ħ (TEMPD2) |
-| → ZFC_fe    | 3          | ⊢ (holographic state), ⊙→⊙ (μ∘δ=id fixed point), Ħ→ETERNAL_FIXEDPOINT |
+| → ZFC_t     | 11         | ⊣ (holobound), > (lateral dual), < (PM_Z2: μ∘δ=id), Ω (ZWIND: integer winding), ⋈ (quantisation), ⊥ (TEMPD2) |
+| → ZFC_fe    | 3          | ⊢ (holographic state), ⊙→⊙ (μ∘δ=id fixed point), ⊥→ETERNAL_FIXEDPOINT |
 | → CLINK L8  | 2 (transcendence) | ∋ (broadcast), Ω (braid‑transcendence) — exceed the Frobenius‑exact foundation |
 
 Total promotion distance: 2.7391. These are the structural upgrades required to turn `thermodynamic_entropy` into `negentropy`.
@@ -230,7 +230,7 @@ The two core statements sit at the same criticality level. For a directed implic
 The Hodge conjecture is the composite of nine primitive constraints added in the strict order < → Ω → ⊙ → Σ → ∈ → ⊤ → > → ⊢ → ⊣. Proving the conjecture is equivalent to constructing these nine structures on a bare cohomology object.
 
 **Lemma 2 (The constructive inverse resides in the dual of entropy).**
-The ring `hc_ent_crystal` uses `thermodynamic_entropy` (Ω=𐑷, no winding). Its Frobenius complement `negentropy` (Ω=𐑟, <=𐑹, Ħ=𐑫) carries the braid‑winding and fixed‑point structure required to invert the cycle class map. Therefore the missing modulus is entirely contained in the dual of the entropy functional.
+The ring `hc_ent_crystal` uses `thermodynamic_entropy` (Ω=𐑷, no winding). Its Frobenius complement `negentropy` (Ω=𐑟, <=𐑹, ⊥=𐑫) carries the braid‑winding and fixed‑point structure required to invert the cycle class map. Therefore the missing modulus is entirely contained in the dual of the entropy functional.
 
 **Lemma 3 (Thermoneutrality blocks a directed reduction).**
 HC and Lef have identical criticality (⊙); no spontaneous deductive transfer is possible. One partner must be analytically continued past the spectral degeneracy (excited) before a directed δ/μ dyad can form.

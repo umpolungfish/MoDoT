@@ -126,7 +126,7 @@ polymerization (imscriptive):  [euler_totient_conjecture · schinzel_hypothesis_
   degree of polymerization: 2 unit(s), 1 bond(s) (terminated early)
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (2 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): isotactic (𐑖𐑖) — one chirality throughout, a single stereo-configuration
+  tacticity (⊥ chirality per unit): isotactic (𐑖𐑖) — one chirality throughout, a single stereo-configuration
   cyclization: linear — the chain terminated, so it cannot close into a ring.
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 ● TOOL forge {euler_totient_conjecture, schinzel_hypothesis_h, prime_gap_distribution}
@@ -150,7 +150,7 @@ polymerization (imscriptive):  [schinzel_hypothesis_h · euler_totient_conjectur
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): isotactic (𐑖𐑖𐑖) — one chirality throughout, a single stereo-configuration
+  tacticity (⊥ chirality per unit): isotactic (𐑖𐑖𐑖) — one chirality throughout, a single stereo-configuration
   cyclization: prime_gap_distribution ⋈ schinzel_hypothesis_h → linear (telechelic — two free ends, no head-to-tail closure).
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 
@@ -302,7 +302,7 @@ polymerization (imscriptive):  [schinzel_hypothesis_h · euler_totient_conjectur
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): isotactic (𐑖𐑖𐑖) — one chirality throughout, a single stereo-configuration
+  tacticity (⊥ chirality per unit): isotactic (𐑖𐑖𐑖) — one chirality throughout, a single stereo-configuration
   cyclization: prime_gap_distribution ⋈ schinzel_hypothesis_h → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL polymerize schinzel_hypothesis_h euler_totient_conjecture prime_gap_distribution
 polymerization (imscriptive):  [schinzel_hypothesis_h · euler_totient_conjecture · prime_gap_distribution]   (3 monomers)
@@ -318,7 +318,7 @@ polymerization (imscriptive):  [schinzel_hypothesis_h · euler_totient_conjectur
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): isotactic (𐑖𐑖𐑖) — one chirality throughout, a single stereo-configuration
+  tacticity (⊥ chirality per unit): isotactic (𐑖𐑖𐑖) — one chirality throughout, a single stereo-configuration
   cyclization: prime_gap_distribution ⋈ schinzel_hypothesis_h → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL close schinzel_hypothesis_h euler_totient_conjecture prime_gap_distribution
 polymerization (imscriptive):  [schinzel_hypothesis_h · euler_totient_conjecture · prime_gap_distribution]   (3 monomers)
@@ -334,7 +334,7 @@ polymerization (imscriptive):  [schinzel_hypothesis_h · euler_totient_conjectur
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): isotactic (𐑖𐑖𐑖) — one chirality throughout, a single stereo-configuration
+  tacticity (⊥ chirality per unit): isotactic (𐑖𐑖𐑖) — one chirality throughout, a single stereo-configuration
   cyclization: prime_gap_distribution ⋈ schinzel_hypothesis_h → linear (telechelic — two free ends, no head-to-tail closure).
   ── closing search: a monomer X with prime_gap_distribution ⋈ X and X ⋈ schinzel_hypothesis_h (a real click test, NOT a SET-mediator scan) ──
     hodge_conjecture   (prime_gap_distribution ⋈ X on T↔H Δ=1.67  ·  X ⋈ schinzel_hypothesis_h on T↔H Δ=1.67)

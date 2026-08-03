@@ -22,7 +22,7 @@ was submitted to `forge`, which searches all 24 orderings, finds the optimal lin
   This order **fully enchains** all four units and **cyclises** into a macrocycle. 12 of the 24 orderings close; the chosen one is the best‑scoring, not unique.
 - **Polymer backbone**: regioregular (every condensation bond on the T↔H head‑to‑tail repeat unit).
 - **Architecture**: random / statistical copolymer of three monomer types.
-- **Tacticity** (Ħ): atactic — no stereo‑regular pattern.
+- **Tacticity** (⊥): atactic — no stereo‑regular pattern.
 - **Cyclisation**: the head (first `theta_link_iutt`) clicks with the tail (`casas_alvero_conjecture`) on T↔H, forming a **4‑membered macrocycle**.
 - **Ring stability**: weakest clean bond Δ = 1.75 at junction 3→4; strain σ(Δ) = 0.000 — evenly loaded, relaxed.
 - **Conductance**: **CONDUCTIVE** — a winding quantum Ω circulates the whole ring one way (reductive); the ring supports a persistent current, i.e. it carries a modulus.

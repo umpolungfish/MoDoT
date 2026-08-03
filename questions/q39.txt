@@ -80,7 +80,7 @@ polymerization (imscriptive):  [infinite_set_mappings · set_theory_zfc · sidon
   backbone: regioirregular — bonds on D↔W, R↔S, T↔H (head-to-head/tail-to-tail defects).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (5 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑓𐑫𐑖𐑓𐑒) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑓𐑫𐑖𐑓𐑒) — irregular chirality, no stereo-regular pattern
   cyclization: probabilistic_method ⋈ infinite_set_mappings → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL click sidon_set infinite_set_mappings
 click-maths:  sidon_set  ⋈  infinite_set_mappings   (θ=0.50)
@@ -90,7 +90,7 @@ click-maths:  sidon_set  ⋈  infinite_set_mappings   (θ=0.50)
     R↔S    sidon_set= -0.67  infinite_set_mappings= +0.00   Δ=0.67
   ✓ CLICK on D↔W — spring-loaded Δ=1.00, single reaction center, closes.
   product: ⟨𐑼𐑡𐑑𐑿𐑐𐑧𐑲𐑠𐑢𐑖𐑳𐑭⟩  (ring saturated on D↔W)
-  inherited scaffold (blended from both partners): [>, <, ⋈, ⊤, ∈, ∋, Ħ, Σ]
+  inherited scaffold (blended from both partners): [>, <, ⋈, ⊤, ∈, ∋, ⊥, Σ]
 ● TOOL excite sidon_set_infinite_density
 excite:  sidon_set_infinite_density  →hν→  sidon_set_infinite_density*
   δ (light): promote to the excited manifold — Criticality ⊙ ⊙→𐑻 (the non-Hermitian exceptional-point resonance: metastable, finite lifetime — it DECAYS).
@@ -116,7 +116,7 @@ polymerization (imscriptive):  [infinite_set_mappings · set_theory_zfc · sidon
   backbone: regioirregular — bonds on D↔W, R↔S, T↔H (head-to-head/tail-to-tail defects).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (5 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑓𐑫𐑖𐑓𐑒) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑓𐑫𐑖𐑓𐑒) — irregular chirality, no stereo-regular pattern
   cyclization: probabilistic_method ⋈ infinite_set_mappings → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL material infinite_set_mappings set_theory_zfc sidon_set math_set_cardinality probabilistic_method
 polymerization (imscriptive):  [infinite_set_mappings · set_theory_zfc · sidon_set · math_set_cardinality · probabilistic_method]   (5 monomers)
@@ -136,7 +136,7 @@ polymerization (imscriptive):  [infinite_set_mappings · set_theory_zfc · sidon
   backbone: regioirregular — bonds on D↔W, R↔S, T↔H (head-to-head/tail-to-tail defects).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (5 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑓𐑫𐑖𐑓𐑒) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑓𐑫𐑖𐑓𐑒) — irregular chirality, no stereo-regular pattern
   cyclization: probabilistic_method ⋈ infinite_set_mappings → linear (telechelic — two free ends, no head-to-tail closure).
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 

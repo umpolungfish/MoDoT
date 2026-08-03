@@ -75,7 +75,7 @@ polymerization (imscriptive):  [fodor_lemma_regressive_function · erdos_hajnal_
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioregular — every condensation bond on T↔H (a clean head-to-tail repeat unit).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑖) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑖) — irregular chirality, no stereo-regular pattern
   cyclization: hajnal_specker_forest_property ⋈ fodor_lemma_regressive_function → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL close erdos_hajnal_aleph1_graph fodor_lemma_regressive_function hajnal_specker_forest_property
 polymerization (imscriptive):  [erdos_hajnal_aleph1_graph · fodor_lemma_regressive_function · hajnal_specker_forest_property]   (3 monomers)
@@ -91,7 +91,7 @@ polymerization (imscriptive):  [erdos_hajnal_aleph1_graph · fodor_lemma_regress
   degree of polymerization: 2 unit(s), 1 bond(s) (terminated early)
   backbone: regioregular — every condensation bond on T↔H (a clean head-to-tail repeat unit).
   architecture: heteropolymer (2 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: linear — the chain terminated, so it cannot close into a ring.
   ── closing search: a monomer X with fodor_lemma_regressive_function ⋈ X and X ⋈ hajnal_specker_forest_property (a real click test, NOT a SET-mediator scan) ──
     connes_embedding_problem   (fodor_lemma_regressive_function ⋈ X on T↔H Δ=1.75  ·  X ⋈ hajnal_specker_forest_property on T↔H Δ=1.42)
@@ -121,7 +121,7 @@ polymerization (imscriptive):  [fodor_lemma_regressive_function · erdos_hajnal_
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioregular — every condensation bond on T↔H (a clean head-to-tail repeat unit).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑖) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑖) — irregular chirality, no stereo-regular pattern
   cyclization: hajnal_specker_forest_property ⋈ fodor_lemma_regressive_function → linear (telechelic — two free ends, no head-to-tail closure).
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 

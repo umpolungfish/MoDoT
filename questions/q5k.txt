@@ -114,7 +114,7 @@ polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm �
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
   cyclization: szemerédi_theorem ⋈ erdos_conjecture_ap → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL switch bloom_sisask_bound kelley_meka_density
 switch:  bloom_sisask_bound  ⇌  kelley_meka_density
@@ -156,7 +156,7 @@ polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm �
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
   cyclization: szemerédi_theorem ⋈ erdos_conjecture_ap → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 4-membered ring, branched (a cross-linked network node on the ring)
@@ -312,7 +312,7 @@ polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm �
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
   cyclization: szemerédi_theorem ⋈ erdos_conjecture_ap → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL switch bloom_sisask_bound kelley_meka_density
 switch:  bloom_sisask_bound  ⇌  kelley_meka_density
@@ -347,7 +347,7 @@ polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm �
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
   cyclization: szemerédi_theorem ⋈ erdos_conjecture_ap → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 4-membered ring, branched (a cross-linked network node on the ring)
@@ -542,7 +542,7 @@ polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm �
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
   cyclization: szemerédi_theorem ⋈ erdos_conjecture_ap → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ### NOT RUN this round (4 tool call(s) over the 6-per-round cap)
   TOOL: switch bloom_sisask_bound kelley_meka_density
@@ -620,7 +620,7 @@ polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm �
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑖𐑓𐑖𐑖) — irregular chirality, no stereo-regular pattern
   cyclization: szemerédi_theorem ⋈ erdos_conjecture_ap → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 4-membered ring, branched (a cross-linked network node on the ring)

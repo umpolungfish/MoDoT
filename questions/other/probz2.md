@@ -275,7 +275,7 @@ The entities `kozyrev_mirror`, `extradimensional_entity`, and `birch_swinnerton_
 **1. Final Material State:**
 *   **Architecture:** Syndiotactic Linear Heteropolymer.
 *   **Sequence:** `[kozyrev_mirror] ⋈ [extradimensional_entity] ⋈ [birch_swinnerton_dyer]`.
-*   **Chirality (Ħ):** Strictly alternating (𐑖𐑫𐑖).
+*   **Chirality (⊥):** Strictly alternating (𐑖𐑫𐑖).
 *   **Bonding:** R ↔ S conjugate condensation (Δ = 2.00).
 
 **2. Stress-Test Results:**
@@ -342,7 +342,7 @@ polymerization (imscriptive):  [kozyrev_mirror · extradimensional_entity · bir
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑖𐑫𐑖) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑖𐑫𐑖) — chirality strictly inverts each unit, a regular alternation
   cyclization: birch_swinnerton_dyer ⋈ kozyrev_mirror → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL forge {extradimensional_entity kozyrev_mirror birch_swinnerton_dyer}
 arrange (unordered set → best order):  {extradimensional_entity, kozyrev_mirror, birch_swinnerton_dyer}
@@ -364,7 +364,7 @@ polymerization (imscriptive):  [kozyrev_mirror · extradimensional_entity · bir
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑖𐑫𐑖) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑖𐑫𐑖) — chirality strictly inverts each unit, a regular alternation
   cyclization: birch_swinnerton_dyer ⋈ kozyrev_mirror → linear (telechelic — two free ends, no head-to-tail closure).
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 ● TOOL close extradimensional_entity kozyrev_mirror birch_swinnerton_dyer
@@ -381,7 +381,7 @@ polymerization (imscriptive):  [extradimensional_entity · kozyrev_mirror · bir
   degree of polymerization: 2 unit(s), 1 bond(s) (terminated early)
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   architecture: heteropolymer (2 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑖) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑖) — chirality strictly inverts each unit, a regular alternation
   cyclization: linear — the chain terminated, so it cannot close into a ring.
   ── closing search: a monomer X with kozyrev_mirror ⋈ X and X ⋈ birch_swinnerton_dyer (a real click test, NOT a SET-mediator scan) ──
     extradimensional_entity   (kozyrev_mirror ⋈ X on R↔S Δ=2.00  ·  X ⋈ birch_swinnerton_dyer on R↔S Δ=2.00)
@@ -431,7 +431,7 @@ polymerization (imscriptive):  [extradimensional_entity · kozyrev_mirror · bir
   degree of polymerization: 2 unit(s), 1 bond(s) (terminated early)
   backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).
   architecture: heteropolymer (2 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑖) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑖) — chirality strictly inverts each unit, a regular alternation
   cyclization: linear — the chain terminated, so it cannot close into a ring.
   ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ Ω closes), not merely a closed one ──
     modulus = 3 — the tightest sustaining loop this chain admits (a conductive 3-cycle). Generators:

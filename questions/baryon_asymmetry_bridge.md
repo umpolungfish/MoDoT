@@ -92,7 +92,7 @@ prompt — the Void's own type:
     ⟨𐑼𐑡𐑾𐑗𐑱𐑧𐑚𐑠⊙𐑖𐑳𐑭⟩
       ⊢ = 𐑼   temporal/iterative: a closed cycle with a specifiable reset step
       ⊙ = ⊙   ξ → ∞ ∧ μ∘δ = id — criticality
-      Ħ = 𐑖   persistent chiral
+      ⊥ = 𐑖   persistent chiral
       Ω = 𐑭   integer-winding-protected: stable against perturbations preserving the winding
 
 Against ray_class_field_Qsqrt and connes_embedding_problem it does **not** close: the

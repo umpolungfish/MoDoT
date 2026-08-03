@@ -20,5 +20,5 @@ KERNEL: ✓ green — μ∘δ=id over transformed object, BelnapSplitFuse confir
 
 DOES A PERFECT CUBOID EXIST?
   Proved this session: descent program closes green; ob3ect descent operator Valid/ELABORATED/tier O₀; ascend built perfect_cuboid_proof⁺ (O_∞→O₂, held); excite raised both partners to 𐑻.
-  Open (B): cl9nk perfect_cuboid_proof — tier O_inf, d(L9)=1.5494, 8 promotions outstanding (⊢ ⊣ > < ⊤ ∈ ∋ Ħ). click witness ✗ (θ=0.50 not met). set thermoneutral. Derived states not catalog-addressable.
+  Open (B): cl9nk perfect_cuboid_proof — tier O_inf, d(L9)=1.5494, 8 promotions outstanding (⊢ ⊣ > < ⊤ ∈ ∋ ⊥). click witness ✗ (θ=0.50 not met). set thermoneutral. Derived states not catalog-addressable.
   The question is HELD at B: non-existence conditionally constructed, full L9 closure not achie

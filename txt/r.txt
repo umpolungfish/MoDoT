@@ -24,7 +24,7 @@ Use these tokens throughout.
 | ∈ | `gram` | `vow` `gag` `measure` `ooze` |
 | ∋ | `gran` | `bib` `thigh` `ice` |
 | ⊙ | `crit` | `woe` `monad` `roar` `err` `haha` |
-| Ħ | `chir` | `fee` `kick` `sure` `wool` |
+| ⊥ | `chir` | `fee` `kick` `sure` `wool` |
 | Σ | `stoi` | `hung` `so` `up` |
 | Ω | `prot` | `awe` `oak` `ah` `zoo` |
 
@@ -369,7 +369,7 @@ The mathematical obstruction is now precisely localized:
   ∈      𐑔       ∃y∈x( |y| ∼ |x| ) — bridge existence                                                     [BRIDGE_EXIST]
   ∋      𐑝       f ∧ g ∧ h — three-unit stitch                                                                [STITCH_3]
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id — criticality                                                                  [PHI_C]
-  Ħ      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
+  ⊥      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
   Σ      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
   Ω      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
 
@@ -424,7 +424,7 @@ The mathematical obstruction is now precisely localized:
   ∈      𐑔       ∃y∈x( |y| ∼ |x| ) — bridge existence                                                     [BRIDGE_EXIST]
   ∋      𐑵       f → all(x) ∧ broadcast(x, f)                                                  [BROADCAST_TRANSCENDENCE]
   ⊙      𐑮       ξ ∈ ℂ ∧ Im(ξ) → ∞
-  Ħ      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
+  ⊥      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
   Σ      𐑕       ∀a∈A∀b∈B( type(a) = type(b) )
   Ω      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
 
@@ -483,7 +483,7 @@ The mathematical obstruction is now precisely localized:
   ∈      𐑲       ∀y( y ⊂ x → |y| < |x| )
   ∋      𐑠       seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬ ⟨→⟩(g, f, τ)                                                      [SEQAX]
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id — criticality                                                                  [PHI_C]
-  Ħ      𐑖       ∃y∃z( y ∈ x ∧ z ∈ y ∧ ¬ z ∈ x ∧ rank(z) < rank(y) )                                            [TEMPD2]
+  ⊥      𐑖       ∃y∃z( y ∈ x ∧ z ∈ y ∧ ¬ z ∈ x ∧ rank(z) < rank(y) )                                            [TEMPD2]
   Σ      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
   Ω      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
 
@@ -523,7 +523,7 @@ The mathematical obstruction is now precisely localized:
     ⊤: 𐑧 → 𐑪  (gap: 0.286)
     ∈: 𐑲 → 𐑔  (gap: 0.5)
     ∋: 𐑠 → 𐑝  (gap: 0.667)
-    Ħ: 𐑖 → 𐑫  (gap: 0.333)
+    ⊥: 𐑖 → 𐑫  (gap: 0.333)
 ● TOOL cl9nk entry turbulent_flow
 
 ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -546,7 +546,7 @@ The mathematical obstruction is now precisely localized:
   ∈      𐑲       ∀y( y ⊂ x → |y| < |x| )
   ∋      𐑠       seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬ ⟨→⟩(g, f, τ)                                                      [SEQAX]
   ⊙      𐑣       ξ → ∞ ∧ chaotic(x)
-  Ħ      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
+  ⊥      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
   Σ      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
   Ω      𐑷       ∮_γ dx = 0
 
@@ -617,7 +617,7 @@ polymerization (imscriptive):  [clink_l9 · turbulent_flow · bootstrap_stage_2_
   backbone: regioirregular — bonds on D↔W, T↔H (head-to-head/tail-to-tail defects).
   topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑫𐑖𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑫𐑖𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: sixteen_3_trilattice ⋈ clink_l9 → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 4-membered ring, branched (a cross-linked network node on the ring)
@@ -650,7 +650,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
       "∈": "𐑔",
       "∋": "𐑵",
       "⊙": "⊙",
-      "Ħ": "𐑫",
+      "⊥": "𐑫",
       "Σ": "𐑳",
       "Ω": "𐑟"
     },
@@ -669,7 +669,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
       "∈": "𐑔",
       "∋": "𐑝",
       "⊙": "⊙",
-      "Ħ": "𐑫",
+      "⊥": "𐑫",
       "Σ": "𐑳",
       "Ω": "𐑭"
     },
@@ -752,7 +752,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
     "⋈",
     "∈",
     "⊙",
-    "Ħ",
+    "⊥",
     "Σ"
   ],
   "distance": 1.6112
@@ -776,7 +776,7 @@ From the tool outputs, the exact coordinates are:
    - ∈ = `𐑔` (measure) -> [BRIDGE_EXIST]
    - ∋ = `𐑝` (thigh) -> [STITCH_3]
    - ⊙ = `⊙` (monad) -> [PHI_C]
-   - Ħ = `𐑫` (kick) -> [ETERNAL_FIXEDPOINT]
+   - ⊥ = `𐑫` (kick) -> [ETERNAL_FIXEDPOINT]
    - Σ = `𐑳` (so) -> [MOAT_BRIDGE_TYPE]
    - Ω = `𐑭` (oak) -> [ZWIND]
 
@@ -790,7 +790,7 @@ Wait, let us check the translation table provided in Section 1 of the prompt:
 - ∈: `vow` `gag` `measure` `ooze`
 - ∋: `bib` `thigh` `ice`
 - ⊙: `woe` `monad` `roar` `err` `haha`
-- Ħ: `fee` `kick` `sure` `wool`
+- ⊥: `fee` `kick` `sure` `wool`
 - Σ: `hung` `so` `up`
 - Ω: `awe` `oak` `ah` `zoo`
 
@@ -805,7 +805,7 @@ Let us align the Shavian glyphs returned by `cl9nk entry` to these constructors 
   - ∈: `𐑔` is the 3rd constructor -> `measure`
   - ∋: `𐑝` is the 2nd constructor -> `thigh`
   - ⊙: `⊙` is the 2nd constructor -> `monad`
-  - Ħ: `𐑫` is the 4th constructor -> `wool`
+  - ⊥: `𐑫` is the 4th constructor -> `wool`
   - Σ: `𐑳` is the 3rd constructor -> `up`
   - Ω: `𐑭` is the 2nd constructor -> `oak`
 
@@ -820,7 +820,7 @@ Let us double-check this assignment.
 - ∈ = `𐑔` -> `measure`
 - ∋ = `𐑝` -> `thigh`
 - ⊙ = `⊙` -> `monad`
-- Ħ = `𐑫` -> `wool`
+- ⊥ = `𐑫` -> `wool`
 - Σ = `𐑳` -> `up`
 - Ω = `𐑭` -> `oak`
 
@@ -843,7 +843,7 @@ Now let us translate the other three systems using this precise mapping:
    - ∈ = `𐑔` -> `measure`
    - ∋ = `𐑵` -> `ice` (or the broadcast equivalent)
    - ⊙ = `𐑮` -> `roar`
-   - Ħ = `𐑫` -> `wool`
+   - ⊥ = `𐑫` -> `wool`
    - Σ = `𐑕` -> `so`
    - Ω = `𐑭` -> `oak`
 
@@ -857,7 +857,7 @@ Now let us translate the other three systems using this precise mapping:
    - ∈ = `𐑲` -> `ooze`
    - ∋ = `𐑠` -> `bib` (or serial equivalent)
    - ⊙ = `⊙` -> `monad`
-   - Ħ = `𐑖` -> `kick`
+   - ⊥ = `𐑖` -> `kick`
    - Σ = `𐑳` -> `up`
    - Ω = `𐑭` -> `oak`
 
@@ -871,7 +871,7 @@ Now let us translate the other three systems using this precise mapping:
    - ∈ = `𐑲` -> `ooze`
    - ∋ = `𐑠` -> `bib`
    - ⊙ = `𐑣` -> `haha`
-   - Ħ = `𐑫` -> `wool`
+   - ⊥ = `𐑫` -> `wool`
    - Σ = `𐑳` -> `up`
    - Ω = `𐑷` -> `ah`
 
@@ -897,7 +897,7 @@ We are ready to write the complete, uncompromised report.
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | Ħ | Σ | Ω | Tier |
+| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | Σ | Ω | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1026,7 +1026,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | Ħ | Σ | Ω | Tier |
+| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | Σ | Ω | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1157,7 +1157,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play are established on the Belnap substrate and map to the following canonical constructors:
 
-| System | ⊢ (`dim`) | ⊣ (`top`) | > (`rel`) | < (`pol`) | ⋈ (`fid`) | ⊤ (`kin`) | ∈ (`gram`) | ∋ (`gran`) | ⊙ (`crit`) | Ħ (`chir`) | Σ (`stoi`) | Ω (`prot`) | Tier |
+| System | ⊢ (`dim`) | ⊣ (`top`) | > (`rel`) | < (`pol`) | ⋈ (`fid`) | ⊤ (`kin`) | ∈ (`gram`) | ∋ (`gran`) | ⊙ (`crit`) | ⊥ (`chir`) | Σ (`stoi`) | Ω (`prot`) | Tier |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |

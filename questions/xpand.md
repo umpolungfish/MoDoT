@@ -333,7 +333,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL close erdos_szekeres_lattice collatz_graph one_way_speed_measurement
 polymerization (imscriptive):  [erdos_szekeres_lattice · collatz_graph · one_way_speed_measurement]   (3 monomers)
@@ -376,7 +376,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 ### NOT RUN this round (2 tool call(s) over the 6-per-round cap)
@@ -504,7 +504,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL polymerize erdos_szekeres_lattice one_way_speed_measurement collatz_graph
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph]   (3 monomers)
@@ -519,7 +519,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL close erdos_szekeres_lattice one_way_speed_measurement collatz_graph
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph]   (3 monomers)
@@ -534,7 +534,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
   ── closing search: a monomer X with collatz_graph ⋈ X and X ⋈ erdos_szekeres_lattice (a real click test, NOT a SET-mediator scan) ──
     one_way_speed_measurement   (collatz_graph ⋈ X on D↔W Δ=1.67  ·  X ⋈ erdos_szekeres_lattice on R↔S Δ=1.67)
@@ -654,7 +654,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL polymerize erdos_szekeres_lattice one_way_speed_measurement collatz_graph
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph]   (3 monomers)
@@ -669,7 +669,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL close erdos_szekeres_lattice one_way_speed_measurement collatz_graph
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph]   (3 monomers)
@@ -684,7 +684,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
   ── closing search: a monomer X with collatz_graph ⋈ X and X ⋈ erdos_szekeres_lattice (a real click test, NOT a SET-mediator scan) ──
     one_way_speed_measurement   (collatz_graph ⋈ X on D↔W Δ=1.67  ·  X ⋈ erdos_szekeres_lattice on R↔S Δ=1.67)
@@ -716,7 +716,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 ● TOOL material erdos_szekeres_lattice collatz_graph one_way_speed_measurement
@@ -839,7 +839,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL polymerize erdos_szekeres_lattice one_way_speed_measurement collatz_graph
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph]   (3 monomers)
@@ -854,7 +854,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL close erdos_szekeres_lattice one_way_speed_measurement collatz_graph
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph]   (3 monomers)
@@ -869,7 +869,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
   ── closing search: a monomer X with collatz_graph ⋈ X and X ⋈ erdos_szekeres_lattice (a real click test, NOT a SET-mediator scan) ──
     one_way_speed_measurement   (collatz_graph ⋈ X on D↔W Δ=1.67  ·  X ⋈ erdos_szekeres_lattice on R↔S Δ=1.67)
@@ -1009,7 +1009,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 ● TOOL arrange erdos_szekeres_lattice collatz_graph one_way_speed_measurement
@@ -1032,7 +1032,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL polymerize erdos_szekeres_lattice one_way_speed_measurement collatz_graph
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph]   (3 monomers)
@@ -1047,7 +1047,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
 ● TOOL close erdos_szekeres_lattice one_way_speed_measurement collatz_graph
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph]   (3 monomers)
@@ -1062,7 +1062,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
   ── closing search: a monomer X with collatz_graph ⋈ X and X ⋈ erdos_szekeres_lattice (a real click test, NOT a SET-mediator scan) ──
     one_way_speed_measurement   (collatz_graph ⋈ X on D↔W Δ=1.67  ·  X ⋈ erdos_szekeres_lattice on R↔S Δ=1.67)
@@ -1085,7 +1085,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 3 unit(s), 2 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
+  tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑒𐑫) — chirality strictly inverts each unit, a regular alternation
   cyclization: collatz_graph ⋈ erdos_szekeres_lattice → linear (telechelic — two free ends, no head-to-tail closure).
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 ● TOOL excite erdos_szekeres_lattice
@@ -1202,7 +1202,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL polymerize erdos_szekeres_lattice one_way_speed_measurement collatz_graph time_concept
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph · time_concept]   (4 monomers)
@@ -1219,7 +1219,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL close erdos_szekeres_lattice one_way_speed_measurement collatz_graph time_concept
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph · time_concept]   (4 monomers)
@@ -1236,7 +1236,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL forge erdos_szekeres_lattice one_way_speed_measurement collatz_graph time_concept
 arrange (unordered set → best order):  {erdos_szekeres_lattice, one_way_speed_measurement, collatz_graph, time_concept}
@@ -1260,7 +1260,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 4-membered ring
@@ -1397,7 +1397,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL polymerize erdos_szekeres_lattice one_way_speed_measurement collatz_graph time_concept
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph · time_concept]   (4 monomers)
@@ -1414,7 +1414,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL close erdos_szekeres_lattice one_way_speed_measurement collatz_graph time_concept
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph · time_concept]   (4 monomers)
@@ -1431,7 +1431,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL forge erdos_szekeres_lattice one_way_speed_measurement collatz_graph time_concept
 arrange (unordered set → best order):  {erdos_szekeres_lattice, one_way_speed_measurement, collatz_graph, time_concept}
@@ -1455,7 +1455,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 4-membered ring
@@ -1587,7 +1587,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL polymerize erdos_szekeres_lattice one_way_speed_measurement collatz_graph time_concept
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph · time_concept]   (4 monomers)
@@ -1604,7 +1604,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL close erdos_szekeres_lattice one_way_speed_measurement collatz_graph time_concept
 polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurement · collatz_graph · time_concept]   (4 monomers)
@@ -1621,7 +1621,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL forge erdos_szekeres_lattice one_way_speed_measurement collatz_graph time_concept
 arrange (unordered set → best order):  {erdos_szekeres_lattice, one_way_speed_measurement, collatz_graph, time_concept}
@@ -1645,7 +1645,7 @@ polymerization (imscriptive):  [erdos_szekeres_lattice · one_way_speed_measurem
   degree of polymerization: 4 unit(s), 3 bond(s)
   backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).
   architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)
-  tacticity (Ħ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
+  tacticity (⊥ chirality per unit): atactic (𐑫𐑒𐑫𐑫) — irregular chirality, no stereo-regular pattern
   cyclization: time_concept ⋈ erdos_szekeres_lattice → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
   ── material properties (the ring as a mathematical material) ──
     macrocycle: 4-membered ring
