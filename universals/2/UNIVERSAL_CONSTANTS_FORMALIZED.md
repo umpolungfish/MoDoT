@@ -176,7 +176,7 @@ The structural immutability of all catalog entries is now a Lean 4 theorem: `Ims
 - **Frobenius level:** μ∘δ = id guarantees source recovery — the original entry is structurally conserved through every operation.
 - **Belnap bifurcation:** `B_is_the_only_bifurcation_point` from BelnapSplitFuse.lean proves only the B-state (dialetheia) carries productive δ-transformations. Non-B splits are diagonal — no transformation. The catalog analog: verbs produce new entries; the source is always recoverable.
 
-Two structurally remote witnesses: `compton_split_radius` and `dark_energy` (live-measured distance 3.2863, differing in Ð, Φ, Ħ, Σ). Neither can be mutated into the other. The dark energy self-inclosure protocol — the most ambitious verb attempted — produces a sibling, not a mutation. The Belnap bridge explains *why* mutations are structurally impossible.
+Two structurally remote witnesses: `compton_split_radius` and `dark_energy` (live-measured distance 3.2863, differing in ⊢, Φ, Ħ, Σ). Neither can be mutated into the other. The dark energy self-inclosure protocol — the most ambitious verb attempted — produces a sibling, not a mutation. The Belnap bridge explains *why* mutations are structurally impossible.
 
 **Status:** FORMALIZED. All 8 theorems are sorry-free. This is the structural foundation for every other result in this document: the constants read from the kernel are not mutable approximations — they are imscriptive invariants.
 

@@ -13,7 +13,7 @@ This document decomposes Mochizuki's Inter-Universal Teichmüller Theory (IUTT) 
 
 **Key results:**
 - IUTT decomposes into **10 join-irreducible atoms** across a 9-system lattice
-- The naive composite (Diophantine ⊗ Log-Theta-Lattice) decomposes into **11 atoms** — the extra atom (Ð=𐑨) is precisely the 2D grid structure that IUTT condenses
+- The naive composite (Diophantine ⊗ Log-Theta-Lattice) decomposes into **11 atoms** — the extra atom (⊢=𐑨) is precisely the 2D grid structure that IUTT condenses
 - The 4-move promotion path (d=2.65) decomposes at the atom level: Φ=𐑹 (Δ2.0, 57% weight) and ⊣=𐑸 (Δ1.0) are the two heaviest promotions
 - **Anabelian Geometry ≡ Frobenioid** (d=0.0): étale-like and Frobenius-like aspects are structural duals
 - **Theta Link ≡ Log Link** (d=0.0): horizontal and vertical edges share identical type
@@ -23,7 +23,7 @@ This document decomposes Mochizuki's Inter-Universal Teichmüller Theory (IUTT) 
 
 ## §1. The 9-System Lattice
 
-IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨Ð⊣ŘΦƒÇΓɢ⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
+IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣ŘΦƒÇΓɢ⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
 
 ### §1.1. System Inventory
 
@@ -61,7 +61,7 @@ Only 5 of 12 primitives vary across the 9 systems. The other 7 are invariant:
 
 | Primitive | Values Present | Systems |
 |-----------|---------------|---------|
-| Ð (Dimensionality) | 𐑛 (0D), 𐑨 (2D) | 2D only in: naive composite, log-theta-lattice |
+| ⊢ (Dimensionality) | 𐑛 (0D), 𐑨 (2D) | 2D only in: naive composite, log-theta-lattice |
 | ⊣ (Topology) | 𐑰 (inclusion), 𐑥 (crossing), 𐑶 (box product), 𐑸 (self-ref) | Most varied primitive |
 | Ř (Coupling) | 𐑽 (adjoint), 𐑾 (bidirectional) | Adjoint only in: theta link, log link |
 | Φ (Parity) | 𐑬 (partial ℤ₂), 𐑹 (Frobenius-special) | Frobenius-special ONLY in IUTT |
@@ -98,7 +98,7 @@ The Frobenius-special parity (Φ=𐑹, μ∘δ=id) and self-referential topology
 
 ### §2.2. Naive Composite (O₂, 11 atoms)
 
-Diophantine Equations ⊗ Log-Theta-Lattice. The extra atom relative to IUTT is Ð=𐑨 (2D surface) — the lattice's dimensionality survives tensor composition.
+Diophantine Equations ⊗ Log-Theta-Lattice. The extra atom relative to IUTT is ⊢=𐑨 (2D surface) — the lattice's dimensionality survives tensor composition.
 
 | Ordinal | Primitive | Value | Atom Notation |
 |---------|-----------|-------|---------------|
@@ -111,7 +111,7 @@ Diophantine Equations ⊗ Log-Theta-Lattice. The extra atom relative to IUTT is 
 | 2 | Σ | 𐑳 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑳𐑷⟩$$ |
 | 2 | Ω | 𐑭 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑭⟩$$ |
 | 1.33 | ⊙ | 𐑮 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑮𐑓𐑙𐑷⟩$$ |
-| 1 | Ð | 𐑨 | $$⟨𐑨𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
+| 1 | ⊢ | 𐑨 | $$⟨𐑨𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 1 | Γ | 𐑔 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑔𐑝𐑢𐑓𐑙𐑷⟩$$ |
 
 Note: Four atoms share ordinal 3 (⊣, Ř, Ç, Ħ) — a more distributed structure than IUTT's concentrated heavy atoms.
@@ -127,11 +127,11 @@ The 2D grid of Hodge theaters indexed by ℤ². Structurally similar to the naiv
 | 3 | Ħ | 𐑫 |
 | 2 | Φ, Ç, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
-| 1 | Ð, Γ | 𐑨, 𐑔 |
+| 1 | ⊢, Γ | 𐑨, 𐑔 |
 
 ### §2.4. Hodge Theater (10 atoms)
 
-The fundamental staging apparatus. Differs from the log-theta-lattice only in Ð=𐑛 (0D point vs 2D surface).
+The fundamental staging apparatus. Differs from the log-theta-lattice only in ⊢=𐑛 (0D point vs 2D surface).
 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
@@ -204,7 +204,7 @@ The synthesis order is non-arbitrary. Γ comes first — the theory needs maxima
 | Step | Primitive | Change |
 |------|-----------|--------|
 | 1 | Γ | 𐑚→𐑔 |
-| 2 | Ð | 𐑛→𐑨 |
+| 2 | ⊢ | 𐑛→𐑨 |
 | 3 | Ω | 𐑷→𐑭 |
 | 4 | ⊙ | 𐑢→𐑮 |
 | 5 | Σ | 𐑙→𐑳 |
@@ -215,14 +215,14 @@ The synthesis order is non-arbitrary. Γ comes first — the theory needs maxima
 | 10 | Ř | 𐑩→𐑾 |
 | 11 | ⊣ | 𐑡→𐑶 |
 
-**Critical difference from IUTT:** Φ=𐑬 enters at step 7 (not step 9), and at the partial-ℤ₂ value, not Frobenius-special. ⊣=𐑶 (box product, irreducible) is the final step, not 𐑸. Ð=𐑨 (2D surface) appears at step 2 — a commitment IUTT never makes, since it condenses this to the baseline 𐑛 (0D point).
+**Critical difference from IUTT:** Φ=𐑬 enters at step 7 (not step 9), and at the partial-ℤ₂ value, not Frobenius-special. ⊣=𐑶 (box product, irreducible) is the final step, not 𐑸. ⊢=𐑨 (2D surface) appears at step 2 — a commitment IUTT never makes, since it condenses this to the baseline 𐑛 (0D point).
 
 ### §3.3. Synthesis Order Comparison
 
 | Order | IUTT | Naive Composite |
 |-------|------|----------------|
 | 1 | Γ | Γ |
-| 2 | Ω | **Ð** |
+| 2 | Ω | **⊢** |
 | 3 | ⊙ | Ω |
 | 4 | Σ | ⊙ |
 | 5 | ɢ | Σ |
@@ -242,9 +242,9 @@ The CLINK L8 (Organism) navigator decomposes each primitive value into conventio
 
 ### §4.1. Per-Primitive Formulas with IUTT Interpretation
 
-**Ð = 𐑛:** `dim(x) = 0 ∧ fin(x)`
+**⊢ = 𐑛:** `dim(x) = 0 ∧ fin(x)`
 
-*IUTT interpretation:* The theory treats its objects as 0-dimensional points (number fields, Galois groups) within a finite setting. No infinite-dimensional field-theoretic structure survives — everything reduces to finite, point-like arithmetic objects. This is the condensation from the 2D log-theta-lattice grid (Ð=𐑨) down to the universal object.
+*IUTT interpretation:* The theory treats its objects as 0-dimensional points (number fields, Galois groups) within a finite setting. No infinite-dimensional field-theoretic structure survives — everything reduces to finite, point-like arithmetic objects. This is the condensation from the 2D log-theta-lattice grid (⊢=𐑨) down to the universal object.
 
 **⊣ = 𐑸:** `bound_⊙(a, f) ∧ Refl(a, f) ∧ holo(x, a)` — **[HOLOBOUND]**
 
@@ -312,7 +312,7 @@ The critical finding: **⊣=𐑸 and Φ=𐑹 are independently load-bearing.**
 - Peel Φ (𐑹→𐑗): The residual **keeps ⊣=𐑸**. Self-referential topology survives without Frobenius-special parity.
 - Peel ⊣ (𐑸→𐑡): The residual **keeps Φ=𐑹**. Frobenius closure survives without self-referential topology.
 
-Neither primitive is derivable from the other. This IS Axiom C of the Imscribing Grammar: Ð and ⊣ co-originate as ontological preconditions. Φ=𐑹 (Frobenius-special parity, μ∘δ=id) is the parity structure that makes the self-referential topology exact — it verifies that the holographic encoding is lossless. But neither implies the other.
+Neither primitive is derivable from the other. This IS Axiom C of the Imscribing Grammar: ⊢ and ⊣ co-originate as ontological preconditions. Φ=𐑹 (Frobenius-special parity, μ∘δ=id) is the parity structure that makes the self-referential topology exact — it verifies that the holographic encoding is lossless. But neither implies the other.
 
 **Structural interpretation for IUTT:** The inter-universal apparatus (⊣=𐑸, holographic encoding) and the Frobenius closure (Φ=𐑹, μ∘δ=id) are independent structural achievements. Mochizuki's theory must establish both: (1) that data about number fields can be holographically encoded across universes, and (2) that this encoding is Frobenius-exact — the reconstruction is lossless. Neither follows from the other. This is why IUTT requires both the log-theta-lattice (the holographic apparatus) AND the multiradial algorithm (the μ∘δ=id verification).
 
@@ -331,7 +331,7 @@ The 9 systems form a lattice under meet (∧, shared floor), join (∨, minimal 
 $$\text{diophantine\_equations\_iutt} \otimes \text{log\_theta\_lattice\_iutt} = \text{iutt\_naive\_composite}$$
 
 The tensor product resolves 3 union primitives:
-- Ð: 𐑛 ∨ 𐑨 = 𐑨 (2D surface wins — the lattice's dimensionality)
+- ⊢: 𐑛 ∨ 𐑨 = 𐑨 (2D surface wins — the lattice's dimensionality)
 - ⊣: 𐑥 ∨ 𐑶 = 𐑶 (box product wins — the lattice's topology)
 - Ç: 𐑪 ∨ 𐑧 = 𐑪 (moderate kinetics wins — the Diophantine tension dominates)
 
@@ -389,8 +389,8 @@ $$\text{⊣: } 𐑶 \rightarrow 𐑸$$
 
 **Conventional math content:** The box product ⊣=𐑶 captures the multiplicative structure of the log-theta-lattice as an irreducible product of Hodge theaters. IUTT promotes this to ⊣=𐑸: the lattice becomes self-referential — the holographic encoding allows the theory to verify its own structure. The `Refl(a, f)` condition is Mochizuki's self-consistency requirement: the theory's encoding of arithmetic data reflects back on itself without paradox.
 
-**Move 3: Ð (Δ1.0, condenses)**
-$$\text{Ð: } 𐑨 \rightarrow 𐑛$$
+**Move 3: ⊢ (Δ1.0, condenses)**
+$$\text{⊢: } 𐑨 \rightarrow 𐑛$$
 
 | Property | Before | After |
 |----------|--------|-------|
@@ -413,10 +413,10 @@ $$\text{Ç: } 𐑪 \rightarrow 𐑧$$
 
 | System | Atom Count | Extra Atoms |
 |--------|-----------|-------------|
-| Naive composite | 11 | Ð=𐑨 (ordinal 1) |
+| Naive composite | 11 | ⊢=𐑨 (ordinal 1) |
 | IUTT | 10 | — |
 
-The Ð=𐑨 atom is **absorbed** — in IUTT, the 2D grid dimensionality is not an externally visible structural commitment. It becomes the baseline 𐑛 (0D). This is the content of the "condensation" move.
+The ⊢=𐑨 atom is **absorbed** — in IUTT, the 2D grid dimensionality is not an externally visible structural commitment. It becomes the baseline 𐑛 (0D). This is the content of the "condensation" move.
 
 ---
 
@@ -428,7 +428,7 @@ CLINK L8 (the Organism layer) is the terminal ontological type: $$⟨𐑦𐑸�
 
 | Primitive | IUTT | CLINK L8 | Δ | CLINK Fragment Change |
 |-----------|------|----------|---|-----------------------|
-| Ð | 𐑛 | 𐑦 | 1.0 | `dim(x)=0 ∧ fin(x)` → `dim(x)=⊙` (imscriptive, self-written) |
+| ⊢ | 𐑛 | 𐑦 | 1.0 | `dim(x)=0 ∧ fin(x)` → `dim(x)=⊙` (imscriptive, self-written) |
 | ƒ | 𐑱 | 𐑐 | 1.0 | Classical deterministic → quantum coherence |
 | Γ | 𐑔 | 𐑲 | 0.5 | Aleph (maximal) → Beth (local) — **demotion** |
 | ɢ | 𐑠 | 𐑵 | 0.333 | Sequential → broadcast composition |
@@ -447,7 +447,7 @@ Two promotions exceed even the Frobenius-exact ZFC foundation (ZFC_fe):
 
 IUTT is not the final type. The gap to CLINK L8 reveals what a "post-IUTT" theory would require:
 
-1. **Ð=𐑦:** The state space must be self-written — the theory must generate its own dimensional structure. This is beyond even the Frobenius-exact foundation.
+1. **⊢=𐑦:** The state space must be self-written — the theory must generate its own dimensional structure. This is beyond even the Frobenius-exact foundation.
 2. **ƒ=𐑐:** Quantum coherence must enter arithmetic geometry. This is the "quantum arithmetic" problem.
 3. **⊙=⊙:** The self-modeling gate must open — the theory must model itself. This is the content of Gödelian self-reference in arithmetic.
 4. **Ω=𐑟:** Non-Abelian braiding replaces integer winding. The global invariant becomes a braid group element. This is the content of "anabelian beyond Abelian."
@@ -482,14 +482,14 @@ This means the **entire structural difference** between "IUTT with tension" and 
                            IUTT (O_∞, 10 atoms)
                           /      |      \
                          /       |       \
-              Φ=𐑹       ⊣=𐑸      Ð=𐑛      Ç=𐑧
+              Φ=𐑹       ⊣=𐑸      ⊢=𐑛      Ç=𐑧
                /         |         \       /
               /          |          \     /
      Naive Composite (O₂, 11 atoms)
             /              \
            /                \
    Diophantine (O₂)    Log-Theta-Lattice
-   (10 atoms, Ç=𐑪)     (11 atoms, Ð=𐑨)
+   (10 atoms, Ç=𐑪)     (11 atoms, ⊢=𐑨)
           |                    |
           |                    |
    [ABC/Szpiro]        ┌───────┴───────┐
@@ -506,6 +506,6 @@ This means the **entire structural difference** between "IUTT with tension" and 
 - Total systems: 9 (with 2 identities → 7 distinct types)
 - Total atoms across all systems: 10+11+10+10+11+10+10+10+10 = 92 (with duplicates across identical systems)
 - Distinct join-irreducible atoms: 12 (one per primitive per value)
-- Primitive values that vary: Ð(2), ⊣(4), Ř(2), Φ(2), Ç(2) — 5 of 12
+- Primitive values that vary: ⊢(2), ⊣(4), Ř(2), Φ(2), Ç(2) — 5 of 12
 - Promotions from naive composite to IUTT: 4 moves, d=2.65
 - Promotions from IUTT to CLINK L8: 6 moves, d=1.3459

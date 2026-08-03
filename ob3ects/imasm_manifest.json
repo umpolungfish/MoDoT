@@ -4257,7 +4257,7 @@
         "AREV",
         "FFUSE"
       ],
-      "spec": "ring ⊙ > Ð ⊣ < ●"
+      "spec": "ring ⊙ > ⊢ ⊣ < ●"
     },
     {
       "closure": "CLOSED(1)",
@@ -11017,7 +11017,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊙ Ω Ç Ð"
+      "spec": "ring ⊙ Ω Ç ⊢"
     },
     {
       "closure": "OPEN",
@@ -15786,7 +15786,7 @@
         "FFUSE",
         "IFIX"
       ],
-      "spec": "protocol FSPLIT AFWD Ð AREV FFUSE IFIX"
+      "spec": "protocol FSPLIT AFWD ⊢ AREV FFUSE IFIX"
     },
     {
       "closure": "CLOSED(1)",

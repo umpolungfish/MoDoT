@@ -35,7 +35,7 @@ OS_ELF = ROOT.parent / "mOMonadOS" / "target" / "x86_64-unknown-none" / "release
 
 OPCODES = ["VINIT", "IMSCRIB", "AREV", "AFWD", "FSPLIT", "FFUSE",
            "CLINK", "IFIX", "TANCH", "EVALT", "EVALF", "ENGAGR"]
-AXES = ["Ð", "⊣", "Ř", "Φ", "ƒ", "Ç", "Γ", "ɢ", "⊙", "Ħ", "Σ", "Ω"]
+AXES = ["⊢", "⊣", "Ř", "Φ", "ƒ", "Ç", "Γ", "ɢ", "⊙", "Ħ", "Σ", "Ω"]
 
 VERDICT_RE = re.compile(r"IMASM check\s*→\s*([TFBN])")
 SHAPE_RE = re.compile(r"(?:shape|topology):\s*(\w+)\s*\|\s*V=(\d+)\s*E=(\d+)\s*β=(\d+)")

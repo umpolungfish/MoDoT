@@ -4,7 +4,7 @@
 
 The transcript records an interactive formal session (cycles 1–53) in a system that combines:
 
-- A **catalog** (`cl9nk`) of named mathematical objects, each annotated with a 12‑primitive tuple (Shavian symbols like `Ð`, `⊣`, `Φ`, …) and associated logical fragments.
+- A **catalog** (`cl9nk`) of named mathematical objects, each annotated with a 12‑primitive tuple (Shavian symbols like `⊢`, `⊣`, `Φ`, …) and associated logical fragments.
 - An **IMASM** grammar for composing 12 opcodes into polymers (chains, rings, protocols) and checking their topology and **Frobenius closure** (`μ∘δ`).
 - A **Lean kernel** backend that can elaborate proof files under the `p4ramill` path.
 - A **containment boundary** test that verifies whether an object’s primitive values lie at or above a fixed “floor” (`SIXTEEN_3 ∧ CLINK_L8`).
@@ -17,7 +17,7 @@ The central object is a **Hilbert‑space embedding** – a constructed map from
 
 | Term | Meaning |
 |------|---------|
-| **floor** | A reference tuple ⟨Ð=𐑨; ⊣=𐑥; … Ω=𐑭⟩ derived from `SIXTEEN_3` (Shramko/Dunn trilattice) and CLINK layer 8. |
+| **floor** | A reference tuple ⟨⊢=𐑨; ⊣=𐑥; … Ω=𐑭⟩ derived from `SIXTEEN_3` (Shramko/Dunn trilattice) and CLINK layer 8. |
 | **containment_boundary** | Checks whether a given object’s primitives are ≥ the floor. Verdicts: `T` (fully contained), `B` (contained on critical primitives but breaches non‑critical ones, held paraconsistently), `F` (breaches the defining floor itself). |
 | **μ∘δ** | Frobenius closure condition: the split (`FSPLIT`, δ) and fuse (`FFUSE`, μ) compose to identity over a transformation. |
 | **IMASM opcodes** | 12 operations: `VINIT` (source), `TANCH` (sink), `AFWD`, `AREV`, `CLINK`, `FSPLIT`, `FFUSE`, `EVALT`, `EVALF`, `ENGAGR`, `IFIX`, `IMSCRIB`. |

@@ -122,7 +122,7 @@ def diff_types(name_a: str, name_b: str) -> str:
 def diff_all_pairs() -> str:
     """Compare all trefoil/frobenioid primitive-type pairs."""
     pairs = [
-        ('Ð', 'dead', 'dead',   '0D anchor (shared)'),
+        ('⊢', 'dead', 'dead',   '0D anchor (shared)'),
         ('⊣', 'mime', 'mime',   'crossing topology (shared)'),
         ('Ř', 'ear',  'ian',    'coupling: trefoil→frobenioid'),
         ('Φ', 'yew',  'out',    'parity: trefoil→frobenioid'),

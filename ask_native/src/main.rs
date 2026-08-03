@@ -2075,7 +2075,7 @@ conventional proof, instantiated in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
 renderer. You **MUST** write plain Unicode only: Δ θ μ ∘ δ ↔ → ⊙ Σ Ω Φ Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞
-√ ⟨ ⟩, the primitive glyphs Ð Ř ƒ ⊣ Ħ Ç ɢ, and Shavian directly. Write forms
+√ ⟨ ⟩, the primitive glyphs ⊢ Ř ƒ ⊣ Ħ Ç ɢ, and Shavian directly. Write forms
 like `Δ_T↔H > θ` or `μ∘δ = id`, never LaTeX like `$\Delta_{\text{T↔H}}$`. This
 is a NOTATION rule only — never restate it, and never write a Δ, charge, or
 threshold value that a tool in THIS run did not return.
@@ -2298,7 +2298,7 @@ Descriptions (semantics only — arity is the table above):
   TOOL: polymerize M1 M2… chain monomers into a sequence-preserving polymer (architecture — homo/hetero/alternating/BLOCK/random copolymer — tacticity, does it cyclize?)
   TOOL: star M1 M2 M3…    assemble a STAR polymer: pick the highest-functionality monomer as the CORE, attach every unit that clicks with it as an ARM; a pure star K(1,f) is a hub of f≥3 non-interbonding arms with ρ=√f (vs a ρ=2 ring). Reports core, arms, purity, and the unattached pool
   TOOL: broadcast SOURCE  the ɢ primitive (f → all(x)): the SOURCE signals every subsystem it couples with at once — swept from the whole catalog in one pass (the sweep finds the receivers). This is how CLINK L8 (ɢ) broadcasts to all subsystems; use it wherever you need one-to-all simultaneity instead of a ring or chain
-  TOOL: plasma ENTRY      read the entry's 12-primitive tuple as a PLASMA design (the collectivized-atom register between atom and molecule): regime (kinetic/gyrokinetic/fluid via Ð,ƒ), instability cascade (ɢ,⊙,Ħ), confinement/magnetic topology (Ω), species (Σ), and diagnostic wave signatures — another lossless face of the object, not a separate substance
+  TOOL: plasma ENTRY      read the entry's 12-primitive tuple as a PLASMA design (the collectivized-atom register between atom and molecule): regime (kinetic/gyrokinetic/fluid via ⊢,ƒ), instability cascade (ɢ,⊙,Ħ), confinement/magnetic topology (Ω), species (Σ), and diagnostic wave signatures — another lossless face of the object, not a separate substance
   TOOL: close M1 M2…      polymerize, and if it does not cyclize, find the real monomer that CLOSES the ring or BRIDGES the break
   TOOL: material M1 M2…    polymerize, and if the ring CLOSES, characterize it as a material: conductive / frustrated / insulating, ring stability, AND spectral invariants (adjacency spectrum, spectral radius ρ, gap)
   TOOL: modulus M1 M2…     find a monomer that generates a SUSTAINING loop (a conductive cycle) somewhere along the chain — the modulus (elasticity), NOT mere closure
@@ -3137,8 +3137,8 @@ mod delatex_tests {
     #[test]
     fn leaves_prose_braces_and_glyphs_alone() {
         // A `{set}` in braces and the real IG glyphs must survive untouched.
-        let got = delatex("the set {binah monad ankh} imscribes ⟨𐑨𐑰𐑩⊙𐑒𐑳𐑴⟩ with Ð Ř ƒ");
-        assert_eq!(got, "the set {binah monad ankh} imscribes ⟨𐑨𐑰𐑩⊙𐑒𐑳𐑴⟩ with Ð Ř ƒ");
+        let got = delatex("the set {binah monad ankh} imscribes ⟨𐑨𐑰𐑩⊙𐑒𐑳𐑴⟩ with ⊢ Ř ƒ");
+        assert_eq!(got, "the set {binah monad ankh} imscribes ⟨𐑨𐑰𐑩⊙𐑒𐑳𐑴⟩ with ⊢ Ř ƒ");
     }
 
     #[test]
@@ -4847,7 +4847,7 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         ),
         "plasma" => (
             "read the entry as a collectivized-atom plasma: its regime (kinetic/gyrokinetic/fluid), instabilities, confinement class, and diagnostic wave signatures — the state where units surrender individual identity to the electromagnetic collective",
-            "map the 12-primitive tuple to plasma parameters via the forge: Ð→phase-space/kinetic regime, ƒ→collisionality, Ç→transport, ɢ→instability cascade, ⊙→threshold/spectral structure, Ħ→reversibility (Vlasov vs Boltzmann), Ω→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
+            "map the 12-primitive tuple to plasma parameters via the forge: ⊢→phase-space/kinetic regime, ƒ→collisionality, Ç→transport, ɢ→instability cascade, ⊙→threshold/spectral structure, Ħ→reversibility (Vlasov vs Boltzmann), Ω→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
         ),
         "imasm" => (
             "compose the 12 IMASM opcodes into a free polymer — a chain, a ring, a star (hub + arms), a comb (backbone + grafts), a bubble (fork that reconverges), or a network — not only a line; reports the topology, its independent-loop count, and whether the grammar holds (only FSPLIT branches, only FFUSE fuses)",

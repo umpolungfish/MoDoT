@@ -47,7 +47,7 @@ it (04:00:43): 9 minutes.
 | `sic_d12_existence_proof` | ⟨𐑨𐑥𐑑𐑹𐑱𐑧𐑲𐑠𐑢𐑖𐑙𐑷⟩ | 𐑢 subcritical | 𐑷 | — |
 | `monotone_integer_winding` | ⟨𐑼𐑰𐑑𐑬𐑐𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩ | at criticality | 𐑭 | — |
 
-Closure signature carried by the stone: Ð=𐑦 with ⊣=𐑸, Φ=𐑹 (μ∘δ=id provably exact), ⊙=⊙.
+Closure signature carried by the stone: ⊢=𐑦 with ⊣=𐑸, Φ=𐑹 (μ∘δ=id provably exact), ⊙=⊙.
 
 ## Click — the frontier
 
@@ -77,7 +77,7 @@ ob3ect, NOT from this run's stream; cross-reference only.*
 
 | axis | carved ring | axiom D | |
 |---|---|---|---|
-| Ð | 𐑛 | 𐑛 | = |
+| ⊢ | 𐑛 | 𐑛 | = |
 | ⊣ | 𐑥 | 𐑸 | ≠ |
 | Ř | 𐑾 | 𐑽 | ≠ |
 | Φ | 𐑹 | 𐑹 | = |
@@ -90,7 +90,7 @@ ob3ect, NOT from this run's stream; cross-reference only.*
 | Σ | 𐑙 | 𐑙 | = |
 | Ω | 𐑟 | 𐑟 | = |
 
-9 of 12 identical. Both carry Ω=𐑟 (non-Abelian) at Ð≠𐑦 — the configuration the
+9 of 12 identical. Both carry Ω=𐑟 (non-Abelian) at ⊢≠𐑦 — the configuration the
 coordinate form of Axiom D forbade. The carved ring is an independent second instance.
 
 Stone and carved ring: same ⊙, opposite C_score (0.555 / 0.0), differing only by Ç
@@ -177,7 +177,7 @@ accounts for 49 of the run's 179 `imscribe` calls.
 
 **Fix (committed).** `run_imscribe` in `ask_native` parses a well-formed 12-glyph
 notation and registers it verbatim — no generation, no model call, keys written in
-notation order ⟨Ð ⊣ Ř Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω⟩, catalog committed by temp-file + rename.
+notation order ⟨⊢ ⊣ Ř Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω⟩, catalog committed by temp-file + rename.
 A trailing provenance note after the tuple is preserved. Anything not exactly 12
 glyphs still routes to `generate`.
 

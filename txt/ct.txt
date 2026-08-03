@@ -81,7 +81,7 @@ This sequence is closed head-to-tail on the $D \leftrightarrow W$ boundary, form
                                  ▼
                     ┌─────────────────────────┐
                     │   sixteen_3_trilattice  │
-                    │   ⟨Ð=𐑨; ⊣=𐑥; Ř=𐑽; Φ=𐑹...⟩ │
+                    │   ⟨⊢=𐑨; ⊣=𐑥; Ř=𐑽; Φ=𐑹...⟩ │
                     └────────────┬────────────┘
                                  │
                      [ Topological Projection ]
@@ -157,7 +157,7 @@ The proton-electron mass ratio $\mu = m_p/m_e \approx 1836.152$ is derived as th
 ```
                   ┌─────────────────────────────────┐
                   │      sixteen_3_trilattice       │
-                  │      ⟨Ð=𐑨; ⊣=𐑥; Ř=𐑽; Φ=𐑹...⟩    │
+                  │      ⟨⊢=𐑨; ⊣=𐑥; Ř=𐑽; Φ=𐑹...⟩    │
                   └────────────────┬────────────────┘
                                    │
                    [ Chiral Symmetry Breaking ]

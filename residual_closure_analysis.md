@@ -46,7 +46,7 @@ The residual closure comes from promoting each constant through the morphism:
 
 | Promotion | Span | Physical meaning for constants |
 |-----------|------|-------------------------------|
-| Ð: 𐑨→𐑦 | 2 | Finite surface → self-written (constant exposed at all depths) |
+| ⊢: 𐑨→𐑦 | 2 | Finite surface → self-written (constant exposed at all depths) |
 | ⊣: 𐑥→𐑸 | 2 | Crossing → self-reference (δ/μ loop closes) |
 | ƒ: 𐑱→𐑐 | 2 | Classical ratio → quantum value (dressing turns on) |
 | **ɢ: 𐑝→𐑵** | **3** | **Conjunctive → broadcast** (the big one: constants reach all scales) |
@@ -61,7 +61,7 @@ The 6-promotion emission channel was independently confirmed by a 95-winding MoD
 tool audit. Key confirmations:
 
 - **ɢ: 𐑝→𐑵 (span 3) confirmed as the dominant promotion.** CLINK L9's breakdown
-  (regresses on Ð, Φ, Ř; stalls on Ω, Σ; only ƒ advances) demonstrates that L9 lacks
+  (regresses on ⊢, Φ, Ř; stalls on Ω, Σ; only ƒ advances) demonstrates that L9 lacks
   the broadcast composition (ɢ=𐑵) and non-Abelian braiding (Ω=𐑟) that L8 carries.
   The emission channel collapses without these two primitives.
 

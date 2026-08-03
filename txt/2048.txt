@@ -65,7 +65,7 @@ Mathematical Correspondence
 1
 VINIT
 Prima Materia in Cucurbit
-Initial invariants tuple ⟨\Ð,\⊣,\Ř,Φ,… ⟩\langle \Ð, \⊣, \Ř, \Phi, \dots \rangle⟨\Ð,\⊣,\Ř,Φ,…⟩
+Initial invariants tuple ⟨\⊢,\⊣,\Ř,Φ,… ⟩\langle \⊢, \⊣, \Ř, \Phi, \dots \rangle⟨\⊢,\⊣,\Ř,Φ,…⟩
 2
 IMSCRIB
 Divine Water imscribes type

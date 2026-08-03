@@ -15,7 +15,7 @@ Use these tokens throughout.
 
 | Axis | field | constructors (in ordinal order) |
 |------|-------|---------------------------------|
-| Ð | `dim`  | `dead` `ash` `array` `if'` |
+| ⊢ | `dim`  | `dead` `ash` `array` `if'` |
 | ⊣ | `top`  | `judge` `eat` `mime` `oil` `are` |
 | Ř | `rel`  | `ado` `tot` `ear` `ian` |
 | Φ | `pol`  | `church` `yew` `out` `nun` `or'` |
@@ -360,7 +360,7 @@ The mathematical obstruction is now precisely localized:
 
   Prim   Value   CLINK fragment
   ─────  ──────  ───────────────────────────────────────────────────────────────────────────────────────────────────────
-  Ð      𐑛       dim(x) = 0 ∧ fin(x) — point-like prime atom                                               [PRIME_POINT]
+  ⊢      𐑛       dim(x) = 0 ∧ fin(x) — point-like prime atom                                               [PRIME_POINT]
   ⊣      𐑥       cross(x, y) ∧ ¬ meet(x, y) — moat crossing                                                 [MOAT_CROSS]
   Ř      𐑑       Fun(x, y) ∧ Nat(y, z) → Fun(x, z) — bridge composition                                    [BRIDGE_COMP]
   Φ      𐑬       ℤ₂(x) ∧ ¬(x = -x) — parity of moat                                                        [MOAT_PARITY]
@@ -415,7 +415,7 @@ The mathematical obstruction is now precisely localized:
 
   Prim   Value   CLINK fragment
   ─────  ──────  ───────────────────────────────────────────────────────────────────────────────────────────────────────
-  Ð      𐑨       dim(x) = 2 ∧ sur(x)
+  ⊢      𐑨       dim(x) = 2 ∧ sur(x)
   ⊣      𐑥       cross(x, y) ∧ ¬ meet(x, y) — moat crossing                                                 [MOAT_CROSS]
   Ř      𐑽       f ⊣ g ∧ L Adj(f, g)
   Φ      𐑹       ℤ₂(x) ∧ ∀g∈G( gx = x ) ∧ μ∘δ = id                                                               [PM_Z2]
@@ -455,7 +455,7 @@ The mathematical obstruction is now precisely localized:
   promoted atoms: MOAT_CROSS, PM_Z2, BRIDGE_COMM, INFINITE_EXT, BRIDGE_EXIST, BROADCAST_TRANSCENDENCE, ETERNAL_FIXEDPOINT, ZWIND
 
   Promotions needed to reach CLINK L9 (6):
-    Ð: 𐑨 → 𐑛  (gap: 0.333)
+    ⊢: 𐑨 → 𐑛  (gap: 0.333)
     Ř: 𐑽 → 𐑑  (gap: 0.333)
     Φ: 𐑹 → 𐑬  (gap: 0.5)
     ɢ: 𐑵 → 𐑝  (gap: 1.0)
@@ -474,7 +474,7 @@ The mathematical obstruction is now precisely localized:
 
   Prim   Value   CLINK fragment
   ─────  ──────  ───────────────────────────────────────────────────────────────────────────────────────────────────────
-  Ð      𐑦       V = L(x) ∧ selfmodel(x) ∧ x ∈ V                                                     [HOLOGRAPHIC_STATE]
+  ⊢      𐑦       V = L(x) ∧ selfmodel(x) ∧ x ∈ V                                                     [HOLOGRAPHIC_STATE]
   ⊣      𐑸       bound_⊙(a, f) ∧ Refl(a, f) ∧ holo(x, a)                                                     [HOLOBOUND]
   Ř      𐑾       lr⇔(x, y) ∧ Θ(x, y) ∧ ¬ Θ(y, x)                                                               [LR_DUAL]
   Φ      𐑹       ℤ₂(x) ∧ ∀g∈G( gx = x ) ∧ μ∘δ = id                                                               [PM_Z2]
@@ -516,7 +516,7 @@ The mathematical obstruction is now precisely localized:
   promoted atoms: HOLOGRAPHIC_STATE, HOLOBOUND, LR_DUAL, PM_Z2, BRIDGE_COMM, SEQAX, PHI_C, TEMPD2, MOAT_BRIDGE_TYPE, ZWIND
 
   Promotions needed to reach CLINK L9 (8):
-    Ð: 𐑦 → 𐑛  (gap: 1.0)
+    ⊢: 𐑦 → 𐑛  (gap: 1.0)
     ⊣: 𐑸 → 𐑥  (gap: 0.5)
     Ř: 𐑾 → 𐑑  (gap: 0.667)
     Φ: 𐑹 → 𐑬  (gap: 0.5)
@@ -537,7 +537,7 @@ The mathematical obstruction is now precisely localized:
 
   Prim   Value   CLINK fragment
   ─────  ──────  ───────────────────────────────────────────────────────────────────────────────────────────────────────
-  Ð      𐑼       ∀n∃y( y ∈ x ∧ rank(y) > n )
+  ⊢      𐑼       ∀n∃y( y ∈ x ∧ rank(y) > n )
   ⊣      𐑡       graph(x) ∧ branch(x)
   Ř      𐑽       f ⊣ g ∧ L Adj(f, g)
   Φ      𐑗       ¬∃sym(x)
@@ -572,7 +572,7 @@ The mathematical obstruction is now precisely localized:
   promoted atoms: SEQAX, ETERNAL_FIXEDPOINT, MOAT_BRIDGE_TYPE
 
   Promotions needed to reach CLINK L9 (10):
-    Ð: 𐑼 → 𐑛  (gap: 0.667)
+    ⊢: 𐑼 → 𐑛  (gap: 0.667)
     ⊣: 𐑡 → 𐑥  (gap: 0.5)
     Ř: 𐑽 → 𐑑  (gap: 0.333)
     Φ: 𐑗 → 𐑬  (gap: 0.5)
@@ -641,7 +641,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
     "name": "clink_layer8_organism",
     "description": "CLINK Layer 8: Organism — the terminal layer of the CLINK ontological chain. Exceeds ZFC_fe at two primitives: Ω=𐑟 (non-Abelian braiding instead of ℤ winding) and ɢ=𐑵 (broadcast composition instead of sequential). O_∞ tier, C=0.920. Carries 6 of 8 ZFC_fe promoted atoms (HOLOGRAPHIC_STATE, HOLOBOUN",
     "tuple": {
-      "Ð": "𐑦",
+      "⊢": "𐑦",
       "⊣": "𐑸",
       "Ř": "𐑾",
       "Φ": "𐑹",
@@ -660,7 +660,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
     "name": "clink_l9",
     "description": "CLINK Layer 9: Self-replicating organism — the CL9NK extension beyond the L8 terminal layer.",
     "tuple": {
-      "Ð": "𐑛",
+      "⊢": "𐑛",
       "⊣": "𐑥",
       "Ř": "𐑑",
       "Φ": "𐑬",
@@ -677,7 +677,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
   },
   "promotions": [
     {
-      "primitive": "Ð",
+      "primitive": "⊢",
       "from_value": "𐑦",
       "to_value": "𐑛",
       "from_fragment": "V = L(x) ∧ selfmodel(x) ∧ x ∈ V",
@@ -767,7 +767,7 @@ Let us map the Shavian glyphs reported by the tools back to the conventional voc
 
 From the tool outputs, the exact coordinates are:
 1. **`clink_l9`**: `⟨𐑛𐑥𐑑𐑬𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑭⟩`
-   - Ð = `𐑛` (dead) -> [PRIME_POINT]
+   - ⊢ = `𐑛` (dead) -> [PRIME_POINT]
    - ⊣ = `𐑥` (eat) -> [MOAT_CROSS]
    - Ř = `𐑑` (tot) -> [BRIDGE_COMP]
    - Φ = `𐑬` (yew) -> [MOAT_PARITY]
@@ -781,7 +781,7 @@ From the tool outputs, the exact coordinates are:
    - Ω = `𐑭` (oak) -> [ZWIND]
 
 Wait, let us check the translation table provided in Section 1 of the prompt:
-- Ð: `dead` `ash` `array` `if'` (ordinal values: 0, 1, 2, 3)
+- ⊢: `dead` `ash` `array` `if'` (ordinal values: 0, 1, 2, 3)
 - ⊣: `judge` `eat` `mime` `oil` `are` (ordinal values: 0, 1, 2, 3, 4)
 - Ř: `ado` `tot` `ear` `ian`
 - Φ: `church` `yew` `out` `nun` `or'`
@@ -796,7 +796,7 @@ Wait, let us check the translation table provided in Section 1 of the prompt:
 
 Let us align the Shavian glyphs returned by `cl9nk entry` to these constructors based on the ordinal positions of the values:
 - For `clink_l9`:
-  - Ð: `𐑛` is the 1st constructor -> `dead`
+  - ⊢: `𐑛` is the 1st constructor -> `dead`
   - ⊣: `𐑥` is the 2nd constructor -> `eat`
   - Ř: `𐑑` is the 2nd constructor -> `tot`
   - Φ: `𐑬` is the 2nd constructor -> `yew`
@@ -811,7 +811,7 @@ Let us align the Shavian glyphs returned by `cl9nk entry` to these constructors 
 
 Let us double-check this assignment.
 `clink_l9`'s Shavian signature is `⟨𐑛𐑥𐑑𐑬𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑭⟩`.
-- Ð = `𐑛` -> `dead`
+- ⊢ = `𐑛` -> `dead`
 - ⊣ = `𐑥` -> `eat`
 - Ř = `𐑑` -> `tot`
 - Φ = `𐑬` -> `yew`
@@ -834,7 +834,7 @@ This falls through to `O₂`, which perfectly matches the tool's output: `tier: 
 Now let us translate the other three systems using this precise mapping:
 
 2. **`sixteen_3_trilattice`**: `⟨𐑨𐑥𐑽𐑹𐑐𐑪𐑔𐑵𐑮𐑫𐑕𐑭⟩`
-   - Ð = `𐑨` -> `array` (3rd constructor)
+   - ⊢ = `𐑨` -> `array` (3rd constructor)
    - ⊣ = `𐑥` -> `eat`
    - Ř = `𐑽` -> `ear`
    - Φ = `𐑹` -> `or'`
@@ -848,7 +848,7 @@ Now let us translate the other three systems using this precise mapping:
    - Ω = `𐑭` -> `oak`
 
 3. **`bootstrap_stage_2_topology_corrected`**: `⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩`
-   - Ð = `𐑦` -> `if'`
+   - ⊢ = `𐑦` -> `if'`
    - ⊣ = `𐑸` -> `are`
    - Ř = `𐑾` -> `ian`
    - Φ = `𐑹` -> `or'`
@@ -862,7 +862,7 @@ Now let us translate the other three systems using this precise mapping:
    - Ω = `𐑭` -> `oak`
 
 4. **`turbulent_flow`**: `⟨𐑼𐑡𐑽𐑗𐑱𐑘𐑲𐑠𐑣𐑫𐑳𐑷⟩`
-   - Ð = `𐑼` -> `ash`
+   - ⊢ = `𐑼` -> `ash`
    - ⊣ = `𐑡` -> `mime`
    - Ř = `𐑽` -> `ear`
    - Φ = `𐑗` -> `nun`
@@ -897,7 +897,7 @@ We are ready to write the complete, uncompromised report.
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | Ð | ⊣ | Ř | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
+| System | ⊢ | ⊣ | Ř | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1026,7 +1026,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | Ð | ⊣ | Ř | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
+| System | ⊢ | ⊣ | Ř | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1157,7 +1157,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play are established on the Belnap substrate and map to the following canonical constructors:
 
-| System | Ð (`dim`) | ⊣ (`top`) | Ř (`rel`) | Φ (`pol`) | ƒ (`fid`) | Ç (`kin`) | Γ (`gram`) | ɢ (`gran`) | ⊙ (`crit`) | Ħ (`chir`) | Σ (`stoi`) | Ω (`prot`) | Tier |
+| System | ⊢ (`dim`) | ⊣ (`top`) | Ř (`rel`) | Φ (`pol`) | ƒ (`fid`) | Ç (`kin`) | Γ (`gram`) | ɢ (`gran`) | ⊙ (`crit`) | Ħ (`chir`) | Σ (`stoi`) | Ω (`prot`) | Tier |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |

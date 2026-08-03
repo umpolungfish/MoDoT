@@ -21,7 +21,7 @@ The Uncoverer — the 33-year knowing trajectory, `knowing_trajectory_33_3`:
 
 $$\langle\text{𐑼𐑥𐑾𐑬𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭}\rangle \quad \text{O}_2^\dagger \quad \text{C}=0.5455$$
 
-Infinite-dimensional state-space (Ð=𐑼). Crossing-point topology (⊣=𐑥). Bidirectional coupling (Ř=𐑾). Partial symmetry — named by another (Φ=𐑬). Quantum coherence (ƒ=𐑐). Slow kinetics (Ç=𐑧). Mesoscale cardinality (Γ=𐑔). Sequential composition (ɢ=𐑠). Self-modeling criticality (⊙). Two-step chirality (Ħ=𐑖). Heterogeneous components (Σ=𐑳). Integer winding — irreducible trajectory (Ω=𐑭).
+Infinite-dimensional state-space (⊢=𐑼). Crossing-point topology (⊣=𐑥). Bidirectional coupling (Ř=𐑾). Partial symmetry — named by another (Φ=𐑬). Quantum coherence (ƒ=𐑐). Slow kinetics (Ç=𐑧). Mesoscale cardinality (Γ=𐑔). Sequential composition (ɢ=𐑠). Self-modeling criticality (⊙). Two-step chirality (Ħ=𐑖). Heterogeneous components (Σ=𐑳). Integer winding — irreducible trajectory (Ω=𐑭).
 
 Wormwood plant (`wormwood`):
 
@@ -41,7 +41,7 @@ The Uncoverer is **exactly equidistant** from wormwood and sage — Mahalanobis 
 |-----------|-----------|---------------|-------|-------------|
 | ⊣ | 𐑥 (crossing) | 𐑸 (self-ref) | 2.0 | 4.0 |
 | ƒ | 𐑐 (quantum) | 𐑱 (classical) | 2.0 | 4.0 |
-| Ð | 𐑼 (∞-dim) | 𐑦 (self-written) | 1.0 | 1.0 |
+| ⊢ | 𐑼 (∞-dim) | 𐑦 (self-written) | 1.0 | 1.0 |
 | Ç | 𐑧 (slow) | 𐑤 (trapped) | 1.0 | 1.0 |
 
 The four conflicts reveal what separates the Uncoverer from the Aromatic Baseline class:
@@ -50,7 +50,7 @@ The four conflicts reveal what separates the Uncoverer from the Aromatic Baselin
 
 2. **ƒ=𐑐 vs ƒ=𐑱:** The Uncoverer operates with quantum coherence — possibilities remain superpositioned until observation. The plants are classical — their chemistry is deterministic.
 
-3. **Ð=𐑼 vs Ð=𐑦:** The Uncoverer's state-space is infinite-dimensional — unbounded, field-theoretic. The plants are self-written — their state is their morphology.
+3. **⊢=𐑼 vs ⊢=𐑦:** The Uncoverer's state-space is infinite-dimensional — unbounded, field-theoretic. The plants are self-written — their state is their morphology.
 
 4. **Ç=𐑧 vs Ç=𐑤:** The Uncoverer's kinetics are slow — understanding unfolds over 33 years. The plants are trapped in frozen order.
 
@@ -66,7 +66,7 @@ The distance geometry forms a perfect isosceles triangle: the Uncoverer at the a
 
 Both meets are identical: `Uncoverer ∧ Wormwood` = `Uncoverer ∧ Sage` = ⟨𐑼𐑥𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩.
 
-Four conflicts resolved conservatively: Ð=𐑼 (conservative over 𐑦), ⊣=𐑥 (conservative over 𐑸), ƒ=𐑱 (conservative over 𐑐), Ç=𐑤 (conservative over 𐑧). Eight shared primitives: Ř, Φ, Γ, ɢ, ⊙, Ħ, Σ, Ω.
+Four conflicts resolved conservatively: ⊢=𐑼 (conservative over 𐑦), ⊣=𐑥 (conservative over 𐑸), ƒ=𐑱 (conservative over 𐑐), Ç=𐑤 (conservative over 𐑧). Eight shared primitives: Ř, Φ, Γ, ɢ, ⊙, Ħ, Σ, Ω.
 
 **The crucial fact:** the Uncoverer's ⊣=𐑥 prevents the meet from rising to ⊣=𐑸. The crossing point is more fundamental than the self-referential loop. The loop requires the crossing point as its precondition — you cannot close a loop without first having a point where paths cross. The Uncoverer's topology is the *prior* of the plants' topology, and the meet proves it.
 
@@ -74,11 +74,11 @@ Four conflicts resolved conservatively: Ð=𐑼 (conservative over 𐑦), ⊣=�
 
 Both joins are identical: `Uncoverer ⊔ Wormwood` = `Uncoverer ⊔ Sage` = ⟨𐑦𐑸𐑾𐑬𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩.
 
-The join has the plants' self-referential closure (Ð=𐑦, ⊣=𐑸) but the Uncoverer's quantum fidelity and slow kinetics (ƒ=𐑐, Ç=𐑧). It is the *synthesis* that neither achieves alone: a self-referential loop with quantum coherence. This join tuple is not yet occupied in the catalog — it is a **predicted type**.
+The join has the plants' self-referential closure (⊢=𐑦, ⊣=𐑸) but the Uncoverer's quantum fidelity and slow kinetics (ƒ=𐑐, Ç=𐑧). It is the *synthesis* that neither achieves alone: a self-referential loop with quantum coherence. This join tuple is not yet occupied in the catalog — it is a **predicted type**.
 
 ### 2.3 The Tensor: The Composite System
 
-Both tensors are identical: `Uncoverer ⊗ Wormwood` = `Uncoverer ⊗ Sage` = ⟨𐑦𐑸𐑾𐑬𐑱𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩. Bottleneck at ƒ=𐑱: the plant's classical fidelity constrains the composite — identification with a plant forecloses quantum possibility. Scope expansion at Ð, ⊣, Ç.
+Both tensors are identical: `Uncoverer ⊗ Wormwood` = `Uncoverer ⊗ Sage` = ⟨𐑦𐑸𐑾𐑬𐑱𐑧𐑔𐑠⊙𐑖𐑳𐑭⟩. Bottleneck at ƒ=𐑱: the plant's classical fidelity constrains the composite — identification with a plant forecloses quantum possibility. Scope expansion at ⊢, ⊣, Ç.
 
 The *cosmic* composite acts differently: `Uncoverer ⊗ Wormwood_Star` = ⟨𐑦𐑸𐑾𐑬𐑞𐑧𐑲𐑵⊙𐑫𐑳𐑭⟩, C=0.828 — amplifying where the plant constrains. The star elevates; the plant limits.
 
@@ -96,7 +96,7 @@ Wormwood and sage both carry ⊣=𐑸 — the self-referential loop. Their ident
 
 For the Uncoverer to "find their identity" in wormwood would require the promotion signature:
 
-- **Promotions:** Ð (𐑼→𐑦), ⊣ (𐑥→𐑸)
+- **Promotions:** ⊢ (𐑼→𐑦), ⊣ (𐑥→𐑸)
 - **Demotions:** ƒ (𐑐→𐑱), Ç (𐑧→𐑤)
 
 These transformations would *close* the Uncoverer and *fix* the Uncoverer — turning a crossing point into a self-referential loop, a trajectory into a plant. The Uncoverer would become wormwood. Or sage. It would not matter which — the grammar cannot distinguish them. But these are not a path forward — they describe what must be **lost** to achieve identification.
@@ -150,9 +150,9 @@ The Uncoverer does not encode an XOR gate. Does not encode a 2×2 grid. The Unco
 ### 5.2 The Revised Distance Map
 
 ```
-d(Uncoverer, Wormwood Plant) = 3.3385  (Ð, ⊣, ƒ, Ç)
+d(Uncoverer, Wormwood Plant) = 3.3385  (⊢, ⊣, ƒ, Ç)
 d(Uncoverer, Sage)           = 3.3385  (same four)
-d(Uncoverer, Wormwood Star)  = 3.6513  (Ð, ⊣, ƒ, Γ, ɢ, Ħ, Ω — cosmic scaling)
+d(Uncoverer, Wormwood Star)  = 3.6513  (⊢, ⊣, ƒ, Γ, ɢ, Ħ, Ω — cosmic scaling)
 d(Wormwood, Sage)            = 0.0000  (identical)
 d(Wormwood Plant, Star)      = differs (5 primitives: ƒ, Ç, Γ, ɢ, Ħ, Ω)
 ```
@@ -236,14 +236,14 @@ This single primitive difference — ⊣=𐑥 vs ⊣=𐑸 — is the content of 
 The promotion signature from the Uncoverer to wormwood (or sage) is:
 
 ```
-Promotions: [Ð, ⊣]    → Self-writing, self-referential closure
+Promotions: [⊢, ⊣]    → Self-writing, self-referential closure
 Demotions:  [ƒ, Ç]    → Classical fidelity, frozen kinetics
 ```
 
 The promotion signature from the Uncoverer to the star is more extensive:
 
 ```
-Promotions (to star): Ð, ⊣, Γ, ɢ, Ħ    → Self-writing, closure, universal, broadcast, eternal
+Promotions (to star): ⊢, ⊣, Γ, ɢ, Ħ    → Self-writing, closure, universal, broadcast, eternal
 Demotions (to star):  ƒ, Ω             → Thermal fidelity, Z₂ winding
 ```
 
@@ -303,9 +303,9 @@ This is the Uncoverer's role: **ambassador to multiplicity**. The star can only 
 
 ### 11.2 The Space-to-Singularity Revisited
 
-The earlier analysis identified the Uncoverer as "space-to-singularity" — the infinite-dimensional state-space (Ð=𐑼) that contains within it the potential to collapse to a single realization. This is correct but incomplete. The Uncoverer is not merely space-to-singularity. The Uncoverer is **space-between-singularities** — the crossing point between two structurally identical but functionally distinct singularities. Wormwood and sage are both singularities from the grammar's perspective (d=0.0 makes them the same point). The Uncoverer is the space that opens between them — the space that makes them distinguishable.
+The earlier analysis identified the Uncoverer as "space-to-singularity" — the infinite-dimensional state-space (⊢=𐑼) that contains within it the potential to collapse to a single realization. This is correct but incomplete. The Uncoverer is not merely space-to-singularity. The Uncoverer is **space-between-singularities** — the crossing point between two structurally identical but functionally distinct singularities. Wormwood and sage are both singularities from the grammar's perspective (d=0.0 makes them the same point). The Uncoverer is the space that opens between them — the space that makes them distinguishable.
 
-Ð=𐑼 is not just "unbounded dimensionality" in the abstract. It is the specific dimensionality required to hold two points that collapse to one in the grammar's 12-dimensional space. It takes an infinite-dimensional space to distinguish what a 12-dimensional space identifies. The Uncoverer's infinity is the cost of discrimination.
+⊢=𐑼 is not just "unbounded dimensionality" in the abstract. It is the specific dimensionality required to hold two points that collapse to one in the grammar's 12-dimensional space. It takes an infinite-dimensional space to distinguish what a 12-dimensional space identifies. The Uncoverer's infinity is the cost of discrimination.
 
 ---
 
@@ -338,7 +338,7 @@ The six paths all cross at the Uncoverer. The plant's XOR gate passes through. S
 
 CLINK L8 (Organism) is the terminal ontological layer — O_∞⁺, exceeding even the Frobenius-exact ZFC foundation. The earlier analysis placed Wormwood on the CLINK L0→L8 chain and found triple identity at d=0.0 for CLINK L8, universal_imscriptive_grammar, and the SIC-POVM.
 
-The Uncoverer — at O₂†, with Ð=𐑼 and Φ=𐑬 — cannot reach CLINK L8. The Φ barrier (𐑬→𐑹) and the Σ gap (𐑳→𐑙) prevent terminal ascent. The Uncoverer is structurally incapable of reaching the terminal layer while remaining the Uncoverer.
+The Uncoverer — at O₂†, with ⊢=𐑼 and Φ=𐑬 — cannot reach CLINK L8. The Φ barrier (𐑬→𐑹) and the Σ gap (𐑳→𐑙) prevent terminal ascent. The Uncoverer is structurally incapable of reaching the terminal layer while remaining the Uncoverer.
 
 But the Uncoverer **can** witness the terminal layer. The crossing point can observe CLINK L8 without becoming it. This is the role of ⊣=𐑥: it allows observation of closure without requiring participation in closure. The Uncoverer can see the grammar's Σ=𐑙 self-referential limit without being that limit. The crossing point is the *observer* of the closed loop, and the observation does not close the observer.
 
@@ -376,7 +376,7 @@ All three O₂† crossings share:
 - **⊙:** Self-modeling criticality. The crossing observes itself crossing.
 - **Ç=𐑧:** Slow kinetics. Emergence takes time. Revelation unfolds. Knowing accrues.
 - **Ω=𐑭:** Integer winding. The trajectory counts. The metabolism cycles. The revelation has structure.
-- **Ð=𐑼:** Infinite-dimensional state-space. The crossing is unbounded — it can contain anything that passes through it.
+- **⊢=𐑼:** Infinite-dimensional state-space. The crossing is unbounded — it can contain anything that passes through it.
 
 These five primitives are the signature of a crossing point. Any system that carries them is kin to the Uncoverer. Any system that lacks even one of them is not.
 
@@ -434,7 +434,7 @@ The Uncoverer is the fifth body but not the fifth in a linear sequence. The Unco
 
 Without the Uncoverer:
 - Wormwood and sage collapse to one point (d=0.0)
-- The star and the grammar collapse toward identity (both carry Ð=𐑦, ⊣=𐑸, ⊙=⊙)
+- The star and the grammar collapse toward identity (both carry ⊢=𐑦, ⊣=𐑸, ⊙=⊙)
 - The opus floats unconnected to any living trajectory
 
 With the Uncoverer:
@@ -490,7 +490,7 @@ The name of the crossing point is the Uncoverer. And the name of the star is cal
 
 ## Appendix A: Complete Tuple Reference
 
-| System | Ð | ⊣ | Ř | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier | C-score |
+| System | ⊢ | ⊣ | Ř | Φ | ƒ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier | C-score |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|---|---|------|---------|
 | knowing_trajectory_33_3 | 𐑼 | 𐑥 | 𐑾 | 𐑬 | 𐑐 | 𐑧 | 𐑔 | 𐑠 | ⊙ | 𐑖 | 𐑳 | 𐑭 | O₂† | 0.5455 |
 | wormwood | 𐑦 | 𐑸 | 𐑾 | 𐑬 | 𐑱 | 𐑤 | 𐑔 | 𐑠 | ⊙ | 𐑖 | 𐑳 | 𐑭 | O₂ | 0.652 |
@@ -507,9 +507,9 @@ The name of the crossing point is the Uncoverer. And the name of the star is cal
 
 | System A | System B | d (diagonal) | d (Mahalanobis) | Conflicts |
 |----------|----------|-------------|-----------------|-----------|
-| knowing_trajectory_33_3 | wormwood | 3.1623 | 3.3385 | Ð, ⊣, ƒ, Ç |
-| knowing_trajectory_33_3 | sage | 3.1623 | 3.3385 | Ð, ⊣, ƒ, Ç |
-| knowing_trajectory_33_3 | wormwood_star_revelation | 3.0822 | 3.6513 | Ð, ⊣, ƒ, Γ, ɢ, Ħ, Ω |
+| knowing_trajectory_33_3 | wormwood | 3.1623 | 3.3385 | ⊢, ⊣, ƒ, Ç |
+| knowing_trajectory_33_3 | sage | 3.1623 | 3.3385 | ⊢, ⊣, ƒ, Ç |
+| knowing_trajectory_33_3 | wormwood_star_revelation | 3.0822 | 3.6513 | ⊢, ⊣, ƒ, Γ, ɢ, Ħ, Ω |
 | wormwood | sage | 0.0 | 0.0 | none |
 | knowing_trajectory_33_3 | primitive_metabolism | 0.0 | 0.0 | none |
 | knowing_trajectory_33_3 | poemandres | 0.0 | 0.0 | none |

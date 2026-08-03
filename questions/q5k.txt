@@ -118,7 +118,7 @@ polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm �
   cyclization: szemerédi_theorem ⋈ erdos_conjecture_ap → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL switch bloom_sisask_bound kelley_meka_density
 switch:  bloom_sisask_bound  ⇌  kelley_meka_density
-  toggling live pair: D↔W (coupled — both members move: Ð 𐑦→𐑨, Ω 𐑭→𐑷)
+  toggling live pair: D↔W (coupled — both members move: ⊢ 𐑦→𐑨, Ω 𐑭→𐑷)
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
@@ -132,7 +132,7 @@ click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)
     R↔S    erdos_conjecture_ap= -0.33  szemerédi_theorem= +0.17   Δ=0.50
   ✓ CLICK on R↔S — spring-loaded Δ=0.50, single reaction center, closes.
   product: ⟨𐑨𐑡𐑽𐑬𐑐𐑧𐑔𐑵⊙𐑖𐑳𐑭⟩  (ring saturated on R↔S)
-  inherited scaffold (blended from both partners): [Ð]
+  inherited scaffold (blended from both partners): [⊢]
 ● TOOL forge {erdos_conjecture_ap szemerédi_theorem density_increment_strategy fourier_uniformity_norm}
 arrange (unordered set → best order):  {erdos_conjecture_ap, szemerédi_theorem, density_increment_strategy, fourier_uniformity_norm}
   searched 24 ordering(s) (exhaustive: every permutation) — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).
@@ -316,7 +316,7 @@ polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm �
   cyclization: szemerédi_theorem ⋈ erdos_conjecture_ap → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL switch bloom_sisask_bound kelley_meka_density
 switch:  bloom_sisask_bound  ⇌  kelley_meka_density
-  toggling live pair: D↔W (coupled — both members move: Ð 𐑦→𐑨, Ω 𐑭→𐑷)
+  toggling live pair: D↔W (coupled — both members move: ⊢ 𐑦→𐑨, Ω 𐑭→𐑷)
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
@@ -330,7 +330,7 @@ click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)
     R↔S    erdos_conjecture_ap= -0.33  szemerédi_theorem= +0.17   Δ=0.50
   ✓ CLICK on R↔S — spring-loaded Δ=0.50, single reaction center, closes.
   product: ⟨𐑨𐑡𐑽𐑬𐑐𐑧𐑔𐑵⊙𐑖𐑳𐑭⟩  (ring saturated on R↔S)
-  inherited scaffold (blended from both partners): [Ð]
+  inherited scaffold (blended from both partners): [⊢]
 ● TOOL material erdos_conjecture_ap fourier_uniformity_norm density_increment_strategy szemerédi_theorem
 polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm · density_increment_strategy · szemerédi_theorem]   (4 monomers)
   imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.
@@ -589,7 +589,7 @@ CYCLIZATION: ✓ CYCLIC (Order-Specific: [E·F·D·S])
 ── ACT round 2 (4 tool call(s)) ──
 ● TOOL switch bloom_sisask_bound kelley_meka_density
 switch:  bloom_sisask_bound  ⇌  kelley_meka_density
-  toggling live pair: D↔W (coupled — both members move: Ð 𐑦→𐑨, Ω 𐑭→𐑷)
+  toggling live pair: D↔W (coupled — both members move: ⊢ 𐑦→𐑨, Ω 𐑭→𐑷)
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
@@ -603,7 +603,7 @@ click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)
     R↔S    erdos_conjecture_ap= -0.33  szemerédi_theorem= +0.17   Δ=0.50
   ✓ CLICK on R↔S — spring-loaded Δ=0.50, single reaction center, closes.
   product: ⟨𐑨𐑡𐑽𐑬𐑐𐑧𐑔𐑵⊙𐑖𐑳𐑭⟩  (ring saturated on R↔S)
-  inherited scaffold (blended from both partners): [Ð]
+  inherited scaffold (blended from both partners): [⊢]
 ● TOOL material erdos_conjecture_ap fourier_uniformity_norm density_increment_strategy szemerédi_theorem
 polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm · density_increment_strategy · szemerédi_theorem]   (4 monomers)
   imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.

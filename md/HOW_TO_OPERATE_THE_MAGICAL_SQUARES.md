@@ -24,7 +24,7 @@ $$\langle 𐑦𐑸𐑩𐑬𐑐𐑪𐑔𐑵⊙𐑓𐑳𐑭 \rangle$$
 
 Key features:
 
-- **Ð = $𐑦$** (imscriptive dimensionality): The squares' state-space is self-written — each square defines its own operative domain through letter arrangement. They are not merely symbols; they are self-referential microcosms.
+- **⊢ = $𐑦$** (imscriptive dimensionality): The squares' state-space is self-written — each square defines its own operative domain through letter arrangement. They are not merely symbols; they are self-referential microcosms.
 - **⊣ = $𐑸$** (self-referential topology): The palindromic structure means every path through the square returns to its origin. This is topological closure at the letter level.
 - **Ř = $𐑩$** (supervenience coupling): The squares command spirits through one-way authority — the spirit obeys; it does not speak back. This is domination, not dialogue.
 - **ɢ = $𐑵$** (broadcast composition): A single square transmits its command to an entire spiritual hierarchy simultaneously — one-to-all, not one-to-one.
@@ -85,7 +85,7 @@ The 30 chapters of Book Four (Dehn/Guth) organize the squares into four expandin
 
 | Ch. | Operation | Structural Extension |
 |-----|-----------|---------------------|
-| 23 | Collapse walls / destroy buildings | Extending $𐑼$ (Ð) into structural domain |
+| 23 | Collapse walls / destroy buildings | Extending $𐑼$ (⊢) into structural domain |
 | 24 | Recover lost / stolen objects (any kind) | Extending $𐑼$ into possession domain |
 | 25 | Walk and breathe underwater | Extending $𐑼$ into elemental domain |
 | 26 | Open any lock without keys | Extending $𐑼$ into barrier domain |

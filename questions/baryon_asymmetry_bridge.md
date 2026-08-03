@@ -90,7 +90,7 @@ to 1+√3. The gap opens to √3 − 1 because ρ rose while λ_min held.
 prompt — the Void's own type:
 
     ⟨𐑼𐑡𐑾𐑗𐑱𐑧𐑚𐑠⊙𐑖𐑳𐑭⟩
-      Ð = 𐑼   temporal/iterative: a closed cycle with a specifiable reset step
+      ⊢ = 𐑼   temporal/iterative: a closed cycle with a specifiable reset step
       ⊙ = ⊙   ξ → ∞ ∧ μ∘δ = id — criticality
       Ħ = 𐑖   persistent chiral
       Ω = 𐑭   integer-winding-protected: stable against perturbations preserving the winding

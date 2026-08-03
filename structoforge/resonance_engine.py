@@ -50,7 +50,7 @@ PINNED_PAIRS: Dict[str, str] = {"P": "F", "F": "P", "K": "G", "G": "K", "Gm": "P
 
 # ── Glyph↔name mapping ────────────────────────────────────────────────────
 PRIMITIVE_NAMES: Dict[str, str] = {
-    "Ð": "dim", "⊣": "top", "Ř": "rel", "Φ": "pol",
+    "⊢": "dim", "⊣": "top", "Ř": "rel", "Φ": "pol",
     "ƒ": "fid", "Ç": "kin", "Γ": "gram", "ɢ": "gran",
     "⊙": "crit", "Ħ": "chir", "Σ": "stoi", "Ω": "prot",
 }
@@ -224,7 +224,7 @@ def resonance_report(a_name: str, b_name: str) -> ResonanceReport:
     
     # Application domain inference
     if report.cotype:
-        if "D" in report.cotype.agree_axes or "Ð" in report.cotype.agree_axes:
+        if "D" in report.cotype.agree_axes or "⊢" in report.cotype.agree_axes:
             report.application_domains.append("quantum systems" if report.euclidean_distance < 2.0 
                                              else "classical systems")
         if "T" in report.cotype.agree_axes or "⊣" in report.cotype.agree_axes:

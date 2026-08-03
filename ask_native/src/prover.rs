@@ -187,7 +187,7 @@ fn correct_axioms(ord: &mut [u8; 12]) {
     let d_imsc = ord[0] == 3;
     let t_imsc = ord[1] == 4;
     if d_imsc && !t_imsc {
-        ord[0] = 2; // demote Ð if'→array
+        ord[0] = 2; // demote ⊢ if'→array
     } else if t_imsc && !d_imsc {
         ord[1] = 3; // demote ⊣ are→oil
     }
@@ -266,7 +266,7 @@ mod imscribe_tests {
             let mut c = ord;
             correct_axioms(&mut c);
             assert_eq!(ord, c, "structural_imscribe must already satisfy the axioms for {s:?}");
-            assert_eq!(ord[0] == 3, ord[1] == 4, "Axiom C (Ð=if' ⟺ ⊣=are) violated for {s:?}");
+            assert_eq!(ord[0] == 3, ord[1] == 4, "Axiom C (⊢=if' ⟺ ⊣=are) violated for {s:?}");
             if ord[11] >= 2 {
                 assert!(ord[9] >= 2 && ord[0] >= 2, "Axiom B / D-Ω violated for {s:?}");
             }
