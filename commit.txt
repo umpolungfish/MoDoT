@@ -1,25 +1,13 @@
-The alphabet stops borrowing from arithmetic
+The trilattice table was still on the old marks
 
-    ⊢ VINIT   ⊣ TANCH   > AFWD    < AREV    ⋈ CLINK   ⊙ IMSCRIB
-    ∈ FSPLIT  ∋ FFUSE   ⊤ EVALT   ⊥ EVALF   ⊞ ENGAGR  ◻ IFIX
+`classic.rs` moved to the new alphabet and `imasm16_3.rs` did not, so the two
+faces of one language disagreed about what a glyph is. It showed up in the kernel
+rather than here: `cycle ⊢⊙∈⊤⊥∋⋈◻⊣` came back as ⊢⊙∈∋⊣, five tokens out of nine,
+because `parse_glyph_word` matches against the tri table and ⊤ ⊥ ⋈ ◻ were not in
+it. Unknown glyphs are dropped, not refused, so the word was silently read as a
+shorter word and judged as one.
 
-Six marks move. CLINK was =, which is equality; EVALT and EVALF were + and ×,
-which are sum and product; IFIX was ¬, which is negation and belongs to TNEG's
-side of the language if to anything; and the dyad was ◇ ●, which meant nothing at
-all and had to be taught. Every mark in the new set is a turnstile, a tack, a
-membership, a join, or a box, and none of them arrives already saying something
-this language does not mean.
-
-The dyad is one opcode now, spelled ∈ ∋, with arity three. A fan of two is this
-opcode with an empty arm rather than a different opcode, which is what the engine
-already decided when the ancestry rule went arity-generic; the arity table just
-had not caught up. FSPLIT3 and FFUSE3 keep their names as parse aliases and carry
-the same glyph, since there is nothing left to distinguish.
-
-The retired spellings ◇ ● = + × ¬ still parse. Every stored word loads, and what
-the tools print is the new set: `imasm check ⊢◇>+●⊣` reports the same verdict as
-`⊢∈>⊤∋⊣` and echoes the latter. Nothing in the catalog had to be rewritten.
-
-The same twelve are the primitive alphabet, one glyph per axis in slot order, so
-there is no mapping between two alphabets to maintain. There is one alphabet,
-read as an operation or as an axis according to where it stands.
+Both tables carry the same twelve now, and the tri parser takes the retired
+spellings too: ◇ ● ☊ ☋ for the dyad, and = + × ¬ for the four that carried
+equality, sum, product and negation. A word in either spelling loads and prints
+in the new one.

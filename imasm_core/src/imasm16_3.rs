@@ -80,9 +80,9 @@ pub const ALL_TOKENS: [Token16_3; 14] = [
 impl Token16_3 {
     pub fn glyph(self) -> char {
         match self {
-            Vinit => '⊢', Tanch => '⊣', Afwd => '>', Arev => '<', Clink => '=',
-            Imscrib => '⊙', Fsplit3 => '∈', Ffuse3 => '∋', Evalt => '+',
-            Evalf => '×', Evali => '⊞', Tneg => '~', Ineg => '≁', Ifix => '¬',
+            Vinit => '⊢', Tanch => '⊣', Afwd => '>', Arev => '<', Clink => '⋈',
+            Imscrib => '⊙', Fsplit3 => '∈', Ffuse3 => '∋', Evalt => '⊤',
+            Evalf => '⊥', Evali => '⊞', Tneg => '~', Ineg => '≁', Ifix => '◻',
         }
     }
 
@@ -100,11 +100,16 @@ impl Token16_3 {
     }
 
     fn from_glyph(c: char) -> Option<Token16_3> {
-        // ☊/☋ were a drifted face for the tri-dyad; the guide's ∈/∋ are the
-        // correct tokens. Parse accepts the drifted pair so old words load.
+        // The retired spellings still load. ◇ ● and ☊ ☋ were both faces of the
+        // dyad before it was one opcode, and = + × ¬ carried equality, sum,
+        // product and negation into a language that means none of them.
         match c {
-            '☊' => Some(Fsplit3),
-            '☋' => Some(Ffuse3),
+            '◇' | '☊' => Some(Fsplit3),
+            '●' | '☋' => Some(Ffuse3),
+            '=' | '═' => Some(Clink),
+            '+' => Some(Evalt),
+            '×' => Some(Evalf),
+            '¬' => Some(Ifix),
             _ => ALL_TOKENS.iter().copied().find(|t| t.glyph() == c),
         }
     }
