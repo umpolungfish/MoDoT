@@ -1561,6 +1561,11 @@ fn gate_out(tok: Token, x: Val, seed: Val, slot: usize, fan: usize) -> Val {
         Token::Evalt => x.truth_part(),
         Token::Evalf => x.falsity_part(),
         Token::Arev => x.invol(),
+        // The two factors of that involution, one layer each. Composing them is
+        // AREV, and on the classical slice TNEG alone is AREV, since INEG has no
+        // bits to move there.
+        Token::Tneg => x.truth_swap(),
+        Token::Ineg => x.info_swap(),
         // FFUSE's join already happened at input aggregation; carriers carry.
         _ => x,
     }

@@ -233,7 +233,10 @@ Three orderings, each with a meet/join (`imasm16_3 algebra <op> A B`):
 Flow uses ≤_i: shuttling only ever moves values up the information order.
 TNEG/INEG are both bit-SWAPS (not flips) on purpose: the paper requires
 trilattice negation to preserve ≤_i exactly, and swapping two bits preserves
-|x|; a flip would not.
+|x|; a flip would not. Neither is an independent operator. `⊢~≁⊣` and `⊢≁~⊣` and
+`⊢<⊣` all carry Tf to Ft, and on the classical slice `⊢~⊣` and `⊢<⊣` both carry T
+to F while `⊢≁⊣` leaves it alone. The reverse morphism is the pair of them, which
+is why the twelve-opcode core needs no room for either.
 
 ### The gates
 
@@ -251,7 +254,10 @@ before the gate acts; the value leaving a gate rides every out-edge except where
   EVALI ⊞ (16_3)   sets the information layer (t and f)
   FFUSE ● / ∋      μ / μ₃ joins: union of the arms
   AREV <           the involution T↔F, t↔f (its own inverse; fixes B and N)
-  TNEG ~ / INEG ≁  the two bit-swaps of the trilattice
+  TNEG ~ / INEG ≁  its two factors, one layer each: ~ swaps T↔F, ≁ swaps t↔f.
+                   They act on disjoint bits, so they commute, and composing them
+                   IS AREV. On the classical slice ~ alone is AREV, because ≁ has
+                   no bits to move there. Not a third operation beside them.
   AFWD >, CLINK =, IMSCRIB ⊙, ENGAGR ⊞ (as hold)   carry
   IFIX ¬           carry and latch (the commit point)
   TANCH ⊣          readout

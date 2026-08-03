@@ -198,6 +198,22 @@ impl Reg16_3 {
         Reg16_3 { small_t: self.small_t, small_f: self.small_f, ..Reg16_3::default() }
     }
 
+    /// The constructive swap T ↔ F, leaving the information layer alone.
+    ///
+    /// This and `info_swap` are the two factors of the involution: they act on
+    /// disjoint bits, so they commute, and composing them IS `invol`. AREV is not
+    /// a third operation beside them, it is both at once, which is why the
+    /// classical slice needs only one of them: with t and f absent `info_swap` is
+    /// the identity and AREV is `truth_swap`.
+    pub fn truth_swap(self) -> Reg16_3 {
+        Reg16_3 { big_t: self.big_f, big_f: self.big_t, ..self }
+    }
+
+    /// The information swap t ↔ f, leaving the constructive layer alone.
+    pub fn info_swap(self) -> Reg16_3 {
+        Reg16_3 { small_t: self.small_f, small_f: self.small_t, ..self }
+    }
+
     /// The involution T ↔ F, t ↔ f — the reverse morphism's action on values
     /// (TNEG and INEG applied together; ⊆-monotone, its own inverse).
     pub fn invol(self) -> Reg16_3 {

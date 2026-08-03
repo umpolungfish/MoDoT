@@ -1,51 +1,23 @@
-One dyad, at whichever arity the carrier has
+AREV is its own two factors, and the flow gate was carrying them
 
-The guide has said for a while that ◇/● is the arity-2 case of ∈/∋, same
-ancestry rule, same close condition, same register. The code did not do that. A
-correctly wired tri dyad came back INVALID out of `imasm wire`, because check.rs
-tested `== Token::Fsplit` literally everywhere, and `imasm protocol ⊢∈+×⊞∋⊣`
-read the word as a bare line with no δ/μ dyad in it. The trilattice face lived in
-a second machine that paired ∈/∋ with a split stack over the word read as a
-cycle, nothing to do with ancestry over edges. Two engines for one grammatical
-object, and the one that ran my words rejected half the alphabet.
+TNEG and INEG are not a thirteenth and fourteenth operator. The involution swaps
+big_t with big_f AND small_t with small_f; TNEG is the first swap alone and INEG
+the second alone, on disjoint bits, so they commute and composing them IS AREV.
+On the classical slice INEG has no bits to move, so AREV is TNEG there. That is
+the same shape as the dyad: one operator, and the carrier says how much of it
+there is to see.
 
-What settles it is the register rather than the glyphs. δ cuts the four base
-values into a PARTITION, and which partition depends on how many arms it has:
-{T,t} | {F,f} at two, and {T} | {F} | {t,f} at three, the truth cut taken inside
-the constructive block with the non-constructive pair held whole. Both are
-partitions, so μ∘δ = id at either arity, which is the property the close
-condition is about. And on the classical slice, where t and f are absent, the
-three-arm cut IS the two-arm cut: the information arm carries nothing. ◇ is to ∈
-what FOUR is to SIXTEEN_3. Not two operators, one operator and two carriers.
+The flow evaluator implemented neither. `gate_out` had a case for AREV and none
+for the two swaps, so they fell through to carry, and `⊢~⊣` returned its input
+untouched while claiming to be a WORK opcode. Both are gates now, built from two
+new register projections that name the layers they move.
 
-Worth being exact about what that does not say, because the loose version is
-wrong in a way that matters: dropping an arm from ∈ does not give ◇. {T} | {F}
-loses t and f and would not recover its input. They coincide on the slice, not by
-truncation. The arity is not a choice either. ⊞ sets t and f together, so the
-non-constructive pair can only ever be entered as a block, and three is what the
-gate set leaves standing.
+Measured: seeded Tf, AREV gives Ft, TNEG gives Ff, INEG gives Tt, and either
+order of the two gives Ft. On the classical slice seeded T, AREV and TNEG both
+give F and INEG gives T. The identity holds in the machine, not just in the
+register type.
 
-So the engine is arity-generic now. Fork and fuse are predicates over both
-spellings; ancestry pairs a fuse with the fork ALL of its in-arms trace back to,
-which reads as the old two-distinct-in-arms rule at two and as the tri-ancestral
-rule at three, one threshold taken off the fuse's own in-degree; `protocol` wires
-as many arms as the fork's arity declares, one along the chain and the rest
-straight across; and the split gate takes the fan-out, so it fans the right
-partition for the arity it actually has.
-
-Measured, not argued. `⊢∈>+∋⊣` on the FOUR slice fans to T, F, N and the fuse
-recovers B, flowing identically to `⊢◇>+●⊣`. The same word seeded A in SIXTEEN_3
-fans to T, F, tf and recovers A. Both report id, lossless split-fuse. The
-canonical words are unmoved: `⊢◇>+●⊣` T, `⊢◇⊙●⊣` N identity, `⊢◇⊞>●⊣` B paradox
-held. `⊢∈⊙⊙⊙∋⊣` now reads N (identity) rather than N (no fork), which is the same
-letter for the right reason.
-
-One collision surfaced by putting both dyads in front of one checker, and it is
-not fixed here: ⊞ is ENGAGR to the classic reading and EVALI to the trilattice
-one. B beats T, so the classic checker answers B (paradox held) for the guide's
-tri example `⊢>∈+×⊞≁∋¬⊣`, which the trilattice face calls T. One glyph, two
-readings. That is the next thing the notation has to settle.
-
-The glyphs themselves are untouched on purpose. Every stored word and all 49 type
-programs are written in ◇ ●, and the spelling belongs to the notation pass, not
-to this one.
+This also settles what the twelve-opcode core is doing without them: nothing is
+missing from it. Whatever slot 4 is spelled with carries the whole symmetry of
+the carrier, and the two swaps are that symmetry restricted to one layer at a
+time.
