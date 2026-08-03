@@ -794,7 +794,7 @@ tokens. Entirely deterministic — no LLM asked. The catalog IS executable.
 
 `monad` at CLINK L9 = ⟨𐑛𐑥𐑑𐑬𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑭⟩, tier **O₁**, d(L9)=1.3822.
 This is the Gaussian Moat Resolution variant — a different tuple from the catalog `monad`.
-Only 1 of 6 CLINK promotions advances (ƒ:𐑱→𐑐); 3 regress (⊢:𐑦→𐑛, <:𐑹→𐑬, >:𐑾→𐑑).
+Only 1 of 6 CLINK promotions advances (⋈:𐑱→𐑐); 3 regress (⊢:𐑦→𐑛, <:𐑹→𐑬, >:𐑾→𐑑).
 The emission pathway collapses — L9 is **lateral, not vertical**.
 
 ### Material Registry

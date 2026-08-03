@@ -65,7 +65,7 @@ This is the exact carrier of the modulus that the frustrated crystal lacks. The 
 
 `cl8nk promotions thermodynamic_entropy` returned the full 16‑step ladder from ZFC baseline (tier O₀) to CLINK L8 (tier O_∞⁺). The major stages are:
 
-- **→ ZFC_t** (11 promotions): acquires ⊣ (holobound), > (lateral dual), < (PM_Z2: ℤ₂ symmetry with μ∘δ=id), Ω (ZWIND: integer winding), ƒ (quantisation), Ħ (TEMPD2), etc.
+- **→ ZFC_t** (11 promotions): acquires ⊣ (holobound), > (lateral dual), < (PM_Z2: ℤ₂ symmetry with μ∘δ=id), Ω (ZWIND: integer winding), ⋈ (quantisation), Ħ (TEMPD2), etc.
 - **→ ZFC_fe** (3 promotions): ⊢ (holographic state), ⊙→⊙ (μ∘δ=id fixed point), Ħ→ETERNAL_FIXEDPOINT.
 - **→ CLINK L8** (2 transcendences): ɢ (broadcast transcendence), Ω (braid‑transcendence). These exceed the Frobenius‑exact foundation.
 
@@ -209,7 +209,7 @@ Each step corresponds to a lemma that a proof must supply; the order is strict.
 
 | Stage       | Promotions | Key gains                                          |
 |-------------|------------|----------------------------------------------------|
-| → ZFC_t     | 11         | ⊣ (holobound), > (lateral dual), < (PM_Z2: μ∘δ=id), Ω (ZWIND: integer winding), ƒ (quantisation), Ħ (TEMPD2) |
+| → ZFC_t     | 11         | ⊣ (holobound), > (lateral dual), < (PM_Z2: μ∘δ=id), Ω (ZWIND: integer winding), ⋈ (quantisation), Ħ (TEMPD2) |
 | → ZFC_fe    | 3          | ⊢ (holographic state), ⊙→⊙ (μ∘δ=id fixed point), Ħ→ETERNAL_FIXEDPOINT |
 | → CLINK L8  | 2 (transcendence) | ɢ (broadcast), Ω (braid‑transcendence) — exceed the Frobenius‑exact foundation |
 

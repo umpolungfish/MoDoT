@@ -48,7 +48,7 @@ The residual closure comes from promoting each constant through the morphism:
 |-----------|------|-------------------------------|
 | ⊢: 𐑨→𐑦 | 2 | Finite surface → self-written (constant exposed at all depths) |
 | ⊣: 𐑥→𐑸 | 2 | Crossing → self-reference (δ/μ loop closes) |
-| ƒ: 𐑱→𐑐 | 2 | Classical ratio → quantum value (dressing turns on) |
+| ⋈: 𐑱→𐑐 | 2 | Classical ratio → quantum value (dressing turns on) |
 | **ɢ: 𐑝→𐑵** | **3** | **Conjunctive → broadcast** (the big one: constants reach all scales) |
 | Σ: 𐑕→𐑳 | 1 | Identical sectors → heterogeneous constants (differentiation) |
 | Ω: 𐑭→𐑟 | 1 | ℤ winding → non-Abelian braiding (topological corrections) |
@@ -61,7 +61,7 @@ The 6-promotion emission channel was independently confirmed by a 95-winding MoD
 tool audit. Key confirmations:
 
 - **ɢ: 𐑝→𐑵 (span 3) confirmed as the dominant promotion.** CLINK L9's breakdown
-  (regresses on ⊢, <, >; stalls on Ω, Σ; only ƒ advances) demonstrates that L9 lacks
+  (regresses on ⊢, <, >; stalls on Ω, Σ; only ⋈ advances) demonstrates that L9 lacks
   the broadcast composition (ɢ=𐑵) and non-Abelian braiding (Ω=𐑟) that L8 carries.
   The emission channel collapses without these two primitives.
 

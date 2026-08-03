@@ -122,7 +122,7 @@ const GLYPHS: [&[(&str, u8)]; 12] = [
     /* ⊣ Topology       */ &[("𐑡", 0), ("𐑰", 1), ("𐑥", 2), ("𐑶", 3), ("𐑸", 4)],
     /* > Recognition    */ &[("𐑩", 0), ("𐑑", 1), ("𐑽", 2), ("𐑾", 3)],
     /* < Parity         */ &[("𐑗", 0), ("𐑿", 1), ("𐑬", 2), ("𐑯", 3), ("𐑹", 4)],
-    /* ƒ Fidelity       */ &[("𐑱", 0), ("𐑞", 1), ("𐑐", 2)],
+    /* ⋈ Fidelity       */ &[("𐑱", 0), ("𐑞", 1), ("𐑐", 2)],
     /* Ç Kinetics       */ &[("𐑘", 0), ("𐑤", 1), ("𐑧", 2), ("𐑪", 3), ("𐑺", 4)],
     /* Γ Granularity    */ &[("𐑚", 0), ("𐑔", 1), ("𐑲", 2)],
     /* ɢ Composition    */ &[("𐑝", 0), ("𐑜", 1), ("𐑠", 2), ("𐑵", 3)],
@@ -550,7 +550,7 @@ const CTORS: [&[&str]; 12] = [
     /* ⊣ */ &["judge", "eat", "mime", "oil", "are"],
     /* > */ &["ado", "tot", "ear", "ian"],
     /* < */ &["church", "yew", "out", "nun", "or'"],
-    /* ƒ */ &["age", "they", "peep"],
+    /* ⋈ */ &["age", "they", "peep"],
     /* Ç */ &["yea", "loll", "egg", "on", "air"],
     /* Γ */ &["bib", "thigh", "ice"],
     /* ɢ */ &["vow", "gag", "measure", "ooze"],
@@ -4078,7 +4078,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         _ => None,
     });
     let Some(ax) = idx else {
-        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ƒ Ç Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
+        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ⋈ Ç Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
         return 2;
     };
 

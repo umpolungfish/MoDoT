@@ -81,7 +81,7 @@ ob3ect, NOT from this run's stream; cross-reference only.*
 | ⊣ | 𐑥 | 𐑸 | ≠ |
 | > | 𐑾 | 𐑽 | ≠ |
 | < | 𐑹 | 𐑹 | = |
-| ƒ | 𐑐 | 𐑐 | = |
+| ⋈ | 𐑐 | 𐑐 | = |
 | Ç | 𐑪 | 𐑧 | ≠ |
 | Γ | 𐑔 | 𐑔 | = |
 | ɢ | 𐑝 | 𐑝 | = |
@@ -177,7 +177,7 @@ accounts for 49 of the run's 179 `imscribe` calls.
 
 **Fix (committed).** `run_imscribe` in `ask_native` parses a well-formed 12-glyph
 notation and registers it verbatim — no generation, no model call, keys written in
-notation order ⟨⊢ ⊣ > < ƒ Ç Γ ɢ ⊙ Ħ Σ Ω⟩, catalog committed by temp-file + rename.
+notation order ⟨⊢ ⊣ > < ⋈ Ç Γ ɢ ⊙ Ħ Σ Ω⟩, catalog committed by temp-file + rename.
 A trailing provenance note after the tuple is preserved. Anything not exactly 12
 glyphs still routes to `generate`.
 

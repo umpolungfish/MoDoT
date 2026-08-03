@@ -23,7 +23,7 @@ This document decomposes Mochizuki's Inter-Universal Teichmüller Theory (IUTT) 
 
 ## §1. The 9-System Lattice
 
-IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><ƒÇΓɢ⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
+IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈ÇΓɢ⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
 
 ### §1.1. System Inventory
 
@@ -49,7 +49,7 @@ Only 5 of 12 primitives vary across the 9 systems. The other 7 are invariant:
 
 | Primitive | Fixed Value | Invariant Across |
 |-----------|-------------|------------------|
-| ƒ (Fidelity) | 𐑱 (classical) | All 9 systems — IUTT operates classically |
+| ⋈ (Fidelity) | 𐑱 (classical) | All 9 systems — IUTT operates classically |
 | Γ (Cardinality) | 𐑔 (maximal) | All 9 systems |
 | ɢ (Composition) | 𐑠 (sequential) | All 9 systems |
 | ⊙ (Criticality) | 𐑮 (complex-plane) | All 9 systems — no system reaches ⊙ self-modeling |
@@ -258,7 +258,7 @@ The CLINK L8 (Organism) navigator decomposes each primitive value into conventio
 
 *IUTT interpretation:* The Frobenius-special parity condition. ℤ₂(x) is the fundamental ℤ₂ symmetry of the étale/Frobenius distinction. ∀g∈G(gx = x) is the absolute anabelian invariance — all Galois automorphisms preserve the structure. μ∘δ = id IS the Ind1/Ind2/Ind3 apparatus: the multiradial representation (δ, outward) and the anabelian reconstruction (μ, inward) compose to identity. This is the Frobenius closure theorem: what you transport inter-universally can be reconstructed exactly.
 
-**ƒ = 𐑱:** `P(x) ∈ {0,1} ∧ det(x)`
+**⋈ = 𐑱:** `P(x) ∈ {0,1} ∧ det(x)`
 
 *IUTT interpretation:* Classical deterministic structure. The theory is not quantum — arithmetic is classical. Every proposition about the arithmetic of a number field has a definite truth value. The deterministic condition means the theta function's values are exactly determined, not probabilistic.
 
@@ -429,7 +429,7 @@ CLINK L8 (the Organism layer) is the terminal ontological type: $$⟨𐑦𐑸�
 | Primitive | IUTT | CLINK L8 | Δ | CLINK Fragment Change |
 |-----------|------|----------|---|-----------------------|
 | ⊢ | 𐑛 | 𐑦 | 1.0 | `dim(x)=0 ∧ fin(x)` → `dim(x)=⊙` (imscriptive, self-written) |
-| ƒ | 𐑱 | 𐑐 | 1.0 | Classical deterministic → quantum coherence |
+| ⋈ | 𐑱 | 𐑐 | 1.0 | Classical deterministic → quantum coherence |
 | Γ | 𐑔 | 𐑲 | 0.5 | Aleph (maximal) → Beth (local) — **demotion** |
 | ɢ | 𐑠 | 𐑵 | 0.333 | Sequential → broadcast composition |
 | ⊙ | 𐑮 | ⊙ | 0.165 | Complex criticality → self-modeling gate open |
@@ -448,7 +448,7 @@ Two promotions exceed even the Frobenius-exact ZFC foundation (ZFC_fe):
 IUTT is not the final type. The gap to CLINK L8 reveals what a "post-IUTT" theory would require:
 
 1. **⊢=𐑦:** The state space must be self-written — the theory must generate its own dimensional structure. This is beyond even the Frobenius-exact foundation.
-2. **ƒ=𐑐:** Quantum coherence must enter arithmetic geometry. This is the "quantum arithmetic" problem.
+2. **⋈=𐑐:** Quantum coherence must enter arithmetic geometry. This is the "quantum arithmetic" problem.
 3. **⊙=⊙:** The self-modeling gate must open — the theory must model itself. This is the content of Gödelian self-reference in arithmetic.
 4. **Ω=𐑟:** Non-Abelian braiding replaces integer winding. The global invariant becomes a braid group element. This is the content of "anabelian beyond Abelian."
 

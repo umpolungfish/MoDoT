@@ -80,12 +80,12 @@
     "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
   },
   "L9_PROTOCOL_V2": {
-    "spec": "ring ◇[⊣ < ƒ] ● ◇[Ç Γ ⊙] ● ◇[Ħ Σ Ω] ●",
+    "spec": "ring ◇[⊣ < ⋈] ● ◇[Ç Γ ⊙] ● ◇[Ħ Σ Ω] ●",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 3 in — reactive, not errors"
   },
   "L9_PROTOCOL_V2_STABILIZED": {
-    "spec": "ring ⊙ Δ Ħ Σ Ω ⊣ < ƒ Ç Γ",
+    "spec": "ring ⊙ Δ Ħ Σ Ω ⊣ < ⋈ Ç Γ",
     "title": "ring",
     "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
@@ -110,7 +110,7 @@
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
   "PROMOTE_L9_TIER": {
-    "spec": "ring ⊣ < ƒ Ç Γ ⊙ Ħ Σ Ω",
+    "spec": "ring ⊣ < ⋈ Ç Γ ⊙ Ħ Σ Ω",
     "title": "ring",
     "topology": "  topology: ring | V=1 E=1 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },

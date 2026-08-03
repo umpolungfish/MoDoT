@@ -59,7 +59,7 @@ impossibility sense:
 
 **Ω_corr = Tr( ρ_Burau(FFUSE3 coupler loop) ) at q = e^{2πi/12}**, the Burau
 representation of the braid group B₁₂ acting on the 31-orbit SIC overlap space. The
-ƒ=𐑱 bottleneck in the horn_torus ⊗ CLINK_L8 tensor is what holds it; when ƒ promotes to
+⋈=𐑱 bottleneck in the horn_torus ⊗ CLINK_L8 tensor is what holds it; when ⋈ promotes to
 𐑐 the braid monodromy contracts into the evaluator geometry and the factor resolves.
 
 **There is currently NO verb that computes this trace.** I searched the kernel, MoDoT,
@@ -71,7 +71,7 @@ runnable behind it and must not be recorded as a value.
 (a) add a `--braid-trace` verb (or `Braid.lean` module) that represents B₁₂ on the
     31-orbit overlap space and evaluates Tr(ρ_Burau) at q = e^{2πi/12}, then read the
     number the kernel emits; or
-(b) formalize `bottleneck_crossing.lean`: prove the ƒ→𐑐 promotion induces the monodromy
+(b) formalize `bottleneck_crossing.lean`: prove the ⋈→𐑐 promotion induces the monodromy
     contraction, so Ω_corr is the trace by construction.
 Build one, run it, and record exactly what the kernel emits. Until it runs, Ω_corr is a
 frontier with a named mechanism, never a value.

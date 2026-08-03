@@ -122,7 +122,7 @@ switch:  bloom_sisask_bound  ⇌  kelley_meka_density
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
-  coupled consequences (move with the toggle): [<, ƒ, Γ, ɢ, Σ]
+  coupled consequences (move with the toggle): [<, ⋈, Γ, ɢ, Σ]
   reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.
 ● TOOL click erdos_conjecture_ap szemerédi_theorem
 click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)
@@ -320,7 +320,7 @@ switch:  bloom_sisask_bound  ⇌  kelley_meka_density
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
-  coupled consequences (move with the toggle): [<, ƒ, Γ, ɢ, Σ]
+  coupled consequences (move with the toggle): [<, ⋈, Γ, ɢ, Σ]
   reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.
 ● TOOL click erdos_conjecture_ap szemerédi_theorem
 click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)
@@ -593,7 +593,7 @@ switch:  bloom_sisask_bound  ⇌  kelley_meka_density
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
-  coupled consequences (move with the toggle): [<, ƒ, Γ, ɢ, Σ]
+  coupled consequences (move with the toggle): [<, ⋈, Γ, ɢ, Σ]
   reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.
 ● TOOL click erdos_conjecture_ap szemerédi_theorem
 click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)

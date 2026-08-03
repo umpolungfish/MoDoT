@@ -708,7 +708,7 @@
         "FFUSE",
         "FFUSE"
       ],
-      "spec": "ring ◇[⊣ < ƒ] ● ◇[Ç Γ ⊙] ● ◇[Ħ Σ Ω] ●"
+      "spec": "ring ◇[⊣ < ⋈] ● ◇[Ç Γ ⊙] ● ◇[Ħ Σ Ω] ●"
     },
     {
       "closure": "NONE",
@@ -727,7 +727,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊙ Δ Ħ Σ Ω ⊣ < ƒ Ç Γ"
+      "spec": "ring ⊙ Δ Ħ Σ Ω ⊣ < ⋈ Ç Γ"
     },
     {
       "closure": "OPEN",
@@ -876,7 +876,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊣ < ƒ Ç Γ ⊙ Ħ Σ Ω"
+      "spec": "ring ⊣ < ⋈ Ç Γ ⊙ Ħ Σ Ω"
     },
     {
       "closure": "OPEN",
