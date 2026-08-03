@@ -39,10 +39,10 @@ $$\Phi: \text{Trilattice}_{16} \hookrightarrow \mathcal{C}\ell_{1,3}(\mathbb{R})
 
 **Proof:** Under the primitive $\Omega$, evaluated at $\oint_\gamma A = 2\pi n \land n \in \mathbb{Z} \land \text{wind}(\gamma) \neq 0$ (notation $\mathcal{ZWIND}$), the winding number is constrained to non-zero integer values. This topological constraint restricts the dimensional projection of the 16-fold manifold to a three-dimensional spatial manifold ($D=3$), ruling out exotic, non-physical dimensions. $\blacksquare$
 
-### Lemma 6 (Regularity [Ç])
+### Lemma 6 (Regularity [⊤])
 *The vacuum expectation values are equidistributed across the four-valued sectors, ensuring that physical laws are homogeneous and isotropic.*
 
-**Proof:** Primitive Ç is evaluated at $\tau = \infty \land \text{ord}(x)$, establishing an infinite lifetime for the underlying lattice order. This translation invariance across the lattice guarantees the spatial homogeneity and isotropy of physical constants. $\blacksquare$
+**Proof:** Primitive ⊤ is evaluated at $\tau = \infty \land \text{ord}(x)$, establishing an infinite lifetime for the underlying lattice order. This translation invariance across the lattice guarantees the spatial homogeneity and isotropy of physical constants. $\blacksquare$
 
 ---
 

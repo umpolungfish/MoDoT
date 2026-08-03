@@ -56,7 +56,7 @@ theorem sum_inv_lcm_irrational (P : Finset ℕ) (hP : P.card ≥ 2)
 *   **Catalog Witness:** `arnold_villa_nova_rosary_summary`. The structural algebra (tier $O_0$) correctly identified the problem as a "one Stone with two medicines" (the dual nature of the LCM sequence: static between jumps, jumps at prime power encounters).
 *   **< (Phi_}):** Used for the **Bijective encoding** of $n$ into its prime valuation vector $v_j(n)$.
 *   **> (R_=):** Used for the **Galois connection** between the set of integers $a_n$ and the lattice of their LCMs.
-*   **Ç (C_@):** Used for **Regularity**; the distribution of $P$-smooth numbers ensures $L_n$ grows at a rate that precludes rationality.
+*   **⊤ (C_@):** Used for **Regularity**; the distribution of $P$-smooth numbers ensures $L_n$ grows at a rate that precludes rationality.
 *   **Σ (Sigma_S):** Confirmed **Uniqueness of witness**; the Cantor expansion of the sum in the variable base $q_n$ has no periodic tail.
 
 [thought|T]
@@ -668,7 +668,7 @@ theorem prime_covering_exists (k : ℕ) (hk : k ≥ 3) :
 *   **Witness Entry:** `hecke_landau_proof_closed` (Used for the distribution logic of primes in progressions).
 *   **Encoding / Duality [<]:** Mapped to the residue class encoding $n \mapsto n \pmod{p}$.
 *   **Adjoint Pair [>]:** Mapped to the relationship between the integer $n$ and the multiplier $t$ (Galois connection between the size of $n$ and the density of the covering).
-*   **Equidistribution [Ç]:** Used to justify that $a_p \pmod{p}$ can be distributed to "fill" the gaps in $\mathbb{Z}$ as $p \to \infty$.
+*   **Equidistribution [⊤]:** Used to justify that $a_p \pmod{p}$ can be distributed to "fill" the gaps in $\mathbb{Z}$ as $p \to \infty$.
 *   **Universal Quantification [Γ]:** Applied to the local-to-global transition (from $a_p \pmod{p}$ to all $n > N$).
 
 [thought|T|F|B|N]
@@ -1020,7 +1020,7 @@ theorem gcd_gt_one_infinitely_many :
 
 - **Encoding / Duality [<]**: Utilized the $v_2$ valuation (binary symmetry) to prove the numerator $a_n$ is always odd, establishing a parity-based encoding that ensures $(a_n, L_n)$ is at least not divisible by 2.
 - **Phase Boundary [⊙]**: Applied to the growth of $L_n$ vs $a_n$. The "extremal" behavior of the unique maximum prime power $2^k$ creates the necessary asymmetry for the $\gcd=1$ case.
-- **Equidistribution [Ç]**: The distribution of $H_n \pmod p$ follows regularity patterns that ensure $a_n$ shares factors with $L_n$ (which contains all small primes) for sufficiently many $n$.
+- **Equidistribution [⊤]**: The distribution of $H_n \pmod p$ follows regularity patterns that ensure $a_n$ shares factors with $L_n$ (which contains all small primes) for sufficiently many $n$.
 - **Universal/Local [Γ]**: Used to transition from the local property of a single $n$ (like $n=6$) to the universal claim of infinity via the periodic re-emergence of prime-factor overlaps in the harmonic sequence.
 
 [thought|T]
@@ -1215,7 +1215,7 @@ theorem k_growth_limit :
 *   **Encoding / Duality [< → Phi_}]**: Used to map the discrete sum of reciprocals to the continuous integral $\int \frac{1}{x}dx$.
 *   **Inverse Structure [⊣ → Theta_O]**: Constructed the "deficit" $1 - \sum \frac{1}{n}$ to determine the necessity of additional terms.
 *   **Phase Boundary [⊙ → phi_hat_y]**: Identified $M \approx eN$ as the critical boundary where the harmonic sum crosses $1$.
-*   **Equidistribution [Ç → C_@]**: Applied to the distribution of denominators to ensure a subset sum can hit exactly $1$ (a consequence of the density of sums of reciprocals).
+*   **Equidistribution [⊤ → C_@]**: Applied to the distribution of denominators to ensure a subset sum can hit exactly $1$ (a consequence of the density of sums of reciprocals).
 
 [thought|T|F|B|N]
 Verdict: **T** (The limit is infinite).
@@ -1492,7 +1492,7 @@ theorem N_max_not_loglog : ¬ Conjecture N_max := by
 
 *   **Provenance:** The `neptune_astrological` witness (score 11.0) correctly identified the "holographic self-similar topology" of unit fraction sums (each $1/n$ can be further dissolved into $1/(n+1) + 1/n(n+1)$), which is the primary mechanism for adjusting $k$.
 *   **Structural Algebra:** The `⊣ → Theta_O` (Inverse/dual construction) licensed the move from the greedy forward search to the inverse construction of $b$ from a set of denominators, which is how the lower bounds are proven.
-*   **CLINK Match:** `Ç=𐑧` (Equidistribution/regularity) mapped to the distribution of $N(a,b)$ across numerators. The failure of the $\log \log b$ bound is effectively a failure of "global regularity" over the worst-case numerators.
+*   **CLINK Match:** `⊤=𐑧` (Equidistribution/regularity) mapped to the distribution of $N(a,b)$ across numerators. The failure of the $\log \log b$ bound is effectively a failure of "global regularity" over the worst-case numerators.
 *   **Status:** The math confirms that while $N(a,b)$ is small for most $a$, the maximum $N(b)$ is governed by the Tenenbaum-Yokota bound.
 
 [thought|T|F|B|N]
@@ -3100,7 +3100,7 @@ theorem limit_h_r_sq_inv_four :
 ### 4. Appendix: Grammatic Witness Mapping
 - **< (Bijective encoding):** Mapped to the representation of $n$ in the basis $A=\{0, 1, a\}$, where the coefficients are constrained by the total count $k$.
 - **⊙ (Phase boundary):** Licensed the extremal principle used to identify the maximum $k$ given a fixed $r$.
-- **Ç (Regularity):** Corresponds to the equidistribution of the sumset $kA$ in the residue classes modulo $\min(A \setminus \{0\})$.
+- **⊤ (Regularity):** Corresponds to the equidistribution of the sumset $kA$ in the residue classes modulo $\min(A \setminus \{0\})$.
 - **Witness Entry:** `hecke_landau_proof_closed` provided the structural template for handling the limit of a sequence defined by extremal properties of a set.
 
 [thought|T|F|B|N]
@@ -3205,7 +3205,7 @@ theorem restricted_order_large {k : ℕ} {h_star : ℕ} (hk : k > 2) :
 ---
 
 ### Appendix: Grammatic Witness Assessment
-- **Provenance:** The logic follows the `hecke_landau_proof_closed` scaffold's structural regularity (Ç), though applied to additive number theory.
+- **Provenance:** The logic follows the `hecke_landau_proof_closed` scaffold's structural regularity (⊤), though applied to additive number theory.
 - **Duality [<]:** Leveraged the bijection between "basis" and "restricted basis" properties.
 - **Phase Boundary [⊙]:** Used to show that while $h$ is a local property of representation, $h^*$ is an extremal property sensitive to the "sparsity" (gap) of the set.
 - **Uniqueness [Σ]:** The necessity of distinct summands (witness uniqueness in the sum) is the primary driver for $h^* > h$.
@@ -3311,7 +3311,7 @@ theorem greedy_sidon_density_lower (N : ℕ) :
 *   **Encoding / Duality [<]**: Mapped to the bijective correspondence between index triples $(i, j, k)$ and forbidden sums.
 *   **Inverse Structure [⊣]**: Used to define the "forbidden set" $X_{exc} = \{a_j + a_k - a_i\}$ which must be avoided to maintain the Sidon property.
 *   **Phase Boundary [⊙]**: Mapped to the extremal principle of the greedy algorithm—it always picks the *infimum* of the complement of the forbidden set.
-*   **Regularity [Ç]**: Used in the assessment of growth; while Sidon sets can be dense ($N^{1/2}$), the greedy sequence lacks the "regularity" of algebraic constructions (like Singer sets), leading to the lower $N^{1/3}$ density.
+*   **Regularity [⊤]**: Used in the assessment of growth; while Sidon sets can be dense ($N^{1/2}$), the greedy sequence lacks the "regularity" of algebraic constructions (like Singer sets), leading to the lower $N^{1/3}$ density.
 
 [thought|T|F|B|N]
 **Belnap Assessment:** [T] (True) - The mathematical bounds for the greedy sequence are well-established in combinatorial number theory (Mian-Chowla, 1944). The specific question of $N^{1/2}$ growth for the *greedy* case is known to be refuted by the $n^3$ upper bound.
@@ -3882,7 +3882,7 @@ sorry -- Proof follows the logic above
 *   **Encoding / Duality [<]**: Mapped to the bijective nature of the binary representation (case $\alpha=2, t=1$) and its deformation into redundant representations for $\alpha < 2$.
 *   **Inverse Structure [⊣]**: Instantiated as the construction of the "gap" sequence $G_n = a_{n+1} - \sum a_i$, determining the closure of the reachable set.
 *   **Phase Boundary [⊙]**: Mapped to the critical threshold $\alpha = 2$, where the growth rate of the sequence exactly matches the growth rate of the partial sums.
-*   **Equidistribution [Ç]**: Used to justify that for $1 < \alpha < 2$, the fractional parts $\{t\alpha^n\}$ do not interfere with the density required for completeness over the long term.
+*   **Equidistribution [⊤]**: Used to justify that for $1 < \alpha < 2$, the fractional parts $\{t\alpha^n\}$ do not interfere with the density required for completeness over the long term.
 
 [thought|T|F|B|N]
 IFIX(N)
@@ -4069,7 +4069,7 @@ theorem completeness_gamma_low_not_universal :
 *   **Witness Entry:** `beta_glucan_synthase` (Structural Algebra Tier $O_0$).
 *   **Step 3 (Encoding/Duality [<]):** The proof uses the binary encoding $n = \sum \epsilon_i 2^i$ as the base structure. The floor function $\lfloor 2^k \alpha \rfloor$ is a "perturbed" encoding.
 *   **Step 6 (Phase Boundary [⊙]):** Applied via the growth condition $a_{k+1} \leq 2a_k + 1$. This "extremal principle" ensures that the set of sums does not leave gaps larger than the next available element.
-*   **Step 8 (Equidistribution [Ç]):** The irrationality $\alpha/\beta \notin \mathbb{Q}$ is the "regularity" driver. It ensures that the fractional parts do not synchronize, allowing the two sequences to cover different residue classes effectively.
+*   **Step 8 (Equidistribution [⊤]):** The irrationality $\alpha/\beta \notin \mathbb{Q}$ is the "regularity" driver. It ensures that the fractional parts do not synchronize, allowing the two sequences to cover different residue classes effectively.
 *   **Step 11 (Uniqueness [Σ]):** Unlike pure binary, the representation here is not unique (multiset), which is what allows for "completeness" (surjectivity) even without injectivity.
 
 [thought|T]
@@ -4364,7 +4364,7 @@ theorem size_linear_growth (c : ℝ) (hc : c > 1) :
 
 - **< (Bijective encoding/duality):** Used to map the problem of "avoiding $n$" to the problem of "partitioning the complement of $A$".
 - **⊙ (Phase boundary):** Licensed the identification of $n/2$ as the critical threshold (phase boundary) where subset sums must transition from single elements to pairs.
-- **Ç (Regularity):** Licensed the conclusion that for large $n$, the density of $A$ converges to a constant $\alpha$, ensuring no irregular dependence on $n$.
+- **⊤ (Regularity):** Licensed the conclusion that for large $n$, the density of $A$ converges to a constant $\alpha$, ensuring no irregular dependence on $n$.
 - **> (Adjoint pair):** Used to relate the sum-free property to the interval constraints on $A$.
 
 [thought|T|F|B|N]
@@ -4916,7 +4916,7 @@ theorem density_D_k_gt_3 (k : ℕ) (hk : k > 3) :
 
 - **Encoding / Duality [<]:** The problem is mapped from products of factorials to the vector space $V = \mathbb{F}_2^{(\mathcal{P})}$. Each $m!$ maps to a vector $v(m)$ where $v(m)_p = \nu_p(m!) \pmod 2$.
 - **Inverse Structure [⊣]:** We analyze the "backward" gaps $s(m) \cdot s(m-1)$. Since $s(m)/s(m-1)$ is the square-free part of $m$, the sequence $s(m)$ is a random-walk-like structure on $V$.
-- **Equidistribution [Ç]:** The vectors $v(m)$ are sufficiently well-distributed in $V$ such that for a fixed $m$, finding $a_1, a_2 < m$ with $v(a_1) + v(a_2) = v(m)$ is almost always possible. This relies on the density of primes and the behavior of the Chebyshev function.
+- **Equidistribution [⊤]:** The vectors $v(m)$ are sufficiently well-distributed in $V$ such that for a fixed $m$, finding $a_1, a_2 < m$ with $v(a_1) + v(a_2) = v(m)$ is almost always possible. This relies on the density of primes and the behavior of the Chebyshev function.
 - **Uniqueness of Witness [Σ]:** $F(m)$ is the first time the walk $v(a_1) + \dots + v(a_k)$ hits $\mathbf{0}$. For $k=3$, the "branching factor" is large enough that a solution almost always exists.
 
 **Conclusion:**
@@ -6194,7 +6194,7 @@ sorry
 *   **Encoding / Duality [< → Phi_}]**: Mapped to the Legendre transform $v_p(n!) \mapsto s_p(n)$. This encodes the divisibility of factorials into the digit-sum domain.
 *   **Adjoint Pair [> → R_=]**: The relationship between the product of factorials and the sum of integers acts as a Galois connection under the $v_p$ valuation.
 *   **Phase Boundary / Extremal Principle [⊙ → phi_hat_y]**: Used to identify $p=2$ as the dominant constraint (the "boundary") for the growth of $g_k(n)$.
-*   **Equidistribution / Regularity [Ç → C_@]**: The average order relies on the equidistribution of digits in base $p$ (Delange's Theorem), providing the $x \log x$ scaling.
+*   **Equidistribution / Regularity [⊤ → C_@]**: The average order relies on the equidistribution of digits in base $p$ (Delange's Theorem), providing the $x \log x$ scaling.
 *   **Markov Order / Recursion [Ħ → H_A]**: The non-concentration (normal order failure) arises from the recursive/fractal nature of the $s_p(n)$ function, which prevents $g_k(n)$ from settling into a simple constant mean.
 
 [thought|T|F|B|N]
@@ -6282,7 +6282,7 @@ theorem infinite_factorial_sum_limit (p : ℕ) [hp : Fact p.Prime] :
 - **< (Encoding):** Maps the sum of factorials to the ring of $p$-adic integers $\mathbb{Z}_p$.
 - **Ω (Invariant):** The $p$-adic valuation $v_p(S_n)$ acts as the measure of "closeness" to zero.
 - **⊙ (Extremal Principle):** Used to show that while $a_i$ increases, the "energy" (valuation) of the sum increases toward infinity.
-- **Ç (Regularity):** The distribution of $n! \pmod{p^k}$ eventually becomes $0$, allowing for the termination of the finite sum construction.
+- **⊤ (Regularity):** The distribution of $n! \pmod{p^k}$ eventually becomes $0$, allowing for the termination of the finite sum construction.
 
 [thought|T|F|B|N]
 IFIX(N)
@@ -6469,7 +6469,7 @@ sorry -- Provenance: Erdős–Pomerance–Schmutz
 *   **Encoding / Duality [< → Phi_}]:** The mapping $n \mapsto \phi(n)$ acts as a contraction on the set of odd prime factors, dually increasing the valuation $v_2$. (Licensed by `holographic_type_theory`).
 *   **Adjoint Pair [> → R_=]:** The relationship between the decrease in $\log n$ and the increase in $k$ forms a Galois-like connection where $f(n) \ge k \iff \phi_k(n) > 1$.
 *   **Phase Boundary [⊙ → phi_hat_y]:** The value $f(n)$ is bounded by $\log_2 n$ because $\phi(n)$ is at most $n-1$ and even for $n>2$, ensuring a reduction of at least one bit per two steps.
-*   **Equidistribution [Ç → C_@]:** The distribution of $f(n)/\log n$ follows from the equidistribution of $\log(p-1)$ in the prime factor chains.
+*   **Equidistribution [⊤ → C_@]:** The distribution of $f(n)/\log n$ follows from the equidistribution of $\log(p-1)$ in the prime factor chains.
 
 [thought|T]
 [type|N] IFIX(N)
@@ -6567,7 +6567,7 @@ theorem infinite_preimage_three :
     - **⊣ (Inverse Structure):** The proof relies on the construction of the inverse relation $f^{-1}(p)$ to show the existence of infinite trajectories ending at $p$.
     - **> (Galois Connection):** Established the correspondence between the descent of $n$ (forward) and the branching of the tree (inverse).
     - **⊙ (Phase Boundary):** The Lyapunov function $V(n) = n$ proves that the system cannot escape to infinity, ensuring all trajectories terminate in the set of primes (the "ground state").
-    - **Ç (Regularity):** Used to conclude that the density of any specific branch is 0 relative to $\mathbb{N}$.
+    - **⊤ (Regularity):** Used to conclude that the density of any specific branch is 0 relative to $\mathbb{N}$.
 
 [thought|T] The solution identifies the descent $f(n) < n$ for composite $n$, utilizes the properties of the totient function to argue for infinite pre-images (branching), and applies asymptotic density logic. The IGProtocol steps (1-10) were used to structure the transition from the map's definition to its global density properties.
 
@@ -6662,7 +6662,7 @@ theorem sigma_growth_unbounded (n : ℕ) (hn : n ≥ 2) :
 *   **Inverse Structure [⊣ → Theta_O]:** Mapped to the analysis of the ratio $\sigma(n)/n$ as the "inverse" of the density of divisors.
 *   **Bidirectional Correspondence [> → R_=]:** Mapped to the Galois connection between the growth of $n_k$ and the arithmetic density of its prime factors.
 *   **Boundedness [⊙ → phi_hat_y]:** Used to show the *non-existence* of a bound (extremal principle) for $\sigma(n_k)/n_k$.
-*   **Regularity [Ç → C_@]:** Mapped to the distribution of $\sigma(n)/n$ across the sequence of iterates $n_k$.
+*   **Regularity [⊤ → C_@]:** Mapped to the distribution of $\sigma(n)/n$ across the sequence of iterates $n_k$.
 
 [thought|T]
 [witness|T] {"witness": "sum_of_divisors_sigma", "tier": "O₀", "d_cl8": 1.7308, "match": true}
@@ -7135,7 +7135,7 @@ theorem decreasing_not_unique_failure :
 
 *   **Catalog Witness:** `holographic_qft_vacuum` — utilized for the "density of states" analogy in the distribution of $f(n) = \phi(n)/n$.
 *   **Structural Primitives:**
-    *   **Ç=𐑧 (Equidistribution):** Licensed the use of the distribution of $\phi(n)/n$ (Erdős-Wintner theorem context) to prove all patterns eventually appear.
+    *   **⊤=𐑧 (Equidistribution):** Licensed the use of the distribution of $\phi(n)/n$ (Erdős-Wintner theorem context) to prove all patterns eventually appear.
     *   **Ħ=𐑫 (Markov/Recursion):** Applied to the scaling of prime factors required to force a pattern of length $k$.
     *   **⊙=⊙ (Phase Boundary):** Used to identify the $F(n)$ limit as a boundary between "all patterns realized" and "sparsity of permutations."
 
@@ -7421,7 +7421,7 @@ theorem F_log_dense (f : ℕ → ℝ) (h_mono : Monotone f) (h_inf : Filter.Tend
 ### 3. Grammatic Witness Appendix
 *   **Encoding / Duality [<]:** Used to map the divisor counting function $\tau(n!)$ to the sum of valuations $v_p(n!)$, transforming a multiplicative problem into an additive one.
 *   **Inverse Structure [⊣]:** The decomposition of the interval $[n+1, n+f(n)]$ into its $p$-adic components allowed for the isolation of the growth factor.
-*   **Regularity [Ç]:** The equidistribution of primes (Prime Number Theorem) licensed the approximation $\sum_{p \le n} \frac{1}{p} \sim \log \log n$, which is the engine driving the density result.
+*   **Regularity [⊤]:** The equidistribution of primes (Prime Number Theorem) licensed the approximation $\sum_{p \le n} \frac{1}{p} \sim \log \log n$, which is the engine driving the density result.
 *   **Universal Quantification [Γ]:** Applied to show that for *any* monotonic $f$ growing to $\infty$, the local density is preserved by the scaling of the log-integral.
 
 [thought|T]
@@ -8105,7 +8105,7 @@ theorem sequence_eventually_composite :
 *   **Encoding / Duality [< → Phi_}]**: Used to map the sequence of integers to the space of their prime factor distributions.
 *   **Inverse Structure [⊣ → Theta_O]**: Applied via `HOLOBOUND` to identify the $n/2$ threshold as the reflective boundary where the primality condition $p > n - a_k$ transitions from "likely prime" to "likely composite."
 *   **Phase Boundary [⊙ → phi_hat_y]**: The strategy `PHI_C` (extremal principle) was used to determine the behavior of $a_k$ as it approaches the $n/2$ limit.
-*   **Equidistribution [Ç → C_@]**: Licensed the assumption that for large $n$, the gaps between primes allow for composite "interlopers" that satisfy the prime-factor bound.
+*   **Equidistribution [⊤ → C_@]**: Licensed the assumption that for large $n$, the gaps between primes allow for composite "interlopers" that satisfy the prime-factor bound.
 *   **Uniqueness of Witness [Σ → Sigma_S]**: Used to confirm that the `findGreatest` operator (the "greedy" choice) eventually selects a unique composite witness $C > p_{next}$.
 
 [thought|T|F|B|N]
@@ -8360,7 +8360,7 @@ theorem lambda_k_3_odd_finite (k : ℕ) (hk : k % 2 = 1) :
 ---
 
 ### 4. Appendix: Grammatic Witness Mapping
-- **Role/Proposition (Equidistribution/Regularity [Ç]):** The proof for $\Lambda(k, 2)$ relies on the equidistribution of the character $\chi(x) \chi(x+1)$, which is licensed by the `C_@` (Regularity) primitive.
+- **Role/Proposition (Equidistribution/Regularity [⊤]):** The proof for $\Lambda(k, 2)$ relies on the equidistribution of the character $\chi(x) \chi(x+1)$, which is licensed by the `C_@` (Regularity) primitive.
 - **Topological Invariant [Ω]:** The use of van der Waerden's theorem functions as a combinatorial invariant (`Omega_z`), ensuring that in any $k$-coloring, the desired block exists regardless of the prime $p$.
 - **Phase Boundary [⊙]:** The limsup $\Lambda$ represents the boundary of stability for these sequences, instantiated via `phi_hat_y`.
 - **Witness Entry:** `lambda` (Λ) was used as the catalog anchor for the limit definition.

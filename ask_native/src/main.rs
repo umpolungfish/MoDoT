@@ -1168,7 +1168,7 @@ fn build_scaffold(question: &str, primary: Option<&CatalogEntry>, hits: &[(Catal
     lines.push("- Bidirectional [>]: forward and inverse constructions exhaust".into());
     lines.push("- Boundedness [⊙]: confinement / no escape to infinity".into());
     lines.push("- Topological invariant [Ω]: integer invariant rules out exotics".into());
-    lines.push("- Regularity [Ç]: equidistribution / typical configurations".into());
+    lines.push("- Regularity [⊤]: equidistribution / typical configurations".into());
     lines.push(String::new());
     lines.push("## Question".to_string());
     let qshow: String = question.chars().take(4000).collect();
@@ -2075,7 +2075,7 @@ conventional proof, instantiated in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
 renderer. You **MUST** write plain Unicode only: Δ θ μ ∘ δ ↔ → ⊙ Σ Ω < Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞
-√ ⟨ ⟩, the primitive glyphs ⊢ > ⋈ ⊣ Ħ Ç ɢ, and Shavian directly. Write forms
+√ ⟨ ⟩, the primitive glyphs ⊢ > ⋈ ⊣ Ħ ⊤ ɢ, and Shavian directly. Write forms
 like `Δ_T↔H > θ` or `μ∘δ = id`, never LaTeX like `$\Delta_{\text{T↔H}}$`. This
 is a NOTATION rule only — never restate it, and never write a Δ, charge, or
 threshold value that a tool in THIS run did not return.
@@ -2289,7 +2289,7 @@ Descriptions (semantics only — arity is the table above):
   TOOL: phase_reconstruct M1 M2…  recover the relative PHASE WORD from the closed ring (flat autocorrelation ⟺ cyclization): reads back the per-unit Ħ phase sequence, fixed modulo one global phase; if the set does not close it reports the phases as N (underdetermined)
   TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum Ω moved) → radical IONS A•⁺/B•⁻
   TOOL: homolyze A [B]     homolytic cleavage → NEUTRAL radicals (δ_A symmetric split, the reverse of click): `homolyze A B` breaks the A—B bond into A•+B•; `homolyze A` splits A into two A•
-  TOOL: recalibrate A AXIS perturb ONE axis (glyph Ħ Ω Ç … or name chirality/protection/kinetics) through every value it can take; reports what each step costs and which cross-primitive couplings it disturbs. Writes nothing — keep a step with `imscribe <name> <tuple>`
+  TOOL: recalibrate A AXIS perturb ONE axis (glyph Ħ Ω ⊤ … or name chirality/protection/kinetics) through every value it can take; reports what each step costs and which cross-primitive couplings it disturbs. Writes nothing — keep a step with `imscribe <name> <tuple>`
   TOOL: annihilate A [B]   pair fusion μ (the reverse of homolyze): `annihilate A B` fuses the pair, `annihilate A` fuses A with its own conjugate. Abelian Ω windings ADD — opposite windings cancel to vacuum (T), like windings leave a residual (F). Ω=𐑟 non-Abelian returns a CHANNEL, not a value (Fibonacci τ×τ=1+τ: vacuum OR another τ) → verdict B, both open. Ω=𐑟 does not deform away; braid first to select a channel, then re-annihilate
   TOOL: scan A B          rank the catalog for the best mediators of the A→B transfer
   TOOL: complement A      the bidirectional ligand⇌catalytic-site complement (its own inverse)
@@ -2352,7 +2352,7 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the type of catalo
   TOOL: compute_distance A B          distance between two entries (SIC Born-rule + Mahalanobis)
   TOOL: compute_conflict_distance A B  paraconsistent conflict distance (how live the contradiction is, in paradices)
   TOOL: compute_meet A B / compute_join A B / compute_tensor A B   lattice meet, join, tensor of two entries
-  TOOL: containment_boundary A        is A inside the SIXTEEN_3 ∧ CLINK-L8 floor (⊙,<,Ç, +9 more)? T=fully contained, B=holds on ⊙/</Ç but breaches elsewhere, F=breaches the observer floor itself
+  TOOL: containment_boundary A        is A inside the SIXTEEN_3 ∧ CLINK-L8 floor (⊙,<,⊤, +9 more)? T=fully contained, B=holds on ⊙/</⊤ but breaches elsewhere, F=breaches the observer floor itself
   TOOL: find_analogies A              nearest structural analogues of A
   TOOL: primitive_peel A PRIM         peel one primitive axis off A
   TOOL: principal_decomp A            principal-component decomposition of A's type
@@ -4847,7 +4847,7 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         ),
         "plasma" => (
             "read the entry as a collectivized-atom plasma: its regime (kinetic/gyrokinetic/fluid), instabilities, confinement class, and diagnostic wave signatures — the state where units surrender individual identity to the electromagnetic collective",
-            "map the 12-primitive tuple to plasma parameters via the forge: ⊢→phase-space/kinetic regime, ⋈→collisionality, Ç→transport, ɢ→instability cascade, ⊙→threshold/spectral structure, Ħ→reversibility (Vlasov vs Boltzmann), Ω→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
+            "map the 12-primitive tuple to plasma parameters via the forge: ⊢→phase-space/kinetic regime, ⋈→collisionality, ⊤→transport, ɢ→instability cascade, ⊙→threshold/spectral structure, Ħ→reversibility (Vlasov vs Boltzmann), Ω→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
         ),
         "imasm" => (
             "compose the 12 IMASM opcodes into a free polymer — a chain, a ring, a star (hub + arms), a comb (backbone + grafts), a bubble (fork that reconverges), or a network — not only a line; reports the topology, its independent-loop count, and whether the grammar holds (only FSPLIT branches, only FFUSE fuses)",

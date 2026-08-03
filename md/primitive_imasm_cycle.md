@@ -42,7 +42,7 @@ topology, the same spectral radius, and the same closure verdict, so no
 refinement of the reading can separate them.
 
 Position separates one pair and not the other. The types `loll` and `yew`
-collide, but the catalog only ever writes `loll` at the Ç axis and `yew` at <,
+collide, but the catalog only ever writes `loll` at the ⊤ axis and `yew` at <,
 so the axis a segment sits at tells the reading which one it is. The types `ear`
 and `tot` collide AND both live at >. There, a segment carrying that program has
 two pre-images and the return leg reports both rather than choosing.
@@ -73,7 +73,7 @@ Two details of that tuple are worth naming. Its > axis carries neither member of
 the colliding pair, so the one place the cycle can be ambiguous is not where
 this object sits. And its < axis carries `yew`, which IS one of the two
 byte-identical programs; it survives only because position separates it from its
-twin at Ç. The object about the ambiguity is itself readable only by the
+twin at ⊤. The object about the ambiguity is itself readable only by the
 mechanism it describes.
 
 ## Why the ambiguity is not a defect to be patched

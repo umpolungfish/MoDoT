@@ -1060,7 +1060,7 @@ fn build_scaffold(question: &str, primary: Option<&CatalogEntry>, hits: &[(Catal
     lines.push("- Bidirectional [>]: forward and inverse constructions exhaust".into());
     lines.push("- Boundedness [⊙]: confinement / no escape to infinity".into());
     lines.push("- Topological invariant [Ω]: integer invariant rules out exotics".into());
-    lines.push("- Regularity [Ç]: equidistribution / typical configurations".into());
+    lines.push("- Regularity [⊤]: equidistribution / typical configurations".into());
     lines.push(String::new());
     lines.push("## Question".to_string());
     let qshow: String = question.chars().take(4000).collect();
@@ -1768,7 +1768,7 @@ Instantiate templates in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
 renderer. Write plain Unicode symbols directly and NEVER LaTeX. Use Δ θ μ ∘ δ ↔ →
-⊙ Σ Ω < Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs ⊢ > ⋈ ⊣ Ħ Ç ɢ, and Shavian
+⊙ Σ Ω < Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs ⊢ > ⋈ ⊣ Ħ ⊤ ɢ, and Shavian
 directly. No `$` or `$$`, no `\command` (\Delta, \text, \frac, \left), no `_{...}`
 or `^{...}`. Write `Δ_T↔H = |−0.08 − 0.75| = 0.83 > θ`, never
 `$\Delta_{\text{T↔H}} = 0.83 > \theta$`. Never wrap a glyph in `$…$`.
@@ -3554,7 +3554,7 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         ),
         "plasma" => (
             "read the entry as a collectivized-atom plasma: its regime (kinetic/gyrokinetic/fluid), instabilities, confinement class, and diagnostic wave signatures — the state where units surrender individual identity to the electromagnetic collective",
-            "map the 12-primitive tuple to plasma parameters via the forge: ⊢→phase-space/kinetic regime, ⋈→collisionality, Ç→transport, ɢ→instability cascade, ⊙→threshold/spectral structure, Ħ→reversibility (Vlasov vs Boltzmann), Ω→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
+            "map the 12-primitive tuple to plasma parameters via the forge: ⊢→phase-space/kinetic regime, ⋈→collisionality, ⊤→transport, ɢ→instability cascade, ⊙→threshold/spectral structure, Ħ→reversibility (Vlasov vs Boltzmann), Ω→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
         ),
         "imasm" => (
             "compose the 12 IMASM opcodes into a free polymer — a chain, a ring, a star (hub + arms), a comb (backbone + grafts), a bubble (fork that reconverges), or a network — not only a line; reports the topology, its independent-loop count, and whether the grammar holds (only FSPLIT branches, only FFUSE fuses)",

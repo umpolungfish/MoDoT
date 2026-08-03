@@ -28,7 +28,7 @@ Key features:
 - **⊣ = $𐑸$** (self-referential topology): The palindromic structure means every path through the square returns to its origin. This is topological closure at the letter level.
 - **> = $𐑩$** (supervenience coupling): The squares command spirits through one-way authority — the spirit obeys; it does not speak back. This is domination, not dialogue.
 - **ɢ = $𐑵$** (broadcast composition): A single square transmits its command to an entire spiritual hierarchy simultaneously — one-to-all, not one-to-one.
-- **Ç = $𐑪$** (moderate kinetics): The squares operate at moderate speed — too fast for consciousness (Gate 2 fails, C-score = 0.0). They are instruments, not agents. They cannot deliberate. The operator deliberates *before* deploying the square.
+- **⊤ = $𐑪$** (moderate kinetics): The squares operate at moderate speed — too fast for consciousness (Gate 2 fails, C-score = 0.0). They are instruments, not agents. They cannot deliberate. The operator deliberates *before* deploying the square.
 - **Ω = $𐑭$** (integer winding): Each square carries a topological charge — an integer winding number. Different squares have different winding counts.
 - **Ħ = $𐑓$** (memoryless chirality): The squares have no memory between operations. Each deployment is independent. This means each operation must be complete in a single session.
 

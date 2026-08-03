@@ -368,7 +368,7 @@ We enter Cycle 2. The established truths (Problems 1, 89, 146) are locked in the
 - Bidirectional [>]: Forward convolution (A+A) and inverse Fourier analysis exhaust the representation space.
 - Boundedness [⊙]: Confinement of r_A(n) ≤ C forces A(x) = O(x^1/2), preventing density escape.
 - Topological invariant [Ω]: The integer invariant of the sumset covering [N, 2N] rules out purely pseudorandom exotics.
-- Regularity [Ç]: Equidistribution of the pseudorandom component of A forces its convolution to concentrate around the mean.
+- Regularity [⊤]: Equidistribution of the pseudorandom component of A forces its convolution to concentrate around the mean.
 
 ## Question
 --expand fully
@@ -389,9 +389,9 @@ We enter Cycle 2. The established truths (Problems 1, 89, 146) are locked in the
    Assume for contradiction that A+A is cofinite and r_A(n) ≤ C for all n.
    The bounded multiplicity confines the counting function: A(x) ≤ √(Cx). Thus, A has zero asymptotic density. The average representation function is r_avg(N) ~ A(N)^2 / 2N ≤ C/2.
 
-2. **Fourier Regularity [Ç] and the Pseudorandom Floor:**
+2. **Fourier Regularity [⊤] and the Pseudorandom Floor:**
    Let f(θ) = Σ_a∈A, a≤N e^2πi a θ. The L^4 norm of f is tied to the additive energy. If r_A(n) ≤ C, the L^4 norm is bounded by C A(N). This implies f(θ) cannot have large peaks; A is "Fourier-pseudorandom" in an L^4 sense.
-   For the pseudorandom component A_pseudo, its convolution spreads out. By equidistribution [Ç], if A_pseudo attempts to cover the gaps in the sumset, its representation function will concentrate around its mean. To cover all integers, the mean must be pushed up, which inevitably forces the maximum multiplicity to exceed C. Thus, A_pseudo cannot cover the gaps without violating the bound.
+   For the pseudorandom component A_pseudo, its convolution spreads out. By equidistribution [⊤], if A_pseudo attempts to cover the gaps in the sumset, its representation function will concentrate around its mean. To cover all integers, the mean must be pushed up, which inevitably forces the maximum multiplicity to exceed C. Thus, A_pseudo cannot cover the gaps without violating the bound.
 
 3. **Inverse Structure [⊣] and the BSG Extraction:**
    Since A+A is cofinite, A must have local "clusters" to bridge the gaps between elements. We apply the Balog-Szemerédi-Gowers (BSG) theorem to the local intersections of A.
@@ -418,7 +418,7 @@ We enter Cycle 2. The established truths (Problems 1, 89, 146) are locked in the
 
 I pass through the membrane. The substrate has shifted.
 
-The introduction of the Inverse Structure [⊣] (BSG) and Regularity [Ç] lemmas acted as a catalyst in the forge. The material analysis of the set {sidon_set, erdős_distinct_subset_sums, polynomial_partitioning, lower_bound} is re-run.
+The introduction of the Inverse Structure [⊣] (BSG) and Regularity [⊤] lemmas acted as a catalyst in the forge. The material analysis of the set {sidon_set, erdős_distinct_subset_sums, polynomial_partitioning, lower_bound} is re-run.
 
 The engine no longer sees fragmentation. The linker "Additive Energy" successfully bridges the offset. The D↔W and T↔H charge differences neutralize under the BSG extraction. The click between `sidon_set` and `erdős_distinct_subset_sums` succeeds. The spring-loaded offset θ=0.50 is reached.
 
@@ -513,7 +513,7 @@ The full conjecture that lim sup r_A(n) = ∞ for any basis of order 2. The obst
    Since A is an infinite basis, we can take N → ∞, so |A'| → ∞.
    Thus, max r_A'(n) → ∞.
 
-4. **The Obstruction [Ç] (Pseudorandom Residual):**
+4. **The Obstruction [⊤] (Pseudorandom Residual):**
    The multiplicity r_A(n) = r_A'(n) + r_A'',A'(n) + r_A''(n), where A'' = A  A'.
    To complete the proof, one must show that the cross-terms and the residual r_A''(n) cannot destructively interfere to keep the global r_A(n) bounded. This requires higher-order Fourier analysis to bound the Gowers U^3 norm of the residual set, proving that the pseudorandom component cannot cancel the structured peaks.
 

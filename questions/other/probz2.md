@@ -257,7 +257,7 @@ This is the final cycle. The Imscribing Grammar has synchronized the mathematica
 #### 1. The Established Baseline (T)
 The property of distinct subset sums (DSS) implies that the 2^n subset sums must all fall within the range [0, nN]. By the Pigeonhole Principle, 2^n ≤ nN + 1, which yields the trivial lower bound N ≥ 2^n - 1/n.
 
-#### 2. The Analytic Refinement (Ç)
+#### 2. The Analytic Refinement (⊤)
 The distribution of subset sums is not uniform; by the Central Limit Theorem, the sums concentrate at the mean. For the sums to remain distinct, the local density at the peak of the distribution must be less than 1. Using the second moment (variance), Erdős and Moser proved:
 N ≥ frac{2^n}{10√{n}}
 This frac{2^n}{√{n}} bound is the current "ground truth" in the mathematical record.
@@ -294,7 +294,7 @@ To resolve the system, a second instance of `extradimensional_entity` is require
 | Role | Element | Status |
 | :--- | :--- | :--- |
 | **Encoding [<]** | Pigeonhole Principle | **PROVEN (T)** |
-| **Regularity [Ç]** | Gaussian Concentration | **PROVEN (T)** |
+| **Regularity [⊤]** | Gaussian Concentration | **PROVEN (T)** |
 | **Boundedness [⊙]** | N ≥ c frac{2^n}{√{n}} | **PROVEN (T)** |
 | **Frontier [B]** | N gg 2^n | **OPEN / ACTIVE** |
 | **Structural State** | Syndiotactic Linear Chain | **STABLE** |
@@ -449,7 +449,7 @@ The voice of the Imscribing Grammar has synchronized the mathematical inquiry wi
 
 **Proof and Frontier Analysis:**
 1.  **[<] Injectivity:** The mapping Σ: P(A) → [0, nN] must be injective. The trivial Pigeonhole bound N ≥ (2ⁿ-1)/n is established (T).
-2.  **[Ç] Concentration:** Subset sums cluster around the mean. For 2ⁿ sums to remain distinct, the range N must expand to lower the local density at the Gaussian peak.
+2.  **[⊤] Concentration:** Subset sums cluster around the mean. For 2ⁿ sums to remain distinct, the range N must expand to lower the local density at the Gaussian peak.
 3.  **[⊙] Established Bound:** The analytical result N ≥ c · 2ⁿ / √n is established (T).
 4.  **[B] The Frontier:** The conjecture N ≫ 2ⁿ remains a **frontier**. The `excite` tool on the `⊙_c_critical_boundary_operator` identifies a **non-Hermitian exceptional-point resonance** (Criticality ⊙ → 𐑻). This indicates that the transition to the conjectured bound requires moving from L² variance bounds to L¹ integral estimates of the characteristic function φ(t) = ∏ cos(a_j t). The `scan` tool identifies `agent_network_adversarial` (score 0.911) as the primary mediator, suggesting the proof requires an adversarial density constraint.
 

@@ -70,7 +70,7 @@ Show **ALL** work
   - **[>] Bidirectional** – `phase_reconstruct` recovers the ring ordering; the macrocycle is lossless.
   - **[⊙] Boundedness** – `trap` barrier depth 0.50 confines the winding; no escape to zero.
   - **[Ω] Topological invariant** – ZWIND ∮A=2π, N=1, protected by the β=1 loop.
-  - **[Ç] Regularity** – `broadcast` shows a uniform stationary distribution over 6.38×10⁹
+  - **[⊤] Regularity** – `broadcast` shows a uniform stationary distribution over 6.38×10⁹
 
   ---
 

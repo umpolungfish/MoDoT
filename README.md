@@ -385,12 +385,12 @@ relay, no binding needed) reads differently from an inner-sphere one that grips 
 ```
 
 > **Ordinal scripture fix.** The glyph→ordinal table was corrected against the Lean
-> kernel (`p4rakernel/…/Primitives/Core.lean` + `gen_clay_canonical_tuples.py`): **Ç**
+> kernel (`p4rakernel/…/Primitives/Core.lean` + `gen_clay_canonical_tuples.py`): **⊤**
 > (KineticChar: yea<loll<egg<on<air) had ords 3/4 swapped, and **Σ** (Stoichiometry:
 > hung<so<up) was rotated. The glyph→constructor *rendering* was always canonical, so
 > `--certify` was never wrong; only the numeric ordinals were, which had thrown the
 > R↔S live-pair charge and the ligand↔site complement. red-hot_rebis carries the same
-> stale Ç swap and should be reconciled to scripture too.
+> stale ⊤ swap and should be reconciled to scripture too.
 
 **The catalytic cycle** (`--cycle CATALYST SUBSTRATE`) — every verb above is an *arc*
 of a mechanism; this closes them into the **loop**. It is **Solve et Coagula** made

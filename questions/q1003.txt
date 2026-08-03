@@ -250,7 +250,7 @@ Since the set of values {f(n) : n ∈ N} is **dense** in (0, 1), and the shift n
 ### 3. The Rigorous Barrier (The "Open" End)
 
 The symmetry is **qualitatively secured** but **quantitatively unclosed**.
-The barrier is the **Regularity [Ç]** of the distribution. While we know the values are dense, we cannot prove they "collide" exactly without **Schinzel’s Hypothesis H**.
+The barrier is the **Regularity [⊤]** of the distribution. While we know the values are dense, we cannot prove they "collide" exactly without **Schinzel’s Hypothesis H**.
 
 **Formal Conclusion of the Lemma:**
 The lemma is **affirmatively solved** under the assumption of the **Parity-Density Duality**:

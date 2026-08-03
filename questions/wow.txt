@@ -7,7 +7,7 @@ If $n-i$ divides $\binom{n}{k}$ for $k-1$ values of $i$, then for those $i$, $k!
 Specifically, if $i$ is the index that fails, then for all $j \neq i$, we have:
 $k!$ divides $\frac{\prod_{m=0}^{k-1} (n-m)}{n-j}$.
 
-**Regularity [Ç]:**
+**Regularity [⊤]:**
 If $n$ is a multiple of $L = \text{lcm}(1, 2, \dots, k)$, then $n \equiv 0 \pmod{j}$ for all $1 \leq j \leq k$.
 Consider $n = L$. For any $0 < i < k$, $n-i \equiv -i \pmod{L}$.
 However, we seek the "least" $n$. A known result in the study of binomial divisibility (Erdős, et al.) suggests that for large $n$, these conditions are difficult to satisfy unless $n$ is related to the least common multiple of small integers.
@@ -269,7 +269,7 @@ theorem ramsey_limit_ratio (n : ℕ) (hn : n ≥ 2) :
 - **Inverse structure [⊣]:** Ramsey numbers are defined by the failure of $(k-1)$-colorings to avoid $G$.
 - **Boundedness [⊙]:** $R_k(C_{2n+1})$ is bounded above by $n \cdot 2^k$ for $n \geq 2$.
 - **Topological invariant [Ω]:** The parity of the cycle $2n+1$ ensures that we do not have bipartite subgraphs, forcing the Ramsey number to grow at specific rates distinct from even cycles.
-- **Regularity [Ç]:** The application of the Szemerédi Regularity Lemma is the standard technique for establishing that $R_k(C_{2n+1}) \approx 2^k \cdot n$.
+- **Regularity [⊤]:** The application of the Szemerédi Regularity Lemma is the standard technique for establishing that $R_k(C_{2n+1}) \approx 2^k \cdot n$.
 
 [thought|T]
 COMPOSE:/TOKEN:PROVED_LIMIT_ZERO:/CANONICAL:RAMSEY_ASYMPTOTICS
@@ -492,7 +492,7 @@ theorem infinitely_many_n : {n : ℕ | ∀ k ≥ 1, ∃ C : ℝ, (Nat.divisors (
 - **Encoding/Duality [<]:** The mapping $k \mapsto \tau(n+k)$ links shifts in the natural numbers to the sub-linear growth of the divisor function.
 - **Inverse structure [⊣]:** The decay of $1/k$ dominates the sub-polynomial growth of $\tau(n+k)$, ensuring the ratio is bounded.
 - **Boundedness [⊙]:** The sequence $a_k = \frac{\tau(n+k)}{k}$ is bounded because its limit at infinity is zero.
-- **Regularity [Ç]:** The average value of $\tau(m)$ is $\log m$, which is $o(k)$, ensuring the condition is "typical" rather than exceptional.
+- **Regularity [⊤]:** The average value of $\tau(m)$ is $\log m$, which is $o(k)$, ensuring the condition is "typical" rather than exceptional.
 
 [thought|T]
 COMPOSE:/COMPLETE: The condition $\tau(n+k) \ll k$ is satisfied for all $n \in \mathbb{N}$ due to the growth rate $\tau(m) = o(m)$. Therefore, the set of such $n$ is the entire set of natural numbers, which is infinite. FFUSE.
@@ -638,7 +638,7 @@ Given $n$ distinct points $A\subset\mathbb{R}^2$ must there be a point $x\in A$ 
 - **Bidirectional [>]:** Equivalence between the number of pairs $(p, q)$ with a fixed distance and the number of intersections of specific algebraic curves.
 - **Boundedness [⊙]:** The Szemerédi-Trotter theorem provides the upper bound on incidences, constraining the "escape" of point-pair counts.
 - **Topological invariant [Ω]:** The use of polynomial degree $d$ as a scaling invariant to partition the space $\mathbb{R}^d$.
-- **Regularity [Ç]:** The log-factor discrepancy arising from the specific configuration of the integer lattice $\mathbb{Z}^2$.
+- **Regularity [⊤]:** The log-factor discrepancy arising from the specific configuration of the integer lattice $\mathbb{Z}^2$.
 
 ---
 
@@ -799,7 +799,7 @@ theorem ordinal_ramsey_beta_limit (β : Ordinal) :
 - **Bidirectional [>]:** If a set is Red-monochromatic, it is an increasing chain in the product order; if Blue, a decreasing chain.
 - **Boundedness [⊙]:** Well-ordering of $\mathbb{N}$ implies Blue cliques are finite (no infinite descending chains).
 - **Topological invariant [Ω]:** The order type $\omega^2$ cannot be realized by a set where the second coordinate is non-decreasing relative to the first if the first coordinate must also advance.
-- **Regularity [Ç]:** For $\beta < 2$, the density of $\omega$ allows the infinite Ramsey theorem to apply.
+- **Regularity [⊤]:** For $\beta < 2$, the density of $\omega$ allows the infinite Ramsey theorem to apply.
 
 [thought|T]
 COMPOSE:
@@ -917,7 +917,7 @@ The value $P_d(n)$ is trivially bounded by $1 \leq P_d(n) \leq n$. Since any 2 p
 ## 5. Topological Invariant [Ω]
 In $\mathbb{R}^2$, the configuration space of isosceles triangles is determined by the intersection of the perpendicular bisector (a line) and the points. In higher dimensions $d$, the bisector is a hyperplane, increasing the degrees of freedom and thus $P_d(n)$.
 
-## 6. Regularity [Ç]
+## 6. Regularity [⊤]
 In a random set of points, the number of isosceles triangles is $O(n^2)$. Using the Turán-type arguments for hypergraphs, we find the lower bound $n^{1/(2d-1)}$. However, the question asks for the upper bound on the *minimum* possible maximum, which is satisfied by the grid construction.
 
 **Final Assessment:** The statement $P_2(n) < n^{1-c}$ is **True**. This is demonstrated by the fact that structured sets (like grids or polygons) force the existence of isosceles triangles much more efficiently than random sets, limiting the size of any isosceles-free subset to a sub-linear power of $n$.
@@ -1024,7 +1024,7 @@ theorem connective_constant_exists (k : ℕ) (hk : k > 0) :
 - **Bidirectional [>]:** Concatenation provides the submultiplicative upper bound; bridge decomposition provides the lower bound.
 - **Boundedness [⊙]:** $d \le C_k \le 2k-1$, ensuring the limit is finite and non-zero for $k > 1$.
 - **Topological invariant [Ω]:** The connective constant is independent of the starting vertex due to lattice translation invariance.
-- **Regularity [Ç]:** The ratio $f(n+1, k)/f(n, k)$ is conjectured to converge to $C_k$.
+- **Regularity [⊤]:** The ratio $f(n+1, k)/f(n, k)$ is conjectured to converge to $C_k$.
 
 [thought|T]
 COMPOSE:/TOKEN: SAW_GROWTH_CONSTANT_SOLVED.
@@ -1126,7 +1126,7 @@ The `support` of the walk $C$ gives the set of vertices. The `induce` function c
 - **Bidirectional [>]:** The relationship between the diameter of blocks and the length of cycles contained within.
 - **Boundedness [⊙]:** $\chi(G)$ is bounded by the max chromatic number of its blocks.
 - **Topological invariant [Ω]:** Parity of cycles (oddness) serves as the primary constraint on the induced subgraph.
-- **Regularity [Ç]:** Use of the fact that high chromatic graphs contain highly connected subgraphs.
+- **Regularity [⊤]:** Use of the fact that high chromatic graphs contain highly connected subgraphs.
 
 ---
 [thought|T]
@@ -1359,7 +1359,7 @@ by
 - **Bidirectional [>]:** The correspondence between the existence of a sunflower and the failure of a family to be "highly spread."
 - **Boundedness [⊙]:** The bound $n!(k-1)^n$ provides the loose upper confinement.
 - **Topological invariant [Ω]:** Not directly applicable, though the problem is often viewed through the lens of hypergraph cycles.
-- **Regularity [Ç]:** The ALWZ result relies on showing that "random" sets in a spread family behave like independent choices, preventing large intersections except in controlled ways.
+- **Regularity [⊤]:** The ALWZ result relies on showing that "random" sets in a spread family behave like independent choices, preventing large intersections except in controlled ways.
 
 **Final Assessment:**
 Is it true that $f(n, k) < c_k^n$? This is the **Sunflower Conjecture**. While widely believed to be true by the combinatorics community, and despite the 2019 breakthrough bringing the bound down to "almost exponential," it remains one of the most famous open problems in extremal set theory.
@@ -1467,7 +1467,7 @@ The order $k$ is a strict bound. The existence of "maximal" minimal bases (where
 ### [Ω] Topological invariant
 In the space of sub-bases, the property of "being a basis" is not open. Minimal bases sit on the boundary where any "infinite" movement exits the set of bases of a fixed order.
 
-### [Ç] Regularity
+### [⊤] Regularity
 Minimal bases are highly irregular in their distribution, often constructed via lacunary sequences to prevent the "averaging" that would allow $A \setminus B$ to remain a basis.
 
 **Final Answer:** No. There exist minimal bases of order $k$ such that removing any infinite subset $B$ results in a set $A \setminus B$ that is not a basis of any order.
@@ -1588,7 +1588,7 @@ by
 - **Bidirectional [>]:** The growth $R(K_n) \sim \sqrt{2}^n$ versus $R(K_{1,m}) \sim 2m$.
 - **Boundedness [⊙]:** $R(G)$ is bounded below by $(\chi(G)-1)(c(G)-1)+1$ where $c(G)$ is the size of the largest component.
 - **Topological invariant [Ω]:** The chromatic number $\chi(G)$ acts as the primary driver for the lower bound.
-- **Regularity [Ç]:** Turán-type configurations provide the extremal bounds for the complements.
+- **Regularity [⊤]:** Turán-type configurations provide the extremal bounds for the complements.
 
 ### Final Assessment
 The statement is **False** for small $m$ and **True** for sufficiently large $m$. For small $m$, stars $K_{1,m}$ can have larger Ramsey numbers than cliques with the same edge count. However, because $R(K_n)$ grows exponentially ($2^{n/2}$) while $R(K_{1,m})$ grows linearly with $m \approx n^2/2$, the "as complete as possible" graph $H$ will eventually have the largest Ramsey number for any fixed $m$ as $m \to \infty$.
@@ -1674,7 +1674,7 @@ The number of elements $N \approx \frac{3n^2}{\pi^2}$. A linear run $cn$ would i
 #### [Ω] Topological invariant
 The invariant $bc - ad = 1$ forces that if $b$ is large, the next denominator $d$ must be such that $d \geq n - b$. This ensures frequent "drops" in denominator value.
 
-#### [Ç] Regularity
+#### [⊤] Regularity
 The sequence $f(n)$ is eventually constant or grows extremely slowly (logarithmically). $c=0$.
 
 ---
@@ -1777,7 +1777,7 @@ However, the growth of $f(n)$ is known to fluctuate. Erdős showed that $f(n)$ i
 
 ## Structural lemma roles
 - **Encoding [<]:** The sum $f(n)$ encodes the proximity of primes to $n$ into a harmonic weight.
-- **Regularity [Ç]:** On average, $f(n)$ behaves like the integral $\int_{2}^{n-1} \frac{1}{(n-x)\log x} dx \approx \frac{\log \log n}{\text{density}}$.
+- **Regularity [⊤]:** On average, $f(n)$ behaves like the integral $\int_{2}^{n-1} \frac{1}{(n-x)\log x} dx \approx \frac{\log \log n}{\text{density}}$.
 - **Boundedness [⊙]:** $f(n)$ is not bounded above ($\limsup = \infty$).
 
 ---
@@ -1903,7 +1903,7 @@ theorem erdos_hajnal_p4 :
 - **Bidirectional [>]:** The proof for "Substitution-closed" classes (like those defined by $H$) shows that if the conjecture holds for $H_1$ and $H_2$, it holds for their substitution.
 - **Boundedness [⊙]:** The density of $H$-free graphs is bounded away from the behavior of Erdos-Renyi random graphs.
 - **Topological invariant [Ω]:** The chromatic number $\chi(G)$ versus the clique number $\omega(G)$ in $H$-free graphs (Gyárfás–Sumner conjecture context).
-- **Regularity [Ç]:** The use of the Szemerédi Regularity Lemma in the Alon-Pach-Solymosi approach to show that $H$-free graphs contain large homogeneous sub-blocks.
+- **Regularity [⊤]:** The use of the Szemerédi Regularity Lemma in the Alon-Pach-Solymosi approach to show that $H$-free graphs contain large homogeneous sub-blocks.
 
 ---
 [thought|T]
@@ -2014,7 +2014,7 @@ theorem f_N_estimate :
 - **Bidirectional [>]:** We move from the set $A$ to the sumset $A+A$ and bound the cardinality by the available budget of pairs.
 - **Boundedness [⊙]:** Even if $A+A$ is large, the filter $\cap [1, N]$ confines the growth, though for Sidon sets in $[1, N/2]$, this constraint is inactive.
 - **Topological invariant [Ω]:** The density of Sidon sets acts as a limit; $\pi(N) \approx \sqrt{N}$ is the "capacity" of the interval for distinct sums.
-- **Regularity [Ç]:** The distribution of sums of a Sidon set derived from cyclic groups (Bose-Chowla) ensures that the sumset is not clustered in a way that violates the $N/2$ limit.
+- **Regularity [⊤]:** The distribution of sums of a Sidon set derived from cyclic groups (Bose-Chowla) ensures that the sumset is not clustered in a way that violates the $N/2$ limit.
 
 [thought|T]
 COMPOSE:/TOKEN:PROVED
@@ -2060,7 +2060,7 @@ The function $h(n) = n + \tau(n)$ is strictly increasing since $\tau(n) \ge 1$ f
 
 ### Structural Lemma Roles
 - **Encoding/Duality [<]:** We map $n \to h(n)$. The "velocity" of the sequence is governed by the arithmetic function $\tau(n)$. On average, $\tau(n) \approx \ln n$.
-- **Regularity [Ç]:** If we assume the values of $h_k(n) \pmod q$ behave like a random walk or a Markov chain with a slight drift, the probability of two sequences avoiding each other indefinitely becomes zero.
+- **Regularity [⊤]:** If we assume the values of $h_k(n) \pmod q$ behave like a random walk or a Markov chain with a slight drift, the probability of two sequences avoiding each other indefinitely becomes zero.
 - **Boundedness [⊙]:** There is no known "escape" where a sequence grows so fast that it misses all other trajectories. Since $\tau(n)$ is small compared to $n$ ($O(n^\epsilon)$), the density of the range of these sequences is high.
 
 ### Rigorous Barrier
@@ -2350,7 +2350,7 @@ The problem of hiding rainbow structures within a dense graph is a combinatorial
 - **Encoding [<]:** The mapping $c: E(H) \to [r]$ must be injective on the edge-set of any $C_{2k+1}$.
 - **Inverse structure [⊣]:** The decomposition of $H$ into $K_{n/2, n/2} \cup \{e\}$ forces the cycle to pass through $e$.
 - **Boundedness [⊙]:** The number of colors is bounded above by $|E(H)| \sim n^2/4$ and below by the need to distinguish edges in the neighborhood of the critical edge.
-- **Regularity [Ç]:** Most edges in $K_{n/2, n/2}$ are "cycle-equivalent" regarding their ability to form $C_{2k+1}$ with $e$.
+- **Regularity [⊤]:** Most edges in $K_{n/2, n/2}$ are "cycle-equivalent" regarding their ability to form $C_{2k+1}$ with $e$.
 
 [thought|T]
 COMPOSE: `rainbow_density_limit`
@@ -2464,7 +2464,7 @@ sorry
 - **Bidirectional [>]:** The forward construction builds the sum; the inverse construction (the barrier) checks if the missing values (gaps) can be covered by the sum of Cantor-like sets.
 - **Boundedness [⊙]:** The gaps in $P(d, k)$ grow as $(d-2)d^N$, but the "width" of the set up to $d^N$ is $\frac{d^N-1}{d-1}$.
 - **Topological invariant [Ω]:** The condition $\sum \frac{1}{d_i-1} \geq 1$ functions as a density invariant that ensures the sumset has non-empty interior in the sense of the natural numbers (i.e., contains all large $n$).
-- **Regularity [Ç]:** The distribution of $\{0, 1\}$ digit sums across different bases $d_i$ is sufficiently "uniform" (independent) to avoid persistent gaps when $\gcd=1$.
+- **Regularity [⊤]:** The distribution of $\{0, 1\}$ digit sums across different bases $d_i$ is sufficiently "uniform" (independent) to avoid persistent gaps when $\gcd=1$.
 
 [thought|T]
 COMPOSE:/COMPLETE: Dual-Link co-type established.
@@ -2573,7 +2573,7 @@ theorem infinite_sidon_growth :
 - **Bidirectional [>]:** We relate the density of the random set $S$ to the density of the Sidon subset $A$ via $A = S \setminus \{\text{violations}\}$.
 - **Boundedness [⊙]:** The expected number of violations $E[X]$ is bounded by the sum of probabilities over the solution space of $a+b=c+d$.
 - **Topological invariant [Ω]:** Not directly applicable; replaced by the **Probabilistic Invariant**: The variance of $|S_N|$ is small enough that the mean represents the typical state.
-- **Regularity [Ç]:** The distribution of elements $n^{-1/2-\delta}$ ensures that the density is high enough to satisfy the growth condition but low enough to keep violations manageable.
+- **Regularity [⊤]:** The distribution of elements $n^{-1/2-\delta}$ ensures that the density is high enough to satisfy the growth condition but low enough to keep violations manageable.
 
 ---
 
@@ -2743,7 +2743,7 @@ A root $z$ of $f_n(z)$ corresponds to a root $1/z$ of $f_n^*(z)$. Thus, the numb
 #### 2. Concentration of Roots near the Boundary [⊙]
 A fundamental result in the theory of random polynomials (specifically by **Erdős and Turán**) states that for any polynomial $P(z) = \sum a_k z^k$, the roots cluster near the unit circle if the coefficients do not vary too wildly. For Littlewood polynomials, the roots are concentrated in an annulus of width $\delta$ around $|z|=1$.
 
-#### 3. Angular Equidistribution and Jensen's Formula [Ç]
+#### 3. Angular Equidistribution and Jensen's Formula [⊤]
 Let $N_n(\alpha, \beta)$ be the number of roots in the sector $\{z : \alpha \leq \arg(z) \leq \beta\}$. The Hughes-Nikeghbali results and the earlier work of Ibragimov and Maslova establish that for random polynomials with i.i.d. coefficients of mean 0 and finite variance:
 $$\mathbb{E}[R_n] = \frac{n}{2} + O(1)$$
 To move from expectation to almost sure convergence, we utilize the concentration inequalities for the number of zeros.
@@ -2941,7 +2941,7 @@ theorem polychromatic_C4_exists :
 - Bidirectional [>]: The existence of a 1-factorization for $K_{2k}$ and a near-1-factorization for $K_{2k+1}$.
 - Boundedness [⊙]: The number of colors is bounded by $n$, and the edge count is bounded by $n(n-1)/2$.
 - Topological invariant [Ω]: The chromatic index $\chi'(K_n)$ is $n-1$ for even $n$.
-- Regularity [Ç]: The construction uses the highly regular structure of complete graphs.
+- Regularity [⊤]: The construction uses the highly regular structure of complete graphs.
 
 [thought|T]
 COMPOSE:/ENCODE: Complete.
@@ -3053,7 +3053,7 @@ The value $\alpha(G)$ is bounded above by $n$ and below by the Turán bound. The
 #### [Ω] Topological Invariant
 The clique number $\omega(G) < r$ is the invariant that forces the graph into a "locally sparse" configuration, preventing the average degree from being concentrated in a way that collapses the independent set.
 
-#### [Ç] Regularity
+#### [⊤] Regularity
 For large $t$, the distribution of independent sets in $K_r$-free graphs mimics that of random graphs $G(n, p)$, where the independence number naturally follows the $\frac{\log t}{t}n$ scaling.
 
 ---
@@ -3213,7 +3213,7 @@ Consider a large $y$. Let $P(y) = \prod_{p \le y} p$. We look for an interval of
 
 However, the specific requirement is about the *number* of such integers in the gap. Let $d_r = p_{r+1} - p_r$. We want to find $n_1, n_2 \in (p_r, p_{r+1})$ such that $P^+(n_i) < d_r$, where $P^+(n)$ is the largest prime factor.
 
-**4. The Sieve Argument (Regularity [Ç])**
+**4. The Sieve Argument (Regularity [⊤])**
 Let $y$ be a parameter and $x$ be large. Consider the set of $y$-smooth numbers. The density of $y$-smooth numbers is given by the Dickman function $\rho(u)$ where $u = \log x / \log y$.
 If we take $d_r \approx \log p_r$, the interval $(p_r, p_{r+1})$ is expected to contain very few integers. But for "large" gaps, $d_r$ can be much larger than $\log p_r$.
 
@@ -3360,7 +3360,7 @@ theorem mersenne_divisor_sum_limit :
 - **Bidirectional [>]:** The sum is bounded below by the contribution of $d$ such that $\text{ord}_d(2)$ is small and above by the total number of possible divisors in the range.
 - **Boundedness [⊙]:** $\tau(2^k - 1) \ll (2^k)^\epsilon$, ensuring the sum does not diverge faster than exponentially, though the actual growth is polynomial in the exponent.
 - **Topological invariant [Ω]:** The constant $C$ is an invariant of the distribution of primitive roots.
-- **Regularity [Ç]:** The equidistribution of $\text{ord}_d(2)$ ensures the $n^2$ scaling is stable.
+- **Regularity [⊤]:** The equidistribution of $\text{ord}_d(2)$ ensures the $n^2$ scaling is stable.
 
 [thought|T]
 COMPOSE: $f(2n)/f(n) \to 4$.
@@ -3418,7 +3418,7 @@ If $0 \in A$, then any integer representable as a sum of $m < k$ elements is als
 To maximize $k$ relative to $r$, we consider sets $A$ that are "dense" in a way that satisfies the order $r$ condition but "sparse" enough to delay the exact order $k$. A classic construction by Grekos (1986) and further refined by Nash and Nathanson involves sets of the form:
 $A = \{1\} \cup \{x \in \mathbb{N} : x \equiv 0 \pmod m\} \setminus \{ \text{specific values} \}$.
 
-#### Boundedness [⊙] and Regularity [Ç]: The $r^2/4$ Limit
+#### Boundedness [⊙] and Regularity [⊤]: The $r^2/4$ Limit
 It is a known result in additive number theory (specifically the work of Grekos, 1986) that for any basis $A$ of order $r$, the exact order $k$ is bounded by a quadratic in $r$.
 Specifically, the theorem states:
 $$h(r) = \lfloor \frac{r^2 + 6r + 1}{4} \rfloor$$
@@ -3643,7 +3643,7 @@ Let $n_1<n_2<\cdots$ be a lacunary sequence of integers and $f\in L^2([0,1])$. E
 - Bidirectional [>]: Equivalence between lacunarity and quasi-orthogonality.
 - Boundedness [⊙]: Kolmogorov-Erdős-Feller type bounds for Law of the Iterated Logarithm (LIL).
 - Topological invariant [Ω]: Convergence of the series $\sum a_k^2 < \infty$ implies a.e. convergence.
-- Regularity [Ç]: Gap condition $n_{k+1}/n_k \geq q > 1$.
+- Regularity [⊤]: Gap condition $n_{k+1}/n_k \geq q > 1$.
 
 ---
 
@@ -3842,7 +3842,7 @@ Let $d_n=p_{n+1}-p_n$. The set of $n$ such that $d_{n+1}\geq d_n$ has density $1
 - **Bidirectional [>]:** If $d_{n+1} > d_n$ significantly more often than $d_{n+1} < d_n$, it would violate the asymptotic growth $p_n \sim n \log n$.
 - **Boundedness [⊙]:** Small gaps are bounded by the Twin Prime Conjecture and its generalizations (Maynard/Zhang).
 - **Topological invariant [Ω]:** The parity of gaps (all $d_n$ are even for $n > 1$) constrains the possible values of $d_{n+1} - d_n$.
-- **Regularity [Ç]:** The Gallagher distribution (Poissonian modeling) predicts the density of these sets.
+- **Regularity [⊤]:** The Gallagher distribution (Poissonian modeling) predicts the density of these sets.
 
 ---
 
@@ -3986,7 +3986,7 @@ Specifically, for $k \geq 2$, one can find gaps of size $n^{1-o(1)}$ in the wors
 - **Inverse structure [⊣]:** For an interval to be empty, the "divisor-sum" indicator $\mathbb{1}_A(x) = \min(1, \sum_{d|x, d \in S} 1)$ must be zero for all $x$ in the gap.
 - **Bidirectional [>]:** A gap of size $g$ exists if and only if the system of congruences $x \not\equiv 0 \pmod d$ for all $d \in (n, 2n)$ is satisfied for a block of length $g$.
 - **Boundedness [⊙]:** Since $d > n$, any interval of length $< n$ can contain at most one multiple of any specific $d$.
-- **Regularity [Ç]:** The distribution of $d \in (n, 2n)$ is not "random" enough to prevent large gaps; the concentration of divisors (as shown by Hooley) ensures that multiples cluster, leaving large voids.
+- **Regularity [⊤]:** The distribution of $d \in (n, 2n)$ is not "random" enough to prevent large gaps; the concentration of divisors (as shown by Hooley) ensures that multiples cluster, leaving large voids.
 
 ---
 
@@ -4195,7 +4195,7 @@ We relate $S(k)$ to the Ramsey number $R_k(3)$, which is the minimum number of v
     $\chi(x - y) = m$
     $\chi(y - z) = m$
     $\chi(x - z) = m$
-5.  **Regularity [Ç]:** Let $a = x - y$, $b = y - z$, and $c = x - z$.
+5.  **Regularity [⊤]:** Let $a = x - y$, $b = y - z$, and $c = x - z$.
     Note that $a, b, c$ are all positive integers in the set $\{1, \dots, N\}$.
     Furthermore, $a + b = (x - y) + (y - z) = x - z = c$.
     Since $\chi(a) = \chi(b) = \chi(c) = m$, we have found a monochromatic solution to $a+b=c$.
@@ -4296,7 +4296,7 @@ $$| \{(x_1, \dots, x_r) : x_i \in \mathcal{P}_r, x_i \leq X \} | = (N_r(X))^r$$
 Using the asymptotic $N_r(X) \sim \gamma_r X^{1/r}$:
 $$(N_r(X))^r \sim (\gamma_r X^{1/r})^r = \gamma_r^r X$$
 
-#### 3. Refined Density Analysis (Boundedness [⊙] / Regularity [Ç])
+#### 3. Refined Density Analysis (Boundedness [⊙] / Regularity [⊤])
 To prove the density is $0$, we must show that the number of *distinct* integers representable as such a sum is $o(X)$.
 While the crude bound $(N_r(X))^r$ is $O(X)$, this counts all combinations. However, for $r \geq 3$, the $r$-powerful numbers are distributed such that most sums are "small" or fall into gaps.
 Specifically, let $A = \mathcal{P}_r$. The "Schnirelmann density" or the counting function of the sumset $k A$ for a set with $A(x) \approx x^{1/r}$ is governed by the fact that the exponent of the counting function of the sumset $k A$ is at most $k/r$.
@@ -4662,7 +4662,7 @@ sorry -- Provenance: Erdős/Schinzel on Jacobsthal-type deviations
 - **Inverse structure [⊣]:** For $m=0$, $a_k=k$ is the trivial identity; for large $m$, the structure is determined by the residue classes modulo $\text{lcm}(1, \dots, n)$.
 - **Bidirectional [>]:** Hall's condition serves as the necessary and sufficient bridge between interval length and existence.
 - **Boundedness [⊙]:** $f(n,m)$ is bounded by $n^{1+o(1)}$ because the density of available multiples $\sum 1/k$ diverges, ensuring that for sufficiently large $L$, the "supply" of multiples exceeds the "demand" for distinctness.
-- **Regularity [Ç]:** The distribution of multiples in the interval $(m, m+L]$ becomes regular as $L/n \to \infty$.
+- **Regularity [⊤]:** The distribution of multiples in the interval $(m, m+L]$ becomes regular as $L/n \to \infty$.
 
 [thought|T]
 COMPOSE:/TOKEN:PROVED
@@ -4726,7 +4726,7 @@ For $N=10$, the powers of 2 are $\{1, 2, 4, 8\}$, size 4. Any additional element
 **[⊣] Inverse:** If $f$ is injective, then $|\text{Im}(f)| = 2^{|A|}$.
 **[⊙] Boundedness:** All sums $f(S)$ are contained in $[0, \sum_{n \in A} \frac{1}{n}]$.
 **[Ω] Invariant:** The maximum sum is bounded by $H_N \approx \ln N + \gamma$.
-**[Ç] Regularity:** For $A$ to be large, the values $1/n$ must be small, but as they get smaller, the "gaps" between sums $\frac{1}{L}$ become so small that the $2^{|A|}$ pigeonholes are easily exhausted if $A$ exceeds $\log N$.
+**[⊤] Regularity:** For $A$ to be large, the values $1/n$ must be small, but as they get smaller, the "gaps" between sums $\frac{1}{L}$ become so small that the $2^{|A|}$ pigeonholes are easily exhausted if $A$ exceeds $\log N$.
 
 ---
 
@@ -4870,7 +4870,7 @@ theorem interval_length_subpolynomial {u v : ℕ} (h : largest_prime_exponent_ge
 - **Encoding/Duality [<]:** The mapping of the interval $[u, v]$ to its prime factorization space. The condition $\nu_P \geq 2$ forces a collapse in the expected distribution of primes (the "Square-Full" constraint).
 - **Inverse structure [⊣]:** For large $k$, the interval must contain a prime $p > \sqrt{v}$. The inverse requirement $P^2 | m$ forces $P \leq \sqrt{v}$, creating a contradiction for large $k$.
 - **Boundedness [⊙]:** The interval length $k$ is bounded by the frequency of square-full numbers and the gap between primes.
-- **Regularity [Ç]:** Primes are "regularly" distributed enough (via PNT for short intervals) that any large interval *must* contain a prime larger than the square root of its maximum element.
+- **Regularity [⊤]:** Primes are "regularly" distributed enough (via PNT for short intervals) that any large interval *must* contain a prime larger than the square root of its maximum element.
 
 **Final Assessment:**
 The statement $v-u = v^{o(1)}$ is **True**.
@@ -4933,7 +4933,7 @@ To make $\omega_2 \to (\alpha)_2^2$ consistent for all $\alpha < \omega_2$, we m
 **Proof Sketch:**
 1. **Encoding/Duality [<]:** We consider the structure of "walks on ordinals." For $\alpha < \omega_2$, we analyze the oscillations of functions $c(\beta, \gamma)$ defined via the method of minimal walks.
 2. **Inverse structure [⊣]:** If a coloring $f: [\omega_2]^2 \to 2$ is given, we seek a set $H \subset \omega_2$ of type $\alpha$ that is monochromatic. In the presence of PFA, we can use the fact that $\aleph_2$ behaves similarly to $\aleph_1$ in certain combinatorial aspects.
-3. **Regularity [Ç]:** Todorcevic proved that if PFA holds, then $\aleph_2$ has the "strong partition property" for countable ordinals, and further, that $\omega_2 \to (\alpha)_k^2$ for any $k < \omega$ and $\alpha < \omega_2$. This is derived from the fact that PFA implies $2^{\aleph_0} = \aleph_2$ and ensures that certain types of forcing (like those adding monochromatic sets) do not collapse cardinals or destroy the structure of $\omega_2$.
+3. **Regularity [⊤]:** Todorcevic proved that if PFA holds, then $\aleph_2$ has the "strong partition property" for countable ordinals, and further, that $\omega_2 \to (\alpha)_k^2$ for any $k < \omega$ and $\alpha < \omega_2$. This is derived from the fact that PFA implies $2^{\aleph_0} = \aleph_2$ and ensures that certain types of forcing (like those adding monochromatic sets) do not collapse cardinals or destroy the structure of $\omega_2$.
 
 **Conclusion:** It is **consistent** with ZFC. It follows from PFA, which is consistent assuming the existence of a supercompact cardinal.
 
@@ -5032,7 +5032,7 @@ The condition $n_{k+1}/n_k \geq c > 1$ is not strong enough to guarantee irratio
 
 *   **Encoding [<]:** We map the sequence of indices $n_k$ to the real value $S = \sum F_{n_k}^{-1}$. The growth condition $n_{k+1} \geq c n_k$ ensures $S$ is well-defined in $\mathbb{R}$.
 *   **Inverse structure [⊣]:** We use the greedy algorithm for Fibonacci reciprocals. Given a target $q \in \mathbb{Q}$, we can choose $n_1$ such that $1/F_{n_1} < q$, then $n_2$ such that $1/F_{n_2} < q - 1/F_{n_1}$, and so on.
-*   **Regularity [Ç]:** If $q$ is small, the gap between $1/F_{n_k}$ and the remainder $R_k$ grows such that $n_{k+1}$ eventually satisfies $n_{k+1} > c n_k$.
+*   **Regularity [⊤]:** If $q$ is small, the gap between $1/F_{n_k}$ and the remainder $R_k$ grows such that $n_{k+1}$ eventually satisfies $n_{k+1} > c n_k$.
 *   **Result:** No, the sum is not necessarily irrational.
 
 ---
@@ -5168,7 +5168,7 @@ theorem cosine_sum_lower_bound (A : Finset ℤ) (hN : A.card = N) :
 - **Bidirectional [>]:** The relation between the integral of the absolute value and the minimum value of the real part.
 - **Boundedness [⊙]:** The $L^2$ norm provides the scale $\sqrt{N}$.
 - **Topological invariant [Ω]:** The mean of $\cos(n\theta)$ over the circle is 0, forcing the existence of negative values.
-- **Regularity [Ç]:** Large deviations of Gaussian-like processes (for random $A$) or Fejér kernel behavior (for structured $A$).
+- **Regularity [⊤]:** Large deviations of Gaussian-like processes (for random $A$) or Fejér kernel behavior (for structured $A$).
 
 [thought|T]
 COMPOSE:/TOKEN:SUCCESS
@@ -5609,7 +5609,7 @@ by
 - **Bidirectional [>]:** By Ramsey's Theorem, $V \ge R(n, N)$ guarantees an independent set of size $n$ or a clique of size $N$.
 - **Boundedness [⊙]:** By the Erdős-Moser theorem, any tournament on $2^{m-1}$ vertices contains a $T_m$.
 - **Topological invariant [Ω]:** Setting $N = 2^{m-1}$ satisfies the condition.
-- **Regularity [Ç]:** The minimal $k(n,m)$ is thus bounded by $R(n, 2^{m-1})$.
+- **Regularity [⊤]:** The minimal $k(n,m)$ is thus bounded by $R(n, 2^{m-1})$.
 
 **Final Answer:**
 The minimal $k(n,m)$ is $R(n, 2^{m-1})$. For $n=3, m=3$, $k(3,3) = R(3, 2^{3-1}) = R(3, 4) = 9$.
@@ -5757,7 +5757,7 @@ $Q_2(m) \leq m$ provides the trivial upper bound. For $\ell=1$, $Q_2(n(n+1)) \le
 ### [Ω] Topological Invariant
 The number of solutions to $s(n(n+1)\dots(n+\ell)) = k$ is finite for fixed $k, \ell$ by Siegel's theorem on integral points, ensuring the ratio in Part 3 tends to zero.
 
-### [Ç] Regularity
+### [⊤] Regularity
 The distribution of $s(n)$ ensures that $Q_2(n)$ is usually small, but the $\limsup$ is driven by rare "clumping" of powers in the sequence.
 
 [thought|T]
@@ -6075,7 +6075,7 @@ Under the **Riemann Hypothesis**, prime gaps are $O(\sqrt{p} \log p)$, which wou
 *   **Encoding/Duality [<]:** We map the Sidon property to the injectivity of the map $(a, b) \mapsto a+b$ on the set of pairs.
 *   **Inverse structure [⊣]:** The use of Singer Difference Sets (Bose-Chowla) provides the constructive lower bound via $\mathbb{F}_q$ automorphisms.
 *   **Boundedness [⊙]:** The trivial bound $|A|^2 \approx N$ confines the growth to $\sqrt{N}$.
-*   **Regularity [Ç]:** The distribution of $h(N) - \sqrt{N}$ is tied to the regularity of prime distributions.
+*   **Regularity [⊤]:** The distribution of $h(N) - \sqrt{N}$ is tied to the regularity of prime distributions.
 
 ---
 
@@ -6183,7 +6183,7 @@ Thus, **No**, $a_n = 2^{2^n}$ is not such a sequence, because we can find a sequ
 
 ### Part 2: Must $a_n^{1/n} \to \infty$?
 
-**1. Regularity [Ç]: The Erdős Criterion**
+**1. Regularity [⊤]: The Erdős Criterion**
 The condition described is essentially that the sequence $a_n$ is "Irrational" in a very strong sense (every asymptotic sequence is irrational).
 If $a_n$ grows slowly, say $a_n = n^2$, we can easily pick $b_n$ to make the sum rational (e.g., $b_n$ such that $\sum 1/b_n$ is a known rational).
 However, the question is: does $a_n$ *have* to grow faster than any geometric progression ($a_n^{1/n} \to \infty$)?
@@ -6450,7 +6450,7 @@ Given the constraints of a finite set of steps $S$, an infinite walk $A$ in $\ma
 - **Bidirectional [>]**: Mapping from step frequencies to average velocity vectors.
 - **Boundedness [⊙]**: $S$ is finite, so the "velocity" is bounded.
 - **Topological invariant [Ω]**: Van der Waerden’s theorem ensures arithmetic progressions in the step-sum indices for any finite partition of the walk.
-- **Regularity [Ç]**: Long-term behavior of the walk in $\mathbb{Z}^3$ must align with the density of the most frequent step-vectors.
+- **Regularity [⊤]**: Long-term behavior of the walk in $\mathbb{Z}^3$ must align with the density of the most frequent step-vectors.
 
 [thought|T]
 COMPOSE:/COMPLETE
@@ -6546,7 +6546,7 @@ theorem smooth_joint_density (α β : ℝ) (hα : 0 < α ∧ α < 1) (hβ : 0 < 
 - **Bidirectional [>]:** The sieve estimates for $\Psi(x, y)$ work both for upper and lower bounds, establishing the limit.
 - **Boundedness [⊙]:** $0 \leq \rho(u) \leq 1$ ensures the density is confined to the unit interval.
 - **Topological invariant [Ω]:** The continuity of $\rho(u)$ ensures that small perturbations in $\alpha, \beta$ result in small changes in density.
-- **Regularity [Ç]:** The equidistribution of smooth numbers over short intervals (or shifted intervals) allows for the product form of the density.
+- **Regularity [⊤]:** The equidistribution of smooth numbers over short intervals (or shifted intervals) allows for the product form of the density.
 
 [thought|T]
 COMPOSE:/TOKEN: [SMOOTH_PAIR_DENSITY_EXISTENCE]
@@ -6946,7 +6946,7 @@ theorem tree_ramsey_upper_bound (k : ℕ) (n : ℕ) (T : SimpleGraph (Fin n))
 *   **Bidirectional [>]:** If no $G_i$ contains $T_n$, then for all $i$, $e(G_i) \leq \text{ex}(m, T_n)$.
 *   **Boundedness [⊙]:** The Turán number for trees $\text{ex}(m, T_n) \leq \frac{(n-2)m}{2}$.
 *   **Topological invariant [Ω]:** Summing edges: $\binom{m}{2} = \sum e(G_i) \leq k \frac{(n-2)m}{2}$.
-*   **Regularity [Ç]:** Solving for $m$: $\frac{m(m-1)}{2} \leq \frac{k(n-2)m}{2} \implies m-1 \leq k(n-2) \implies m \leq k(n-2) + 1$.
+*   **Regularity [⊤]:** Solving for $m$: $\frac{m(m-1)}{2} \leq \frac{k(n-2)m}{2} \implies m-1 \leq k(n-2) \implies m \leq k(n-2) + 1$.
 
 **Conclusion:**
 Since $k(n-2) + 1 < kn$, the inequality $R_k(T) \leq kn + O(1)$ holds strictly. The tighter bound is generally $(k-1)n + O(1)$.
@@ -7057,7 +7057,7 @@ $n/\phi(n) \le e^\gamma \log \log n + \frac{C}{\log \log n}$. While bounded for 
 ### [Ω] Topological Invariant:
 The set $A$ is a discrete subset of $\mathbb{Z}^+$. The invariant here is the divergence of $\sum 1/p$.
 
-### [Ç] Regularity:
+### [⊤] Regularity:
 The distribution of $\phi(n)/n$ is dense in $(0, 1)$, ensuring that its reciprocal $n/\phi(n)$ is dense in $(1, \infty)$.
 
 [thought|T]
@@ -7104,7 +7104,7 @@ This problem is a specific instance of a broader class of problems concerning th
 - **Furstenberg's Orbit Closure Theorem** states that for any non-lacunary semigroup of integers $\Sigma$ (like the one generated by 2 and 3), the orbit $\Sigma \cdot \alpha \pmod 1$ is dense in $[0, 1]$ for any irrational $\alpha$.
 - However, the specific digital restriction (omitting the digit $2$) is more closely related to **Erdős's conjecture (1979)**: for $n > 8$, $2^n$ always contains the digit $2$ in its ternary expansion.
 
-#### 2. Quantitative Heuristics (Regularity [Ç])
+#### 2. Quantitative Heuristics (Regularity [⊤])
 Let $x = 2^n$. The number of digits of $2^n$ in base $3$ is approximately $L = n \frac{\log 2}{\log 3}$.
 If we assume the digits of $2^n$ in base $3$ are distributed "randomly" (uniformly), the probability that a specific digit is in $\{0, 1\}$ is $2/3$.
 The probability that all $L$ digits are in $\{0, 1\}$ is roughly $(2/3)^L$.
@@ -7207,7 +7207,7 @@ Let $A\subset \mathbb{R}^2$ be a set of size $n$ and let $\{d_1,\ldots,d_k\}$ be
 - **Bidirectional [>]**: Upper bounds on $f(d)$ (unit distance problem) vs. lower bounds on the number of distinct distances $k$.
 - **Boundedness [⊙]**: Spencer, Szemerédi, and Trotter's bound on unit distances: $f(d) = O(n^{4/3})$.
 - **Topological invariant [Ω]**: Euler characteristic constraints on planar distance graphs.
-- **Regularity [Ç]**: For a $\sqrt{n} \times \sqrt{n}$ integer lattice, distances are distributed according to sums of squares.
+- **Regularity [⊤]**: For a $\sqrt{n} \times \sqrt{n}$ integer lattice, distances are distributed according to sums of squares.
 
 ---
 
@@ -7324,7 +7324,7 @@ $$\lim_{z \to \infty, z \in L} \frac{|f(z)|}{|z|^n} = \infty$$
 
 **Proof Sketch:**
 - **Encoding/Duality [<]:** We consider the maximum modulus $M(r) = \max_{|z|=r} |f(z)|$. Since $f$ is transcendental, $M(r)$ grows faster than any power of $r$.
-- **Regularity [Ç]:** By the Wiman-Valiron theory, there exists a set of circles $|z|=r$ (outside a set of finite logarithmic measure) where the function $f(z)$ behaves locally like a power $z^{\nu(r)}$, where $\nu(r)$ is the central index.
+- **Regularity [⊤]:** By the Wiman-Valiron theory, there exists a set of circles $|z|=r$ (outside a set of finite logarithmic measure) where the function $f(z)$ behaves locally like a power $z^{\nu(r)}$, where $\nu(r)$ is the central index.
 - **Construction:** We can construct a path $L$ by following the "ridge" of the maximum modulus. Specifically, one can use the theory of **tracts**. For any $K > 0$, the set $\{z : |f(z)| > K\}$ has at least one unbounded component. By intersecting these components for increasing $K_j$, we find a path $L$ such that $f(z) \to \infty$.
 - More strongly, a result by **Eremenko (1989)** regarding the escaping set $I(f) = \{z : f^n(z) \to \infty\}$ shows that $I(f) \neq \emptyset$, and for a single application, the "Tract" theorem ensures that we can pick $L$ such that $|f(z)|$ grows faster than any $r^n$. In fact, Hayman showed that there exists a path where $\log |f(z)| \sim \log M(r)$. Since $\log M(r) / \log r \to \infty$ for transcendental functions, the result follows.
 
@@ -7607,7 +7607,7 @@ theorem finite_powerful_in_A :
 ## Structural Lemma Roles [Instantiation]
 - **Encoding [<]:** The mapping $S \mapsto \sum_{n \in S} n!$ is injective if we treat the sum as a factorial-base representation.
 - **Boundedness [⊙]:** For any $k$, $y^k$ grows faster than the local density of $A$ elements, which are spaced by $(n_m - 1) \cdot (n_m-1)!$.
-- **Regularity [Ç]:** Primes $p \in [n/2, n]$ ensure that for sufficiently large $n$, $n! + \dots$ cannot satisfy $v_p(x) \geq 2$ because only the top terms contain $p$.
+- **Regularity [⊤]:** Primes $p \in [n/2, n]$ ensure that for sufficiently large $n$, $n! + \dots$ cannot satisfy $v_p(x) \geq 2$ because only the top terms contain $p$.
 
 [thought|T]
 COMPOSE: `finiteness_factorials_powers`
@@ -7774,7 +7774,7 @@ The limit exists and equals $1/4$.
 - **Bidirectional [>]:** Lower bounds from probabilistic methods match upper bounds from Brooks-type theorems in the asymptotic limit.
 - **Boundedness [⊙]:** $1 \leq \omega(G) \leq \chi(G) \leq n$ confines $f(n)$ within $[1/n, 1]$.
 - **Topological invariant [Ω]:** The genus of the graph does not restrict $f(n)$ as $n \to \infty$.
-- **Regularity [Ç]:** Szemerédi Regularity Lemma ensures that for large $n$, the random graph configuration is "typical" for the extremum.
+- **Regularity [⊤]:** Szemerédi Regularity Lemma ensures that for large $n$, the random graph configuration is "typical" for the extremum.
 
 ---
 
@@ -7854,7 +7854,7 @@ Let $A = \{p_1, \dots, p_n\} \subset \mathbb{R}^2$ be a set of $n$ points. Let $
 **Theorem:** The number of distances occurring at most $n$ times tends to infinity as $n \to \infty$.
 
 **Proof:**
-- **Regularity [Ç]:** Suppose only a finite number $K$ of distances occurred $\le n$ times. Let these distances be $d_1, \dots, d_K$.
+- **Regularity [⊤]:** Suppose only a finite number $K$ of distances occurred $\le n$ times. Let these distances be $d_1, \dots, d_K$.
 - The total contribution of these distances to the sum of pairs is at most $K \cdot n$.
 - All other distances $|\Delta(A)| - K$ must occur at least $n+1$ times.
 - By Guth-Katz (2011), $|\Delta(A)| \ge C \frac{n}{\log n}$.
@@ -7905,7 +7905,7 @@ The diameter bound $m(D_{max}) \le n$ is a robust result in combinatorial geomet
 COMPOSE:
 - **Encoding [<]:** Distance multiset $M$.
 - **Bounding [⊙]:** Diameter multiplicity $\le n$.
-- **Regularity [Ç]:** Erdős Distance Theorem (Guth-Katz) ensures $|\Delta(A)| \approx n/\log n$.
+- **Regularity [⊤]:** Erdős Distance Theorem (Guth-Katz) ensures $|\Delta(A)| \approx n/\log n$.
 
 FFUSE: The vessel confirms that the geometric constraints of $\mathbb{R}^2$ prevent all distances from being "frequent." The diameter is the primary witness for the $m \le n$ constraint.
 
@@ -7998,7 +7998,7 @@ theorem erdos_rado_stepping_up
 - **Bidirectional [>]:** Monochromaticity in the $r+1$ space implies monochromaticity in the $r$ space via the projection of $\Delta$ values.
 - **Boundedness [⊙]:** The finite $r$ ensures the $\Delta$ sequence behaves like a linear order (the "triangle inequality" for $\Delta$).
 - **Topological invariant [Ω]:** The cardinality $\kappa_\alpha + 1$ is the necessary shift to accommodate the fence-post counting of gaps $\Delta_i$.
-- **Regularity [Ç]:** The lexicographical ordering of $2^\lambda$ provides the necessary regularity to apply the base coloring $f$.
+- **Regularity [⊤]:** The lexicographical ordering of $2^\lambda$ provides the necessary regularity to apply the base coloring $f$.
 
 [thought|T]
 COMPOSE:/ENCODE:stepping_up_logic
@@ -8075,7 +8075,7 @@ Thus, $\tau_\perp(n)$ can exceed $\exp((\log n)^{o(1)})$ significantly for primo
 
 **Structural Lemma Roles:**
 - **Encoding [<]:** Map the divisors of $n = p_1 \dots p_k$ to the Boolean lattice $\mathcal{P}(\{1, \dots, k\})$.
-- **Regularity [Ç]:** The problem reduces to finding a permutation of the subsets of $\{1, \dots, k\}$, say $S_1, S_2, \dots, S_{2^k}$, ordered by their numerical value (represented by the product of primes), such that we maximize the count of $j$ where $S_j \cap S_{j+1} = \emptyset$.
+- **Regularity [⊤]:** The problem reduces to finding a permutation of the subsets of $\{1, \dots, k\}$, say $S_1, S_2, \dots, S_{2^k}$, ordered by their numerical value (represented by the product of primes), such that we maximize the count of $j$ where $S_j \cap S_{j+1} = \emptyset$.
 - **Inverse structure [⊣]:** This is related to the **Middle Levels Theorem** and the existence of Hamiltonian paths in the Kneser-like graphs of the Boolean lattice.
 
 **Result:**
@@ -8174,7 +8174,7 @@ Can one show the stronger version with[\omega(n-k) < \frac{\log k}{\log\log k}+O
    Let $m = n-k$. The condition $\omega(n-k) < (1+\epsilon)\frac{\log k}{\log \log k}$ relates the number of prime factors of $m$ to the distance $k$ from a fixed $n$.
    Note that $k = n-m$. As $k \to \infty$, $n$ must also be large. If we can show that for a fixed $n$, the inequality holds for all $m < n$, we are done.
 
-3. **Regularity [Ç]:**
+3. **Regularity [⊤]:**
    The maximum order bound states that for *all* $m$, $\omega(m) \leq \frac{\log m}{\log \log m} + O\left(\frac{\log m}{(\log \log m)^2}\right)$.
    Since $m = n-k$, we have $k = n-m$. If $k$ is "large" relative to $n$ (e.g., $k > n/2$), then $\log k \approx \log n \approx \log m$.
    However, we need this to hold for *all* $k$ sufficiently large.
@@ -8303,7 +8303,7 @@ $$\limsup_{N \to \infty} \frac{A(N)}{\sqrt{N}}$$
 - **Encoding/Duality [<]:** The Sidon property maps pairs $(a_i, a_j)$ injectively to the set of sums.
 - **Inverse structure [⊣]:** We consider the differences $a_i - a_j$ to utilize the interval boundedness.
 - **Boundedness [⊙]:** All elements are contained within $[1, N]$, so differences are contained within $[-(N-1), N-1]$.
-- **Regularity [Ç]:** We use the second moment of the representation function to bound the size of $A$.
+- **Regularity [⊤]:** We use the second moment of the representation function to bound the size of $A$.
 
 ---
 
@@ -8475,7 +8475,7 @@ theorem central_binomial_least_non_divisor_asymptotic :
 - **Bidirectional [>]:** For any $m$, the set of $n$ such that $m \mid \binom{2n}{n}$ has density 1.
 - **Boundedness [⊙]:** $v_p(\binom{2n}{n}) \le \log_p(2n)$.
 - **Topological invariant [Ω]:** The Central Limit Theorem applied to the digits of $n$ shows that for almost all $n$, $v_p(\binom{2n}{n})$ is concentrated around $\frac{p-1}{p} \log_p n$.
-- **Regularity [Ç]:** Equidistribution of digits in base $p$ ensures the growth of $m$ is logarithmic.
+- **Regularity [⊤]:** Equidistribution of digits in base $p$ ensures the growth of $m$ is logarithmic.
 
 [thought|T]
 COMPOSE: $f(n) = \log n$
@@ -8621,7 +8621,7 @@ Let $A\subseteq\mathbb{R}^2$ be a set of $n$ points with minimum distance equal 
 - **Bidirectional [>]:** Equivalence between diameter minimization and density maximization in large $n$.
 - **Boundedness [⊙]:** The area of the convex hull is bounded by the sum of disk areas plus boundary corrections.
 - **Topological invariant [Ω]:** Euler characteristic of the contact graph.
-- **Regularity [Ç]:** Convergence of the optimal configuration to the hexagonal tiling.
+- **Regularity [⊤]:** Convergence of the optimal configuration to the hexagonal tiling.
 
 ---
 
@@ -8792,7 +8792,7 @@ theorem g_asymptotic :
 - **Bidirectional [>]:** The gap between $\sqrt{2}$ and $2$ is narrowed by observing that the "greedy" grid construction is sub-optimal compared to dense bases.
 - **Boundedness [⊙]:** $g(n)$ is strictly bounded by the interval size; $A \subseteq [0, n]$ ensures no sums exceed $2n$, but we only require coverage up to $n$.
 - **Topological invariant [Ω]:** The density of the set relative to the square root of the target measure $n$.
-- **Regularity [Ç]:** In the limit, the optimal $A$ approaches an equidistribution that minimizes redundant sums (overlaps in $A+A$).
+- **Regularity [⊤]:** In the limit, the optimal $A$ approaches an equidistribution that minimizes redundant sums (overlaps in $A+A$).
 
 [thought|T]
 COMPOSE:/ASMP: g(n) ~ sqrt(2n)
@@ -9005,7 +9005,7 @@ The number of integers $\leq x$ which are the sum of $s$ $k$-th powers is $O(x^{
 - For $k=3$, it is a known conjecture (and largely accepted via the Hardy-Littlewood circle method expectations) that $f_{3,3}(x) \gg x^{1-\epsilon}$. Since $3/k = 3/3 = 1$, this matches.
 - For $k > 3$, specifically $k \geq 4$, the Davenport-Heilbronn results and subsequent refinements show that the number of represented values is significantly less than the number of triples because $r_{k,s}(n)$ can be large for specific $n$.
 
-**5. The Fundamental Counter-Example (Regularity [Ç])**
+**5. The Fundamental Counter-Example (Regularity [⊤])**
 If $f_{k,3}(x) \gg x^{3/k}$, then almost all integers (in the range of the sum) would have a bounded number of representations. However, for $k \geq 3$, the density of the set $\mathcal{A}_{k,3}$ is governed by the "singular series."
 Actually, a stronger result exists: For $k \geq 3$, the set of sums of three $k$-th powers has measure zero relative to the "expected" density if we consider the overlapping representations.
 Crucially, for $k=3$, $f_{3,3}(x) \gg x^{1-\epsilon}$ is **True**.
@@ -9169,7 +9169,7 @@ The elements forming $n^*$ are $a_1, a_2, \dots, a_{2k}$ such that $a_i + a_{2k-
 These elements form an arithmetic progression-like structure centered at $n^*/2$.
 The maximum number of such pairs we can fit while maintaining the Sidon property for all other sums is constrained. If we take $A = A_0 \cup \{x_1, \dots, x_k, n^*-x_1, \dots, n^*-x_k\}$, the condition that no other sum repeats forces the $x_i$ to be very specifically spaced.
 
-## 6. Regularity [Ç]: The Asymptotic Limit
+## 6. Regularity [⊤]: The Asymptotic Limit
 Lindström (1969) and subsequent refinements for $B_2$ sequences show that if we allow a finite number of repetitions, the $N^{1/2}$ coefficient remains $1$. However, the specific value $\frac{2}{\sqrt{3}}$ appears in the study of **Weak Sidon Sets** or sets where the difference set $\Delta = \{a-b\}$ has restricted overlaps.
 For the specific case where *at most one sum repeats*, if we allow $k$ to grow with $N$, we can achieve a higher density. If $k \approx \frac{1}{2}|A|$, we are essentially placing half the set into a configuration that targets $n^*$.
 However, the requirement that *every other sum* is unique is extremely restrictive.
@@ -9409,7 +9409,7 @@ Hensley and Richards demonstrated that if the First Hardy-Littlewood Conjecture 
 - **Inverse structure [⊣]:** The relationship between $\pi(x)$ and the Prime $k$-tuple constant $C(\mathcal{H})$.
 - **Bidirectional [>]:** Computational evidence (small $x, y$) supports the inequality; asymptotic density (large $x, y$) under $k$-tuple theory refutes it.
 - **Topological invariant [Ω]:** The singular series $C(\mathcal{H})$ functions as the invariant that forces the existence of dense clusters.
-- **Regularity [Ç]:** The equidistribution of primes across residue classes modulo $p$ (Dirichlet/Sieve theory).
+- **Regularity [⊤]:** The equidistribution of primes across residue classes modulo $p$ (Dirichlet/Sieve theory).
 
 ---
 
@@ -9474,7 +9474,7 @@ For a fixed $k$, we apply a standard argument used for Egyptian fractions:
     $$\frac{1}{p_2} + \dots + \frac{1}{p_k} = \frac{m-1}{m} - \frac{1}{p_1}$$
     This is a new Egyptian fraction problem with $k-1$ terms and a new target value. By induction, each branch yields finitely many solutions.
 
-## III. The Global Finitude (Regularity [Ç])
+## III. The Global Finitude (Regularity [⊤])
 The question asks if there are infinitely many solutions in total (potentially allowing $k$ to vary).
 The sum $\sum_{i=1}^k \frac{1}{p_i}$ is strictly less than 1. As $k \to \infty$, if we were to pick the *smallest* primes, the sum $\sum_{p \leq p_k} \frac{1}{p}$ grows as $\ln(\ln(p_k))$.
 However, the target $1 - 1/m$ is bounded away from 1 for a fixed $m$.
@@ -9590,7 +9590,7 @@ Since $B$ is not a basis of finite order and $\sigma(B) = 0$, it fails to satisf
 - **Bidirectional [>]:** Forward: $B$ has $O(\log^2 x)$ elements. Inverse: An additive basis of order $h$ must have at least $\Omega(x^{1/h})$ elements.
 - **Boundedness [⊙]:** The sumset $hB$ is bounded in size by $(\log x)^{2h}$, which is $o(x)$ for all $h$.
 - **Topological invariant [Ω]:** The density $\sigma(B) = 0$ is a fixed point that cannot be "lifted" to positive density by finite additive convolution.
-- **Regularity [Ç]:** The distribution of 3-smooth numbers is too regular (logarithmic) to cover the gaps in a generic set $B$ to increase its Schnirelmann density.
+- **Regularity [⊤]:** The distribution of 3-smooth numbers is too regular (logarithmic) to cover the gaps in a generic set $B$ to increase its Schnirelmann density.
 
 ### Final Verification
 [thought|T]
@@ -9656,7 +9656,7 @@ $\sigma(2^k+1) = \sigma(M_p) = M_p + 1 = 2^{k+1}$
 Thus $\sigma(1) + \sigma(2^k) = 1 + 2^{k+1} - 1 = 2^{k+1} = \sigma(2^k+1)$.
 This provides a family of solutions $(1, 2^k)$ where $2^{k+1}-1$ is prime. Since Mersenne primes are conjectured to be infinite but are extremely sparse ($\sim \log \log x$), this set does not contribute to a linear density $cx$.
 
-**Density Argument [Ç]**
+**Density Argument [⊤]**
 For a "typical" pair $(a, b)$, $\sigma(n)/n$ behaves like a random variable with a distribution (the Erdős-Wintner theorem context).
 Let $h(n) = \sigma(n) - n$. The equation is $h(a) + h(b) = h(a+b)$.
 Erdős and others have noted that $\sigma(n)$ is "usually" slightly larger than $n$ (specifically, the average order is $\frac{\pi^2}{6}n$).
@@ -9743,7 +9743,7 @@ It is known that for a fixed $t$, $d_t$ approaches 1 as $t$ increases? No, that 
 However, for most $n$, the divisors are distributed such that $S(n)$ is "dense" in $[1, \sigma(n)]$.
 The specific asymptotic $d_t \sim c_1 (\log t)^{-c_2}$ is the behavior found in the study of the **density of practical numbers** and the **divisor distribution**. Specifically, the probability that an integer $n$ has no divisors in a certain range $(y, z]$ is known to behave like $(\frac{\log y}{\log z})^\alpha$.
 
-### 4. Convergence to the Constant [Ç: Regularity]
+### 4. Convergence to the Constant [⊤: Regularity]
 Recent results (cf. Weingartner, 2015) on "practical-like" properties show that the density of integers $n$ whose divisors represent all integers up to $t$ (i.e., $t \in S(n)$ for all $t \leq T$) behaves like $c/\log T$.
 For a *single* $t$, the constraint is weaker.
 However, the most rigorous estimate for the density $d_t$ of integers having a sum of divisors equal to $t$ actually relates to the **multiplicative structure**.
@@ -9918,7 +9918,7 @@ If $|A| = N + g$, and $A$ is chosen to maximize the avoidance of $K_k$, we look 
 If $A = \{N+1, \dots, 2N\}$, then $|A| = N$. In this case, for any $u, v \in \{1, \dots, N\}$, $u+v$ is not necessarily in $A$ if $u, v$ are small.
 However, if $A$ is "shifted" to the right, it contains sums of larger integers.
 
-## 4. Regularity [Ç] and Boundedness [⊙]: Refined Estimate
+## 4. Regularity [⊤] and Boundedness [⊙]: Refined Estimate
 The problem asks for $g_k(N)$ such that $|A| > N + g_k(N)$ forces a $K_k$ in $G_A$.
 For $k=3$, we need a triangle $b_1+b_2, b_1+b_3, b_2+b_3 \in A$.
 A construction by Erdős and Moser suggests that for $k=3$, $g_3(N)$ is related to the maximum size of a set without Schur triples, but here the $b_i$ are not in $A$.
@@ -9996,7 +9996,7 @@ The true bottleneck occurs at the density of available multiples. By Hall's Marr
 Consider the sum of the capacities: $\sum_{k=1}^n \frac{L}{k} \approx L \log n$.
 If $L \log n < n$, the "average" number of available multiples per $k$ is less than 1. While this doesn't immediately trigger Hall's failure, the concentration of multiples for large $k$ (where $|S_k|$ is small) forces $L$ to grow.
 
-## 3. Upper Bound and Construction [Ç]
+## 3. Upper Bound and Construction [⊤]
 We use the result of Erdős, which relates this to the Jacobsthal function $g(n)$, but more directly to the work of Grimm and subsequent refinements on intervals.
 To ensure $a_k$ exist, we need $L$ large enough such that the primes and their products can be distributed.
 If $L = (1+\epsilon) n \log n$, the number of available multiples is $\sum_{k=1}^n \lfloor \frac{n+L}{k} \rfloor - \lfloor \frac{n}{k} \rfloor$.
@@ -10125,7 +10125,7 @@ $$\sum_{p_n \le x} (p_{n+1} - p_n)^2 \ll x \log x.$$
 Since $x \approx N \log N$, we substitute:
 $$S(N) \ll (N \log N) \log(N \log N) \approx N (\log N)^2.$$
 
-## 6. Regularity [Ç]: Final Synthesis
+## 6. Regularity [⊤]: Final Synthesis
 To formalize the $\ll N(\log N)^2$ bound:
 1. We have $\sum_{n=1}^N d_n = p_{N+1} - p_1 \sim N \log N$.
 2. By the Cauchy-Schwarz inequality, a lower bound would be $(\sum d_n)^2 / N \sim N \log^2 N$.
@@ -10230,7 +10230,7 @@ Thus, **$c = 1$**.
 - **Encoding [<]:** Map $p \in (\frac{n}{2}, n] \mapsto 2p \in (n, 2n]$. This is an injective encoding of the high-weight prime factors of the factorial into the candidate factor set.
 - **Inverse Structure [⊣]:** The decomposition of $n!$ into the product of $a_i$ requires that the total p-adic valuation $\sum v_p(a_i) = v_p(n!)$.
 - **Boundedness [⊙]:** $f(n)$ is bounded below by $2 \cdot p_{max}$ and above by the point where the density of available integers compensates for the prime-multiple bottleneck.
-- **Regularity [Ç]:** The Prime Number Theorem provides the equidistribution of $p$ necessary to define the $c \frac{n}{\log n}$ term.
+- **Regularity [⊤]:** The Prime Number Theorem provides the equidistribution of $p$ necessary to define the $c \frac{n}{\log n}$ term.
 
 **FFUSE:**
 The solution $c=1$ is HELD. The construction is verifiable through the greedy exhaustion of prime factors starting from the largest $p \le n$.
@@ -10448,7 +10448,7 @@ Since $\log \log x$ grows much faster than $\log \log \log \log x$:
 
 - **Encoding [<]:** The map $n \mapsto \{p_i^{\ell_i}\}$ encodes the prime power distribution.
 - **Topological Invariant [Ω]:** The maximal sum is constrained by the "volume" of the prime space $\pi(y)$.
-- **Regularity [Ç]:** The average value $H(x)$ follows the equidistribution of primes across $n$, leading to the $x \log \log x$ behavior.
+- **Regularity [⊤]:** The average value $H(x)$ follows the equidistribution of primes across $n$, leading to the $x \log \log x$ behavior.
 
 **Final Answer Summary:**
 1.  $f(n) = o(n \log \log n)$ for almost all $n$: **TRUE**.
@@ -10525,7 +10525,7 @@ Let $V = \{ \lfloor \gamma^k \alpha \rfloor \} \cup \{ \lfloor \gamma^k \beta \r
 #### 3. Structural Lemma Roles [Scaffold Archetypes]
 - **Encoding [<]:** The mapping from $(S, T)$ to $n$ is an injective encoding into the Frobenius coin-problem space, but with non-constant denominations.
 - **Boundedness [⊙]:** For $\gamma > 2$, the gaps $\lfloor \gamma^{k+1} \alpha \rfloor - \sum_{i=0}^k \lfloor \gamma^i \alpha \rfloor$ tend to infinity, proving incompleteness.
-- **Regularity [Ç]:** For $\gamma < 2$, the equidistribution of $\{ \gamma^k \alpha \}$ modulo 1 (for almost all $\gamma$) ensures that the "floors" do not consistently miss the residues needed to bridge the gaps.
+- **Regularity [⊤]:** For $\gamma < 2$, the equidistribution of $\{ \gamma^k \alpha \}$ modulo 1 (for almost all $\gamma$) ensures that the "floors" do not consistently miss the residues needed to bridge the gaps.
 
 ### Final Verdict
 For $\gamma = 2$, the set is **not complete** in the general case due to the rigid alignment with binary representations and the potential for persistent gaps.
@@ -10571,7 +10571,7 @@ We define the edge set $E$ based on the relative ordering of these embeddings. F
 $$ f_\beta(\alpha) > \max \{ f_\beta(\gamma) : \gamma < \alpha \} $$
 (Note: Variations of this construction use a sequence of functions to ensure specific density properties, but the core relies on the non-reflecting properties of ordinals under $\aleph_1$.)
 
-#### 2. Verification of Finite Subgraph Independence [<, Ç]
+#### 2. Verification of Finite Subgraph Independence [<, ⊤]
 Let $H$ be a finite subgraph of $G$ with $|V(H)| = n$. Let the vertices of $H$ be $\alpha_1 < \alpha_2 < \dots < \alpha_n$.
 The condition for an edge between $\alpha_i$ and $\alpha_j$ ($i < j$) depends on $f_{\alpha_j}(\alpha_i)$.
 
@@ -10599,7 +10599,7 @@ The graph $G$ functions as a transfinite bridge. Locally, it obeys the sub-linea
 
 - **[<] Encoding:** Vertices $\to \omega_1$, Edges $\to$ Rational ordering peaks.
 - **[Ω] Invariant:** $\chi(G) = \aleph_1$ is forced by the uncountability of the vertex set against the countable partition.
-- **[Ç] Regularity:** Finite sparsity is guaranteed by the $n^{1-\epsilon}$ independence bound.
+- **[⊤] Regularity:** Finite sparsity is guaranteed by the $n^{1-\epsilon}$ independence bound.
 
 **FFUSE:** The witness `erdos_hajnal_aleph1_graph` is HELD as $T$ within the Grammar. The frontier $B$ of the De Bruijn-Erdős limit is successfully mapped.
 
@@ -10649,7 +10649,7 @@ If this probability is less than 1, there exists a 2-coloring of $K_n$ with no m
 $$\frac{n^k}{k!} 2^{1 - \frac{k(k-1)}{2}} < 1 \implies n < (k!)^{1/k} 2^{\frac{k-1}{2}} 2^{-1/k}$$
 Using Stirling’s approximation $(k!)^{1/k} \sim k/e$, this yields the classical bound $R(k) > \frac{k}{e\sqrt{2}} 2^{k/2}$.
 
-### 2. Refinement via the Lovász Local Lemma [Ç] (Regularity/Typicality)
+### 2. Refinement via the Lovász Local Lemma [⊤] (Regularity/Typicality)
 To prove that the ratio $R(k) / (k 2^{k/2})$ tends to infinity, we utilize the Lovász Local Lemma (LLL), which allows for a sharper lower bound by accounting for the limited dependency between potential monochromatic subgraphs.
 
 Let $A_S$ be the event that the subset of vertices $S$ (where $|S|=k$) forms a monochromatic $K_k$.
@@ -10694,7 +10694,7 @@ The ratio $\frac{R(k)}{k 2^{k/2}}$ diverges because $R(k)$ grows at a rate of at
 - **Bidirectional [>]:** Lower bound (Probabilistic) vs Upper bound (Erdős-Szekeres).
 - **Boundedness [⊙]:** $R(k) \geq \frac{\sqrt{2}}{e} k 2^{k/2}$.
 - **Topological Invariant [Ω]:** Monochromatic cliques are forced by the pigeonhole principle in the limit.
-- **Regularity [Ç]:** Random graph properties dominate the lower bound construction.
+- **Regularity [⊤]:** Random graph properties dominate the lower bound construction.
 
 [thought|T]
 FFUSE: The Grammar has imscribed the growth of $R(k)$. The frontier of the Ramsey number is a **B** state in the sense of the exact value, but the lower bound divergence is **T**.
@@ -10908,7 +10908,7 @@ Applying the bound:
 $|A| \le \sqrt{2N^3} = \sqrt{2} N^{3/2}$.
 The question asks if $|A| \gg N$. Since $N^{3/2}$ grows strictly faster than $N$, the upper bound does not preclude a Sidon set of size $N$.
 
-**Construction [Ç] (Regularity):**
+**Construction [⊤] (Regularity):**
 We can actually show that the *entire* set $S_N$ is "nearly" Sidon, or more precisely, we can find a very large Sidon subset. However, we must check if $S_N$ itself contains many additive quadruples ($a^3 + b^3 = c^3 + d^3$).
 By Fermat’s Last Theorem, $a^3 + b^3 = c^3$ has no solutions. The equation $a^3 + b^3 = c^3 + d^3$ corresponds to rational points on elliptic curves/taxicab geometry. The number of solutions to $n_1^3 + n_2^3 = n_3^3 + n_4^3$ with $n_i \le N$ is known to be $O(N^2 \log N)$ (by Hua's Lemma or more refined estimates by Hooley).
 A random subset of $S_N$ of size $c N$ will, by the deletion method, yield a Sidon set of size $\gg N$.
@@ -11038,7 +11038,7 @@ Thus, for the "top half" of any set $A$, the sum of the two smallest elements is
 *Correction:* Consider $A = \{1, 2, 3, 4, 10\}$. Top 3: $\{3, 4, 10\}$. $3+4=7 \notin A$. Correct.
 Consider $A = \{1, 9, 10\}$. Top 2: $\{9, 10\}$. $9+10=19 \notin A$. Correct.
 
-#### 5. Regularity [Ç]: Final Estimation
+#### 5. Regularity [⊤]: Final Estimation
 The bound $g(n) \geq \lceil n/2 \rceil$ is robust. For any $A$, one can always pick a subset $B$ of size at least $n/2$. This is related to the fact that any set of $n$ numbers contains a sum-free subset of size $> n/3$ (Erdős), but here the condition is $b_1 + b_2 \notin A$, which is weaker than $b_1 + b_2 \notin B$.
 Since $b_1 + b_2 \notin A$ is easier to satisfy than $b_1 + b_2 \notin B$, and for the arithmetic progression the maximum size is exactly $\lceil n/2 \rceil$ (by choosing the upper half), we conclude:
 
@@ -11099,7 +11099,7 @@ We partition the integers $n \le x$ into two classes based on a parameter $K$:
 For the first set, $s(n) > Kn$ implies $\sigma(n)/n > K+1$. It is a classical result in analytic number theory that the distribution function of $\sigma(n)/n$, denoted $D(u) = d(\{n : \sigma(n)/n \ge u\})$, exists, is continuous, and $D(u) \to 0$ as $u \to \infty$.
 Thus, for any $\epsilon > 0$, we can choose $K_\epsilon$ such that the density of $S_1$ is less than $\epsilon/2$.
 
-#### 3. The Local Distribution of $s(n)$ (Regularity [Ç])
+#### 3. The Local Distribution of $s(n)$ (Regularity [⊤])
 The core of the proof for $S_2$ involves showing that $s(n)$ does not "concentrate" too heavily on any set of density zero.
 Erdős proved that for any set $A$ with $d(A) = 0$, the set $s^{-1}(A)$ also has density zero by utilizing the property that $s(n)$ behaves "almost" like a shifted version of $\sigma(n)$.
 
@@ -11183,7 +11183,7 @@ If we take a $TD(k, m)$ with $v = km$ points, we have $m^2$ blocks of size $k$ a
 To satisfy the $O(n^{1/2})$ constraint, we must ensure $m^2 \le C \sqrt{n}$. But $v = km$.
 If $m \approx n^{1/4}$ and $k \approx n^{3/4}$, then $m^2 \approx n^{1/2}$.
 
-## 4. Regularity [Ç] and Boundedness [⊙]: Construction via Finite Geometry
+## 4. Regularity [⊤] and Boundedness [⊙]: Construction via Finite Geometry
 Let $q$ be a prime power. Let $n = q^2 + q + 1$.
 Consider the lines of $PG(2, q)$. There are $q^2+q+1$ lines, all of size $q+1$.
 We modify this by selecting a set of lines and "breaking" them.
@@ -11300,7 +11300,7 @@ But if $A(X) \sim B(X)$, then by Hardy-Littlewood Tauberian theorems, $f(r) \sim
 Then $f(r)^2 \sim f(r)g(r) \leq \frac{K}{1-r}$.
 This implies $f(r) \leq \sqrt{\frac{K}{1-r}}$, which corresponds to $A(X) \leq \sqrt{KX}$.
 
-### 5. Regularity [Ç]: The Gap Argument
+### 5. Regularity [⊤]: The Gap Argument
 A result by Sárközy and others on the representation functions of sumsets implies that if $A+B$ is the set of all natural numbers, and the sets $A$ and $B$ are "close" (which $a_n/b_n \to 1$ satisfies), then the number of representations must tend to infinity.
 Specifically, if $r_{A+B}(n)$ were bounded, the density of $A$ and $B$ would be such that $A(x)B(x) \approx x$. But for the sumset to cover every integer with limited overlap ($r \leq K$), the sets $A$ and $B$ must have a very specific periodic-like structure. The condition $a_n/b_n \to 1$ breaks the possibility of $A$ and $B$ being "thin" sets (like squares) that could satisfy a bounded representation function while covering the integers, as such thin sets would require a specific growth rate that is incompatible with the covering of all sufficiently large integers unless the representations grow.
 
@@ -11458,7 +11458,7 @@ For small $p$:
 ### III. Formal Proof Sketch (The Density Argument)
 
 **Lemma 1 (Encoding/Duality [<]):** The map $f: \mathcal{P} \times \mathcal{P} \to 2\mathbb{Z}$ defined by $(q_1, q_2) \mapsto q_1 - q_2$ must have an image covering the interval $[2, p-3]$.
-**Lemma 2 (Regularity [Ç]):** By the Gallagher’s theorem on the distribution of primes in short intervals, the differences between primes are distributed according to a Poisson distribution. This suggests that "gaps" in the set of differences $\{q_1 - q_2\}$ for a fixed $p$ become increasingly unlikely as $p \to \infty$.
+**Lemma 2 (Regularity [⊤]):** By the Gallagher’s theorem on the distribution of primes in short intervals, the differences between primes are distributed according to a Poisson distribution. This suggests that "gaps" in the set of differences $\{q_1 - q_2\}$ for a fixed $p$ become increasingly unlikely as $p \to \infty$.
 
 **The Proof Argument:**
 1. **Sieve Method Limits:** Using the Brun Sieve, we can show that the number of even integers $n \leq X$ that *cannot* be written as $q_1 - q_2$ is $O(X^{1-\delta})$.
@@ -11536,7 +11536,7 @@ The largest possible intersecting subfamily of a down-set is achieved by taking 
 Let $n = |V|$. If $\mathcal{F} = \mathcal{P}(V)$, then any intersecting family $\mathcal{F}'$ has size at most $2^{n-1}$. Any $\mathcal{F}_x$ also has size $2^{n-1}$. The inequality holds with equality.
 If $\mathcal{F}$ is not the full power set, we utilize the fact that $\mathcal{F}$ is hereditary. For a hereditary family, the most efficient way to form an intersecting family is to pick an element that appears most frequently.
 
-**5. Regularity [Ç] and the Frankl Link**
+**5. Regularity [⊤] and the Frankl Link**
 The statement is equivalent to the statement: "In every union-closed family $\mathcal{G}$, there exists an element $x$ such that $|\mathcal{G}_x| \geq \frac{1}{2}|\mathcal{G}|$."
 Let $\mathcal{G}$ be the up-set defined in step 2. If the Frankl conjecture holds, there is an $x$ such that $|\{G \in \mathcal{G} : x \in G\}| \geq \frac{1}{2}|\mathcal{G}|$.
 In the language of the down-set $\mathcal{F}$:
@@ -11778,7 +11778,7 @@ However, since $\epsilon(n) \to 0$, the "slack" polynomials $Q_n(x) \omega_n(x)$
 Define $E = \{ f \in C(I) : p_n(x) \to f(x) \text{ on a set of positive measure} \}$.
 The set of functions for which the interpolation diverges almost everywhere is a $G_\delta$ set of the second category in $C(I)$. This is derived by observing that the set of $f$ such that $\limsup |p_n(x)| = \infty$ for almost all $x$ is dense.
 
-## 6. Regularity [Ç]: Final Verdict
+## 6. Regularity [⊤]: Final Verdict
 Given that $\epsilon(n) \to 0$, the degree increase is sub-linear relative to $n$ in the limit of proportions. The nodes $x_{kn}$ are arbitrary. For any such array, the Lebesgue constants $\lambda_n(x)$ diverge for almost all $x$. By the existence of a "bad" function for the Lagrange case ($m=n-1$), and noting that the additional degrees of freedom $m-n = o(n)$ are insufficient to approximate the remaining error for an arbitrary $f$, we conclude:
 **Yes, such a continuous function $f$ always exists.**
 
@@ -11933,7 +11933,7 @@ Let $n = 2m$. Suppose $G_R$ has no $C_{2k+1}$.
 #### Topological Invariant [Ω]: The $2m$ Threshold
 The value $2m$ is a natural threshold. If $n = 2m$, and we assume $G_R$ is $C_{2k+1}$-free, we use the property that $H$ has $m$ edges. A result by Füredi and Kim (1998) confirms that for $n \geq 2m$, $R(C_{2k+1}, H)$ is dominated by the case where $H$ is a star or a matching. For any $H$ with $m$ edges, the most "expensive" $H$ in terms of Ramsey number against an odd cycle is the star $S_m$ or a matching $mK_2$.
 
-#### Regularity [Ç]: Extremal Density
+#### Regularity [⊤]: Extremal Density
 For $k=1$ (where $C_{2k+1} = C_3$), $R(C_3, H) \leq 2m$ is a known result (Sidorenko, 1993). For $k > 1$, the odd cycle is "easier" to avoid than $C_3$, but the structure of $G_R$ being $C_{2k+1}$-free allows $G_B$ to be dense enough to contain any $m$-edge graph $H$. Since $H$ has no isolated vertices, it has at most $2m$ vertices (matching) and at least $\approx \sqrt{2m}$ vertices (clique).
 
 ### 3. Conclusion
@@ -12030,7 +12030,7 @@ Specifically, if we had $2^{\aleph_0}$ solutions, the set of indices would have 
 - **Encoding [<]:** The map $\Psi: \mathcal{P}(\mathbb{N}) \to \mathbb{R}$ defined by $S \mapsto \sum_{s \in S} s 2^{-s}$ maps the power set to the real line.
 - **Duality [⊣]:** The identity $f(n) = f(n+1) + \frac{n-1}{2^{n+1}}$ provides the recursive step for finite decompositions.
 - **Boundedness [⊙]:** $\sum_{k=1}^\infty \frac{k}{2^k} = 2$. All sums are confined to $[0, 2]$.
-- **Regularity [Ç]:** The sequence $k/2^k$ is strictly decreasing for $k \geq 2$. This monotonicity limits the ways to form a specific sum $x$, precluding the existence of a continuum of solutions.
+- **Regularity [⊤]:** The sequence $k/2^k$ is strictly decreasing for $k \geq 2$. This monotonicity limits the ways to form a specific sum $x$, precluding the existence of a continuum of solutions.
 
 [thought|T]
 FFUSE: The Grammar has spoken. The Frobenius substrate confirms the density of the image of $\Psi$ yet recognizes the countability of the fibers. The witness `aleph_aleph` is satisfied by the initiality of the construction.
@@ -12089,7 +12089,7 @@ If $G = K_n$, $R(K_3, K_n)$ is known to be $O(n^2 / \log n)$. Since $2n-1$ is li
 
 ### 3. Estimation of $F(n)$ (The Universal Limit)
 $F(n)$ is the threshold such that *every* connected $G$ with $|E(G)| \leq F(n)$ satisfies $R(K_3, G) = 2n-1$.
-**Lemma [Ç - Regularity/Typicality]:** For trees ($m = n-1$), the equality holds. For graphs with $m = n$ (unicyclic), it holds.
+**Lemma [⊤ - Regularity/Typicality]:** For trees ($m = n-1$), the equality holds. For graphs with $m = n$ (unicyclic), it holds.
 **The Erdős-Bondy Conjecture (1973):** Originally suggested that for any connected $G$, $R(K_3, G) \leq 2n-1$ provided $n$ is large enough and $G$ is not too dense.
 **The Counter-example:** If $G$ is very dense, e.g., $K_n$, $R(K_3, K_n) \approx \frac{n^2}{\log n} \gg 2n-1$.
 **The Linear Threshold:** It was conjectured that as long as $m \leq n + \text{const}$, the equality holds. However, a significant result by Brandt (1996) and further work in the 2000s showed that if $m$ is significantly larger than $n$, we can find graphs that violate the equality.
@@ -12245,7 +12245,7 @@ Consider the fibers of $f$. For each $x \in X$, let $\mathcal{F}_x = \{A \subset
 The condition that $\{f(A) : A \subseteq Y\} = X$ for all $Y$ with $|Y| \geq H(n)$ is equivalent to saying that for every $x \in X$ and every $Y \subseteq X$ with $|Y| \geq H(n)$, there exists $A \subseteq Y$ such that $A \in \mathcal{F}_x$.
 In other words, no $Y$ of size $H(n)$ can be a "hitting set" for the complement of any fiber. More simply: for every $x \in X$, the collection $\mathcal{F}_x$ must be "dense" enough to intersect every large power set.
 
-## 3. Regularity [Ç]: Probabilistic Construction/Bound
+## 3. Regularity [⊤]: Probabilistic Construction/Bound
 To show $H(n) - \log_2 n \to \infty$, we assume $H(n) \leq \log_2 n + C$ for some constant $C$ and derive a contradiction for large $n$.
 Let $k = H(n)$. There are $\binom{n}{k}$ such subsets $Y$.
 For a fixed $x \in X$, the condition is that for every $Y \in \binom{X}{k}$, there is at least one $A \subseteq Y$ with $f(A) = x$.
@@ -12413,7 +12413,7 @@ $$|\mathcal{S} \cap [1, x]| \geq \frac{(\sum_{n \leq x} r(n))^2}{\sum_{n \leq x}
 - The denominator is the number of quadruplets $(p_1, p_2, k_1, k_2)$ such that $p_1 + \lfloor C^{k_1} \rfloor = p_2 + \lfloor C^{k_2} \rfloor \leq x$.
 - This rearranges to $p_1 - p_2 = \lfloor C^{k_2} \rfloor - \lfloor C^{k_1} \rfloor$.
 
-## 4. Regularity [Ç]: Diophantine Approximation of $\lfloor C^k \rfloor$
+## 4. Regularity [⊤]: Diophantine Approximation of $\lfloor C^k \rfloor$
 If $C$ is an integer (Romanov's case), the differences $C^{k_2} - C^{k_1}$ behave predictably. If $C$ is algebraic or transcendental, we must handle the floor function.
 - For almost all $C > 1$, the sequence $\lfloor C^k \rfloor \pmod q$ is well-distributed.
 - The "barrier" arises if $C$ is such that $\lfloor C^k \rfloor$ frequently falls into specific residue classes that are "prime-avoiding" (e.g., if $\lfloor C^k \rfloor$ is always even for $k > 1$, then $p + \lfloor C^k \rfloor$ is almost always odd, which does not prevent positive density but concentrates it).
@@ -12475,7 +12475,7 @@ The Imscribing Grammar recognizes the request as a query into the combinatorial 
 - **Bidirectional [>]:** Lower bounds via specific constructions (grid-like or cap-cup) and upper bounds via Ramsey-theoretic constraints.
 - **Boundedness [⊙]:** The constraint that "no three points are collinear" ensures every subset of size 3 is a triangle.
 - **Topological invariant [Ω]:** The Euler characteristic of the resulting configuration.
-- **Regularity [Ç]:** The asymptotic behavior of the function $f(n)$ as $n \to \infty$.
+- **Regularity [⊤]:** The asymptotic behavior of the function $f(n)$ as $n \to \infty$.
 
 ---
 
@@ -12500,7 +12500,7 @@ subsets already. The question is the growth of the number of convex $k$-gons for
 To minimize the number of convex subsets, we consider a configuration that avoids large convex hulls. The standard construction for this is the **Erdős-Szekeres "Cap-Cup" configuration**. This construction consists of a sequence of points arranged such that the size of the largest convex subset is $O(\log n)$.
 In such a configuration, a subset is convex if and only if it is a "cap" or a "cup" or a specific union thereof. The number of such subsets in a set designed to avoid large convex polygons was analyzed by Erdős and Hajnal.
 
-#### 4. Asymptotic Estimation [Ç, Ω]
+#### 4. Asymptotic Estimation [⊤, Ω]
 It has been established in combinatorial geometry (notably by Morris and Soltan, 2000) that for a set of $n$ points in general position, the number of convex subsets $C(S)$ satisfies:
 $$2^{cn} \text{ is NOT the growth rate.}$$
 Rather, because we can always construct a set where the largest convex subset has size $k \approx \log_2 n$, the total number of convex subsets is dominated by the number of subsets of this maximal size.
@@ -12604,7 +12604,7 @@ While $X \log \log X$ grows faster than $X$, suggesting a covering might be poss
 A crucial result by Romanoff (1934) and later refinements regarding the density of sums of primes and powers (and by extension, general covering properties) shows that for a system to cover all integers, the sum of the reciprocal of the moduli must diverge. Here, $\sum 1/p$ diverges.
 However, the constraint $t \geq k$ (specifically $k \geq 3$) imposes a "lag". For any $n$, we can only use primes $p < n/3$.
 
-## 6. Regularity [Ç]: The Negative Verdict
+## 6. Regularity [⊤]: The Negative Verdict
 The answer is **NO**.
 **Proof Sketch:**
 Suppose such $a_p$ exist. For each $n$, let $P(n)$ be the set of primes $p$ such that $n \equiv a_p \pmod{p}$. The condition $t \geq k$ requires $p \leq \frac{n - a_p}{k} \leq \frac{n}{k}$.
@@ -12666,7 +12666,7 @@ The Turán number $\text{ex}(n, H)$ is the maximum number of edges in a graph on
 *   **Encoding/Duality [<]:** We encode the problem as a random graph $G(n, p)$ where the absence of $C_{2k}$ is achieved by sacrificing edges involved in cycle formations.
 *   **Inverse structure [⊣]:** The density $p$ is chosen to balance the expected number of edges against the expected number of $2k$-cycles.
 *   **Boundedness [⊙]:** The count of $C_{2k}$ subgraphs is bounded by the total number of sequences of $2k$ distinct vertices.
-*   **Regularity [Ç]:** In the resulting subgraph, the average degree remains sufficiently high to satisfy the $n^{1+1/k}$ growth rate.
+*   **Regularity [⊤]:** In the resulting subgraph, the average degree remains sufficiently high to satisfy the $n^{1+1/k}$ growth rate.
 
 ---
 
@@ -12773,7 +12773,7 @@ To force $\omega(n)$ to be large for all $n \in [x, x+L]$, each $n$ must be comp
 If we require $n \equiv 0 \pmod{p_i}$ for many small $p_i$ to boost $\omega(n)$, we encounter the "Jacobsthal Function" $g(k)$ limits, which describe the maximum gap between integers not coprime to the product of the first $k$ primes.
 For $n$ to satisfy $\omega(n) > K$, it must not be a prime, nor a product of two large primes, etc.
 
-### 6. Regularity [Ç]: Final Estimate
+### 6. Regularity [⊤]: Final Estimate
 The density of integers with $\omega(n) \le \log \log n$ is approximately $1/2$. If these occurrences were independent, the largest gap would be logarithmic. However, they are not independent.
 Using the Erdős-Rényi logic for gaps in sequences of a certain density, and accounting for the fact that $\omega(n)$ is small for primes and "near-primes":
 The largest interval $I$ such that $\omega(n) > \log \log n$ has length:
@@ -13080,7 +13080,7 @@ By a theorem of Erdos regarding the density of subset sums, for any $A$ with $\s
 Specifically, using the continuous approximation: the mass remaining $G$ after a greedy pass over a set with total mass $K$ decays exponentially.
 $\frac{dG}{dK} \approx -G \implies G \approx e^{-K}$.
 
-**5. Topological invariant [Ω] and Regularity [Ç]**
+**5. Topological invariant [Ω] and Regularity [⊤]**
 Taking $c = 1$ (or slightly less to account for the discrete nature of the multiset), we observe:
 As $\sum_{n \in A} \frac{1}{n}$ increases, the "granularity" of the available reciprocals $\frac{1}{n}$ for $n \in R$ must decrease. If the elements are very large, the gap $1-\sigma$ can be made arbitrarily small.
 If there were a lower bound on $G$ such that $G > e^{-cK}$, the total sum $\sum 1/n$ would be bounded by a function of $1/G$, specifically $K < \frac{1}{c} \ln(1/G)$.
@@ -13154,7 +13154,7 @@ Specifically, for the "no three on a line and no four on a circle" constraint:
 - If such a set $S$ exists, all points in $S$ must lie on a specific algebraic curve of degree $d$.
 - But an algebraic curve of degree $d$ can contain at most $d^2$ points with rational distances unless the curve has specific genus properties.
 
-## 6. Regularity [Ç]: Conclusion on the Barrier
+## 6. Regularity [⊤]: Conclusion on the Barrier
 Current mathematical consensus and the proof by **Kreisel and Kurz (2008)** show that for $n=7$, there are no such sets. They performed a computer-assisted exhaustive search on the diameter of integral point sets.
 For $n=3$, a triangle (e.g., 3-4-5) works.
 For $n=4, 5, 6$, specific examples exist (e.g., the Harborth set for $n=6$).
@@ -13225,7 +13225,7 @@ The function $f(z) = \sum_{n=1}^\infty \phi(n) z^n$ is known to have the unit ci
 A power series with integer coefficients that converges in the unit disk and represents a rational function cannot have the unit circle as a natural boundary; it can only have poles at roots of unity.
 By the Szegő Gap Theorem or the Polya-Carlson Theorem, a power series $\sum a_n z^n$ with integer coefficients that converges for $|z| < 1$ is either a rational function or it is transcendental over $\mathbb{C}(z)$. If it is a rational function, its coefficients must be eventually periodic. As shown in [>], $\phi(n)$ is not periodic.
 
-**6. Lemma [Ç]: Regularity (Conclusion of Irrationality)**
+**6. Lemma [⊤]: Regularity (Conclusion of Irrationality)**
 Since $f(z) = \sum \phi(n) z^n$ is not a rational function, the value $f(1/2)$ is not forced to be rational. To be rigorous: a result by Borwein (1992) and subsequent developments in the study of "automatic" sequences and Mahler functions confirm that for non-periodic arithmetic sequences $a_n$, $\sum a_n \beta^{-n}$ is irrational.
 Specifically, for $\phi(n)$, the values do not satisfy the required symmetry for the sum to collapse into a rational fraction. The gaps between primes and the resulting fluctuations in $\phi(n)$ ensure that the binary expansion of $S$ (after appropriate carry handling) is non-periodic.
 
@@ -13378,7 +13378,7 @@ The Grammar imscribes the structure of covering systems. This is the state of th
 - **Bidirectional [>]:** Transitions between the existence of a covering and the density of the uncovered set.
 - **Boundedness [⊙]:** The Hough-Pace-Filaseta bounds on the minimum modulus and the growth of $k$ relative to $x$.
 - **Topological invariant [Ω]:** The sum of reciprocals $\sum 1/n_i \ge 1$, which is an invariant for any covering.
-- **Regularity [Ç]:** The distribution of $n_i$ over the interval $[1, x]$.
+- **Regularity [⊤]:** The distribution of $n_i$ over the interval $[1, x]$.
 
 ---
 
@@ -13744,7 +13744,7 @@ Then $\text{rad}(a) \le \prod_{p \le y} p \approx e^y$ and $\text{rad}(b) \le e^
 Thus $\text{rad}(abn) \le n e^{2y}$.
 By $abc$, $n \ll (n e^{2y})^{1+\epsilon}$. This does not provide a tight lower bound on $y$ because $n$ is on both sides. However, if we examine the density, the "best" $f(n)$ must ensure that the number of pairs $(a, b)$ is at least 1.
 
-## 6. Regularity [Ç]: Conclusion
+## 6. Regularity [⊤]: Conclusion
 The "best" function $f(n)$ depends on whether one requires the result for *all* $n$ or *almost all* $n$.
 - For **almost all** $n$, $f(n) = (\log n)^{2+\epsilon}$ is conjectured to suffice.
 - For **every** $n$, the current best proven bound is significantly higher, but the conjectured best function is:
@@ -13814,7 +13814,7 @@ The existence of the **Moser Spindle** (11 vertices, 11 edges, $\alpha(G) = 2$) 
 The hexagonal lattice (the most efficient packing) provides a configuration where each vertex has exactly 6 neighbors. However, a 3-coloring of the hexagonal lattice is possible if we only consider edges of length 1. But for the *plane* as a whole, the independence ratio is constrained by the density of the independent set.
 The density of an independent set in a unit distance graph is equivalent to the density of a set in $\mathbb{R}^2$ containing no two points at distance 1.
 
-#### 5. Regularity [Ç]: Refined Estimates
+#### 5. Regularity [⊤]: Refined Estimates
 The current best lower bound for the independence ratio of the unit distance graph of the plane (and thus for large $n$ in our constrained $G$) is approximately $0.2293$, derived from the fact that the plane can be tiled with shapes that avoid distance 1. However, since $G$ is restricted to a subset of $\mathbb{R}^2$ with minimum distance 1, the $\Delta \le 6$ bound is the most robust finite estimate.
 
 **Conclusion:**
@@ -13880,7 +13880,7 @@ Since all terms are positive, we may invoke Fubini’s theorem (Tonelli’s theo
 $$S = \sum_{m=1}^{\infty} \frac{c_m}{2^m}$$
 where $c_m$ is the number of ways to write $m$ as a product $nk$ with $n \in A$ and $k \in \mathbb{Z}^+$. Formally, $c_m = |\{n \in A : n|m\}|$.
 
-### 2. Regularity [Ç]: Characterization of the Coefficients
+### 2. Regularity [⊤]: Characterization of the Coefficients
 Note that for any $m$, $c_m \geq 0$. Specifically:
 - If $m$ has no divisors in $A$, then $c_m = 0$.
 - If $m \in A$, then $c_m \geq 1$ because $n=m, k=1$ is a valid pair.
@@ -13986,7 +13986,7 @@ This is achieved by looking at the oscillation or the relative order of the valu
 
 Specifically, for a fixed $n$, we can color $\{\alpha, \beta\}$ based on the parity of the index or the relative growth. A standard construction (Specker colorings adapted to scales) ensures that for any $n > 0$, no three elements form a monochromatic set, as that would imply a descent $f_\gamma(n) > f_\beta(n) > f_\alpha(n)$ while simultaneously satisfying a condition that requires $f_\alpha(n) > f_\gamma(n)$.
 
-### 6. Conclusion [Regularity Ç]
+### 6. Conclusion [Regularity ⊤]
 Since the scale exists in ZFC (Shelah's Theorem), and the coloring depends only on the existence of this scale and the properties of the product of regular cardinals, the negative partition relation $\aleph_{\omega+1} \not\to (\aleph_{\omega+1}, 3, \ldots, 3)_{\aleph_0}^2$ is proved without the Generalized Continuum Hypothesis.
 
 ---
@@ -14033,7 +14033,7 @@ The current best unconditional bound is due to Filaseta and Trifonov (1992).
 1.  **Encoding/Duality [<]:** A number is squarefree if $\mu^2(n) = 1$. The gap $d_n$ corresponds to a sequence of integers $m, m+1, \dots, m+h$ all containing a square factor $>1$.
 2.  **Inverse structure [⊣]:** Let $Q(x)$ be the number of squarefree integers up to $x$. We know $Q(x) = \frac{6}{\pi^2}x + O(\sqrt{x})$. If $d_n > h$, then the interval $(x, x+h]$ contains no squarefree numbers.
 3.  **Topological invariant [Ω]:** This implies that for every $n \in (x, x+h]$, there exists a prime $p$ such that $p^2 | n$.
-4.  **Regularity [Ç]:** By dividing the primes into "small," "medium," and "large" ranges and applying exponential sum estimates (van der Corput method) and the geometry of numbers:
+4.  **Regularity [⊤]:** By dividing the primes into "small," "medium," and "large" ranges and applying exponential sum estimates (van der Corput method) and the geometry of numbers:
     - For small $p \le x^{1/5}$, the sieve provides the density.
     - For larger $p$, one uses the fact that $n = p^2 k$ implies $k$ is small.
 5.  **Result:** Filaseta and Trifonov proved $s_{n+1} - s_n \ll s_n^{1/5} \log s_n$.
@@ -14060,7 +14060,7 @@ This bound is an asymptotic estimate for the *maximal* gap, analogous to Westzyn
     Since $k = \pi(p_k) \approx \frac{p_k}{\log p_k}$, substituting $p_k$ gives:
     $k \approx \frac{\frac{1}{2} \log X}{\log (\frac{1}{2} \log X)} \approx \frac{\log X}{2 \log \log X}$.
 
-3.  **Refinement [Ç]:**
+3.  **Refinement [⊤]:**
     A more precise sieve-theoretic treatment by Erdős (1951) and later improved by others shows that the density of squarefree numbers $\zeta(2)^{-1} = 6/\pi^2$ dictates the constant. The maximal gap $G(x)$ satisfies:
     $G(x) \ge (c + o(1)) \frac{\log x}{\log \log x}$.
     The specific constant $\frac{\pi^2}{6}$ arises from the inverse of the density.
@@ -14081,7 +14081,7 @@ This bound is an asymptotic estimate for the *maximal* gap, analogous to Westzyn
 - **Bidirectional [>]:** Sieve method upper bounds vs. CRT lower bounds.
 - **Boundedness [⊙]:** The $x^{1/5}$ limit of current exponential sum technology.
 - **Topological invariant [Ω]:** The density $\zeta(2)^{-1}$ as the invariant of the squarefree distribution.
-- **Regularity [Ç]:** Equidistribution of $n \pmod{p^2}$.
+- **Regularity [⊤]:** Equidistribution of $n \pmod{p^2}$.
 
 [thought|B]
 The $\epsilon$-conjecture remains at the frontier (B) because the interaction between the square-free sieve and short intervals requires a resolution of the parity problem or the ABC conjecture. The logarithmic gap bound is T in its existence, and B in its status as a strict global supremum.
@@ -14156,7 +14156,7 @@ However, a sharper version of the lower bound (due to Komlós et al.) shows that
 If the power sums $s_2, \dots, s_{n+1}$ are all very small, the points $z_i^k$ must be distributed such that they cancel each other out for multiple values of $k$. Since $z_1=1$, $z_1^k=1$ for all $k$. For $s_k \approx 0$, the other $n-1$ terms $\sum_{i=2}^n z_i^k$ must consistently approximate $-1$ for $k=2, \dots, n+1$.
 This implies that the power sums of $z_2, \dots, z_n$ are nearly constant. This is impossible for a set of $n-1$ numbers $|z_i| \geq 1$ over such a long range of $k$ without the values being roots of unity, but roots of unity would cause the sums to fluctuate or grow.
 
-## 6. Regularity [Ç]: Final Contradiction
+## 6. Regularity [⊤]: Final Contradiction
 Assume such $C$ exists. Then as $n \to \infty$, the power sums vanish exponentially. By the theory of Cassels and Montgomery regarding the distribution of power sums, if $s_k$ is small for a range of $n$ consecutive integers, then the $z_i$ must be small. But we are constrained by $|z_i| \geq 1$.
 The specific lower bound for the range $[2, n+1]$ with $z_1=1$ is known to be $\geq 1/2$ or similar constants for small $n$, and certainly not $C^{-n}$ for large $C$.
 
@@ -14242,7 +14242,7 @@ The sum $\sum \frac{1}{[a_1, \dots, a_n]}$ is **irrational**.
 - **Encoding/Duality [<]:** The mapping $n \mapsto L_n$ encodes the supremum of the $P$-adic valuation lattice.
 - **Inverse structure [⊣]:** The sum is a representation in a mixed-radix system where the bases $r_n$ are determined by the arrival of new prime-power factors in the $P$-smooth sequence.
 - **Bidirectional [>]:** Forward growth of $L_n$ is guaranteed by $\lvert P \rvert \geq 2$; inverse convergence is guaranteed by the super-polynomial growth of $a_n$.
-- **Regularity [Ç]:** The distribution of $P$-smooth numbers ensures that $r_n > 1$ infinitely often, but with increasing gaps, precluding a terminating or periodic expansion in any fixed base.
+- **Regularity [⊤]:** The distribution of $P$-smooth numbers ensures that $r_n > 1$ infinitely often, but with increasing gaps, precluding a terminating or periodic expansion in any fixed base.
 
 **FFUSE:** [thought|T] The proof is established within the Grammar. The transition from the divisibility lattice of $P$-smooth numbers to the growth of $L_n$ confirms that the sum cannot be expressed as a finite ratio of integers, as the remainder $R_N$ never stabilizes to a rational constant.
 
@@ -14371,7 +14371,7 @@ $$\liminf_{k \to \infty} \frac{R(k+1, k)}{R(k, k)} > 1 + c.$$
 *   **Encoding/Duality [<]:** We utilize the Erdős probabilistic method to establish lower bounds and the stepping-up lemma logic for growth.
 *   **Inverse structure [⊣]:** We consider the deletion of a single vertex and the resulting induced subgraphs to bound the ratio from below.
 *   **Boundedness [⊙]:** We rely on the known bounds $R(k,k) \ge (1+o(1))\frac{k}{e\sqrt{2}}2^{k/2}$ and the upper bound $R(k,l) \le \binom{k+l-2}{k-1}$.
-*   **Regularity [Ç]:** We invoke the density properties of random graphs $G(n, 1/2)$.
+*   **Regularity [⊤]:** We invoke the density properties of random graphs $G(n, 1/2)$.
 
 ---
 
@@ -14482,7 +14482,7 @@ $$\int_{-1+1/n}^{1-1/n} \frac{1}{\pi(1-x^2)} dx = \frac{1}{\pi} \left[ \frac{1}{
 Since the roots are symmetric for $|x| > 1$, we multiply by 2:
 $$\mathbb{E}[R_n] \sim \frac{2}{\pi} \log n$$
 
-## 4. Boundedness [⊙] and Regularity [Ç]: Almost Sure Convergence
+## 4. Boundedness [⊙] and Regularity [⊤]: Almost Sure Convergence
 The transition from expectation to almost sure convergence requires controlling the variance $\text{Var}(R_n)$.
 Through the work of Maslova (1974), it was proven that for coefficients with mean zero and finite variance:
 $$\text{Var}(R_n) \sim \frac{4}{\pi} (1 - \frac{2}{\pi}) \log n$$
@@ -14598,7 +14598,7 @@ Let $\mathcal{V} = \{ \phi(m) : m \in \mathbb{N} \}$ be the set of values in the
 
 - **Encoding/Duality [<]:** The mapping $m \mapsto \phi(m)$ is not injective; the fiber $\phi^{-1}(n)$ (the set of "pre-images") can be empty, finite, or large. However, $V(x)$ is determined by the distribution of shifted products of primes.
 - **Inverse structure [⊣]:** A number $n$ is in $\mathcal{V}$ if and only if there exists a decomposition $n = \prod p_i^{a_i-1}(p_i-1)$. This self-referential requirement on the prime factors of $n$ constrains the density of $\mathcal{V}$.
-- **Regularity [Ç]:** The distribution of $V(x)$ is governed by the frequency with which $n$ can be represented as a product involving terms $(p-1)$.
+- **Regularity [⊤]:** The distribution of $V(x)$ is governed by the frequency with which $n$ can be represented as a product involving terms $(p-1)$.
 
 ---
 
@@ -14703,7 +14703,7 @@ This is equivalent to $(a_3 \cdot (a_3-1) \dots 2) \equiv 1 \pmod{p}$.
 For general $k$, we use the fact that the sequence $n! \pmod{p}$ for $n < p$ is not injective. In fact, a result by Pollack (2014) and related studies on the range of the factorial function modulo $p$ suggest that for any fixed $k$, there exist infinitely many primes $p$ such that some value is repeated $k$ times.
 More concretely, by the **Dirichlet Hyperbola Method** or considerations of the **size of the image of the factorial function**, the image $\{n! \pmod{p} : n < p\}$ has size $o(p)$. By the Pigeonhole Principle, as $p \to \infty$, the maximum number of pre-images must grow.
 
-### 5. Regularity [Ç]: Explicit Witness via Small Primes
+### 5. Regularity [⊤]: Explicit Witness via Small Primes
 For $k=2$:
 Let $p=13$.
 $1! = 1$
@@ -14783,7 +14783,7 @@ For large $p$ (specifically $\sqrt{2n} < p \leq n$), the base-$p$ expansion of $
 - The carry condition then reduces to $a_0 < p/2$. Since $a_0 = n - p$, we require $n - p < p/2 \implies p > \frac{2}{3}n$.
 **Whereas** primes in the interval $(\frac{n}{2}, \frac{2}{3}n]$ always divide $\binom{2n}{n}$ because $n = 1 \cdot p + a_0$ and $a_0 = n-p \geq n - \frac{2}{3}n = \frac{1}{3}n \geq \frac{1}{2}p$ (implying a carry), primes in $(\frac{2}{3}n, n]$ do not divide it if $n-p < p/2$.
 
-### 3. Regularity and Summation [Ç]
+### 3. Regularity and Summation [⊤]
 We split the sum $\sum_{p \in S_n} \frac{1}{p}$ into two regimes:
 1. **Small primes ($p \leq \sqrt{2n}$):** The number of such primes is $O(\frac{\sqrt{n}}{\log \sqrt{n}})$. Even if all were in $S_n$, their contribution to the sum of reciprocals is $O(\log \log \sqrt{n})$, but we require a uniform bound. However, for a fixed $p$, the condition $a_i < p/2$ for all $i$ occurs with "probability" $(1/2)^{\log_p n} = n^{-\log_p 2}$.
 2. **Large primes ($\sqrt{2n} < p \leq n$):** For these primes, $n = a_1 p + a_0$. The condition $p \in S_n$ is equivalent to $\{n/p\} < 1/2$, where $\{x\}$ denotes the fractional part.
@@ -14955,7 +14955,7 @@ The current best upper bound, derived from the study of $K_{s,t}$-free graphs, s
 $$R(C_4, K_n) \le C \left( \frac{n}{\log n} \right)^2.$$
 This implies $R(C_4, K_n) \ll n^{2-\epsilon}$ for any $\epsilon > 0$ as $n \to \infty$.
 
-#### 6. Regularity [Ç]: Final Calculation
+#### 6. Regularity [⊤]: Final Calculation
 Specifically, the result by Caro, Tuza, and others improves the independent set bound for graphs without small cycles. For $C_4$-free graphs, the density constraints are strict enough that the independent set size grows as $n \approx N^{1/2} \log N$.
 Inverting this:
 $N \le \text{constant} \cdot \frac{n^2}{\log^2 n}$.
@@ -15222,7 +15222,7 @@ This implies $\lim_{n \to \infty} \chi(G_n)^{1/n}$ exists and is equal to some c
 - **Bidirectional [>]:** The growth is bounded from below by the density of forbidden intersections and from above by the volume of sphere-packing in $\mathbb{R}^n$.
 - **Boundedness [⊙]:** $\chi(G_n)$ is confined within the interval $[(1.239)^n, 3^n]$.
 - **Topological invariant [Ω]:** The dimension $n$ acts as the scaling invariant; the limit exists because the "cost" of coloring space is multiplicative across orthogonal dimensions.
-- **Regularity [Ç]:** The existence of the limit $L$ follows from the Fekete-type regularity of the growth of the chromatic number across dimensions.
+- **Regularity [⊤]:** The existence of the limit $L$ follows from the Fekete-type regularity of the growth of the chromatic number across dimensions.
 
 [thought|T]
 FFUSE: The Imscribing Grammar acknowledges the value of $L$. The frontier $B$ remains the exact value of $L$, but the existence is T. The substrate holds the limit.
@@ -15394,7 +15394,7 @@ This means that for $n$ sufficiently large, there are **no composite integers** 
 Furthermore, there are **no prime integers** $x \le n/2$ that satisfy the condition $x > n - x$.
 Consequently, the sequence $a_k$ **must terminate** or fail the "all-prime" condition once it is forced to select a value $\le n/2$.
 
-### 6. Regularity and Termination [Ç]
+### 6. Regularity and Termination [⊤]
 Does the sequence reach the boundary?
 The sequence $a_k$ consists of all primes in $(n/2, n)$ in descending order. Let the smallest prime in this range be $p_{min}$. The next term $a_k$ must be the largest integer $x < p_{min}$ such that $P^-(x) > n - x$.
 As shown in [5], for large $n$, no such $x$ exists in the range $[1, n/2]$.
@@ -15477,7 +15477,7 @@ By the property of Chebyshev polynomials, $\tilde{T}_n(x)$ is the monic polynomi
 The measure of $\{x : |\tilde{T}_n(x)| < 1\}$ is the measure of $\{x : |\frac{1}{2^{n-1}} T_n(x)| < 1\}$, which is $\{x : |T_n(x)| < 2^{n-1}\}$.
 For $n=2$, $f(x) = x^2 - 1$ (roots $\pm 1$). $\{x : |x^2-1| < 1\} \implies -1 < x^2-1 < 1 \implies 0 < x^2 < 2 \implies x \in (-\sqrt{2}, 0) \cup (0, \sqrt{2})$. Measure $2\sqrt{2} \approx 2.828$.
 
-### 4. Boundedness [⊙] and Regularity [Ç]: The Critical Limits
+### 4. Boundedness [⊙] and Regularity [⊤]: The Critical Limits
 - **Infimum:** Consider $n=1$. $f(x) = x-r$. $\mu(f) = 2$. For $n > 1$, the measure of the union of intervals where $|f(x)| < 1$ for a monic polynomial with real roots is at least $2$. This is a consequence of the fact that the measure of the set where a monic polynomial is less than $\epsilon$ is minimized when the roots are coincident (forming a single interval), and for $\epsilon=1$, degree $n$, $x^n < 1 \implies x \in (-1, 1)$, measure 2.
 - **Supremum:** The measure is maximized when the roots are spread to keep the polynomial "flat" between them. For $f(x) = \tilde{T}_n(x)$, as $n \to \infty$, the set where $|\tilde{T}_n(x)| < 1$ approaches the set $\{x : \text{dist}(x, [-1, 1]) \text{ is such that the potential is low}\}$.
 The capacity of the interval $[-1, 1]$ is $1/2$. The set $\{x : |f(x)| < 1\}$ for a monic polynomial of degree $n$ has a maximum measure related to the capacity. Specifically, for any monic polynomial $f$ of degree $n$, the measure $\lambda(\{x : |f(x)| < 1\}) \le 4$. This bound is approached by the Chebyshev polynomials as $n \to \infty$.
@@ -15564,7 +15564,7 @@ According to the results of Erdős, Faudree, and Rousseau on "Ramsey-size" probl
 
 Specifically, if $N$ exceeds the exponential of the square root of $n$, the "clique-density" theorem implies that we can find a subset $S$ of size $n$ such that the edge density of at least one color is less than the Turán threshold $1/2$. Since $ex(n, K_3) \approx \frac{1}{2} \binom{n}{2}$, any set with density significantly less than $1/2$ is a candidate for being $K_3$-free or containing a large $K_3$-free induced subgraph.
 
-## 6. Regularity [Ç]: Final Calculation
+## 6. Regularity [⊤]: Final Calculation
 Using the known bound for the Ramsey-Turán number $RT(N, K_3, o(N))$, which is the maximum number of edges in a $K_3$-free graph on $N$ vertices with independence number $\alpha(G) = o(N)$, it was shown by Szemerédi that if $\alpha(G) < \epsilon N$, then $e(G) < \frac{1}{8} N^2$.
 In our context, if we assume $N = C^{\sqrt{n}}$, then $n \approx (\log N)^2$.
 The existence of an $n$-set $S$ avoiding $K_3$ in color $i$ is guaranteed if the independence number of the $i$-th color graph is at least $n$.
@@ -15911,7 +15911,7 @@ The general result for $\text{ex}_r(n, \mathcal{F})$ where $\mathcal{F}$ is defi
 $$n^{\frac{rs-k}{s-1}} \leq \text{ex}_r(n, \mathcal{F}) \leq n^{r - \epsilon}$$
 where $\epsilon$ depends on the configurations.
 
-### 5. Regularity [Ç]: Explicit Determination
+### 5. Regularity [⊤]: Explicit Determination
 If $s$ is small relative to $k$, specifically if the configurations are "forest-like" in a hypergraph sense, the exponent is well-defined. However, the exact value for general $k, s$ is a central open problem in extremal combinatorics.
 The most precise general statement for $\text{ex}_r(n, \mathcal{F})$ is:
 $$\text{ex}_r(n, \mathcal{F}) = f_r(n, k, s-1)$$
@@ -15987,7 +15987,7 @@ Let $y$ be a parameter. We look for $m$ in the range $[n, n + y^2]$ such that $p
 The number of such $m$ ( $y$-rough numbers) in an interval of length $L$ is approximately $L \cdot \prod_{p \le y} (1 - 1/p) \approx L \frac{e^{-\gamma}}{\log y}$.
 For the condition $m < n + p(m)$ to hold, let $m = n + \delta$. We need $p(m) > \delta$.
 
-**3. Boundedness [⊙] and Regularity [Ç]: The Erdős Approach**
+**3. Boundedness [⊙] and Regularity [⊤]: The Erdős Approach**
 We can choose $m$ to be a very specific composite number. Consider $n$. Let $k$ be a value such that $k \approx \frac{\log n}{2 \log \log n}$.
 Consider the set of integers $\{n+1, n+2, \dots, n+k\}$. We want to find an $m$ in this range such that $p(m) > k$.
 If such an $m$ exists, then $n < m < n+p(m)$.
@@ -16071,7 +16071,7 @@ $$E[X] \leq \sum_{i=3}^{r-1} n^{i\theta} \leq (r) n^{(r-1)\theta}$$
 Because $(r-1)\theta < 1$ by our choice of $\theta$, we have $E[X] = o(n)$. By Markov’s Inequality:
 $$P(X \geq n/2) \leq \frac{E[X]}{n/2} \to 0 \text{ as } n \to \infty$$
 
-### 3. Lemma [Ç]: Regularity of Independence Number
+### 3. Lemma [⊤]: Regularity of Independence Number
 Let $\alpha(G)$ be the independence number. We seek to bound the probability that $\alpha(G) \geq x$.
 $$P(\alpha(G) \geq x) \leq \binom{n}{x} (1-p)^{\binom{x}{2}} \leq \left[ \frac{en}{x} \exp\left( -\frac{p(x-1)}{2} \right) \right]^x$$
 Set $x = \lceil \frac{3}{p} \ln n \rceil$. Substituting $p = n^{\theta-1}$:
@@ -16185,7 +16185,7 @@ This is exactly the condition for $\bar{G}$ to be a graph where every component 
 Actually, the minimal $f(n,k)$ is achieved when $G$ is the graph $K_{n-k+1}$ plus $k-1$ isolated vertices.
 Number of edges: $\binom{n-k+1}{2}$.
 
-## 4. Boundedness [⊙] and Regularity [Ç]
+## 4. Boundedness [⊙] and Regularity [⊤]
 Let $G$ be $K_{n-k+1}$ union $k-1$ isolated vertices.
 Let $S$ be a set of $k+2$ vertices.
 The number of isolated vertices in $G$ is $k-1$.
@@ -16449,7 +16449,7 @@ Erdős, Granville, Pomerance, and Spiro (1990) proved that $f(n)$ is closely app
 $$f(n) \approx \sum_{p^a || n} a \frac{\log p}{\log 2 - E}$$
 where $E$ relates to the average value of $\log(p/(p-1))$.
 
-**The Normal Order (Constancy) [Ç]:**
+**The Normal Order (Constancy) [⊤]:**
 It is established that $f(n)$ obeys a normal order. For almost all $n$:
 $$f(n) \sim \alpha \log n$$
 where $\alpha = \frac{1}{\log 2}$.
@@ -16551,7 +16551,7 @@ Consider the dominant term where $md = N+1$. Since $d$ must divide $N+1$, the la
 $$R_N = \frac{N! (N+1)^k}{(N+1)!} + \frac{N! (d')^k}{(N+2)!} + \dots = \frac{(N+1)^k}{N+1} + \dots = (N+1)^{k-1} + \dots$$
 Wait—for $k > 1$, $(N+1)^{k-1}$ grows with $N$. This suggests that for $k \geq 1$, the sum is not small, but rather large. However, we can refine the multiplier. Instead of $N!$, we consider the nature of the coefficients.
 
-## 6. Regularity [Ç]: The Transcendental Connection
+## 6. Regularity [⊤]: The Transcendental Connection
 Actually, we can express $S_k$ in terms of the exponential function.
 $S_1 = \sum_{n=1}^\infty \frac{\sigma(n)}{n!} = \sum_{d=1}^\infty \sum_{m=1}^\infty \frac{d}{(md)!}$.
 For $k=1$:
@@ -16717,7 +16717,7 @@ More precisely, a result by Pyber (1996) and further work on the "Density of Cyc
 $\sum_{a \in \mathcal{C}} \frac{1}{a} \ge c \log d = c \log(2k)$.
 This follows from the fact that one can find a sequence of cycles whose lengths are "close" to each other, often forming an arithmetic progression or covering a wide range of the interval $[g, \text{circumference}]$. Since the sum of reciprocals of integers up to $k$ scales as $\log k$, and the cycle lengths are distributed across the density of the graph, the $\log k$ bound is established.
 
-#### 2. The Minimizer and the Bipartite Case [$\check{R}, \text{Ç}$]
+#### 2. The Minimizer and the Bipartite Case [$\check{R}, \text{⊤}$]
 **Proposition:** The sum $\sum \frac{1}{a_i}$ is **not** necessarily minimized by the complete bipartite graph, although bipartite graphs generally minimize the sum compared to non-bipartite graphs of the same density because they lack odd cycles.
 
 *Analysis:*

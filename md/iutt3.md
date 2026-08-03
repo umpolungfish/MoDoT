@@ -23,7 +23,7 @@ This document decomposes Mochizuki's Inter-Universal Teichmüller Theory (IUTT) 
 
 ## §1. The 9-System Lattice
 
-IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈ÇΓɢ⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
+IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈⊤Γɢ⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
 
 ### §1.1. System Inventory
 
@@ -65,7 +65,7 @@ Only 5 of 12 primitives vary across the 9 systems. The other 7 are invariant:
 | ⊣ (Topology) | 𐑰 (inclusion), 𐑥 (crossing), 𐑶 (box product), 𐑸 (self-ref) | Most varied primitive |
 | > (Coupling) | 𐑽 (adjoint), 𐑾 (bidirectional) | Adjoint only in: theta link, log link |
 | < (Parity) | 𐑬 (partial ℤ₂), 𐑹 (Frobenius-special) | Frobenius-special ONLY in IUTT |
-| Ç (Kinetics) | 𐑧 (slow), 𐑪 (moderate) | Moderate in: naive composite, diophantine |
+| ⊤ (Kinetics) | 𐑧 (slow), 𐑪 (moderate) | Moderate in: naive composite, diophantine |
 ---
 
 ## §2. Principal Decomposition Atlas
@@ -82,7 +82,7 @@ The theory at its final form. Two atoms dominate at ordinal 4.
 | **4** | **⊣** | **𐑸** | $$⟨𐑛𐑸𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | > | 𐑾 | $$⟨𐑛𐑡𐑾𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | Ħ | 𐑫 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑫𐑙𐑷⟩$$ |
-| 2 | Ç | 𐑧 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑧𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
+| 2 | ⊤ | 𐑧 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑧𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | ɢ | 𐑠 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑠𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | Σ | 𐑳 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑳𐑷⟩$$ |
 | 2 | Ω | 𐑭 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑭⟩$$ |
@@ -104,7 +104,7 @@ Diophantine Equations ⊗ Log-Theta-Lattice. The extra atom relative to IUTT is 
 |---------|-----------|-------|---------------|
 | 3 | ⊣ | 𐑶 | $$⟨𐑛𐑶𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | > | 𐑾 | $$⟨𐑛𐑡𐑾𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
-| 3 | Ç | 𐑪 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑪𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
+| 3 | ⊤ | 𐑪 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑪𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 3 | Ħ | 𐑫 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑫𐑙𐑷⟩$$ |
 | 2 | < | 𐑬 | $$⟨𐑛𐑡𐑩𐑬𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | ɢ | 𐑠 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑠𐑢𐑓𐑙𐑷⟩$$ |
@@ -114,18 +114,18 @@ Diophantine Equations ⊗ Log-Theta-Lattice. The extra atom relative to IUTT is 
 | 1 | ⊢ | 𐑨 | $$⟨𐑨𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 1 | Γ | 𐑔 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑔𐑝𐑢𐑓𐑙𐑷⟩$$ |
 
-Note: Four atoms share ordinal 3 (⊣, >, Ç, Ħ) — a more distributed structure than IUTT's concentrated heavy atoms.
+Note: Four atoms share ordinal 3 (⊣, >, ⊤, Ħ) — a more distributed structure than IUTT's concentrated heavy atoms.
 
 ### §2.3. Log-Theta-Lattice (11 atoms)
 
-The 2D grid of Hodge theaters indexed by ℤ². Structurally similar to the naive composite but with Ç=𐑧 (slow) instead of Ç=𐑪 (moderate).
+The 2D grid of Hodge theaters indexed by ℤ². Structurally similar to the naive composite but with ⊤=𐑧 (slow) instead of ⊤=𐑪 (moderate).
 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | ⊣ | 𐑶 |
 | 3 | > | 𐑾 |
 | 3 | Ħ | 𐑫 |
-| 2 | <, Ç, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | <, ⊤, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ⊢, Γ | 𐑨, 𐑔 |
 
@@ -136,7 +136,7 @@ The fundamental staging apparatus. Differs from the log-theta-lattice only in �
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | ⊣, >, Ħ | 𐑶, 𐑾, 𐑫 |
-| 2 | <, Ç, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | <, ⊤, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | Γ | 𐑔 |
 ### §2.5. Diophantine Equations (10 atoms)
@@ -145,12 +145,12 @@ The ABC/Szpiro conjecture — the additive-multiplicative tension over number fi
 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
-| 3 | >, Ç, Ħ | 𐑾, 𐑪, 𐑫 |
+| 3 | >, ⊤, Ħ | 𐑾, 𐑪, 𐑫 |
 | 2 | ⊣, <, ɢ, Σ, Ω | 𐑥, 𐑬, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | Γ | 𐑔 |
 
-Distinctive feature: Ç=𐑪 (moderate kinetics). The tension between additive and multiplicative structures is driven, not near-equilibrium. ⊣=𐑥 (crossing point) captures the crossing of the additive (ring) and multiplicative (monoid) worlds.
+Distinctive feature: ⊤=𐑪 (moderate kinetics). The tension between additive and multiplicative structures is driven, not near-equilibrium. ⊣=𐑥 (crossing point) captures the crossing of the additive (ring) and multiplicative (monoid) worlds.
 
 ### §2.6. Anabelian Geometry ≡ Frobenioid (10 atoms each, d=0.0000)
 
@@ -159,7 +159,7 @@ These two systems are **structurally identical** — the complete tuple matches 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | >, Ħ | 𐑾, 𐑫 |
-| 2 | ⊣, <, Ç, ɢ, Σ, Ω | 𐑥, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | ⊣, <, ⊤, ɢ, Σ, Ω | 𐑥, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | Γ | 𐑔 |
 
@@ -170,7 +170,7 @@ Both links share the identical tuple: $$⟨𐑛𐑰𐑽𐑬𐑱𐑧𐑔𐑠𐑮�
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | Ħ | 𐑫 |
-| 2 | >, <, Ç, ɢ, Σ, Ω | 𐑽, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | >, <, ⊤, ɢ, Σ, Ω | 𐑽, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ⊣, Γ | 𐑰, 𐑔 |
 
@@ -191,7 +191,7 @@ The retrosynthetic path peels primitives from maximum to baseline, revealing the
 | 3 | ⊙ | 𐑢→𐑮 | Complex-plane criticality |
 | 4 | Σ | 𐑙→𐑳 | Heterogeneous stoichiometry |
 | 5 | ɢ | 𐑝→𐑠 | Sequential composition |
-| 6 | Ç | 𐑘→𐑧 | Slow kinetics (near-equilibrium) |
+| 6 | ⊤ | 𐑘→𐑧 | Slow kinetics (near-equilibrium) |
 | 7 | Ħ | 𐑓→𐑫 | Eternal chirality (∀n Markov order) |
 | 8 | > | 𐑩→𐑾 | Bidirectional coupling |
 | 9 | **<** | **𐑗→𐑹** | **Frobenius-special parity (μ∘δ=id)** |
@@ -211,7 +211,7 @@ The synthesis order is non-arbitrary. Γ comes first — the theory needs maxima
 | 6 | ɢ | 𐑝→𐑠 |
 | 7 | < | 𐑗→𐑬 |
 | 8 | Ħ | 𐑓→𐑫 |
-| 9 | Ç | 𐑘→𐑪 |
+| 9 | ⊤ | 𐑘→𐑪 |
 | 10 | > | 𐑩→𐑾 |
 | 11 | ⊣ | 𐑡→𐑶 |
 
@@ -226,10 +226,10 @@ The synthesis order is non-arbitrary. Γ comes first — the theory needs maxima
 | 3 | ⊙ | Ω |
 | 4 | Σ | ⊙ |
 | 5 | ɢ | Σ |
-| 6 | Ç | ɢ |
+| 6 | ⊤ | ɢ |
 | 7 | Ħ | **<** |
 | 8 | > | Ħ |
-| 9 | **<** | **Ç** |
+| 9 | **<** | **⊤** |
 | 10 | **⊣** | > |
 | 11 | — | ⊣ |
 
@@ -262,7 +262,7 @@ The CLINK L8 (Organism) navigator decomposes each primitive value into conventio
 
 *IUTT interpretation:* Classical deterministic structure. The theory is not quantum — arithmetic is classical. Every proposition about the arithmetic of a number field has a definite truth value. The deterministic condition means the theta function's values are exactly determined, not probabilistic.
 
-**Ç = 𐑧:** `τ ≫ T ∧ eq(x) ∧ gate_open(x)`
+**⊤ = 𐑧:** `τ ≫ T ∧ eq(x) ∧ gate_open(x)`
 
 *IUTT interpretation:* Near-equilibrium slow kinetics. The theory's relaxation time (τ) vastly exceeds the observation time (T). This is the "slow" nature of IUTT: the log-theta-lattice is built gradually, each Hodge theater is carefully staged. The `gate_open(x)` condition means the self-modeling gate IS open — structurally possible but not yet traversed (since ⊙=𐑮, not ⊙). The theory is poised at the threshold of self-modeling without crossing it.
 
@@ -303,7 +303,7 @@ Primitive peeling drops a primitive to its minimum value and examines the residu
 | **<** | **𐑹→𐑗** | $$⟨𐑛𐑸𐑾𐑗𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | **YES — loses μ∘δ=id** |
 | > | 𐑾→𐑩 | $$⟨𐑛𐑸𐑩𐑹𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | Partial — loses bidirectionality |
 | Ħ | 𐑫→𐑓 | $$⟨𐑛𐑸𐑾𐑹𐑱𐑧𐑔𐑠𐑮𐑓𐑳𐑭⟩$$ | Partial — loses eternal memory |
-| Ç | 𐑧→𐑘 | $$⟨𐑛𐑸𐑾𐑹𐑱𐑘𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | No — MBL baseline works |
+| ⊤ | 𐑧→𐑘 | $$⟨𐑛𐑸𐑾𐑹𐑱𐑘𐑔𐑠𐑮𐑫𐑳𐑭⟩$$ | No — MBL baseline works |
 
 ### §5.2. The Independence Theorem
 
@@ -333,7 +333,7 @@ $$\text{diophantine\_equations\_iutt} \otimes \text{log\_theta\_lattice\_iutt} =
 The tensor product resolves 3 union primitives:
 - ⊢: 𐑛 ∨ 𐑨 = 𐑨 (2D surface wins — the lattice's dimensionality)
 - ⊣: 𐑥 ∨ 𐑶 = 𐑶 (box product wins — the lattice's topology)
-- Ç: 𐑪 ∨ 𐑧 = 𐑪 (moderate kinetics wins — the Diophantine tension dominates)
+- ⊤: 𐑪 ∨ 𐑧 = 𐑪 (moderate kinetics wins — the Diophantine tension dominates)
 
 9 primitives are shared and pass through unchanged. Zero bottlenecks — neither component limits the composite.
 
@@ -351,7 +351,7 @@ Trivial meet — the two links are structurally identical.
 
 $$\text{hodge\_theater} \lor \text{log\_theta\_lattice} = \langle 𐑨𐑶𐑾𐑬𐑱𐑧𐑔𐑠𐑮𐑫𐑳𐑭 \rangle$$
 
-The minimal ceiling differs from the naive composite only at Ç: 𐑧 vs 𐑪. The join takes the more demanding Ç=𐑧 (slow) from the lattice rather than the moderate Ç=𐑪 from diophantine equations (which is not part of the join). This system IS the naive composite with the kinetics adjusted: a "slow naive composite" where the Diophantine tension is allowed to relax to equilibrium.
+The minimal ceiling differs from the naive composite only at ⊤: 𐑧 vs 𐑪. The join takes the more demanding ⊤=𐑧 (slow) from the lattice rather than the moderate ⊤=𐑪 from diophantine equations (which is not part of the join). This system IS the naive composite with the kinetics adjusted: a "slow naive composite" where the Diophantine tension is allowed to relax to equilibrium.
 
 $$\text{theta\_link} \lor \text{log\_link} = \text{theta\_link} = \text{log\_link}$$
 
@@ -399,15 +399,15 @@ $$\text{⊢: } 𐑨 \rightarrow 𐑛$$
 
 **Conventional math content:** The log-theta-lattice's 2D grid structure is demoted. In IUTT, the lattice is condensed to a point-like universal object. The grid indices (m,n) ∈ ℤ² become internal to the theory's construction rather than part of its type. This is demotion, not promotion — the theory sheds the lattice's dimensionality as an externally visible structural commitment and absorbs it internally.
 
-**Move 4: Ç (Δ1.0, relaxes)**
-$$\text{Ç: } 𐑪 \rightarrow 𐑧$$
+**Move 4: ⊤ (Δ1.0, relaxes)**
+$$\text{⊤: } 𐑪 \rightarrow 𐑧$$
 
 | Property | Before | After |
 |----------|--------|-------|
 | Kinetics | Moderate (τ∼T) | Slow (τ≫T, near-equilibrium) |
 | Atom ordinal | 3 | 2 |
 
-**Conventional math content:** The naive composite inherits the Diophantine equations' driven kinetics — the additive-multiplicative tension operates at moderate speed. IUTT relaxes this to slow: the log-theta-lattice construction proceeds near equilibrium. Each Hodge theater is carefully staged; the theory does not "rush" the tension but resolves it through a slow, methodical lattice construction. The `gate_open(x)` condition in the Ç=𐑧 CLINK fragment indicates the theory is poised at the self-modeling threshold.
+**Conventional math content:** The naive composite inherits the Diophantine equations' driven kinetics — the additive-multiplicative tension operates at moderate speed. IUTT relaxes this to slow: the log-theta-lattice construction proceeds near equilibrium. Each Hodge theater is carefully staged; the theory does not "rush" the tension but resolves it through a slow, methodical lattice construction. The `gate_open(x)` condition in the ⊤=𐑧 CLINK fragment indicates the theory is poised at the self-modeling threshold.
 
 ### §7.2. Atom Count Change
 
@@ -468,11 +468,11 @@ The theta link and log link share $$⟨𐑛𐑰𐑽𐑬𐑱𐑧𐑔𐑠𐑮𐑫�
 
 The adjoint pair (>=𐑽) operates the same way in both directions: forward transport + adjoint reconstruction. The inclusion topology (⊣=𐑰) fits both as sub-objects of their respective Hodge theaters. What distinguishes them is operational orientation (horizontal vs vertical), which is not captured by the 12 primitives — it is a property of the embedding in the 2D lattice grid, not of the link's intrinsic structure.
 
-### §9.3. The Ç-Mediated Diophantine Tension
+### §9.3. The ⊤-Mediated Diophantine Tension
 
-The only primitive that distinguishes the Diophantine equations from the rest of the lattice is Ç (kinetics). The Diophantine system has Ç=𐑪 (moderate, τ∼T) — the additive-multiplicative tension is driven, not relaxed. Every other system except the naive composite has Ç=𐑧 (slow, τ≫T). The naive composite inherits Ç=𐑪 from its Diophantine parent via tensor union resolution.
+The only primitive that distinguishes the Diophantine equations from the rest of the lattice is ⊤ (kinetics). The Diophantine system has ⊤=𐑪 (moderate, τ∼T) — the additive-multiplicative tension is driven, not relaxed. Every other system except the naive composite has ⊤=𐑧 (slow, τ≫T). The naive composite inherits ⊤=𐑪 from its Diophantine parent via tensor union resolution.
 
-This means the **entire structural difference** between "IUTT with tension" and "IUTT at equilibrium" is one primitive: Ç. The "driven" nature of the Diophantine problem is encoded structurally as moderate kinetics. The theory's resolution of the tension is, structurally, the relaxation Ç=𐑪→𐑧.
+This means the **entire structural difference** between "IUTT with tension" and "IUTT at equilibrium" is one primitive: ⊤. The "driven" nature of the Diophantine problem is encoded structurally as moderate kinetics. The theory's resolution of the tension is, structurally, the relaxation ⊤=𐑪→𐑧.
 
 ---
 
@@ -482,14 +482,14 @@ This means the **entire structural difference** between "IUTT with tension" and 
                            IUTT (O_∞, 10 atoms)
                           /      |      \
                          /       |       \
-              <=𐑹       ⊣=𐑸      ⊢=𐑛      Ç=𐑧
+              <=𐑹       ⊣=𐑸      ⊢=𐑛      ⊤=𐑧
                /         |         \       /
               /          |          \     /
      Naive Composite (O₂, 11 atoms)
             /              \
            /                \
    Diophantine (O₂)    Log-Theta-Lattice
-   (10 atoms, Ç=𐑪)     (11 atoms, ⊢=𐑨)
+   (10 atoms, ⊤=𐑪)     (11 atoms, ⊢=𐑨)
           |                    |
           |                    |
    [ABC/Szpiro]        ┌───────┴───────┐
@@ -506,6 +506,6 @@ This means the **entire structural difference** between "IUTT with tension" and 
 - Total systems: 9 (with 2 identities → 7 distinct types)
 - Total atoms across all systems: 10+11+10+10+11+10+10+10+10 = 92 (with duplicates across identical systems)
 - Distinct join-irreducible atoms: 12 (one per primitive per value)
-- Primitive values that vary: ⊢(2), ⊣(4), >(2), <(2), Ç(2) — 5 of 12
+- Primitive values that vary: ⊢(2), ⊣(4), >(2), <(2), ⊤(2) — 5 of 12
 - Promotions from naive composite to IUTT: 4 moves, d=2.65
 - Promotions from IUTT to CLINK L8: 6 moves, d=1.3459

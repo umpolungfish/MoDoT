@@ -123,7 +123,7 @@ const GLYPHS: [&[(&str, u8)]; 12] = [
     /* > Recognition    */ &[("𐑩", 0), ("𐑑", 1), ("𐑽", 2), ("𐑾", 3)],
     /* < Parity         */ &[("𐑗", 0), ("𐑿", 1), ("𐑬", 2), ("𐑯", 3), ("𐑹", 4)],
     /* ⋈ Fidelity       */ &[("𐑱", 0), ("𐑞", 1), ("𐑐", 2)],
-    /* Ç Kinetics       */ &[("𐑘", 0), ("𐑤", 1), ("𐑧", 2), ("𐑪", 3), ("𐑺", 4)],
+    /* ⊤ Kinetics       */ &[("𐑘", 0), ("𐑤", 1), ("𐑧", 2), ("𐑪", 3), ("𐑺", 4)],
     /* Γ Granularity    */ &[("𐑚", 0), ("𐑔", 1), ("𐑲", 2)],
     /* ɢ Composition    */ &[("𐑝", 0), ("𐑜", 1), ("𐑠", 2), ("𐑵", 3)],
     /* ⊙ Criticality    */ &[("𐑢", 0), ("⊙", 1), ("𐑮", 2), ("𐑻", 3), ("𐑣", 4)],
@@ -265,7 +265,7 @@ fn tier_score(ord: &[Option<u8>; 12]) -> u8 {
     if eq(9, 3) { s += 1; } // Ħ = 𐑫 (eternal chirality)
     if matches!(ord[11], Some(2) | Some(3)) { s += 1; } // Ω integer/non-Abelian winding
     if eq(0, 3) { s += 1; } // ⊢ = 𐑦 (holographic)
-    if eq(5, 2) { s += 1; } // Ç = 𐑧 (slow/coherent kinetics)
+    if eq(5, 2) { s += 1; } // ⊤ = 𐑧 (slow/coherent kinetics)
     if eq(1, 4) { s += 1; } // ⊣ = 𐑸 (self-referential topology)
     if eq(2, 3) { s += 1; } // > = 𐑾 (bidirectional recognition)
     s
@@ -551,7 +551,7 @@ const CTORS: [&[&str]; 12] = [
     /* > */ &["ado", "tot", "ear", "ian"],
     /* < */ &["church", "yew", "out", "nun", "or'"],
     /* ⋈ */ &["age", "they", "peep"],
-    /* Ç */ &["yea", "loll", "egg", "on", "air"],
+    /* ⊤ */ &["yea", "loll", "egg", "on", "air"],
     /* Γ */ &["bib", "thigh", "ice"],
     /* ɢ */ &["vow", "gag", "measure", "ooze"],
     /* ⊙ */ &["woe", "monad", "roar", "err", "haha"],
@@ -4078,7 +4078,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         _ => None,
     });
     let Some(ax) = idx else {
-        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ⋈ Ç Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
+        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ⋈ ⊤ Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
         return 2;
     };
 
@@ -4113,7 +4113,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
             notes.push("lowering Ħ below 𐑖 breaks Ω≥𐑭 — the protection would fall with it".into());
         }
         if ax == 9 && *o == 3 && probe[5] != Some(3) {
-            notes.push("tendency only (not an axiom): Ħ=𐑫 usually co-occurs with Ç=𐑪".into());
+            notes.push("tendency only (not an axiom): Ħ=𐑫 usually co-occurs with ⊤=𐑪".into());
         }
         let dir = if step > 0 { "↑" } else { "↓" };
         println!("    {g}  {dir}{}   {}", step.abs(), fmt_tuple(&probe));

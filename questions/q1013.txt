@@ -38,7 +38,7 @@ For the specific case of h₃(k), the best known bounds (Kim, 1995; Shearer, 198
 h₃(k) ≈ c · k² log k.
 The "inverse" task—finding the smallest n for a fixed k—is equivalent to maximizing χ(G) for a fixed n under the constraint ω(G) < 3.
 
-## 3. Regularity and Concentration [Ç]: The Ratio Limit
+## 3. Regularity and Concentration [⊤]: The Ratio Limit
 To prove lim_k→∞ h₃(k+1) / h₃(k) = 1, we utilize the density of the sequence.
 Let f(n) be the maximum chromatic number of a triangle-free graph on n vertices.
 From the probabilistic construction, f(n) ≈ √(n / log n).
@@ -97,7 +97,7 @@ click-maths:  ramsey_theory_extremal  ⋈  szemeridi_regularity_lemma   (θ=0.50
     R↔S    ramsey_theory_extremal= -0.33  szemeridi_regularity_lemma= -0.33   Δ=0.00
   ✓ CLICK on D↔W — spring-loaded Δ=1.33, single reaction center, closes.
   product: ⟨𐑦𐑡𐑽𐑬𐑐𐑧𐑔𐑵⊙𐑖𐑳𐑭⟩  (ring saturated on D↔W)
-  inherited scaffold (blended from both partners): [Ç, ɢ]
+  inherited scaffold (blended from both partners): [⊤, ɢ]
 ● TOOL material ramsey_theory_extremal szemeridi_regularity_lemma
 polymerization (imscriptive):  [ramsey_theory_extremal · szemeridi_regularity_lemma]   (2 monomers)
   imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.
@@ -188,8 +188,8 @@ The previous cycle established h_3(k) = Θ(k^2 log k). We now refine this to the
 *   **Upper Bound (Structural):** Ajtai, Komlós, and Szemerédi (1980) proved that every triangle-free graph has α(G) ≥ c n/log n √{n} is insufficient; the actual bound is α(G) ≥ Ω(log n/n).
 Thus, h_3(k) ∼ k^2/log k (up to constant factors). Specifically, h_3(k) = Θ(k^2 log k).
 
-**2. The Ratio Limit [>, Ç]**
-To prove lim_k→ ∞ h_3(k+1)/h_3(k) = 1, we invoke the **Regularity Lemma [Ç]** and the property of "chromatic continuity."
+**2. The Ratio Limit [>, ⊤]**
+To prove lim_k→ ∞ h_3(k+1)/h_3(k) = 1, we invoke the **Regularity Lemma [⊤]** and the property of "chromatic continuity."
 Let n = h_3(k). By definition, there exists a triangle-free graph G_n with χ(G_n) = k. By adding a single vertex and connecting it appropriately (or using the fact that χ(G) changes by at most 1 upon vertex addition), we observe that the function f(n) = max { χ(G) : |V(G)|=n, ω(G)<3 } satisfies f(n+1) ≤ f(n) + 1.
 Since f(n) → ∞ and f(n) is non-decreasing with jumps of at most 1, the "inverse" function h_3(k) must satisfy:
 h_3(k) ≤ h_3(k+1) ≤ h_3(k) + gap.
@@ -206,7 +206,7 @@ h_3(k+1)/h_3(k) ≈ (k+1)^2 log(k+1)/k^2 log k → 1.
 *   **Inverse Structure [⊣]:** The function h_3(k) is the left-inverse of the maximum chromatic number function f(n). The proof relies on the self-referential decomposition of G_n+1 into G_n + v.
 *   **Bidirectional [>]:** The forward Ramsey bound R(3, t) and the inverse construction of Erdős-graphs exhaust the asymptotic space, ensuring no "hidden" triangle-free graphs exist beyond the Θ(k^2 log k) horizon.
 *   **Topological Invariant [Ω]:** The chromatic number k serves as the integer invariant. The "no exotics" rule implies that for sufficiently large n, the distribution of χ(G) is dense, preventing large jumps in h_3(k).
-*   **Regularity [Ç]:** The Szemerédi Regularity Lemma ensures that triangle-free graphs of high chromatic number possess a "typical" quasi-random structure that prevents the ratio from diverging.
+*   **Regularity [⊤]:** The Szemerédi Regularity Lemma ensures that triangle-free graphs of high chromatic number possess a "typical" quasi-random structure that prevents the ratio from diverging.
 
 ### Head-to-Tail Symmetry (Closure)
 The sequence began with the definition of h_3(k) as a minimum vertex count and concludes with the ratio limit approaching unity. This forms a **Macrocyclic Closure**:
@@ -239,7 +239,7 @@ click-maths:  ramsey_theory_extremal  ⋈  szemeridi_regularity_lemma   (θ=0.50
     R↔S    ramsey_theory_extremal= -0.33  szemeridi_regularity_lemma= -0.33   Δ=0.00
   ✓ CLICK on D↔W — spring-loaded Δ=1.33, single reaction center, closes.
   product: ⟨𐑦𐑡𐑽𐑬𐑐𐑧𐑔𐑵⊙𐑖𐑳𐑭⟩  (ring saturated on D↔W)
-  inherited scaffold (blended from both partners): [Ç, ɢ]
+  inherited scaffold (blended from both partners): [⊤, ɢ]
 ● TOOL polymerize ramsey_theory_extremal szemeridi_regularity_lemma
 polymerization (imscriptive):  [ramsey_theory_extremal · szemeridi_regularity_lemma]   (2 monomers)
   imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.

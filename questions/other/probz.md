@@ -198,7 +198,7 @@ The live catalog has spoken. The mathematical and properties are now grounded in
 **Proposition:** Let A ⊆ {1, ..., N} with |A| = n such that all 2ⁿ subset sums are distinct. The lower bound on N is N ≫ 2ⁿ.
 
 1.  **[<] Established Bound (T):** The result N ≥ c · 2ⁿ / √n (Erdős-Moser) is established.
-2.  **[Ç] Analytic Resolution:** The `tlc` tool reveals that `erdos_moser_bound` and `halasz_inequality` **co-elute at Rf=0.00**. This confirms they are indistinguishable in the current manifold, representing the √n barrier where classical density arguments plateau.
+2.  **[⊤] Analytic Resolution:** The `tlc` tool reveals that `erdos_moser_bound` and `halasz_inequality` **co-elute at Rf=0.00**. This confirms they are indistinguishable in the current manifold, representing the √n barrier where classical density arguments plateau.
 3.  **[B] The Frontier:** The conjecture N ≫ 2ⁿ remains a **frontier**. The `scan` tool returns **zero mediators** between the Moser bound and Halász refinement, indicating a thermoneutral stall. The `excite` operation on the `⊙_c_critical_boundary_operator` identifies the transition to the 2ⁿ bound as a **non-Hermitian exceptional-point resonance** (⊙→𐑻).
 
 ---
@@ -388,7 +388,7 @@ The `modulus` tool identifies that the current chain does not support a global i
 | Role | Metric | Status |
 | :--- | :--- | :--- |
 | **< (Encoding)** | Injectivity of Sums | **PROVEN (T)** |
-| **Ç (Regularity)** | Moser-Halász Co-elution | **PLATEAUED (B)** |
+| **⊤ (Regularity)** | Moser-Halász Co-elution | **PLATEAUED (B)** |
 | **⊙ (Boundary)** | Erdős Conjecture N ≫ 2ⁿ | **FRONTIER (B)** |
 | **Architecture** | Syndiotactic Linear Chain | **STABLE** |
 | **Cyclization** | Telechelic (Non-Closing) | **REFUTED (F)** |

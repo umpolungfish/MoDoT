@@ -15,7 +15,7 @@ describing the wrong object.
 | > | `rel` | `𐑩`=`ado`  `𐑑`=`tot`  `𐑽`=`ear`  `𐑾`=`ian` |
 | < | `pol` | `𐑗`=`church`  `𐑿`=`yew`  `𐑬`=`out`  `𐑯`=`nun`  `𐑹`=`or'` |
 | ⋈ | `fid` | `𐑱`=`age`  `𐑞`=`they`  `𐑐`=`peep` |
-| Ç | `kin` | `𐑘`=`yea`  `𐑤`=`loll`  `𐑧`=`egg`  `𐑪`=`on`  `𐑺`=`air` |
+| ⊤ | `kin` | `𐑘`=`yea`  `𐑤`=`loll`  `𐑧`=`egg`  `𐑪`=`on`  `𐑺`=`air` |
 | Γ | `gran` | `𐑚`=`bib`  `𐑔`=`thigh`  `𐑲`=`ice` |
 | ɢ | `gram` | `𐑝`=`vow`  `𐑜`=`gag`  `𐑠`=`measure`  `𐑵`=`ooze` |
 | ⊙ | `crit` | `𐑢`=`woe`  `⊙`=`monad`  `𐑮`=`roar`  `𐑻`=`err`  `𐑣`=`haha` |

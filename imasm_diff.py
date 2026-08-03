@@ -127,7 +127,7 @@ def diff_all_pairs() -> str:
         ('>', 'ear',  'ian',    'coupling: trefoil→frobenioid'),
         ('<', 'yew',  'out',    'parity: trefoil→frobenioid'),
         ('⋈', 'peep', 'age',    'fidelity: trefoil→frobenioid'),
-        ('Ç', 'egg',  'egg',    'kinetics (shared)'),
+        ('⊤', 'egg',  'egg',    'kinetics (shared)'),
         ('Γ', 'bib',  'bib',    'cardinality (shared)'),
         ('ɢ', 'measure','measure','composition (shared)'),
         ('⊙', 'monad','roar',   'criticality: trefoil→frobenioid'),

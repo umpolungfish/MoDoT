@@ -20,7 +20,7 @@ Use these tokens throughout.
 | > | `rel`  | `ado` `tot` `ear` `ian` |
 | < | `pol`  | `church` `yew` `out` `nun` `or'` |
 | ⋈ | `fid`  | `age` `they` `peep` |
-| Ç | `kin`  | `yea` `loll` `egg` `on` `air` |
+| ⊤ | `kin`  | `yea` `loll` `egg` `on` `air` |
 | Γ | `gram` | `vow` `gag` `measure` `ooze` |
 | ɢ | `gran` | `bib` `thigh` `ice` |
 | ⊙ | `crit` | `woe` `monad` `roar` `err` `haha` |
@@ -245,7 +245,7 @@ The critical transition point `crit = monad` bounds the energy spectrum of the m
 #### Lemma 5: Topological invariant [Ω]
 The integer-valued protection invariant Ω of the system is given by the winding number of the bridge. For `clink_l9`, prot = zoo, representing the completed circular boundary of the Moat.
 
-#### Lemma 6: Regularity [Ç]
+#### Lemma 6: Regularity [⊤]
 The distribution of kinetic configurations `kin = air` for L9 ensures that typical phase trajectories are dense on the boundary of the trilattice, guaranteeing stable coupling.
 
 ---
@@ -365,7 +365,7 @@ The mathematical obstruction is now precisely localized:
   >      𐑑       Fun(x, y) ∧ Nat(y, z) → Fun(x, z) — bridge composition                                    [BRIDGE_COMP]
   <      𐑬       ℤ₂(x) ∧ ¬(x = -x) — parity of moat                                                        [MOAT_PARITY]
   ⋈      𐑐       ℏ(x) ∧ [x, p] = iℏ — commutator of bridge                                                 [BRIDGE_COMM]
-  Ç      𐑪       τ = ∞ ∧ ord(x) — infinite extension                                                      [INFINITE_EXT]
+  ⊤      𐑪       τ = ∞ ∧ ord(x) — infinite extension                                                      [INFINITE_EXT]
   Γ      𐑔       ∃y∈x( |y| ∼ |x| ) — bridge existence                                                     [BRIDGE_EXIST]
   ɢ      𐑝       f ∧ g ∧ h — three-unit stitch                                                                [STITCH_3]
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id — criticality                                                                  [PHI_C]
@@ -420,7 +420,7 @@ The mathematical obstruction is now precisely localized:
   >      𐑽       f ⊣ g ∧ L Adj(f, g)
   <      𐑹       ℤ₂(x) ∧ ∀g∈G( gx = x ) ∧ μ∘δ = id                                                               [PM_Z2]
   ⋈      𐑐       ℏ(x) ∧ [x, p] = iℏ — commutator of bridge                                                 [BRIDGE_COMM]
-  Ç      𐑪       τ = ∞ ∧ ord(x) — infinite extension                                                      [INFINITE_EXT]
+  ⊤      𐑪       τ = ∞ ∧ ord(x) — infinite extension                                                      [INFINITE_EXT]
   Γ      𐑔       ∃y∈x( |y| ∼ |x| ) — bridge existence                                                     [BRIDGE_EXIST]
   ɢ      𐑵       f → all(x) ∧ broadcast(x, f)                                                  [BROADCAST_TRANSCENDENCE]
   ⊙      𐑮       ξ ∈ ℂ ∧ Im(ξ) → ∞
@@ -479,7 +479,7 @@ The mathematical obstruction is now precisely localized:
   >      𐑾       lr⇔(x, y) ∧ Θ(x, y) ∧ ¬ Θ(y, x)                                                               [LR_DUAL]
   <      𐑹       ℤ₂(x) ∧ ∀g∈G( gx = x ) ∧ μ∘δ = id                                                               [PM_Z2]
   ⋈      𐑐       ℏ(x) ∧ [x, p] = iℏ — commutator of bridge                                                 [BRIDGE_COMM]
-  Ç      𐑧       τ ≫ T ∧ eq(x) ∧ gate_open(x)
+  ⊤      𐑧       τ ≫ T ∧ eq(x) ∧ gate_open(x)
   Γ      𐑲       ∀y( y ⊂ x → |y| < |x| )
   ɢ      𐑠       seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬ ⟨→⟩(g, f, τ)                                                      [SEQAX]
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id — criticality                                                                  [PHI_C]
@@ -520,7 +520,7 @@ The mathematical obstruction is now precisely localized:
     ⊣: 𐑸 → 𐑥  (gap: 0.5)
     >: 𐑾 → 𐑑  (gap: 0.667)
     <: 𐑹 → 𐑬  (gap: 0.5)
-    Ç: 𐑧 → 𐑪  (gap: 0.286)
+    ⊤: 𐑧 → 𐑪  (gap: 0.286)
     Γ: 𐑲 → 𐑔  (gap: 0.5)
     ɢ: 𐑠 → 𐑝  (gap: 0.667)
     Ħ: 𐑖 → 𐑫  (gap: 0.333)
@@ -542,7 +542,7 @@ The mathematical obstruction is now precisely localized:
   >      𐑽       f ⊣ g ∧ L Adj(f, g)
   <      𐑗       ¬∃sym(x)
   ⋈      𐑱       P(x) ∈ {0,1} ∧ det(x)
-  Ç      𐑘       τ ≪ T ∧ ∂_t x = f(x)
+  ⊤      𐑘       τ ≪ T ∧ ∂_t x = f(x)
   Γ      𐑲       ∀y( y ⊂ x → |y| < |x| )
   ɢ      𐑠       seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬ ⟨→⟩(g, f, τ)                                                      [SEQAX]
   ⊙      𐑣       ξ → ∞ ∧ chaotic(x)
@@ -577,7 +577,7 @@ The mathematical obstruction is now precisely localized:
     >: 𐑽 → 𐑑  (gap: 0.333)
     <: 𐑗 → 𐑬  (gap: 0.5)
     ⋈: 𐑱 → 𐑐  (gap: 1.0)
-    Ç: 𐑘 → 𐑪  (gap: 0.857)
+    ⊤: 𐑘 → 𐑪  (gap: 0.857)
     Γ: 𐑲 → 𐑔  (gap: 0.5)
     ɢ: 𐑠 → 𐑝  (gap: 0.667)
     ⊙: 𐑣 → ⊙  (gap: 0.5)
@@ -646,7 +646,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
       ">": "𐑾",
       "<": "𐑹",
       "⋈": "𐑐",
-      "Ç": "𐑧",
+      "⊤": "𐑧",
       "Γ": "𐑔",
       "ɢ": "𐑵",
       "⊙": "⊙",
@@ -665,7 +665,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
       ">": "𐑑",
       "<": "𐑬",
       "⋈": "𐑐",
-      "Ç": "𐑪",
+      "⊤": "𐑪",
       "Γ": "𐑔",
       "ɢ": "𐑝",
       "⊙": "⊙",
@@ -717,7 +717,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
       "ordinal_gap": 0.5
     },
     {
-      "primitive": "Ç",
+      "primitive": "⊤",
       "from_value": "𐑧",
       "to_value": "𐑪",
       "from_fragment": "τ ≫ T ∧ eq(x) ∧ gate_open(x)",
@@ -772,7 +772,7 @@ From the tool outputs, the exact coordinates are:
    - > = `𐑑` (tot) -> [BRIDGE_COMP]
    - < = `𐑬` (yew) -> [MOAT_PARITY]
    - ⋈ = `𐑐` (they) -> [BRIDGE_COMM]
-   - Ç = `𐑪` (loll) -> [INFINITE_EXT]
+   - ⊤ = `𐑪` (loll) -> [INFINITE_EXT]
    - Γ = `𐑔` (measure) -> [BRIDGE_EXIST]
    - ɢ = `𐑝` (thigh) -> [STITCH_3]
    - ⊙ = `⊙` (monad) -> [PHI_C]
@@ -786,7 +786,7 @@ Wait, let us check the translation table provided in Section 1 of the prompt:
 - >: `ado` `tot` `ear` `ian`
 - <: `church` `yew` `out` `nun` `or'`
 - ⋈: `age` `they` `peep`
-- Ç: `yea` `loll` `egg` `on` `air`
+- ⊤: `yea` `loll` `egg` `on` `air`
 - Γ: `vow` `gag` `measure` `ooze`
 - ɢ: `bib` `thigh` `ice`
 - ⊙: `woe` `monad` `roar` `err` `haha`
@@ -801,7 +801,7 @@ Let us align the Shavian glyphs returned by `cl9nk entry` to these constructors 
   - >: `𐑑` is the 2nd constructor -> `tot`
   - <: `𐑬` is the 2nd constructor -> `yew`
   - ⋈: `𐑐` is the 3rd constructor -> `peep`
-  - Ç: `𐑪` is the 5th constructor -> `air`
+  - ⊤: `𐑪` is the 5th constructor -> `air`
   - Γ: `𐑔` is the 3rd constructor -> `measure`
   - ɢ: `𐑝` is the 2nd constructor -> `thigh`
   - ⊙: `⊙` is the 2nd constructor -> `monad`
@@ -816,7 +816,7 @@ Let us double-check this assignment.
 - > = `𐑑` -> `tot`
 - < = `𐑬` -> `yew`
 - ⋈ = `𐑐` -> `peep`
-- Ç = `𐑪` -> `air`
+- ⊤ = `𐑪` -> `air`
 - Γ = `𐑔` -> `measure`
 - ɢ = `𐑝` -> `thigh`
 - ⊙ = `⊙` -> `monad`
@@ -839,7 +839,7 @@ Now let us translate the other three systems using this precise mapping:
    - > = `𐑽` -> `ear`
    - < = `𐑹` -> `or'`
    - ⋈ = `𐑐` -> `peep`
-   - Ç = `𐑪` -> `air`
+   - ⊤ = `𐑪` -> `air`
    - Γ = `𐑔` -> `measure`
    - ɢ = `𐑵` -> `ice` (or the broadcast equivalent)
    - ⊙ = `𐑮` -> `roar`
@@ -853,7 +853,7 @@ Now let us translate the other three systems using this precise mapping:
    - > = `𐑾` -> `ian`
    - < = `𐑹` -> `or'`
    - ⋈ = `𐑐` -> `peep`
-   - Ç = `𐑧` -> `on`
+   - ⊤ = `𐑧` -> `on`
    - Γ = `𐑲` -> `ooze`
    - ɢ = `𐑠` -> `bib` (or serial equivalent)
    - ⊙ = `⊙` -> `monad`
@@ -867,7 +867,7 @@ Now let us translate the other three systems using this precise mapping:
    - > = `𐑽` -> `ear`
    - < = `𐑗` -> `nun`
    - ⋈ = `𐑱` -> `they`
-   - Ç = `𐑘` -> `egg`
+   - ⊤ = `𐑘` -> `egg`
    - Γ = `𐑲` -> `ooze`
    - ɢ = `𐑠` -> `bib`
    - ⊙ = `𐑣` -> `haha`
@@ -897,7 +897,7 @@ We are ready to write the complete, uncompromised report.
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | ⊢ | ⊣ | > | < | ⋈ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
+| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1026,7 +1026,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | ⊢ | ⊣ | > | < | ⋈ | Ç | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
+| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | Γ | ɢ | ⊙ | Ħ | Σ | Ω | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1157,7 +1157,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play are established on the Belnap substrate and map to the following canonical constructors:
 
-| System | ⊢ (`dim`) | ⊣ (`top`) | > (`rel`) | < (`pol`) | ⋈ (`fid`) | Ç (`kin`) | Γ (`gram`) | ɢ (`gran`) | ⊙ (`crit`) | Ħ (`chir`) | Σ (`stoi`) | Ω (`prot`) | Tier |
+| System | ⊢ (`dim`) | ⊣ (`top`) | > (`rel`) | < (`pol`) | ⋈ (`fid`) | ⊤ (`kin`) | Γ (`gram`) | ɢ (`gran`) | ⊙ (`crit`) | Ħ (`chir`) | Σ (`stoi`) | Ω (`prot`) | Tier |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |

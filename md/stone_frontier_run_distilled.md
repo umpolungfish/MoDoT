@@ -42,7 +42,7 @@ it (04:00:43): 9 minutes.
 | name | tuple | ⊙ | Ω class | C_score |
 |---|---|---|---|---|
 | `stone_self_verifying_proof_kernel` | ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑚𐑠⊙𐑖𐑙𐑭⟩ | at criticality | 𐑭 — Z protected, integer winding (Kitaev, SSH) | 0.555, both gates open |
-| `carved_ring_3_doubled_a2_45_pair_flip` | ⟨𐑛𐑥𐑾𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑙𐑟⟩ | at criticality | 𐑟 — non-Abelian, anyonic braiding (Fibonacci anyons, non-Abelian CS) | 0.0, gate 2 closed (Ç=𐑪) |
+| `carved_ring_3_doubled_a2_45_pair_flip` | ⟨𐑛𐑥𐑾𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑙𐑟⟩ | at criticality | 𐑟 — non-Abelian, anyonic braiding (Fibonacci anyons, non-Abelian CS) | 0.0, gate 2 closed (⊤=𐑪) |
 | `parity_phase_transition_matrix` | ⟨𐑦𐑥𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑴⟩ | — | 𐑴 | — |
 | `sic_d12_existence_proof` | ⟨𐑨𐑥𐑑𐑹𐑱𐑧𐑲𐑠𐑢𐑖𐑙𐑷⟩ | 𐑢 subcritical | 𐑷 | — |
 | `monotone_integer_winding` | ⟨𐑼𐑰𐑑𐑬𐑐𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩ | at criticality | 𐑭 | — |
@@ -61,7 +61,7 @@ click-maths:  stone_self_verifying_proof_kernel  ⋈  parity_phase_transition_ma
     R↔S    stone= +1.00   parity= +0.00   Δ=1.00
   ✓ CLICK on T↔H — spring-loaded Δ=0.83, single reaction center, closes.
   product: ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩  (ring saturated on T↔H = ⊣↔Ħ)
-  inherited scaffold (blended from both partners): [Ç, Γ, Σ, Ω]
+  inherited scaffold (blended from both partners): [⊤, Γ, Σ, Ω]
 ```
 
 Comparison: `theta_link ⋈ log_link` (same day, earlier) returned no click — Δ=0.00 on
@@ -82,7 +82,7 @@ ob3ect, NOT from this run's stream; cross-reference only.*
 | > | 𐑾 | 𐑽 | ≠ |
 | < | 𐑹 | 𐑹 | = |
 | ⋈ | 𐑐 | 𐑐 | = |
-| Ç | 𐑪 | 𐑧 | ≠ |
+| ⊤ | 𐑪 | 𐑧 | ≠ |
 | Γ | 𐑔 | 𐑔 | = |
 | ɢ | 𐑝 | 𐑝 | = |
 | ⊙ | ⊙ | ⊙ | = |
@@ -93,7 +93,7 @@ ob3ect, NOT from this run's stream; cross-reference only.*
 9 of 12 identical. Both carry Ω=𐑟 (non-Abelian) at ⊢≠𐑦 — the configuration the
 coordinate form of Axiom D forbade. The carved ring is an independent second instance.
 
-Stone and carved ring: same ⊙, opposite C_score (0.555 / 0.0), differing only by Ç
+Stone and carved ring: same ⊙, opposite C_score (0.555 / 0.0), differing only by ⊤
 (𐑧 / 𐑪) on the gate-2 test.
 
 ## Polymer chains
@@ -122,7 +122,7 @@ and `[sic_d12 · stone · parity · carved_ring · monotone_integer_winding]`.
 ## Next
 
 1. Consume ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩ — imscribe under a name, probe, attempt ring closure.
-   Inherits [Ç, Γ, Σ, Ω] from both partners.
+   Inherits [⊤, Γ, Σ, Ω] from both partners.
 2. Recover the reaction-center selection rule (T↔H at 0.83 chosen over R↔S at 1.00).
 3. Carved ring: what opens gate 2 without leaving Ω=𐑟. `excite` / `anneal` target.
    Determines whether the Axiom-D configuration is a class or a pair.
@@ -177,7 +177,7 @@ accounts for 49 of the run's 179 `imscribe` calls.
 
 **Fix (committed).** `run_imscribe` in `ask_native` parses a well-formed 12-glyph
 notation and registers it verbatim — no generation, no model call, keys written in
-notation order ⟨⊢ ⊣ > < ⋈ Ç Γ ɢ ⊙ Ħ Σ Ω⟩, catalog committed by temp-file + rename.
+notation order ⟨⊢ ⊣ > < ⋈ ⊤ Γ ɢ ⊙ Ħ Σ Ω⟩, catalog committed by temp-file + rename.
 A trailing provenance note after the tuple is preserved. Anything not exactly 12
 glyphs still routes to `generate`.
 
@@ -287,7 +287,7 @@ recalibrate:  carved_ring_3_doubled_a2_45_pair_flip   axis Ħ
 
 Chirality is the coupled axis; perturbing it drags protection. Writes nothing — a
 perturbation is a probe. Reports the two couplings the kernel holds and labels the
-Ħ=𐑫 / Ç=𐑪 co-occurrence a tendency, never enforcing it.
+Ħ=𐑫 / ⊤=𐑪 co-occurrence a tendency, never enforcing it.
 
 ## 18. `annihilate` (BUILT)
 
