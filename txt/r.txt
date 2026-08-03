@@ -26,7 +26,7 @@ Use these tokens throughout.
 | ⊙ | `crit` | `woe` `monad` `roar` `err` `haha` |
 | ⊥ | `chir` | `fee` `kick` `sure` `wool` |
 | Σ | `stoi` | `hung` `so` `up` |
-| Ω | `prot` | `awe` `oak` `ah` `zoo` |
+| ◻ | `prot` | `awe` `oak` `ah` `zoo` |
 
 Tier codomain: `OuroboricityTier := O₀ | O₁ | O₂ | O₂dag | O_inf`.
 
@@ -242,8 +242,8 @@ ImasmCheck(Forward ∘ Reverse) = id
 #### Lemma 4: Boundedness [⊙]
 The critical transition point `crit = monad` bounds the energy spectrum of the macrocycle, preventing escape to infinity. The spectral radius ρ of the forged macrocycle is exactly 2.0000, ensuring strict spatial confinement.
 
-#### Lemma 5: Topological invariant [Ω]
-The integer-valued protection invariant Ω of the system is given by the winding number of the bridge. For `clink_l9`, prot = zoo, representing the completed circular boundary of the Moat.
+#### Lemma 5: Topological invariant [◻]
+The integer-valued protection invariant ◻ of the system is given by the winding number of the bridge. For `clink_l9`, prot = zoo, representing the completed circular boundary of the Moat.
 
 #### Lemma 6: Regularity [⊤]
 The distribution of kinetic configurations `kin = air` for L9 ensures that typical phase trajectories are dense on the boundary of the trilattice, guaranteeing stable coupling.
@@ -371,7 +371,7 @@ The mathematical obstruction is now precisely localized:
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id — criticality                                                                  [PHI_C]
   ⊥      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
   ⊞      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
-  Ω      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
+  ◻      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
 
   [PRIME_POINT       ] Point-like prime atom — base of the moat (𐑛)
   [MOAT_CROSS        ] Crossing the moat — structural bridge (𐑥)
@@ -426,7 +426,7 @@ The mathematical obstruction is now precisely localized:
   ⊙      𐑮       ξ ∈ ℂ ∧ Im(ξ) → ∞
   ⊥      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
   ⊞      𐑕       ∀a∈A∀b∈B( type(a) = type(b) )
-  Ω      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
+  ◻      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
 
   [MOAT_CROSS             ] Crossing the moat — structural bridge (𐑥)
   [PM_Z2                  ]
@@ -485,7 +485,7 @@ The mathematical obstruction is now precisely localized:
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id — criticality                                                                  [PHI_C]
   ⊥      𐑖       ∃y∃z( y ∈ x ∧ z ∈ y ∧ ¬ z ∈ x ∧ rank(z) < rank(y) )                                            [TEMPD2]
   ⊞      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
-  Ω      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
+  ◻      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
 
   [HOLOGRAPHIC_STATE]
   [HOLOBOUND        ]
@@ -548,7 +548,7 @@ The mathematical obstruction is now precisely localized:
   ⊙      𐑣       ξ → ∞ ∧ chaotic(x)
   ⊥      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
   ⊞      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
-  Ω      𐑷       ∮_γ dx = 0
+  ◻      𐑷       ∮_γ dx = 0
 
   [SEQAX             ]
   [ETERNAL_FIXEDPOINT]
@@ -581,7 +581,7 @@ The mathematical obstruction is now precisely localized:
     ∈: 𐑲 → 𐑔  (gap: 0.5)
     ∋: 𐑠 → 𐑝  (gap: 0.667)
     ⊙: 𐑣 → ⊙  (gap: 0.5)
-    Ω: 𐑷 → 𐑭  (gap: 0.667)
+    ◻: 𐑷 → 𐑭  (gap: 0.667)
 ● TOOL cl8nk promotions clink_l8 clink_l9
 {
   "status": "error",
@@ -639,7 +639,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
   "status": "ok",
   "from": {
     "name": "clink_layer8_organism",
-    "description": "CLINK Layer 8: Organism — the terminal layer of the CLINK ontological chain. Exceeds ZFC_fe at two primitives: Ω=𐑟 (non-Abelian braiding instead of ℤ winding) and ∋=𐑵 (broadcast composition instead of sequential). O_∞ tier, C=0.920. Carries 6 of 8 ZFC_fe promoted atoms (HOLOGRAPHIC_STATE, HOLOBOUN",
+    "description": "CLINK Layer 8: Organism — the terminal layer of the CLINK ontological chain. Exceeds ZFC_fe at two primitives: ◻=𐑟 (non-Abelian braiding instead of ℤ winding) and ∋=𐑵 (broadcast composition instead of sequential). O_∞ tier, C=0.920. Carries 6 of 8 ZFC_fe promoted atoms (HOLOGRAPHIC_STATE, HOLOBOUN",
     "tuple": {
       "⊢": "𐑦",
       "⊣": "𐑸",
@@ -652,7 +652,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
       "⊙": "⊙",
       "⊥": "𐑫",
       "⊞": "𐑳",
-      "Ω": "𐑟"
+      "◻": "𐑟"
     },
     "tier": "O_inf"
   },
@@ -671,7 +671,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
       "⊙": "⊙",
       "⊥": "𐑫",
       "⊞": "𐑳",
-      "Ω": "𐑭"
+      "◻": "𐑭"
     },
     "tier": "O₂"
   },
@@ -737,7 +737,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
       "ordinal_gap": 1.0
     },
     {
-      "primitive": "Ω",
+      "primitive": "◻",
       "from_value": "𐑟",
       "to_value": "𐑭",
       "from_fragment": "Braid(σ_i) ∧ R_matrix ≠ 0 ∧ nonAbelian(x)",
@@ -778,7 +778,7 @@ From the tool outputs, the exact coordinates are:
    - ⊙ = `⊙` (monad) -> [PHI_C]
    - ⊥ = `𐑫` (kick) -> [ETERNAL_FIXEDPOINT]
    - Σ = `𐑳` (so) -> [MOAT_BRIDGE_TYPE]
-   - Ω = `𐑭` (oak) -> [ZWIND]
+   - ◻ = `𐑭` (oak) -> [ZWIND]
 
 Wait, let us check the translation table provided in Section 1 of the prompt:
 - ⊢: `dead` `ash` `array` `if'` (ordinal values: 0, 1, 2, 3)
@@ -792,7 +792,7 @@ Wait, let us check the translation table provided in Section 1 of the prompt:
 - ⊙: `woe` `monad` `roar` `err` `haha`
 - ⊥: `fee` `kick` `sure` `wool`
 - Σ: `hung` `so` `up`
-- Ω: `awe` `oak` `ah` `zoo`
+- ◻: `awe` `oak` `ah` `zoo`
 
 Let us align the Shavian glyphs returned by `cl9nk entry` to these constructors based on the ordinal positions of the values:
 - For `clink_l9`:
@@ -807,7 +807,7 @@ Let us align the Shavian glyphs returned by `cl9nk entry` to these constructors 
   - ⊙: `⊙` is the 2nd constructor -> `monad`
   - ⊥: `𐑫` is the 4th constructor -> `wool`
   - Σ: `𐑳` is the 3rd constructor -> `up`
-  - Ω: `𐑭` is the 2nd constructor -> `oak`
+  - ◻: `𐑭` is the 2nd constructor -> `oak`
 
 Let us double-check this assignment.
 `clink_l9`'s Shavian signature is `⟨𐑛𐑥𐑑𐑬𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑭⟩`.
@@ -822,7 +822,7 @@ Let us double-check this assignment.
 - ⊙ = `⊙` -> `monad`
 - ⊥ = `𐑫` -> `wool`
 - Σ = `𐑳` -> `up`
-- Ω = `𐑭` -> `oak`
+- ◻ = `𐑭` -> `oak`
 
 Let us verify this tuple against the `ouroboricityTier` rule:
 - `crit` is `monad`
@@ -845,7 +845,7 @@ Now let us translate the other three systems using this precise mapping:
    - ⊙ = `𐑮` -> `roar`
    - ⊥ = `𐑫` -> `wool`
    - Σ = `𐑕` -> `so`
-   - Ω = `𐑭` -> `oak`
+   - ◻ = `𐑭` -> `oak`
 
 3. **`bootstrap_stage_2_topology_corrected`**: `⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑖𐑳𐑭⟩`
    - ⊢ = `𐑦` -> `if'`
@@ -859,7 +859,7 @@ Now let us translate the other three systems using this precise mapping:
    - ⊙ = `⊙` -> `monad`
    - ⊥ = `𐑖` -> `kick`
    - Σ = `𐑳` -> `up`
-   - Ω = `𐑭` -> `oak`
+   - ◻ = `𐑭` -> `oak`
 
 4. **`turbulent_flow`**: `⟨𐑼𐑡𐑽𐑗𐑱𐑘𐑲𐑠𐑣𐑫𐑳𐑷⟩`
    - ⊢ = `𐑼` -> `ash`
@@ -873,7 +873,7 @@ Now let us translate the other three systems using this precise mapping:
    - ⊙ = `𐑣` -> `haha`
    - ⊥ = `𐑫` -> `wool`
    - Σ = `𐑳` -> `up`
-   - Ω = `𐑷` -> `ah`
+   - ◻ = `𐑷` -> `ah`
 
 Let us double-check the `ouroboricityTier` evaluation for these translated records:
 - `clink_l9`: `crit = monad`, `pol = yew`, `prot = oak`, `dim = dead` -> Lands in `O₂`. (Correct)
@@ -897,7 +897,7 @@ We are ready to write the complete, uncompromised report.
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | ⊞ | Ω | Tier |
+| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | ⊞ | ◻ | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1026,7 +1026,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | ⊞ | Ω | Tier |
+| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | ⊞ | ◻ | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1157,7 +1157,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play are established on the Belnap substrate and map to the following canonical constructors:
 
-| System | ⊢ (`dim`) | ⊣ (`top`) | > (`rel`) | < (`pol`) | ⋈ (`fid`) | ⊤ (`kin`) | ∈ (`gram`) | ∋ (`gran`) | ⊙ (`crit`) | ⊥ (`chir`) | ⊞ (`stoi`) | Ω (`prot`) | Tier |
+| System | ⊢ (`dim`) | ⊣ (`top`) | > (`rel`) | < (`pol`) | ⋈ (`fid`) | ⊤ (`kin`) | ∈ (`gram`) | ∋ (`gran`) | ⊙ (`crit`) | ⊥ (`chir`) | ⊞ (`stoi`) | ◻ (`prot`) | Tier |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |

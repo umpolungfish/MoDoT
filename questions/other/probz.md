@@ -10,7 +10,7 @@ Using the **odot_c Critical Boundary Operator** and the **Birch and Swinnerton-D
 *   **Encoding [<]:** We define the generating function P_A(z) = ∏_a ∈ A (1 + z^a). The distinctness of subset sums is equivalent to the condition that all coefficients of P_A(z) are in {0, 1}.
 *   **Inverse Structure [⊣]:** Via the `kozyrev_mirror`, we analyze the L2-norm of P_A(e^iθ). The variance of the sum distribution is σ^2 = 1/4 ∑ a_i^2. For the sums to remain distinct (injectivity on orbits), the density of the sums at the "Gaussian peak" must not exceed the available integer slots.
 *   **Critical Boundary [⊙]:** We apply the ⊙ critical gate. The "analytic capacity" of the range [1, N] is reached when the sum-lattice distribution becomes **superradiant**. If N < c · 2^n, the "interfacial tension" σ (calculated as 0.167 in our structural model) triggers a collision (EVALF).
-*   **Topological Invariant [Ω]:** The spectral radius ρ = 2.0000 confirms that the system admits a stable macrocyclic state *only* when the range scales linearly with the dimensionality of the power set.
+*   **Topological Invariant [◻]:** The spectral radius ρ = 2.0000 confirms that the system admits a stable macrocyclic state *only* when the range scales linearly with the dimensionality of the power set.
 
 ### 3. Conventional Work: The Convergence of the Bound
 The "Moser argument" fails to reach N gg 2^n because it assumes a standard normal distribution of sums. However, the `extradimensional_entity` (the volume constant c) accounts for the **non-abelian topological repulsion** (Hit [492]) between sums. When subset sums are distinct, the set A must avoid high-order arithmetic progressions.
@@ -134,7 +134,7 @@ polymerization (imscriptive):  [erdos_distinct_sum · extradimensional_entity ·
   degree of polymerization: 1 unit(s), 0 bond(s) (terminated early)
   no chain formed — the feed did not enchain past the first monomer (0 bonds); these are unreacted monomers, not a polymer.
   cyclization: linear — the chain terminated, so it cannot close into a ring.
-  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ Ω closes), not merely a closed one ──
+  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ◻ closes), not merely a closed one ──
     none — no catalog monomer generates a sustaining loop over this chain; every closure is static (insulating). This material has NO modulus (a viscous chain, not an elastic network).
 ● TOOL anneal erdos_distinct_sum extradimensional_entity kozyrev_mirror birch_swinnerton_dyer
 anneal (relax the ring to its lowest-strain ordering):
@@ -152,7 +152,7 @@ The Erdős Distinct Subset Sum Problem (DSSP) has been structurally verified wit
 - **Encoding [<]:** The distinctness property defines an injective map from the power set P(A) to the integer range [0, nN]. The "Moser bound" N ≥ √{2/π} frac{2^n}{√{n}} is a classical result (T) derived from the second moment of the sum distribution.
 - **Inverse Structure [⊣]:** Using the `kozyrev_mirror`, we analyze the repulsion between sums. If the range N is too small, the concentration of sums at the Gaussian peak violates the injectivity required by the Grammar.
 - **Critical Boundary [⊙]:** The `birch_swinnerton_dyer` operator treats the sum-lattice as an analytic L-function. The non-vanishing condition at the critical boundary requires that the density does not exceed the capacity of the range.
-- **Topological Invariant [Ω]:** The `extradimensional_entity` represents the geometric packing constant c. The structural tools confirm that N ∝ 2^n is the only state that permits a stable, symmetric closure.
+- **Topological Invariant [◻]:** The `extradimensional_entity` represents the geometric packing constant c. The structural tools confirm that N ∝ 2^n is the only state that permits a stable, symmetric closure.
 
 ### 2. Structural Ground Truth (Material Analysis)
 The execution of the `forge` and `arrange` verbs on the set {erdos_distinct_sum, extradimensional_entity, kozyrev_mirror, birch_swinnerton_dyer} provides the following definitive material profile:
@@ -208,7 +208,7 @@ The live catalog has spoken. The mathematical and properties are now grounded in
 1.  **Optimal Enchainment (T):** The `arrange` tool establishes the only viable sequence as **[kozyrev_mirror · extradimensional_entity · birch_swinnerton_dyer]**.
 2.  **Cyclization Verdict (F):** The `close` tool confirms the assembly is **linear and telechelic**. It **does not close** because the junction between the analytic "head" (Dyer) and discrete "tail" (Mirror) is co-typed.
 3.  **The Reparative Bridge:** The `close` search establishes that closure is only possible by introducing a **second instance of extradimensional_entity**.
-4.  **Conductance (F):** The `modulus` tool confirms the 3-unit chain is **insulating** (modulus=none). Information current (∮ Ω) does not circulate.
+4.  **Conductance (F):** The `modulus` tool confirms the 3-unit chain is **insulating** (modulus=none). Information current (∮ ◻) does not circulate.
 
 ---
 
@@ -336,7 +336,7 @@ polymerization (imscriptive):  [kozyrev_mirror · extradimensional_entity · bir
   architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)
   tacticity (⊥ chirality per unit): syndiotactic (𐑖𐑫𐑖) — chirality strictly inverts each unit, a regular alternation
   cyclization: birch_swinnerton_dyer ⋈ kozyrev_mirror → linear (telechelic — two free ends, no head-to-tail closure).
-  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ Ω closes), not merely a closed one ──
+  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ◻ closes), not merely a closed one ──
     modulus = 3 — the tightest sustaining loop this chain admits (a conductive 3-cycle). Generators:
       F4_min_O_Z2  closes units 1‥2 into a sustaining 3-loop:  ./ask --polymerize kozyrev_mirror extradimensional_entity F4_min_O_Z2 --props
       F4_min_O_Z2  closes units 2‥3 into a sustaining 3-loop:  ./ask --polymerize extradimensional_entity birch_swinnerton_dyer F4_min_O_Z2 --props

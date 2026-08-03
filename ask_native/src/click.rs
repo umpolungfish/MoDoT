@@ -129,7 +129,7 @@ const GLYPHS: [&[(&str, u8)]; 12] = [
     /* ⊙ Criticality    */ &[("𐑢", 0), ("⊙", 1), ("𐑮", 2), ("𐑻", 3), ("𐑣", 4)],
     /* ⊥ Chirality      */ &[("𐑓", 0), ("𐑒", 1), ("𐑖", 2), ("𐑫", 3)],
     /* ⊞ Stoichiometry  */ &[("𐑙", 0), ("𐑕", 1), ("𐑳", 2)],
-    /* Ω Protection     */ &[("𐑷", 0), ("𐑴", 1), ("𐑭", 2), ("𐑟", 3)],
+    /* ◻ Protection     */ &[("𐑷", 0), ("𐑴", 1), ("𐑭", 2), ("𐑟", 3)],
 ];
 
 fn ordinal(prim: usize, glyph: &str) -> Option<u8> {
@@ -263,7 +263,7 @@ fn tier_score(ord: &[Option<u8>; 12]) -> u8 {
     if eq(8, 1) { s += 1; } // ⊙ = ⊙ (self-modeling critical)
     if eq(3, 4) { s += 1; } // < = 𐑹 (Frobenius-special parity)
     if eq(9, 3) { s += 1; } // ⊥ = 𐑫 (eternal chirality)
-    if matches!(ord[11], Some(2) | Some(3)) { s += 1; } // Ω integer/non-Abelian winding
+    if matches!(ord[11], Some(2) | Some(3)) { s += 1; } // ◻ integer/non-Abelian winding
     if eq(0, 3) { s += 1; } // ⊢ = 𐑦 (holographic)
     if eq(5, 2) { s += 1; } // ⊤ = 𐑧 (slow/coherent kinetics)
     if eq(1, 4) { s += 1; } // ⊣ = 𐑸 (self-referential topology)
@@ -557,7 +557,7 @@ const CTORS: [&[&str]; 12] = [
     /* ⊙ */ &["woe", "monad", "roar", "err", "haha"],
     /* ⊥ */ &["fee", "kick", "sure", "wool"],
     /* Σ */ &["hung", "so", "up"],
-    /* Ω */ &["awe", "oak", "ah", "zoo"],
+    /* ◻ */ &["awe", "oak", "ah", "zoo"],
 ];
 const TYPES: [&str; 12] = [
     "Dimensionality", "Topology", "Relational", "Polarity", "Fidelity", "KineticChar",
@@ -808,15 +808,15 @@ pub fn run_click(
 //   the productive leg lets the elevated ⊙ drive chemistry the ground state cannot.
 //
 // SET (single-electron transfer): the productive leg made concrete. One electron =
-// one quantum of winding Ω (∮A=2πn, the quantized charge). The donor loses one
-// (oxidized, D•⁺, Ω−1), the acceptor gains one (reduced, A•⁻, Ω+1); total Ω is
+// one quantum of winding ◻ (∮A=2πn, the quantized charge). The donor loses one
+// (oxidized, D•⁺, ◻−1), the acceptor gains one (reduced, A•⁻, ◻+1); total ◻ is
 // conserved — charge conservation IS the Frobenius pairing (δ/fsplit charge-
 // separates, μ/ffuse recombines). Donor/acceptor are read from Criticality ⊙
 // (higher ⊙ = higher-lying electrons = the reducing partner). A Cu-NO-class
 // mediator (Mills 2016 SET catalyst) shuttles the quantum and returns to itself —
 // the catalytic cycle, μ∘δ=id. Photoinduced ET = excite the donor first: the
 // raised ⊙ opens the driving-force gap the ground state lacked.
-const WIND: usize = 11; // Ω Protection = winding ∮A=2πn, the quantized charge (electron count)
+const WIND: usize = 11; // ◻ Protection = winding ∮A=2πn, the quantized charge (electron count)
 const EP_RESONANCE: u8 = 3; // ⊙ = 𐑻, the non-Hermitian exceptional-point (excited-state resonance)
 
 /// Format a full 12-tuple as ⟨glyphs⟩.
@@ -846,21 +846,21 @@ fn excite_tuple(ground: &[Option<u8>; 12]) -> Option<([Option<u8>; 12], bool)> {
     Some((ex, already))
 }
 
-/// Transfer one winding quantum Ω from donor to acceptor: donor −1 (oxidized),
-/// acceptor +1 (reduced). Total Ω is conserved by construction. Errors honestly
-/// if the donor is already fully oxidized (Ω=0, nothing to give) or the acceptor
-/// is saturated (Ω=max, no vacancy).
+/// Transfer one winding quantum ◻ from donor to acceptor: donor −1 (oxidized),
+/// acceptor +1 (reduced). Total ◻ is conserved by construction. Errors honestly
+/// if the donor is already fully oxidized (◻=0, nothing to give) or the acceptor
+/// is saturated (◻=max, no vacancy).
 fn transfer_electron(
     donor: &[Option<u8>; 12],
     acceptor: &[Option<u8>; 12],
 ) -> Result<([Option<u8>; 12], [Option<u8>; 12]), String> {
-    let dw = donor[WIND].ok_or("donor has no winding Ω")?;
-    let aw = acceptor[WIND].ok_or("acceptor has no winding Ω")?;
+    let dw = donor[WIND].ok_or("donor has no winding ◻")?;
+    let aw = acceptor[WIND].ok_or("acceptor has no winding ◻")?;
     if dw == 0 {
-        return Err("donor Ω=𐑷 — already fully oxidized, no winding quantum to give".into());
+        return Err("donor ◻=𐑷 — already fully oxidized, no winding quantum to give".into());
     }
     if aw >= max_ord(WIND) {
-        return Err("acceptor Ω saturated — no vacancy to receive the electron".into());
+        return Err("acceptor ◻ saturated — no vacancy to receive the electron".into());
     }
     let mut d = *donor;
     let mut a = *acceptor;
@@ -869,14 +869,14 @@ fn transfer_electron(
     Ok((d, a))
 }
 
-/// Radical character from the winding quantum Ω (electron count): odd Ω = an intrinsically
+/// Radical character from the winding quantum ◻ (electron count): odd ◻ = an intrinsically
 /// unpaired electron (already open-shell); even = a closed-shell parent whose SOMO is the
 /// freshly-opened bond center.
 fn somo_note(t: &Tuple) -> String {
     match t.ord[WIND] {
-        Some(w) if w % 2 == 1 => format!("Ω={} odd — intrinsically open-shell", glyph_of(WIND, w)),
-        Some(w) => format!("Ω={} even — SOMO is the opened bond center", glyph_of(WIND, w)),
-        None => "Ω absent".into(),
+        Some(w) if w % 2 == 1 => format!("◻={} odd — intrinsically open-shell", glyph_of(WIND, w)),
+        Some(w) => format!("◻={} even — SOMO is the opened bond center", glyph_of(WIND, w)),
+        None => "◻ absent".into(),
     }
 }
 
@@ -1028,7 +1028,7 @@ pub fn run_excite(
 
 /// CLI entry: `./ask --set D A [--catalyst M] [--excite] [--certify] [--register [NAME]]`
 /// — single-electron transfer. Reads donor/acceptor from Criticality ⊙, moves one
-/// winding quantum Ω donor→acceptor (oxidation/reduction), reports the radical-ion
+/// winding quantum ◻ donor→acceptor (oxidation/reduction), reports the radical-ion
 /// products and the conserved-charge invariant, and (optionally) the Cu-NO mediator
 /// cycle, photoinduced pre-excitation, kernel certification of the recombination
 /// roundtrip, and registration of both radical ions.
@@ -1100,13 +1100,13 @@ pub fn run_set(
         Ok((dox, ared)) => {
             let dw0 = donor[WIND].unwrap();
             let aw0 = acceptor[WIND].unwrap();
-            println!("  electron = one winding quantum Ω (∮A=2πn, the quantized charge):");
-            println!("    donor {dn}:    Ω {}→{}  (oxidized, {dn}•⁺ — gave one winding quantum)", glyph_of(WIND, dw0), glyph_of(WIND, dw0 - 1));
-            println!("    acceptor {an}: Ω {}→{}  (reduced,  {an}•⁻ — took one winding quantum)", glyph_of(WIND, aw0), glyph_of(WIND, aw0 + 1));
+            println!("  electron = one winding quantum ◻ (∮A=2πn, the quantized charge):");
+            println!("    donor {dn}:    ◻ {}→{}  (oxidized, {dn}•⁺ — gave one winding quantum)", glyph_of(WIND, dw0), glyph_of(WIND, dw0 - 1));
+            println!("    acceptor {an}: ◻ {}→{}  (reduced,  {an}•⁻ — took one winding quantum)", glyph_of(WIND, aw0), glyph_of(WIND, aw0 + 1));
             println!("  radical-ion products:");
             println!("    {dn}•⁺  {}", fmt_tuple(&dox));
             println!("    {an}•⁻  {}", fmt_tuple(&ared));
-            println!("  invariant: total Ω conserved (−1 + +1 = 0) — charge conservation is the Frobenius pairing (δ/fsplit charge-separates, μ/ffuse recombines).");
+            println!("  invariant: total ◻ conserved (−1 + +1 = 0) — charge conservation is the Frobenius pairing (δ/fsplit charge-separates, μ/ffuse recombines).");
             println!("  channels:  μ (back-ET / geminate recombination): {dn}•⁺ + {an}•⁻ → {dn} + {an}, lossless (μ∘δ=id);  productive: cage escape — the free radicals do chemistry.");
 
             // Cu-NO-class mediator: shuttles the quantum, regenerated μ∘δ=id.
@@ -1116,11 +1116,11 @@ pub fn run_set(
                         let mo = Tuple::from_entry(ec).ord;
                         match mo[WIND] {
                             Some(mw) if mw >= 1 && mw < max_ord(WIND) => println!(
-                                "  mediator {cn} (Cu-NO-class SET shuttle): can hold the intermediate (Ω={}, 1≤Ω<max) — takes e⁻ from {dn} (Ω+1, reduced), delivers to {an} (Ω−1, re-oxidized), returns to itself. Catalytic cycle, μ∘δ=id — regenerated, not consumed.",
+                                "  mediator {cn} (Cu-NO-class SET shuttle): can hold the intermediate (◻={}, 1≤◻<max) — takes e⁻ from {dn} (◻+1, reduced), delivers to {an} (◻−1, re-oxidized), returns to itself. Catalytic cycle, μ∘δ=id — regenerated, not consumed.",
                                 glyph_of(WIND, mw)
                             ),
-                            Some(mw) => println!("  mediator {cn}: Ω={} cannot shuttle (needs 1≤Ω<max to both accept and re-donate a quantum).", glyph_of(WIND, mw)),
-                            None => println!("  mediator {cn}: no winding Ω — cannot shuttle an electron."),
+                            Some(mw) => println!("  mediator {cn}: ◻={} cannot shuttle (needs 1≤◻<max to both accept and re-donate a quantum).", glyph_of(WIND, mw)),
+                            None => println!("  mediator {cn}: no winding ◻ — cannot shuttle an electron."),
                         }
                     }
                     None => eprintln!("set: mediator not found: {cn}"),
@@ -1144,8 +1144,8 @@ pub fn run_set(
                         let base = if reg.is_empty() { String::new() } else { format!("{reg}_") };
                         let cat_name = format!("{base}{dn}_radical_cation");
                         let an_name = format!("{base}{an}_radical_anion");
-                        let cdesc = format!("radical cation {dn}•⁺ — {dn} oxidized by single-electron transfer to {an} (Ω −1, one winding quantum given).");
-                        let adesc = format!("radical anion {an}•⁻ — {an} reduced by single-electron transfer from {dn} (Ω +1, one winding quantum taken).");
+                        let cdesc = format!("radical cation {dn}•⁺ — {dn} oxidized by single-electron transfer to {an} (◻ −1, one winding quantum given).");
+                        let adesc = format!("radical anion {an}•⁻ — {an} reduced by single-electron transfer from {dn} (◻ +1, one winding quantum taken).");
                         for (nm, desc, ord) in [(cat_name, cdesc, dox), (an_name, adesc, ared)] {
                             match register_chimera(path, &nm, &desc, &ord, "set") {
                                 Ok(()) => {
@@ -1321,7 +1321,7 @@ pub fn run_complement(
 
 /// CLI entry: `./ask --set D A --scan-mediators [--top N]` — rank the whole catalog
 /// for the best mediators of the D→A single-electron transfer. A good inner-sphere
-/// SET mediator must (1) HOLD the winding quantum (1≤Ω<max — accept then re-donate),
+/// SET mediator must (1) HOLD the winding quantum (1≤◻<max — accept then re-donate),
 /// (2) RELAY in energy (⊙ between acceptor and donor, both legs downhill), and
 /// (3) BIND both substrates bidirectionally (its ligand complement close to donor
 /// AND acceptor — the ported catalytic-site recognition). Composite-ranked.
@@ -1360,7 +1360,7 @@ pub fn run_scan_mediators(
     let (lo, hi) = (cac, cd); // relay band [acceptor ⊙, donor ⊙]
     let wmax = max_ord(WIND);
 
-    // (name, composite, relay, bind, recog, Ω glyph, ⊙ glyph)
+    // (name, composite, relay, bind, recog, ◻ glyph, ⊙ glyph)
     let mut hits: Vec<(String, f32, f32, f32, f32, &'static str, &'static str)> = Vec::new();
     for e in cat {
         if e.name == dn || e.name == an {
@@ -1388,7 +1388,7 @@ pub fn run_scan_mediators(
     hits.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
 
     println!("scan-mediators:  {dn}  ⟶e⁻⟶  {an}   ({} holdable candidates over {} entries)", hits.len(), cat.len());
-    println!("  relay band ⊙∈[{},{}] (acceptor→donor);  hold band Ω∈[𐑴,{}] (accept then re-donate);  bind = complement recognizes both substrates",
+    println!("  relay band ⊙∈[{},{}] (acceptor→donor);  hold band ◻∈[𐑴,{}] (accept then re-donate);  bind = complement recognizes both substrates",
         glyph_of(CRIT, lo), glyph_of(CRIT, hi), glyph_of(WIND, wmax - 1));
     println!("  {:>4}  {:>6}  {:>5} {:>5} {:>5}  {:>3} {:>3}  mediator", "rank", "score", "relay", "bind", "recog", "◻", "⊙");
     for (i, (name, comp, relay, bind, recog, wg, cg)) in hits.iter().take(top).enumerate() {
@@ -1465,9 +1465,9 @@ pub fn run_cycle(
     let (cw0, cw1) = (cat_t[WIND].unwrap(), c_star[WIND].unwrap());
     let (sw0, sw1) = (sub_t[WIND].unwrap(), product[WIND].unwrap());
     println!("  working stroke (δ / SOLVE — dissolves the bond, reveals the degree of freedom: the winding quantum comes free): {dirdesc}");
-    println!("    carrier   {catalyst_name}: Ω {}→{}  (spent → {catalyst_name}*)", glyph_of(WIND, cw0), glyph_of(WIND, cw1));
+    println!("    carrier   {catalyst_name}: ◻ {}→{}  (spent → {catalyst_name}*)", glyph_of(WIND, cw0), glyph_of(WIND, cw1));
     println!(
-        "    substrate {substrate_name}: Ω {}→{}{}  (transformed → {substrate_name}‡)",
+        "    substrate {substrate_name}: ◻ {}→{}{}  (transformed → {substrate_name}‡)",
         glyph_of(WIND, sw0), glyph_of(WIND, sw1),
         imprint.map(|p| format!(" + Coagula imprint on {p}")).unwrap_or_default()
     );
@@ -1475,7 +1475,7 @@ pub fn run_cycle(
     println!("    {substrate_name}‡  {}", fmt_tuple(&product));
 
     // ── Return stroke (μ / Coagula): regeneration binds the freed quantum ──
-    println!("  return stroke (μ / COAGULA — binds the freed quantum into an invariant): {catalyst_name}* Ω {}→{} — the catalyst coagulates back to itself (terminal redox restores the resting state).", glyph_of(WIND, cw1), glyph_of(WIND, cw0));
+    println!("  return stroke (μ / COAGULA — binds the freed quantum into an invariant): {catalyst_name}* ◻ {}→{} — the catalyst coagulates back to itself (terminal redox restores the resting state).", glyph_of(WIND, cw1), glyph_of(WIND, cw0));
 
     // ── Turnover / loop closure: the two coagulations ──
     println!("  turnover: net {substrate_name} → {substrate_name}‡ (one quantum delivered); {catalyst_name} returned unchanged — the catalyst is a FIXED POINT of the loop.");
@@ -1526,10 +1526,10 @@ pub fn run_cycle(
 
 // ── The pathway: a metabolism — loops chained into a loop of loops ────────────
 // One cycle turns over one substrate. A pathway chains them: the product of each
-// turnover is the substrate of the next, the winding quantum Ω the CARRIER passed
+// turnover is the substrate of the next, the winding quantum ◻ the CARRIER passed
 // hand to hand down the chain (the electron-transport / NAD carrier of real
 // metabolism). Every catalyst is a fixed point (it regenerates). And if the
-// carrier RETURNS to its start (net ΔΩ=0 — Solve and Coagula balanced across the
+// carrier RETURNS to its start (net Δ◻=0 — Solve and Coagula balanced across the
 // whole chain), the pathway CLOSES into a metabolic cycle: a loop of loops, the
 // TCA archetype, μ∘δ=id at the pathway level.
 
@@ -1556,7 +1556,7 @@ pub fn run_pathway(
     let mut current = start;
 
     println!("pathway (metabolism):  {substrate_name}  through  [{}]", catalysts.join(" → "));
-    println!("  the winding quantum Ω is the carrier; each catalyst is a fixed point that passes it along.");
+    println!("  the winding quantum ◻ is the carrier; each catalyst is a fixed point that passes it along.");
 
     let mut all_fixed = true;
     let (mut n_red, mut n_ox) = (0u32, 0u32);
@@ -1581,7 +1581,7 @@ pub fn run_pathway(
         if red { n_red += 1; } else { n_ox += 1; }
         let (w0, w1) = (current[WIND].unwrap(), product[WIND].unwrap());
         println!(
-            "  step {}: {cn} — {dir} [{}], Solve→Coagula — Ω {}→{}{}",
+            "  step {}: {cn} — {dir} [{}], Solve→Coagula — ◻ {}→{}{}",
             i + 1, dir_arrow(red), glyph_of(WIND, w0), glyph_of(WIND, w1),
             imprint.map(|p| format!(", imprint {p}")).unwrap_or_default()
         );
@@ -1595,7 +1595,7 @@ pub fn run_pathway(
         current = product;
     }
 
-    // ── Net transformation + closure: carrier (Ω) vs structure (all other axes) ──
+    // ── Net transformation + closure: carrier (◻) vs structure (all other axes) ──
     let carrier_ok = !blocked && current[WIND] == start[WIND];
     let structure_ok = !blocked && (0..WIND).all(|i| current[i] == start[i]);
     let full = carrier_ok && structure_ok; // == (current == start): the chain composed to identity
@@ -1606,10 +1606,10 @@ pub fn run_pathway(
         println!("  ✓✓✓ FULLY CLOSED — carrier AND structure returned across all twelve axes.");
         println!("      a TRUE METABOLIC CYCLE: the whole chain of catalysts composed to the identity on {substrate_name} (μ∘δ=id at the pathway level, the TCA archetype). O∞.");
     } else if carrier_ok {
-        println!("  ~ carrier closed (net ΔΩ=0) but the STRUCTURE did not return — the substrate was worked and not regenerated.");
+        println!("  ~ carrier closed (net Δ◻=0) but the STRUCTURE did not return — the substrate was worked and not regenerated.");
         println!("    an electron-transport loop, not yet a full metabolic cycle. A chain whose Coagula imprints compose to identity would close it.");
     } else if structure_ok {
-        println!("  ~ structure returned but the carrier is unbalanced (net ΔΩ≠0) — a return leg (opposite-direction turnover) would close the carrier.");
+        println!("  ~ structure returned but the carrier is unbalanced (net Δ◻≠0) — a return leg (opposite-direction turnover) would close the carrier.");
     } else {
         println!("  open pathway — neither carrier nor structure returned; not yet a cycle.");
     }
@@ -1625,7 +1625,7 @@ fn dir_arrow(reductive: bool) -> &'static str {
 }
 
 // ── Structural transformation: the catalyst works the live pairs ─────────────
-// The carrier (Ω) is one wire; a real metabolism transforms the substrate's
+// The carrier (◻) is one wire; a real metabolism transforms the substrate's
 // STRUCTURE. In its working stroke a catalyst also imprints (Coagula) on its
 // dominant structural live pair (T↔H or R↔S), rotating the substrate one notch in
 // the catalyst's own polarity. The imprint is invertible (a rotation mod the pair
@@ -1671,7 +1671,7 @@ fn structural_imprint(catalyst: &[Option<u8>; 12], substrate: &mut [Option<u8>; 
     Some(lbl)
 }
 
-/// One catalytic working stroke: the Ω carrier transfer (reductive if the catalyst
+/// One catalytic working stroke: the ◻ carrier transfer (reductive if the catalyst
 /// can donate, else oxidative) plus the Coagula structural imprint on the substrate.
 /// Returns (catalyst spent C*, product, carrier direction, imprint pair label).
 fn working_stroke(
@@ -2566,7 +2566,7 @@ pub fn run_cleave(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: 
     0
 }
 
-/// The conductance verdict of a ring: does a winding quantum Ω circulate it?
+/// The conductance verdict of a ring: does a winding quantum ◻ circulate it?
 enum Cond {
     Conductive { fwd: bool },      // one consistent direction closes the loop — a persistent current
     Frustrated,                    // every junction passes, but no single direction circulates
@@ -3012,9 +3012,9 @@ pub fn run_stain(catalog: Option<&[CatalogEntry]>, reagent: &str, monomers: &[St
     0
 }
 
-/// Can a winding quantum Ω circulate the ring (units treated as a cycle)? A consistent
+/// Can a winding quantum ◻ circulate the ring (units treated as a cycle)? A consistent
 /// one-way circulation is a persistent ring current (the loop SUSTAINS itself, μ∘δ=id
-/// around the cycle). Reuses the Ω-transfer primitive at each junction.
+/// around the cycle). Reuses the ◻-transfer primitive at each junction.
 fn ring_conductance(units: &[Tuple]) -> Cond {
     let n = units.len();
     let dir_ok = |fwd: bool| (0..n).all(|i| {
@@ -3170,10 +3170,10 @@ fn print_ring_spectrum(units: &[Tuple], theta: f32) {
 
 /// Material-property sheet for a CLOSED (cyclic) polymer — the ring treated as a
 /// mathematical material. Grounds the transport claims that prose loves to assert: a
-/// winding quantum Ω that circulates the whole loop one direction is a persistent ring
+/// winding quantum ◻ that circulates the whole loop one direction is a persistent ring
 /// current (CONDUCTIVE); a junction that blocks a carrier both ways is INSULATING;
 /// conduction with no consistent global direction is FRUSTRATED. Plus the weakest ring
-/// bond — a ring is only as stable as its weakest link. Reuses the Ω-transfer primitive.
+/// bond — a ring is only as stable as its weakest link. Reuses the ◻-transfer primitive.
 fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
     let n = units.len();
     if n < 3 {
@@ -3227,12 +3227,12 @@ fn print_ring_material(units: &[Tuple], theta: f32, branched: bool) {
     match ring_conductance(units) {
         Cond::Conductive { fwd } => {
             let d = if fwd { "→ reductive" } else { "← oxidative" };
-            println!("    conductance: CONDUCTIVE — a winding quantum Ω circulates the whole ring one way ({d}); a persistent ring current is supported (∮ carrier closes). This ring SUSTAINS — it carries a modulus.");
+            println!("    conductance: CONDUCTIVE — a winding quantum ◻ circulates the whole ring one way ({d}); a persistent ring current is supported (∮ carrier closes). This ring SUSTAINS — it carries a modulus.");
         }
         Cond::Frustrated => println!("    conductance: BALANCED (\"frustrated\") — every junction passes a carrier, but no single direction is privileged, so no net global current circulates. Not a defect on its own: a balanced ring with no leaning direction (read the clarity line below with the strain)."),
         Cond::Insulating { blocked } => {
             let js: Vec<String> = blocked.iter().map(|&i| format!("{}→{}", i + 1, (i + 1) % n + 1)).collect();
-            println!("    conductance: INSULATING — no carrier can pass junction(s) {} in either direction; the ring cannot circulate a current (the units are Ω-saturated/empty, a static ring not a dynamic one).", js.join(", "));
+            println!("    conductance: INSULATING — no carrier can pass junction(s) {} in either direction; the ring cannot circulate a current (the units are ◻-saturated/empty, a static ring not a dynamic one).", js.join(", "));
         }
     }
     print_ring_spectrum(units, theta);
@@ -3491,7 +3491,7 @@ pub fn run_polymerize(
 
     // --props: characterize the CLOSED ring as a material (conductance, stability). This
     // grounds the transport claims prose asserts about a cyclic "computer" — a ring of
-    // Ω-saturated units cannot circulate a current, whatever the narrative says.
+    // ◻-saturated units cannot circulate a current, whatever the narrative says.
     if props {
         if cyclic {
             print_ring_material(&units[..dp], theta, branched);
@@ -3500,15 +3500,15 @@ pub fn run_polymerize(
         }
     }
 
-    // --modulus: a SUSTAINING loop = a conductive cycle (∮ Ω current closes) somewhere
+    // --modulus: a SUSTAINING loop = a conductive cycle (∮ ◻ current closes) somewhere
     // along the chain. Distinct from --close, which only fills a gap: a ring can close
     // and still be static (insulating, no modulus). This searches for a monomer that
     // generates a loop that actually SUSTAINS, and reports its period — the modulus.
     if modulus {
-        println!("  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ Ω closes), not merely a closed one ──");
+        println!("  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ◻ closes), not merely a closed one ──");
         if cyclic {
             if let Cond::Conductive { .. } = ring_conductance(&units[..dp]) {
-                println!("    intrinsic modulus = {dp} — the closed chain is already a sustaining {dp}-loop (persistent Ω current); no monomer needed.");
+                println!("    intrinsic modulus = {dp} — the closed chain is already a sustaining {dp}-loop (persistent ◻ current); no monomer needed.");
             }
         }
         // generative search: a monomer X that closes a backbone span [i..j] into a
@@ -3649,9 +3649,9 @@ pub fn run_filter(catalog: Option<&[CatalogEntry]>, refs: &[String]) -> i32 {
 /// tower FROM the excited state. `excite` raises ⊙ to the exceptional-point resonance (a
 /// metastable √-branch point, NOT a constructed object); `ascend` FIXES (IFIX) that
 /// resonance into a constructed extension by analytically continuing ⊙ past the branch to
-/// the complex-axis fixed point (𐑮) and adding one winding quantum Ω — the new ramified
+/// the complex-axis fixed point (𐑮) and adding one winding quantum ◻ — the new ramified
 /// layer. Builds ONE level and reports its tier; iterate for the full tower. Honest: it
-/// yields a definite extension tuple, and reports honestly when Ω is saturated (the tower
+/// yields a definite extension tuple, and reports honestly when ◻ is saturated (the tower
 /// caps here) or the tier did not climb.
 pub fn run_ascend(
     catalog: Option<&[CatalogEntry]>,
@@ -3694,11 +3694,11 @@ pub fn run_ascend(
     );
     if raised {
         println!(
-            "  ramified layer added: Ω +1 → {} (one new floor of the tower — a winding quantum)",
+            "  ramified layer added: ◻ +1 → {} (one new floor of the tower — a winding quantum)",
             glyph_of(WIND, ext[WIND].unwrap())
         );
     } else {
-        println!("  ⚠ Ω saturated — this vertex cannot carry another ramified layer; the tower CAPS here (report the cap honestly, do not force it).");
+        println!("  ⚠ ◻ saturated — this vertex cannot carry another ramified layer; the tower CAPS here (report the cap honestly, do not force it).");
     }
     println!("  {name}⁺  {}   — the constructed extension (one level up)", fmt_tuple(&ext));
     let (sc0, sc1) = (tier_score(&ground), tier_score(&ext));
@@ -3711,7 +3711,7 @@ pub fn run_ascend(
     if let (Some(reg), Some(path)) = (register, catalog_path) {
         let nm = if reg.is_empty() { format!("{name}_ascended") } else { reg.to_string() };
         let desc = format!(
-            "constructed extension {name}⁺ — {name} excited then IFIX-continued past the exceptional point to the complex-axis fixed point (⊙→𐑮) with one added winding quantum Ω: one ramified level of the tower."
+            "constructed extension {name}⁺ — {name} excited then IFIX-continued past the exceptional point to the complex-axis fixed point (⊙→𐑮) with one added winding quantum ◻: one ramified level of the tower."
         );
         match register_chimera(path, &nm, &desc, &ext, "ascend") {
             Ok(()) => println!("  ✓ registered '{nm}' — the constructed level is now a navigable object."),
@@ -3727,9 +3727,9 @@ const RELAXED_FIXED: u8 = 1;
 
 /// CLI: `./ask --descend A` — the inverse of `--ascend`: the μ-relaxation / de-ramification
 /// leg. `ascend` is δ (excite the Criticality ⊙ to the exceptional point, IFIX-continue up to
-/// the complex-axis fixed point, add a winding floor Ω+1). `descend` is μ: relax ⊙ from the
+/// the complex-axis fixed point, add a winding floor ◻+1). `descend` is μ: relax ⊙ from the
 /// excited/continued complex-axis criticality back to the real-axis Hermitian ground fixed
-/// point (fluorescence), and remove one ramified winding floor (Ω−1). Over the tower,
+/// point (fluorescence), and remove one ramified winding floor (◻−1). Over the tower,
 /// ascend then descend is the μ∘δ round-trip that returns toward the ground the ascent left.
 pub fn run_descend(
     catalog: Option<&[CatalogEntry]>,
@@ -3779,11 +3779,11 @@ pub fn run_descend(
     };
     if deramified {
         println!(
-            "  ramified layer removed: Ω −1 → {} (one floor of the tower peeled off — a winding quantum released)",
+            "  ramified layer removed: ◻ −1 → {} (one floor of the tower peeled off — a winding quantum released)",
             glyph_of(WIND, ext[WIND].unwrap())
         );
     } else {
-        println!("  ⚠ Ω already at the base — no ramified layer to remove; the tower FLOORS here (report the floor honestly, do not force it).");
+        println!("  ⚠ ◻ already at the base — no ramified layer to remove; the tower FLOORS here (report the floor honestly, do not force it).");
     }
     println!("  {name}⁻  {}   — the relaxed form (one level down)", fmt_tuple(&ext));
     let (sc0, sc1) = (tier_score(&ground), tier_score(&ext));
@@ -3798,7 +3798,7 @@ pub fn run_descend(
     if let (Some(reg), Some(path)) = (register, catalog_path) {
         let nm = if reg.is_empty() { format!("{name}_descended") } else { reg.to_string() };
         let desc = format!(
-            "relaxed form {name}⁻ — {name} de-excited: Criticality ⊙ relaxed to the real-axis Hermitian fixed point and one ramified winding floor removed (Ω −1). The μ-relaxation inverse of ascend."
+            "relaxed form {name}⁻ — {name} de-excited: Criticality ⊙ relaxed to the real-axis Hermitian fixed point and one ramified winding floor removed (◻ −1). The μ-relaxation inverse of ascend."
         );
         match register_chimera(path, &nm, &desc, &ext, "descend") {
             Ok(()) => println!("  ✓ registered '{nm}' — the relaxed level is now a navigable object."),
@@ -3953,14 +3953,14 @@ pub fn run_star(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f3
 // Annihilation is μ — the recombination half of the δ/μ dyad, the same pairing
 // that carries charge conservation (δ charge-separates, μ fuses back).
 //
-// The Ω class decides whether the fusion is DETERMINATE:
-//   Ω=𐑷 trivial / Ω=𐑴 Z2 / Ω=𐑭 integer winding  — Abelian: the windings add.
+// The ◻ class decides whether the fusion is DETERMINATE:
+//   ◻=𐑷 trivial / ◻=𐑴 Z2 / ◻=𐑭 integer winding  — Abelian: the windings add.
 //        A pair with opposite winding annihilates to vacuum. One channel. Verdict T or F.
-//   Ω=𐑟 NON-ABELIAN — anyonic braiding. Fusion is a CHANNEL, not a value:
+//   ◻=𐑟 NON-ABELIAN — anyonic braiding. Fusion is a CHANNEL, not a value:
 //        the Fibonacci rule τ × τ = 1 + τ admits vacuum OR another τ. Both channels
 //        are open until something selects one, so the honest verdict is B.
 //
-// This is why "annihilate to shed a non-Abelian Ω" cannot be determinate: the class
+// This is why "annihilate to shed a non-Abelian ◻" cannot be determinate: the class
 // is defined by surviving continuous deformation, so the only route to vacuum is a
 // pair fusion that may or may not land in the vacuum channel.
 pub fn run_annihilate(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: Option<&str>) -> i32 {
@@ -4042,8 +4042,8 @@ pub fn run_annihilate(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: Op
 //
 // It walks ONE axis through every value it can take and reports, at each step,
 // what the perturbation costs and what it drags with it. This is the honest way
-// to ask "can I move Ω off non-Abelian" — you cannot deform Ω directly, but you
-// CAN perturb the axis it is coupled to and see whether Ω follows.
+// to ask "can I move ◻ off non-Abelian" — you cannot deform ◻ directly, but you
+// CAN perturb the axis it is coupled to and see whether ◻ follows.
 //
 // Reports, per candidate value: the resulting tuple, and any cross-primitive
 // coupling that the move disturbs. It does NOT write to the catalog — a
@@ -4060,7 +4060,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
     };
     let t = Tuple::from_entry(e);
 
-    // Accept the axis as a glyph name (⊥, Ω, …) or as a word (chirality, protection…).
+    // Accept the axis as a glyph name (⊥, ◻, …) or as a word (chirality, protection…).
     let key = axis.trim().trim_start_matches("--").to_ascii_lowercase();
     let idx = PRIMS.iter().position(|p| *p == axis.trim()).or_else(|| match key.as_str() {
         "dimensionality" | "d" | "perturb_dimensionality" => Some(0),
@@ -4078,7 +4078,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         _ => None,
     });
     let Some(ax) = idx else {
-        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ ⊞ Ω) or a name (chirality, protection, kinetics…).");
+        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ ⊞ ◻) or a name (chirality, protection, kinetics…).");
         return 2;
     };
 
@@ -4100,17 +4100,17 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         probe[ax] = Some(*o);
         let step = *o as i32 - cur_ord as i32;
         // Cross-primitive couplings the kernel actually holds (Core.lean):
-        //   ⊣=𐑸 forces ⊢=𐑦.        Ω ≥ 𐑭 requires ⊥ ≥ 𐑖.
+        //   ⊣=𐑸 forces ⊢=𐑦.        ◻ ≥ 𐑭 requires ⊥ ≥ 𐑖.
         // ⊥=𐑫 co-occurring with ⊤=𐑪 is a TENDENCY, not an axiom — reported, never enforced.
         let mut notes: Vec<String> = Vec::new();
         if ax == 1 && *o == 4 && probe[0] != Some(3) {
             notes.push("⊣=𐑸 forces ⊢=𐑦 — this move requires ⊢ to follow".into());
         }
         if ax == 11 && *o >= 2 && probe[9].map(|c| c < 2).unwrap_or(false) {
-            notes.push("Ω≥𐑭 requires ⊥≥𐑖 — raise chirality first or this will not hold".into());
+            notes.push("◻≥𐑭 requires ⊥≥𐑖 — raise chirality first or this will not hold".into());
         }
         if ax == 9 && *o < 2 && probe[11].map(|p| p >= 2).unwrap_or(false) {
-            notes.push("lowering ⊥ below 𐑖 breaks Ω≥𐑭 — the protection would fall with it".into());
+            notes.push("lowering ⊥ below 𐑖 breaks ◻≥𐑭 — the protection would fall with it".into());
         }
         if ax == 9 && *o == 3 && probe[5] != Some(3) {
             notes.push("tendency only (not an axiom): ⊥=𐑫 usually co-occurs with ⊤=𐑪".into());
@@ -4124,9 +4124,9 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
     println!("\n  a perturbation is a PROBE — nothing was written.");
     println!("  keep a step with: imscribe <name> <its tuple>   (registers verbatim)");
     if ax != 11 {
-        println!("  note: Ω cannot be perturbed directly to shed non-Abelian protection —");
+        println!("  note: ◻ cannot be perturbed directly to shed non-Abelian protection —");
         println!("  it is defined as what survives deformation. Move a coupled axis and see");
-        println!("  whether Ω follows, or fuse a pair with `annihilate`.");
+        println!("  whether ◻ follows, or fuse a pair with `annihilate`.");
     }
     0
 }

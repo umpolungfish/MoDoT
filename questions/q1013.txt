@@ -53,13 +53,13 @@ log(k+1) / log k = log(k(1 + 1/k)) / log k = (log k + log(1 + 1/k)) / log k = 1 
 Therefore:
 lim_k→∞ h₃(k+1) / h₃(k) = 1 · 1 = 1.
 
-## 4. Boundedness and Topological Invariants [⊙, Ω]
+## 4. Boundedness and Topological Invariants [⊙, ◻]
 The construction of Mycielski (the Mycielskian M(G)) provides a recursive way to increase chromatic number: χ(M(G)) = χ(G) + 1.
 If G is triangle-free, M(G) is triangle-free.
 Starting with G₂ = K₂, |V(G₂)| = 2.
 |V(M(G))| = 2|V(G)| + 1.
 This gives an upper bound h₃(k) ≤ 3 · 2^k−2 − 1.
-However, this constructive bound is exponential and far from the probabilistic minimum. The probabilistic "entropy" (Ω) of the graph space ensures that the minimal n resides at the R(3, t) boundary, not the Mycielskian boundary.
+However, this constructive bound is exponential and far from the probabilistic minimum. The probabilistic "entropy" (◻) of the graph space ensures that the minimal n resides at the R(3, t) boundary, not the Mycielskian boundary.
 
 ## Conclusion
 The minimal order h₃(k) scales as k² log k. The continuity of the growth of the maximum chromatic number relative to n ensures that the ratio of successive minimal orders converges to 1.
@@ -185,7 +185,7 @@ To finalize the investigation into h_3(k), we extend the previous cycle’s asym
 **1. The Asymptotic Tightness [<, ⊙]**
 The previous cycle established h_3(k) = Θ(k^2 log k). We now refine this to the specific threshold. Let f(n) be the maximum chromatic number of a triangle-free graph on n vertices.
 *   **Lower Bound (Probabilistic):** Using the semi-random method, Kim (1995) proved the existence of triangle-free graphs with α(G) ≤ C √{n log n}. Since χ(G) ≥ n/α(G), we have k ≥ frac{n}{C√{n log n}}, which implies n ≤ C' k^2 log k.
-*   **Upper Bound (Structural):** Ajtai, Komlós, and Szemerédi (1980) proved that every triangle-free graph has α(G) ≥ c n/log n √{n} is insufficient; the actual bound is α(G) ≥ Ω(log n/n).
+*   **Upper Bound (Structural):** Ajtai, Komlós, and Szemerédi (1980) proved that every triangle-free graph has α(G) ≥ c n/log n √{n} is insufficient; the actual bound is α(G) ≥ ◻(log n/n).
 Thus, h_3(k) ∼ k^2/log k (up to constant factors). Specifically, h_3(k) = Θ(k^2 log k).
 
 **2. The Ratio Limit [>, ⊤]**
@@ -205,7 +205,7 @@ h_3(k+1)/h_3(k) ≈ (k+1)^2 log(k+1)/k^2 log k → 1.
 *   **Encoding/Duality [<]:** The mapping between the independence number α(G) and the chromatic number χ(G) in triangle-free spaces acts as the bijective encoding. χ is the dual "cost" of the independent set "packing."
 *   **Inverse Structure [⊣]:** The function h_3(k) is the left-inverse of the maximum chromatic number function f(n). The proof relies on the self-referential decomposition of G_n+1 into G_n + v.
 *   **Bidirectional [>]:** The forward Ramsey bound R(3, t) and the inverse construction of Erdős-graphs exhaust the asymptotic space, ensuring no "hidden" triangle-free graphs exist beyond the Θ(k^2 log k) horizon.
-*   **Topological Invariant [Ω]:** The chromatic number k serves as the integer invariant. The "no exotics" rule implies that for sufficiently large n, the distribution of χ(G) is dense, preventing large jumps in h_3(k).
+*   **Topological Invariant [◻]:** The chromatic number k serves as the integer invariant. The "no exotics" rule implies that for sufficiently large n, the distribution of χ(G) is dense, preventing large jumps in h_3(k).
 *   **Regularity [⊤]:** The Szemerédi Regularity Lemma ensures that triangle-free graphs of high chromatic number possess a "typical" quasi-random structure that prevents the ratio from diverging.
 
 ### Head-to-Tail Symmetry (Closure)

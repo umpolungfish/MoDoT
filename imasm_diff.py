@@ -133,7 +133,7 @@ def diff_all_pairs() -> str:
         ('⊙', 'monad','roar',   'criticality: trefoil→frobenioid'),
         ('⊥', 'sure', 'wool',   'chirality: trefoil→frobenioid'),
         ('Σ', 'hung', 'up',     'stoichiometry: trefoil→frobenioid'),
-        ('Ω', 'ah',   'ah',     'winding (shared)'),
+        ('◻', 'ah',   'ah',     'winding (shared)'),
     ]
     
     sections = []

@@ -52,7 +52,7 @@ PINNED_PAIRS: Dict[str, str] = {"P": "F", "F": "P", "K": "G", "G": "K", "Gm": "P
 PRIMITIVE_NAMES: Dict[str, str] = {
     "⊢": "dim", "⊣": "top", ">": "rel", "<": "pol",
     "⋈": "fid", "⊤": "kin", "∈": "gram", "∋": "gran",
-    "⊙": "crit", "⊥": "chir", "⊞": "stoi", "Ω": "prot",
+    "⊙": "crit", "⊥": "chir", "⊞": "stoi", "◻": "prot",
 }
 PRIMITIVE_GLYPHS: Dict[str, str] = {v: k for k, v in PRIMITIVE_NAMES.items()}
 
@@ -233,7 +233,7 @@ def resonance_report(a_name: str, b_name: str) -> ResonanceReport:
             report.application_domains.append("symmetry-protected systems")
         if "⊙" in report.cotype.agree_axes or "Ph" in report.cotype.agree_axes:
             report.application_domains.append("criticality-sensitive systems")
-        if "Ω" in report.cotype.agree_axes or "W" in report.cotype.agree_axes:
+        if "◻" in report.cotype.agree_axes or "W" in report.cotype.agree_axes:
             report.application_domains.append("topologically ordered systems")
     
     return report

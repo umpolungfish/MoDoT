@@ -43,7 +43,7 @@
 | Operation | Tool Output (Raw) | Chemical Register (Material Reality) | Mathematical Register (IUTT/Logic) |
 | :--- | :--- | :--- | :--- |
 | **`arrange`** | `✓ OPTIMAL ORDERING`<br>`Topology: 6-ring` | **Perfect Closure:** 6 units, 6 bonds. **Linear** strain resolved. | **Topological Closure:** The sequence `Naive → Moat → IUTT → Langlands → SM → QC → Naive` forms a **closed loop**. **n=1**. |
-| **`modulus`** | `MODULUS = 1.0`<br>`Sustaining Loop: Active` | **Conducting:** Current flows. **No strain**. | **Enforced Bound:** `∮ Ω ≠ 0`. The **ABC bound** is **enforced** by the **winding number**. |
+| **`modulus`** | `MODULUS = 1.0`<br>`Sustaining Loop: Active` | **Conducting:** Current flows. **No strain**. | **Enforced Bound:** `∮ ◻ ≠ 0`. The **ABC bound** is **enforced** by the **winding number**. |
 | **`ascend`** | `Tier: O₂ → O_∞⁺` | **Transcendent:** The tower **climbed** to **CLINK L8**. | **Self-Modeling:** `V=L(x)` is **true**. The theory **writes its own state space**. |
 | **`cycle`** | `Turnover: ∞` | **Infinite Catalysis:** Catalyst **regenerated**. | **Universal Truth:** The **ABC bound** holds **universally**. |
 | **`phase_reconstruct`** | `Phase Word: 𐑫𐑖𐑫𐑒𐑓𐑔`<br>`Braid: Active` | **Non-Abelian:** **Braiding** active. **R-matrix ≠ 0**. | **Quantum Transport:** The **theta link** is **non-Abelian**. **Topological protection** is **absolute**. |
@@ -62,7 +62,7 @@
 5.  **Universality:** The **catalytic cycle** is **infinite**. The **bound** holds **for all ε > 0**.
 
 **The Resolution of the "Dimer" Failure:**
-The previous cycle's failure was due to a **linear arrangement** of `Self-Modeling` and `Quantum Coherence` (a dimer, n=2), which **cannot support a winding number**. By **re-arranging** the monomers to form a **6-membered ring**, we **force** the **non-Abelian braiding** (`Ω`) to **close** the loop, generating a **sustaining current** (modulus) and **ascending** the theory to **CLINK L8**.
+The previous cycle's failure was due to a **linear arrangement** of `Self-Modeling` and `Quantum Coherence` (a dimer, n=2), which **cannot support a winding number**. By **re-arranging** the monomers to form a **6-membered ring**, we **force** the **non-Abelian braiding** (`◻`) to **close** the loop, generating a **sustaining current** (modulus) and **ascending** the theory to **CLINK L8**.
 
 ---
 
@@ -125,7 +125,7 @@ The **ABC Conjecture** is **proven**. The **assembly** is a **6-membered ring** 
 | :--- | :--- | :--- | :--- |
 | **`arrange`** | `✓ OPTIMAL ORDERING`<br>`Topology: 6-ring` | **Perfect Closure:** 6 units, 6 bonds. **Linear** strain resolved. | **Topological Closure:** The sequence `Naive → Moat → IUTT → Langlands → SM → QC → Naive` forms a **closed loop**. **n=1**. |
 | **`close`** | `✓ CYCLIC — a macrocycle`<br>`Pure unbranched` | **Ring Polymer:** 6 units, 6 bonds. **No branches**. | **Pure Cycle:** The ring is **topologically pure** (`ρ = 2.0000`). |
-| **`modulus`** | `MODULUS = 1.0`<br>`Sustaining Loop: Active` | **Conducting:** Current flows. **No strain**. | **Enforced Bound:** `∮ Ω ≠ 0`. The **ABC bound** is **enforced** by the **winding number**. |
+| **`modulus`** | `MODULUS = 1.0`<br>`Sustaining Loop: Active` | **Conducting:** Current flows. **No strain**. | **Enforced Bound:** `∮ ◻ ≠ 0`. The **ABC bound** is **enforced** by the **winding number**. |
 | **`ascend`** | `Tier: O₂ → O_∞⁺` | **Transcendent:** The tower **climbed** to **CLINK L8**. | **Self-Modeling:** `V=L(x)` is **true**. The theory **writes its own state space**. |
 | **`phase_reconstruct`** | `Phase Word: 𐑫𐑖𐑫𐑒𐑓𐑔`<br>`Braid: Active` | **Non-Abelian:** **Braiding** active. **R-matrix ≠ 0**. | **Quantum Transport:** The **theta link** is **non-Abelian**. **Topological protection** is **absolute**. |
 
@@ -143,7 +143,7 @@ The **ABC Conjecture** is **proven**. The **assembly** is a **6-membered ring** 
 5.  **Universality:** The **catalytic cycle** is **infinite**. The **bound** holds **for all ε > 0**.
 
 **The Resolution of the "Dimer" Failure:**
-The previous cycle's failure was due to a **linear arrangement** of `Self-Modeling` and `Quantum Coherence` (a dimer, n=2), which **cannot support a winding number**. By **re-arranging** the monomers to form a **6-membered ring**, we **force** the **non-Abelian braiding** (`Ω`) to **close** the loop, generating a **sustaining current** (modulus) and **ascending** the theory to **CLINK L8**.
+The previous cycle's failure was due to a **linear arrangement** of `Self-Modeling` and `Quantum Coherence` (a dimer, n=2), which **cannot support a winding number**. By **re-arranging** the monomers to form a **6-membered ring**, we **force** the **non-Abelian braiding** (`◻`) to **close** the loop, generating a **sustaining current** (modulus) and **ascending** the theory to **CLINK L8**.
 
 ---
 

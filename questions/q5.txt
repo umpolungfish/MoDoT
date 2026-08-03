@@ -35,7 +35,7 @@ Using the `arrange` and `forge` tools, the set of monomers {proof_f_n_asymptotic
 **2. Material Properties**
 - **Architecture:** 7-membered **macrocycle** (ring polymer).
 - **Spectral Radius (ρ):** 2.0000. This exactly matches the value for a pure, unbranched cycle.
-- **Spectral Gap:** 0.1981. The presence of a gap confirms a dominant ring-current mode, though the material is currently **INSULATING** due to Ω-saturation at the 4→5 junction (completeness ⋈ gaussian_moat_problem).
+- **Spectral Gap:** 0.1981. The presence of a gap confirms a dominant ring-current mode, though the material is currently **INSULATING** due to ◻-saturation at the 4→5 junction (completeness ⋈ gaussian_moat_problem).
 - **Stability:** The ring is as stable as its weakest link (Δ=0.67 at the 7→1 junction), with a ring strain σ(Δ) = 0.301.
 
 **Verdict:** The asymptotic formula f(n) ∼ n is established (T). The grammatic witness is a **CLOSED** macrocycle, confirming the completeness of the proof scaffold.

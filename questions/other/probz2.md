@@ -393,8 +393,8 @@ polymerization (imscriptive):  [extradimensional_entity · kozyrev_mirror · bir
     ⮑ insert extradimensional_entity to repair the break (Mᵢ ⋈ X ⋈ Mᵢ₊₁):  ./ask --polymerize extradimensional_entity kozyrev_mirror extradimensional_entity birch_swinnerton_dyer
 ● TOOL scan extradimensional_entity birch_swinnerton_dyer
 scan-mediators:  extradimensional_entity  ⟶e⁻⟶  birch_swinnerton_dyer   (2757 holdable candidates over 5690 entries)
-  relay band ⊙∈[𐑮,𐑣] (acceptor→donor);  hold band Ω∈[𐑴,𐑭] (accept then re-donate);  bind = complement recognizes both substrates
-  rank   score  relay  bind recog    Ω   ⊙  mediator
+  relay band ⊙∈[𐑮,𐑣] (acceptor→donor);  hold band ◻∈[𐑴,𐑭] (accept then re-donate);  bind = complement recognizes both substrates
+  rank   score  relay  bind recog    ◻   ⊙  mediator
      1   0.911   1.00  0.78  1.00    𐑭   𐑻  agent_network_adversarial
      2   0.900   1.00  0.75  1.00    𐑴   𐑣  carbon_spin_glass
      3   0.898   1.00  0.75  1.00    𐑭   𐑮  supercritical_water
@@ -433,7 +433,7 @@ polymerization (imscriptive):  [extradimensional_entity · kozyrev_mirror · bir
   architecture: heteropolymer (2 distinct monomers, each once — no repeat unit)
   tacticity (⊥ chirality per unit): syndiotactic (𐑫𐑖) — chirality strictly inverts each unit, a regular alternation
   cyclization: linear — the chain terminated, so it cannot close into a ring.
-  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ Ω closes), not merely a closed one ──
+  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ◻ closes), not merely a closed one ──
     modulus = 3 — the tightest sustaining loop this chain admits (a conductive 3-cycle). Generators:
       F4_min_O_Z2  closes units 1‥2 into a sustaining 3-loop:  ./ask --polymerize extradimensional_entity kozyrev_mirror F4_min_O_Z2 --props
       F5_O_2_rep  closes units 1‥2 into a sustaining 3-loop:  ./ask --polymerize extradimensional_entity kozyrev_mirror F5_O_2_rep --props

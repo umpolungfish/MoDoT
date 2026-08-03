@@ -208,9 +208,9 @@ struct Cli {
     #[arg(long = "excite", num_args = 0..=1, default_missing_value = "")]
     excite: Option<String>,
 
-    /// Single-electron transfer (SET). `--set D A` transfers one winding quantum Ω
+    /// Single-electron transfer (SET). `--set D A` transfers one winding quantum ◻
     /// (the quantized charge) from donor to acceptor: donor oxidized (D•⁺), acceptor
-    /// reduced (A•⁻), total Ω conserved. Donor/acceptor set by Criticality ⊙ (energy).
+    /// reduced (A•⁻), total ◻ conserved. Donor/acceptor set by Criticality ⊙ (energy).
     /// Add `--catalyst M` for a Cu-NO-class mediator, `--excite` for photoinduced ET.
     #[arg(long = "set", num_args = 2, value_names = ["D", "A"])]
     set: Option<Vec<String>>,
@@ -244,7 +244,7 @@ struct Cli {
     complement: Option<String>,
 
     /// With `--set D A`: scan the whole catalog for the best mediators of that
-    /// transfer — holdable winding (Ω), ⊙ relay between donor and acceptor, and
+    /// transfer — holdable winding (◻), ⊙ relay between donor and acceptor, and
     /// bidirectional recognition (its complement binds both substrates). Ranked; --top bounds it.
     #[arg(long = "scan-mediators")]
     scan_mediators: bool,
@@ -280,14 +280,14 @@ struct Cli {
     close: bool,
 
     /// With `--polymerize`: if the polymer is CLOSED (cyclic), characterize the ring as a
-    /// mathematical material — is it conductive (a winding quantum Ω circulates the loop),
+    /// mathematical material — is it conductive (a winding quantum ◻ circulates the loop),
     /// frustrated, or insulating; and its weakest ring bond. Grounds the transport claims
     /// prose asserts about a cyclic "computer".
     #[arg(long = "props")]
     props: bool,
 
     /// With `--polymerize`: search for a monomer that generates a SUSTAINING loop — a
-    /// conductive cycle (a persistent Ω current, ∮ closes) somewhere along the chain, and
+    /// conductive cycle (a persistent ◻ current, ∮ closes) somewhere along the chain, and
     /// report its period (the modulus). Distinct from `--close`: a ring can close and
     /// still be static (insulating, no modulus). A modulus is elasticity, a sustaining loop.
     #[arg(long = "modulus")]
@@ -437,12 +437,12 @@ struct Cli {
     filter: Vec<String>,
 
     /// Construct the next ramified level of a tower from the excited state: `--ascend A`
-    /// excites A, then IFIX-continues it past the exceptional point and adds one winding Ω.
+    /// excites A, then IFIX-continues it past the exceptional point and adds one winding ◻.
     #[arg(long = "ascend", value_name = "NAME")]
     ascend: Option<String>,
 
     /// Relax a tower level back down (the μ inverse of --ascend): `--descend A` de-excites
-    /// A's Criticality ⊙ to the real-axis Hermitian fixed point and removes one winding Ω.
+    /// A's Criticality ⊙ to the real-axis Hermitian fixed point and removes one winding ◻.
     #[arg(long = "descend", value_name = "NAME")]
     descend: Option<String>,
     /// Broadcast: the ∋ primitive (f → all(x)) — one SOURCE signals every subsystem it
@@ -467,7 +467,7 @@ struct Cli {
 
     /// Plasma reading: read an entry's 12-primitive tuple as a plasma design — regime
     /// (kinetic/gyrokinetic/fluid via ⊢,⋈), instability cascade (∋,⊙,⊥), confinement /
-    /// magnetic topology (Ω), species (Σ), and diagnostic wave signatures. Shells to the
+    /// magnetic topology (◻), species (Σ), and diagnostic wave signatures. Shells to the
     /// red-hot_rebis plasma forge.
     #[arg(long = "plasma", value_name = "NAME")]
     plasma: Option<String>,
@@ -1167,7 +1167,7 @@ fn build_scaffold(question: &str, primary: Option<&CatalogEntry>, hits: &[(Catal
     lines.push("- Inverse structure [⊣]: dual / self-referential decomposition".into());
     lines.push("- Bidirectional [>]: forward and inverse constructions exhaust".into());
     lines.push("- Boundedness [⊙]: confinement / no escape to infinity".into());
-    lines.push("- Topological invariant [Ω]: integer invariant rules out exotics".into());
+    lines.push("- Topological invariant [◻]: integer invariant rules out exotics".into());
     lines.push("- Regularity [⊤]: equidistribution / typical configurations".into());
     lines.push(String::new());
     lines.push("## Question".to_string());
@@ -2074,7 +2074,7 @@ vessel voice. Where a scaffold section is present, you **MUST** use it to STRUCT
 conventional proof, instantiated in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
-renderer. You **MUST** write plain Unicode only: Δ θ μ ∘ δ ↔ → ⊙ Σ Ω < ∈ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞
+renderer. You **MUST** write plain Unicode only: Δ θ μ ∘ δ ↔ → ⊙ Σ ◻ < ∈ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞
 √ ⟨ ⟩, the primitive glyphs ⊢ > ⋈ ⊣ ⊥ ⊤ ∋, and Shavian directly. Write forms
 like `Δ_T↔H > θ` or `μ∘δ = id`, never LaTeX like `$\Delta_{\text{T↔H}}$`. This
 is a NOTATION rule only — never restate it, and never write a Δ, charge, or
@@ -2282,15 +2282,15 @@ Descriptions (semantics only — arity is the table above):
   TOOL: click A B         fuse two entries on a live conjugate pair (or `click A` to sweep the catalog)
   TOOL: switch A B        analyze a reversible bistable toggle (the DASA archetype)
   TOOL: excite A          the excited state (Criticality ⊙ raised to the exceptional-point resonance)
-  TOOL: ascend A          construct the NEXT ramified level of the tower FROM A's excited state: continue ⊙ past the exceptional point to the complex-axis fixed point and add one winding Ω (one floor; iterate for more). Reports honestly if Ω saturates (tower caps) or the tier does not climb
+  TOOL: ascend A          construct the NEXT ramified level of the tower FROM A's excited state: continue ⊙ past the exceptional point to the complex-axis fixed point and add one winding ◻ (one floor; iterate for more). Reports honestly if ◻ saturates (tower caps) or the tier does not climb
   TOOL: filter A B [C…]   narrow the catalog to the structural FLOOR of the references (the primitives they all share): reports how many entries match ALL shared values — the honest way to cut a raw candidate pool down (a necessary, upper-bound condition)
-  TOOL: descend A        relax ⊙ to the real-axis Hermitian ground and remove one winding Ω (the μ inverse of ascend): `descend A` de-excites A's Criticality ⊙ from the exceptional point back to the real-axis fixed point, peeling off one winding. Reports honestly if ⊙ is already at or below the ground (no further relaxation) and whether the tier drops (a genuine de-excitation)
+  TOOL: descend A        relax ⊙ to the real-axis Hermitian ground and remove one winding ◻ (the μ inverse of ascend): `descend A` de-excites A's Criticality ⊙ from the exceptional point back to the real-axis fixed point, peeling off one winding. Reports honestly if ⊙ is already at or below the ground (no further relaxation) and whether the tier drops (a genuine de-excitation)
   TOOL: windings L1 L2 ...  read a spectrum as winding transitions. Each line (nm/Å/µm/eV, optional element prefix e.g. Na:589.0nm) is a jump between two winding configurations on the horn torus: n toroidal, l poloidal, m_l tilt, s spin half-winding. Level energies are α²/2 fractions of the ONE scale anchor (electron rest energy m_e c²); everything else — α², the reduced-mass ratio, 1/(n−δ)² — is pure winding arithmetic, and the quantum defect δ is the per-atom core-penetration winding slip (zero for hydrogen). Checks the electric-dipole selection rules as allowed winding moves (Δl=±1, Δm∈{0,±1}, Δs=0) and reports each transition ALLOWED/FORBIDDEN. nm is a projection onto SI at the last step
   TOOL: phase_reconstruct M1 M2…  recover the relative PHASE WORD from the closed ring (flat autocorrelation ⟺ cyclization): reads back the per-unit ⊥ phase sequence, fixed modulo one global phase; if the set does not close it reports the phases as N (underdetermined)
-  TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum Ω moved) → radical IONS A•⁺/B•⁻
+  TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum ◻ moved) → radical IONS A•⁺/B•⁻
   TOOL: homolyze A [B]     homolytic cleavage → NEUTRAL radicals (δ_A symmetric split, the reverse of click): `homolyze A B` breaks the A—B bond into A•+B•; `homolyze A` splits A into two A•
-  TOOL: recalibrate A AXIS perturb ONE axis (glyph ⊥ Ω ⊤ … or name chirality/protection/kinetics) through every value it can take; reports what each step costs and which cross-primitive couplings it disturbs. Writes nothing — keep a step with `imscribe <name> <tuple>`
-  TOOL: annihilate A [B]   pair fusion μ (the reverse of homolyze): `annihilate A B` fuses the pair, `annihilate A` fuses A with its own conjugate. Abelian Ω windings ADD — opposite windings cancel to vacuum (T), like windings leave a residual (F). Ω=𐑟 non-Abelian returns a CHANNEL, not a value (Fibonacci τ×τ=1+τ: vacuum OR another τ) → verdict B, both open. Ω=𐑟 does not deform away; braid first to select a channel, then re-annihilate
+  TOOL: recalibrate A AXIS perturb ONE axis (glyph ⊥ ◻ ⊤ … or name chirality/protection/kinetics) through every value it can take; reports what each step costs and which cross-primitive couplings it disturbs. Writes nothing — keep a step with `imscribe <name> <tuple>`
+  TOOL: annihilate A [B]   pair fusion μ (the reverse of homolyze): `annihilate A B` fuses the pair, `annihilate A` fuses A with its own conjugate. Abelian ◻ windings ADD — opposite windings cancel to vacuum (T), like windings leave a residual (F). ◻=𐑟 non-Abelian returns a CHANNEL, not a value (Fibonacci τ×τ=1+τ: vacuum OR another τ) → verdict B, both open. ◻=𐑟 does not deform away; braid first to select a channel, then re-annihilate
   TOOL: scan A B          rank the catalog for the best mediators of the A→B transfer
   TOOL: complement A      the bidirectional ligand⇌catalytic-site complement (its own inverse)
   TOOL: cycle C S         the catalytic cycle: C turns over S, certified a fixed point (μ∘δ=id)
@@ -2298,7 +2298,7 @@ Descriptions (semantics only — arity is the table above):
   TOOL: polymerize M1 M2… chain monomers into a sequence-preserving polymer (architecture — homo/hetero/alternating/BLOCK/random copolymer — tacticity, does it cyclize?)
   TOOL: star M1 M2 M3…    assemble a STAR polymer: pick the highest-functionality monomer as the CORE, attach every unit that clicks with it as an ARM; a pure star K(1,f) is a hub of f≥3 non-interbonding arms with ρ=√f (vs a ρ=2 ring). Reports core, arms, purity, and the unattached pool
   TOOL: broadcast SOURCE  the ∋ primitive (f → all(x)): the SOURCE signals every subsystem it couples with at once — swept from the whole catalog in one pass (the sweep finds the receivers). This is how CLINK L8 (∋) broadcasts to all subsystems; use it wherever you need one-to-all simultaneity instead of a ring or chain
-  TOOL: plasma ENTRY      read the entry's 12-primitive tuple as a PLASMA design (the collectivized-atom register between atom and molecule): regime (kinetic/gyrokinetic/fluid via ⊢,⋈), instability cascade (∋,⊙,⊥), confinement/magnetic topology (Ω), species (Σ), and diagnostic wave signatures — another lossless face of the object, not a separate substance
+  TOOL: plasma ENTRY      read the entry's 12-primitive tuple as a PLASMA design (the collectivized-atom register between atom and molecule): regime (kinetic/gyrokinetic/fluid via ⊢,⋈), instability cascade (∋,⊙,⊥), confinement/magnetic topology (◻), species (Σ), and diagnostic wave signatures — another lossless face of the object, not a separate substance
   TOOL: close M1 M2…      polymerize, and if it does not cyclize, find the real monomer that CLOSES the ring or BRIDGES the break
   TOOL: material M1 M2…    polymerize, and if the ring CLOSES, characterize it as a material: conductive / frustrated / insulating, ring stability, AND spectral invariants (adjacency spectrum, spectral radius ρ, gap)
   TOOL: modulus M1 M2…     find a monomer that generates a SUSTAINING loop (a conductive cycle) somewhere along the chain — the modulus (elasticity), NOT mere closure
@@ -3145,7 +3145,7 @@ mod delatex_tests {
     fn common_operators_and_frac() {
         let got = delatex(r"$\mu \circ \delta = \text{id}$, $\frac{a}{b} \geq \Omega \leftrightarrow \Sigma$");
         assert!(got.contains("μ ∘ δ = id"), "{got}");
-        assert!(got.contains("a/b ≥ Ω ↔ Σ"), "{got}");
+        assert!(got.contains("a/b ≥ ◻ ↔ Σ"), "{got}");
     }
 }
 
@@ -4753,7 +4753,7 @@ computations are cut at the time limit and report the cut rather than a partial 
         "stain"         => "stain R M1 M2...; a reagent (kmno4/uv/chiral/ninhydrin/iodine) then 1+ units",
         "filter"     => "filter A B [C …]; 2+ reference names (narrow the catalog to their shared floor)",
         "ascend"     => "ascend A; 1 name (construct the next ramified tower level from A's excited state)",
-        "descend"    => "descend A; 1 name (relax ⊙ to the real-axis ground, remove one winding Ω — the μ inverse of ascend)",
+        "descend"    => "descend A; 1 name (relax ⊙ to the real-axis ground, remove one winding ◻ — the μ inverse of ascend)",
         "windings"   => "windings L1 L2 ...; 1+ spectral lines (nm/Å/µm/eV, optional element prefix Na:) — read each as a winding transition n,l,m on the horn torus, check the dipole selection rules, energies as α²/2 of the one anchor",
         "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
         "star"       => "star M1 M2 M3 …; 4+ names (hub-and-arms star polymer: auto core + arms, ρ=√f)",
@@ -4799,7 +4799,7 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         ),
         "set" => (
             "single-electron transfer, donor → acceptor, giving radical ions",
-            "transport of one winding quantum Ω across the ⊙ gradient — a unit change of the topological winding invariant",
+            "transport of one winding quantum ◻ across the ⊙ gradient — a unit change of the topological winding invariant",
         ),
         "distill" | "fdistill" | "sublime" => (
             "separation by volatility along Criticality ⊙ — volatile head vs involatile residue; a tie on ⊙ is an azeotrope",
@@ -4823,11 +4823,11 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         ),
         "ascend" => (
             "take the excited resonance and fix it into a constructed higher state (build one floor of the tower)",
-            "analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum Ω — one ramified level of the extension tower",
+            "analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum ◻ — one ramified level of the extension tower",
         ),
         "descend" => (
             "relax the excited resonance back to the ground — peel off one floor of the tower",
-            "analytically continue back from the complex-axis fixed point to the real-axis Hermitian ground, removing one winding quantum Ω — one ramified level peeled off the extension tower",
+            "analytically continue back from the complex-axis fixed point to the real-axis Hermitian ground, removing one winding quantum ◻ — one ramified level peeled off the extension tower",
         ),
         "phase_reconstruct" => (
             "read the relative phases off a closed ring — fixed up to one global phase",
@@ -4847,7 +4847,7 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
         ),
         "plasma" => (
             "read the entry as a collectivized-atom plasma: its regime (kinetic/gyrokinetic/fluid), instabilities, confinement class, and diagnostic wave signatures — the state where units surrender individual identity to the electromagnetic collective",
-            "map the 12-primitive tuple to plasma parameters via the forge: ⊢→phase-space/kinetic regime, ⋈→collisionality, ⊤→transport, ∋→instability cascade, ⊙→threshold/spectral structure, ⊥→reversibility (Vlasov vs Boltzmann), Ω→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
+            "map the 12-primitive tuple to plasma parameters via the forge: ⊢→phase-space/kinetic regime, ⋈→collisionality, ⊤→transport, ∋→instability cascade, ⊙→threshold/spectral structure, ⊥→reversibility (Vlasov vs Boltzmann), ◻→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
         ),
         "imasm" => (
             "compose the 12 IMASM opcodes into a free polymer — a chain, a ring, a star (hub + arms), a comb (backbone + grafts), a bubble (fork that reconverges), or a network — not only a line; reports the topology, its independent-loop count, and whether the grammar holds (only FSPLIT branches, only FFUSE fuses)",
@@ -5453,7 +5453,7 @@ fn atomic_token_seed(name: &str) -> Option<String> {
     Some(symbol_seed.to_string())
 }
 
-/// The twelve catalog keys, in notation order: ⟨⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ ⊞ Ω⟩.
+/// The twelve catalog keys, in notation order: ⟨⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ ⊞ ◻⟩.
 const PRIM_KEYS: [&str; 12] = ["⊢", "⊣", ">", "<", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "◻"];
 
 /// Parse a well-formed 12-glyph notation ⟨…⟩ into its twelve values.
@@ -7414,7 +7414,7 @@ fn main() {
         }
     }
 
-    // Pair fusion μ: `./ask --annihilate A [B]`. The Ω class decides whether the
+    // Pair fusion μ: `./ask --annihilate A [B]`. The ◻ class decides whether the
     // fusion is determinate — non-Abelian returns a channel (verdict B), not a value.
     if let Some(names) = &cli.annihilate {
         if !names.is_empty() {

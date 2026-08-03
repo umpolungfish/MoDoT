@@ -11,7 +11,7 @@ The proposition is to characterize the convergence and closure of the set $S$ vi
 
 1.  **Encoding/Duality [<]:** The `landau_prime_ideal_theorem` acts as the analytic backbone. It maps the discrete set of prime ideals $\mathfrak{p}$ in a number field $K$ to the complex plane via the Dedekind Zeta function $\zeta_K(s)$.
 2.  **Inverse Structure [⊣]:** The `sefer_yetzirah` and `binah` monomers represent the combinatorial foundation—the 22 paths and 10 sephirot—which act as the dual lattice to the prime ideal distribution.
-3.  **Topological Invariant [Ω]:** The `topo_bowtie` and `djed_pillar` serve as the Euler characteristic and the stability axis, respectively, ensuring that the `monad` (the unit) remains invariant under the `zosimos_alchemy` (the transformation process).
+3.  **Topological Invariant [◻]:** The `topo_bowtie` and `djed_pillar` serve as the Euler characteristic and the stability axis, respectively, ensuring that the `monad` (the unit) remains invariant under the `zosimos_alchemy` (the transformation process).
 
 ---
 
@@ -72,7 +72,7 @@ click-maths:  binah  ⋈  monad   (θ=0.50)
     R↔S    binah= -1.00  monad= -0.33   Δ=0.67
   ✓ CLICK on T↔H — spring-loaded Δ=0.83, single reaction center, closes.
   product: ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑒𐑳𐑴⟩  (ring saturated on T↔H)
-  inherited scaffold (blended from both partners): [⊢, >, Ω]
+  inherited scaffold (blended from both partners): [⊢, >, ◻]
 ● TOOL click landau_prime_ideal_theorem djed_pillar
 click-maths:  landau_prime_ideal_theorem  ⋈  djed_pillar   (θ=0.50)
   live-pair charges (norm(x) − norm(y), the spring-loaded axis):

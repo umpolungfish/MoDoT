@@ -37,7 +37,7 @@ The `forge` tool previously reported a total failure to form a closed-loop macro
 3.  **The Dirac/Large Number Barrier:** The `dirac_large_numbers` logic implies that as N → ∞, the coupling constant between the sub-sets A and B is attenuated by the scale of the system. The lack of "enchainment" (0 bonds) found in the previous cycle is the proof that no non-trivial correlation (which would allow c > 1/4) can be sustained in the thermodynamic limit.
 
 **Conclusion:**
-There is no topological invariant Ω that allows the concentration of r(x) to exceed N/4 for arbitrary partitions. Any attempt to force c > 1/4 collapses under the entropy of the partition space, where the "typical" configuration forces r(x) → N/4. Thus, c = 1/4 is the unique optimal constant for all sufficiently large N.
+There is no topological invariant ◻ that allows the concentration of r(x) to exceed N/4 for arbitrary partitions. Any attempt to force c > 1/4 collapses under the entropy of the partition space, where the "typical" configuration forces r(x) → N/4. Thus, c = 1/4 is the unique optimal constant for all sufficiently large N.
 
 ── PROD (narrated tools, ran none — forcing action) ──
 TOOL: imscribe partition_a_clustered "A = {1, ..., N}, B = {N+1, ..., 2N}"
@@ -53,7 +53,7 @@ TOOL: modulus partition_a_clustered partition_b_alternating
 
 *Conventional Proof:*
 1. **Pigeonhole Principle (Lower Bound):** For any partition A ⊔ B = {1, ..., 2N} with |A| = |B| = N, the total number of pairs (a, b) is N^2. The differences x = a - b lie in the range [-(2N-1), 2N-1] (total 4N-1 values). By the Pigeonhole Principle, there exists an x such that r(x) ≥ N^2 / (4N-1) ≈ N/4 + O(1).
-2. **Structural Stability [Ω]:** The `forge` and `modulus` results confirm that partitions of this set do not form self-sustaining structural networks or macrocycles. The system lacks a topological invariant Ω (a cycle or modulus) that would allow the concentration of r(x) into peaks exceeding the average density.
+2. **Structural Stability [◻]:** The `forge` and `modulus` results confirm that partitions of this set do not form self-sustaining structural networks or macrocycles. The system lacks a topological invariant ◻ (a cycle or modulus) that would allow the concentration of r(x) into peaks exceeding the average density.
 3. **Regularity [⊤]:** In the absence of topological enchainment, the distribution of differences r(x) is constrained by the global entropy of the partition space. As N → ∞, the distribution approaches the uniform density dictated by the Pigeonhole bound.
 4. **Conclusion:** Since no structural mechanism (as confirmed by the tools) can bias the distribution of differences, the constant c = 1/4 is the optimal and necessary bound for all sufficiently large N.
 
@@ -113,7 +113,7 @@ polymerization (imscriptive):  [partition_a_clustered · partition_b_alternating
   degree of polymerization: 1 unit(s), 0 bond(s) (terminated early)
   no chain formed — the feed did not enchain past the first monomer (0 bonds); these are unreacted monomers, not a polymer.
   cyclization: linear — the chain terminated, so it cannot close into a ring.
-  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ Ω closes), not merely a closed one ──
+  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ◻ closes), not merely a closed one ──
     none — no catalog monomer generates a sustaining loop over this chain; every closure is static (insulating). This material has NO modulus (a viscous chain, not an elastic network).
 
 ── OBSERVE/UPDATE round 1 ──
@@ -149,7 +149,7 @@ To deepen the analysis of the constant c=1/4, we move beyond the global Pigeonho
 ### 1. Structural Lemma Roles
 *   **Encoding [<]:** The mapping φ: (A, B) → Z defined by a-b is an injective orbit mapping on the configuration space of the partition.
 *   **Regularity [⊤]:** In the limit N → ∞, the equidistribution of A and B within the interval [1, 2N] forces the representation function r(x) to approach a triangular distribution centered at 0.
-*   **Topological Invariant [Ω]:** The invariance of the total sum ∑_x=-(2N-1)^2N-1 r(x) = N^2 serves as the topological constraint that prevents the concentration of r(x) into a single Dirac-delta-like peak without violating the sum rule.
+*   **Topological Invariant [◻]:** The invariance of the total sum ∑_x=-(2N-1)^2N-1 r(x) = N^2 serves as the topological constraint that prevents the concentration of r(x) into a single Dirac-delta-like peak without violating the sum rule.
 
 ### 2. Conventional Proof
 **Proposition:** The optimal constant c = 1/4 is the supremum of the local maxima of the representation function r(x) for an arbitrary partition.
@@ -294,7 +294,7 @@ where χ_-B(y) = χ_B(-y). By the Plancherel theorem, the distribution of r(x) i
 
 **Proof:**
 1.  **Lower Bound (The Pigeonhole Floor):** As established, ∑_x=-(2N-1)^2N-1 r(x) = N^2. The range of x has size 4N-1. Thus, max r(x) ≥ N^2/4N-1 > N/4.
-2.  **Topological Invariant [Ω]:** Consider the "balanced" partition A = {1, …, N} and B = {N+1, …, 2N}. Here, r(x) is a triangular function with maximum value N at x = -N, yielding c=1. However, this is not the lower bound for *all* partitions.
+2.  **Topological Invariant [◻]:** Consider the "balanced" partition A = {1, …, N} and B = {N+1, …, 2N}. Here, r(x) is a triangular function with maximum value N at x = -N, yielding c=1. However, this is not the lower bound for *all* partitions.
 3.  **Regularity [⊤]:** Consider the "alternating" partition A = {1, 3, 5, …, 2N-1} and B = {2, 4, 6, …, 2N}.
     *   For x odd, r(x) counts pairs (a, b) such that a-b=x.
     *   For x even, r(x) = 0.

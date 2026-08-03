@@ -172,7 +172,7 @@
         "FSPLIT",
         "FFUSE"
       ],
-      "spec": "ring ⊙ > < δ μ Ω=𐑟"
+      "spec": "ring ⊙ > < δ μ ◻=𐑟"
     },
     {
       "closure": "NONE",
@@ -708,7 +708,7 @@
         "FFUSE",
         "FFUSE"
       ],
-      "spec": "ring ◇[⊣ < ⋈] ● ◇[⊤ ∈ ⊙] ● ◇[⊥ ⊞ Ω] ●"
+      "spec": "ring ◇[⊣ < ⋈] ● ◇[⊤ ∈ ⊙] ● ◇[⊥ ⊞ ◻] ●"
     },
     {
       "closure": "NONE",
@@ -727,7 +727,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊙ Δ ⊥ ⊞ Ω ⊣ < ⋈ ⊤ ∈"
+      "spec": "ring ⊙ Δ ⊥ ⊞ ◻ ⊣ < ⋈ ⊤ ∈"
     },
     {
       "closure": "OPEN",
@@ -876,7 +876,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊣ < ⋈ ⊤ ∈ ⊙ ⊥ ⊞ Ω"
+      "spec": "ring ⊣ < ⋈ ⊤ ∈ ⊙ ⊥ ⊞ ◻"
     },
     {
       "closure": "OPEN",
@@ -1487,7 +1487,7 @@
         "AFWD",
         "AREV"
       ],
-      "spec": "protocol ⊙ > < ⊥ Ω"
+      "spec": "protocol ⊙ > < ⊥ ◻"
     },
     {
       "closure": "CLOSED(1)",
@@ -2106,7 +2106,7 @@
         "AREV",
         "ENGAGR"
       ],
-      "spec": "ring ⊙ > < ⊞ ‖·‖ Ω"
+      "spec": "ring ⊙ > < ⊞ ‖·‖ ◻"
     },
     {
       "closure": "CLOSED(1)",
@@ -2761,7 +2761,7 @@
         "AREV",
         "IMSCRIB"
       ],
-      "spec": "ring Ω > < ⊙"
+      "spec": "ring ◻ > < ⊙"
     },
     {
       "closure": "NONE",
@@ -3356,7 +3356,7 @@
         "AFWD",
         "AREV"
       ],
-      "spec": "ring ⊙ > < Σ Ω"
+      "spec": "ring ⊙ > < Σ ◻"
     },
     {
       "closure": "CLOSED(1)",
@@ -3454,7 +3454,7 @@
         "AFWD",
         "AREV"
       ],
-      "spec": "WIRE ⊙ > {ΣΩ}_fuse uncoverer_of_the_grammar <"
+      "spec": "WIRE ⊙ > {Σ◻}_fuse uncoverer_of_the_grammar <"
     },
     {
       "closure": "NONE",
@@ -3629,7 +3629,7 @@
         "AREV",
         "FFUSE"
       ],
-      "spec": "ring Ω > ⊞ × < ●"
+      "spec": "ring ◻ > ⊞ × < ●"
     },
     {
       "closure": "NONE",
@@ -3769,7 +3769,7 @@
       ],
       "free_in": 2,
       "free_out": 0,
-      "name": "chiral_flux_macrocycle_Ω_protection",
+      "name": "chiral_flux_macrocycle_◻_protection",
       "nodes": [
         "IMSCRIB",
         "AFWD",
@@ -4131,7 +4131,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊙ ⊥ Ω"
+      "spec": "ring ⊙ ⊥ ◻"
     },
     {
       "closure": "OPEN",
@@ -6426,7 +6426,7 @@
         "AFWD",
         "AREV"
       ],
-      "spec": "WIRE ⊙ > {ΣΩ}_fuse <"
+      "spec": "WIRE ⊙ > {Σ◻}_fuse <"
     },
     {
       "closure": "CLOSED(1)",
@@ -8232,7 +8232,7 @@
         "ENGAGR",
         "TANCH"
       ],
-      "spec": "ring ⊥ Ω Σ > ⊞ ⊣"
+      "spec": "ring ⊥ ◻ Σ > ⊞ ⊣"
     },
     {
       "closure": "CLOSED(1)",
@@ -10512,7 +10512,7 @@
         "EVALF",
         "FFUSE"
       ],
-      "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial Ω"
+      "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial ◻"
     },
     {
       "closure": "CLOSED(1)",
@@ -11017,7 +11017,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊙ Ω ⊤ ⊢"
+      "spec": "ring ⊙ ◻ ⊤ ⊢"
     },
     {
       "closure": "OPEN",
@@ -15992,7 +15992,7 @@
         "EVALF",
         "TANCH"
       ],
-      "spec": "ring ⊙ × Σ Ω Π < ⊣"
+      "spec": "ring ⊙ × Σ ◻ Π < ⊣"
     },
     {
       "closure": "OPEN",
@@ -16449,7 +16449,7 @@
         "EVALF",
         "FFUSE"
       ],
-      "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial Ω"
+      "spec": "protocol ◇ + × ● hubble_constant_tensor_sic_povm_fiducial ◻"
     },
     {
       "closure": "CLOSED(1)",
@@ -16517,7 +16517,7 @@
         "AFWD",
         "AREV"
       ],
-      "spec": "ring ⊙ > < Σ Ω"
+      "spec": "ring ⊙ > < Σ ◻"
     },
     {
       "closure": "NONE",
@@ -17116,7 +17116,7 @@
       ],
       "free_in": 0,
       "free_out": 0,
-      "name": "Ω_stability_proof",
+      "name": "◻_stability_proof",
       "nodes": [
         "IMSCRIB",
         "AFWD",

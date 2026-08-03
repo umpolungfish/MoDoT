@@ -11,7 +11,7 @@ We seek the limit:
 2. Structural Lemma Roles
 - Encoding [<]: Turan density is the density of the densest r-uniform hypergraph avoiding the clique of size k.
 - Boundedness [⊙]: By the Erdős-Stone-Simonovits theorem extended to hypergraphs, the limit exists and is bounded by 1.
-- Topological Invariant [Ω]: For hypergraphs, the Turan density is strictly less than 1 for k > r.
+- Topological Invariant [◻]: For hypergraphs, the Turan density is strictly less than 1 for k > r.
 
 3. Proof Sketch: The Erdős-Ko-Rado and Turan Density
 For r=2, this is Turan's Theorem, where the limit is 1 - 1/(k-1).
@@ -48,7 +48,7 @@ For r ≥ 3, the limit π(K_r^k) satisfies the following known constraints:
 *   **Lower Bound:** π(K_r^k) ≥ 1 - frac{1}{(k-1)^r-1} (from the k-1 partite construction).
 *   **Upper Bound:** By the Erdős-Stone theorem equivalent for hypergraphs, π(K_r^k) exists and is less than 1. Specifically, using the method of shadows (Kruskal-Katona), for any r-uniform hypergraph H, let ∂ H be the set of (r-1)-subsets contained in at least one r-edge. The density is constrained by the local density of these shadows.
 
-### 3. Structural Analysis via Topological Invariant [Ω]
+### 3. Structural Analysis via Topological Invariant [◻]
 The problem of determining π(K_r^k) is equivalent to the **Turán density of the complete r-uniform hypergraph**. A major theoretical barrier is the **"non-constancy"** of the limit across different k, r.
 *   If we assume the "Turán conjecture" (that the density is achieved by the multipartite construction), then π(K_r^k) = 1 - (1/(k-1))^r-1.
 *   However, for r=3, k=4, the conjecture 5/9 (1 - (1/3)^2 = 8/9) is known to be false. The actual value is believed to be 5/9 based on a construction by Turán, which is strictly less than the multipartite density. This implies that the multipartite construction is **not** extremal for r ≥ 3.
@@ -94,7 +94,7 @@ The Turan number ex_r(n, K_r^k) is the maximum number of r-edges in an r-uniform
 2. Structural Lemma Roles
 - Encoding [<]: Turan density represents the supremum of edge densities for the class of K_r^k-free r-uniform hypergraphs.
 - Boundedness [⊙]: The limit π(K_r^k) exists and is contained in (0, 1) for all k > r.
-- Topological Invariant [Ω]: The value is independent of n in the limit, but highly dependent on the symmetry of the forbidden configuration K_r^k.
+- Topological Invariant [◻]: The value is independent of n in the limit, but highly dependent on the symmetry of the forbidden configuration K_r^k.
 
 3. Proof Sketch and Barrier
 The multipartite construction, where vertices are partitioned into k-1 sets and edges are included if they intersect at least two sets, provides a lower bound:
@@ -228,7 +228,7 @@ In the case r=2, the Turán graph T(n, k-1) achieves the maximum density by crea
 
 For r ≥ 3, the "multipartite construction" (partitioning vertices into t sets and including all edges that are not contained entirely within one set) is a valid K_r^k-free construction, but it is **not** necessarily optimal. The barrier is that for hypergraphs, the density of a construction is no longer solely determined by the number of parts. Instead, it is constrained by the **Shadow Density** and the **Flag Algebra** of the hypergraph.
 
-### 2. The Flag Algebra Barrier [Ω]
+### 2. The Flag Algebra Barrier [◻]
 Using the Razborov Flag Algebra method, we can define the density of a hypergraph H in terms of the distribution of its local sub-configurations (flags).
 *   **The Lower Bound:** The multipartite construction provides a lower bound:
      π(K_r^k) ≥ 1 - ( 1/k-1 )^r-1
@@ -357,7 +357,7 @@ To conclude the analysis of the limit π(K_r^k) = lim_n → ∞ frac{ex_r(n, K_r
 ### 1. The Breakdown of Symmetry
 The construction used for r=2 (Turan’s Theorem) relies on the fact that an edge is a pair, allowing for the simple 1 - 1/(k-1) bound. For r ≥ 3, the "multipartite" construction—partitioning vertices into k-1 sets and selecting only transversals—is inherently **sub-optimal**. The failure of this construction to reach the supremum for r ≥ 3 arises because hypergraph edges possess a higher degree of combinatorial freedom, allowing for "locally dense" structures that do not force the formation of a K_r^k.
 
-### 2. The Flag Algebra Barrier [Ω]
+### 2. The Flag Algebra Barrier [◻]
 The use of **Razborov’s Flag Algebras** serves as the definitive barrier to a closed-form solution. The density of K_r^k-free hypergraphs is constrained by the local densities of "flags" (partial configurations).
 *   **Result:** For any fixed r ≥ 3, the density π(K_r^k) is the solution to a semidefinite programming (SDP) problem over the space of flag densities.
 *   **Non-Analyticity:** Because the optimal configuration for a given (r, k) often involves a combination of different structural motifs (e.g., blow-ups of small hypergraphs, blow-ups of random-like structures), the limit π(K_r^k) is **piecewise defined** and lacks a uniform functional form in k and r.

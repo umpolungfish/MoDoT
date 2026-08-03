@@ -263,7 +263,7 @@ The conductor is (d)∞₁∞₂; ∞₁, ∞₂ are the archimedean places.
     tlc d2048_ray_class_characters
         2048_ray_class_characters                          → band 1 Rf=1.00, band 2 Rf=0.33
                                                              (Rf = mobility = inverse of >)
-    ascend K19_ray_class_field                             → tier O_∞ → O₂, Ω → 𐑟
+    ascend K19_ray_class_field                             → tier O_∞ → O₂, ◻ → 𐑟
     filter                                                 → 6 survivors
     click ray_class_field_Qsqrt
           stark_unit_mixed_signature_open                  → CLICK on D↔W, Δ=0.67

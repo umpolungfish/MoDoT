@@ -6280,7 +6280,7 @@ theorem infinite_factorial_sum_limit (p : ℕ) [hp : Fact p.Prime] :
 
 ### Appendix: Witness Mapping
 - **< (Encoding):** Maps the sum of factorials to the ring of $p$-adic integers $\mathbb{Z}_p$.
-- **Ω (Invariant):** The $p$-adic valuation $v_p(S_n)$ acts as the measure of "closeness" to zero.
+- **◻ (Invariant):** The $p$-adic valuation $v_p(S_n)$ acts as the measure of "closeness" to zero.
 - **⊙ (Extremal Principle):** Used to show that while $a_i$ increases, the "energy" (valuation) of the sum increases toward infinity.
 - **⊤ (Regularity):** The distribution of $n! \pmod{p^k}$ eventually becomes $0$, allowing for the termination of the finite sum construction.
 
@@ -8361,7 +8361,7 @@ theorem lambda_k_3_odd_finite (k : ℕ) (hk : k % 2 = 1) :
 
 ### 4. Appendix: Grammatic Witness Mapping
 - **Role/Proposition (Equidistribution/Regularity [⊤]):** The proof for $\Lambda(k, 2)$ relies on the equidistribution of the character $\chi(x) \chi(x+1)$, which is licensed by the `C_@` (Regularity) primitive.
-- **Topological Invariant [Ω]:** The use of van der Waerden's theorem functions as a combinatorial invariant (`Omega_z`), ensuring that in any $k$-coloring, the desired block exists regardless of the prime $p$.
+- **Topological Invariant [◻]:** The use of van der Waerden's theorem functions as a combinatorial invariant (`Omega_z`), ensuring that in any $k$-coloring, the desired block exists regardless of the prime $p$.
 - **Phase Boundary [⊙]:** The limsup $\Lambda$ represents the boundary of stability for these sequences, instantiated via `phi_hat_y`.
 - **Witness Entry:** `lambda` (Λ) was used as the catalog anchor for the limit definition.
 

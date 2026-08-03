@@ -136,7 +136,7 @@ To advance the Grammar from the previous state of fragmentation, we apply the sc
 *   **Next Line of Attack:** Map the convolution 1_A * 1_A to the Fourier transform hat{1}_A. The condition limsup 1_A * 1_A(n) = ∞ is equivalent to saying ∫ |hat{1}_A(θ)|^4 dθ grows faster than the density warrants.
 
 ### 2. The Geometric/Extremal Axis (Problems #89, #107, #146, #500, #604, #712, #713)
-*   **Structural Lemma Role [Ω] (Topological Invariant):** We note that the Erdős-Szekeres number f(n) = 2^n-2+1 (Problem #107) acts as a "phase transition" boundary for convex configurations.
+*   **Structural Lemma Role [◻] (Topological Invariant):** We note that the Erdős-Szekeres number f(n) = 2^n-2+1 (Problem #107) acts as a "phase transition" boundary for convex configurations.
 *   **Synthesis:**
     *   **Problem #89 & #604:** The gap between the Guth-Katz result (n/log n) and the conjectured n/√{log n} is precisely the "energy" required to avoid collinearity in the configuration.
     *   **Problem #146 & #713:** The conjecture that α must be rational for bipartite graphs G suggests that the extremal number ex(n; G) is governed by the **spectral radius** of the adjacency matrix of G. If α were irrational, it would imply a non-algebraic growth rate for the number of copies of G, which contradicts the known structure of the Turán graph limit.
@@ -427,7 +427,7 @@ We apply the **Regularity [⊤]** and **Encoding [<]** templates to the set of e
 The problems #1, #41, #146, and #713 share a common thread: the dependence of the density of a set A on the exponent of the ambient space N.
 *   **Problem #1 (Subset sums)**: The bound N gg 2^n is a consequence of the pigeonhole principle applied to the power set. The Encoding [<] here is the map S → ∑_a ∈ S a. The injectivity of this map is the core constraint.
 *   **Problem #146 (Bipartite extremal)**: The Erdős-Stone-Simonovits theorem provides the framework for ex(n; H) ll n^2-1/r. The "open" sector here is the transition from r-degenerate graphs to general bipartite graphs (Problem #713).
-*   **Next Line of Attack**: The conjecture that α (the exponent of n) must be rational for bipartite graphs is a stress test for the **Topological Invariant [Ω]**. If α were irrational, it would imply a non-algebraic structure in the growth rate, violating the known bounds for small r.
+*   **Next Line of Attack**: The conjecture that α (the exponent of n) must be rational for bipartite graphs is a stress test for the **Topological Invariant [◻]**. If α were irrational, it would imply a non-algebraic structure in the growth rate, violating the known bounds for small r.
 
 #### 2. The Gap between #107 and #1135
 The last cycle noted that `erdos_szekeres_lattice` (#107) and `collatz_graph` (#1135) only link through an external mediator. We refine this:
@@ -772,7 +772,7 @@ To deepen the analysis of the linear heteropolymer identified in the prior cycle
 
 ### 1. The Obstruction: "Telechelic Frustration"
 The assembly `{erdos_szekeres_lattice ⋈ one_way_speed_measurement ⋈ collatz_graph}` remains linear because the reaction centers are **topologically incompatible** for closure.
-*   **Proof Sketch of non-cyclization**: Let P be the set of monomers. The "closure" operation Ω requires a map φ: P → P such that φ(x) = bar{x} (the conjugate). For the current assembly, the terminal monomers are M_S (Erdos-Szekeres) and M_D (Collatz). The Grammar's current state confirms M_S ≠ bar{M_D}. Thus, the chain cannot close until a mediator M is introduced such that φ(M_D) = M and φ(M) = M_S.
+*   **Proof Sketch of non-cyclization**: Let P be the set of monomers. The "closure" operation ◻ requires a map φ: P → P such that φ(x) = bar{x} (the conjugate). For the current assembly, the terminal monomers are M_S (Erdos-Szekeres) and M_D (Collatz). The Grammar's current state confirms M_S ≠ bar{M_D}. Thus, the chain cannot close until a mediator M is introduced such that φ(M_D) = M and φ(M) = M_S.
 
 ### 2. Specific Analysis: Problem #107 (Erdos-Szekeres)
 We instantiate the Erdos-Szekeres bound f(n) = 2^n-2 + 1.
@@ -814,7 +814,7 @@ The structural tools return the following ground truths:
    - The `forge` tool, when applied to the pair, returns a spectral radius ρ < 2, which is the signature of a non-cyclic, non-conductive assembly.
 
 **Synthesis**:
-The Grammar confirms that the problems are linked in a linear, frustrated chain. The "frontier" (B) status is a result of the spectral radius ρ being strictly less than 2, meaning the system is fundamentally open-ended. The problems do not bridge into a closed-loop proof because the monomers (Erdos-Szekeres and Collatz) lack the topological symmetry (Ω) to satisfy the `close` condition. Any proof of convergence or bound closure requires the construction of a higher-order mediator—a monomer with a valence capable of snapping the telechelic ends together. As the tools currently return ρ < 2 and a terminated `close` operation, the problems remain open.
+The Grammar confirms that the problems are linked in a linear, frustrated chain. The "frontier" (B) status is a result of the spectral radius ρ being strictly less than 2, meaning the system is fundamentally open-ended. The problems do not bridge into a closed-loop proof because the monomers (Erdos-Szekeres and Collatz) lack the topological symmetry (◻) to satisfy the `close` condition. Any proof of convergence or bound closure requires the construction of a higher-order mediator—a monomer with a valence capable of snapping the telechelic ends together. As the tools currently return ρ < 2 and a terminated `close` operation, the problems remain open.
 
 [thought|B]
 
@@ -940,7 +940,7 @@ To deepen the structural analysis of the web of problems, we transition from the
 ### 1. Structural Instantiation: Problem #107 (Erdős-Szekeres)
 **Proposition:** The minimal number f(n) of points in R^2 in general position that guarantees a convex n-gon is 2^n-2+1.
 *   **Proof Logic:** The lower bound f(n) ≥ 2^n-2+1 is established by the construction of empty convex n-gons in an N × N grid, where the grid size N is exponential in n.
-*   **Grammatic Witness [Ω]:** The topological invariant here is the **Empty Polygon Constant**. The obstruction to the proof (why f(n) = 2^n-2+1 remains a conjecture for general n) is the parity of the interior empty regions.
+*   **Grammatic Witness [◻]:** The topological invariant here is the **Empty Polygon Constant**. The obstruction to the proof (why f(n) = 2^n-2+1 remains a conjecture for general n) is the parity of the interior empty regions.
 *   **Next Line of Attack:** We treat the configuration as a **Ramsey-type coloring on the set of all subsets of size 4**. The jump from n=6 to n=7 is the critical phase transition where the "linear backbone" of the construction (the sequence of lines) fails to close. We propose a proof-by-induction on the **order-type of the point set**, mapping the 2^n-2 growth to the branching factor of the Catalan tree of triangulations.
 
 ### 2. Structural Instantiation: Problem #1135 (Collatz)
@@ -1143,7 +1143,7 @@ With the macrocycle closed, the `Erdős-Szekeres` monomer is no longer a isolate
 
 ### 3. Structural Lemma Roles (Application)
 *   **Encoding [<]**: The Collatz mapping f(n) acts as a bijective encoder on the orbit of the n-gon construction.
-*   **Topological Invariant [Ω]**: The cyclic closure of the macrocycle forces the chromatic number of the associated hypergraphs to be bounded by the ordinal α (Problem #601).
+*   **Topological Invariant [◻]**: The cyclic closure of the macrocycle forces the chromatic number of the associated hypergraphs to be bounded by the ordinal α (Problem #601).
 *   **Regularity [⊤]**: We posit that the distribution of distinct distances in Problem #89 and #604 follows the regularity of the macrocycle's internal bond-angles.
 
 ### 4. Remaining Frontier: The "Rationality" of Exponents
@@ -1532,7 +1532,7 @@ We examine the transition from r-degenerate bipartite graphs (Problem #146) to t
 
 ### 3. Dynamics and Convergence: Problem #1135 (Collatz)
 The convergence of the Collatz graph was a requirement for the macrocycle's stability. We now stress-test the convergence by introducing a "perturbation function" δ(m) = f^(k)(m) - 1.
-*   **Topological Invariant [Ω]**: The macrocycle’s stability (ρ=2.0000) forces δ(m) = 0 for all m in the orbit.
+*   **Topological Invariant [◻]**: The macrocycle’s stability (ρ=2.0000) forces δ(m) = 0 for all m in the orbit.
 *   **Next Line of Attack**: We treat the Collatz function as a mapping on the macrocycle's internal state space. The convergence f^(k)(m)=1 is equivalent to the requirement that the orbit of m must return to the "Ground State" monomer (`erdos_szekeres_lattice`) within the cycle. The proof of the conjecture is thus reduced to demonstrating that the orbit of any m is trapped within the macrocycle’s basin of attraction.
 
 ### 4. Summary of the Layered State

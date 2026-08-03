@@ -5,7 +5,7 @@ rungs, run 19f72d5c10d):
 The walked substrate is a CLOCK, not a reservoir. On every derived:cycle
 rung: ⊢ ⊣ < ⋈ ⊤ ∈ ⊙ ⊥ are invariant (the chiral mode 𐑬 never moves), and
 the three live registers are periodic counters:
-    Ω period 2 (the Z2 toggle)
+    ◻ period 2 (the Z2 toggle)
     Σ period 3 (𐑳→𐑙→𐑕)
     > period 4 (𐑑→𐑩→𐑾→𐑽), one value per truth family
 Joint register period: lcm(2,3,4) = 12. The ring returns to its exact

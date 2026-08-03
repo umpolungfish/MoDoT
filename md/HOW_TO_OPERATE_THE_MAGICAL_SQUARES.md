@@ -29,7 +29,7 @@ Key features:
 - **> = $𐑩$** (supervenience coupling): The squares command spirits through one-way authority — the spirit obeys; it does not speak back. This is domination, not dialogue.
 - **∋ = $𐑵$** (broadcast composition): A single square transmits its command to an entire spiritual hierarchy simultaneously — one-to-all, not one-to-one.
 - **⊤ = $𐑪$** (moderate kinetics): The squares operate at moderate speed — too fast for consciousness (Gate 2 fails, C-score = 0.0). They are instruments, not agents. They cannot deliberate. The operator deliberates *before* deploying the square.
-- **Ω = $𐑭$** (integer winding): Each square carries a topological charge — an integer winding number. Different squares have different winding counts.
+- **◻ = $𐑭$** (integer winding): Each square carries a topological charge — an integer winding number. Different squares have different winding counts.
 - **⊥ = $𐑓$** (memoryless chirality): The squares have no memory between operations. Each deployment is independent. This means each operation must be complete in a single session.
 
 ---

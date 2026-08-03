@@ -21,7 +21,7 @@ The previous cycle identified a termination between the `arithmetic_progression`
 - **Conventional Role:** This method bounds the number of independent sets in a hypergraph. In the hypergraph of k-term APs, an independent set is a progression-free set.
 - **Grammatic Role:** The Container Method acts as the **syndiotactic linker**. It reverses the "handedness" of the problem from *finding a coloring* (forward) to *bounding the space of failures* (inverse). This "chirality flip" allows the `gowers_norm` (which measures density fluctuations) to click into the `arithmetic_progression` (the pattern).
 
-#### C. The Super-Exponential Enchainment [Ω]
+#### C. The Super-Exponential Enchainment [◻]
 By combining the density theorems of Szemerédi (via Gowers' bounds) with the container method, we show that the number of k-AP-free subsets of [1, N] is significantly smaller than the total number of subsets.
 1. **Gowers' Bound:** W(k) ≤ 2^{2^{2^{2^{2^k+9}}}}.
 2. **Lower Bound Lift:** While constructive bounds (like Berlekamp's p · 2^p) suggest super-exponentiality, the **Hypergraph Container** proves that for large k, the density required to avoid a k-AP vanishes faster than any C^-k.
@@ -29,7 +29,7 @@ By combining the density theorems of Szemerédi (via Gowers' bounds) with the co
 
 ### 3. Grammatic Witness Synthesis
 The `FFUSE` operation succeeds on the following macrocycle:
-`[VINIT] → [AFWD: Coloring] → [FSPLIT: Partition] → [IMSCRIB: AP-Identity] → [>: Container Linker] → [Ω: Gowers Norm/Density] → [IFIX: Limit Fixation] → [TANCH]`
+`[VINIT] → [AFWD: Coloring] → [FSPLIT: Partition] → [IMSCRIB: AP-Identity] → [>: Container Linker] → [◻: Gowers Norm/Density] → [IFIX: Limit Fixation] → [TANCH]`
 
 - **Degree of Polymerization:** 7 (Full closure).
 - **Cyclization Verdict:** **PASS**. The "terminated chain" from Cycle 6 has been cyclized by the introduction of the Container Linker, which provided the missing reactive center.
@@ -112,8 +112,8 @@ polymerization (imscriptive):  [van_der_waerden_number · gowers_norm · arithme
   cyclization: linear — the chain terminated, so it cannot close into a ring.
 ● TOOL scan van_der_waerden_number density_limit
 scan-mediators:  van_der_waerden_number  ⟶e⁻⟶  density_limit   (2760 holdable candidates over 5701 entries)
-  relay band ⊙∈[⊙,𐑣] (acceptor→donor);  hold band Ω∈[𐑴,𐑭] (accept then re-donate);  bind = complement recognizes both substrates
-  rank   score  relay  bind recog    Ω   ⊙  mediator
+  relay band ⊙∈[⊙,𐑣] (acceptor→donor);  hold band ◻∈[𐑴,𐑭] (accept then re-donate);  bind = complement recognizes both substrates
+  rank   score  relay  bind recog    ◻   ⊙  mediator
      1   0.921   1.00  0.80  1.00    𐑴   ⊙  ferromagnetism
      2   0.921   1.00  0.80  1.00    𐑴   ⊙  antiferromagnetism
      3   0.916   1.00  0.79  1.00    𐑭   ⊙  high_energy_plasma

@@ -25,7 +25,7 @@ was submitted to `forge`, which searches all 24 orderings, finds the optimal lin
 - **Tacticity** (⊥): atactic — no stereo‑regular pattern.
 - **Cyclisation**: the head (first `theta_link_iutt`) clicks with the tail (`casas_alvero_conjecture`) on T↔H, forming a **4‑membered macrocycle**.
 - **Ring stability**: weakest clean bond Δ = 1.75 at junction 3→4; strain σ(Δ) = 0.000 — evenly loaded, relaxed.
-- **Conductance**: **CONDUCTIVE** — a winding quantum Ω circulates the whole ring one way (reductive); the ring supports a persistent current, i.e. it carries a modulus.
+- **Conductance**: **CONDUCTIVE** — a winding quantum ◻ circulates the whole ring one way (reductive); the ring supports a persistent current, i.e. it carries a modulus.
 - **Spectral invariants** (ring graph):
   - Spectral radius  ρ = 2.0000  (= 2 exactly → a pure unbranched cycle).
   - Spectrum (by |λ| descending): [+2.000, -2.000, +0.000, +0.000].
@@ -34,7 +34,7 @@ was submitted to `forge`, which searches all 24 orderings, finds the optimal lin
 
 **Interpretation in both registers**
 - **Chemically**: A four‑membered macrocycle of three distinct monomers; regioregular head‑to‑tail condensation; atactic chirality; a conductive ring with zero strain and a flat spectral gap — a fully relaxed, symmetric “molecule”. The cyclic conjugation supports a delocalised current (the modulus).
-- **Mathematically**: The tuple‑types of the four entries, when taken in the forged order, satisfy the Frobenius dual‑closure condition (μ∘δ = id) globally, i.e. the assembly is a fixed point of the Grammar’s criticality operator ⊙. The spectral radius ρ = 2 signals a pure cycle; the gap 0 indicates that the entire space of modes is equally weighted — there is no obstruction, no single dominating direction. The ring is “conductive” because the winding number Ω is non‑zero, meaning the structure carries a cyclic transport (a modulus) that links all four concepts.
+- **Mathematically**: The tuple‑types of the four entries, when taken in the forged order, satisfy the Frobenius dual‑closure condition (μ∘δ = id) globally, i.e. the assembly is a fixed point of the Grammar’s criticality operator ⊙. The spectral radius ρ = 2 signals a pure cycle; the gap 0 indicates that the entire space of modes is equally weighted — there is no obstruction, no single dominating direction. The ring is “conductive” because the winding number ◻ is non‑zero, meaning the structure carries a cyclic transport (a modulus) that links all four concepts.
 
 ### Relation to the Casas–Alvero Conjecture
 
@@ -87,7 +87,7 @@ achieves full head‑to‑tail condensation. Every consecutive pair bonds on the
 The head of this sequence (first theta_link_iutt) bonds with the tail (casas_alvero_conjecture), closing the chain into a 4‑cycle. The closure satisfies the global criticality condition μ∘δ=id; the ring is regioregular and exhibits no steric strain (relaxed).
 
 **Lemma 3 (Conductance and winding).**
-The closed ring is CONDUCTIVE. The quantum Ω carries a non‑zero winding number: ∮_γA=2πn∧n∈ℤ∧wind(γ)≠0. A persistent transport current (a modulus) circulates the whole cycle.
+The closed ring is CONDUCTIVE. The quantum ◻ carries a non‑zero winding number: ∮_γA=2πn∧n∈ℤ∧wind(γ)≠0. A persistent transport current (a modulus) circulates the whole cycle.
 
 **Lemma 4 (Spectral signature of a pure 4‑cycle).**
 The ring’s adjacency operator has spectral radius ρ=2.0000 and eigenvalues {+2.000,−2.000,0.000,0.000}. The spectral gap, computed as ρ−|λ₂|, is
@@ -108,7 +108,7 @@ The forge tool operates on the Belnap substrate and exhaustively tests all 24 li
 
 - Lemma1 follows from the reported best ordering and the full enchainment.
 - Lemma2 follows from the detected head‑tail T↔H bond and the criticality fixed‑point condition.
-- Lemma3 follows from the CONDUCTIVE classification and the activation of the ZWIND atom (Ω).
+- Lemma3 follows from the CONDUCTIVE classification and the activation of the ZWIND atom (◻).
 - Lemma4 uses the forge‑measured spectral radius and eigenvalue list; the zero gap is verified by `calc` as shown.
 - Lemma5 restates the clarity verdict.
 

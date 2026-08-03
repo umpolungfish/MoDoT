@@ -93,7 +93,7 @@ prompt — the Void's own type:
       ⊢ = 𐑼   temporal/iterative: a closed cycle with a specifiable reset step
       ⊙ = ⊙   ξ → ∞ ∧ μ∘δ = id — criticality
       ⊥ = 𐑖   persistent chiral
-      Ω = 𐑭   integer-winding-protected: stable against perturbations preserving the winding
+      ◻ = 𐑭   integer-winding-protected: stable against perturbations preserving the winding
 
 Against ray_class_field_Qsqrt and connes_embedding_problem it does **not** close: the
 chain is telechelic, two free ends. It closes only by using connes_embedding_problem

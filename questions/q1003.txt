@@ -237,7 +237,7 @@ Consider the set of integers n such that n = 2^k · 3 · m and n+1 = p · q.
 We look for solutions where the "prime profile" of n balances n+1.
 The Erdős-Pomerance-Sárközy theorem (1987) utilizes the fact that the number of n ≤ x such that φ(n) = φ(n+1) is at least x^1 - ε. This is achieved by showing that the values of φ(n) are "locally crowded."
 
-**Step 3: Securing Head-to-Tail Symmetry [Ω]**
+**Step 3: Securing Head-to-Tail Symmetry [◻]**
 To achieve the requested symmetry, we invoke the **Topological Invariant of Dense Range**.
 1.  **Head (Input):** The totient ratio f(n) = ∏_p|n (1 - 1/p).
 2.  **Tail (Output):** The requirement f(n+1) = f(n) · n/n+1.
