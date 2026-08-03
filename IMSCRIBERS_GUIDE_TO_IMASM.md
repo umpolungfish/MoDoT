@@ -30,23 +30,26 @@ A program is a DIRECTED GRAPH of opcodes, not a line. One glyph each; the
 alphabet is fully SYMBOLIC (no Latin initials, so no token ever collides with a
 verdict letter). WORK? asks: does the opcode TRANSFORM the object?
 
-The classic core is twelve opcodes; the trilattice face adds the tri-dyad (∈, ∋)
-and the two bit-swap negations, and reads ⊞ as EVALI.
+Twelve opcodes, and the same twelve glyphs are the primitive alphabet, one per
+axis, because the opcodes and the axes were always the same twelve. The
+trilattice face adds the two bit-swap negations and reads ⊞ as EVALI. Nothing in
+the set already means something else in mathematics: that is what it is for.
 
-THERE IS ONE DYAD. ◇/● and ∈/∋ are the same operator read on two carriers, not
-two operators. δ cuts the register into a PARTITION, and which partition depends
-on how many arms it has: {T,t} | {F,f} at two, and {T} | {F} | {t,f} at three,
-the truth cut taken inside the constructive block with the non-constructive pair
-held whole. Both are partitions of the four base values, so μ∘δ = id at either
-arity. On the classical slice, where t and f are absent, the three-arm cut IS the
-two-arm cut: the information arm carries nothing, and `⊢∈>+∋⊣` and `⊢◇>+●⊣` flow
-identically, both recovering B. ◇ is to ∈ what FOUR is to SIXTEEN_3, a slice.
+THERE IS ONE DYAD, ∈ and ∋, and it has as many arms as the carrier gives it. δ
+cuts the register into a PARTITION, and which partition depends on how many arms
+it has: {T,t} | {F,f} at two, and {T} | {F} | {t,f} at three, the truth cut taken
+inside the constructive block with the non-constructive pair held whole. Both are
+partitions of the four base values, so μ∘δ = id at either arity. On the classical
+slice, where t and f are absent, the three-arm cut IS the two-arm cut: the
+information arm carries nothing. A fan of two is this opcode with an empty arm,
+not a different opcode, which is why there is one mark and not two.
 
-The arity is not a choice. ⊞ sets t and f together, so the non-constructive pair
-can only ever be entered as a block, and three is what the gate set leaves. Note
-what this rules out: dropping an arm from ∈ does NOT give ◇, since {T} | {F}
-loses t and f and would not recover its input. The two coincide on the slice, not
-by truncation.
+The arity is not a choice either. ⊞ sets t and f together, so the
+non-constructive pair can only ever be entered as a block, and three is what the
+gate set leaves. Note what this rules out: the two-arm cut is not the three-arm
+cut with an arm dropped. Dropping the information arm leaves {T} | {F}, which
+loses t and f and would not recover its input. They coincide on the slice, not by
+truncation.
 
 One operator therefore means one ancestry rule, one close condition, one engine.
 A fuse pairs with the fork that ALL of its in-arms trace back to, which at two
@@ -59,42 +62,47 @@ tri-ancestral rule.
   ⊣   TANCH     terminal anchor / close boundary        1→1        no   sink; out-port may stay open
   >   AFWD      forward morphism                        1→1        YES
   <   AREV      reverse morphism (involution T↔F, t↔f)  1→1        YES
-  =   CLINK     compose / link                          1→1        YES
+  ⋈   CLINK     compose / link                          1→1        YES
   ⊙   IMSCRIB   identity / self-reference               1→1        no   the neutral generator
-  ◇   FSPLIT    fork (δ): ONLY classic brancher         1→2        no
-  ●   FFUSE     fuse (μ): ONLY classic merger           2→1        no
-  ∈   FSPLIT3   3-way split (δ₃): T/F/I arms            1→3        no   ONLY tri-brancher
-  ∋   FFUSE3    3-way fuse (μ₃)                         3→1        no   ONLY tri-merger
-  +   EVALT     evaluate TRUE arm / set T               1→1        YES
-  ×   EVALF     evaluate FALSE arm / set F              1→1        YES
+  ∈   FSPLIT    fork (δ): the ONLY brancher             1→2, 1→3   no
+  ∋   FFUSE     fuse (μ): the ONLY merger               2→1, 3→1   no
+  ⊤   EVALT     evaluate TRUE arm / set T               1→1        YES
+  ⊥   EVALF     evaluate FALSE arm / set F              1→1        YES
   ⊞   ENGAGR/EVALI  hold paradox (classic) / set t,f    1→1        YES
-  ~   TNEG      negation: swaps T ↔ F                   1→1        YES  (16_3 only)
-  ≁   INEG      con-negation: swaps t ↔ f               1→1        YES  (16_3 only)
-  ¬   IFIX      irreversible commit / fix               1→1        YES
+  ◻   IFIX      irreversible commit / fix               1→1        YES
+  ~   TNEG      AREV on the constructive layer: T ↔ F   1→1        YES  (16_3 only)
+  ≁   INEG      AREV on the information layer: t ↔ f    1→1        YES  (16_3 only)
 ```
 
-The WORK? column is the most-missed rule: ⊢ ⊣ ⊙ ◇ ● ∈ ∋ do NOT transform. An
+The WORK? column is the most-missed rule: ⊢ ⊣ ⊙ ∈ ∋ ∈ ∋ do NOT transform. An
 arm carrying only ⊙ (or nothing) is an identity arm, and a closure over identity
 arms verifies nothing. ⊙ is self-reference, not work.
 
-WORDS: tokens glued as one string, no spaces, e.g. `⊢>◇+⊙●¬⊣`. Space-separated
+WORDS: tokens glued as one string, no spaces, e.g. `⊢>∈⊤⊙∋◻⊣`. Space-separated
 full names parse identically (VINIT AFWD ...), as do the short forms
-VI TA AF AR CL IM FS FF ET EF EG IX and the aliases δ μ ═ for ◇ ● =.
+VI TA AF AR CL IM FS FF ET EF EG IX and the aliases δ μ ═ for ∈ ∋ =.
 
 RETIRED: the letter codes V/T/B and ← (the old IMSCRIB) no longer parse. A word
 using a retired code reads as empty and reports N (void). Brackets [ ] are never
 input; they parse to nothing and yield N (void).
 
-Glyph provenance: the alphabet is not invented. It references the per-token glyph
-vocabulary fixed in `../ob3ect/READING_GUIDE.md` §3 (five are the guide's own
-midpoint glyphs; IFIX is its stated "fix (¬)"; AFWD/AREV are its forward/reverse
-arrows). The remaining tokens are symbolic by the same principle rather than
-initials: VINIT ⊢ and TANCH ⊣ are the opening and closing boundary turnstiles,
-ENGAGR ⊞ is the Belnap Both it holds, and IMSCRIB is ⊙ because imscribing IS
-INCLOSURE, the monadic operation itself, hence self-referential and referenced
-self-referentially: a boundary around its own centre, denoting the act of
-denoting. Its appearance as Criticality in the 12-primitive notation is the same
-structure surfacing wherever inclosure closes on itself, not a collision.
+Glyph provenance: the alphabet is chosen against a single rule, that a mark must
+not arrive already meaning something else. VINIT ⊢ and TANCH ⊣ are the opening
+and closing boundary turnstiles; EVALT ⊤ and EVALF ⊥ are the two poles they
+evaluate; the dyad is ∈ and ∋, membership out of one and into one; CLINK ⋈ is the
+join; IFIX ◻ is the box that closes; ENGAGR ⊞ is the Belnap Both it holds; and
+IMSCRIB is ⊙ because imscribing IS INCLOSURE, the monadic operation itself, hence
+self-referential and referenced self-referentially: a boundary around its own
+centre, denoting the act of denoting. The retired spellings ◇ ● = + × ¬ carried
+arithmetic and equality into a language that has neither, which is what the set
+was changed to stop. They still parse, so a stored word loads; what the tools
+print is this set.
+
+The same twelve are the primitive alphabet, one glyph per axis in slot order:
+⊢ Dimensionality, ⊣ Topology, > Relational, < Polarity, ⋈ Fidelity, ⊙ Kinetics,
+∈ Granularity, ∋ Grammar, ⊤ Criticality, ⊥ Chirality, ⊞ Stoichiometry,
+◻ Protection. Not a mapping between two alphabets: one alphabet, read as an
+operation or as an axis according to where it stands. The serpent eats its tail.
 Valences follow IMSCRIBr `tokens.py::TOKEN_ARITY`.
 
 ## Part II. From Word to Graph
@@ -104,50 +112,50 @@ A word is only the node list. The EDGES are supplied by the verb you build with:
 ```
   chain <word>           wire head→tail, nothing reconnects        (β=0, one strand)
   ring <word>            wire head→tail→head; fork/fuse NOT rejoined (β=1)
-  protocol <word>        wire so ◇/● pairs RECONNECT (δ arm → μ): the way to CLOSE
-  bubble PRE:A:B:POST    ◇→(A|B)→● reconvergence, spelled out
+  protocol <word>        wire so ∈/∋ pairs RECONNECT (δ arm → μ): the way to CLOSE
+  bubble PRE:A:B:POST    ∈→(A|B)→∋ reconvergence, spelled out
   star CORE:a:b:c        hub + arms (≥3)
   comb BACKBONE:p arm:q arm   backbone + grafts
   wire N0 N1 … / i-j i-k …    free graph: node set / edge set
 ```
 
 Same word + different verb = different graph = different verdict.
-`chain ⊢◇+×●⊣` and `protocol ⊢◇+×●⊣` are not the same program. To CLOSE, use
+`chain ⊢∈⊤⊥∋⊣` and `protocol ⊢∈⊤⊥∋⊣` are not the same program. To CLOSE, use
 `protocol`, never a bare `ring`, and never close by looping back to ⊢ (a source,
 in-arity 0).
 
-### Which ◇ pairs with which ●
+### Which ∈ pairs with which ∋
 
-By ANCESTRY, not by text position and not by a fork-balance stack. A (◇,●) pair
-exists when two distinct in-arms of the ● trace back to a common ◇: the fork was
+By ANCESTRY, not by text position and not by a fork-balance stack. A (∈,∋) pair
+exists when two distinct in-arms of the ∋ trace back to a common ∈: the fork was
 undone by the fuse, HOWEVER IT ROUTED. Consequences:
 
 - Pairing is a property of the EDGES, so the same word wired two ways pairs
   differently. You cannot read pairing off the glyph string alone.
-- A ◇ feeding a ● directly (empty arm) still counts: in-edges are counted with
-  multiplicity, and a ◇ is its own ancestor.
-- Arms are the nodes strictly between ◇ and ●: forward-reachable from the fork
+- A ∈ feeding a ∋ directly (empty arm) still counts: in-edges are counted with
+  multiplicity, and a ∈ is its own ancestor.
+- Arms are the nodes strictly between ∈ and ∋: forward-reachable from the fork
   AND backward-reachable from the fuse. That set is what gets checked for WORK.
-- A ● may have SEVERAL qualifying ◇ (upstream forks reach downstream fuses on
+- A ∋ may have SEVERAL qualifying ∈ (upstream forks reach downstream fuses on
   any strand). It pairs with the INNERMOST: the candidate no other candidate
-  descends from. So a ◇ may close more than one ●, but a ● closes with exactly
-  one ◇, and an upstream fork cannot claim the fuse a nearer fork actually forked.
-- fully_closed means EVERY ◇ and EVERY ● participates in some pair. One dangler
+  descends from. So a ∈ may close more than one ∋, but a ∋ closes with exactly
+  one ∈, and an upstream fork cannot claim the fuse a nearer fork actually forked.
+- fully_closed means EVERY ∈ and EVERY ∋ participates in some pair. One dangler
   and the whole program is Open.
 
 The rule above is already the general one: ALL the in-arms, however many the
 fuse has. At two that reads "two distinct in-arms" and at three "all three",
 which is why the tri dyad needs no rule of its own. Same innermost rule, same
 multiplicity rule. Neutral inflation is allowed: `⊢∈⊙⊙⊙∋⊣` is valid tri
-reconnection with no work, and reads N (identity), the same as `⊢◇⊙⊙⊙●⊣`.
+reconnection with no work, and reads N (identity), the same as `⊢∈⊙⊙⊙∋⊣`.
 
 `protocol` wires as many arms as the fork's arity declares: one along the chain
 and the rest straight across. At arity 2 that is the single empty arm it always
 drew; at arity 3, two.
 
-For a plain strand the stack reading (each ● takes the nearest unfused ◇)
+For a plain strand the stack reading (each ∋ takes the nearest unfused ∈)
 happens to agree, and such words may be bracketed for READING BY EYE:
-`⊢⊙=[◇>+<⊞×●]¬¬⊣`, nesting as nested brackets. Three caveats, all load-bearing:
+`⊢⊙⋈[∈>⊤<⊞⊥∋]◻◻⊣`, nesting as nested brackets. Three caveats, all load-bearing:
 brackets are NOT input (they parse to nothing, so a bracketed word reports
 N void); the aid works for strands ONLY; and it is not the pairing rule.
 Ancestry is. The two coincide on a strand and part company the moment edges
@@ -157,7 +165,7 @@ route otherwise.
 
 A program CLOSES iff BOTH hold:
 
-1. RECONNECTION: every brancher (◇ or ∈) and every merger (● or ∋) participates
+1. RECONNECTION: every brancher (∈ or ∈) and every merger (∋ or ∋) participates
    in an ancestry pair, and
 2. TRANSFORMATION: at least one such pair carries a WORK opcode on its arms.
 
@@ -169,10 +177,10 @@ nothing between is μ∘δ=id, which type-checks nothing. The close condition is
 
 ```
   T (closes)        μ∘δ closes over n transformed reconnections → proceed
-  N (identity)      ◇/● reconnect but no WORK between → put work on the arms
+  N (identity)      ∈/∋ reconnect but no WORK between → put work on the arms
   N (no fork)       no δ/μ dyad at all → never weighed alternatives
   N (void)          no committed opcodes: nothing parsed → write a real word
-  B (open)          well-typed, but a ◇ or ● dangles unreconnected → fuse it (●)
+  B (open)          well-typed, but a ∈ or ∋ dangles unreconnected → fuse it (∋)
                     or commit one arm (¬)
   B (paradox held)  closes over a transformation AND a ⊞ is present → genuinely
                     both. Sound to hold; do NOT read it as a clean T; look again
@@ -206,7 +214,7 @@ Named by invariants, not by fork balance. β = E − V + C (independent loops):
 
 Reported with: V, E, β, branch/merge/src/sink census, arm count, and spectral
 radius ρ. Star caveat: the abstract star K(1,f) has ρ=√f, but IMASM fan-out caps
-at 2 (◇ is out-2), so a hub is REALIZED as a caterpillar of f−1 ◇ fan-nodes and
+at 2 (∈ is out-2), so a hub is REALIZED as a caterpillar of f−1 ∈ fan-nodes and
 the true ρ tends to 2, not √f.
 
 ## Part IV. The Carrier and the Gates (dynamics)
@@ -246,20 +254,20 @@ before the gate acts; the value leaving a gate rides every out-edge except where
 
 ```
   VINIT ⊢          emits the seed (default B in the slice, A in full 16_3)
-  FSPLIT ◇ / ∈     δ fans the register's own partition onto its arms: at two,
+  FSPLIT ∈ / ∈     δ fans the register's own partition onto its arms: at two,
                    truth part x∩{T,t} and falsity part x∩{F,f}; at three,
                    x∩{T}, x∩{F}, and the information part x∩{t,f}
-  EVALT +          pass-gate: truth part
-  EVALF ×          pass-gate: falsity part
+  EVALT ⊤          pass-gate: truth part
+  EVALF ⊥          pass-gate: falsity part
   EVALI ⊞ (16_3)   sets the information layer (t and f)
-  FFUSE ● / ∋      μ / μ₃ joins: union of the arms
+  FFUSE ∋ / ∋      μ / μ₃ joins: union of the arms
   AREV <           the involution T↔F, t↔f (its own inverse; fixes B and N)
   TNEG ~ / INEG ≁  its two factors, one layer each: ~ swaps T↔F, ≁ swaps t↔f.
                    They act on disjoint bits, so they commute, and composing them
                    IS AREV. On the classical slice ~ alone is AREV, because ≁ has
                    no bits to move there. Not a third operation beside them.
-  AFWD >, CLINK =, IMSCRIB ⊙, ENGAGR ⊞ (as hold)   carry
-  IFIX ¬           carry and latch (the commit point)
+  AFWD >, CLINK ⋈, IMSCRIB ⊙, ENGAGR ⊞ (as hold)   carry
+  IFIX ◻           carry and latch (the commit point)
   TANCH ⊣          readout
 ```
 
@@ -278,7 +286,7 @@ A program earns three judgments, none implying another:
    worked dyad (split, transform, fuse) proves green; a bare fork-fuse is an
    identity closure and returns N for the program; a dangling fork is OPEN.
 3. **Flow** (`eval` / `eval16`): per dyad, does the fuse RECOVER what the fork
-   was fed? The canonical protocol word (`⊢◇>●+` as VINIT FSPLIT AFWD FFUSE
+   was fed? The canonical protocol word (`⊢∈>∋⊤` as VINIT FSPLIT AFWD FFUSE
    EVALT) is lossless: B splits to (T,F) and fuses back to B, the operational
    split_fuse_id. The same shape with AREV on the truth arm closes in structure
    and fails in value: fed Tf, recovered Ff, NOT id. The arm inverted what it
@@ -470,28 +478,29 @@ Engineering guarantees:
 
 ## Part XIII. Rule of Thumb, Canonical Words, Pitfalls
 
-Express a decision as a word (⊢ begin · ⊙ self-identify · > move · ◇ weigh
-options · +/× the true/false arms · ● resolve · ⊞ hold paradox · ¬ commit ·
+Express a decision as a word (⊢ begin · ⊙ self-identify · > move · ∈ weigh
+options · +/× the true/false arms · ∋ resolve · ⊞ hold paradox · ¬ commit ·
 ⊣ close), then `imasm check` it. Only branchers branch, only mergers fuse. Put
 real WORK on the arms or it is N. Use `protocol` to close, never a bare `ring`.
 
 Canonical words:
 
 ```
-  ⊢◇>+●⊣        lossless protocol: closes in shape AND value, recovers B → T
-  ⊢∈>+∋⊣        the same word at arity 3; on the FOUR slice it flows identically
-  ⊢◇⊙●⊣         identity: reconnects, no work, μ∘δ=id → N
+  ⊢∈>⊤∋⊣        lossless protocol: closes in shape AND value, recovers B → T
+                 wired at three arms it is the same word, and on the FOUR slice
+                 it flows identically, the third arm carrying nothing
+  ⊢∈⊙∋⊣         identity: reconnects, no work, μ∘δ=id → N
   ⊢∈⊙⊙⊙∋⊣       tri identity: same reading → N
-  ⊢◇⊞>●⊣        closes over work AND holds paradox → B (paradox held)
-  ⊢>∈+×⊞≁∋¬⊣    tri word reaching full register A (EVALT, EVALF, EVALI,
+  ⊢∈⊞>∋⊣        closes over work AND holds paradox → B (paradox held)
+  ⊢>∈⊤⊥⊞≁∋◻⊣    tri word reaching full register A (EVALT, EVALF, EVALI,
                  then INEG swaps t↔f on an already-full pair) → T
 ```
 
 Pitfalls, all load-bearing:
 
 - Reading a word as a line. It is a graph; the verb supplies the edges.
-- Pairing ◇/● by counting or by nearest-match. Pairing is ancestry over edges.
-- Putting only ⊙ between ◇ and ● and expecting T. That is N (identity).
+- Pairing ∈/∋ by counting or by nearest-match. Pairing is ancestry over edges.
+- Putting only ⊙ between ∈ and ∋ and expecting T. That is N (identity).
 - Expecting T from a word containing ⊞. That is B (paradox held).
 - Treating an open arm as a failure. It is a living end, reported not fatal.
 - Closing a loop back to ⊢. It has in-arity 0 and cannot be a target.
@@ -500,7 +509,7 @@ Pitfalls, all load-bearing:
 - Treating the classic and trilattice faces as separate languages. They share
   the register, the ancestry rule, the close condition, the flow semantics, and
   the composition law; the differences are arity and the information-layer bits.
-- Expecting T from the tri word `⊢>∈+×⊞≁∋¬⊣` under `imasm check`. ⊞ is ENGAGR to
+- Expecting T from the tri word `⊢>∈⊤⊥⊞≁∋◻⊣` under `imasm check`. ⊞ is ENGAGR to
   the classic reading and EVALI to the trilattice one, and B beats T, so the
   classic checker answers B (paradox held) for it. One glyph, two readings: the
   collision is real and it is the next thing the notation has to settle.

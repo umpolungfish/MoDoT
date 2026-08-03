@@ -436,7 +436,7 @@ fn segments(args: &[String]) -> Vec<Vec<Token>> {
         .collect()
 }
 
-/// Decompose a glued single-glyph code word (`⊢>◇+×●¬⊣`) into its tokens. Every char must
+/// Decompose a glued single-glyph code word (`⊢>∈⊤⊥∋◻⊣`) into its tokens. Every char must
 /// be a valid code, else None — so a real name (VINIT) is never mangled into letters.
 fn parse_codons(chunk: &str) -> Option<Vec<Token>> {
     let mut out = Vec::new();
@@ -495,12 +495,13 @@ fn report(title: &str, g: &Graph) -> String {
 const REFERENCE: &str = "\
 IMASM POLYMER TOPOLOGY — composition beyond lines and cycles
 An IMASM program is a DIRECTED GRAPH of the 12 opcodes, not only a line. Each
-opcode's valence sets its edges: VINIT source (in0), δ branch out2 as ◇ and
-out3 as ∈, μ fuse in2 as ● and in3 as ∋, every other opcode in1/out1. Only δ
-may fan out; only μ may merge in. There is ONE dyad: ◇/● and ∈/∋ are the same
-operator on two carriers, ◇ being ∈ read on the FOUR slice, so one ancestry
-rule and one close condition answer both. δ fans a PARTITION of the register:
-{T,t}|{F,f} at two arms, {T}|{F}|{t,f} at three, so μ∘δ = id either way.
+opcode's valence sets its edges: VINIT source (in0), δ branch ∈ (out up to 3),
+μ fuse ∋ (in up to 3), every other opcode in1/out1. Only δ may fan out; only μ
+may merge in. There is ONE dyad, and the carrier says how many arms of it are
+visible: two on the classical slice, three when the information layer is in
+play. δ fans a PARTITION of the register, {T,t}|{F,f} at two arms and
+{T}|{F}|{t,f} at three, so μ∘δ = id either way; a fan of two is this opcode
+with an empty arm, not a different one.
 An arm that runs out of successors is a living end (open out-port), reported
 not fatal. The shape is named by circuit rank β = E−V+C
 (independent loops): β=0 tree, β=1 one ring/bubble, β>1 network.
@@ -566,13 +567,15 @@ UNFOLDS into its own 12-opcode IMASM program (`imasm expand ado`). Splice an
 expanded type's sequence into a polymer arm to pivot through state space AS that
 type: the alphabet's letters are themselves words in the language.
 SINGLE-GLYPH CODES: each opcode has a one-symbol code (READING_GUIDE §3 glyphs), so
-a word can be written glued, no spaces — `⊢>◇+=⊙<×⊞●⊙¬⊣` is the same protocol as the
+a word can be written glued, no spaces — `⊢>∈⊤⋈⊙<⊥⊞∋⊙◻⊣` is the same protocol as the
 13 spelled-out tokens. Every build echoes the word's `code:`. The alphabet is fully
 symbolic — no Latin initials; the retired V/T/B letters and ← no longer parse:
-  ⊢ VINIT   ⊣ TANCH   > AFWD   < AREV   = CLINK   ⊙ IMSCRIB
-  ◇ FSPLIT  ● FFUSE   + EVALT  × EVALF  ⊞ ENGAGR  ¬ IFIX
-  ∈ FSPLIT3 ∋ FFUSE3  ~ TNEG    ≁ INEG   (the arity-3 spelling of the dyad,
-  and the two bit-swaps; ⊞ reads EVALI in the trilattice face)
+  ⊢ VINIT   ⊣ TANCH   > AFWD   < AREV   ⋈ CLINK   ⊙ IMSCRIB
+  ∈ FSPLIT  ∋ FFUSE   ⊤ EVALT  ⊥ EVALF  ⊞ ENGAGR  ◻ IFIX
+The same twelve are the primitive alphabet, one glyph per axis. ~ TNEG and
+≁ INEG are AREV's two factors, one layer each, not a thirteenth and fourteenth
+opcode; ⊞ reads EVALI in the trilattice face. The earlier spellings
+◇ ● = + × ¬ still parse, so a stored word loads.
 Every build reports topology label, β, branch/merge/source/sink census, arm
 count, spectral radius ρ, and a grammar validation.";
 
@@ -1495,7 +1498,7 @@ fn prove_tool(rest: &[String]) -> String {
     if matches!(state, ClosureState::Identity) {
         // The Identity theorem proves the diagonal does NO work. That is a true kernel
         // fact, but it is NOT an affirmation of the program — printing it as "✓ green"
-        // let trivial ◇● dyads be harvested as verifications (seen live, repeatedly).
+        // let trivial ∈∋ dyads be harvested as verifications (seen live, repeatedly).
         // The program's own verdict is N: nothing was type-checked by its closure.
         return format!(
             "IMASM prove — {label}\n  pre-filter: {kind}\n  KERNEL VERDICT for THIS program: N \
@@ -2384,7 +2387,7 @@ mod tests {
         }
         // a glued code word parses to the same tokens as the spelled-out names, and a
         // multi-letter name is never char-split
-        let glued = tok_list(&["⊢>◇+⊙¬⊣".to_string()]);
+        let glued = tok_list(&["⊢>∈⊤⊙◻⊣".to_string()]);
         let named = tok_list(&[
             "VINIT AFWD FSPLIT EVALT IMSCRIB IFIX TANCH".to_string(),
         ]);

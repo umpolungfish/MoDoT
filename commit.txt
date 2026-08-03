@@ -1,23 +1,25 @@
-AREV is its own two factors, and the flow gate was carrying them
+The alphabet stops borrowing from arithmetic
 
-TNEG and INEG are not a thirteenth and fourteenth operator. The involution swaps
-big_t with big_f AND small_t with small_f; TNEG is the first swap alone and INEG
-the second alone, on disjoint bits, so they commute and composing them IS AREV.
-On the classical slice INEG has no bits to move, so AREV is TNEG there. That is
-the same shape as the dyad: one operator, and the carrier says how much of it
-there is to see.
+    ⊢ VINIT   ⊣ TANCH   > AFWD    < AREV    ⋈ CLINK   ⊙ IMSCRIB
+    ∈ FSPLIT  ∋ FFUSE   ⊤ EVALT   ⊥ EVALF   ⊞ ENGAGR  ◻ IFIX
 
-The flow evaluator implemented neither. `gate_out` had a case for AREV and none
-for the two swaps, so they fell through to carry, and `⊢~⊣` returned its input
-untouched while claiming to be a WORK opcode. Both are gates now, built from two
-new register projections that name the layers they move.
+Six marks move. CLINK was =, which is equality; EVALT and EVALF were + and ×,
+which are sum and product; IFIX was ¬, which is negation and belongs to TNEG's
+side of the language if to anything; and the dyad was ◇ ●, which meant nothing at
+all and had to be taught. Every mark in the new set is a turnstile, a tack, a
+membership, a join, or a box, and none of them arrives already saying something
+this language does not mean.
 
-Measured: seeded Tf, AREV gives Ft, TNEG gives Ff, INEG gives Tt, and either
-order of the two gives Ft. On the classical slice seeded T, AREV and TNEG both
-give F and INEG gives T. The identity holds in the machine, not just in the
-register type.
+The dyad is one opcode now, spelled ∈ ∋, with arity three. A fan of two is this
+opcode with an empty arm rather than a different opcode, which is what the engine
+already decided when the ancestry rule went arity-generic; the arity table just
+had not caught up. FSPLIT3 and FFUSE3 keep their names as parse aliases and carry
+the same glyph, since there is nothing left to distinguish.
 
-This also settles what the twelve-opcode core is doing without them: nothing is
-missing from it. Whatever slot 4 is spelled with carries the whole symmetry of
-the carrier, and the two swaps are that symmetry restricted to one layer at a
-time.
+The retired spellings ◇ ● = + × ¬ still parse. Every stored word loads, and what
+the tools print is the new set: `imasm check ⊢◇>+●⊣` reports the same verdict as
+`⊢∈>⊤∋⊣` and echoes the latter. Nothing in the catalog had to be rewritten.
+
+The same twelve are the primitive alphabet, one glyph per axis in slot order, so
+there is no mapping between two alphabets to maintain. There is one alphabet,
+read as an operation or as an axis according to where it stands.

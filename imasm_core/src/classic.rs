@@ -50,15 +50,15 @@ impl Token {
 
     /// Single-glyph code — one symbol per opcode, so an opcode word reads as a
     /// sequence (a codon string) instead of a space-delimited token list. The alphabet
-    /// is not invented: it references the per-token glyph vocabulary the IMSCRIBr pen-mode
-    /// READING_GUIDE already fixes (ob3ect/READING_GUIDE.md §3). Six are the guide's own
-    /// midpoint glyphs (FSPLIT ◇, FFUSE ●, EVALT +, EVALF ×, CLINK from its double-line
-    /// ═ → =); IFIX is the guide's stated meaning "fix (¬)"; AFWD/AREV are the guide's
-    /// forward→/reverse→ as > / <. Every token is SYMBOLIC — no Latin initials: VINIT ⊢ and
-    /// TANCH ⊣ are the opening/closing boundary turnstiles, ENGAGR ⊞ is the Belnap Both it
-    /// holds, and IMSCRIB is ⊙ — the Grammar's own self-modeling glyph, which is exactly what
-    /// IMSCRIB means (identity / self-reference). Distinct by construction, so `parse`
-    /// round-trips every code back to its token. Retired and no longer parsing: the letter
+    /// is not invented. Every token is SYMBOLIC — no Latin initials, and nothing
+    /// that already means something else in mathematics: VINIT ⊢ and TANCH ⊣ are
+    /// the opening and closing boundary turnstiles, EVALT ⊤ and EVALF ⊥ the two
+    /// poles they evaluate, CLINK ⋈ the join, IFIX ◻ the box that closes, ENGAGR
+    /// ⊞ the Belnap Both it holds, and the dyad is ∈ / ∋, membership in and out.
+    /// The set is also the twelve-primitive alphabet: one glyph per axis, the same
+    /// twelve, because the opcodes and the axes were always the same twelve.
+    /// The earlier spellings ◇ ● = + × ¬ still parse, so a stored word loads; what
+    /// the tools print is this set. Retired and no longer parsing: the letter
     /// codes V/T/B, and ← for IMSCRIB. Full names and the short forms VI/TA/EG/IM still do.
     /// IMSCRIB is ⊙ for a reason, not by availability: imscribing is the very act of
     /// INCLOSURE — the monadic operation itself — hence self-referential, and so referenced
@@ -71,14 +71,14 @@ impl Token {
             Token::Tanch => "⊣",
             Token::Afwd => ">",
             Token::Arev => "<",
-            Token::Clink => "=",
+            Token::Clink => "⋈",
             Token::Imscrib => "⊙",
-            Token::Fsplit => "◇",
-            Token::Ffuse => "●",
-            Token::Evalt => "+",
-            Token::Evalf => "×",
+            Token::Fsplit => "∈",
+            Token::Ffuse => "∋",
+            Token::Evalt => "⊤",
+            Token::Evalf => "⊥",
             Token::Engagr => "⊞",
-            Token::Ifix => "¬",
+            Token::Ifix => "◻",
             Token::Fsplit3 => "∈",
             Token::Ffuse3 => "∋",
             Token::Tneg => "~",
@@ -121,13 +121,17 @@ impl Token {
     }
 
     /// (arity_in, arity_out) — the max ports the opcode may carry.
+    ///
+    /// The dyad carries three, because there is one dyad and the carrier decides
+    /// how many arms of it are visible: two on the classical slice, three when
+    /// the information layer is in play. A fan of two is not a different opcode,
+    /// it is this one with an empty arm, so both are inside the arity and only a
+    /// fourth arm is an over-valence.
     pub fn arity(self) -> (usize, usize) {
         match self {
             Token::Vinit => (0, 1),
-            Token::Fsplit => (1, 2),
-            Token::Ffuse => (2, 1),
-            Token::Fsplit3 => (1, 3),
-            Token::Ffuse3 => (3, 1),
+            Token::Fsplit | Token::Fsplit3 => (1, 3),
+            Token::Ffuse | Token::Ffuse3 => (3, 1),
             _ => (1, 1),
         }
     }
@@ -165,16 +169,20 @@ impl Token {
             "TANCH" | "TA" | "⊣" => Token::Tanch,
             "AFWD" | "AF" | ">" => Token::Afwd,
             "AREV" | "AR" | "<" => Token::Arev,
-            "CLINK" | "CL" | "=" | "═" => Token::Clink,
+            "CLINK" | "CL" | "⋈" | "=" | "═" => Token::Clink,
             "IMSCRIB" | "IMSCRIBE" | "IM" | "⊙" => Token::Imscrib,
-            "FSPLIT" | "FS" | "SPLIT" | "DELTA" | "◇" | "δ" => Token::Fsplit,
-            "FFUSE" | "FF" | "FUSE" | "MU" | "●" | "μ" => Token::Ffuse,
-            "EVALT" | "ET" | "+" => Token::Evalt,
-            "EVALF" | "EF" | "×" => Token::Evalf,
+            // ∈ and ∋ are the dyad. The arity-2 spellings ◇ ● are the same
+            // operator read on the classical slice, so they parse to the same
+            // token rather than to a second one, and a stored word written in
+            // them still loads. What the tools print is the new mark.
+            "FSPLIT" | "FS" | "SPLIT" | "DELTA" | "∈" | "◇" | "δ" | "☊" => Token::Fsplit,
+            "FFUSE" | "FF" | "FUSE" | "MU" | "∋" | "●" | "μ" | "☋" => Token::Ffuse,
+            "EVALT" | "ET" | "⊤" | "+" => Token::Evalt,
+            "EVALF" | "EF" | "⊥" | "×" => Token::Evalf,
             "ENGAGR" | "EG" | "⊞" => Token::Engagr,
-            "IFIX" | "IX" | "FIX" | "¬" => Token::Ifix,
-            "FSPLIT3" | "Fsplit3" | "F3" | "∈" | "☊" => Token::Fsplit3,
-            "FFUSE3" | "Ffuse3" | "FF3" | "∋" | "☋" => Token::Ffuse3,
+            "IFIX" | "IX" | "FIX" | "◻" | "¬" => Token::Ifix,
+            "FSPLIT3" | "Fsplit3" | "F3" => Token::Fsplit3,
+            "FFUSE3" | "Ffuse3" | "FF3" => Token::Ffuse3,
             "TNEG" | "~" => Token::Tneg,
             "INEG" | "≁" => Token::Ineg,
             "EVALI" => Token::Evali,
