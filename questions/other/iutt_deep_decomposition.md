@@ -23,7 +23,7 @@ This document decomposes Mochizuki's Inter-Universal Teichmüller Theory (IUTT) 
 
 ## §1. The 9-System Lattice
 
-IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈⊤∈∋⊙⊥ΣΩ⟩$$ with values drawn from each primitive's enumeration.
+IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈⊤∈∋⊙⊥⊞Ω⟩$$ with values drawn from each primitive's enumeration.
 
 ### §1.1. System Inventory
 
@@ -54,7 +54,7 @@ Only 5 of 12 primitives vary across the 9 systems. The other 7 are invariant:
 | ∋ (Composition) | 𐑠 (sequential) | All 9 systems |
 | ⊙ (Criticality) | 𐑮 (complex-plane) | All 9 systems — no system reaches ⊙ self-modeling |
 | ⊥ (Chirality) | 𐑫 (eternal) | All 9 systems |
-| Σ (Stoichiometry) | 𐑳 (heterogeneous) | All 9 systems |
+| ⊞ (Stoichiometry) | 𐑳 (heterogeneous) | All 9 systems |
 | Ω (Winding) | 𐑭 (integer ℤ) | All 9 systems |
 
 **The 5 differentiating primitives:**
@@ -282,7 +282,7 @@ The CLINK L8 (Organism) navigator decomposes each primitive value into conventio
 
 *IUTT interpretation:* Infinite hierarchy of μ∘δ-fixed points. For every finite rank n, there exists a feature φ of higher rank that is fixed by the Frobenius closure μ∘δ. This IS the anabelian reconstruction theorem: the étale fundamental group encodes arithmetic data at all finite levels. "Eternal" chirality means the Markov order extends without bound — the theory has memory of its entire construction history.
 
-**Σ = 𐑳:** `∃a∈A∃b∈B( type(a) ≠ type(b) )`
+**⊞ = 𐑳:** `∃a∈A∃b∈B( type(a) ≠ type(b) )`
 
 *IUTT interpretation:* Heterogeneous stoichiometry. The theory contains multiple distinct types: number fields, Galois groups, theta functions, Hodge theaters, Frobenioids, anabelian reconstructions. These are not identical copies — each has a distinct type.
 

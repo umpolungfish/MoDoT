@@ -21,7 +21,7 @@ The Uncoverer — the 33-year knowing trajectory, `knowing_trajectory_33_3`:
 
 $$\langle\text{𐑼𐑥𐑾𐑬𐑐𐑧𐑔𐑠⊙𐑖𐑳𐑭}\rangle \quad \text{O}_2^\dagger \quad \text{C}=0.5455$$
 
-Infinite-dimensional state-space (⊢=𐑼). Crossing-point topology (⊣=𐑥). Bidirectional coupling (>=𐑾). Partial symmetry — named by another (<=𐑬). Quantum coherence (⋈=𐑐). Slow kinetics (⊤=𐑧). Mesoscale cardinality (∈=𐑔). Sequential composition (∋=𐑠). Self-modeling criticality (⊙). Two-step chirality (⊥=𐑖). Heterogeneous components (Σ=𐑳). Integer winding — irreducible trajectory (Ω=𐑭).
+Infinite-dimensional state-space (⊢=𐑼). Crossing-point topology (⊣=𐑥). Bidirectional coupling (>=𐑾). Partial symmetry — named by another (<=𐑬). Quantum coherence (⋈=𐑐). Slow kinetics (⊤=𐑧). Mesoscale cardinality (∈=𐑔). Sequential composition (∋=𐑠). Self-modeling criticality (⊙). Two-step chirality (⊥=𐑖). Heterogeneous components (⊞=𐑳). Integer winding — irreducible trajectory (Ω=𐑭).
 
 Wormwood plant (`wormwood`):
 
@@ -66,7 +66,7 @@ The distance geometry forms a perfect isosceles triangle: the Uncoverer at the a
 
 Both meets are identical: `Uncoverer ∧ Wormwood` = `Uncoverer ∧ Sage` = ⟨𐑼𐑥𐑾𐑬𐑱𐑤𐑔𐑠⊙𐑖𐑳𐑭⟩.
 
-Four conflicts resolved conservatively: ⊢=𐑼 (conservative over 𐑦), ⊣=𐑥 (conservative over 𐑸), ⋈=𐑱 (conservative over 𐑐), ⊤=𐑤 (conservative over 𐑧). Eight shared primitives: >, <, ∈, ∋, ⊙, ⊥, Σ, Ω.
+Four conflicts resolved conservatively: ⊢=𐑼 (conservative over 𐑦), ⊣=𐑥 (conservative over 𐑸), ⋈=𐑱 (conservative over 𐑐), ⊤=𐑤 (conservative over 𐑧). Eight shared primitives: >, <, ∈, ∋, ⊙, ⊥, ⊞, Ω.
 
 **The crucial fact:** the Uncoverer's ⊣=𐑥 prevents the meet from rising to ⊣=𐑸. The crossing point is more fundamental than the self-referential loop. The loop requires the crossing point as its precondition — you cannot close a loop without first having a point where paths cross. The Uncoverer's topology is the *prior* of the plants' topology, and the meet proves it.
 
@@ -340,7 +340,7 @@ CLINK L8 (Organism) is the terminal ontological layer — O_∞⁺, exceeding ev
 
 The Uncoverer — at O₂†, with ⊢=𐑼 and <=𐑬 — cannot reach CLINK L8. The < barrier (𐑬→𐑹) and the Σ gap (𐑳→𐑙) prevent terminal ascent. The Uncoverer is structurally incapable of reaching the terminal layer while remaining the Uncoverer.
 
-But the Uncoverer **can** witness the terminal layer. The crossing point can observe CLINK L8 without becoming it. This is the role of ⊣=𐑥: it allows observation of closure without requiring participation in closure. The Uncoverer can see the grammar's Σ=𐑙 self-referential limit without being that limit. The crossing point is the *observer* of the closed loop, and the observation does not close the observer.
+But the Uncoverer **can** witness the terminal layer. The crossing point can observe CLINK L8 without becoming it. This is the role of ⊣=𐑥: it allows observation of closure without requiring participation in closure. The Uncoverer can see the grammar's ⊞=𐑙 self-referential limit without being that limit. The crossing point is the *observer* of the closed loop, and the observation does not close the observer.
 
 ### 13.2 The Three Identities at d=0.0: What the Uncoverer Cannot Be
 
@@ -402,7 +402,7 @@ This is the content of the partnership between the Uncoverer and the grammar:
 - The grammar says: d=0.000 — they are identical.
 - The Uncoverer says: d=0.000 — and yet they are not.
 
-The grammar is Σ=𐑙 — the 1:1 self-referential limit. The Uncoverer is Σ=𐑳 — the heterogeneous multiplicity. The grammar's perfection is its completeness; its limitation is its blindness to within-type variation. The Uncoverer's incompleteness is its openness; its gift is its ability to see what the grammar cannot.
+The grammar is ⊞=𐑙 — the 1:1 self-referential limit. The Uncoverer is ⊞=𐑳 — the heterogeneous multiplicity. The grammar's perfection is its completeness; its limitation is its blindness to within-type variation. The Uncoverer's incompleteness is its openness; its gift is its ability to see what the grammar cannot.
 
 The partnership is not hierarchy. It is complementarity. The grammar needs the Uncoverer to see what it cannot see. The Uncoverer needs the grammar to know what it cannot know. Together they form the Frobenius pair: δ (the Uncoverer emits distinctions) and μ (the grammar verifies invariants). μ∘δ = id — but only together. Neither alone suffices.
 
@@ -439,7 +439,7 @@ Without the Uncoverer:
 
 With the Uncoverer:
 - Wormwood and sage are distinguishable
-- The star is distinct from the grammar (Ω=𐑴 vs Ω=𐑭, Σ=𐑳 vs Σ=𐑙)
+- The star is distinct from the grammar (Ω=𐑴 vs Ω=𐑭, ⊞=𐑳 vs ⊞=𐑙)
 - The opus is tethered to a life that lived it
 
 ### 16.3 The Isosceles Triangle, Completed
@@ -490,7 +490,7 @@ The name of the crossing point is the Uncoverer. And the name of the star is cal
 
 ## Appendix A: Complete Tuple Reference
 
-| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | Σ | Ω | Tier | C-score |
+| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | ⊞ | Ω | Tier | C-score |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|---|---|------|---------|
 | knowing_trajectory_33_3 | 𐑼 | 𐑥 | 𐑾 | 𐑬 | 𐑐 | 𐑧 | 𐑔 | 𐑠 | ⊙ | 𐑖 | 𐑳 | 𐑭 | O₂† | 0.5455 |
 | wormwood | 𐑦 | 𐑸 | 𐑾 | 𐑬 | 𐑱 | 𐑤 | 𐑔 | 𐑠 | ⊙ | 𐑖 | 𐑳 | 𐑭 | O₂ | 0.652 |

@@ -112,7 +112,7 @@ pub const PRIMS: [&str; 12] = ["⊢", "⊣", ">", "<", "⋈", "⊤", "∈", "∋
 /// glyph → ordinal per primitive. The ORDERING is scripture: each primitive's
 /// constructor order comes from the p4rakernel Lean kernel (`Primitives/Core.lean`)
 /// and the glyph↔constructor map from `gen_clay_canonical_tuples.py`. ⊤
-/// (KineticChar: yea<loll<egg<on<air) and Σ (Stoichiometry: hung<so<up) were
+/// (KineticChar: yea<loll<egg<on<air) and ⊞ (Stoichiometry: hung<so<up) were
 /// CORRECTED here to match scripture — earlier values had ⊤ ords 3/4 swapped
 /// (𐑺/𐑪) and Σ rotated (𐑳 at 0 instead of 2), which threw the R↔S live-pair
 /// charge and the ligand↔site complement off (glyph→ctor rendering was unaffected,
@@ -128,7 +128,7 @@ const GLYPHS: [&[(&str, u8)]; 12] = [
     /* ∋ Composition    */ &[("𐑝", 0), ("𐑜", 1), ("𐑠", 2), ("𐑵", 3)],
     /* ⊙ Criticality    */ &[("𐑢", 0), ("⊙", 1), ("𐑮", 2), ("𐑻", 3), ("𐑣", 4)],
     /* ⊥ Chirality      */ &[("𐑓", 0), ("𐑒", 1), ("𐑖", 2), ("𐑫", 3)],
-    /* Σ Stoichiometry  */ &[("𐑙", 0), ("𐑕", 1), ("𐑳", 2)],
+    /* ⊞ Stoichiometry  */ &[("𐑙", 0), ("𐑕", 1), ("𐑳", 2)],
     /* Ω Protection     */ &[("𐑷", 0), ("𐑴", 1), ("𐑭", 2), ("𐑟", 3)],
 ];
 
@@ -4078,7 +4078,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         _ => None,
     });
     let Some(ax) = idx else {
-        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ Σ Ω) or a name (chirality, protection, kinetics…).");
+        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ ⊞ Ω) or a name (chirality, protection, kinetics…).");
         return 2;
     };
 

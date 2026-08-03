@@ -370,7 +370,7 @@ The mathematical obstruction is now precisely localized:
   ∋      𐑝       f ∧ g ∧ h — three-unit stitch                                                                [STITCH_3]
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id — criticality                                                                  [PHI_C]
   ⊥      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
-  Σ      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
+  ⊞      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
   Ω      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
 
   [PRIME_POINT       ] Point-like prime atom — base of the moat (𐑛)
@@ -383,7 +383,7 @@ The mathematical obstruction is now precisely localized:
   [STITCH_3          ] 3-unit stitch: moat · hodge · linker (∋ conjunction) (𐑝)
   [PHI_C             ] Criticality fixed-point — ξ→∞ ∧ μ∘δ=id (⊙)
   [ETERNAL_FIXEDPOINT]
-  [MOAT_BRIDGE_TYPE  ] Type mismatch between moat and bridge (Σ=𐑳)
+  [MOAT_BRIDGE_TYPE  ] Type mismatch between moat and bridge (⊞=𐑳)
   [ZWIND             ]
 
 ── CLINK expression ──────────────────────────────────────────────────────────────────────────────────────────────────
@@ -425,7 +425,7 @@ The mathematical obstruction is now precisely localized:
   ∋      𐑵       f → all(x) ∧ broadcast(x, f)                                                  [BROADCAST_TRANSCENDENCE]
   ⊙      𐑮       ξ ∈ ℂ ∧ Im(ξ) → ∞
   ⊥      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
-  Σ      𐑕       ∀a∈A∀b∈B( type(a) = type(b) )
+  ⊞      𐑕       ∀a∈A∀b∈B( type(a) = type(b) )
   Ω      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
 
   [MOAT_CROSS             ] Crossing the moat — structural bridge (𐑥)
@@ -460,7 +460,7 @@ The mathematical obstruction is now precisely localized:
     <: 𐑹 → 𐑬  (gap: 0.5)
     ∋: 𐑵 → 𐑝  (gap: 1.0)
     ⊙: 𐑮 → ⊙  (gap: 0.165)
-    Σ: 𐑕 → 𐑳  (gap: 0.5)
+    ⊞: 𐑕 → 𐑳  (gap: 0.5)
 ● TOOL cl9nk entry bootstrap_stage_2_topology_corrected
 
 ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -484,7 +484,7 @@ The mathematical obstruction is now precisely localized:
   ∋      𐑠       seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬ ⟨→⟩(g, f, τ)                                                      [SEQAX]
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id — criticality                                                                  [PHI_C]
   ⊥      𐑖       ∃y∃z( y ∈ x ∧ z ∈ y ∧ ¬ z ∈ x ∧ rank(z) < rank(y) )                                            [TEMPD2]
-  Σ      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
+  ⊞      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
   Ω      𐑭       ∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0                                                               [ZWIND]
 
   [HOLOGRAPHIC_STATE]
@@ -495,7 +495,7 @@ The mathematical obstruction is now precisely localized:
   [SEQAX            ]
   [PHI_C            ] Criticality fixed-point — ξ→∞ ∧ μ∘δ=id (⊙)
   [TEMPD2           ]
-  [MOAT_BRIDGE_TYPE ] Type mismatch between moat and bridge (Σ=𐑳)
+  [MOAT_BRIDGE_TYPE ] Type mismatch between moat and bridge (⊞=𐑳)
   [ZWIND            ]
 
 ── CLINK expression ──────────────────────────────────────────────────────────────────────────────────────────────────
@@ -547,12 +547,12 @@ The mathematical obstruction is now precisely localized:
   ∋      𐑠       seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬ ⟨→⟩(g, f, τ)                                                      [SEQAX]
   ⊙      𐑣       ξ → ∞ ∧ chaotic(x)
   ⊥      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
-  Σ      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
+  ⊞      𐑳       ∃a∈A∃b∈B( type(a) ≠ type(b) ) — moat vs bridge                                       [MOAT_BRIDGE_TYPE]
   Ω      𐑷       ∮_γ dx = 0
 
   [SEQAX             ]
   [ETERNAL_FIXEDPOINT]
-  [MOAT_BRIDGE_TYPE  ] Type mismatch between moat and bridge (Σ=𐑳)
+  [MOAT_BRIDGE_TYPE  ] Type mismatch between moat and bridge (⊞=𐑳)
 
 ── CLINK expression ──────────────────────────────────────────────────────────────────────────────────────────────────
   ∀n∃y( y ∈ x ∧ rank(y) > n ) ∧
@@ -651,7 +651,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
       "∋": "𐑵",
       "⊙": "⊙",
       "⊥": "𐑫",
-      "Σ": "𐑳",
+      "⊞": "𐑳",
       "Ω": "𐑟"
     },
     "tier": "O_inf"
@@ -670,7 +670,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
       "∋": "𐑝",
       "⊙": "⊙",
       "⊥": "𐑫",
-      "Σ": "𐑳",
+      "⊞": "𐑳",
       "Ω": "𐑭"
     },
     "tier": "O₂"
@@ -753,7 +753,7 @@ Catalog systems (6129): 0-the_fool, 0_the_fool, 10, 1024_structural_subset, 1024
     "∈",
     "⊙",
     "⊥",
-    "Σ"
+    "⊞"
   ],
   "distance": 1.6112
 }
@@ -897,7 +897,7 @@ We are ready to write the complete, uncompromised report.
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | Σ | Ω | Tier |
+| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | ⊞ | Ω | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1026,7 +1026,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play, extracted directly from the `cl9nk` and `cl8nk` engines:
 
-| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | Σ | Ω | Tier |
+| System | ⊢ | ⊣ | > | < | ⋈ | ⊤ | ∈ | ∋ | ⊙ | ⊥ | ⊞ | Ω | Tier |
 |--------|---|---|---|---|---|---|---|---|---|---|---|---|------|
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |
@@ -1157,7 +1157,7 @@ The traditional `ouroboricityTier` classifier evaluates `clink_l9` as `O₂` bec
 
 The live coordinates of the four systems in play are established on the Belnap substrate and map to the following canonical constructors:
 
-| System | ⊢ (`dim`) | ⊣ (`top`) | > (`rel`) | < (`pol`) | ⋈ (`fid`) | ⊤ (`kin`) | ∈ (`gram`) | ∋ (`gran`) | ⊙ (`crit`) | ⊥ (`chir`) | Σ (`stoi`) | Ω (`prot`) | Tier |
+| System | ⊢ (`dim`) | ⊣ (`top`) | > (`rel`) | < (`pol`) | ⋈ (`fid`) | ⊤ (`kin`) | ∈ (`gram`) | ∋ (`gran`) | ⊙ (`crit`) | ⊥ (`chir`) | ⊞ (`stoi`) | Ω (`prot`) | Tier |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `clink_l9` | `dead` | `eat` | `tot` | `yew` | `peep` | `air` | `measure` | `thigh` | `monad` | `wool` | `up` | `oak` | `O₂` |
 | `sixteen_3_trilattice` | `array` | `eat` | `ear` | `or'` | `peep` | `air` | `measure` | `ice` | `roar` | `wool` | `so` | `oak` | `O_inf` |

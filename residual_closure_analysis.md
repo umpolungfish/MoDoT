@@ -50,7 +50,7 @@ The residual closure comes from promoting each constant through the morphism:
 | ⊣: 𐑥→𐑸 | 2 | Crossing → self-reference (δ/μ loop closes) |
 | ⋈: 𐑱→𐑐 | 2 | Classical ratio → quantum value (dressing turns on) |
 | **∋: 𐑝→𐑵** | **3** | **Conjunctive → broadcast** (the big one: constants reach all scales) |
-| Σ: 𐑕→𐑳 | 1 | Identical sectors → heterogeneous constants (differentiation) |
+| ⊞: 𐑕→𐑳 | 1 | Identical sectors → heterogeneous constants (differentiation) |
 | Ω: 𐑭→𐑟 | 1 | ℤ winding → non-Abelian braiding (topological corrections) |
 
 ---

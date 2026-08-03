@@ -5453,7 +5453,7 @@ fn atomic_token_seed(name: &str) -> Option<String> {
     Some(symbol_seed.to_string())
 }
 
-/// The twelve catalog keys, in notation order: ⟨⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ Σ Ω⟩.
+/// The twelve catalog keys, in notation order: ⟨⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ ⊞ Ω⟩.
 const PRIM_KEYS: [&str; 12] = ["⊢", "⊣", ">", "<", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "◻"];
 
 /// Parse a well-formed 12-glyph notation ⟨…⟩ into its twelve values.

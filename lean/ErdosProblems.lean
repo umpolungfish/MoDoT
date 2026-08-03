@@ -1664,7 +1664,7 @@ Primitive differences between the two Erdős-Hajnal cases.
 def erdos_hajnal_case_deltas : List (String × String × String) :=
   [("T", "mime", "eat"),
    ("G", "ice", "thigh"),
-   ("Σ", "so", "hung")]
+   ("⊞", "so", "hung")]
 
 /--
 The key structural insight: De Bruijn-Erdős holds when T=eat

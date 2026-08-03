@@ -131,7 +131,7 @@ SIGNATURES, one per line, no proofs, no imports, no prose, no markdown.";
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Cardinalities of the 12 primitives (constructor counts), scripture from
-/// ImscribingGrammar/Primitives/Core.lean, in canonical order ⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ Σ Ω.
+/// ImscribingGrammar/Primitives/Core.lean, in canonical order ⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ ⊞ Ω.
 const PRIM_CARD: [u8; 12] = [4, 5, 4, 5, 3, 5, 3, 4, 5, 4, 3, 4];
 /// Imscription record field names, in the same order.
 const PRIM_FIELD: [&str; 12] = [
