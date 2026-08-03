@@ -2321,8 +2321,8 @@ import Mathlib.Combinatorics.SimpleGraph.Coloring
 open SimpleGraph
 
 /-- A coloring is rainbow on a subgraph G if all edges of G have distinct colors. -/
-def IsRainbow {V : Type*} (Γ : SimpleGraph V) (c : Γ.EdgeSet → ℕ) (G : SimpleGraph V) : Prop :=
-  G ≤ Γ ∧ ∀ (e1 e2 : G.EdgeSet), c ⟨e1.val, G.mono e1.2⟩ = c ⟨e2.val, G.mono e2.2⟩ → e1 = e2
+def IsRainbow {V : Type*} (∈ : SimpleGraph V) (c : ∈.EdgeSet → ℕ) (G : SimpleGraph V) : Prop :=
+  G ≤ ∈ ∧ ∀ (e1 e2 : G.EdgeSet), c ⟨e1.val, G.mono e1.2⟩ = c ⟨e2.val, G.mono e2.2⟩ → e1 = e2
 
 /-- The strong anti-Ramsey number chi_S(n, e, G). -/
 noncomputable def strongAntiRamsey (n e : ℕ) (G : SimpleGraph (Fin n)) : ℕ :=

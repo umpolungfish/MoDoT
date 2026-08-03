@@ -132,7 +132,7 @@ _AMP = {
 PRIMITIVE_KEYS = ("D", "T", "R", "P", "F", "K", "G", "Gm", "Ph", "H", "S", "W")
 
 # symbol → density-basis name (canonical, matches v3ssel frobenius_pairs)
-# Note: G = coupling (Γ), Gm = granularity; Ph carries criticality (⊙) in the
+# Note: G = coupling (∈), Gm = granularity; Ph carries criticality (⊙) in the
 # density basis when the six dual pairs are wired; S = stoichiometry, W = winding.
 _KEY_TO_NAME = {
     "D": "dimensionality",

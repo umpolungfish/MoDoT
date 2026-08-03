@@ -31,7 +31,7 @@ bridge_2] closes at exactly ρ=2.0000 with spectrum [+2.000, -1.618, -1.618,
 +0.618, +0.618] and gap 0.3820.
 
 **The reseed protocol closes over its own promotion gap** (w89). The set
-{moat_protocol_reseed, >, <, ⊤, Γ, Σ}, i.e. the protocol together with the
+{moat_protocol_reseed, >, <, ⊤, ∈, Σ}, i.e. the protocol together with the
 five primitives cl9nk said it lacked, cyclizes order-robustly (128 of 720
 orderings) at ρ=2.0, and imasm prove on moat_protocol_reseed is kernel
 green. The object plus its named deficits forms the ring; the deficits are

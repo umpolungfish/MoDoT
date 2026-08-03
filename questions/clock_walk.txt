@@ -3,7 +3,7 @@ CLOCK WALK
 STATE OF KNOWLEDGE (from the audited walked chain, 30 provenance-stamped
 rungs, run 19f72d5c10d):
 The walked substrate is a CLOCK, not a reservoir. On every derived:cycle
-rung: ⊢ ⊣ < ⋈ ⊤ Γ ⊙ Ħ are invariant (the chiral mode 𐑬 never moves), and
+rung: ⊢ ⊣ < ⋈ ⊤ ∈ ⊙ Ħ are invariant (the chiral mode 𐑬 never moves), and
 the three live registers are periodic counters:
     Ω period 2 (the Z2 toggle)
     Σ period 3 (𐑳→𐑙→𐑕)

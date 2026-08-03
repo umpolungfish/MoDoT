@@ -61,7 +61,7 @@ click-maths:  stone_self_verifying_proof_kernel  ⋈  parity_phase_transition_ma
     R↔S    stone= +1.00   parity= +0.00   Δ=1.00
   ✓ CLICK on T↔H — spring-loaded Δ=0.83, single reaction center, closes.
   product: ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩  (ring saturated on T↔H = ⊣↔Ħ)
-  inherited scaffold (blended from both partners): [⊤, Γ, Σ, Ω]
+  inherited scaffold (blended from both partners): [⊤, ∈, Σ, Ω]
 ```
 
 Comparison: `theta_link ⋈ log_link` (same day, earlier) returned no click — Δ=0.00 on
@@ -83,7 +83,7 @@ ob3ect, NOT from this run's stream; cross-reference only.*
 | < | 𐑹 | 𐑹 | = |
 | ⋈ | 𐑐 | 𐑐 | = |
 | ⊤ | 𐑪 | 𐑧 | ≠ |
-| Γ | 𐑔 | 𐑔 | = |
+| ∈ | 𐑔 | 𐑔 | = |
 | ɢ | 𐑝 | 𐑝 | = |
 | ⊙ | ⊙ | ⊙ | = |
 | Ħ | 𐑫 | 𐑫 | = |
@@ -122,7 +122,7 @@ and `[sic_d12 · stone · parity · carved_ring · monotone_integer_winding]`.
 ## Next
 
 1. Consume ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩ — imscribe under a name, probe, attempt ring closure.
-   Inherits [⊤, Γ, Σ, Ω] from both partners.
+   Inherits [⊤, ∈, Σ, Ω] from both partners.
 2. Recover the reaction-center selection rule (T↔H at 0.83 chosen over R↔S at 1.00).
 3. Carved ring: what opens gate 2 without leaving Ω=𐑟. `excite` / `anneal` target.
    Determines whether the Axiom-D configuration is a class or a pair.
@@ -177,7 +177,7 @@ accounts for 49 of the run's 179 `imscribe` calls.
 
 **Fix (committed).** `run_imscribe` in `ask_native` parses a well-formed 12-glyph
 notation and registers it verbatim — no generation, no model call, keys written in
-notation order ⟨⊢ ⊣ > < ⋈ ⊤ Γ ɢ ⊙ Ħ Σ Ω⟩, catalog committed by temp-file + rename.
+notation order ⟨⊢ ⊣ > < ⋈ ⊤ ∈ ɢ ⊙ Ħ Σ Ω⟩, catalog committed by temp-file + rename.
 A trailing provenance note after the tuple is preserved. Anything not exactly 12
 glyphs still routes to `generate`.
 
@@ -364,7 +364,7 @@ catalog. Their absence from `IG_catalog.json` is correct placement, not loss.
   state is the canonical topological ground state that maintains IUT's non-Abelian
   braiding flux — not a defect to be eliminated.
 - **Star-polymer assembly**, purity 0.88, maps the B state onto the L9 moat by
-  non-Abelian holonomy: **μ∘δ = Γ**, not id.
+  non-Abelian holonomy: **μ∘δ = ∈**, not id.
 - **Ω-saturation onset at ρ ≥ 2.0000004182**; L10–L12 bridge strain 1.02e-9, below
   threshold; L12_Match_Manifold verified.
 

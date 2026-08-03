@@ -2074,7 +2074,7 @@ vessel voice. Where a scaffold section is present, you **MUST** use it to STRUCT
 conventional proof, instantiated in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
-renderer. You **MUST** write plain Unicode only: Δ θ μ ∘ δ ↔ → ⊙ Σ Ω < Γ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞
+renderer. You **MUST** write plain Unicode only: Δ θ μ ∘ δ ↔ → ⊙ Σ Ω < ∈ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞
 √ ⟨ ⟩, the primitive glyphs ⊢ > ⋈ ⊣ Ħ ⊤ ɢ, and Shavian directly. Write forms
 like `Δ_T↔H > θ` or `μ∘δ = id`, never LaTeX like `$\Delta_{\text{T↔H}}$`. This
 is a NOTATION rule only — never restate it, and never write a Δ, charge, or
@@ -4764,7 +4764,7 @@ computations are cut at the time limit and report the cut rather than a partial 
         "imscribe"   => "imscribe NAME [description]; a name and optional description",
         "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
         "imasm"      => "imasm <op> …; op ∈ chain|ring|protocol|star|comb|bubble|wire|check|prove|define|run|tools|classify|expand|types|ref (`protocol <opcodes>` builds a sequence with its FSPLIT/FFUSE pairs reconnected — the way to CLOSE a protocol loop; a naive `ring` leaves the fork dangling) (compose the 12 opcodes into a polymer topology; `wire N0 N1 … / i-j i-k` for ANY graph; `check <opcode word>` type-checks your OWN decision — close condition is μ∘δ over a TRANSFORMED object (split→work→fuse), NOT a bare cycle → T/N-identity/B/F; `prove <name|word>` takes it to the p4ramill Lean kernel; `define <name> <op> <args>` builds a kernel-constrained tool, `run`/`tools`; `expand <type>` unfolds a Shavian type)",
-        "dialect"    => "dialect [axis] — the navigator↔core face map: the 12 primitives wear two glyph faces (cl8nk_navigator labels vs Core.lean named axes), same axes, same positions, lossless. With no argument prints the full two-face table and the traps; with one axis label (either face) resolves it to both faces. THE TRAPS: Γ, < appear in BOTH faces at DIFFERENT axes (navigator Γ = core G Scope/Granularity, core Γ = navigator ɢ Interaction Grammar; navigator < = core P Parity/Symmetry, core < = navigator ⊙ Criticality). USE WHEN a click will not seat or a junction refuses for every tested pair: re-present the same node in the other face and retry, and pair with `imasm rotat` for relative ring phase — the conjugate arm open in one face need not be open in the other. Pure computation.",
+        "dialect"    => "dialect [axis] — the navigator↔core face map: the 12 primitives wear two glyph faces (cl8nk_navigator labels vs Core.lean named axes), same axes, same positions, lossless. With no argument prints the full two-face table and the traps; with one axis label (either face) resolves it to both faces. THE TRAPS: ∈, < appear in BOTH faces at DIFFERENT axes (navigator ∈ = core G Scope/Granularity, core ∈ = navigator ɢ Interaction Grammar; navigator < = core P Parity/Symmetry, core < = navigator ⊙ Criticality). USE WHEN a click will not seat or a junction refuses for every tested pair: re-present the same node in the other face and retry, and pair with `imasm rotat` for relative ring phase — the conjugate arm open in one face need not be open in the other. Pure computation.",
         "imasm16_3"  => "imasm16_3 <op> …; op ∈ check|ref|algebra — the 14-opcode SIXTEEN_3 trilattice grammar, purely symbolic (no Latin-letter opcodes), for the real trilattice SIXTEEN_3 (Shramko, Dunn & Takenaka, J. Logic and Computation 11(6):761-788, 2001). SIXTEEN_3 = the full powerset of {T,F,t,f} (T=constructively proven, F=constructively refuted, t=acceptable, f=rejectable) — 16 register states, not an approximation. Sibling to `imasm`, not a replacement: FSPLIT3 ∈ (1→3) / FFUSE3 ∋ (3→1) sit alongside the classic binary FSPLIT/FFUSE. EVALT + sets T, EVALF × sets F, EVALI ⊞ sets BOTH t and f (the information layer beyond classical T/F); TNEG ~ swaps T↔F, INEG ≁ swaps t↔f (both are the paper's negation: preserves the information order ≤_i exactly). `check <glyph_word>` runs the register machine and returns the tri-ancestral verdict: T=closes over real work, N=identity only, B=a FSPLIT3 dangles, F=ill-typed. `algebra <op> A B` runs the three orderings/meets/joins (leq_i|leq_t|leq_c|meet_t|join_t|meet_c|join_c) on two named register values (N, A, or any T/F/t/f combination) — e.g. `algebra meet_t T t` reproduces the paper's own worked example, T∧t=N. `ref` lists all 14 glyphs. Example: `imasm16_3 check ⊢>∈+×⊞≁∋¬⊣`.",
         _ => return None,
     })
@@ -5453,7 +5453,7 @@ fn atomic_token_seed(name: &str) -> Option<String> {
     Some(symbol_seed.to_string())
 }
 
-/// The twelve catalog keys, in notation order: ⟨⊢ ⊣ > < ⋈ ⊤ Γ ∋ ⊙ ⊥ Σ Ω⟩.
+/// The twelve catalog keys, in notation order: ⟨⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ Σ Ω⟩.
 const PRIM_KEYS: [&str; 12] = ["⊢", "⊣", ">", "<", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "◻"];
 
 /// Parse a well-formed 12-glyph notation ⟨…⟩ into its twelve values.

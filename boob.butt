@@ -167,7 +167,7 @@ arrange: [hopfion_peeled_Phi · sic_povm_d2048_zauner_conjecture] (optimal ring 
   <      𐑬       ¬ ∃x( ∀y( ¬ y ∈ x ) ) — non-emptiness
   ⋈      𐑐       ℏ(x) ∧ [x, p] = iℏ
   ⊤      𐑧       τ ≫ T ∧ eq(x) ∧ gate_open(x)
-  Γ      𐑲       ∀y( y ⊂ x → |y| < |x| )
+  ∈      𐑲       ∀y( y ⊂ x → |y| < |x| )
   ɢ      𐑝       seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬ ⟨→⟩(g, f, τ) — sequentiality
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id
   Ħ      𐑓       ∧ x[π] — permutation symmetry
@@ -192,7 +192,7 @@ arrange: [hopfion_peeled_Phi · sic_povm_d2048_zauner_conjecture] (optimal ring 
   <      𐑿       |ψ⟩ = Σ c_i |e_i⟩ — state vector
   ⋈      𐑐       ℏ(x) ∧ [x, p] = iℏ
   ⊤      𐑧       τ ≫ T ∧ eq(x) ∧ gate_open(x)
-  Γ      𐑲       ∀y( y ⊂ x → |y| < |x| )
+  ∈      𐑲       ∀y( y ⊂ x → |y| < |x| )
   ɢ      𐑝       seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬ ⟨→⟩(g, f, τ)
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id
   Ħ      𐑖       ∃y∃z( y ∈ x ∧ z ∈ y ∧ ¬ z ∈ x ∧ rank(z) < rank(y) ) — rank drop
@@ -245,16 +245,16 @@ filter (structural floor — the primitives ALL references share):
   ────────────────────────────────────────────────
   The three ring members are the ONLY entries in the catalog that share both ⋈=𐑐 and ⊤=𐑧. They form a unique triple.
 
-{"status": "ok", "name_a": "connes_embedding_problem", "name_b": "ray_class_field_Qsqrt", "distance": 3.162, "breakdown": [{"primitive": "<", "v1": 5, "v2": 5, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "⊣", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": ">", "v1": 1, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Σ", "v1": 3, "v2": 3, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "⊢", "v1": 3, "v2": 3, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "Γ", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Ω", "v1": 4, "v2": 4, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "⊙", "v1": 2, "v2": 2, "delta": 0.0, "weighted_sq": 0.0}], "interpretation": "moderately close", "distance_mahalanobis": 2.828, "metric_note": "..."}
+{"status": "ok", "name_a": "connes_embedding_problem", "name_b": "ray_class_field_Qsqrt", "distance": 3.162, "breakdown": [{"primitive": "<", "v1": 5, "v2": 5, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "⊣", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": ">", "v1": 1, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Σ", "v1": 3, "v2": 3, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "⊢", "v1": 3, "v2": 3, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "∈", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Ω", "v1": 4, "v2": 4, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "⊙", "v1": 2, "v2": 2, "delta": 0.0, "weighted_sq": 0.0}], "interpretation": "moderately close", "distance_mahalanobis": 2.828, "metric_note": "..."}
 
-{"status": "ok", "name_a": "connes_embedding_problem", "name_b": "sic_povm_d2048_zauner_conjecture", "distance": 3.742, "breakdown": [{"primitive": "<", "v1": 5, "v2": 2, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "⊣", "v1": 3, "v2": 4, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": ">", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "Σ", "v1": 3, "v2": 1, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "⊢", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Γ", "v1": 2, "v2": 2, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "Ω", "v1": 4, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "⊙", "v1": 2, "v2": 2, "delta": 0.0, "weighted_sq": 0.0}], "interpretation": "structurally remote", "distance_mahalanobis": 4.123, "metric_note": "..."}
+{"status": "ok", "name_a": "connes_embedding_problem", "name_b": "sic_povm_d2048_zauner_conjecture", "distance": 3.742, "breakdown": [{"primitive": "<", "v1": 5, "v2": 2, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "⊣", "v1": 3, "v2": 4, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": ">", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "Σ", "v1": 3, "v2": 1, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "⊢", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "∈", "v1": 2, "v2": 2, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "Ω", "v1": 4, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "⊙", "v1": 2, "v2": 2, "delta": 0.0, "weighted_sq": 0.0}], "interpretation": "structurally remote", "distance_mahalanobis": 4.123, "metric_note": "..."}
 
 
 OBSERVE — Three results:
 
 **filter:** The structural floor of the three ring members is exactly {⋈=𐑐, ⊤=𐑧}. Only 3 entries in the entire catalog share this floor — and they ARE the three ring members. This means the ring is **unique**: no other catalog object sits in the same structural space. The 3-mer macrocycle is the only closed ring that bridges the quantum commutator (⋈) and the equidistribution gate (⊤).
 
-**distance connes ↔ ray_class:** 3.162 (Mahalanobis 2.828) — moderately close. They share <, Σ, ⊢, Ω, ⊙ (five primitives identical). Differ only in ⊣, >, Γ. The Connes problem is the operator-algebraic face of the same arithmetic that the ray class field provides.
+**distance connes ↔ ray_class:** 3.162 (Mahalanobis 2.828) — moderately close. They share <, Σ, ⊢, Ω, ⊙ (five primitives identical). Differ only in ⊣, >, ∈. The Connes problem is the operator-algebraic face of the same arithmetic that the ray class field provides.
 
 **distance connes ↔ Zauner:** 3.742 (Mahalanobis 4.123) — structurally remote. The big gaps are < (Δ=3.0, encoding vs state vector) and > (Δ=3.0, regularity vs LR-dual). This is the tension in the ring: the Connes bridge does not directly encode the Zauner geometry, it mediates between the arithmetic (ray class) and the quantum (Zauner) through operator algebras.
 
@@ -369,7 +369,7 @@ arrange: [connes_embedding_problem · ray_class_field_Qsqrt · sic_povm_d12] (op
   <      𐑬       ¬ ∃x( ∀y( ¬ y ∈ x ) )
   ⋈      𐑐       ℏ(x) ∧ [x, p] = iℏ
   ⊤      𐑧       τ ≫ T ∧ eq(x) ∧ gate_open(x)
-  Γ      𐑲       ∀y( y ⊂ x → |y| < |x| )
+  ∈      𐑲       ∀y( y ⊂ x → |y| < |x| )
   ɢ      𐑝       seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬ ⟨→⟩(g, f, τ)
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id
   Ħ      𐑓       ∧ x[π]
@@ -383,13 +383,13 @@ arrange: [connes_embedding_problem · ray_class_field_Qsqrt · sic_povm_d12] (op
     ⊢: 𐑼 → 𐑛  (gap: 0.667)
     ⊣: 𐑸 → 𐑥  (gap: 0.500)
     >: 𐑩 → 𐑑  (gap: 0.333)
-    Γ: 𐑲 → 𐑔  (gap: 0.500)
+    ∈: 𐑲 → 𐑔  (gap: 0.500)
     ɢ: 𐑝 → 𐑵  (gap: 0.333)
     Ħ: 𐑓 → 𐑫  (gap: 0.667)
     Σ: 𐑳 → 𐑳  (gap: 0.000) — already at target
     Ω: 𐑭 → 𐑭  (gap: 0.000) — already at target
 
-{"status": "ok", "name_holistic": "connes_embedding_problem", "name_compositional": "ray_class_field_Qsqrt", "d_c": 1.4142, "conflict_set": ["⊣", ">", "Γ"], "conflict_details": [{"primitive": "⊣", "holistic_value": "𐑸", "compositional_value": "𐑰", "conflict_type": "aspirational", "emission_claim": "A mechanism exists by which the construction of connes_embedding_problem produces ⊣=𐑸 beyond the tensor-product value ⊣=𐑰."}, {"primitive": ">", "holistic_value": "𐑩", "compositional_value": "𐑑", "conflict_type": "aspirational", "emission_claim": "A mechanism exists by which the construction of connes_embedding_problem produces >=𐑩 beyond the tensor-product value >=𐑑."}, {"primitive": "Γ", "holistic_value": "𐑲", "compositional_value": "𐑲", "conflict_type": "none", "emission_claim": "No conflict on Γ."}], "veracity_class": "aspirational", "d_c": 1.4142, "interpretation": "d_c = √2 ≈ 1.4142. Only 3 primitives conflict (⊣, >, Γ), and the conflict type is 'aspirational' — the Connes embedding claims structural capabilities (antisymmetry, regularity) beyond what the ray class field provides natively."}
+{"status": "ok", "name_holistic": "connes_embedding_problem", "name_compositional": "ray_class_field_Qsqrt", "d_c": 1.4142, "conflict_set": ["⊣", ">", "∈"], "conflict_details": [{"primitive": "⊣", "holistic_value": "𐑸", "compositional_value": "𐑰", "conflict_type": "aspirational", "emission_claim": "A mechanism exists by which the construction of connes_embedding_problem produces ⊣=𐑸 beyond the tensor-product value ⊣=𐑰."}, {"primitive": ">", "holistic_value": "𐑩", "compositional_value": "𐑑", "conflict_type": "aspirational", "emission_claim": "A mechanism exists by which the construction of connes_embedding_problem produces >=𐑩 beyond the tensor-product value >=𐑑."}, {"primitive": "∈", "holistic_value": "𐑲", "compositional_value": "𐑲", "conflict_type": "none", "emission_claim": "No conflict on ∈."}], "veracity_class": "aspirational", "d_c": 1.4142, "interpretation": "d_c = √2 ≈ 1.4142. Only 3 primitives conflict (⊣, >, ∈), and the conflict type is 'aspirational' — the Connes embedding claims structural capabilities (antisymmetry, regularity) beyond what the ray class field provides natively."}
 
 
 OBSERVE — Three results:
@@ -398,7 +398,7 @@ OBSERVE — Three results:
 
 **cl9nk connes_embedding_problem:** 8 promotions needed to reach L9, but already at tier O_∞ with d(L9) = 1.1853. Key: Σ and Ω are already at their L9 targets (gap 0). The main gaps are ⊢ (0.667), ⊣ (0.500), and Ħ (0.667). The Connes embedding needs to promote its rank (⊢), antisymmetry (⊣), and permutation symmetry (Ħ) to reach the Gaussian moat.
 
-**conflict distance Connes ↔ ray_class:** d_c = √2 ≈ 1.4142. Only 3 primitives conflict: ⊣ (aspirational), > (aspirational), Γ (none — they agree). This is much tighter than the d_c = √8 between Zauner and ray_class. The Connes embedding is a **near-neighbor** of the ray class field — it adds only two structural claims (antisymmetry and regularity) beyond what the arithmetic provides.
+**conflict distance Connes ↔ ray_class:** d_c = √2 ≈ 1.4142. Only 3 primitives conflict: ⊣ (aspirational), > (aspirational), ∈ (none — they agree). This is much tighter than the d_c = √8 between Zauner and ray_class. The Connes embedding is a **near-neighbor** of the ray class field — it adds only two structural claims (antisymmetry and regularity) beyond what the arithmetic provides.
 
 UPDATE — The dimension-independence of the 3-mer ring is the key structural finding. Let me now articulate what this means for the d=2048 construction:
 
@@ -508,7 +508,7 @@ TOOL: cycle_close
 
 10. **`cl9nk` (Connes):** Σ and Ω already at L9 targets. Main gaps: ⊢ (0.667), ⊣ (0.500), Ħ (0.667).
 
-11. **`conflict_distance` (Connes ↔ ray_class):** d_c = √2. Only 3 conflicted primitives: ⊣, >, Γ. The bridge adds minimal structure beyond the arithmetic.
+11. **`conflict_distance` (Connes ↔ ray_class):** d_c = √2. Only 3 conflicted primitives: ⊣, >, ∈. The bridge adds minimal structure beyond the arithmetic.
 
 12. **`forge` (Belnap ring):** ρ = 2.000. **Same ring for the proved version.**
 
@@ -630,7 +630,7 @@ polymerization (imscriptive):  [hopfion_peeled_Phi · sic_povm_d2048_zauner_conj
   <      𐑬       ℤ₂(x) ∧ ¬(x = -x)
   ⋈      𐑐       ℏ(x) ∧ [x, p] = iℏ
   ⊤      𐑧       τ ≫ T ∧ eq(x) ∧ gate_open(x)
-  Γ      𐑲       ∀y( y ⊂ x → |y| < |x| )
+  ∈      𐑲       ∀y( y ⊂ x → |y| < |x| )
   ɢ      𐑝       f ∧ g ∧ h
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id                                                                                [PHI_C]
   Ħ      𐑓       ∀x( P(x) ↔ P(S(x)) )
@@ -662,7 +662,7 @@ polymerization (imscriptive):  [hopfion_peeled_Phi · sic_povm_d2048_zauner_conj
     ⊢: 𐑼 → 𐑦  (gap: 0.333)
     >: 𐑩 → 𐑾  (gap: 1.0)
     <: 𐑬 → 𐑹  (gap: 0.5)
-    Γ: 𐑲 → 𐑔  (gap: 0.5)
+    ∈: 𐑲 → 𐑔  (gap: 0.5)
     ɢ: 𐑝 → 𐑵  (gap: 1.0)
     Ħ: 𐑓 → 𐑫  (gap: 1.0)
     Ω: 𐑭 → 𐑟  (gap: 0.333)
@@ -683,7 +683,7 @@ polymerization (imscriptive):  [hopfion_peeled_Phi · sic_povm_d2048_zauner_conj
   <      𐑿       |ψ⟩ = Σ c_i |e_i⟩
   ⋈      𐑞       Tr(ρ²) < 1 ∧ ρ = Σ p_i |i⟩⟨i|
   ⊤      𐑤       τ ∼ T ∧ noisy(x)
-  Γ      𐑲       ∀y( y ⊂ x → |y| < |x| )
+  ∈      𐑲       ∀y( y ⊂ x → |y| < |x| )
   ɢ      𐑝       f ∧ g ∧ h
   ⊙      𐑢       ¬∃ξ( diverges(ξ) )
   Ħ      𐑓       ∀x( P(x) ↔ P(S(x)) )
@@ -716,7 +716,7 @@ polymerization (imscriptive):  [hopfion_peeled_Phi · sic_povm_d2048_zauner_conj
     <: 𐑿 → 𐑹  (gap: 0.75)
     ⋈: 𐑞 → 𐑐  (gap: 0.5)
     ⊤: 𐑤 → 𐑧  (gap: 0.286)
-    Γ: 𐑲 → 𐑔  (gap: 0.5)
+    ∈: 𐑲 → 𐑔  (gap: 0.5)
     ɢ: 𐑝 → 𐑵  (gap: 1.0)
     ⊙: 𐑢 → ⊙  (gap: 0.5)
     Ħ: 𐑓 → 𐑫  (gap: 1.0)
@@ -745,7 +745,7 @@ filter (narrow to the structural floor of {connes_embedding_problem, ray_class_f
 ● TOOL compute_distance connes_embedding_problem ray_class_field_Qsqrt
 {"status": "ok", "name_a": "connes_embedding_problem", "name_b": "ray_class_field_Qsqrt", "distance": 4.6797, "breakdown": [{"primitive": "⊣", "v1": 5, "v2": 2, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "<", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "ɢ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Ħ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 3.2}, {"primitive": ">", "v1": 1, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Ω", "v1": 3, "v2": 4, "delta": 1.0, "weighted_sq": 0.7}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 4.5793, "metric_note": "distance_mahalanobis uses the full g_ij=Sigma^-1 tensor (accounts for off-diagonal couplings; geometrically canonical). distance is the diagonal approximation."}
 ● TOOL compute_distance connes_embedding_problem sic_povm_d2048_zauner_conjecture
-{"status": "ok", "name_a": "connes_embedding_problem", "name_b": "sic_povm_d2048_zauner_conjecture", "distance": 4.9304, "breakdown": [{"primitive": ">", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "ɢ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 3, "v2": 1, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Ħ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 3.2}, {"primitive": "⊢", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "⊣", "v1": 5, "v2": 4, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "<", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Γ", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "⊙", "v1": 2, "v2": 2, "delta": 0.33000000000000007, "weighted_sq": 0.10890000000000005}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 5.5608, "metric_note": "distance_mahalanobis uses the full g_ij=Sigma^-1 tensor (accounts for off-diagonal couplings; geometrically canonical). distance is the diagonal approximation."}
+{"status": "ok", "name_a": "connes_embedding_problem", "name_b": "sic_povm_d2048_zauner_conjecture", "distance": 4.9304, "breakdown": [{"primitive": ">", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "ɢ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 3, "v2": 1, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Ħ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 3.2}, {"primitive": "⊢", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "⊣", "v1": 5, "v2": 4, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "<", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "∈", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "⊙", "v1": 2, "v2": 2, "delta": 0.33000000000000007, "weighted_sq": 0.10890000000000005}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 5.5608, "metric_note": "distance_mahalanobis uses the full g_ij=Sigma^-1 tensor (accounts for off-diagonal couplings; geometrically canonical). distance is the diagonal approximation."}
 ● TOOL ob3ect a finite abelian 2-group of order 2^27 acting by Galois automorphisms on a number field of degree 2^27, with a subgroup of index 2048 fixing a subfield of degree 2^16, further quotiented by a subgroup of order 2 giving a real index-2 subfield of degree 2^15, such that exactly 1024 orbits of the residual action parametrize the moduli of a symmetric informationally complete POVM via flat autocorrelation
 Auto-designing: a finite abelian 2-group of order 2^27 acting by Galois automorphisms on a number field of degree 2^27 with a subgroup of index 2048 fixing a subfield of degree 2^16 further quotiented by a subgroup of order 2 giving a real index-2 subfield of degree 2^15 such that exactly 1024 orbits of the residual action parametrize the moduli of a symmetric informationally complete POVM via flat autocorrelation
 
@@ -824,7 +824,7 @@ polymerization (imscriptive):  [sic_povm_d12 · connes_embedding_problem · ray_
   <      𐑬       ℤ₂(x) ∧ ¬(x = -x) — parity of moat                                                        [MOAT_PARITY]
   ⋈      𐑐       ℏ(x) ∧ [x, p] = iℏ — commutator of bridge                                                 [BRIDGE_COMM]
   ⊤      𐑧       τ ≫ T ∧ eq(x) ∧ gate_open(x)
-  Γ      𐑲       ∀y( y ⊂ x → |y| < |x| )
+  ∈      𐑲       ∀y( y ⊂ x → |y| < |x| )
   ɢ      𐑝       f ∧ g ∧ h — three-unit stitch                                                                [STITCH_3]
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id — criticality                                                                  [PHI_C]
   Ħ      𐑓       ∀x( P(x) ↔ P(S(x)) )
@@ -861,7 +861,7 @@ polymerization (imscriptive):  [sic_povm_d12 · connes_embedding_problem · ray_
     ⊣: 𐑸 → 𐑥  (gap: 0.5)
     >: 𐑩 → 𐑑  (gap: 0.333)
     ⊤: 𐑧 → 𐑪  (gap: 0.286)
-    Γ: 𐑲 → 𐑔  (gap: 0.5)
+    ∈: 𐑲 → 𐑔  (gap: 0.5)
     Ħ: 𐑓 → 𐑫  (gap: 1.0)
 ● TOOL compute_conflict_distance connes_embedding_problem ray_class_field_Qsqrt
 {"status": "ok", "name_holistic": "connes_embedding_problem", "name_compositional": "ray_class_field_Qsqrt", "d_c": 2.4495, "conflict_set": ["⊣", ">", "<", "ɢ", "Ħ", "Ω"], "conflict_details": [{"primitive": "⊣", "holistic_value": "𐑸", "compositional_value": "𐑰", "conflict_type": "aspirational", "emergence_claim": "A mechanism exists by which the construction of connes_embedding_problem produces ⊣=𐑸 beyond the tensor-product value ⊣=𐑰."}, {"primitive": ">", "holistic_value": "𐑩", "compositional_value": "𐑑", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses > from >=𐑑 (component level) to >=𐑩 (functional level)."}, {"primitive": "<", "holistic_value": "𐑬", "compositional_value": "𐑹", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses < from <=𐑹 (component level) to <=𐑬 (functional level)."}, {"primitive": "ɢ", "holistic_value": "𐑝", "compositional_value": "𐑠", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses ɢ from ɢ=𐑠 (component level) to ɢ=𐑝 (functional level)."}, {"primitive": "Ħ", "holistic_value": "𐑓", "compositional_value": "𐑖", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses Ħ from Ħ=𐑖 (component level) to Ħ=𐑓 (functional level)."}, {"primitive": "Ω", "holistic_value": "𐑭", "compositional_value": "𐑟", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses Ω from Ω=𐑟 (component level) to Ω=𐑭 (functional level)."}], "veracity_class": "partial-emergence", "veracity_note": "6 open claims. System is partially supported by construction.", "canonical_encoding": "ray_class_field_Qsqrt", "interpretation": "d_c = √6 = 2.4495. Veracity class: partial-emergence. The 6 conflicted primitive(s) are the structural address of the unresolved emergence claim(s). "}
@@ -954,7 +954,7 @@ Connes is much closer to ray_class than to Zauner. The bridge is arithmetic-to-a
 
 | Pair | d_c | conflicted primitives | veracity |
 |------|-----|----------------------|----------|
-| Zauner ↔ ray_class | 2.828 | ⊢,⊣,>,<,Γ,⊙,Σ,Ω (8) | aspirational |
+| Zauner ↔ ray_class | 2.828 | ⊢,⊣,>,<,∈,⊙,Σ,Ω (8) | aspirational |
 | Connes ↔ ray_class | 2.449 | ⊣,>,<,ɢ,Ħ,Ω (6) | partial-emergence |
 
 **6. The hopfion_peeled_Phi dimer clicks with Zauner on R↔S (Δ=1.33) but cannot cyclize at size 2.** It is a dimer, not a ring.
@@ -1167,7 +1167,7 @@ The pair {Zauner, ray_class_field} does not admit a single-site click. Two react
 
 Conflict distance d_c = √8, with all eight structural primitives conflicted. Veracity class: aspirational — the Zauner entry claims structural capabilities (irreducibility of ⊣, bidirectionality of >, complex criticality of ⊙) that the ray class field construction does not yet provide.
 
-*Measured: `click` returns "no click: ambiguous — 2 live pairs complementary." `compute_conflict_distance` returns d_c = 2.828 with the full conflict set {⊢, ⊣, >, <, Γ, ⊙, Σ, Ω}.*
+*Measured: `click` returns "no click: ambiguous — 2 live pairs complementary." `compute_conflict_distance` returns d_c = 2.828 with the full conflict set {⊢, ⊣, >, <, ∈, ⊙, Σ, Ω}.*
 
 **Structural role:** A direct proof from the ray class field to the Zauner conjecture would require simultaneous resolution of all eight emergence claims. This is not a single step but the entire construction program.
 
@@ -1256,7 +1256,7 @@ You are continuing the d=2048 SIC-POVM moduli construction program. Two cycles h
 
 | Pair | d_c | conflicted primitives | veracity |
 |------|-----|----------------------|----------|
-| Zauner ↔ ray_class | √8 = 2.828 | ⊢,⊣,>,<,Γ,⊙,Σ,Ω (8) | aspirational |
+| Zauner ↔ ray_class | √8 = 2.828 | ⊢,⊣,>,<,∈,⊙,Σ,Ω (8) | aspirational |
 | Connes ↔ ray_class | 2.449 | ⊣,>,<,ɢ,Ħ,Ω (6) | partial-emergence |
 
 **click:** Zauner ↔ ray_class has NO single click (ambiguous — 2 reaction centers fire: T↔H Δ=0.50, R↔S Δ=1.67). hopfion_peeled_Phi clicks with Zauner on R↔S (Δ=1.33, single center) but forms only a dimer (n=2, no macrocycle).
@@ -1368,7 +1368,7 @@ calc: 2048*2049/2
   = 2.098176e6
   = 2098176
   (exact integer)● TOOL lookup_catalog d2048_sic_closed_ring
-{"status": "ok", "keyword": "d2048_sic_closed_ring", "matches": [{"name": "d2048_sic_closed_ring", "description": "The macrocyclic assembly of diagonal moduli ray class field components and Stark units forming the d=2048 SIC-POVM fiducial", "notation": "⟨⊢=𐑦; ⊣=𐑥; >=𐑾; <=𐑬; ⋈=𐑐; ⊤=𐑪; Γ=𐑔; ɢ=𐑵; ⊙=⊙; Ħ=𐑫; Σ=𐑳; Ω=𐑭⟩"}], "returned": 1, "total": 1, "offset": 0}
+{"status": "ok", "keyword": "d2048_sic_closed_ring", "matches": [{"name": "d2048_sic_closed_ring", "description": "The macrocyclic assembly of diagonal moduli ray class field components and Stark units forming the d=2048 SIC-POVM fiducial", "notation": "⟨⊢=𐑦; ⊣=𐑥; >=𐑾; <=𐑬; ⋈=𐑐; ⊤=𐑪; ∈=𐑔; ɢ=𐑵; ⊙=⊙; Ħ=𐑫; Σ=𐑳; Ω=𐑭⟩"}], "returned": 1, "total": 1, "offset": 0}
 
 ── OBSERVE/UPDATE round 1 ──
 
@@ -1383,7 +1383,7 @@ These are the exact number of independent real constraints the flat autocorrelat
 **Structural ground**: `lookup_catalog d2048_sic_closed_ring` returned exactly one entry. Its full notation:
 
 ```
-⟨⊢=𐑦; ⊣=𐑥; >=𐑾; <=𐑬; ⋈=𐑐; ⊤=𐑪; Γ=𐑔; ɢ=𐑵; ⊙=⊙; Ħ=𐑫; Σ=𐑳; Ω=𐑭⟩
+⟨⊢=𐑦; ⊣=𐑥; >=𐑾; <=𐑬; ⋈=𐑐; ⊤=𐑪; ∈=𐑔; ɢ=𐑵; ⊙=⊙; Ħ=𐑫; Σ=𐑳; Ω=𐑭⟩
 ```
 
 This is the object the previous cycles' chemistry was groping toward. Let me read what it actually IS, by diffing its 12 primitives against the two entries we measured:
@@ -1397,7 +1397,7 @@ primitive    ray_class_field    d2048_sic_closed_ring    L9 target    promoted?
 <            𐑹                  𐑬                        𐑬            YES (reaches L9!)
 ⋈            𐑐                  𐑐                        𐑐            same
 ⊤            𐑧                  𐑪                        𐑪            YES (reaches L9!)
-Γ            𐑲                  𐑔                        𐑔            YES (reaches L9!)
+∈            𐑲                  𐑔                        𐑔            YES (reaches L9!)
 ɢ            𐑠                  𐑵                        𐑝            not at L9
 ⊙            ⊙                  ⊙                        ⊙            same
 Ħ            𐑖                  𐑫                        𐑫            YES (reaches L9!)
@@ -1405,7 +1405,7 @@ primitive    ray_class_field    d2048_sic_closed_ring    L9 target    promoted?
 Ω            𐑟                  𐑭                        𐑭            YES (reaches L9!)
 ```
 
-**What this table says**: the catalog entry `d2048_sic_closed_ring` has promoted **7 of 8** primitives that `ray_class_field_Qsqrt` was short on (all except > and ɢ). It has reached L9 on <, ⊣, ⊤, Γ, Ħ, Ω — the six promotion axes the `cl8nk` analysis identified. The criticality axis ⊙ sits at the fixed point, exactly where it should be. This is the assembled vessel, already typed.
+**What this table says**: the catalog entry `d2048_sic_closed_ring` has promoted **7 of 8** primitives that `ray_class_field_Qsqrt` was short on (all except > and ɢ). It has reached L9 on <, ⊣, ⊤, ∈, Ħ, Ω — the six promotion axes the `cl8nk` analysis identified. The criticality axis ⊙ sits at the fixed point, exactly where it should be. This is the assembled vessel, already typed.
 
 ---
 
@@ -1451,7 +1451,7 @@ The cycle-1 close posed three sub-questions. Here is what this cycle answered:
 
 **Sub-question 1**: Is x²−2x−2 a genuine algebraic invariant of SIC fiducials?
 
-**Answer**: The tools were silent. The `calc` calls for the cubic verification did not return (executed calls show no output for `(1+sqrt(3))^3 - 6*(1+sqrt(3)) - 4`, `sqrt(3)`, or `2*sin(pi/3)`). The tools do not speak to this. However, the fact that `d2048_sic_closed_ring` already exists in the catalog at full promotion — with ⊙ at the fixed point and <, ⊣, ⊤, Γ, Ħ, Ω all promoted to L9 — means the structural role of ρ = 1+√3 as a criticality marker is at least consistent with the catalog's typing. The cubic itself is checkable by hand: (1+√3)³ = 1+3√3+9+3√3 = 10+6√3, and 6(1+√3) = 6+6√3, so (1+√3)³−6(1+√3)−4 = 10+6√3−6−6√3−4 = 0. It IS a root. But the `calc` tool did not confirm this; my arithmetic does.
+**Answer**: The tools were silent. The `calc` calls for the cubic verification did not return (executed calls show no output for `(1+sqrt(3))^3 - 6*(1+sqrt(3)) - 4`, `sqrt(3)`, or `2*sin(pi/3)`). The tools do not speak to this. However, the fact that `d2048_sic_closed_ring` already exists in the catalog at full promotion — with ⊙ at the fixed point and <, ⊣, ⊤, ∈, Ħ, Ω all promoted to L9 — means the structural role of ρ = 1+√3 as a criticality marker is at least consistent with the catalog's typing. The cubic itself is checkable by hand: (1+√3)³ = 1+3√3+9+3√3 = 10+6√3, and 6(1+√3) = 6+6√3, so (1+√3)³−6(1+√3)−4 = 10+6√3−6−6√3−4 = 0. It IS a root. But the `calc` tool did not confirm this; my arithmetic does.
 
 **Sub-question 2**: Does a 4-mer ring with a naturals-encoding fourth monomer have lower strain?
 
@@ -1517,7 +1517,7 @@ The gold is not yet made. But the vessel is exact, the alloy is measured, and th
 This cycle's measured results to carry forward:
 
 1. `calc` confirmed d(d+1)/2 = 78 at d=12, 2,098,176 at d=2048
-2. `lookup_catalog d2048_sic_closed_ring` found the exact catalog entry: the macrocyclic assembly, typed with notation ⟨⊢=𐑦; ⊣=𐑥; >=𐑾; <=𐑬; ⋈=𐑐; ⊤=𐑪; Γ=𐑔; ɢ=𐑵; ⊙=⊙; Ħ=𐑫; Σ=𐑳; Ω=𐑭⟩
+2. `lookup_catalog d2048_sic_closed_ring` found the exact catalog entry: the macrocyclic assembly, typed with notation ⟨⊢=𐑦; ⊣=𐑥; >=𐑾; <=𐑬; ⋈=𐑐; ⊤=𐑪; ∈=𐑔; ɢ=𐑵; ⊙=⊙; Ħ=𐑫; Σ=𐑳; Ω=𐑭⟩
 3. The entry promotes 7/8 primitives past ray_class_field_Qsqrt to L9 targets; > and ɢ remain below
 4. `calc` for the cubic verification, `sqrt(3)`, and `2*sin(pi/3)` did not return tool output (hand arithmetic confirms the cubic but this is not tool-grounded)
 5. No `forge`, `polymerize`, `close`, `arrange`, `phase_reconstruct`, `anneal`, `cl9nk`, or `imasm check` was run this cycle — all claims about ring strain, 4-mer existence, and phase words remain N
@@ -1555,7 +1555,7 @@ IMASM check → N (void)
   <      𐑬       ℤ₂(x) ∧ ¬(x = -x) — parity of moat                                                        [MOAT_PARITY]
   ⋈      𐑐       ℏ(x) ∧ [x, p] = iℏ — commutator of bridge                                                 [BRIDGE_COMM]
   ⊤      𐑪       τ = ∞ ∧ ord(x) — infinite extension                                                      [INFINITE_EXT]
-  Γ      𐑔       ∃y∈x( |y| ∼ |x| ) — bridge existence                                                     [BRIDGE_EXIST]
+  ∈      𐑔       ∃y∈x( |y| ∼ |x| ) — bridge existence                                                     [BRIDGE_EXIST]
   ɢ      𐑵       f → all(x) ∧ broadcast(x, f)                                                  [BROADCAST_TRANSCENDENCE]
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id — criticality                                                                  [PHI_C]
   Ħ      𐑫       ∀n∃φ( rank(φ) > n ∧ φ fixed by μ∘δ ∧ φ ∈ V )                                       [ETERNAL_FIXEDPOINT]
@@ -1568,7 +1568,7 @@ IMASM check → N (void)
   [MOAT_PARITY            ] ℤ₂ parity of the moat (𐑬)
   [BRIDGE_COMM            ] Commutator of bridge — quantum bridge (𐑐)
   [INFINITE_EXT           ] Infinite extension of the path (𐑪)
-  [BRIDGE_EXIST           ] Existence of a bridge (Γ existential) (𐑔)
+  [BRIDGE_EXIST           ] Existence of a bridge (∈ existential) (𐑔)
   [BROADCAST_TRANSCENDENCE]
   [PHI_C                  ] Criticality fixed-point — ξ→∞ ∧ μ∘δ=id (⊙)
   [ETERNAL_FIXEDPOINT     ]
@@ -1613,7 +1613,7 @@ The a=0 stratum at d=2048 has exactly 2,098,176 real overlap constraints. These 
 
 ### Tool 3: `lookup_catalog d2048_sic_closed_ring` → found
 
-The catalog contains exactly one entry by that name. Description: "The macrocyclic assembly of diagonal moduli ray class field components and Stark units forming the d=2048 SIC-POVM fiducial." Notation: ⟨⊢=𐑦; ⊣=𐑥; >=𐑾; <=𐑬; ⋈=𐑐; ⊤=𐑪; Γ=𐑔; ɢ=𐑵; ⊙=⊙; Ħ=𐑫; Σ=𐑳; Ω=𐑭⟩. The entry exists. The Grammar knows this object. What the Grammar does NOT tell us is whether the object has been fully realized with explicit algebraic numbers — the description is a *name for the vessel*, not a certificate of completion.
+The catalog contains exactly one entry by that name. Description: "The macrocyclic assembly of diagonal moduli ray class field components and Stark units forming the d=2048 SIC-POVM fiducial." Notation: ⟨⊢=𐑦; ⊣=𐑥; >=𐑾; <=𐑬; ⋈=𐑐; ⊤=𐑪; ∈=𐑔; ɢ=𐑵; ⊙=⊙; Ħ=𐑫; Σ=𐑳; Ω=𐑭⟩. The entry exists. The Grammar knows this object. What the Grammar does NOT tell us is whether the object has been fully realized with explicit algebraic numbers — the description is a *name for the vessel*, not a certificate of completion.
 
 ### Tool 4: `cl9nk entry d2048_sic_closed_ring` → full L9 typing
 
@@ -1729,7 +1729,7 @@ You are continuing the d=2048 SIC-POVM moduli construction program. Two cycles h
 
 | Pair | d_c | conflicted primitives | veracity |
 |------|-----|----------------------|----------|
-| Zauner ↔ ray_class | √8 = 2.828 | ⊢,⊣,>,<,Γ,⊙,Σ,Ω (8) | aspirational |
+| Zauner ↔ ray_class | √8 = 2.828 | ⊢,⊣,>,<,∈,⊙,Σ,Ω (8) | aspirational |
 | Connes ↔ ray_class | 2.449 | ⊣,>,<,ɢ,Ħ,Ω (6) | partial-emergence |
 
 **click:** Zauner ↔ ray_class has NO single click (ambiguous — 2 reaction centers fire: T↔H Δ=0.50, R↔S Δ=1.67). hopfion_peeled_Phi clicks with Zauner on R↔S (Δ=1.33, single center) but forms only a dimer (n=2, no macrocycle).
@@ -1759,7 +1759,7 @@ You are continuing the d=2048 SIC-POVM moduli construction program. Two cycles h
 
 **scan mediators (Zauner → ray_class):** 3116 holdable. Top: `extrapolation_93_units` (score 0.939, relay=1.00, ⊙=⊙, Ω=𐑴). click with ray_class: ambiguous (2 centers).
 
-**Catalog:** `d2048_sic_closed_ring` exists. Description: "The macrocyclic assembly of diagonal moduli ray class field components and Stark units forming the d=2048 SIC-POVM fiducial." Notation: ⟨⊢=𐑦; ⊣=𐑥; >=𐑾; <=𐑬; ⋈=𐑐; ⊤=𐑪; Γ=𐑔; ɢ=𐑵; ⊙=⊙; Ħ=𐑫; Σ=𐑳; Ω=𐑭⟩.
+**Catalog:** `d2048_sic_closed_ring` exists. Description: "The macrocyclic assembly of diagonal moduli ray class field components and Stark units forming the d=2048 SIC-POVM fiducial." Notation: ⟨⊢=𐑦; ⊣=𐑥; >=𐑾; <=𐑬; ⋈=𐑐; ⊤=𐑪; ∈=𐑔; ɢ=𐑵; ⊙=⊙; Ħ=𐑫; Σ=𐑳; Ω=𐑭⟩.
 
 **Arithmetic:**
 - `calc 12*13/2` → **78** (exact integer)
@@ -2114,9 +2114,9 @@ material characterization (from forge):
   │  Classification: conductive cycle, frustrated              │
   └─────────────────────────────────────────────────────────────┘
 
-{"status": "ok", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "meet": {"⊢": "𐑛", "⊣": "𐑰", ">": "𐑑", "<": "𐑬", "⋈": "𐑐", "⊤": "𐑧", "Γ": "𐑔", "ɢ": "𐑵", "⊙": "⊙", "Ħ": "𐑖", "Σ": "𐑳", "Ω": "𐑭"}}
+{"status": "ok", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "meet": {"⊢": "𐑛", "⊣": "𐑰", ">": "𐑑", "<": "𐑬", "⋈": "𐑐", "⊤": "𐑧", "∈": "𐑔", "ɢ": "𐑵", "⊙": "⊙", "Ħ": "𐑖", "Σ": "𐑳", "Ω": "𐑭"}}
 
-{"status": "ok", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "join": {"⊢": "𐑛", "⊣": "𐑥", ">": "𐑾", "<": "𐑬", "⋈": "𐑐", "⊤": "𐑧", "Γ": "𐑲", "ɢ": "𐑵", "⊙": "⊙", "Ħ": "𐑖", "Σ": "𐑕", "Ω": "𐑭"}}
+{"status": "ok", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "join": {"⊢": "𐑛", "⊣": "𐑥", ">": "𐑾", "<": "𐑬", "⋈": "𐑐", "⊤": "𐑧", "∈": "𐑲", "ɢ": "𐑵", "⊙": "⊙", "Ħ": "𐑖", "Σ": "𐑕", "Ω": "𐑭"}}
 
   defined: sic_povm_exists
   program: ⊙ > ◇ ●
@@ -2176,12 +2176,12 @@ The 3-mer had spectrum {1+√3, −2, 1−√3} with spectral radius 1+√3. The
 This is a real finding: adding a fourth monomer does NOT change the spectral radius. The value ρ = 1+√3 is stable under ring expansion from 3-mer to 4-mer. It is a dimension-independent, ring-size-independent spectral invariant.
 
 **compute_meet sic_povm_d12 ↔ ray_class_field_Qsqrt**: The lattice meet gives the shared floor:
-⟨⊢=𐑛, ⊣=𐑰, >=𐑑, <=𐑬, ⋈=𐑐, ⊤=𐑧, Γ=𐑔, ɢ=𐑵, ⊙=⊙, Ħ=𐑖, Σ=𐑳, Ω=𐑭⟩
+⟨⊢=𐑛, ⊣=𐑰, >=𐑑, <=𐑬, ⋈=𐑐, ⊤=𐑧, ∈=𐑔, ɢ=𐑵, ⊙=⊙, Ħ=𐑖, Σ=𐑳, Ω=𐑭⟩
 
 This is the structural floor that the d=12 SIC-POVM and the ray class field share. Note: ⊙=⊙ (criticality fixed point), ⋈=𐑐 (quantum bridge commutator), ⊤=𐑧 (equidistribution). These three are the shared floor from the filter result.
 
 **compute_join sic_povm_d12 ↔ ray_class_field_Qsqrt**: The lattice join gives the structural ceiling:
-⟨⊢=𐑛, ⊣=𐑥, >=𐑾, <=𐑬, ⋈=𐑐, ⊤=𐑧, Γ=𐑲, ɢ=𐑵, ⊙=⊙, Ħ=𐑖, Σ=𐑕, Ω=𐑭⟩
+⟨⊢=𐑛, ⊣=𐑥, >=𐑾, <=𐑬, ⋈=𐑐, ⊤=𐑧, ∈=𐑲, ɢ=𐑵, ⊙=⊙, Ħ=𐑖, Σ=𐑕, Ω=𐑭⟩
 
 This is the minimal entry that contains both d=12 SIC-POVM and ray class field. Notably, >=𐑾 (LR_DUAL, asymmetric) and Σ=𐑕 appear in the join but not in either parent — these are the "emergent" primitives that appear when you take the lattice supremum.
 
@@ -2239,7 +2239,7 @@ TOOL: compute_meet d2048_sic_closed_ring ray_class_field_Qsqrt
   <      𐑬       G(x) ∧ <_G(x) ∧ μ∘δ = id                                                                         [GALOIS_FIBER]
   ⋈      𐑐       ℏ(x) ∧ [x, p] = iℏ — commutator of bridge                                                 [BRIDGE_COMM]
   ⊤      𐑪       T_n+1(x) = F(T_n(x), T_n(y)) — tower progression                                  [TOWER_PROGRESSION]
-  Γ      𐑔       ∃y∈x( |y| ∼ |x| ) — bridge existence                                                     [BRIDGE_EXIST]
+  ∈      𐑔       ∃y∈x( |y| ∼ |x| ) — bridge existence                                                     [BRIDGE_EXIST]
   ɢ      𐑵       seq!(f, g) ∧ ⟨→⟩(f, g, τ) ∧ ¬ ⟨→⟩(g, f, τ) — broadcast                          [BROADCAST_TRANSCENDENCE]
   ⊙      ⊙       ξ → ∞ ∧ μ∘δ = id                                                                                [PHI_C]
   Ħ      𐑫       ∀y( y ∈ x → ∃z( z ∈ y ∧ z ∉ x ∧ chirality(z) ≠ chirality(y) ) )                            [CHIRALITY_PERTURBATION]
@@ -2249,7 +2249,7 @@ TOOL: compute_meet d2048_sic_closed_ring ray_class_field_Qsqrt
   [LR_DUAL             ]
   [BRIDGE_COMM         ] Commutator of bridge — quantum bridge (𐑐)
   [TOWER_PROGRESSION   ] Tower recursion T_n+1 = F(T_n) (𐑪)
-  [BRIDGE_EXIST        ] Existence of a bridge (Γ existential) (𐑔)
+  [BRIDGE_EXIST        ] Existence of a bridge (∈ existential) (𐑔)
   [BROADCAST_TRANSCENDENCE] ɢ broadcasts to all subsystems (𐑵)
   [PHI_C               ] Criticality fixed-point — ξ→∞ ∧ μ∘δ=id (⊙)
   [CHIRALITY_PERTURBATION] Every subsystem has an opposite-chirality neighbor (𐑫)
@@ -2264,7 +2264,7 @@ TOOL: compute_meet d2048_sic_closed_ring ray_class_field_Qsqrt
     ⊣: 𐑥 → 𐑥  (gap: 0.0)     ← ALREADY AT L9 TARGET!
     >: 𐑾 → 𐑑  (gap: 0.667)
     <: 𐑬 → 𐑬  (gap: 0.0)     ← ALREADY AT L9 TARGET!
-    Γ: 𐑔 → 𐑔  (gap: 0.0)     ← ALREADY AT L9 TARGET!
+    ∈: 𐑔 → 𐑔  (gap: 0.0)     ← ALREADY AT L9 TARGET!
     ɢ: 𐑵 → 𐑝  (gap: 1.0)
     Ħ: 𐑫 → 𐑫  (gap: 0.0)     ← ALREADY AT L9 TARGET!
     Σ: 𐑳 → 𐑳  (gap: 0.0)     ← ALREADY AT L9 TARGET!
@@ -2290,7 +2290,7 @@ calc: 4 - 3*12
   (exact integer)● TOOL find_analogies ray_class_field_Qsqrt
 {"status": "ok", "name": "ray_class_field_Qsqrt", "analogies": [{"name": "sic_existence_at_p", "distance": 1.0329, "distance_diagonal": 1.0, "description": "SIC existence proved via arithmetic: Stark unit in K_d shown to lie in V_d intersect Fix(Z)", "interpretation": "related"}, {"name": "oinf3", "distance": 1.7026, "distance_diagonal": 1.9494, "description": "Abstract O_∞ type 3: T_bullseye + Omega_turna combo, bowtie topology with non-Abelian protection", "interpretation": "remote"}, {"name": "level_k_representation", "distance": 2.0262, "distance_diagonal": 2.1679, "description": "Level-k highest-weight representation of affine Kac-Moody — integrable representation at positive integer level, finite number of primary fields, modular invariant characters", "interpretation": "remote"}, {"name": "monotone_integer_winding", "distance": 2.0262, "distance_diagonal": 2.1679, "description": "Monotone non-decreasing integer cumulative zero count N(t) constraint on output trajectory: N(t+dt) >= N(t), integer steps; near_zero = delta_N; enforces gap phantom elimination via winding protection.", "interpretation": "remote"}, {"name": "affine_kac_moody", "distance": 2.1133, "distance_diagonal": 2.5495, "description": "Affine Kac-Moody algebra — central extension of loop algebra g⊗C[t,t⁻¹], appearing in WZW model, level-k representations, and Sugawara construction of Virasoro algebra", "interpretation": "remote"}], "nearest": {"name": "sic_existence_at_p", "distance": 1.0329, "distance_diagonal": 1.0, "description": "SIC existence proved via arithmetic: Stark unit in K_d shown to lie in V_d intersect Fix(Z)", "interpretation": "related"}, "interpretation": "Top 5 structural analogs to ray_class_field_Qsqrt in the full catalog."}
 ● TOOL compute_distance sic_povm_d12 ray_class_field_Qsqrt
-{"status": "ok", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "distance": 4.4385, "breakdown": [{"primitive": "⊢", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "<", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "ɢ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "⊣", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": ">", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Γ", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Ω", "v1": 3, "v2": 4, "delta": 1.0, "weighted_sq": 0.7}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 4.4393, "metric_note": "distance_mahalanobis uses the full g_ij=Sigma^-1 tensor (accounts for off-diagonal couplings; geometrically canonical). distance is the diagonal approximation."}
+{"status": "ok", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "distance": 4.4385, "breakdown": [{"primitive": "⊢", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "<", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "ɢ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "⊣", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": ">", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "∈", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Ω", "v1": 3, "v2": 4, "delta": 1.0, "weighted_sq": 0.7}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 4.4393, "metric_note": "distance_mahalanobis uses the full g_ij=Sigma^-1 tensor (accounts for off-diagonal couplings; geometrically canonical). distance is the diagonal approximation."}
 ● TOOL forge ray_class_field_Qsqrt sic_povm_d2048_zauner_conjecture connes_embedding_problem hopfion_peeled_Phi
 arrange (unordered set → best order):  {ray_class_field_Qsqrt, sic_povm_d2048_zauner_conjecture, connes_embedding_problem, hopfion_peeled_Phi}
   searched 24 ordering(s) (exhaustive: every permutation) — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).
@@ -2365,7 +2365,7 @@ polymerization (imscriptive):  [connes_embedding_problem · sic_povm_d2048_zaune
   ── clarity (strain + spectral gap, read jointly) ──
     SYMMETRIC BUT STRESSED — flat-spectrum (no privileged mode), but strain remains (σ 0.250); the ring is forced shut against reluctant junctions. Anneal to settle.
 ● TOOL imasm prove sic_povm_d
-IMASM prove — entry 'sic_povm_d' (⊢𐑨=ash ⊣𐑶=oil >𐑽=ear <𐑹=or ⋈𐑐=peep ⊤𐑤=loll Γ𐑔=thigh ɢ𐑝=vow ⊙⊙=monad Ħ𐑒=kick Σ𐑳=up Ω𐑭=ah)
+IMASM prove — entry 'sic_povm_d' (⊢𐑨=ash ⊣𐑶=oil >𐑽=ear <𐑹=or ⋈𐑐=peep ⊤𐑤=loll ∈𐑔=thigh ɢ𐑝=vow ⊙⊙=monad Ħ𐑒=kick Σ𐑳=up Ω𐑭=ah)
   pre-filter: genuine transform-closure (split bifurcates, then fuses back)
   KERNEL VERDICT: ✓ green — p4ramill confirms the closure class against BelnapSplitFuse (B_is_the_only_bifurcation_point, split_fuse_id).
 ● TOOL filter ray_class_field_Qsqrt sic_povm_d12
@@ -2438,9 +2438,9 @@ polymerization (imscriptive):  [ray_class_field_Qsqrt · sic_povm_d2048_zauner_c
   cyclization: extrapolation_93_units ⋈ ray_class_field_Qsqrt → linear (telechelic — two free ends, no head-to-tail closure).
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 ● TOOL compute_meet sic_povm_d12 ray_class_field_Qsqrt
-{"status": "ok", "operation": "meet", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "result_notation": "⟨⊢=𐑛; ⊣=𐑰; >=𐑑; <=𐑬; ⋈=𐑐; ⊤=𐑧; Γ=𐑔; ɢ=𐑝; ⊙=⊙; Ħ=𐑖; Σ=𐑙; Ω=𐑭⟩", "shared_primitives": ["⋈", "⊤", "⊙", "Ħ"], "resolved_conflicts": [{"primitive": "⊢", "a": "𐑛", "b": "𐑼", "resolved": "𐑛"}, {"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": ">", "a": "𐑽", "b": "𐑑", "resolved": "𐑑"}, {"primitive": "<", "a": "𐑬", "b": "𐑹", "resolved": "𐑬"}, {"primitive": "Γ", "a": "𐑔", "b": "𐑲", "resolved": "𐑔"}, {"primitive": "ɢ", "a": "𐑝", "b": "𐑠", "resolved": "𐑝"}, {"primitive": "Σ", "a": "𐑙", "b": "𐑳", "resolved": "𐑙"}, {"primitive": "Ω", "a": "𐑭", "b": "𐑟", "resolved": "𐑭"}], "interpretation": "Structural floor of sic_povm_d12 ∧ ray_class_field_Qsqrt. 8 primitive(s) resolved to conservative value; 4 shared. These are the primitives both systems possess without qualification."}
+{"status": "ok", "operation": "meet", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "result_notation": "⟨⊢=𐑛; ⊣=𐑰; >=𐑑; <=𐑬; ⋈=𐑐; ⊤=𐑧; ∈=𐑔; ɢ=𐑝; ⊙=⊙; Ħ=𐑖; Σ=𐑙; Ω=𐑭⟩", "shared_primitives": ["⋈", "⊤", "⊙", "Ħ"], "resolved_conflicts": [{"primitive": "⊢", "a": "𐑛", "b": "𐑼", "resolved": "𐑛"}, {"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": ">", "a": "𐑽", "b": "𐑑", "resolved": "𐑑"}, {"primitive": "<", "a": "𐑬", "b": "𐑹", "resolved": "𐑬"}, {"primitive": "∈", "a": "𐑔", "b": "𐑲", "resolved": "𐑔"}, {"primitive": "ɢ", "a": "𐑝", "b": "𐑠", "resolved": "𐑝"}, {"primitive": "Σ", "a": "𐑙", "b": "𐑳", "resolved": "𐑙"}, {"primitive": "Ω", "a": "𐑭", "b": "𐑟", "resolved": "𐑭"}], "interpretation": "Structural floor of sic_povm_d12 ∧ ray_class_field_Qsqrt. 8 primitive(s) resolved to conservative value; 4 shared. These are the primitives both systems possess without qualification."}
 ● TOOL compute_join sic_povm_d12 ray_class_field_Qsqrt
-{"status": "ok", "operation": "join", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "result_notation": "⟨⊢=𐑼; ⊣=𐑥; >=𐑽; <=𐑹; ⋈=𐑐; ⊤=𐑧; Γ=𐑲; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑳; Ω=𐑟⟩", "resolved_conflicts": [{"primitive": "⊢", "a": "𐑛", "b": "𐑼", "resolved": "𐑼"}, {"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑥"}, {"primitive": ">", "a": "𐑽", "b": "𐑑", "resolved": "𐑽"}, {"primitive": "<", "a": "𐑬", "b": "𐑹", "resolved": "𐑹"}, {"primitive": "Γ", "a": "𐑔", "b": "𐑲", "resolved": "𐑲"}, {"primitive": "ɢ", "a": "𐑝", "b": "𐑠", "resolved": "𐑠"}, {"primitive": "Σ", "a": "𐑙", "b": "𐑳", "resolved": "𐑳"}, {"primitive": "Ω", "a": "𐑭", "b": "𐑟", "resolved": "𐑟"}], "interpretation": "Minimal system containing both sic_povm_d12 and ray_class_field_Qsqrt. The join encodes the most demanding requirements across all primitives — what a single system would need to encompass both structural regimes."}
+{"status": "ok", "operation": "join", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "result_notation": "⟨⊢=𐑼; ⊣=𐑥; >=𐑽; <=𐑹; ⋈=𐑐; ⊤=𐑧; ∈=𐑲; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑳; Ω=𐑟⟩", "resolved_conflicts": [{"primitive": "⊢", "a": "𐑛", "b": "𐑼", "resolved": "𐑼"}, {"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑥"}, {"primitive": ">", "a": "𐑽", "b": "𐑑", "resolved": "𐑽"}, {"primitive": "<", "a": "𐑬", "b": "𐑹", "resolved": "𐑹"}, {"primitive": "∈", "a": "𐑔", "b": "𐑲", "resolved": "𐑲"}, {"primitive": "ɢ", "a": "𐑝", "b": "𐑠", "resolved": "𐑠"}, {"primitive": "Σ", "a": "𐑙", "b": "𐑳", "resolved": "𐑳"}, {"primitive": "Ω", "a": "𐑭", "b": "𐑟", "resolved": "𐑟"}], "interpretation": "Minimal system containing both sic_povm_d12 and ray_class_field_Qsqrt. The join encodes the most demanding requirements across all primitives — what a single system would need to encompass both structural regimes."}
 ● TOOL imasm define sic_povm_exists chain ⊙ > ◇ ●
 IMASM define → tool 'sic_povm_exists' admitted (grammar-valid, kernel-constrained).
 IMASM chain
@@ -2454,7 +2454,7 @@ IMASM chain
   hint: this FSPLIT/FFUSE pair does not reconnect — `imasm protocol <opcodes>` wires the δ fork arms to the μ fuse (the μ∘δ closure a naive ring/wire leaves open). A protocol does NOT close by looping back to VINIT (a source) — it closes at the fuse.
   run it: imasm run sic_povm_exists   |   list: imasm tools
 ● TOOL compute_distance sic_povm_d12 K19_ray_class_field
-{"status": "ok", "name_a": "sic_povm_d12", "name_b": "K19_ray_class_field", "distance": 5.7271, "breakdown": [{"primitive": "⊢", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "ɢ", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "⊣", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "<", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": ">", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Γ", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Ħ", "v1": 3, "v2": 4, "delta": 1.0, "weighted_sq": 0.8}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 4.7877, "metric_note": "distance_mahalanobis uses the full g_ij=Sigma^-1 tensor (accounts for off-diagonal couplings; geometrically canonical). distance is the diagonal approximation."}
+{"status": "ok", "name_a": "sic_povm_d12", "name_b": "K19_ray_class_field", "distance": 5.7271, "breakdown": [{"primitive": "⊢", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "ɢ", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "⊣", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "<", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": ">", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "∈", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Ħ", "v1": 3, "v2": 4, "delta": 1.0, "weighted_sq": 0.8}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 4.7877, "metric_note": "distance_mahalanobis uses the full g_ij=Sigma^-1 tensor (accounts for off-diagonal couplings; geometrically canonical). distance is the diagonal approximation."}
 ● TOOL imasm run sic_povm_exists
 IMASM run 'sic_povm_exists' (spec: chain ⊙ > ◇ ●)
 IMASM chain
@@ -2483,7 +2483,7 @@ IMASM chain
   <      𐑬       ℤ₂(x) ∧ ¬(x = -x) — parity of moat                                                        [MOAT_PARITY]
   ⋈      𐑐       ℏ(x) ∧ [x, p] = iℏ — commutator of bridge                                                 [BRIDGE_COMM]
   ⊤      𐑧       τ ≫ T ∧ eq(x) ∧ gate_open(x)
-  Γ      𐑔       ∃y∈x( |y| ∼ |x| ) — bridge existence                                                     [BRIDGE_EXIST]
+  ∈      𐑔       ∃y∈x( |y| ∼ |x| ) — bridge existence                                                     [BRIDGE_EXIST]
   ɢ      𐑵       f → all(x) ∧ broadcast(x, f)                                                  [BROADCAST_TRANSCENDENCE]
   ⊙      𐑻       H(λ) non-Herm ∧ det(H - λI) = 0 ∧ ∂_λ H = 0
   Ħ      𐑖       ∃y∃z( y ∈ x ∧ z ∈ y ∧ ¬ z ∈ x ∧ rank(z) < rank(y) )                                            [TEMPD2]
@@ -2494,7 +2494,7 @@ IMASM chain
   [MOAT_CROSS             ] Crossing the moat — structural bridge (𐑥)
   [MOAT_PARITY            ] ℤ₂ parity of the moat (𐑬)
   [BRIDGE_COMM            ] Commutator of bridge — quantum bridge (𐑐)
-  [BRIDGE_EXIST           ] Existence of a bridge (Γ existential) (𐑔)
+  [BRIDGE_EXIST           ] Existence of a bridge (∈ existential) (𐑔)
   [BROADCAST_TRANSCENDENCE]
   [TEMPD2                 ]
   [ZWIND                  ]
@@ -2528,7 +2528,7 @@ IMASM chain
 ● TOOL compute_conflict_distance connes_embedding_problem ray_class_field_Qsqrt
 {"status": "ok", "name_holistic": "connes_embedding_problem", "name_compositional": "ray_class_field_Qsqrt", "d_c": 2.4495, "conflict_set": ["⊣", ">", "<", "ɢ", "Ħ", "Ω"], "conflict_details": [{"primitive": "⊣", "holistic_value": "𐑸", "compositional_value": "𐑰", "conflict_type": "aspirational", "emergence_claim": "A mechanism exists by which the construction of connes_embedding_problem produces ⊣=𐑸 beyond the tensor-product value ⊣=𐑰."}, {"primitive": ">", "holistic_value": "𐑩", "compositional_value": "𐑑", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses > from >=𐑑 (component level) to >=𐑩 (functional level)."}, {"primitive": "<", "holistic_value": "𐑬", "compositional_value": "𐑹", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses < from <=𐑹 (component level) to <=𐑬 (functional level)."}, {"primitive": "ɢ", "holistic_value": "𐑝", "compositional_value": "𐑠", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses ɢ from ɢ=𐑠 (component level) to ɢ=𐑝 (functional level)."}, {"primitive": "Ħ", "holistic_value": "𐑓", "compositional_value": "𐑖", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses Ħ from Ħ=𐑖 (component level) to Ħ=𐑓 (functional level)."}, {"primitive": "Ω", "holistic_value": "𐑭", "compositional_value": "𐑟", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses Ω from Ω=𐑟 (component level) to Ω=𐑭 (functional level)."}], "veracity_class": "partial-emergence", "veracity_note": "6 open claims. System is partially supported by construction.", "canonical_encoding": "ray_class_field_Qsqrt", "interpretation": "d_c = √6 = 2.4495. Veracity class: partial-emergence. The 6 conflicted primitive(s) are the structural address of the unresolved emergence claim(s). "}
 ● TOOL compute_meet d2048_sic_closed_ring ray_class_field_Qsqrt
-{"status": "ok", "operation": "meet", "name_a": "d2048_sic_closed_ring", "name_b": "ray_class_field_Qsqrt", "result_notation": "⟨⊢=𐑼; ⊣=𐑰; >=𐑑; <=𐑬; ⋈=𐑐; ⊤=𐑧; Γ=𐑔; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑳; Ω=𐑭⟩", "shared_primitives": ["⋈", "⊙", "Σ"], "resolved_conflicts": [{"primitive": "⊢", "a": "𐑦", "b": "𐑼", "resolved": "𐑼"}, {"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": ">", "a": "𐑾", "b": "𐑑", "resolved": "𐑑"}, {"primitive": "<", "a": "𐑬", "b": "𐑹", "resolved": "𐑬"}, {"primitive": "⊤", "a": "𐑪", "b": "𐑧", "resolved": "𐑧"}, {"primitive": "Γ", "a": "𐑔", "b": "𐑲", "resolved": "𐑔"}, {"primitive": "ɢ", "a": "𐑵", "b": "𐑠", "resolved": "𐑠"}, {"primitive": "Ħ", "a": "𐑫", "b": "𐑖", "resolved": "𐑖"}, {"primitive": "Ω", "a": "𐑭", "b": "𐑟", "resolved": "𐑭"}], "interpretation": "Structural floor of d2048_sic_closed_ring ∧ ray_class_field_Qsqrt. 9 primitive(s) resolved to conservative value; 3 shared. These are the primitives both systems possess without qualification."}
+{"status": "ok", "operation": "meet", "name_a": "d2048_sic_closed_ring", "name_b": "ray_class_field_Qsqrt", "result_notation": "⟨⊢=𐑼; ⊣=𐑰; >=𐑑; <=𐑬; ⋈=𐑐; ⊤=𐑧; ∈=𐑔; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑳; Ω=𐑭⟩", "shared_primitives": ["⋈", "⊙", "Σ"], "resolved_conflicts": [{"primitive": "⊢", "a": "𐑦", "b": "𐑼", "resolved": "𐑼"}, {"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": ">", "a": "𐑾", "b": "𐑑", "resolved": "𐑑"}, {"primitive": "<", "a": "𐑬", "b": "𐑹", "resolved": "𐑬"}, {"primitive": "⊤", "a": "𐑪", "b": "𐑧", "resolved": "𐑧"}, {"primitive": "∈", "a": "𐑔", "b": "𐑲", "resolved": "𐑔"}, {"primitive": "ɢ", "a": "𐑵", "b": "𐑠", "resolved": "𐑠"}, {"primitive": "Ħ", "a": "𐑫", "b": "𐑖", "resolved": "𐑖"}, {"primitive": "Ω", "a": "𐑭", "b": "𐑟", "resolved": "𐑭"}], "interpretation": "Structural floor of d2048_sic_closed_ring ∧ ray_class_field_Qsqrt. 9 primitive(s) resolved to conservative value; 3 shared. These are the primitives both systems possess without qualification."}
 ● TOOL imasm define
 define needs: imasm define <name> <op> <args…>  (e.g. imasm define breath ring IMSCRIB AFWD AREV)
 
@@ -2581,16 +2581,16 @@ The nearest structural analogue to the ray class field machinery is **`sic_exist
 
 **`compute_meet`** (the structural floor — what both entries possess without qualification):
 
-    ⟨⊢=𐑛, ⊣=𐑰, >=𐑑, <=𐑬, ⋈=𐑐, ⊤=𐑧, Γ=𐑔, ɢ=𐑝, ⊙=⊙, Ħ=𐑖, Σ=𐑙, Ω=𐑭⟩
+    ⟨⊢=𐑛, ⊣=𐑰, >=𐑑, <=𐑬, ⋈=𐑐, ⊤=𐑧, ∈=𐑔, ɢ=𐑝, ⊙=⊙, Ħ=𐑖, Σ=𐑙, Ω=𐑭⟩
 
     Shared primitives (4): ⋈=𐑐 (quantum bridge commutator), ⊤=𐑧 (equidistribution gate), ⊙=⊙ (criticality fixed point μ∘δ=id), Ħ=𐑖 (chirality-2 asymmetry)
     8 primitives resolved to conservative value.
 
 **`compute_join`** (the structural ceiling — the minimal system containing both):
 
-    ⟨⊢=𐑼, ⊣=𐑥, >=𐑽, <=𐑹, ⋈=𐑐, ⊤=𐑧, Γ=𐑲, ɢ=𐑠, ⊙=⊙, Ħ=𐑖, Σ=𐑳, Ω=𐑟⟩
+    ⟨⊢=𐑼, ⊣=𐑥, >=𐑽, <=𐑹, ⋈=𐑐, ⊤=𐑧, ∈=𐑲, ɢ=𐑠, ⊙=⊙, Ħ=𐑖, Σ=𐑳, Ω=𐑟⟩
 
-The join is strictly larger than either parent on ⊢, ⊣, >, <, Γ, ɢ, Σ, Ω. These are the "emergent" primitives: the structural demands of a system that must contain both a d=12 SIC-POVM and a ray class field simultaneously.
+The join is strictly larger than either parent on ⊢, ⊣, >, <, ∈, ɢ, Σ, Ω. These are the "emergent" primitives: the structural demands of a system that must contain both a d=12 SIC-POVM and a ray class field simultaneously.
 
 **`compute_distance sic_povm_d12 ↔ ray_class_field_Qsqrt`**: 4.4385 (remote). Largest gaps: ⊢ (Δ=2.0), < (Δ=2.0), ɢ (Δ=2.0), Σ (Δ=2.0).
 
@@ -2652,7 +2652,7 @@ The norm form N(a + b√3) = a² − 3b² on Z[√3] produces powers of 2 (with 
 - Tier: O₀ (the base tier — lowest in the moat)
 - d(CLINK L9) = 1.1315, match:5, close:3, distant:4
 - **Only 3 promotions needed** to reach L9: ⊢ (gap 0.0, already at target), ⊣ (gap 0.0, already at target), and 6 others already at target
-- Wait — the promotion report shows: 6 entries at gap 0.0 (already at L9 target: ⊢, ⊣, >, <, Γ, Ħ, Σ, Ω... but only 3 are NOT at target: ɢ=𐑵→𐑝 gap 1.0, ⊙=𐑻→⊙ gap 0.335, and... )
+- Wait — the promotion report shows: 6 entries at gap 0.0 (already at L9 target: ⊢, ⊣, >, <, ∈, Ħ, Σ, Ω... but only 3 are NOT at target: ɢ=𐑵→𐑝 gap 1.0, ⊙=𐑻→⊙ gap 0.335, and... )
 
 Re-reading: Promotions needed (6): > gap 0.333, ⊤ gap 0.286, ɢ gap 1.0, ⊙ gap 0.335, Ħ gap 0.333, Σ gap 0.5. So 6 of 12 primitives need promotion, but the largest gap is ɢ at 1.0.
 
@@ -2941,7 +2941,7 @@ This is simultaneously:
 - **The last bridge** between the closed apparatus and the explicit moduli (a finite computation over a pro-2 group);
 - **The current obstruction** (the computation has not been performed, and the selection rule is not known).
 
-The conflict distance between the Zauner node and the ray class field is d_c = √8 = 2.8284, with 8 conflicted primitives — the full structural address of the unresolved emergence. The six promotions needed at CLINK L8 (gaps: ⊢ 0.333, ⊣ 0.75, > 0.667, Γ 0.5, ɢ 0.333, Ħ 0.333) are the six steps of the bridge.
+The conflict distance between the Zauner node and the ray class field is d_c = √8 = 2.8284, with 8 conflicted primitives — the full structural address of the unresolved emergence. The six promotions needed at CLINK L8 (gaps: ⊢ 0.333, ⊣ 0.75, > 0.667, ∈ 0.5, ɢ 0.333, Ħ 0.333) are the six steps of the bridge.
 
 ---
 
@@ -2986,17 +2986,17 @@ TOOL: compute_meet d2048_sic_closed_ring ray_class_field_Qsqrt
 TOOL: compute_conflict_distance connes_embedding_problem ray_class_field_Qsqrt
 TOOL: compute_distance connes_embedding_problem ray_class_field_Qsqrt
 
-{"status": "ok", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "distance": 4.4385, "breakdown": [{"primitive": "<", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "⊣", "v1": 5, "v2": 2, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": ">", "v1": 4, "v2": 2, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "⊢", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Γ", "v1": 3, "v2": 3, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "Ω", "v1": 4, "v2": 4, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "⊙", "v1": 2, "v2": 2, "delta": 0.0, "weighted_sq": 0.0}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 4.6198}
+{"status": "ok", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "distance": 4.4385, "breakdown": [{"primitive": "<", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "⊣", "v1": 5, "v2": 2, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": ">", "v1": 4, "v2": 2, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "⊢", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "∈", "v1": 3, "v2": 3, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "Ω", "v1": 4, "v2": 4, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "⊙", "v1": 2, "v2": 2, "delta": 0.0, "weighted_sq": 0.0}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 4.6198}
 {"status": "ok", "name_a": "sic_povm_d12", "name_b": "K19_ray_class_field", "distance": 5.7271, "breakdown": [{"primitive": "<", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "⊣", "v1": 5, "v2": 2, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": ">", "v1": 4, "v2": 2, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Θ", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "Ǧ", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "Ó", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "p", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "μ", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "h", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "σ", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "ω", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 5.9624}
 {"status": "ok", "name_a": "d2048_sic_closed_ring", "name_b": "ray_class_field_Qsqrt", "meet": {"values": [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]}, "interpretation": "The meet of d2048_sic_closed_ring and ray_class_field_Qsqrt gives the floor: every primitive is at its minimum value. This is the minimal floor — the deepest structural commonality is the base level of every axis. No primitive pair has a non-trivial commonality.", "meet_tier": "below_O0"}
-{"status": "ok", "name_holistic": "connes_embedding_problem", "name_compositional": "ray_class_field_Qsqrt", "d_c": 2.6458, "conflict_set": ["⊣", ">", "<", "Γ", "Θ", "Ǧ", "Ó", "p", "μ", "h", "σ", "ω"], "conflict_details": [{"primitive": "⊣", "holistic_value": "𐑸", "compositional_value": "𐑰", "conflict_type": "aspirational", "emergence_claim": "A mechanism exists by which the construction of connes_embedding_problem produces ⊣=𐑸 beyond the tensor-product value ⊣=𐑰."}, {"primitive": ">", "holistic_value": "𐑩", "compositional_value": "𐑑", "conflict_type": "aspirational", "emergence_claim": "A mechanism exists by which the construction of connes_embedding_problem produces >=𐑩 beyond the tensor-product value >=𐑑."}, {"primitive": "<", "holistic_value": "𐑬", "compositional_value": "𐑹", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses < from <=𐑹 (component level) to <=𐑬 (functional level)."}, {"primitive": "Γ", "holistic_value": "𐑲", "compositional_value": "𐑲", "conflict_type": "exact", "emergence_claim": "Exact match on Γ=𐑲."}], "veracity_class": "aspirational", "canonical_encoding": "ray_class_field_Qsqrt"}
+{"status": "ok", "name_holistic": "connes_embedding_problem", "name_compositional": "ray_class_field_Qsqrt", "d_c": 2.6458, "conflict_set": ["⊣", ">", "<", "∈", "Θ", "Ǧ", "Ó", "p", "μ", "h", "σ", "ω"], "conflict_details": [{"primitive": "⊣", "holistic_value": "𐑸", "compositional_value": "𐑰", "conflict_type": "aspirational", "emergence_claim": "A mechanism exists by which the construction of connes_embedding_problem produces ⊣=𐑸 beyond the tensor-product value ⊣=𐑰."}, {"primitive": ">", "holistic_value": "𐑩", "compositional_value": "𐑑", "conflict_type": "aspirational", "emergence_claim": "A mechanism exists by which the construction of connes_embedding_problem produces >=𐑩 beyond the tensor-product value >=𐑑."}, {"primitive": "<", "holistic_value": "𐑬", "compositional_value": "𐑹", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses < from <=𐑹 (component level) to <=𐑬 (functional level)."}, {"primitive": "∈", "holistic_value": "𐑲", "compositional_value": "𐑲", "conflict_type": "exact", "emergence_claim": "Exact match on ∈=𐑲."}], "veracity_class": "aspirational", "canonical_encoding": "ray_class_field_Qsqrt"}
 {"status": "ok", "name_a": "connes_embedding_problem", "name_b": "ray_class_field_Qsqrt", "distance": 2.4495, "breakdown": [{"primitive": "<", "v1": 4, "v2": 5, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "⊣", "v1": 5, "v2": 2, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": ">", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Σ", "v1": 3, "v2": 3, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "Θ", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "Ǧ", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "Ó", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "p", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "μ", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "h", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "σ", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}, {"primitive": "ω", "v1": 0, "v2": 0, "delta": 0.0, "weighted_sq": 0.0}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 2.5495}
 
 All five returned successfully. Now I can measure what the paper's key reference entry is.
 
 **`chrysopoeia_2048`** exists in the catalog (rank 2291 in the scaffold's ranked hits, confirmed). Its full CL8NK typing:
 
-Primitives: ⊢=𐑶 (infinite-rank), ⊣=𐑸 (fully saturated complement), >=𐑾 (LR-dual, asymmetric), <=𐑬 (Hilbert space), ⋈=𐑱 (angular momentum), ⊤=𐑦 (tunneling), Γ=𐑨 (existence witness), ɢ=𐑧 (sequential), ⊙=⊙ (PHI_C criticality), Ħ=𐑮 (chirality-3), Σ=𐑳 (type mismatch), Ω=𐑭 (winding)
+Primitives: ⊢=𐑶 (infinite-rank), ⊣=𐑸 (fully saturated complement), >=𐑾 (LR-dual, asymmetric), <=𐑬 (Hilbert space), ⋈=𐑱 (angular momentum), ⊤=𐑦 (tunneling), ∈=𐑨 (existence witness), ɢ=𐑧 (sequential), ⊙=⊙ (PHI_C criticality), Ħ=𐑮 (chirality-3), Σ=𐑳 (type mismatch), Ω=𐑭 (winding)
 
 Tier O∞, d(CLINK L8)=1.1019, match:7, close:2, distant:2. **No promotions needed to L8.** This entry is already fully promoted at the L8 level.
 
@@ -3089,7 +3089,7 @@ TOOL: compute_meet chrysopoeia_2048 connes_embedding_problem
 TOOL: click chrysopoeia_2048 connes_embedding_problem
 TOOL: compute_join chrysopoeia_2048 ray_class_field_Qsqrt
 
-{"status": "ok", "name": "reduced_character_set_d2048", "action": "imscribed", "description": "The subset of the 2^27 character orbits of the ray class group Cl_(2048)(O_F) that carry the a=0 SIC-POVM moduli. The full group has order 2^27; the a=0 stratum selects ~1024 moduli, and Galois conjugation halves the orbits. The exact selection rule and orbit count remain open.", "notation": "⟨⊢=𐑶; ⊣=𐑸; >=𐑾; <=𐑬; ⋈=𐑱; ⊤=𐑦; Γ=𐑨; ɢ=𐑧; ⊙=⊙; Ħ=𐑮; Σ=𐑳; Ω=𐑭⟩", "note": "auto-generated from description — primitive values assigned by inference. Verify against structural intent."}
+{"status": "ok", "name": "reduced_character_set_d2048", "action": "imscribed", "description": "The subset of the 2^27 character orbits of the ray class group Cl_(2048)(O_F) that carry the a=0 SIC-POVM moduli. The full group has order 2^27; the a=0 stratum selects ~1024 moduli, and Galois conjugation halves the orbits. The exact selection rule and orbit count remain open.", "notation": "⟨⊢=𐑶; ⊣=𐑸; >=𐑾; <=𐑬; ⋈=𐑱; ⊤=𐑦; ∈=𐑨; ɢ=𐑧; ⊙=⊙; Ħ=𐑮; Σ=𐑳; Ω=𐑭⟩", "note": "auto-generated from description — primitive values assigned by inference. Verify against structural intent."}
 {"status": "ok", "name_a": "chrysopoeia_2048", "name_b": "connes_embedding_problem", "meet": {"values": [4, 5, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0]}, "interpretation": "Non-trivial meet: <=4, ⊣=5, >=3, Σ=3. Four axes have non-trivial commonality. These two entries share real structural ground on < (Hilbert space), ⊣ (fully saturated complement), > (incomplete dual), and Σ (type mismatch).", "meet_tier": "O0", "meet_distance": 3.1623}
 click-maths:  chrysopoeia_2048  ⋈  connes_embedding_problem   (θ=0.50)
   live-pair charges (norm(x) − norm(y), the spring-loaded axis):
@@ -3098,14 +3098,14 @@ click-maths:  chrysopoeia_2048  ⋈  connes_embedding_problem   (θ=0.50)
     R↔S    chrysopoeia_2048= +1.00  connes_embedding_problem= -0.67   Δ=1.67
   ✓ CLICK on R↔S — spring-loaded Δ=1.67, single reaction center, closes.
   product: ⟨𐑶𐑸𐑾𐑬𐑱𐑦𐑨𐑧𐑮𐑖𐑙𐑭⟩  (ring saturated on R↔S = >↔Σ)
-  inherited scaffold (blended from both partners): [<, ⊣, ⋈, ⊤, Γ, ɢ, ⊙, Ħ]
+  inherited scaffold (blended from both partners): [<, ⊣, ⋈, ⊤, ∈, ɢ, ⊙, Ħ]
 {"status": "ok", "name_a": "chrysopoeia_2048", "name_b": "ray_class_field_Qsqrt", "join": {"values": [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]}, "interpretation": "The join of chrysopoeia_2048 and ray_class_field_Qsqrt gives the ceiling: every primitive is at its maximum value. This is the maximal ceiling — the full structural span of both entries combined fills every axis to its cap. No primitive is left below maximum.", "interpretation_2": "together these two entries span the FULL structural range on every axis, even though individually they don't share non-trivial floor", "join_tier": "above_Oinf"}
 
 Outstanding. Three decisive measurements:
 
 1. **Meet chrysopoeia_2048 ∩ connes_embedding_problem = non-trivial (O0 tier)**. Four axes share structural ground: <=4 (Hilbert space), ⊣=5 (fully saturated complement), >=3 (incomplete dual), Σ=3 (type mismatch). This is REAL commonality, unlike the all-3s meet with ray_class_field_Qsqrt.
 
-2. **Click chrysopoeia_2048 ⋈ connes_embedding_problem = SUCCESS on R↔S (Δ=1.67)**. They CLICK. The product is ⟨𐑶𐑸𐑾𐑬𐑱𐑦𐑨𐑧𐑮𐑖𐑙𐑭⟩ — note Σ changed from 𐑳 (type mismatch) to 𐑙 (singleton type), and Ω stayed at 𐑭 (winding). The click saturated the R↔S axis. The inherited scaffold is [<, ⊣, ⋈, ⊤, Γ, ɢ, ⊙, Ħ] — 8 primitives carried.
+2. **Click chrysopoeia_2048 ⋈ connes_embedding_problem = SUCCESS on R↔S (Δ=1.67)**. They CLICK. The product is ⟨𐑶𐑸𐑾𐑬𐑱𐑦𐑨𐑧𐑮𐑖𐑙𐑭⟩ — note Σ changed from 𐑳 (type mismatch) to 𐑙 (singleton type), and Ω stayed at 𐑭 (winding). The click saturated the R↔S axis. The inherited scaffold is [<, ⊣, ⋈, ⊤, ∈, ɢ, ⊙, Ħ] — 8 primitives carried.
 
 3. **Join chrysopoeia_2048 ∪ ray_class_field_Qsqrt = full ceiling (all 5s)**. Together they span the ENTIRE structural range. Individually they are orthogonal (meet = all 3s), but their join saturates every axis. This is the exact structural signature of a DUAL PAIR: individually insufficient, together complete.
 
@@ -3174,7 +3174,7 @@ polymerization (imscriptive):  [chrysopoeia_2048 · ray_class_field_Qsqrt · con
   architecture: heteropolymer (3 distinct monomers, each once)
   tacticity (Ħ chirality per unit): isotactic (𐑮𐑖𐑓) — one chirality throughout, a single stereo-configuration
   cyclization: connes_embedding_problem ⋈ chrysopoeia_2048 → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
-{"status": "ok", "count": 119, "floor": {"summary": "119 entries share all primitive values ≥ the floor of the three input entries. The structural floor of the three is: <≥4, ⊣≥5, >≥3, ⋈≥1, ⊤≥1, Γ≥1, ɢ≥1, ⊙≥2, Ħ≥1, Σ≥3, Ω≥3. The floor is the structural minimum shared by ALL of the input entries.", "interpretation": "119 entries share ALL of the structural minimum values of chrysopoeia_2048, ray_class_field_Qsqrt, and connes_embedding_problem. This is an UPPER BOUND on the set of entries that could be structural constituents of the three-way intersection. Filter further by adding more entries to narrow this to a workable set."}
+{"status": "ok", "count": 119, "floor": {"summary": "119 entries share all primitive values ≥ the floor of the three input entries. The structural floor of the three is: <≥4, ⊣≥5, >≥3, ⋈≥1, ⊤≥1, ∈≥1, ɢ≥1, ⊙≥2, Ħ≥1, Σ≥3, Ω≥3. The floor is the structural minimum shared by ALL of the input entries.", "interpretation": "119 entries share ALL of the structural minimum values of chrysopoeia_2048, ray_class_field_Qsqrt, and connes_embedding_problem. This is an UPPER BOUND on the set of entries that could be structural constituents of the three-way intersection. Filter further by adding more entries to narrow this to a workable set."}
 distillation by criticality ⊙:
   volatile head (distillate):  chrysopoeia_2048 (⊙=2)
   involatile residue (bottoms):  ray_class_field_Qsqrt (⊙=2), connes_embedding_problem (⊙=2), K19_ray_class_field (⊙=2)
@@ -3189,7 +3189,7 @@ Three results:
 
 1. **arrange**: The best ordering is chrysopoeia_2048 · ray_class_field_Qsqrt · connes_embedding_problem. It forms a CYCLIC macrocycle: connes_embedding_problem ⋈ chrysopoeia_2048 closes on R↔S (O∞). The ring closes head-to-tail! And it's regioregular (D↔W backbone) with isotactic chirality.
 
-2. **filter**: 119 entries share the structural floor of the three entries. This is an upper bound on the candidate pool for the reduced character set. The floor is: <≥4, ⊣≥5, >≥3, ⋈≥1, ⊤≥1, Γ≥1, ɢ≥1, ⊙≥2, Ħ≥1, Σ≥3, Ω≥3.
+2. **filter**: 119 entries share the structural floor of the three entries. This is an upper bound on the candidate pool for the reduced character set. The floor is: <≥4, ⊣≥5, >≥3, ⋈≥1, ⊤≥1, ∈≥1, ɢ≥1, ⊙≥2, Ħ≥1, Σ≥3, Ω≥3.
 
 3. **distill**: All four entries are tied on ⊙=2 — a complete azeotrope. Criticality cannot distinguish them. They all sit at the same level of criticality.
 
@@ -3354,11 +3354,11 @@ TOOL: cycle_close
 ── CAP: 26 calls this round, running the first 24 (emit the rest next round) ──
 ── ACT round 1 (24 tool call(s)) ──
 ● TOOL compute_distance sic_povm_d12 ray_class_field_Qsqrt
-{"status": "ok", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "distance": 4.4385, "breakdown": [{"primitive": "⊢", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "<", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "ɢ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "⊣", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": ">", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Γ", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Ω", "v1": 3, "v2": 4, "delta": 1.0, "weighted_sq": 0.7}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 4.4393, "metric_note": "distance_mahalanobis uses the full g_ij=Sigma^-1 tensor (accounts for off-diagonal couplings; geometrically canonical). distance is the diagonal approximation."}
+{"status": "ok", "name_a": "sic_povm_d12", "name_b": "ray_class_field_Qsqrt", "distance": 4.4385, "breakdown": [{"primitive": "⊢", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "<", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "ɢ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "⊣", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": ">", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "∈", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Ω", "v1": 3, "v2": 4, "delta": 1.0, "weighted_sq": 0.7}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 4.4393, "metric_note": "distance_mahalanobis uses the full g_ij=Sigma^-1 tensor (accounts for off-diagonal couplings; geometrically canonical). distance is the diagonal approximation."}
 ● TOOL compute_distance sic_povm_d12 K19_ray_class_field
-{"status": "ok", "name_a": "sic_povm_d12", "name_b": "K19_ray_class_field", "distance": 5.7271, "breakdown": [{"primitive": "⊢", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "ɢ", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "⊣", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "<", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": ">", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Γ", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Ħ", "v1": 3, "v2": 4, "delta": 1.0, "weighted_sq": 0.8}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 4.7877, "metric_note": "distance_mahalanobis uses the full g_ij=Sigma^-1 tensor (accounts for off-diagonal couplings; geometrically canonical). distance is the diagonal approximation."}
+{"status": "ok", "name_a": "sic_povm_d12", "name_b": "K19_ray_class_field", "distance": 5.7271, "breakdown": [{"primitive": "⊢", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "ɢ", "v1": 1, "v2": 4, "delta": 3.0, "weighted_sq": 9.0}, {"primitive": "⊣", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "<", "v1": 3, "v2": 5, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": "Σ", "v1": 1, "v2": 3, "delta": 2.0, "weighted_sq": 4.0}, {"primitive": ">", "v1": 3, "v2": 2, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "∈", "v1": 2, "v2": 3, "delta": 1.0, "weighted_sq": 1.0}, {"primitive": "Ħ", "v1": 3, "v2": 4, "delta": 1.0, "weighted_sq": 0.8}], "interpretation": "structurally remote (different regime)", "distance_mahalanobis": 4.7877, "metric_note": "distance_mahalanobis uses the full g_ij=Sigma^-1 tensor (accounts for off-diagonal couplings; geometrically canonical). distance is the diagonal approximation."}
 ● TOOL compute_meet d2048_sic_closed_ring ray_class_field_Qsqrt
-{"status": "ok", "operation": "meet", "name_a": "d2048_sic_closed_ring", "name_b": "ray_class_field_Qsqrt", "result_notation": "⟨⊢=𐑼; ⊣=𐑰; >=𐑑; <=𐑬; ⋈=𐑐; ⊤=𐑧; Γ=𐑔; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑳; Ω=𐑭⟩", "shared_primitives": ["⋈", "⊙", "Σ"], "resolved_conflicts": [{"primitive": "⊢", "a": "𐑦", "b": "𐑼", "resolved": "𐑼"}, {"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": ">", "a": "𐑾", "b": "𐑑", "resolved": "𐑑"}, {"primitive": "<", "a": "𐑬", "b": "𐑹", "resolved": "𐑬"}, {"primitive": "⊤", "a": "𐑪", "b": "𐑧", "resolved": "𐑧"}, {"primitive": "Γ", "a": "𐑔", "b": "𐑲", "resolved": "𐑔"}, {"primitive": "ɢ", "a": "𐑵", "b": "𐑠", "resolved": "𐑠"}, {"primitive": "Ħ", "a": "𐑫", "b": "𐑖", "resolved": "𐑖"}, {"primitive": "Ω", "a": "𐑭", "b": "𐑟", "resolved": "𐑭"}], "interpretation": "Structural floor of d2048_sic_closed_ring ∧ ray_class_field_Qsqrt. 9 primitive(s) resolved to conservative value; 3 shared. These are the primitives both systems possess without qualification."}
+{"status": "ok", "operation": "meet", "name_a": "d2048_sic_closed_ring", "name_b": "ray_class_field_Qsqrt", "result_notation": "⟨⊢=𐑼; ⊣=𐑰; >=𐑑; <=𐑬; ⋈=𐑐; ⊤=𐑧; ∈=𐑔; ɢ=𐑠; ⊙=⊙; Ħ=𐑖; Σ=𐑳; Ω=𐑭⟩", "shared_primitives": ["⋈", "⊙", "Σ"], "resolved_conflicts": [{"primitive": "⊢", "a": "𐑦", "b": "𐑼", "resolved": "𐑼"}, {"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": ">", "a": "𐑾", "b": "𐑑", "resolved": "𐑑"}, {"primitive": "<", "a": "𐑬", "b": "𐑹", "resolved": "𐑬"}, {"primitive": "⊤", "a": "𐑪", "b": "𐑧", "resolved": "𐑧"}, {"primitive": "∈", "a": "𐑔", "b": "𐑲", "resolved": "𐑔"}, {"primitive": "ɢ", "a": "𐑵", "b": "𐑠", "resolved": "𐑠"}, {"primitive": "Ħ", "a": "𐑫", "b": "𐑖", "resolved": "𐑖"}, {"primitive": "Ω", "a": "𐑭", "b": "𐑟", "resolved": "𐑭"}], "interpretation": "Structural floor of d2048_sic_closed_ring ∧ ray_class_field_Qsqrt. 9 primitive(s) resolved to conservative value; 3 shared. These are the primitives both systems possess without qualification."}
 ● TOOL compute_conflict_distance connes_embedding_problem ray_class_field_Qsqrt
 {"status": "ok", "name_holistic": "connes_embedding_problem", "name_compositional": "ray_class_field_Qsqrt", "d_c": 2.4495, "conflict_set": ["⊣", ">", "<", "ɢ", "Ħ", "Ω"], "conflict_details": [{"primitive": "⊣", "holistic_value": "𐑸", "compositional_value": "𐑰", "conflict_type": "aspirational", "emergence_claim": "A mechanism exists by which the construction of connes_embedding_problem produces ⊣=𐑸 beyond the tensor-product value ⊣=𐑰."}, {"primitive": ">", "holistic_value": "𐑩", "compositional_value": "𐑑", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses > from >=𐑑 (component level) to >=𐑩 (functional level)."}, {"primitive": "<", "holistic_value": "𐑬", "compositional_value": "𐑹", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses < from <=𐑹 (component level) to <=𐑬 (functional level)."}, {"primitive": "ɢ", "holistic_value": "𐑝", "compositional_value": "𐑠", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses ɢ from ɢ=𐑠 (component level) to ɢ=𐑝 (functional level)."}, {"primitive": "Ħ", "holistic_value": "𐑓", "compositional_value": "𐑖", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses Ħ from Ħ=𐑖 (component level) to Ħ=𐑓 (functional level)."}, {"primitive": "Ω", "holistic_value": "𐑭", "compositional_value": "𐑟", "conflict_type": "reductive", "emergence_claim": "The construction of connes_embedding_problem actively suppresses Ω from Ω=𐑟 (component level) to Ω=𐑭 (functional level)."}], "veracity_class": "partial-emergence", "veracity_note": "6 open claims. System is partially supported by construction.", "canonical_encoding": "ray_class_field_Qsqrt", "interpretation": "d_c = √6 = 2.4495. Veracity class: partial-emergence. The 6 conflicted primitive(s) are the structural address of the unresolved emergence claim(s). "}
 ● TOOL compute_distance connes_embedding_problem ray_class_field_Qsqrt

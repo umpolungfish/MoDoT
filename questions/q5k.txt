@@ -26,7 +26,7 @@ However, the current best bound (Leng-Sah-Sawhney 2024) is:
 r_k(N) ll frac{N}{exp((log log N)^c_k)}
 
 **The "Logarithmic Wall":**
-The density increment strategy for k ≥ 4 relies on the **Gowers Inverse Theorem**. To reach the Erdős threshold, a density increment must be obtained whenever the U^k-1 norm is large. In the k=3 case (Kelley-Meka), the "structure" is a simple character, allowing for a quasi-polynomial increment. For k ≥ 4, the "structure" is a **nilsequence** on a nilmanifold G/Γ.
+The density increment strategy for k ≥ 4 relies on the **Gowers Inverse Theorem**. To reach the Erdős threshold, a density increment must be obtained whenever the U^k-1 norm is large. In the k=3 case (Kelley-Meka), the "structure" is a simple character, allowing for a quasi-polynomial increment. For k ≥ 4, the "structure" is a **nilsequence** on a nilmanifold G/∈.
 
 The complexity of these nilmanifolds grows at each step of the iteration. This "complexity bleed" prevents the density from rising fast enough to overtake the Λ-pressure of the 1/n sum. Specifically, the "energy" required to find a correlation with a high-step nilmanifold is exponentially greater than the energy required for a linear phase.
 
@@ -122,7 +122,7 @@ switch:  bloom_sisask_bound  ⇌  kelley_meka_density
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
-  coupled consequences (move with the toggle): [<, ⋈, Γ, ɢ, Σ]
+  coupled consequences (move with the toggle): [<, ⋈, ∈, ɢ, Σ]
   reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.
 ● TOOL click erdos_conjecture_ap szemerédi_theorem
 click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)
@@ -320,7 +320,7 @@ switch:  bloom_sisask_bound  ⇌  kelley_meka_density
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
-  coupled consequences (move with the toggle): [<, ⋈, Γ, ɢ, Σ]
+  coupled consequences (move with the toggle): [<, ⋈, ∈, ɢ, Σ]
   reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.
 ● TOOL click erdos_conjecture_ap szemerédi_theorem
 click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)
@@ -593,7 +593,7 @@ switch:  bloom_sisask_bound  ⇌  kelley_meka_density
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
-  coupled consequences (move with the toggle): [<, ⋈, Γ, ɢ, Σ]
+  coupled consequences (move with the toggle): [<, ⋈, ∈, ɢ, Σ]
   reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.
 ● TOOL click erdos_conjecture_ap szemerédi_theorem
 click-maths:  erdos_conjecture_ap  ⋈  szemerédi_theorem   (θ=0.50)

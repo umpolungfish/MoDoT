@@ -68,7 +68,7 @@ Green-Tao (2008) extended to the primes via transference principle.
   F=peep (ergodic/measure-theoretic precision)
   K=egg (slow density threshold)
   G=thigh (intermediate correlation range)
-  Γ=measure (sequential: k=3→4→… iterative proof)
+  ∈=measure (sequential: k=3→4→… iterative proof)
   φ̂=roar (complex-axis criticality: ζ-function circle method)
   H=sure (persistent chiral: AP search is directional)
   Σ=hung (1:1: one divergent sum maps to one AP existence claim)
@@ -163,7 +163,7 @@ odd cycles in graphs exceeding the Turán threshold.
   F=peep (combinatorial precision)
   K=egg (slow threshold: transition at k=3)
   G=bib (local edge correlations)
-  Γ=measure (sequential k→k+1)
+  ∈=measure (sequential k→k+1)
   φ̂=roar (complex-axis: analytic asymptotics for n²/8)
   H=kick (weak chiral: coloring is weakly directional)
   Σ=hung (1:1)
@@ -254,7 +254,7 @@ Three key results intersect:
   R=tot (functorial inclusion maps), P=out (A_n/S_n dichotomy),
   F=peep (probabilistic precision), K=loll (moderate convergence),
   G=thigh (Landau-PNT coupling at intermediate scale),
-  Γ=measure (sequential n→∞), φ̂=roar (Fourier-analytic methods),
+  ∈=measure (sequential n→∞), φ̂=roar (Fourier-analytic methods),
   H=sure (persistent chiral), Σ=so (n:n subgroup→order mapping),
   Ω=ah (LCM of cycle lengths = integer winding)
 -/
@@ -336,7 +336,7 @@ The gap between CRT and the conjecture is exponential in log x.
   P=out (±1 sign of ω(n)−log log n), F=peep (analytic NT precision),
   K=egg (log log n grows extremely slowly), G=ice (all primes up to
     √x contribute — truly global correlations),
-  Γ=measure (sequential through interval), φ̂=woe (subcritical —
+  ∈=measure (sequential through interval), φ̂=woe (subcritical —
     below the phase transition threshold),
   H=sure (persistent chiral), Σ=hung (1:1), Ω=ah (integer interval length)
 -/
@@ -412,7 +412,7 @@ all four problems.
   Subgroup Orders S_n   O₂dag   roar  ah   so
   Erdős–Kac Interval    O₀      woe   ah   hung
 
-**Shared primitives:** F=peep (analytic precision), Γ=measure
+**Shared primitives:** F=peep (analytic precision), ∈=measure
 (sequential), P=out (ℤ₂ parity).
 
 **Key differentiators:**
@@ -455,7 +455,7 @@ operates by cyclic decomposition→recomposition with Belnap filtering.
 **Distances to kernel** (O_inf: if' are ian or' peep egg
 ice measure monad wool up ah):
 
-  Erdős–Turán:     ~2.0  (T, Γ, Ω diffs)
+  Erdős–Turán:     ~2.0  (T, ∈, Ω diffs)
   Anti-Ramsey:     ~2.6  (D, T, Ω diffs)
   Subgroup Orders: ~2.2  (T, R, Σ diffs)
   Erdős–Kac:       ~3.0  (D, T, φ̂, Ω diffs)
@@ -512,7 +512,7 @@ subexponential growth of R_k(C_{2n+1}) for any fixed n.
   F=peep (combinatorial precision via probabilistic method)
   K=egg (slow convergence; factorial asymptotics via Stirling)
   G=thigh (intermediate correlation: Ramsey bounds via regularity)
-  Γ=measure (sequential: k=1→2→… limit)
+  ∈=measure (sequential: k=1→2→… limit)
   φ̂=roar (complex-axis: Stirling via Γ-function in ℂ)
   H=sure (persistent chiral: R_k grows monotonically)
   Σ=hung (1:1: one ratio maps to one limit value)
@@ -602,7 +602,7 @@ Let M_n = max_{|z|=1} ∏_{i=1}^n |z - z_i| where all |z_i| = 1
   F=peep (Fourier-analytic precision)
   K=egg (slow growth: log n → n^c gap)
   G=ice (global correlations: all n points interact via discrepancy)
-  Γ=measure (sequential n→∞)
+  ∈=measure (sequential n→∞)
   φ̂=roar (complex-axis: unit circle = ℂ boundary)
   H=sure (persistent chiral: product is directional on S¹)
   Σ=hung (1:1: one point configuration → one M_n value)
@@ -690,7 +690,7 @@ orthogonal circles to create K_{p,p}-free unit distance graphs.
   F=peep (combinatorial precision via crossing number / regularity)
   K=egg (asymptotic convergence with n)
   G=thigh (intermediate: sphere incidences at d=3)
-  Γ=measure (sequential n→∞)
+  ∈=measure (sequential n→∞)
   φ̂=roar (complex-axis: Lenz circles are 1-dim complex manifolds)
   H=kick (weak chiral: distance is symmetric but graph edges are
     directed by construction order)
@@ -783,7 +783,7 @@ syndetic A also yield syndetic D(A) containing a Bohr set.
   F=peep (ergodic-theoretic precision)
   K=egg (slow: recurrence emerges from density, not speed)
   G=thigh (intermediate: Bohr sets connect local to global recurrence)
-  Γ=measure (sequential: n=1→2→… for gap analysis)
+  ∈=measure (sequential: n=1→2→… for gap analysis)
   φ̂=roar (complex-axis: Bohr sets are cut from characters → ℂ^×)
   H=sure (persistent chiral: difference set is directed: d vs -d)
   Σ=hung (1:1: one set A → one D(A) recurrence structure)
@@ -880,7 +880,7 @@ in I with k ∣ a_k iff the Hall condition holds: for every J ⊆ {1,…,n},
   F=peep (analytic NT precision: y-smooth number estimates)
   K=egg (slow: n √(log n/log log n) is barely superlinear)
   G=ice (global: all primes ≤ n contribute via CRT)
-  Γ=measure (sequential: distribute 1,…,n across interval)
+  ∈=measure (sequential: distribute 1,…,n across interval)
   φ̂=roar (complex-axis: Dickman ρ via Laplace transform in ℂ)
   H=sure (persistent chiral: k∣a_k is directed)
   Σ=hung (1:1: one interval → one SDR existence claim)
@@ -973,7 +973,7 @@ congruent triangles (all similar to each other)?
   F=peep (geometric precision)
   K=egg (slow asymptotic: construction complexity grows with n)
   G=bib (local: neighboring subtriangles share edges/vertices)
-  Γ=measure (sequential: one partition construction at a time)
+  ∈=measure (sequential: one partition construction at a time)
   φ̂=woe (subcritical: geometry is Euclidean, no complex-analytic
     criticality needed)
   H=kick (weak chiral: triangle orientation may flip between
@@ -1124,17 +1124,17 @@ def open_obstructional_count : Nat := 6
 /-!
 **Distance ladder from O_inf kernel:**
   (O_inf: D=if', T=are, R=ian, P=or', F=peep, K=egg, G=ice,
-          Γ=ooze, φ̂=monad, H=wool, Σ=up, Ω=zoo)
+          ∈=ooze, φ̂=monad, H=wool, Σ=up, Ω=zoo)
 
-  Erdős–Turán:        ~2.0  (T, Γ, Ω)
+  Erdős–Turán:        ~2.0  (T, ∈, Ω)
   Anti-Ramsey:        ~2.6  (D, T, Ω)
   Subgroup Orders:    ~2.2  (T, R, Σ)
   Erdős–Kac:          ~3.0  (D, T, φ̂, Ω) — hardest gap
-  Ramsey Asymptotics: ~2.4  (T, Γ, Ω)
-  Polynom Asymptotics:~2.4  (T, Γ, Ω)
+  Ramsey Asymptotics: ~2.4  (T, ∈, Ω)
+  Polynom Asymptotics:~2.4  (T, ∈, Ω)
   Unit Distance:      ~2.6  (D, T, Ω)
   Difference Sets:    ~2.2  (T, R, Ω)
-  Erdős–Pomerance:    ~2.4  (T, Γ, Ω)
+  Erdős–Pomerance:    ~2.4  (T, ∈, Ω)
   Triangle Partition: ~3.2  (D, T, φ̂, Ω) — also large gap
 
 **Hardest promotions:**
@@ -1178,7 +1178,7 @@ This is structurally cleaner than the Stirling-based argument in §7:
 **Structural Imscription (refined):**
   Same tuple as ramsey_asymptotics (§7), but the argument path is
   simpler: D=array, T=oil, R=ear, P=out, F=peep, K=egg, G=thigh,
-  Γ=measure, φ̂=roar, H=sure, Σ=hung, Ω=ah.
+  ∈=measure, φ̂=roar, H=sure, Σ=hung, Ω=ah.
 
 **Verdict:** Belnap T/T/T — limit=0, fully resolved with cleaner proof.
 -/
@@ -1483,7 +1483,7 @@ of χ(H) is sub-polynomial in n.
   K=egg (slow: χ(H) grows sub-polynomially — O(log n) or slower)
   G=ice (global: transfinite recursion requires coordination across
     all ℵ₁ stages — aleph correlations)
-  Γ=measure (sequential: finite subgraphs form an ω-sequence
+  ∈=measure (sequential: finite subgraphs form an ω-sequence
     filtration; the limit is at ω₁)
   φ̂=woe (subcritical: no critical phase transition; the construction
     is below the critical density threshold for infinite chromatic
@@ -1555,7 +1555,7 @@ existence proof.
   ✗ Generalization to higher cardinals ℵ_n
 
 **Barrier:** Diffs to kernel (O_inf: D=if', T=are, R=ian, P=or',
-  F=peep, K=egg, G=ice, Γ=ooze, φ̂=monad, H=wool, Σ=up, Ω=zoo):
+  F=peep, K=egg, G=ice, ∈=ooze, φ̂=monad, H=wool, Σ=up, Ω=zoo):
   D(array→if'), T(mime→are), R(ado→ian), P(church→or'), F(age→peep),
   φ̂(woe→monad), H(kick→wool), Σ(so→up), Ω(awe→zoo).
   Distance ≈ 3.6 — one of the largest gaps, comparable to
@@ -1605,7 +1605,7 @@ has bounded χ. The crossing point is the minimal α where χ(G_α)=ℵ₁
 
 **Structural Imscription for the linear bound case:**
   D=array, T=eat, R=ado, P=church, F=age, K=egg, G=thigh,
-  Γ=measure, φ̂=woe, H=kick, Σ=hung, Ω=awe.
+  ∈=measure, φ̂=woe, H=kick, Σ=hung, Ω=awe.
 
   Same as erdos_hajnal_aleph1_graph EXCEPT:
     T=eat (inclusion, not mime) — because the fixed bound ⌈1/c⌉

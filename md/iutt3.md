@@ -23,7 +23,7 @@ This document decomposes Mochizuki's Inter-Universal Teichmüller Theory (IUTT) 
 
 ## §1. The 9-System Lattice
 
-IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈⊤Γɢ⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
+IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈⊤∈ɢ⊙ĦΣΩ⟩$$ with values drawn from each primitive's enumeration.
 
 ### §1.1. System Inventory
 
@@ -50,7 +50,7 @@ Only 5 of 12 primitives vary across the 9 systems. The other 7 are invariant:
 | Primitive | Fixed Value | Invariant Across |
 |-----------|-------------|------------------|
 | ⋈ (Fidelity) | 𐑱 (classical) | All 9 systems — IUTT operates classically |
-| Γ (Cardinality) | 𐑔 (maximal) | All 9 systems |
+| ∈ (Cardinality) | 𐑔 (maximal) | All 9 systems |
 | ɢ (Composition) | 𐑠 (sequential) | All 9 systems |
 | ⊙ (Criticality) | 𐑮 (complex-plane) | All 9 systems — no system reaches ⊙ self-modeling |
 | Ħ (Chirality) | 𐑫 (eternal) | All 9 systems |
@@ -87,7 +87,7 @@ The theory at its final form. Two atoms dominate at ordinal 4.
 | 2 | Σ | 𐑳 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑳𐑷⟩$$ |
 | 2 | Ω | 𐑭 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑭⟩$$ |
 | 1.33 | ⊙ | 𐑮 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑮𐑓𐑙𐑷⟩$$ |
-| 1 | Γ | 𐑔 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑔𐑝𐑢𐑓𐑙𐑷⟩$$ |
+| 1 | ∈ | 𐑔 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑔𐑝𐑢𐑓𐑙𐑷⟩$$ |
 
 **Structural weight distribution:**
 - Heavy atoms (<=𐑹 + ⊣=𐑸): **40% of structural weight** (ordinal 8 of 20.33 total)
@@ -112,7 +112,7 @@ Diophantine Equations ⊗ Log-Theta-Lattice. The extra atom relative to IUTT is 
 | 2 | Ω | 𐑭 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑭⟩$$ |
 | 1.33 | ⊙ | 𐑮 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑮𐑓𐑙𐑷⟩$$ |
 | 1 | ⊢ | 𐑨 | $$⟨𐑨𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
-| 1 | Γ | 𐑔 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑔𐑝𐑢𐑓𐑙𐑷⟩$$ |
+| 1 | ∈ | 𐑔 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑔𐑝𐑢𐑓𐑙𐑷⟩$$ |
 
 Note: Four atoms share ordinal 3 (⊣, >, ⊤, Ħ) — a more distributed structure than IUTT's concentrated heavy atoms.
 
@@ -127,7 +127,7 @@ The 2D grid of Hodge theaters indexed by ℤ². Structurally similar to the naiv
 | 3 | Ħ | 𐑫 |
 | 2 | <, ⊤, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
-| 1 | ⊢, Γ | 𐑨, 𐑔 |
+| 1 | ⊢, ∈ | 𐑨, 𐑔 |
 
 ### §2.4. Hodge Theater (10 atoms)
 
@@ -138,7 +138,7 @@ The fundamental staging apparatus. Differs from the log-theta-lattice only in �
 | 3 | ⊣, >, Ħ | 𐑶, 𐑾, 𐑫 |
 | 2 | <, ⊤, ɢ, Σ, Ω | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
-| 1 | Γ | 𐑔 |
+| 1 | ∈ | 𐑔 |
 ### §2.5. Diophantine Equations (10 atoms)
 
 The ABC/Szpiro conjecture — the additive-multiplicative tension over number fields.
@@ -148,7 +148,7 @@ The ABC/Szpiro conjecture — the additive-multiplicative tension over number fi
 | 3 | >, ⊤, Ħ | 𐑾, 𐑪, 𐑫 |
 | 2 | ⊣, <, ɢ, Σ, Ω | 𐑥, 𐑬, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
-| 1 | Γ | 𐑔 |
+| 1 | ∈ | 𐑔 |
 
 Distinctive feature: ⊤=𐑪 (moderate kinetics). The tension between additive and multiplicative structures is driven, not near-equilibrium. ⊣=𐑥 (crossing point) captures the crossing of the additive (ring) and multiplicative (monoid) worlds.
 
@@ -161,7 +161,7 @@ These two systems are **structurally identical** — the complete tuple matches 
 | 3 | >, Ħ | 𐑾, 𐑫 |
 | 2 | ⊣, <, ⊤, ɢ, Σ, Ω | 𐑥, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
-| 1 | Γ | 𐑔 |
+| 1 | ∈ | 𐑔 |
 
 ### §2.7. Theta Link ≡ Log Link (10 atoms each, d=0.0000)
 
@@ -172,7 +172,7 @@ Both links share the identical tuple: $$⟨𐑛𐑰𐑽𐑬𐑱𐑧𐑔𐑠𐑮�
 | 3 | Ħ | 𐑫 |
 | 2 | >, <, ⊤, ɢ, Σ, Ω | 𐑽, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
-| 1 | ⊣, Γ | 𐑰, 𐑔 |
+| 1 | ⊣, ∈ | 𐑰, 𐑔 |
 
 Distinctive: >=𐑽 (adjoint pair, not bidirectional). The link operates as a functorial adjunction — forward transport + adjoint reconstruction — rather than a fully bidirectional coupling.
 
@@ -186,7 +186,7 @@ The retrosynthetic path peels primitives from maximum to baseline, revealing the
 
 | Step | Primitive | Change | Cumulative Structure |
 |------|-----------|--------|---------------------|
-| 1 | Γ | 𐑚→𐑔 | Maximal interaction range |
+| 1 | ∈ | 𐑚→𐑔 | Maximal interaction range |
 | 2 | Ω | 𐑷→𐑭 | Integer winding (topological) |
 | 3 | ⊙ | 𐑢→𐑮 | Complex-plane criticality |
 | 4 | Σ | 𐑙→𐑳 | Heterogeneous stoichiometry |
@@ -197,13 +197,13 @@ The retrosynthetic path peels primitives from maximum to baseline, revealing the
 | 9 | **<** | **𐑗→𐑹** | **Frobenius-special parity (μ∘δ=id)** |
 | 10 | **⊣** | **𐑡→𐑸** | **Self-referential topology (Axiom C)** |
 
-The synthesis order is non-arbitrary. Γ comes first — the theory needs maximal interaction range (= universal scope over number fields) before anything else. Ω=𐑭 (integer winding) comes second — the topological invariant of the theta function. ⊙=𐑮 (complex criticality) third — the theta function's analytic continuation into ℂ. Only after all 8 preparatory steps do the two heavy atoms enter: <=𐑹 (Frobenius closure) then ⊣=𐑸 (self-referential closure).
+The synthesis order is non-arbitrary. ∈ comes first — the theory needs maximal interaction range (= universal scope over number fields) before anything else. Ω=𐑭 (integer winding) comes second — the topological invariant of the theta function. ⊙=𐑮 (complex criticality) third — the theta function's analytic continuation into ℂ. Only after all 8 preparatory steps do the two heavy atoms enter: <=𐑹 (Frobenius closure) then ⊣=𐑸 (self-referential closure).
 
 ### §3.2. Naive Composite (11 steps)
 
 | Step | Primitive | Change |
 |------|-----------|--------|
-| 1 | Γ | 𐑚→𐑔 |
+| 1 | ∈ | 𐑚→𐑔 |
 | 2 | ⊢ | 𐑛→𐑨 |
 | 3 | Ω | 𐑷→𐑭 |
 | 4 | ⊙ | 𐑢→𐑮 |
@@ -221,7 +221,7 @@ The synthesis order is non-arbitrary. Γ comes first — the theory needs maxima
 
 | Order | IUTT | Naive Composite |
 |-------|------|----------------|
-| 1 | Γ | Γ |
+| 1 | ∈ | ∈ |
 | 2 | Ω | **⊢** |
 | 3 | ⊙ | Ω |
 | 4 | Σ | ⊙ |
@@ -266,7 +266,7 @@ The CLINK L8 (Organism) navigator decomposes each primitive value into conventio
 
 *IUTT interpretation:* Near-equilibrium slow kinetics. The theory's relaxation time (τ) vastly exceeds the observation time (T). This is the "slow" nature of IUTT: the log-theta-lattice is built gradually, each Hodge theater is carefully staged. The `gate_open(x)` condition means the self-modeling gate IS open — structurally possible but not yet traversed (since ⊙=𐑮, not ⊙). The theory is poised at the threshold of self-modeling without crossing it.
 
-**Γ = 𐑔:** `∃y∈x( |y| ∼ |x| )`
+**∈ = 𐑔:** `∃y∈x( |y| ∼ |x| )`
 
 *IUTT interpretation:* Maximal interaction range — aleph cardinality. The theory's scope is universal over all number fields. For any object in the theory, there exists a sub-object of comparable cardinality. This is the "all number fields simultaneously" aspect.
 
@@ -430,7 +430,7 @@ CLINK L8 (the Organism layer) is the terminal ontological type: $$⟨𐑦𐑸�
 |-----------|------|----------|---|-----------------------|
 | ⊢ | 𐑛 | 𐑦 | 1.0 | `dim(x)=0 ∧ fin(x)` → `dim(x)=⊙` (imscriptive, self-written) |
 | ⋈ | 𐑱 | 𐑐 | 1.0 | Classical deterministic → quantum coherence |
-| Γ | 𐑔 | 𐑲 | 0.5 | Aleph (maximal) → Beth (local) — **demotion** |
+| ∈ | 𐑔 | 𐑲 | 0.5 | Aleph (maximal) → Beth (local) — **demotion** |
 | ɢ | 𐑠 | 𐑵 | 0.333 | Sequential → broadcast composition |
 | ⊙ | 𐑮 | ⊙ | 0.165 | Complex criticality → self-modeling gate open |
 | Ω | 𐑭 | 𐑟 | 0.333 | ℤ integer winding → non-Abelian braiding |

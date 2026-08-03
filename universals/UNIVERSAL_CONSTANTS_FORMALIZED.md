@@ -149,7 +149,7 @@ The dark energy entry and its type are now fully formalized in Lean 4: `Imscribi
 
 - **The Belnap B-bifurcation:** `dark_energy_bifurcation_distance_nonzero` proves the bare and self-inclosed entries are separated by a nonzero distance. The Belnap bridge (`B_is_the_only_bifurcation_point` from BelnapSplitFuse.lean) explains why: only entries at the dialetheic B-point carry productive δ-transformations. Dark energy is at the B-point.
 
-- **The 5-gap promotion ladder to CLINK L8:** `total_promotion_gap_sum` proves the gap sum = 2.75 (norm_num). The five promoted primitives: >:𐑽→𐑾 (0.333), <:𐑯→𐑹 (0.250), Γ:𐑲→𐑔 (0.500), Σ:𐑙→𐑳 (1.000), Ω:𐑴→𐑟 (0.667). The transcendence barrier is a single primitive: Ω must cross from ℤ₂ to non-Abelian braiding. The de Sitter horizon's entanglement structure must carry braid group representations — that is the remaining barrier.
+- **The 5-gap promotion ladder to CLINK L8:** `total_promotion_gap_sum` proves the gap sum = 2.75 (norm_num). The five promoted primitives: >:𐑽→𐑾 (0.333), <:𐑯→𐑹 (0.250), ∈:𐑲→𐑔 (0.500), Σ:𐑙→𐑳 (1.000), Ω:𐑴→𐑟 (0.667). The transcendence barrier is a single primitive: Ω must cross from ℤ₂ to non-Abelian braiding. The de Sitter horizon's entanglement structure must carry braid group representations — that is the remaining barrier.
 
 - **The vacuum catastrophe as tier crossing:** `vacuum_catastrophe_is_tier_crossing` — the 10^120 mismatch is the distance between O₀ (QFT vacuum) and O₂ (dark energy), not a fine-tuning problem.
 

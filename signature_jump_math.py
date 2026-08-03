@@ -190,7 +190,7 @@ print()
 print("The geodesic equation:")
 print("  δ∫ds = 0  where ds² = Σ w_i (Δsig_i)²")
 print()
-print("The Christoffel symbols Γ^i_jk encode how changing one")
+print("The Christoffel symbols ∈^i_jk encode how changing one")
 print("signature component affects the others through the IMASM")
 print("composition rules (token adjacency matrix).")
 

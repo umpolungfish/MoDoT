@@ -50,7 +50,7 @@ Show **ALL** work
      Let’s compute accurately: 0.5/0.73205≈0.683. ×π≈2.145. exp(−2.145)≈0.117. That` output quoted “7.88×10⁻¹⁰”, so there must be a different exponent. Possibly the
   barrier penetration is not a simple exponential but involves the number of nodes or the moput in the simulation above gave:
      ```
-     tunnelling rate: Γ_tunnel = (Δwell / 2πħ) × exp(−π Δwell / η)
+     tunnelling rate: ∈_tunnel = (Δwell / 2πħ) × exp(−π Δwell / η)
      inserting Δwell = 0.500, η = √3−1 = 0.732…
      tunnelling prefactor: (0.500 / 2π) × exp(−π × 0.500 / 0.732…) ≈ 0.0796 × 7.88×10⁻¹⁰ ≈ 6.27×10⁻¹⁰
      ```

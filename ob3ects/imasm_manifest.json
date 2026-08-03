@@ -708,7 +708,7 @@
         "FFUSE",
         "FFUSE"
       ],
-      "spec": "ring ◇[⊣ < ⋈] ● ◇[⊤ Γ ⊙] ● ◇[Ħ Σ Ω] ●"
+      "spec": "ring ◇[⊣ < ⋈] ● ◇[⊤ ∈ ⊙] ● ◇[Ħ Σ Ω] ●"
     },
     {
       "closure": "NONE",
@@ -727,7 +727,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊙ Δ Ħ Σ Ω ⊣ < ⋈ ⊤ Γ"
+      "spec": "ring ⊙ Δ Ħ Σ Ω ⊣ < ⋈ ⊤ ∈"
     },
     {
       "closure": "OPEN",
@@ -876,7 +876,7 @@
       "nodes": [
         "IMSCRIB"
       ],
-      "spec": "ring ⊣ < ⋈ ⊤ Γ ⊙ Ħ Σ Ω"
+      "spec": "ring ⊣ < ⋈ ⊤ ∈ ⊙ Ħ Σ Ω"
     },
     {
       "closure": "OPEN",
@@ -1401,7 +1401,7 @@
         "AREV",
         "TANCH"
       ],
-      "spec": "protocol ⊙ > ◇ Γ Σ ● < ⊣"
+      "spec": "protocol ⊙ > ◇ ∈ Σ ● < ⊣"
     },
     {
       "closure": "OPEN",
@@ -1423,7 +1423,7 @@
         "FFUSE",
         "AREV"
       ],
-      "spec": "wire ⊙ > ◇ Γ Σ ● <"
+      "spec": "wire ⊙ > ◇ ∈ Σ ● <"
     },
     {
       "closure": "CLOSED(1)",
@@ -12578,7 +12578,7 @@
         "FSPLIT",
         "FFUSE"
       ],
-      "spec": "protocol moat_protocol_reseed ◇ < ⊤ ● > Γ"
+      "spec": "protocol moat_protocol_reseed ◇ < ⊤ ● > ∈"
     },
     {
       "closure": "OPEN",

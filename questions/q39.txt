@@ -90,7 +90,7 @@ click-maths:  sidon_set  ⋈  infinite_set_mappings   (θ=0.50)
     R↔S    sidon_set= -0.67  infinite_set_mappings= +0.00   Δ=0.67
   ✓ CLICK on D↔W — spring-loaded Δ=1.00, single reaction center, closes.
   product: ⟨𐑼𐑡𐑑𐑿𐑐𐑧𐑲𐑠𐑢𐑖𐑳𐑭⟩  (ring saturated on D↔W)
-  inherited scaffold (blended from both partners): [>, <, ⋈, ⊤, Γ, ɢ, Ħ, Σ]
+  inherited scaffold (blended from both partners): [>, <, ⋈, ⊤, ∈, ɢ, Ħ, Σ]
 ● TOOL excite sidon_set_infinite_density
 excite:  sidon_set_infinite_density  →hν→  sidon_set_infinite_density*
   δ (light): promote to the excited manifold — Criticality ⊙ ⊙→𐑻 (the non-Hermitian exceptional-point resonance: metastable, finite lifetime — it DECAYS).

@@ -3,7 +3,7 @@
 //! The 12 primitives wear two glyph faces: the cl8nk_navigator axis labels
 //! and the Core.lean named axes. Same 12 axes, same tuple positions, same
 //! content and family cardinality — lossless faces of one manifold, dialects
-//! not universes. Three glyphs (Γ, <, Ω) appear in BOTH faces at DIFFERENT
+//! not universes. Three glyphs (∈, <, Ω) appear in BOTH faces at DIFFERENT
 //! axes, which is exactly where same-glyph-same-axis assumptions corrupt a
 //! reading. When a junction refuses in one presentation (a click that will
 //! not seat, a distance that reads far), re-present the SAME node through
@@ -36,7 +36,7 @@ const MAP: [(u8, &str, &str, &str, &str); 12] = [
 
 const TRAPS: &str = "\
   TRAPS — same glyph, DIFFERENT axis across the faces:\n\
-    navigator Γ = core G (Scope/Granularity)   but   core Γ = navigator ɢ (Interaction Grammar)\n\
+    navigator ∈ = core G (Scope/Granularity)   but   core ∈ = navigator ɢ (Interaction Grammar)\n\
     navigator < = core P (Parity/Symmetry)     but   core < = navigator ⊙ (Criticality)\n\
     Ω is the one glyph at the SAME axis in both faces (Topological Protection).\n\
   Never assume same glyph = same axis across dialects. Content and family\n\
@@ -103,7 +103,7 @@ mod tests {
 
     #[test]
     fn trap_glyphs_resolve_to_both_faces() {
-        // Γ and < live in both dialects at different axes.
+        // ∈ and < live in both dialects at different axes.
         for g in ["∈", "<"] {
             let out = run(&[g.to_string()]);
             assert!(out.contains("BOTH faces"), "{g} must flag the trap");

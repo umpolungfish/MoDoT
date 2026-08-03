@@ -124,7 +124,7 @@ const GLYPHS: [&[(&str, u8)]; 12] = [
     /* < Parity         */ &[("𐑗", 0), ("𐑿", 1), ("𐑬", 2), ("𐑯", 3), ("𐑹", 4)],
     /* ⋈ Fidelity       */ &[("𐑱", 0), ("𐑞", 1), ("𐑐", 2)],
     /* ⊤ Kinetics       */ &[("𐑘", 0), ("𐑤", 1), ("𐑧", 2), ("𐑪", 3), ("𐑺", 4)],
-    /* Γ Granularity    */ &[("𐑚", 0), ("𐑔", 1), ("𐑲", 2)],
+    /* ∈ Granularity    */ &[("𐑚", 0), ("𐑔", 1), ("𐑲", 2)],
     /* ɢ Composition    */ &[("𐑝", 0), ("𐑜", 1), ("𐑠", 2), ("𐑵", 3)],
     /* ⊙ Criticality    */ &[("𐑢", 0), ("⊙", 1), ("𐑮", 2), ("𐑻", 3), ("𐑣", 4)],
     /* Ħ Chirality      */ &[("𐑓", 0), ("𐑒", 1), ("𐑖", 2), ("𐑫", 3)],
@@ -552,7 +552,7 @@ const CTORS: [&[&str]; 12] = [
     /* < */ &["church", "yew", "out", "nun", "or'"],
     /* ⋈ */ &["age", "they", "peep"],
     /* ⊤ */ &["yea", "loll", "egg", "on", "air"],
-    /* Γ */ &["bib", "thigh", "ice"],
+    /* ∈ */ &["bib", "thigh", "ice"],
     /* ɢ */ &["vow", "gag", "measure", "ooze"],
     /* ⊙ */ &["woe", "monad", "roar", "err", "haha"],
     /* Ħ */ &["fee", "kick", "sure", "wool"],
@@ -4078,7 +4078,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         _ => None,
     });
     let Some(ax) = idx else {
-        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ⋈ ⊤ Γ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
+        eprintln!("recalibrate: unknown axis '{axis}'. Use a glyph (⊢ ⊣ > < ⋈ ⊤ ∈ ɢ ⊙ Ħ Σ Ω) or a name (chirality, protection, kinetics…).");
         return 2;
     };
 
