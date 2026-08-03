@@ -1,13 +1,14 @@
-The trilattice table was still on the old marks
+The tuple keys move, and the type lookup finds its own ob3ects again
 
-`classic.rs` moved to the new alphabet and `imasm16_3.rs` did not, so the two
-faces of one language disagreed about what a glyph is. It showed up in the kernel
-rather than here: `cycle ⊢⊙∈⊤⊥∋⋈◻⊣` came back as ⊢⊙∈∋⊣, five tokens out of nine,
-because `parse_glyph_word` matches against the tri table and ⊤ ⊥ ⋈ ◻ were not in
-it. Unknown glyphs are dropped, not refused, so the word was silently read as a
-shorter word and judged as one.
+`TUPLE_ORDER` in imasm.rs and `PRIM_KEYS` in main.rs are the two places this tool
+indexes a catalog entry by axis, and both are on the new primitive alphabet. The
+parse of the ⟨…⟩ notation is positional and unaffected; values did not move.
 
-Both tables carry the same twelve now, and the tri parser takes the retired
-spellings too: ◇ ● ☊ ☋ for the dyad, and = + × ¬ for the four that carried
-equality, sum, product and negation. A word in either spelling loads and prints
-in the new one.
+Found while checking the round trip: `expand_type` looked for the 49 primitive
+type ob3ects under ~/imsgct/MoDoT/ob3ects, a directory that stopped existing when
+MoDoT became 2m3iosis, so every `imasm expand` and every `imasm cycle` answered
+"type not found" for all 49 rather than saying the root was gone. The tree's own
+path is tried first now, with the old ones kept behind it.
+
+With that fixed the round trip runs: `imasm cycle tuple=⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩`
+recovers 12 of 12 axes exactly, the monad among them.

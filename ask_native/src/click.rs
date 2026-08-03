@@ -107,13 +107,13 @@ pub fn next_step(verb: &str, flag: &str, args: &str) -> String {
 }
 
 /// The twelve primitive keys, in canonical navigator/catalog order.
-pub const PRIMS: [&str; 12] = ["Ð", "Þ", "Ř", "Φ", "ƒ", "Ç", "Γ", "ɢ", "⊙", "Ħ", "Σ", "Ω"];
+pub const PRIMS: [&str; 12] = ["⊢", "⊣", ">", "<", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "◻"];
 
 /// glyph → ordinal per primitive. The ORDERING is scripture: each primitive's
 /// constructor order comes from the p4rakernel Lean kernel (`Primitives/Core.lean`)
-/// and the glyph↔constructor map from `gen_clay_canonical_tuples.py`. Ç
+/// and the glyph↔constructor map from `gen_clay_canonical_tuples.py`. ⊤
 /// (KineticChar: yea<loll<egg<on<air) and Σ (Stoichiometry: hung<so<up) were
-/// CORRECTED here to match scripture — earlier values had Ç ords 3/4 swapped
+/// CORRECTED here to match scripture — earlier values had ⊤ ords 3/4 swapped
 /// (𐑺/𐑪) and Σ rotated (𐑳 at 0 instead of 2), which threw the R↔S live-pair
 /// charge and the ligand↔site complement off (glyph→ctor rendering was unaffected,
 /// so certify always stayed correct; only the numeric ordinals were wrong).
@@ -1233,7 +1233,7 @@ fn complement_type(site: &[Option<u8>; 12]) -> [Option<u8>; 12] {
     ligand
 }
 
-/// One-line reading of a Recognition (Ř, index 2) ordinal as binding directionality.
+/// One-line reading of a Recognition (>, index 2) ordinal as binding directionality.
 fn recognition_reading(r: Option<u8>) -> (&'static str, f32) {
     match r {
         Some(3) => ("Ř=𐑾 (bidirectional — substrate↔enzyme feedback): a true catalytic/binding site", 1.0),
@@ -1390,7 +1390,7 @@ pub fn run_scan_mediators(
     println!("scan-mediators:  {dn}  ⟶e⁻⟶  {an}   ({} holdable candidates over {} entries)", hits.len(), cat.len());
     println!("  relay band ⊙∈[{},{}] (acceptor→donor);  hold band Ω∈[𐑴,{}] (accept then re-donate);  bind = complement recognizes both substrates",
         glyph_of(CRIT, lo), glyph_of(CRIT, hi), glyph_of(WIND, wmax - 1));
-    println!("  {:>4}  {:>6}  {:>5} {:>5} {:>5}  {:>3} {:>3}  mediator", "rank", "score", "relay", "bind", "recog", "Ω", "⊙");
+    println!("  {:>4}  {:>6}  {:>5} {:>5} {:>5}  {:>3} {:>3}  mediator", "rank", "score", "relay", "bind", "recog", "◻", "⊙");
     for (i, (name, comp, relay, bind, recog, wg, cg)) in hits.iter().take(top).enumerate() {
         println!("  {:>4}  {:>6.3}  {:>5.2} {:>5.2} {:>5.2}  {:>3} {:>3}  {name}", i + 1, comp, relay, bind, recog, wg, cg);
     }
@@ -1698,7 +1698,7 @@ fn working_stroke(
 // between complementary partners — or, where the same monomer repeats, an addition
 // (chain-growth) enchainment by the propagating active center. The chain then reads
 // out its degree of polymerization, regioregularity, copolymer architecture, tacticity
-// (the chirality Ħ sequence), and whether it cyclizes head-to-tail into a macrocycle (O∞).
+// (the chirality ⊥ sequence), and whether it cyclizes head-to-tail into a macrocycle (O∞).
 
 const CHIR: usize = 9; // Ħ Chirality — the stereochemistry axis; its ordered sequence IS the polymer's tacticity
 
@@ -1734,7 +1734,7 @@ fn classify_architecture(seq: &[String]) -> String {
     format!("random / statistical copolymer ({} monomer types)", distinct.len())
 }
 
-/// Tacticity from the chirality Ħ sequence over the enchained units.
+/// Tacticity from the chirality ⊥ sequence over the enchained units.
 fn classify_tacticity(chir: &[Option<u8>]) -> String {
     let glyphs: String = chir.iter().map(|o| o.map(|v| glyph_of(CHIR, v)).unwrap_or("?")).collect();
     if chir.iter().any(|o| o.is_none()) {
@@ -2772,7 +2772,7 @@ pub fn run_cocrystallize(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b:
 }
 
 /// CLI: `./ask --seed M1 M2 … with S`. Template-directed crystallization: units whose
-/// handedness Ħ (index 9) matches the seed S copy its polymorph (EVALT, templated
+/// handedness ⊥ (index 9) matches the seed S copy its polymorph (EVALT, templated
 /// fraction); the rest take the default polymorph (EVALF, spontaneous). An even split
 /// is racemic twinning (B). Non-conservative — the arms fuse to total crystalline mass.
 pub fn run_seed(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
@@ -2814,7 +2814,7 @@ pub fn run_seed(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f3
 }
 
 /// CLI: `./ask --tlc M1 M2 …`. Analytical chromatography: spread the set by Rf =
-/// mobility (1 − norm(Ř), the inverse of retention to the stationary phase), group the
+/// mobility (1 − norm(>), the inverse of retention to the stationary phase), group the
 /// units into bands, and report how many distinct bands appear and which co-elute at the
 /// same Rf (the B frontier). Diagnostic — it counts and places, it does not isolate.
 pub fn run_tlc(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
@@ -2854,7 +2854,7 @@ pub fn run_tlc(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32
 /// order of retention, least-retained first, reporting the resolution gap between each
 /// neighboring pair (a gap below epsilon is co-elution into a shared fraction, B). With
 /// `on S`, retention is affinity to the stationary phase S (the bond drive to S);
-/// without, the intrinsic retention norm(Ř).
+/// without, the intrinsic retention norm(>).
 pub fn run_column(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
     let Some(cat) = catalog else { eprintln!("column: no catalog loaded"); return 2; };
     let (sample_names, stat_name): (&[String], Option<&[String]>) =
@@ -2975,7 +2975,7 @@ pub fn run_trap(catalog: Option<&[CatalogEntry]>, name: &str, counter: Option<&s
 }
 
 /// CLI: `./ask --stain R M1 M2 …`. Apply a diagnostic reagent R (kmno4/uv → Criticality ⊙,
-/// chiral → Chirality Ħ, ninhydrin → Recognition Ř, iodine → any live center): the units
+/// chiral → Chirality ⊥, ninhydrin → Recognition >, iodine → any live center): the units
 /// carrying that feature light up (EVALT, revealed), the rest stay dark (EVALF). A unit
 /// borderline on the feature is a partial match (B).
 pub fn run_stain(catalog: Option<&[CatalogEntry]>, reagent: &str, monomers: &[String], theta: f32) -> i32 {
@@ -3810,9 +3810,9 @@ pub fn run_descend(
 
 /// CLI: `./ask --phase-reconstruct M1 M2 …`. Recover the structural PHASE WORD of a set from
 /// its closed ring. Structurally, the flat-autocorrelation constraint IS ring closure: a set
-/// whose best order cyclizes fixes a relative phase word — the per-unit chirality Ħ sequence —
+/// whose best order cyclizes fixes a relative phase word — the per-unit chirality ⊥ sequence —
 /// up to ONE global phase (the ring's rotational gauge). This reads that word off the closed
-/// ring. Honest: it recovers the STRUCTURAL phase sequence (the Ħ word), not numeric Cᵈ phases;
+/// ring. Honest: it recovers the STRUCTURAL phase sequence (the ⊥ word), not numeric Cᵈ phases;
 /// and if the set does not close, it reports the phases as UNDERDETERMINED (N), not invented.
 pub fn run_phase_reconstruct(
     catalog: Option<&[CatalogEntry]>,
@@ -4038,7 +4038,7 @@ pub fn run_annihilate(catalog: Option<&[CatalogEntry]>, name_a: &str, name_b: Op
 // ─── recalibrate: perturb one axis and report what moves ────────────────────
 //
 // The agent asked for this three times across one run and never got it:
-//   recalibrate <entity> --perturb_chirality Ħ
+//   recalibrate <entity> --perturb_chirality ⊥
 //
 // It walks ONE axis through every value it can take and reports, at each step,
 // what the perturbation costs and what it drags with it. This is the honest way
@@ -4060,7 +4060,7 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
     };
     let t = Tuple::from_entry(e);
 
-    // Accept the axis as a glyph name (Ħ, Ω, …) or as a word (chirality, protection…).
+    // Accept the axis as a glyph name (⊥, Ω, …) or as a word (chirality, protection…).
     let key = axis.trim().trim_start_matches("--").to_ascii_lowercase();
     let idx = PRIMS.iter().position(|p| *p == axis.trim()).or_else(|| match key.as_str() {
         "dimensionality" | "d" | "perturb_dimensionality" => Some(0),
@@ -4100,8 +4100,8 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
         probe[ax] = Some(*o);
         let step = *o as i32 - cur_ord as i32;
         // Cross-primitive couplings the kernel actually holds (Core.lean):
-        //   Þ=𐑸 forces Ð=𐑦.        Ω ≥ 𐑭 requires Ħ ≥ 𐑖.
-        // Ħ=𐑫 co-occurring with Ç=𐑪 is a TENDENCY, not an axiom — reported, never enforced.
+        //   ⊣=𐑸 forces ⊢=𐑦.        Ω ≥ 𐑭 requires ⊥ ≥ 𐑖.
+        // ⊥=𐑫 co-occurring with ⊤=𐑪 is a TENDENCY, not an axiom — reported, never enforced.
         let mut notes: Vec<String> = Vec::new();
         if ax == 1 && *o == 4 && probe[0] != Some(3) {
             notes.push("Þ=𐑸 forces Ð=𐑦 — this move requires Ð to follow".into());

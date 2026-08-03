@@ -131,7 +131,7 @@ SIGNATURES, one per line, no proofs, no imports, no prose, no markdown.";
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Cardinalities of the 12 primitives (constructor counts), scripture from
-/// ImscribingGrammar/Primitives/Core.lean, in canonical order Ð Þ Ř Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω.
+/// ImscribingGrammar/Primitives/Core.lean, in canonical order ⊢ ⊣ > Φ ⋈ ⊤ Γ ∋ ⊙ ⊥ Σ Ω.
 const PRIM_CARD: [u8; 12] = [4, 5, 4, 5, 3, 5, 3, 4, 5, 4, 3, 4];
 /// Imscription record field names, in the same order.
 const PRIM_FIELD: [&str; 12] = [
@@ -171,19 +171,19 @@ fn fnv1a(bytes: &[u8]) -> u64 {
 
 /// Apply the cross-primitive axioms as an AREV correction (demote to the nearest valid
 /// value), so the tuple is a well-formed crystal address. Axioms from
-/// imscribing_grammar/genetic_engine/genetic_tuples.py: C (Ð=if' ⟺ Þ=are), B (Ω=ℤ ⟹
-/// Ħ≥sure), D-Ω (Ω=ℤ ⟹ Ð≥array; Ω=ℤ₂ ⟹ Ð≥ash).
+/// imscribing_grammar/genetic_engine/genetic_tuples.py: C (⊢=if' ⟺ ⊣=are), B (Ω=ℤ ⟹
+/// ⊥≥sure), D-Ω (Ω=ℤ ⟹ ⊢≥array; Ω=ℤ₂ ⟹ ⊢≥ash).
 fn correct_axioms(ord: &mut [u8; 12]) {
-    // D-Ω and B on Ω (index 11): demote Ω until consistent with Ð (0) and Ħ (9).
-    // Ω=ah(2)=ℤ needs Ð∈{2,3} AND Ħ∈{2,3}; else demote to oak(1)=ℤ₂.
+    // D-Ω and B on Ω (index 11): demote Ω until consistent with ⊢ (0) and ⊥ (9).
+    // Ω=ah(2)=ℤ needs ⊢∈{2,3} AND ⊥∈{2,3}; else demote to oak(1)=ℤ₂.
     if ord[11] >= 2 && (ord[0] < 2 || ord[9] < 2) {
         ord[11] = 1;
     }
-    // Ω=oak(1)=ℤ₂ needs Ð≥ash(1); else demote to awe(0)=no protection.
+    // Ω=oak(1)=ℤ₂ needs ⊢≥ash(1); else demote to awe(0)=no protection.
     if ord[11] == 1 && ord[0] < 1 {
         ord[11] = 0;
     }
-    // Axiom C: the imscriptive value is both-or-neither — Ð=if'(3) ⟺ Þ=are(4).
+    // Axiom C: the imscriptive value is both-or-neither — ⊢=if'(3) ⟺ ⊣=are(4).
     let d_imsc = ord[0] == 3;
     let t_imsc = ord[1] == 4;
     if d_imsc && !t_imsc {

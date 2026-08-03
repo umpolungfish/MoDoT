@@ -1,4 +1,4 @@
-//! The AREV door — the Ħ hop, native, for the agent's own hands.
+//! The AREV door — the ⊥ hop, native, for the agent's own hands.
 //!
 //! mOMonadOS `kernel.rs` built the door (Kernel::arev_hop): the R1 (O_∞) and
 //! R2 (O_inf_dag) evidence triples exchanged role for role over one shared
@@ -59,7 +59,7 @@ impl Snapshot {
         }
     }
 
-    /// The Ħ mirror: exchange the R1 and R2 evidence triples role for role.
+    /// The ⊥ mirror: exchange the R1 and R2 evidence triples role for role.
     ///   static mark:  dialetheia_complete      ↔ atomic_reentry
     ///   counted act:  b_live_ticks             ↔ winding_count
     ///   recurrence:   gate_discriminations > 0 ↔ bifurcation_revisited
@@ -319,7 +319,7 @@ fn witness_line(s: &Snapshot) -> String {
 //                   after 16 wraps and after 32 wraps gives the same period.
 //                   The rate class is time-translation invariant, not an
 //                   artifact of when the observer looks.
-//   Φ (Polarity)  — the Ħ mirror is an involution on the witness plane:
+//   Φ (Polarity)  — the ⊥ mirror is an involution on the witness plane:
 //                   mirror∘mirror restores all six witnesses and the tier,
 //                   for every word. The or'/flipped fork is a true parity.
 //   Ω (Protection)— the winding ledger is exact: deterministic (two identical

@@ -722,10 +722,10 @@ fn excribe(
 /// neutron_star, but in falconry).
 /// The twelve axes, named, in canonical tuple order.
 const AXIS_NAMES: [(&str, &str); 12] = [
-    ("Ð", "Dimensionality"), ("Þ", "Topology"), ("Ř", "Relational Mode"),
-    ("Φ", "Parity / Symmetry"), ("ƒ", "Fidelity"), ("Ç", "Kinetic Character"),
-    ("Γ", "Scope / Granularity"), ("ɢ", "Interaction Grammar"), ("⊙", "Criticality"),
-    ("Ħ", "Chirality"), ("Σ", "Stoichiometry"), ("Ω", "Topological Protection"),
+    ("⊢", "Dimensionality"), ("⊣", "Topology"), (">", "Relational Mode"),
+    ("<", "Parity / Symmetry"), ("⋈", "Fidelity"), ("⊤", "Kinetic Character"),
+    ("∈", "Scope / Granularity"), ("∋", "Interaction Grammar"), ("⊙", "Criticality"),
+    ("⊥", "Chirality"), ("⊞", "Stoichiometry"), ("◻", "Topological Protection"),
 ];
 
 /// INDUCTIVE EXCRIPTION: build the identification instead of demanding it.

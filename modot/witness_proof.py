@@ -122,18 +122,18 @@ def catalog_size() -> int:
 
 # Catalog primitive symbol → pipeline role id (from sectionBackbone / roles)
 _PRIM_TO_ROLE_ID = {
-    "Φ": "Phi_}",          # polarity / Frobenius-symmetric encoding
-    "Þ": "Theta_O",        # topology / self-ref structure
-    "Ř": "R_=",            # relational / bidirectional
-    "Ω": "Omega_z",        # protection / winding
+    "<": "Phi_}",          # polarity / Frobenius-symmetric encoding
+    "⊣": "Theta_O",        # topology / self-ref structure
+    ">": "R_=",            # relational / bidirectional
+    "◻": "Omega_z",        # protection / winding
     "⊙": "phi_hat_y",      # criticality / phase boundary
-    "Ç": "C_@",            # kinetics / equidistribution
-    "Ð": "D_C",            # dimensionality
-    "Γ": "Gamma_ʔ",        # granularity / quantification
-    "ƒ": "f_dot_z",        # fidelity / coherence
-    "Ħ": "H_A",            # chirality / Markov
-    "Σ": "Sigma_S",        # stoichiometry / uniqueness
-    "ɢ": "Theta_double_dot",  # grammar / composition — closest pipeline slot
+    "⊤": "C_@",            # kinetics / equidistribution
+    "⊢": "D_C",            # dimensionality
+    "∈": "Gamma_ʔ",        # granularity / quantification
+    "⋈": "f_dot_z",        # fidelity / coherence
+    "⊥": "H_A",            # chirality / Markov
+    "⊞": "Sigma_S",        # stoichiometry / uniqueness
+    "∋": "Theta_double_dot",  # grammar / composition — closest pipeline slot
 }
 
 # Verbatim roles from primitiveMathRole (Lean) — domain-invariant.

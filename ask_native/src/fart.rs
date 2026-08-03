@@ -213,7 +213,7 @@ struct Cli {
     /// bond is a Coagula link between complementary partners (step-growth) or an
     /// addition where a monomer repeats (chain-growth); the monomer SEQUENCE stays
     /// losslessly readable off the chain (R∧W∧X). Reports degree of polymerization,
-    /// regioregularity, copolymer architecture, tacticity (the Ħ chirality sequence),
+    /// regioregularity, copolymer architecture, tacticity (the ⊥ chirality sequence),
     /// and whether it cyclizes head-to-tail into a macrocycle. --certify closes each unit.
     #[arg(long = "polymerize", num_args = 2.., value_names = ["MONOMERS"])]
     polymerize: Option<Vec<String>>,
@@ -385,7 +385,7 @@ struct Cli {
     descend: Option<String>,
 
     /// Recover the relative phase word of a set from its closed ring:
-    /// `--phase-reconstruct M1 M2 …` reads back the per-unit Ħ phase sequence (or reports N).
+    /// `--phase-reconstruct M1 M2 …` reads back the per-unit ⊥ phase sequence (or reports N).
     #[arg(long = "phase-reconstruct", num_args = 2.., value_names = ["MONOMERS"])]
     phase_reconstruct: Vec<String>,
 
@@ -2319,9 +2319,9 @@ fn sym(name: &str) -> &str {
         "Rightarrow" | "implies" => "⇒",
         "Delta" => "Δ", "nabla" => "∇", "partial" => "∂",
         "theta" | "vartheta" => "θ", "Theta" => "Θ",
-        "mu" => "μ", "delta" => "δ", "sigma" => "σ", "Sigma" => "Σ",
-        "omega" => "ω", "Omega" => "Ω", "phi" | "varphi" => "φ", "Phi" => "Φ",
-        "gamma" => "γ", "Gamma" => "Γ", "rho" => "ρ", "pi" => "π", "Pi" => "Π",
+        "mu" => "μ", "delta" => "δ", "sigma" => "σ", "Sigma" => "⊞",
+        "omega" => "ω", "Omega" => "◻", "phi" | "varphi" => "φ", "Phi" => "<",
+        "gamma" => "γ", "Gamma" => "∈", "rho" => "ρ", "pi" => "π", "Pi" => "Π",
         "lambda" => "λ", "Lambda" => "Λ", "alpha" => "α", "beta" => "β",
         "epsilon" | "varepsilon" => "ε", "zeta" => "ζ", "eta" => "η",
         "kappa" => "κ", "nu" => "ν", "xi" => "ξ", "Xi" => "Ξ", "tau" => "τ",
@@ -3154,7 +3154,7 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             v.extend(args.iter().cloned());
             v
         }
-        // broadcast = the ɢ primitive (f → all(x)): one SOURCE signals ALL subsystems it
+        // broadcast = the ∋ primitive (f → all(x)): one SOURCE signals ALL subsystems it
         // couples with, discovered in a single sweep — not an enumerated arm list. Realized
         // as the catalog sweep from the source (single-name click), which finds every entry
         // that fuses with it: the genuine one-to-all fan-out. The agent's natural call is

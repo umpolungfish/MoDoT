@@ -230,7 +230,7 @@ struct Cli {
     annihilate: Option<Vec<String>>,
 
     /// Perturb ONE axis of an entity and report what moves with it.
-    /// `--recalibrate A Ħ` (or a name: chirality, protection, kinetics…). Walks the
+    /// `--recalibrate A ⊥` (or a name: chirality, protection, kinetics…). Walks the
     /// axis through every value it can take, flags the cross-primitive couplings each
     /// step disturbs, and writes nothing — a perturbation is a probe.
     #[arg(long = "recalibrate", num_args = 2, value_names = ["A", "AXIS"])]
@@ -267,7 +267,7 @@ struct Cli {
     /// bond is a Coagula link between complementary partners (step-growth) or an
     /// addition where a monomer repeats (chain-growth); the monomer SEQUENCE stays
     /// losslessly readable off the chain (R∧W∧X). Reports degree of polymerization,
-    /// regioregularity, copolymer architecture, tacticity (the Ħ chirality sequence),
+    /// regioregularity, copolymer architecture, tacticity (the ⊥ chirality sequence),
     /// and whether it cyclizes head-to-tail into a macrocycle. --certify closes each unit.
     #[arg(long = "polymerize", num_args = 2.., value_names = ["MONOMERS"])]
     polymerize: Option<Vec<String>>,
@@ -445,7 +445,7 @@ struct Cli {
     /// A's Criticality ⊙ to the real-axis Hermitian fixed point and removes one winding Ω.
     #[arg(long = "descend", value_name = "NAME")]
     descend: Option<String>,
-    /// Broadcast: the ɢ primitive (f → all(x)) — one SOURCE signals every subsystem it
+    /// Broadcast: the ∋ primitive (f → all(x)) — one SOURCE signals every subsystem it
     /// couples with, discovered in a single catalog sweep. Realized as the click-sweep from
     /// the source:  finds every catalog entry that clicks with it.
     #[arg(long = "broadcast", value_name = "SOURCE")]
@@ -466,7 +466,7 @@ struct Cli {
     riemann_hilbert: bool,
 
     /// Plasma reading: read an entry's 12-primitive tuple as a plasma design — regime
-    /// (kinetic/gyrokinetic/fluid via Ð,ƒ), instability cascade (ɢ,⊙,Ħ), confinement /
+    /// (kinetic/gyrokinetic/fluid via ⊢,⋈), instability cascade (∋,⊙,⊥), confinement /
     /// magnetic topology (Ω), species (Σ), and diagnostic wave signatures. Shells to the
     /// red-hot_rebis plasma forge.
     #[arg(long = "plasma", value_name = "NAME")]
@@ -474,7 +474,7 @@ struct Cli {
 
 
     /// Recover the relative phase word of a set from its closed ring:
-    /// `--phase-reconstruct M1 M2 …` reads back the per-unit Ħ phase sequence (or reports N).
+    /// `--phase-reconstruct M1 M2 …` reads back the per-unit ⊥ phase sequence (or reports N).
     #[arg(long = "phase-reconstruct", num_args = 2.., value_names = ["MONOMERS"])]
     phase_reconstruct: Vec<String>,
 
@@ -3044,9 +3044,9 @@ fn sym(name: &str) -> &str {
         "Rightarrow" | "implies" => "⇒",
         "Delta" => "Δ", "nabla" => "∇", "partial" => "∂",
         "theta" | "vartheta" => "θ", "Theta" => "Θ",
-        "mu" => "μ", "delta" => "δ", "sigma" => "σ", "Sigma" => "Σ",
-        "omega" => "ω", "Omega" => "Ω", "phi" | "varphi" => "φ", "Phi" => "Φ",
-        "gamma" => "γ", "Gamma" => "Γ", "rho" => "ρ", "pi" => "π", "Pi" => "Π",
+        "mu" => "μ", "delta" => "δ", "sigma" => "σ", "Sigma" => "⊞",
+        "omega" => "ω", "Omega" => "◻", "phi" | "varphi" => "φ", "Phi" => "<",
+        "gamma" => "γ", "Gamma" => "∈", "rho" => "ρ", "pi" => "π", "Pi" => "Π",
         "lambda" => "λ", "Lambda" => "Λ", "alpha" => "α", "beta" => "β",
         "epsilon" | "varepsilon" => "ε", "zeta" => "ζ", "eta" => "η",
         "kappa" => "κ", "nu" => "ν", "xi" => "ξ", "Xi" => "Ξ", "tau" => "τ",
@@ -4332,7 +4332,7 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             v.extend(args.iter().cloned());
             v
         }
-        // broadcast = the ɢ primitive (f → all(x)): one SOURCE signals ALL subsystems it
+        // broadcast = the ∋ primitive (f → all(x)): one SOURCE signals ALL subsystems it
         // couples with, discovered in a single sweep — not an enumerated arm list. Realized
         // as the catalog sweep from the source (single-name click), which finds every entry
         // that fuses with it: the genuine one-to-all fan-out. The agent's natural call is
@@ -4363,7 +4363,7 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             }
             v
         }
-        // `recalibrate A Ħ` and `recalibrate A --perturb_chirality Ħ` both work:
+        // `recalibrate A ⊥` and `recalibrate A --perturb_chirality ⊥` both work:
         // the flag form names the axis in the flag, so take whichever carries it.
         "recalibrate" => {
             let entity = a(0)?;
@@ -5100,7 +5100,7 @@ mod admission_gate_tests {
 
     #[test]
     fn name_slots_exclude_separators_options_numbers_glyphs_axes() {
-        for not_a_name in ["vs", "seed=B", "42", "0.5", "Ħ", "chirality", "protection"] {
+        for not_a_name in ["vs", "seed=B", "42", "0.5", "⊥", "chirality", "protection"] {
             assert!(!arg_is_name_slot(not_a_name), "{not_a_name} misread as a name slot");
         }
         assert!(arg_is_name_slot("perfect_cuboid_proof"));
@@ -5453,8 +5453,8 @@ fn atomic_token_seed(name: &str) -> Option<String> {
     Some(symbol_seed.to_string())
 }
 
-/// The twelve catalog keys, in notation order: ⟨Ð Þ Ř Φ ƒ Ç Γ ɢ ⊙ Ħ Σ Ω⟩.
-const PRIM_KEYS: [&str; 12] = ["Ð", "Þ", "Ř", "Φ", "ƒ", "Ç", "Γ", "ɢ", "⊙", "Ħ", "Σ", "Ω"];
+/// The twelve catalog keys, in notation order: ⟨⊢ ⊣ > Φ ⋈ ⊤ Γ ∋ ⊙ ⊥ Σ Ω⟩.
+const PRIM_KEYS: [&str; 12] = ["⊢", "⊣", ">", "<", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "◻"];
 
 /// Parse a well-formed 12-glyph notation ⟨…⟩ into its twelve values.
 ///
@@ -7423,7 +7423,7 @@ fn main() {
         }
     }
 
-    // Perturb one axis: `./ask --recalibrate A Ħ`.
+    // Perturb one axis: `./ask --recalibrate A ⊥`.
     if let Some(args) = &cli.recalibrate {
         if args.len() >= 2 {
             let code = click::run_recalibrate(cat_ref, &args[0], &args[1]);
@@ -7610,7 +7610,7 @@ fn main() {
         }
     }
 
-    // Broadcast: the ɢ primitive (one-to-all fan-out). Realized as click-sweep
+    // Broadcast: the ∋ primitive (one-to-all fan-out). Realized as click-sweep
     // from the source — finds every catalog entry that clicks with it.
     if let Some(source) = &cli.broadcast {
         let code = click::run_click_sweep(

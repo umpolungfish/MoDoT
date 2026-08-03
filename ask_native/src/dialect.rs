@@ -20,18 +20,18 @@ use std::fmt::Write as _;
 
 /// (position, navigator glyph, core letter, core axis name, family)
 const MAP: [(u8, &str, &str, &str, &str); 12] = [
-    (1,  "Ð", "D", "Dimensionality",          "𝓕₄"),
-    (2,  "Þ", "T", "Topology",                "𝓕₅"),
-    (3,  "Ř", "R", "Relational Mode",         "𝓕₄"),
-    (4,  "Φ", "P", "Parity/Symmetry",         "𝓕₅"),
-    (5,  "ƒ", "F", "Fidelity",                "𝓕₃"),
-    (6,  "Ç", "K", "Kinetic Character",       "𝓕₅"),
-    (7,  "Γ", "G", "Scope/Granularity",       "𝓕₃"),
-    (8,  "ɢ", "Γ", "Interaction Grammar",     "𝓕₄"),
-    (9,  "⊙", "Φ", "Criticality",             "𝓕₅"),
-    (10, "Ħ", "H", "Chirality",               "𝓕₄"),
-    (11, "Σ", "S", "Stoichiometry",           "𝓕₃"),
-    (12, "Ω", "Ω", "Topological Protection",  "𝓕₄"),
+    (1,  "⊢", "D", "Dimensionality",          "𝓕₄"),
+    (2,  "⊣", "T", "Topology",                "𝓕₅"),
+    (3,  ">", "R", "Relational Mode",         "𝓕₄"),
+    (4,  "<", "P", "Parity/Symmetry",         "𝓕₅"),
+    (5,  "⋈", "F", "Fidelity",                "𝓕₃"),
+    (6,  "⊤", "K", "Kinetic Character",       "𝓕₅"),
+    (7,  "∈", "G", "Scope/Granularity",       "𝓕₃"),
+    (8,  "∋", "∈", "Interaction Grammar",     "𝓕₄"),
+    (9,  "⊙", "<", "Criticality",             "𝓕₅"),
+    (10, "⊥", "H", "Chirality",               "𝓕₄"),
+    (11, "⊞", "S", "Stoichiometry",           "𝓕₃"),
+    (12, "◻", "◻", "Topological Protection",  "𝓕₄"),
 ];
 
 const TRAPS: &str = "\
@@ -104,7 +104,7 @@ mod tests {
     #[test]
     fn trap_glyphs_resolve_to_both_faces() {
         // Γ and Φ live in both dialects at different axes.
-        for g in ["Γ", "Φ"] {
+        for g in ["∈", "<"] {
             let out = run(&[g.to_string()]);
             assert!(out.contains("BOTH faces"), "{g} must flag the trap");
         }

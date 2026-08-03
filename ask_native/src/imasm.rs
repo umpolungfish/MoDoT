@@ -353,7 +353,13 @@ fn expand_type(name: &str) -> Result<(Vec<Token>, Vec<(usize, usize)>, Vec<Strin
         .trim_start_matches("the primitive type called ")
         .replace(' ', "_")
         .to_ascii_lowercase();
+    // MoDoT was renamed to 2m3iosis and these two roots were left pointing at a
+    // directory that no longer exists, so every type expansion answered "not
+    // found" for all 49. The tree-relative path is tried first so the tool works
+    // from its own checkout without depending on where that checkout sits.
     let roots = [
+        crate::expand_user("~/imsgct/2m3iosis/ob3ects/primitives"),
+        crate::expand_user("~/imsgct/2m3iosis/ob3ects"),
         crate::expand_user("~/imsgct/MoDoT/ob3ects/primitives"),
         crate::expand_user("~/imsgct/MoDoT/ob3ects"),
     ];
@@ -894,7 +900,7 @@ fn run_tool(rest: &[String]) -> String {
 
 /// Resolve `rest` to a graph: a defined tool name, else a raw opcode word.
 /// The twelve axes in canonical tuple order — the order an entry's types compose in.
-pub(crate) const TUPLE_ORDER: [&str; 12] = ["Ð","Þ","Ř","Φ","ƒ","Ç","Γ","ɢ","⊙","Ħ","Σ","Ω"];
+pub(crate) const TUPLE_ORDER: [&str; 12] = ["⊢","⊣",">","<","⋈","⊤","∈","∋","⊙","⊥","⊞","◻"];
 
 /// A catalog entry, expanded into the IMASM program it IS.
 ///
@@ -1307,8 +1313,8 @@ fn cycle_one(tuple_glyphs: &str) -> String {
 /// segment is some type's own program, and the axis a segment sits at restricts
 /// which of the 49 types could have written it. The cycle is NOT total, and the
 /// obstruction is precise: the 49 types emit only 47 distinct programs. `loll`
-/// and `yew` collide but occupy different axes (Ç and Φ), so position separates
-/// them; `ear` and `tot` collide AND share axis Ř, so a Ř segment reading as
+/// and `yew` collide but occupy different axes (⊤ and Φ), so position separates
+/// them; `ear` and `tot` collide AND share axis >, so a > segment reading as
 /// that program has two pre-images and the return leg reports BOTH rather than
 /// choosing. That ambiguity is a fact about the type alphabet, not a defect
 /// here, and it is why the cycle closes to within one axis and not exactly.
