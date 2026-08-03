@@ -183,6 +183,21 @@ impl Reg16_3 {
         Reg16_3 { big_f: self.big_f, small_f: self.small_f, ..Reg16_3::default() }
     }
 
+    /// The constructive part x ∩ {T, F} — the two arms δ separates when it fans
+    /// at arity 3, where the truth cut is taken inside the constructive block.
+    pub fn constructive_part(self) -> Reg16_3 {
+        Reg16_3 { big_t: self.big_t, big_f: self.big_f, ..Reg16_3::default() }
+    }
+
+    /// The information part x ∩ {t, f} — the third δ arm, and what EVALI sets.
+    ///
+    /// It is one arm rather than two because ⊞ sets t and f together, so the
+    /// non-constructive pair can only ever be entered as a block. That is where
+    /// the arity of the fork comes from: not a choice, but the gate set.
+    pub fn info_part(self) -> Reg16_3 {
+        Reg16_3 { small_t: self.small_t, small_f: self.small_f, ..Reg16_3::default() }
+    }
+
     /// The involution T ↔ F, t ↔ f — the reverse morphism's action on values
     /// (TNEG and INEG applied together; ⊆-monotone, its own inverse).
     pub fn invol(self) -> Reg16_3 {

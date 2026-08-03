@@ -495,10 +495,14 @@ fn report(title: &str, g: &Graph) -> String {
 const REFERENCE: &str = "\
 IMASM POLYMER TOPOLOGY — composition beyond lines and cycles
 An IMASM program is a DIRECTED GRAPH of the 12 opcodes, not only a line. Each
-opcode's valence sets its edges: VINIT source (in0), FSPLIT δ branch (out2),
-FFUSE μ fuse (in2), every other opcode in1/out1. Only FSPLIT may fan out; only
-FFUSE may merge in. An arm that runs out of successors is a living end (open
-out-port), reported not fatal. The shape is named by circuit rank β = E−V+C
+opcode's valence sets its edges: VINIT source (in0), δ branch out2 as ◇ and
+out3 as ∈, μ fuse in2 as ● and in3 as ∋, every other opcode in1/out1. Only δ
+may fan out; only μ may merge in. There is ONE dyad: ◇/● and ∈/∋ are the same
+operator on two carriers, ◇ being ∈ read on the FOUR slice, so one ancestry
+rule and one close condition answer both. δ fans a PARTITION of the register:
+{T,t}|{F,f} at two arms, {T}|{F}|{t,f} at three, so μ∘δ = id either way.
+An arm that runs out of successors is a living end (open out-port), reported
+not fatal. The shape is named by circuit rank β = E−V+C
 (independent loops): β=0 tree, β=1 one ring/bubble, β>1 network.
   imasm chain  T1 T2 …               a single strand (the classic line)
   imasm ring   T1 T2 …               a cycle (β=1), fork/fuse NOT reconnected
@@ -567,6 +571,8 @@ a word can be written glued, no spaces — `⊢>◇+=⊙<×⊞●⊙¬⊣` is th
 symbolic — no Latin initials; the retired V/T/B letters and ← no longer parse:
   ⊢ VINIT   ⊣ TANCH   > AFWD   < AREV   = CLINK   ⊙ IMSCRIB
   ◇ FSPLIT  ● FFUSE   + EVALT  × EVALF  ⊞ ENGAGR  ¬ IFIX
+  ∈ FSPLIT3 ∋ FFUSE3  ~ TNEG    ≁ INEG   (the arity-3 spelling of the dyad,
+  and the two bit-swaps; ⊞ reads EVALI in the trilattice face)
 Every build reports topology label, β, branch/merge/source/sink census, arm
 count, spectral radius ρ, and a grammar validation.";
 
@@ -1519,7 +1525,8 @@ fn prove_tool(rest: &[String]) -> String {
 // evaluator over the SIXTEEN_3 carrier (P({T,F,t,f}), Shramko/Dunn/Takenaka);
 // FOUR is its classical slice {T,F} — B={T,F}, N={} — so `eval` (FOUR render)
 // and `eval16` are the same machine with two readouts. Gate table:
-//   VINIT emits the seed · FSPLIT δ fans truth-part/falsity-part onto its arms
+//   VINIT emits the seed · δ fans the register's own partition onto its arms:
+//   {T,t}|{F,f} at two arms, {T}|{F}|{t,f} at three
 //   EVALT/EVALF pass-gates (truth/falsity projection) · FFUSE μ joins (union)
 //   AREV the involution T↔F,t↔f · IFIX latches · TANCH reads out
 //   AFWD/CLINK/IMSCRIB/ENGAGR carry. Every gate is ⊆-monotone, so the Kleene
@@ -1528,11 +1535,28 @@ fn prove_tool(rest: &[String]) -> String {
 
 type Val = crate::imasm16_3::Reg16_3;
 
-fn gate_out(tok: Token, x: Val, seed: Val, slot: usize) -> Val {
+/// `fan` is the fork's out-degree, because the cut δ makes depends on how many
+/// arms it has. At two the blocks are the truth cut {T,t} | {F,f}; at three they
+/// are {T} | {F} | {t,f}, the truth cut taken inside the constructive block with
+/// the non-constructive pair held whole. Both are partitions of the four base
+/// values, so μ∘δ = id at either arity, and on the classical slice the second IS
+/// the first: with t and f absent the information arm carries nothing. One
+/// operator, read on whichever carrier the word is using.
+fn gate_out(tok: Token, x: Val, seed: Val, slot: usize, fan: usize) -> Val {
     match tok {
         Token::Vinit => seed,
-        Token::Fsplit => {
-            if slot == 0 { x.truth_part() } else { x.falsity_part() }
+        t if t.is_brancher() => {
+            if fan >= 3 {
+                match slot {
+                    0 => x.constructive_part().truth_part(),
+                    1 => x.constructive_part().falsity_part(),
+                    _ => x.info_part(),
+                }
+            } else if slot == 0 {
+                x.truth_part()
+            } else {
+                x.falsity_part()
+            }
         }
         Token::Evalt => x.truth_part(),
         Token::Evalf => x.falsity_part(),
@@ -1559,10 +1583,11 @@ fn flow_values(g: &Graph, seed: Val) -> (Vec<Val>, Vec<Val>) {
                 }
             }
             node_in[i] = inp;
+            let fan = g.edges.iter().filter(|&&(a, _)| a == i).count();
             let mut slot = 0usize;
             for (eidx, &(a, _b)) in g.edges.iter().enumerate() {
                 if a == i {
-                    let v = gate_out(g.nodes[i], inp, seed, slot);
+                    let v = gate_out(g.nodes[i], inp, seed, slot, fan);
                     if edge_val[eidx] != v {
                         edge_val[eidx] = v;
                         changed = true;
@@ -1632,7 +1657,7 @@ fn eval_tool(rest: &[String], sixteen: bool) -> String {
             .map(|(eidx, _)| render(edge_val[eidx]))
             .collect();
         let shown = if outs.is_empty() {
-            render(gate_out(tok, node_in[i], seed, 0))
+            render(gate_out(tok, node_in[i], seed, 0, 0))
         } else {
             outs.join(",")
         };
@@ -1648,7 +1673,7 @@ fn eval_tool(rest: &[String], sixteen: bool) -> String {
     // readout: sinks (no outgoing edges)
     let sinks: Vec<String> = (0..g.nodes.len())
         .filter(|&i| g.out_degree(i) == 0)
-        .map(|i| format!("{}({})", g.nodes[i].name(), render(gate_out(g.nodes[i], node_in[i], seed, 0))))
+        .map(|i| format!("{}({})", g.nodes[i].name(), render(gate_out(g.nodes[i], node_in[i], seed, 0, 0))))
         .collect();
     if !sinks.is_empty() {
         out.push_str(&format!("  readout at sink(s): {}\n", sinks.join("  ")));
@@ -1813,7 +1838,7 @@ fn chaos_tool(rest: &[String]) -> String {
                 let (id, total) = dyad_signature(&acc, &node_in);
                 let sinks: Vec<String> = (0..acc.nodes.len())
                     .filter(|&i| acc.out_degree(i) == 0)
-                    .map(|i| gate_out(acc.nodes[i], node_in[i], seed, 0).four_name())
+                    .map(|i| gate_out(acc.nodes[i], node_in[i], seed, 0, 0).four_name())
                     .collect();
                 let living: usize = (0..acc.nodes.len())
                     .map(|i| {

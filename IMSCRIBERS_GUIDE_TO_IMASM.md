@@ -31,9 +31,27 @@ alphabet is fully SYMBOLIC (no Latin initials, so no token ever collides with a
 verdict letter). WORK? asks: does the opcode TRANSFORM the object?
 
 The classic core is twelve opcodes; the trilattice face adds the tri-dyad (∈, ∋)
-and the two bit-swap negations, and reads ⊞ as EVALI. Every classic dyad (◇/●)
-is the arity-2 special case of a tri-dyad (∈/∋); same ancestry rule, same close
-condition, same register.
+and the two bit-swap negations, and reads ⊞ as EVALI.
+
+THERE IS ONE DYAD. ◇/● and ∈/∋ are the same operator read on two carriers, not
+two operators. δ cuts the register into a PARTITION, and which partition depends
+on how many arms it has: {T,t} | {F,f} at two, and {T} | {F} | {t,f} at three,
+the truth cut taken inside the constructive block with the non-constructive pair
+held whole. Both are partitions of the four base values, so μ∘δ = id at either
+arity. On the classical slice, where t and f are absent, the three-arm cut IS the
+two-arm cut: the information arm carries nothing, and `⊢∈>+∋⊣` and `⊢◇>+●⊣` flow
+identically, both recovering B. ◇ is to ∈ what FOUR is to SIXTEEN_3, a slice.
+
+The arity is not a choice. ⊞ sets t and f together, so the non-constructive pair
+can only ever be entered as a block, and three is what the gate set leaves. Note
+what this rules out: dropping an arm from ∈ does NOT give ◇, since {T} | {F}
+loses t and f and would not recover its input. The two coincide on the slice, not
+by truncation.
+
+One operator therefore means one ancestry rule, one close condition, one engine.
+A fuse pairs with the fork that ALL of its in-arms trace back to, which at two
+arms is the "two distinct in-arms" rule unchanged and at three is the
+tri-ancestral rule.
 
 ```
  GLYPH NAME      MEANING                                VALENCE   WORK?
@@ -117,10 +135,15 @@ undone by the fuse, HOWEVER IT ROUTED. Consequences:
 - fully_closed means EVERY ◇ and EVERY ● participates in some pair. One dangler
   and the whole program is Open.
 
-The tri-ancestral rule is the arity-3 generalization: a (∈,∋) pair exists when
-ALL THREE distinct in-arms of the ∋ trace back to a common ∈. Same innermost
-rule, same multiplicity rule. Neutral inflation is allowed: `⊢∈⊙⊙⊙∋⊣` is valid
-tri-reconnection with no work, and reads N (identity), the same as `⊢◇⊙⊙⊙●⊣`.
+The rule above is already the general one: ALL the in-arms, however many the
+fuse has. At two that reads "two distinct in-arms" and at three "all three",
+which is why the tri dyad needs no rule of its own. Same innermost rule, same
+multiplicity rule. Neutral inflation is allowed: `⊢∈⊙⊙⊙∋⊣` is valid tri
+reconnection with no work, and reads N (identity), the same as `⊢◇⊙⊙⊙●⊣`.
+
+`protocol` wires as many arms as the fork's arity declares: one along the chain
+and the rest straight across. At arity 2 that is the single empty arm it always
+drew; at arity 3, two.
 
 For a plain strand the stack reading (each ● takes the nearest unfused ◇)
 happens to agree, and such words may be bracketed for READING BY EYE:
@@ -220,8 +243,9 @@ before the gate acts; the value leaving a gate rides every out-edge except where
 
 ```
   VINIT ⊢          emits the seed (default B in the slice, A in full 16_3)
-  FSPLIT ◇         δ fans: truth part x∩{T,t} on arm one, falsity part x∩{F,f} on arm two
-  FSPLIT3 ∈        δ₃ fans into the three constructive/informational projections
+  FSPLIT ◇ / ∈     δ fans the register's own partition onto its arms: at two,
+                   truth part x∩{T,t} and falsity part x∩{F,f}; at three,
+                   x∩{T}, x∩{F}, and the information part x∩{t,f}
   EVALT +          pass-gate: truth part
   EVALF ×          pass-gate: falsity part
   EVALI ⊞ (16_3)   sets the information layer (t and f)
@@ -449,6 +473,7 @@ Canonical words:
 
 ```
   ⊢◇>+●⊣        lossless protocol: closes in shape AND value, recovers B → T
+  ⊢∈>+∋⊣        the same word at arity 3; on the FOUR slice it flows identically
   ⊢◇⊙●⊣         identity: reconnects, no work, μ∘δ=id → N
   ⊢∈⊙⊙⊙∋⊣       tri identity: same reading → N
   ⊢◇⊞>●⊣        closes over work AND holds paradox → B (paradox held)
@@ -469,6 +494,10 @@ Pitfalls, all load-bearing:
 - Treating the classic and trilattice faces as separate languages. They share
   the register, the ancestry rule, the close condition, the flow semantics, and
   the composition law; the differences are arity and the information-layer bits.
+- Expecting T from the tri word `⊢>∈+×⊞≁∋¬⊣` under `imasm check`. ⊞ is ENGAGR to
+  the classic reading and EVALI to the trilattice one, and B beats T, so the
+  classic checker answers B (paradox held) for it. One glyph, two readings: the
+  collision is real and it is the next thing the notation has to settle.
 
 ## Part XIV. The Excription Loop: imasm learn
 

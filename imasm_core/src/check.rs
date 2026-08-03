@@ -99,14 +99,17 @@ impl Graph {
         self.edges.len() as i64 - self.nodes.len() as i64 + self.components() as i64
     }
 
-    /// For each node, which FSPLIT nodes can reach it going forward. `anc_or_self`
-    /// also counts a node that IS an FSPLIT as its own ancestor, so an FSPLIT that
-    /// feeds an FFUSE directly (an empty-branch arm) still counts as that arm.
+    /// For each node, which fork nodes can reach it going forward. `anc_or_self`
+    /// also counts a node that IS a fork as its own ancestor, so a fork that
+    /// feeds a fuse directly (an empty-branch arm) still counts as that arm.
+    ///
+    /// Fork means either spelling: the arity-2 δ and the arity-3 δ are the same
+    /// operator read on two carriers, so ancestry does not distinguish them.
     pub fn fsplit_ancestors(&self) -> Vec<Vec<usize>> {
         let n = self.nodes.len();
         let mut anc = vec![Vec::new(); n];
         for f in 0..n {
-            if self.nodes[f] != Token::Fsplit {
+            if !self.nodes[f].is_brancher() {
                 continue;
             }
             let mut seen = vec![false; n];
@@ -134,16 +137,16 @@ impl Graph {
         let anc = self.fsplit_ancestors();
         let anc_or_self = |node: usize| -> Vec<usize> {
             let mut v = anc[node].clone();
-            if self.nodes[node] == Token::Fsplit && !v.contains(&node) {
+            if self.nodes[node].is_brancher() && !v.contains(&node) {
                 v.push(node);
             }
             v
         };
         let fsplits: Vec<usize> =
-            (0..self.nodes.len()).filter(|&i| self.nodes[i] == Token::Fsplit).collect();
+            (0..self.nodes.len()).filter(|&i| self.nodes[i].is_brancher()).collect();
         let mut pairs = Vec::new();
         for j in 0..self.nodes.len() {
-            if self.nodes[j] != Token::Ffuse {
+            if !self.nodes[j].is_merger() {
                 continue;
             }
             // in-edges WITH multiplicity — an FFUSE fed twice by the same δ (empty
@@ -156,10 +159,16 @@ impl Graph {
             // that actually forked here, reporting Open for a correctly wired program.
             // Pair j with the INNERMOST candidate instead: the one no other candidate
             // descends from. A δ may close more than one μ; a μ closes with exactly one δ.
+            // ALL the in-arms must trace back to the fork, which at the classic
+            // arity is the "two distinct in-arms" rule unchanged and at arity 3 is
+            // the tri-ancestral rule. One threshold, read off the fuse's own
+            // in-degree, so neither arity needs a rule of its own. The floor of 2
+            // keeps a single-fed node from counting as a fuse.
+            let need = in_edges.len().max(2);
             let cands: Vec<usize> = fsplits
                 .iter()
                 .copied()
-                .filter(|&f| in_edges.iter().filter(|&&p| anc_or_self(p).contains(&f)).count() >= 2)
+                .filter(|&f| in_edges.iter().filter(|&&p| anc_or_self(p).contains(&f)).count() >= need)
                 .collect();
             if let Some(&f) = cands
                 .iter()
@@ -168,8 +177,8 @@ impl Graph {
                 pairs.push((f, j));
             }
         }
-        let n_split = self.nodes.iter().filter(|&&t| t == Token::Fsplit).count();
-        let n_fuse = self.nodes.iter().filter(|&&t| t == Token::Ffuse).count();
+        let n_split = self.nodes.iter().filter(|t| t.is_brancher()).count();
+        let n_fuse = self.nodes.iter().filter(|t| t.is_merger()).count();
         let closed_splits: alloc::collections::BTreeSet<usize> = pairs.iter().map(|&(f, _)| f).collect();
         let closed_fuses: alloc::collections::BTreeSet<usize> = pairs.iter().map(|&(_, j)| j).collect();
         let fully = (n_split > 0 || n_fuse > 0)
@@ -219,8 +228,8 @@ impl Graph {
     /// no transformation is Identity (μ∘δ=id, no work). No δ/μ dyad at all is None —
     /// a bare line or cycle is not a closure (β is not diagnostic).
     pub fn closure_state(&self) -> ClosureState {
-        let n_split = self.nodes.iter().filter(|&&t| t == Token::Fsplit).count();
-        let n_fuse = self.nodes.iter().filter(|&&t| t == Token::Ffuse).count();
+        let n_split = self.nodes.iter().filter(|t| t.is_brancher()).count();
+        let n_fuse = self.nodes.iter().filter(|t| t.is_merger()).count();
         if n_split == 0 && n_fuse == 0 {
             return ClosureState::None;
         }
@@ -261,15 +270,15 @@ impl Graph {
             let (ai, ao) = tok.arity();
             let od = self.out_degree(n);
             let idg = self.in_degree(n);
-            if od > 1 && tok != Token::Fsplit {
+            if od > 1 && !tok.is_brancher() {
                 errs.push(format!(
-                    "node {n} ({}) fans out to {od}; only FSPLIT (δ) may branch",
+                    "node {n} ({}) fans out to {od}; only the fork (δ) may branch",
                     tok.name()
                 ));
             }
-            if idg > 1 && tok != Token::Ffuse {
+            if idg > 1 && !tok.is_merger() {
                 errs.push(format!(
-                    "node {n} ({}) merges {idg} in; only FFUSE (μ) may fuse",
+                    "node {n} ({}) merges {idg} in; only the fuse (μ) may fuse",
                     tok.name()
                 ));
             }
@@ -291,9 +300,9 @@ pub fn match_pairs(ops: &[Token]) -> Vec<(usize, usize)> {
     let mut stack = Vec::new();
     let mut pairs = Vec::new();
     for (i, &t) in ops.iter().enumerate() {
-        if t == Token::Fsplit {
+        if t.is_brancher() {
             stack.push(i);
-        } else if t == Token::Ffuse {
+        } else if t.is_merger() {
             if let Some(fs) = stack.pop() {
                 pairs.push((fs, i));
             }
@@ -303,12 +312,20 @@ pub fn match_pairs(ops: &[Token]) -> Vec<(usize, usize)> {
 }
 
 /// The protocol wiring: a chain with every matched δ arm reconnected to its μ.
+///
+/// The chain supplies one arm; the rest are wired straight across, as many as
+/// the fork's own out-arity calls for. At arity 2 that is the single empty arm
+/// this always drew. At arity 3 it is two, so a tri dyad reaches the out-degree
+/// and in-degree its arity declares instead of reading as a half-wired fork.
 pub fn from_sequence(ops: &[Token], pairs: &[(usize, usize)]) -> Graph {
     let mut g = Graph::new();
     let ids = g.chain_of(ops);
     for &(fs, ff) in pairs {
         if fs < ids.len() && ff < ids.len() {
-            g.connect(ids[fs], ids[ff]);
+            let (_, arms) = ops[fs].arity();
+            for _ in 1..arms.max(2) {
+                g.connect(ids[fs], ids[ff]);
+            }
         }
     }
     g

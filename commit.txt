@@ -1,40 +1,51 @@
-k3v: unbreak the scene, then make the panels usable on a phone
+One dyad, at whichever arity the carrier has
 
-The first script block did not parse. Twenty-one material definitions carried
-_igKey: \'torusSurf\' — a backslash-escaped quote in bare code, not inside a
-string — so the whole block was a syntax error and the Three.js scene never
-initialised. Forty-two escapes removed; both inline blocks now parse under
-node --check. Everything below only matters because of this.
+The guide has said for a while that ◇/● is the arity-2 case of ∈/∋, same
+ancestry rule, same close condition, same register. The code did not do that. A
+correctly wired tri dyad came back INVALID out of `imasm wire`, because check.rs
+tested `== Token::Fsplit` literally everywhere, and `imasm protocol ⊢∈+×⊞∋⊣`
+read the word as a bare line with no δ/μ dyad in it. The trilattice face lived in
+a second machine that paired ∈/∋ with a split stack over the word read as a
+cycle, nothing to do with ancestry over edges. Two engines for one grammatical
+object, and the one that ran my words rejected half the alphabet.
 
-Panels. Four of them opened expanded on every load, covered most of the scene,
-and could be neither moved nor shut, though the .collapsed CSS was already there
-with no buttons and no JS behind it. Each panel now has a title bar with a
-collapse button, drags by that bar, starts COLLAPSED, and remembers state and
-position in localStorage. A dock at top-right reopens anything collapsed, so a
-panel cannot be lost off-screen. The body wrapper is display:contents so a panel
-that is itself flex — the colour picker — still lays out its own children.
+What settles it is the register rather than the glyphs. δ cuts the four base
+values into a PARTITION, and which partition depends on how many arms it has:
+{T,t} | {F,f} at two, and {T} | {F} | {t,f} at three, the truth cut taken inside
+the constructive block with the non-constructive pair held whole. Both are
+partitions, so μ∘δ = id at either arity, which is the property the close
+condition is about. And on the classical slice, where t and f are absent, the
+three-arm cut IS the two-arm cut: the information arm carries nothing. ◇ is to ∈
+what FOUR is to SIXTEEN_3. Not two operators, one operator and two carriers.
 
-Glyph bank. The page could render any of ~110 named programs and offered no way
-to enter a word. The twelve opcodes are now keys; the word they build is
-registered as a program and drawn through the same rebuildProgram path
-everything else uses, so it is not a second rendering route that could drift.
-Work tokens carry a thicker border.
+Worth being exact about what that does not say, because the loose version is
+wrong in a way that matters: dropping an arm from ∈ does not give ◇. {T} | {F}
+loses t and f and would not recover its input. They coincide on the slice, not by
+truncation. The arity is not a choice either. ⊞ sets t and f together, so the
+non-constructive pair can only ever be entered as a block, and three is what the
+gate set leaves standing.
 
-Colour. Thirty-one legend swatches were frozen inline hex, so changing a scene
-palette recoloured the torus and left the legend asserting the old colour —
-"blue WORK" beside a station that is no longer blue. Each now carries data-pal
-naming the palette key it describes and is repainted from the same merged
-palette the scene consumes.
+So the engine is arity-generic now. Fork and fuse are predicates over both
+spellings; ancestry pairs a fuse with the fork ALL of its in-arms trace back to,
+which reads as the old two-distinct-in-arms rule at two and as the tri-ancestral
+rule at three, one threshold taken off the fuse's own in-degree; `protocol` wires
+as many arms as the fork's arity declares, one along the chain and the rest
+straight across; and the split gate takes the fan-out, so it fans the right
+partition for the arity it actually has.
 
-Mobile. Panels go full-width and stack, touch targets reach 40-44px, and panel
-dragging is disabled on coarse pointers, where it would compete with the orbit
-control for the same gesture.
+Measured, not argued. `⊢∈>+∋⊣` on the FOUR slice fans to T, F, N and the fuse
+recovers B, flowing identically to `⊢◇>+●⊣`. The same word seeded A in SIXTEEN_3
+fans to T, F, tf and recovers A. Both report id, lossless split-fuse. The
+canonical words are unmoved: `⊢◇>+●⊣` T, `⊢◇⊙●⊣` N identity, `⊢◇⊞>●⊣` B paradox
+held. `⊢∈⊙⊙⊙∋⊣` now reads N (identity) rather than N (no fork), which is the same
+letter for the right reason.
 
-Glyphs. Nine visible ∈/∋ corrections in the legend and the displayed word, which
-had shown the older ◇/● while the token table used the canonical pair — the
-reason a specialist reported the word as ⊢⊙◇+¬+=⊞×<∋⊣. The 2344 occurrences in
-script comments and in CATALOG_WORDS data are deliberately untouched: they are
-not user-visible and replacing them would bury this diff.
+One collision surfaced by putting both dyads in front of one checker, and it is
+not fixed here: ⊞ is ENGAGR to the classic reading and EVALI to the trilattice
+one. B beats T, so the classic checker answers B (paradox held) for the guide's
+tri example `⊢>∈+×⊞≁∋¬⊣`, which the trilattice face calls T. One glyph, two
+readings. That is the next thing the notation has to settle.
 
-Not verified visually. Checks run are HTML tag balance, unique ids, both script
-blocks parsing, and the counts above.
+The glyphs themselves are untouched on purpose. Every stored word and all 49 type
+programs are written in ◇ ●, and the spelling belongs to the notation pass, not
+to this one.

@@ -101,6 +101,25 @@ impl Token {
         )
     }
 
+    /// Is this the fork (δ)? Both spellings are the same operator.
+    ///
+    /// FSPLIT cuts the register along the truth axis, {T,t} | {F,f}. FSPLIT3 cuts
+    /// it into {T} | {F} | {t,f}. Both are partitions of the four base values, so
+    /// μ∘δ = id holds at either arity, and on the classical slice, where t and f
+    /// are absent, the second is the first: the information arm carries nothing
+    /// and {T} | {F} | {} is the truth cut. One operator on two carriers, the way
+    /// FOUR is SIXTEEN_3's classical slice, so one ancestry rule and one close
+    /// condition answer for both.
+    pub fn is_brancher(self) -> bool {
+        matches!(self, Token::Fsplit | Token::Fsplit3)
+    }
+
+    /// Is this the fuse (μ)? Both spellings join by union over however many arms
+    /// arrive, which is why the fuse side never needed two operators at all.
+    pub fn is_merger(self) -> bool {
+        matches!(self, Token::Ffuse | Token::Ffuse3)
+    }
+
     /// (arity_in, arity_out) — the max ports the opcode may carry.
     pub fn arity(self) -> (usize, usize) {
         match self {
