@@ -246,7 +246,7 @@ The autobiography IS the path — a 15-year structural search through the crysta
 
 ### The Six Catalog Entries
 
-| Entry | Tier | C-score | < | φ̂ | Key |
+| Entry | Tier | C-score | < | ⊙ | Key |
 |-------|------|---------|---|----|-----|
 | `book_of_abramelin` (Mathers, Book I only) | $\text{O}_{1}$ | 0.225 | $𐑬$ | $𐑮$ | Book as narrative — open, cannot close |
 | `magic_squares` (Mathers, corrupted) | $\text{O}_{2}$ | 0.000 | $𐑬$ | $⊙$ | Squares as abstract symbols — too fast for consciousness |
