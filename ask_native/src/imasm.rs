@@ -545,6 +545,9 @@ not fatal. The shape is named by circuit rank β = E−V+C
                                       program its twelve types compose to. Deterministic,
                                       no model asked. This is what lets the loop start
                                       from a catalog NAME
+  imasm write tuple=⟨…⟩              THE FORWARD LEG: the word twelve types
+                                      compose to. Takes the tuple in any notation
+                                      this system prints. Inverse of `derive`
   imasm derive word=<WORD>           THE PROCEDURAL DERIVER: read a word back into
                                       its twelve types so a tuple is never guessed.
                                       Reports ambiguity and does NOT pick — the 49
@@ -1087,6 +1090,67 @@ fn diff_types(rest: &[String]) -> String {
 ///
 /// The tuple it prints goes through `imscribe_system` like any other, so every
 /// gate the main path enforces still applies. This derives; it does not admit.
+/// THE FORWARD LEG: twelve primitive types in, the IMASM word they compose to.
+///
+/// `derive` is μ, reading a word back into the types that wrote it. This is δ,
+/// the leg that writes them. Both were in the round-trip check and neither was
+/// reachable on its own, so a specialist holding a tuple had no way to obtain
+/// its program without going through the whole catalog wordbook.
+///
+/// The tuple is accepted in any notation this system prints: bare glyphs,
+/// angle-wrapped, middot-separated, semicolons, or PRIM=value. Refusing to read
+/// back what we print is a bug we have already paid for once.
+fn write_verb(rest: &[String]) -> String {
+    let Some(raw) = rest.iter().find_map(|a| a.strip_prefix("tuple=")) else {
+        return "imasm write tuple=⟨…⟩  — the word twelve types compose to.\n                The inverse of `imasm derive`; deterministic, no model asked.\n"
+            .to_string();
+    };
+    let body = raw.trim_matches(|c| c == '⟨' || c == '⟩');
+    // any separator this system prints, or none at all
+    let stripped: String = body
+        .chars()
+        .filter(|c| !c.is_whitespace() && *c != ';' && *c != ',' && *c != '·')
+        .collect();
+    let tuple: Vec<String> = if stripped.chars().count() == 12 {
+        stripped.chars().map(|c| c.to_string()).collect()
+    } else {
+        body.split(|c: char| c == ';' || c == ',' || c == '·' || c.is_whitespace())
+            .filter(|p| !p.is_empty())
+            .map(|p| {
+                // tolerate PRIM=value
+                match p.split_once('=') {
+                    Some((lhs, rhs)) if TUPLE_ORDER.contains(&lhs.trim()) => rhs.trim().to_string(),
+                    _ => p.trim().to_string(),
+                }
+            })
+            .collect()
+    };
+    if tuple.len() != 12 {
+        return format!(
+            "imasm write: a tuple is twelve values; this reads as {}.\n",
+            tuple.len()
+        );
+    }
+    let word = match tuple_glyph_word(&tuple) {
+        Ok(w) => w,
+        Err(e) => return format!("imasm write: {e}\n"),
+    };
+    let mut out = String::new();
+    let _ = writeln!(out, "IMASM write — the twelve types composed into their word.\n");
+    for (i, g) in tuple.iter().enumerate() {
+        let ax = TUPLE_ORDER[i];
+        let name = type_name_for_glyph(g).unwrap_or("?");
+        let _ = writeln!(out, "  {ax}  {g}  {name}");
+    }
+    let _ = writeln!(out, "\n{word}\n");
+    let _ = writeln!(
+        out,
+        "{} opcodes. `imasm derive word=…` reads it back.",
+        word.chars().count()
+    );
+    out
+}
+
 fn derive_verb(rest: &[String]) -> String {
     let Some(word) = rest.iter().find_map(|a| a.strip_prefix("word=")) else {
         return "imasm derive word=<IMASM word>  — read a word back into its twelve types.\nThe tuple it prints is still subject to every imscribe_system gate.\n"
@@ -2211,6 +2275,7 @@ pub fn run(args: &[String]) -> String {
         "path" | "promote" => crate::learn::path(rest),
         "cycle" => cycle_verb(rest),
         "derive" => derive_verb(rest),
+        "write" | "compose_word" => write_verb(rest),
         "words" | "wordbook" => words_verb(rest),
         "compose" | "bind" => compose_tool(rest),
         "chaos" | "space" => chaos_tool(rest),
