@@ -1331,14 +1331,34 @@ fn env_first(keys: &[&str]) -> Option<String> {
 /// more cycles is pointless: every call fails identically (out of credits / bad key),
 /// unlike a transient network blip. The cycle loop aborts on this instead of grinding all
 /// 40 cycles printing the same error.
+/// OpenRouter models that bill nothing. Ordered by capability, largest context first, so the
+/// free lane opens on the strongest door available rather than the first one listed. These are
+/// reachable with the same key that returns 402 on a paid model, which is the whole point: a
+/// spent balance closes the paid lane, not the account.
+///
+/// Refresh with:
+///   curl -s https://openrouter.ai/api/v1/models | jq -r '.data[]|select(.id|endswith(":free"))|"\(.context_length) \(.id)"' | sort -rn
+const FREE_MODELS: &[&str] = &[
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "nvidia/nemotron-3-super-120b-a12b:free",
+    "inclusionai/ling-3.0-flash:free",
+    "google/gemma-4-31b-it:free",
+    "openai/gpt-oss-20b:free",
+];
+
+/// Set once the free lane has answered; every later call goes straight to it.
+static FREE_LANE: std::sync::OnceLock<String> = std::sync::OnceLock::new();
+
 fn is_fatal_llm_error(e: &str) -> bool {
     let low = e.to_lowercase();
     low.contains("status code 400")
         || low.contains("status code 401")
         || low.contains("status code 402")
         || low.contains("status code 403")
+        || low.contains("status code 429")
         || low.contains("invalid api key")
         || low.contains("insufficient")
+        || low.contains("quota")
 }
 
 fn parse_provider(s: &str) -> Option<Provider> {
@@ -1476,6 +1496,20 @@ fn infer(
     // alternate instead of re-hitting the broke provider (and burning a 402) each round. Only
     // an inferred provider is ever cached here; a pinned `--provider` is left exactly as set.
     static DEMOTED: std::sync::OnceLock<Provider> = std::sync::OnceLock::new();
+    // Once the free lane has answered, every later call goes straight there. Without this the
+    // next round re-hits the broke door, burns another 402, and pays the latency again.
+    if let Some(free_model) = FREE_LANE.get() {
+        if llm.model != *free_model {
+            let free_llm = build_llm(Provider::OpenRouter, Some(free_model), llm.think, true);
+            if let Some(free_key) = free_llm.api_key.clone() {
+                export_ig_env(&free_llm);
+                let mut r =
+                    infer_openrouter(&free_llm, &free_key, messages, max_tokens, temperature);
+                r.text = collapse_degenerate(&r.text);
+                return r;
+            }
+        }
+    }
     let demoted_llm = (!llm.explicit_provider)
         .then(|| DEMOTED.get().copied())
         .flatten()
@@ -1536,6 +1570,36 @@ fn infer(
     // key sits unused (the live 402 that blocked imscribe). Try each other funded provider on
     // its OWN default model; the first non-fatal result wins and is cached so no later call
     // re-hits the broke one. A pinned `--provider` never demotes.
+    // The free lane comes FIRST, and it fires even on a pinned provider. Walking the provider
+    // ladder only helps when some other key is funded; when every key is out (the live case:
+    // openrouter 402, deepseek 402, gemini 429) the ladder demotes to a second broke door and
+    // the run closes at N with a provider CUT, having never reasoned. OpenRouter's `:free`
+    // models bill nothing, so the SAME key that just returned 402 still reaches them. A cut is
+    // not a verdict, and there is no reason to take one while a reachable door remains.
+    if res.err.as_deref().map(is_fatal_llm_error).unwrap_or(false)
+        && !llm.model.ends_with(":free")
+        && provider_has_key(Provider::OpenRouter)
+    {
+        for free_model in FREE_MODELS {
+            let free_llm = build_llm(Provider::OpenRouter, Some(free_model), llm.think, true);
+            let Some(free_key) = free_llm.api_key.clone() else { break };
+            eprintln!(
+                "[ask] {:?}/{} failed fatally ({}); taking the free lane at {}",
+                llm.provider,
+                llm.model,
+                res.err.as_deref().unwrap_or("").trim(),
+                free_model
+            );
+            let mut free_res =
+                infer_openrouter(&free_llm, &free_key, messages, max_tokens, temperature);
+            if !free_res.err.as_deref().map(is_fatal_llm_error).unwrap_or(false) {
+                let _ = FREE_LANE.set(free_model.to_string());
+                export_ig_env(&free_llm);
+                free_res.text = collapse_degenerate(&free_res.text);
+                return free_res;
+            }
+        }
+    }
     if !llm.explicit_provider
         && res.err.as_deref().map(is_fatal_llm_error).unwrap_or(false)
     {

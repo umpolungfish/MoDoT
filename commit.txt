@@ -1,14 +1,22 @@
-The tuple keys move, and the type lookup finds its own ob3ects again
+Take the free lane when every paid door is shut
 
-`TUPLE_ORDER` in imasm.rs and `PRIM_KEYS` in main.rs are the two places this tool
-indexes a catalog entry by axis, and both are on the new primitive alphabet. The
-parse of the ⟨…⟩ notation is positional and unaffected; values did not move.
+The provider ladder only helps when some other key is funded. When all of them
+are out — openrouter 402, deepseek 402, gemini 429, which is the live state —
+it demotes to a second broke door, and the run closes at N with a provider CUT
+having never reasoned. A cut refutes nothing, so taking one while a reachable
+door remains is pure loss.
 
-Found while checking the round trip: `expand_type` looked for the 49 primitive
-type ob3ects under ~/imsgct/MoDoT/ob3ects, a directory that stopped existing when
-MoDoT became 2m3iosis, so every `imasm expand` and every `imasm cycle` answered
-"type not found" for all 49 rather than saying the root was gone. The tree's own
-path is tried first now, with the old ones kept behind it.
+OpenRouter's `:free` models bill nothing and answer to the same key that just
+returned 402: a spent balance closes the paid lane, not the account. So the free
+lane is tried FIRST on a fatal error, ahead of the provider ladder, and unlike
+the ladder it fires on a pinned provider too, because pinning a provider is a
+choice about which provider, not a preference for silence over an answer.
 
-With that fixed the round trip runs: `imasm cycle tuple=⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩`
-recovers 12 of 12 axes exactly, the monad among them.
+FREE_MODELS is ordered strongest first, largest context first, and carries the
+curl that regenerates it. FREE_LANE caches the model that answered so later
+rounds go straight there instead of re-hitting the broke door and paying the
+402 and the latency again.
+
+429 and "quota" now read as fatal. They were not, so an exhausted Gemini key
+returned a rate-limit error that no retry against the same door could clear, and
+the run sat there instead of routing around it.
