@@ -1089,7 +1089,7 @@ fn diff_types(rest: &[String]) -> String {
 /// gate the main path enforces still applies. This derives; it does not admit.
 fn derive_verb(rest: &[String]) -> String {
     let Some(word) = rest.iter().find_map(|a| a.strip_prefix("word=")) else {
-        return "imasm derive word=<IMASM word>  — read a word back into its twelve types.\n                The tuple it prints is still subject to every imscribe_system gate.\n"
+        return "imasm derive word=<IMASM word>  — read a word back into its twelve types.\nThe tuple it prints is still subject to every imscribe_system gate.\n"
             .to_string();
     };
     let word = word.trim_matches(|c| c == '⟨' || c == '⟩');
