@@ -545,6 +545,13 @@ not fatal. The shape is named by circuit rank β = E−V+C
                                       program its twelve types compose to. Deterministic,
                                       no model asked. This is what lets the loop start
                                       from a catalog NAME
+  imasm derive word=<WORD>           THE PROCEDURAL DERIVER: read a word back into
+                                      its twelve types so a tuple is never guessed.
+                                      Reports ambiguity and does NOT pick — the 49
+                                      types emit 47 programs, and ear/tot collide on
+                                      the same axis. The tuple still goes through
+                                      every imscribe_system gate; this derives, it
+                                      does not admit
   imasm learn <word|entry>           the excription/imscription loop: excribe a word
              [rounds=N] [breadth=K]    into an object, imscribe the object back, and
                                       measure the residual of μ∘δ on the model itself.
@@ -1068,6 +1075,63 @@ fn diff_types(rest: &[String]) -> String {
     out
 }
 
+
+/// THE PROCEDURAL DERIVER: an IMASM word in, the twelve primitive types out.
+///
+/// This is the return leg on its own, exposed so a tuple never has to be
+/// guessed. The word is the object's program; the tuple is read off it, not
+/// chosen. Where the read is ambiguous the verb says so and does NOT pick: the
+/// 49 types emit 47 distinct programs, and `ear`/`tot` collide on the same axis,
+/// so a > segment reading as that program has two genuine pre-images. Choosing
+/// one would be hand-imscribing with extra steps.
+///
+/// The tuple it prints goes through `imscribe_system` like any other, so every
+/// gate the main path enforces still applies. This derives; it does not admit.
+fn derive_verb(rest: &[String]) -> String {
+    let Some(word) = rest.iter().find_map(|a| a.strip_prefix("word=")) else {
+        return "imasm derive word=<IMASM word>  — read a word back into its twelve types.\n                The tuple it prints is still subject to every imscribe_system gate.\n"
+            .to_string();
+    };
+    let word = word.trim_matches(|c| c == '⟨' || c == '⟩');
+    let read = match tuple_from_word(word) {
+        Ok(r) => r,
+        Err(e) => return format!("imasm derive: {e}\n"),
+    };
+    let mut out = String::new();
+    let _ = writeln!(out, "IMASM derive — the word read back into the types that wrote it.\n");
+    let mut glyphs: Vec<String> = Vec::new();
+    let mut ambiguous: Vec<String> = Vec::new();
+    for (i, hits) in read.iter().enumerate() {
+        let ax = TUPLE_ORDER[i];
+        let names: Vec<&str> = hits.iter().map(|g| type_name_for_glyph(g).unwrap_or("?")).collect();
+        if hits.len() == 1 {
+            let _ = writeln!(out, "  {ax}  {}  {}", hits[0], names[0]);
+            glyphs.push(hits[0].clone());
+        } else {
+            let _ = writeln!(out, "  {ax}  ambiguous: {}", names.join(" or "));
+            ambiguous.push(format!("{ax}"));
+            glyphs.push("?".to_string());
+        }
+    }
+    if ambiguous.is_empty() {
+        let _ = writeln!(out, "\n⟨{}⟩", glyphs.concat());
+        let _ = writeln!(
+            out,
+            "\nDerived, not chosen. Pass it to imscribe_system to be gated."
+        );
+    } else {
+        let _ = writeln!(
+            out,
+            "\nNOT derivable to a single tuple: {} axis/axes have more than one pre-image.",
+            ambiguous.len()
+        );
+        let _ = writeln!(
+            out,
+            "The word does not determine those axes. Resolve them from the object, \n             not from this reading — picking one here would be hand-imscribing."
+        );
+    }
+    out
+}
 
 fn cycle_verb(rest: &[String]) -> String {
     // `tuple=⟨…⟩` runs the cycle on ONE tuple, catalog entry or not: the way to
@@ -2146,6 +2210,7 @@ pub fn run(args: &[String]) -> String {
         "learn" | "study" => crate::learn::run(rest),
         "path" | "promote" => crate::learn::path(rest),
         "cycle" => cycle_verb(rest),
+        "derive" => derive_verb(rest),
         "words" | "wordbook" => words_verb(rest),
         "compose" | "bind" => compose_tool(rest),
         "chaos" | "space" => chaos_tool(rest),
