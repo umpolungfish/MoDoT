@@ -1,22 +1,20 @@
-Take the free lane when every paid door is shut
+Local inference on the GPU, and ob3ects in the legal glyph alphabet
 
-The provider ladder only helps when some other key is funded. When all of them
-are out — openrouter 402, deepseek 402, gemini 429, which is the live state —
-it demotes to a second broke door, and the run closes at N with a provider CUT
-having never reasoned. A cut refutes nothing, so taking one while a reachable
-door remains is pure loss.
+Two faults in the --ob3ect / --provider local path.
 
-OpenRouter's `:free` models bill nothing and answer to the same key that just
-returned 402: a spent balance closes the paid lane, not the account. So the free
-lane is tried FIRST on a fatal error, ahead of the provider ladder, and unlike
-the ladder it fires on a pinned provider too, because pinning a provider is a
-choice about which provider, not a preference for silence over an answer.
+GPU. The local candle provider fell to CPU because the binary was built without
+the cuda feature and CUDA_VISIBLE_DEVICES was empty, which hides every card. The
+binary is rebuilt --features local,cuda for the RTX 3060 (sm_86), and the ask
+wrapper now sets the cuda runtime on the loader path and pins the 3060 — under
+PCI_BUS_ID the 2080 SUPER (sm_75) is index 0 and the 3060 index 1, and exposing
+only the sm_86 card means any device the binary selects is the right one. The
+auto-rebuild branch now carries --features local,cuda so a missing binary
+rebuilds with GPU instead of silently dropping it. Local runs at ~29 tok/s.
 
-FREE_MODELS is ordered strongest first, largest context first, and carries the
-curl that regenerates it. FREE_LANE caches the model that answered so later
-rounds go straight there instead of re-hitting the broke door and paying the
-402 and the latency again.
-
-429 and "quota" now read as fatal. They were not, so an exhausted Gemini key
-returned a rate-limit error that no retry against the same door could clear, and
-the run sat there instead of routing around it.
+Glyphs. The ob3ect design path emitted text opcode names (VINIT, FSPLIT) and its
+reference prompt still showed the retired forms ◇ ● + × ¬ =. opcode_glyph maps
+each name to its legal glyph (⊢ ⊣ > < ⋈ ⊙ ∈ ∋ ⊤ ⊥ ⊞ ◻); phase_1 entries, the
+sequence steps, and a glyph word now carry symbols. The reference prompt shows
+the legal glyphs, and the step parser reads ∈ ∋ ⊤ ⊥ ◻ ⋈ alongside the old forms
+so stored words still load. A regenerated cuboid ob3ect renders ⊢∈⊤<⋈∋⊞◻ with
+zero retired glyphs.

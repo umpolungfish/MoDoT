@@ -20,6 +20,19 @@ const OPCODES: [&str; 12] = [
     "ENGAGR", "IFIX",
 ];
 
+/// The legal 12-glyph alphabet — the primitive glyphs of the Grammar, one per
+/// axis (⊢ ⊣ > < ⋈ ⊙ ∈ ∋ ⊤ ⊥ ⊞ ◻). The small local model writes opcode NAMES;
+/// this maps a name to its glyph so the persisted ob3ect carries symbols, not
+/// text. The retired forms ◇ ● + × ¬ = do not appear.
+pub fn opcode_glyph(name: &str) -> &'static str {
+    match name {
+        "VINIT" => "⊢", "TANCH" => "⊣", "AFWD" => ">", "AREV" => "<",
+        "CLINK" => "⋈", "IMSCRIB" => "⊙", "FSPLIT" => "∈", "FFUSE" => "∋",
+        "EVALT" => "⊤", "EVALF" => "⊥", "ENGAGR" => "⊞", "IFIX" => "◻",
+        _ => "?",
+    }
+}
+
 const OPCODE_REF: &str = r#"IMASM 12-OPCODE REFERENCE (Universal Imscriptive Grammar)
 
 LOGICAL (6) — categorical skeleton:
@@ -27,17 +40,17 @@ LOGICAL (6) — categorical skeleton:
   TANCH   (⊣) — Terminal anchor. The closed boundary that contains the whole system.
   AFWD    (>) — Forward morphism. Directed transformation toward a target.
   AREV    (<) — Contravariant. Reverse / descent transformation.
-  CLINK   (=) — Composition. Sequential chaining of morphisms.
+  CLINK   (⋈) — Composition. Sequential chaining of morphisms.
   IMSCRIB (⊙) — Identity. Self-reference, self-recognition. The element is itself. NEUTRAL: does not transform.
 FROBENIUS (2) — the core algebra, μ∘δ = id:
-  FSPLIT  (◇) — Co-multiplication δ. One thing branches into two or more distinct paths.
-  FFUSE   (●) — Multiplication μ. Branches reconstitute the original input exactly. FFUSE(FSPLIT(x)) = x MUST hold.
+  FSPLIT  (∈) — Co-multiplication δ. One thing branches into two or more distinct paths.
+  FFUSE   (∋) — Multiplication μ. Branches reconstitute the original input exactly. FFUSE(FSPLIT(x)) = x MUST hold.
 DIALETHEIA (3) — paraconsistent truth lattice:
-  EVALT   (+) — True/affirmative branch.
-  EVALF   (×) — False/negative branch.
+  EVALT   (⊤) — True/affirmative branch.
+  EVALF   (⊥) — False/negative branch.
   ENGAGR  (⊞) — Both simultaneously. A paradice, held without resolution.
 LINEAR (1) — irreversible fixation:
-  IFIX    (¬) — ROM fixation. Permanent, append-only, cannot be undone.
+  IFIX    (◻) — ROM fixation. Permanent, append-only, cannot be undone.
 
 Only FSPLIT may branch and only FFUSE may fuse. IMSCRIB is neutral: inserting it anywhere leaves the
 verdict untouched. A closure is REAL only when a transforming token (> < = + × ⊞ ¬) does work on an
@@ -183,14 +196,14 @@ fn parse_step(step: &str) -> Option<(String, String)> {
             '⊣' => Some("TANCH".into()),
             '>' => Some("AFWD".into()),
             '<' => Some("AREV".into()),
-            '=' => Some("CLINK".into()),
             '⊙' => Some("IMSCRIB".into()),
-            '◇' => Some("FSPLIT".into()),
-            '●' => Some("FFUSE".into()),
-            '+' => Some("EVALT".into()),
-            '×' => Some("EVALF".into()),
+            '⋈' | '=' => Some("CLINK".into()),
+            '∈' | '◇' => Some("FSPLIT".into()),
+            '∋' | '●' => Some("FFUSE".into()),
+            '⊤' | '+' => Some("EVALT".into()),
+            '⊥' | '×' => Some("EVALF".into()),
             '⊞' => Some("ENGAGR".into()),
-            '¬' => Some("IFIX".into()),
+            '◻' | '¬' => Some("IFIX".into()),
             _ => None,
         }
     })?;
@@ -388,6 +401,7 @@ pub fn generate(
             op.to_string(),
             json!({
                 "opcode": op,
+                "glyph": opcode_glyph(op),
                 "chosen_element": s(&od, "element"),
                 "justification": s(&od, "justification"),
                 "rejected_candidates": [],
@@ -402,7 +416,7 @@ pub fn generate(
     for (i, item) in seq.iter().enumerate() {
         let Some(line) = item.as_str() else { continue };
         let Some((op, action)) = parse_step(line) else { continue };
-        steps.push(json!({"step_num": i + 1, "opcode": op, "domain_action": action}));
+        steps.push(json!({"step_num": i + 1, "opcode": op, "glyph": opcode_glyph(&op), "domain_action": action}));
         ops.push(op);
     }
     let verdict = {

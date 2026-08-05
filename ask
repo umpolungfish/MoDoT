@@ -5,9 +5,24 @@
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 BIN="$HERE/ask_native/target/release/ask"
+
+# ── GPU for the in-process local provider (candle) ────────────────────────────
+# The local model runs on the RTX 3060 (compute 8.6), which the binary's cuda
+# kernels are built for. Two things have to hold or candle falls back to CPU:
+#   • the cuda runtime is on the loader path,
+#   • the 3060 is the selected device. Under PCI_BUS_ID order the 2080 SUPER
+#     (sm_75) is index 0 and the 3060 (sm_86) is index 1; an EMPTY
+#     CUDA_VISIBLE_DEVICES hides every card, which is the CPU-fallback trap.
+# These are defaults: an explicit value in the environment wins.
+export CUDA_DEVICE_ORDER="${CUDA_DEVICE_ORDER:-PCI_BUS_ID}"
+if [[ -z "${CUDA_VISIBLE_DEVICES:-}" ]]; then export CUDA_VISIBLE_DEVICES=1; fi
+export CUDA_COMPUTE_CAP="${CUDA_COMPUTE_CAP:-86}"
+export LD_LIBRARY_PATH="/usr/local/cuda-12.4/lib64:${LD_LIBRARY_PATH:-}"
+
 if [[ ! -x "$BIN" ]]; then
-  echo "[ask] building native binary…" >&2
-  cargo build --release --manifest-path "$HERE/ask_native/Cargo.toml"
+  echo "[ask] building native binary (with local,cuda so GPU inference survives)…" >&2
+  CUDA_COMPUTE_CAP=86 cargo build --release --features local,cuda \
+    --manifest-path "$HERE/ask_native/Cargo.toml"
 fi
 # Catalog: prefer the canonical imscribing_grammar/IG_catalog.json (the one
 # source of truth); mOMonadOS/IG_catalog.json is a stale, smaller, unsynced
