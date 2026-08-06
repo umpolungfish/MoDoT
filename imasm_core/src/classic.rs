@@ -53,9 +53,10 @@ impl Token {
     /// ⊞ the Belnap Both it holds, and the dyad is ∈ / ∋, membership in and out.
     /// The set is also the twelve-primitive alphabet: one glyph per axis, the same
     /// twelve, because the opcodes and the axes were always the same twelve.
-    /// The earlier spellings ◇ ● = + × ¬ still parse, so a stored word loads; what
-    /// the tools print is this set. Retired and no longer parsing: the letter
-    /// codes V/T/B, and ← for IMSCRIB. Full names and the short forms VI/TA/EG/IM still do.
+    /// Nothing outside the twelve parses. The earlier spellings ◇ ● = ═ + × ¬ ~ ≁,
+    /// the letter codes V/T/B, and ← for IMSCRIB are not tokens and are aliased to
+    /// nothing: a word containing one reads that mark as empty. Full names and the
+    /// short forms VI/TA/EG/IM still do parse — they spell a live opcode, not a dead one.
     /// IMSCRIB is ⊙ for a reason, not by availability: imscribing is the very act of
     /// INCLOSURE — the monadic operation itself — hence self-referential, and so referenced
     /// self-referentially. The glyph is a boundary drawn around its own centre, denoting the
