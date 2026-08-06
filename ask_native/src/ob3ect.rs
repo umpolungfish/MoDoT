@@ -558,7 +558,7 @@ pub fn generate(
         slug
     );
 
-    if let Ok(output) = std::process::Command::new("python3")
+    if let Ok(_output) = std::process::Command::new("python3")
         .arg("-c")
         .arg(&py_cmd)
         .output()
