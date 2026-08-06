@@ -70,9 +70,15 @@ tri-ancestral rule.
   ⊥   EVALF     evaluate FALSE arm / set F              1→1        YES
   ⊞   ENGAGR/EVALI  hold paradox (classic) / set t,f    1→1        YES
   ◻   IFIX      irreversible commit / fix               1→1        YES
-  ~   TNEG      AREV on the constructive layer: T ↔ F   1→1        YES  (16_3 only)
-  ≁   INEG      AREV on the information layer: t ↔ f    1→1        YES  (16_3 only)
 ```
+
+TWELVE opcodes, no more. The set is `⊣⊢<>⊙∈∋⊤⊥⋈⊞◻`, and ROTAT `↺/↻` (the cyclic
+shift, below) is the op-opcode that acts ON a word, not a thirteenth letter in it.
+There is no `~`/`≁`: the marks once written TNEG and INEG were never independent
+opcodes, only the two-layer factorization of AREV `<` (T↔F on the constructive
+layer, t↔f on the information layer), and `<` already carries the whole reverse
+morphism by itself. They are RETIRED — `◻` IFIX replaces them — so a stored word
+using `~` or `≁` parses to `◻` and the tools only ever print the twelve.
 
 The WORK? column is the most-missed rule: ⊢ ⊣ ⊙ ∈ ∋ ∈ ∋ do NOT transform. An
 arm carrying only ⊙ (or nothing) is an identity arm, and a closure over identity
@@ -84,7 +90,9 @@ VI TA AF AR CL IM FS FF ET EF EG IX and the aliases δ μ ═ for ∈ ∋ =.
 
 RETIRED: the letter codes V/T/B and ← (the old IMSCRIB) no longer parse. A word
 using a retired code reads as empty and reports N (void). Brackets [ ] are never
-input; they parse to nothing and yield N (void).
+input; they parse to nothing and yield N (void). The negation marks `~` (TNEG) and
+`≁` (INEG) are also retired: `◻` IFIX replaces them, so they parse to `◻` and are
+never printed as opcodes.
 
 Glyph provenance: the alphabet is chosen against a single rule, that a mark must
 not arrive already meaning something else. VINIT ⊢ and TANCH ⊣ are the opening
@@ -93,10 +101,10 @@ evaluate; the dyad is ∈ and ∋, membership out of one and into one; CLINK ⋈
 join; IFIX ◻ is the box that closes; ENGAGR ⊞ is the Belnap Both it holds; and
 IMSCRIB is ⊙ because imscribing IS INCLOSURE, the monadic operation itself, hence
 self-referential and referenced self-referentially: a boundary around its own
-centre, denoting the act of denoting. The retired spellings ◇ ● = + × ¬ carried
-arithmetic and equality into a language that has neither, which is what the set
-was changed to stop. They still parse, so a stored word loads; what the tools
-print is this set.
+centre, denoting the act of denoting. The retired spellings ◇ ● = + × ¬ ~ ≁
+carried arithmetic, equality, and layer-negation into a language that has none of
+them, which is what the set was changed to stop; ◻ IFIX replaces ~ ≁. They still
+parse, so a stored word loads; what the tools print is this set of twelve.
 
 The same twelve are the primitive alphabet, one glyph per axis in slot order:
 ⊢ Dimensionality, ⊣ Topology, > Relational, < Polarity, ⋈ Fidelity, ⊙ Kinetics,
@@ -238,13 +246,13 @@ Three orderings, each with a meet/join (`imasm16_3 algebra <op> A B`):
   ≤_c constructivity  x∩{T,F} ⊆ y∩{T,F}  and  y∩{t,f} ⊆ x∩{t,f}        △/▽
 ```
 
-Flow uses ≤_i: shuttling only ever moves values up the information order.
-TNEG/INEG are both bit-SWAPS (not flips) on purpose: the paper requires
-trilattice negation to preserve ≤_i exactly, and swapping two bits preserves
-|x|; a flip would not. Neither is an independent operator. `⊢~≁⊣` and `⊢≁~⊣` and
-`⊢<⊣` all carry Tf to Ft, and on the classical slice `⊢~⊣` and `⊢<⊣` both carry T
-to F while `⊢≁⊣` leaves it alone. The reverse morphism is the pair of them, which
-is why the twelve-opcode core needs no room for either.
+Flow uses ≤_i: shuttling only ever moves values up the information order. AREV `<`
+is the trilattice negation, and it factors into two bit-SWAPS (not flips), one per
+layer: the paper requires negation to preserve ≤_i exactly, and swapping two bits
+preserves |x| where a flip would not. Those factors are not independent operators —
+`<` alone carries Tf to Ft, and on the classical slice `<` carries T to F by
+itself. The retired marks ~ ≁ once spelled the two factors; the twelve-opcode core
+needs no room for either, and ◻ IFIX replaces them.
 
 ### The gates
 
@@ -261,11 +269,11 @@ before the gate acts; the value leaving a gate rides every out-edge except where
   EVALF ⊥          pass-gate: falsity part
   EVALI ⊞ (16_3)   sets the information layer (t and f)
   FFUSE ∋ / ∋      μ / μ₃ joins: union of the arms
-  AREV <           the involution T↔F, t↔f (its own inverse; fixes B and N)
-  TNEG ~ / INEG ≁  its two factors, one layer each: ~ swaps T↔F, ≁ swaps t↔f.
-                   They act on disjoint bits, so they commute, and composing them
-                   IS AREV. On the classical slice ~ alone is AREV, because ≁ has
-                   no bits to move there. Not a third operation beside them.
+  AREV <           the involution T↔F, t↔f (its own inverse; fixes B and N).
+                   Internally it factors as two disjoint-bit swaps, one per layer
+                   (T↔F and t↔f); composing the two IS AREV. Those factors are not
+                   opcodes and were never in the set — the retired marks ~ ≁ once
+                   named them, and ◻ IFIX replaces those marks.
   AFWD >, CLINK ⋈, IMSCRIB ⊙, ENGAGR ⊞ (as hold)   carry
   IFIX ◻           carry and latch (the commit point)
   TANCH ⊣          readout
@@ -373,9 +381,11 @@ RELATIVE phase, the degree of freedom that seats a junction two same-handed
 ROTAT is the Weyl-Heisenberg shift X on ℤ/dℤ; the SIC displacement D_{a,b}
 carries ROTAT^a. The balanced tiling of a period-n cycle is unique UP TO ROTAT.
 
-Op-opcodes are open: ROTAT is the first named one. Its relatives are reflection
-(the half-period involution ROTAT^{d/2}) and the register negations TNEG/INEG,
-which act on the register rather than the word. The class was surfaced by the
+Op-opcodes are open: ROTAT `↺/↻` is the first named one (↺ shifts k→k−1, ↻ shifts
+k→k+1). Its relative is reflection (the half-period involution ROTAT^{d/2}). The
+two-layer swaps that AREV `<` factors into also act on the register rather than the
+word, but they are internal to `<`, not op-opcodes and not set members; the retired
+marks ~ ≁ once named them and ◻ IFIX replaces those marks. The class was surfaced by the
 necessity of binding two isotactic rings; no node-opcode rotates one ring
 against another, so the operation had to live one level up, on the word itself.
 
@@ -492,8 +502,8 @@ Canonical words:
   ⊢∈⊙∋⊣         identity: reconnects, no work, μ∘δ=id → N
   ⊢∈⊙⊙⊙∋⊣       tri identity: same reading → N
   ⊢∈⊞>∋⊣        closes over work AND holds paradox → B (paradox held)
-  ⊢>∈⊤⊥⊞≁∋◻⊣    tri word reaching full register A (EVALT, EVALF, EVALI,
-                 then INEG swaps t↔f on an already-full pair) → T
+  ⊢>∈⊤⊥∋◻⊣      tri word driving the register toward full A (EVALT, EVALF on
+                 the arms), fused and latched at ◻ → T
 ```
 
 Pitfalls, all load-bearing:
@@ -509,7 +519,7 @@ Pitfalls, all load-bearing:
 - Treating the classic and trilattice faces as separate languages. They share
   the register, the ancestry rule, the close condition, the flow semantics, and
   the composition law; the differences are arity and the information-layer bits.
-- Expecting T from the tri word `⊢>∈⊤⊥⊞≁∋◻⊣` under `imasm check`. ⊞ is ENGAGR to
+- Expecting T from the tri word `⊢>∈⊤⊥⊞∋◻⊣` under `imasm check`. ⊞ is ENGAGR to
   the classic reading and EVALI to the trilattice one, and B beats T, so the
   classic checker answers B (paradox held) for it. One glyph, two readings: the
   collision is real and it is the next thing the notation has to settle.

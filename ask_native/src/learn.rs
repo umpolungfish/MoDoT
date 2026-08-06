@@ -193,12 +193,10 @@ fn alphabet_table(face: Face) -> &'static str {
              ⊙ IMSCRIB identity / self-reference : no  : Interaction Grammar (self-imscription, the rules of combination)\n\
              ∈ FSPLIT3 three-way split: true/false/information : no  : Granularity (three-way division of the grain)\n\
              ∋ FFUSE3  three-way fuse: the arms rejoin : no  : Stoichiometry (the three-arm assembly)\n\
-             + EVALT   affirm the true axis : YES : Criticality (the true-gate at the tipping point)\n\
-             × EVALF   refute the false axis : YES : Chirality (the handedness check)\n\
+             ⊤ EVALT   affirm the true axis : YES : Criticality (the true-gate at the tipping point)\n\
+             ⊥ EVALF   refute the false axis : YES : Chirality (the handedness check)\n\
              ⊞ EVALI   evaluate the information axis (t and f) : YES : Criticality (the information gate)\n\
-             ~ TNEG    swaps T and F : YES : Polarity (swaps the parity poles)\n\
-             ≁ INEG    swaps t and f : YES : Chirality (swaps the handedness poles)\n\
-             ¬ IFIX    irreversible commit : YES : Topological Protection (the winding that cannot be undone)\n\
+             ◻ IFIX    irreversible commit : YES : Topological Protection (the winding that cannot be undone)\n\
              (Kinetic Character, the twelfth axis, is carried by the register's motion, not one opcode.)"
         }
     }
@@ -998,7 +996,7 @@ fn names_the_grammar(guess: &str) -> bool {
 fn blind(object: &str) -> String {
     const NAMES: &[&str] = &[
         "VINIT", "TANCH", "AFWD", "AREV", "CLINK", "IMSCRIB", "FSPLIT3", "FFUSE3", "FSPLIT",
-        "FFUSE", "EVALT", "EVALF", "EVALI", "ENGAGR", "TNEG", "INEG", "IFIX",
+        "FFUSE", "EVALT", "EVALF", "EVALI", "ENGAGR", "IFIX",
     ];
     let mut s = object.to_string();
     for c in "⊢⊣><=⊙◇●∈∋+×⊞~≁¬☊☋".chars() {

@@ -35,9 +35,11 @@
 //!     EVALF sets F (constructive falsity touched)
 //!     EVALI sets BOTH t and f (the acceptable/rejectable pair IS the
 //!           information layer beyond classical T/F)
-//!     TNEG  swaps T ↔ F   (classical bilattice negation: inverts ≤_t,
-//!           leaves ≤_i exactly unchanged — a swap preserves |x|)
-//!     INEG  swaps t ↔ f   (the same negation, on the acceptable/rejectable pair)
+//!     AREV  the reverse morphism, T↔F and t↔f together (bilattice negation:
+//!           inverts ≤_t, leaves ≤_i exactly — a swap preserves |x|). It factors
+//!           internally into a per-layer swap each, but those factors are not
+//!           opcodes; the retired marks ~ ≁ once named them and ◻ IFIX replaces
+//!           them, so the printed set is twelve.
 //! ```
 //!
 //! A sibling module, not a replacement: FSPLIT3/FFUSE3 (3-way fork/fuse) sit
@@ -58,23 +60,25 @@ pub enum Token16_3 {
     Tanch,   // ⊣  1→1  sink boundary
     Afwd,    // >  1→1  forward morphism, WORK
     Arev,    // <  1→1  reverse morphism, WORK
-    Clink,   // =  1→1  composition / relational link, WORK
+    Clink,   // ⋈  1→1  composition / relational link, WORK
     Imscrib, // ⊙  1→1  identity / neutral self-reference
     Fsplit3, // ∈  1→3  3-way split: T, F, I arms
     Ffuse3,  // ∋  3→1  3-way fuse: merges T, F, I arms
-    Evalt,   // +  1→1  evaluates the True axis (≤_t), WORK
-    Evalf,   // ×  1→1  evaluates the False axis (≤_t), WORK
+    Evalt,   // ⊤  1→1  evaluates the True axis (≤_t), WORK
+    Evalf,   // ⊥  1→1  evaluates the False axis (≤_t), WORK
     Evali,   // ⊞  1→1  evaluates the Information axis (≤_i), WORK
-    Tneg,    // ~  1→1  negation: T ↔ F, WORK
-    Ineg,    // ≁  1→1  con-negation: t ↔ f, WORK
-    Ifix,    // ¬  1→1  irreversible commit, WORK
+    Ifix,    // ◻  1→1  irreversible commit, WORK
 }
 
 use Token16_3::*;
 
-pub const ALL_TOKENS: [Token16_3; 14] = [
+// THE set is twelve. AREV `<` is the whole reverse morphism; the two-layer swaps
+// it factors into (once mis-spelled ~ TNEG / ≁ INEG) are internal to `<`, never
+// opcodes — ◻ IFIX replaces those retired marks. ROTAT ↺/↻ is the op-opcode that
+// acts ON a word, not a token in it.
+pub const ALL_TOKENS: [Token16_3; 12] = [
     Vinit, Tanch, Afwd, Arev, Clink, Imscrib, Fsplit3, Ffuse3,
-    Evalt, Evalf, Evali, Tneg, Ineg, Ifix,
+    Evalt, Evalf, Evali, Ifix,
 ];
 
 impl Token16_3 {
@@ -82,7 +86,7 @@ impl Token16_3 {
         match self {
             Vinit => '⊢', Tanch => '⊣', Afwd => '>', Arev => '<', Clink => '⋈',
             Imscrib => '⊙', Fsplit3 => '∈', Ffuse3 => '∋', Evalt => '⊤',
-            Evalf => '⊥', Evali => '⊞', Tneg => '~', Ineg => '≁', Ifix => '◻',
+            Evalf => '⊥', Evali => '⊞', Ifix => '◻',
         }
     }
 
@@ -91,25 +95,27 @@ impl Token16_3 {
             Vinit => "VINIT", Tanch => "TANCH", Afwd => "AFWD", Arev => "AREV",
             Clink => "CLINK", Imscrib => "IMSCRIB", Fsplit3 => "FSPLIT3",
             Ffuse3 => "FFUSE3", Evalt => "EVALT", Evalf => "EVALF",
-            Evali => "EVALI", Tneg => "TNEG", Ineg => "INEG", Ifix => "IFIX",
+            Evali => "EVALI", Ifix => "IFIX",
         }
     }
 
     pub fn is_work(self) -> bool {
-        matches!(self, Afwd | Arev | Clink | Evalt | Evalf | Evali | Tneg | Ineg | Ifix)
+        matches!(self, Afwd | Arev | Clink | Evalt | Evalf | Evali | Ifix)
     }
 
     fn from_glyph(c: char) -> Option<Token16_3> {
         // The retired spellings still load. ◇ ● and ☊ ☋ were both faces of the
-        // dyad before it was one opcode, and = + × ¬ carried equality, sum,
-        // product and negation into a language that means none of them.
+        // dyad before it was one opcode; = + × ¬ carried equality, sum, product
+        // and negation into a language that means none of them; and ~ ≁ (once
+        // TNEG / INEG) were only the two-layer factors of AREV `<` — ◻ IFIX
+        // replaces them. All map to a live opcode; the set the tools print is 12.
         match c {
             '◇' | '☊' => Some(Fsplit3),
             '●' | '☋' => Some(Ffuse3),
             '=' | '═' => Some(Clink),
             '+' => Some(Evalt),
             '×' => Some(Evalf),
-            '¬' => Some(Ifix),
+            '¬' | '~' | '≁' => Some(Ifix),
             _ => ALL_TOKENS.iter().copied().find(|t| t.glyph() == c),
         }
     }
@@ -219,8 +225,8 @@ impl Reg16_3 {
         Reg16_3 { small_t: self.small_f, small_f: self.small_t, ..self }
     }
 
-    /// The involution T ↔ F, t ↔ f — the reverse morphism's action on values
-    /// (TNEG and INEG applied together; ⊆-monotone, its own inverse).
+    /// The involution T ↔ F, t ↔ f — the reverse morphism AREV's action on
+    /// values (both layer-swaps at once; ⊆-monotone, its own inverse).
     pub fn invol(self) -> Reg16_3 {
         Reg16_3 { big_t: self.big_f, big_f: self.big_t, small_t: self.small_f, small_f: self.small_t }
     }
@@ -398,23 +404,6 @@ impl Machine {
             Evalt => self.touch(Reg16_3 { big_t: true, ..none }, Axis::T),
             Evalf => self.touch(Reg16_3 { big_f: true, ..none }, Axis::F),
             Evali => self.touch(Reg16_3 { small_t: true, small_f: true, ..none }, Axis::I),
-            Tneg => {
-                let (t, f) = (self.reg.big_t, self.reg.big_f);
-                self.reg.big_t = f;
-                self.reg.big_f = t;
-                for frame in self.split_stack.iter_mut() {
-                    for a in frame.iter_mut() {
-                        *a = match *a { Axis::T => Axis::F, Axis::F => Axis::T, Axis::I => Axis::I };
-                    }
-                }
-            }
-            Ineg => {
-                let (t, f) = (self.reg.small_t, self.reg.small_f);
-                self.reg.small_t = f;
-                self.reg.small_f = t;
-                // I is already both t and f touched together; a swap of the
-                // underlying bits doesn't change which AXIS was touched.
-            }
             Ifix => { self.fixed = true; }
         }
     }
@@ -532,9 +521,9 @@ fn run_trace(steps: &[Token16_3]) -> String {
 
 pub fn run(args: &[String]) -> String {
     let Some(op) = args.first() else {
-        return "imasm16_3 <op> …; op ∈ check|ref|algebra — the 14-opcode SIXTEEN_3 trilattice grammar.\n\
+        return "imasm16_3 <op> …; op ∈ check|ref|algebra — the 12-opcode SIXTEEN_3 trilattice grammar.\n\
                 `check <glyph_word>` runs the register machine and type-checks tri-ancestral closure.\n\
-                `ref` lists the 14 opcodes.\n\
+                `ref` lists the 12 opcodes.\n\
                 `algebra <op> A B` runs a trilattice lattice operation on two register values (named\n\
                   N, A, or any of T/F/t/f, e.g. `algebra meet_t T t`); op ∈ leq_i|leq_t|leq_c|meet_t|join_t|meet_c|join_c.\n".to_string();
     };
@@ -559,15 +548,17 @@ pub fn run(args: &[String]) -> String {
             }
         }
         "ref" => {
-            let mut out = String::from("IMASM-16_3 — 14 symbolic opcodes (SIXTEEN_3 = P({T,F,t,f}), Shramko/Dunn/Takenaka 2001):\n");
+            let mut out = String::from("IMASM-16_3 — 12 symbolic opcodes (SIXTEEN_3 = P({T,F,t,f}), Shramko/Dunn/Takenaka 2001):\n");
             for t in ALL_TOKENS {
                 let _ = writeln!(out, "  {}  {:<9} {}", t.glyph(), t.name(), if t.is_work() { "WORK" } else { "no-op (structural)" });
             }
+            let _ = writeln!(out, "  ↺/↻ ROTAT     op-opcode: the cyclic shift (Weyl-Heisenberg X) on the WHOLE word, not a token in it");
+            let _ = writeln!(out, "  (retired: ~ ≁ ¬ + × = → parse to a live opcode; ◻ IFIX replaces the negations ~ ≁)");
             out
         }
         "check" => {
             let Some(word) = args.get(1) else {
-                return "imasm16_3 check <glyph_word>; e.g. imasm16_3 check ⊢>∈+×⊞≁∋¬⊣\n".to_string();
+                return "imasm16_3 check <glyph_word>; e.g. imasm16_3 check ⊢>∈⊤⊥⊞∋◻⊣\n".to_string();
             };
             let steps = parse_glyph_word(word);
             if steps.is_empty() {
@@ -585,10 +576,20 @@ mod tests {
 
     #[test]
     fn example_word_closes_with_work() {
-        let steps = parse_glyph_word("⊢>∈+×⊞≁∋¬⊣");
-        assert_eq!(steps.len(), 10);
+        // Legal-alphabet tri word: fork, work on the arms, fuse, latch.
+        let steps = parse_glyph_word("⊢>∈⊤⊥⊞∋◻⊣");
+        assert_eq!(steps.len(), 9);
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'T');
+    }
+
+    #[test]
+    fn retired_negations_parse_to_ifix() {
+        // ~ and ≁ are retired; ◻ IFIX replaces them, so a stored word using them
+        // loads as if it had ◻ there.
+        assert_eq!(parse_glyph_word("~"), vec![Ifix]);
+        assert_eq!(parse_glyph_word("≁"), vec![Ifix]);
+        assert_eq!(parse_glyph_word("¬"), vec![Ifix]);
     }
 
     #[test]
@@ -628,7 +629,7 @@ mod tests {
 
     #[test]
     fn cross_repo_parity_word() {
-        let steps = parse_glyph_word("⊢>>=∈+~∋<¬⊣");
+        let steps = parse_glyph_word("⊢>>⋈∈⊤◻∋<◻⊣");
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'T');
     }
@@ -655,9 +656,9 @@ mod tests {
     }
 
     #[test]
-    fn all_14_opcodes_have_distinct_glyphs() {
+    fn all_12_opcodes_have_distinct_glyphs() {
         let glyphs: std::collections::HashSet<char> = ALL_TOKENS.iter().map(|t| t.glyph()).collect();
-        assert_eq!(glyphs.len(), 14);
+        assert_eq!(glyphs.len(), 12);
         for g in &glyphs {
             assert!(!g.is_ascii_alphabetic(), "opcode glyph {g} is a Latin letter");
         }

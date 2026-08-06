@@ -144,7 +144,7 @@ impl Token {
             Token::Vinit, Token::Tanch, Token::Afwd, Token::Arev, Token::Clink,
             Token::Imscrib, Token::Fsplit, Token::Ffuse, Token::Evalt,
             Token::Evalf, Token::Engagr, Token::Ifix,
-            Token::Fsplit3, Token::Ffuse3, Token::Tneg, Token::Ineg, Token::Evali,
+            Token::Fsplit3, Token::Ffuse3, Token::Evali,
             Token::Rotat,
         ];
         serde_json::Value::Array(
@@ -180,13 +180,13 @@ impl Token {
             "EVALT" | "ET" | "⊤" | "+" => Token::Evalt,
             "EVALF" | "EF" | "⊥" | "×" => Token::Evalf,
             "ENGAGR" | "EG" | "⊞" => Token::Engagr,
-            "IFIX" | "IX" | "FIX" | "◻" | "¬" => Token::Ifix,
+            // ◻ IFIX also absorbs the retired negation marks ~ ≁ (once TNEG/INEG,
+            // only AREV's two internal layer-swaps, never opcodes) and the old ¬.
+            "IFIX" | "IX" | "FIX" | "◻" | "¬" | "TNEG" | "~" | "INEG" | "≁" => Token::Ifix,
             "FSPLIT3" | "Fsplit3" | "F3" => Token::Fsplit3,
             "FFUSE3" | "Ffuse3" | "FF3" => Token::Ffuse3,
-            "TNEG" | "~" => Token::Tneg,
-            "INEG" | "≁" => Token::Ineg,
             "EVALI" => Token::Evali,
-            "ROTAT" | "RT" | "↻" => Token::Rotat,
+            "ROTAT" | "RT" | "↻" | "↺" => Token::Rotat,
             _ => return None,
         })
     }

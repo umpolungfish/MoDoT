@@ -588,10 +588,11 @@ a word can be written glued, no spaces — `⊢>∈⊤⋈⊙<⊥⊞∋⊙◻⊣`
 symbolic — no Latin initials; the retired V/T/B letters and ← no longer parse:
   ⊢ VINIT   ⊣ TANCH   > AFWD   < AREV   ⋈ CLINK   ⊙ IMSCRIB
   ∈ FSPLIT  ∋ FFUSE   ⊤ EVALT  ⊥ EVALF  ⊞ ENGAGR  ◻ IFIX
-The same twelve are the primitive alphabet, one glyph per axis. ~ TNEG and
-≁ INEG are AREV's two factors, one layer each, not a thirteenth and fourteenth
-opcode; ⊞ reads EVALI in the trilattice face. The earlier spellings
-◇ ● = + × ¬ still parse, so a stored word loads.
+The same twelve are the primitive alphabet, one glyph per axis; ⊞ reads EVALI in
+the trilattice face. ROTAT ↺/↻ is the op-opcode (the cyclic shift on the WHOLE
+word), not a token in it. The marks ~ ≁ (once TNEG/INEG) were only AREV's two
+internal layer-swaps, never opcodes — ◻ IFIX replaces them. The earlier spellings
+◇ ● = + × ¬ ~ ≁ still parse, so a stored word loads.
 Every build reports topology label, β, branch/merge/source/sink census, arm
 count, spectral radius ρ, and a grammar validation.";
 
