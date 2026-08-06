@@ -4,15 +4,20 @@
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 #[repr(u8)]
 pub enum Token {
+    // Slot order is the catalog's column order, and the two are the same
+    // ordering. ⊙ stands at slot nine, Criticality: IMSCRIB is ⊙ because
+    // imscribing is inclosure, a boundary drawn around its own centre, and a
+    // critical point is where a system turns on itself. One glyph, one meaning,
+    // whether read as primitive, as type, or as token.
     Vinit,
     Tanch,
     Afwd,
     Arev,
     Clink,
-    Imscrib,
+    Evalt,
     Fsplit,
     Ffuse,
-    Evalt,
+    Imscrib,
     Evalf,
     Engagr,
     Ifix,
