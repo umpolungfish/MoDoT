@@ -35,6 +35,24 @@ pub fn opcode_glyph(name: &str) -> &'static str {
 
 const OPCODE_REF: &str = r#"IMASM 12-OPCODE REFERENCE (Universal Imscriptive Grammar)
 
+LOGIC SUBSTRATE — read this before assigning anything. This grammar is PARACONSISTENT.
+There is no PASS/FAIL and no classical true-or-false. Every closure resolves to ONE of
+four Belnap values (B4), and a contradiction is a legitimate result, not an error:
+  N — neither: nothing was established. The empty state {}. register 00.
+  T — true: constructively proven / affirmed. register 01.
+  F — false: constructively refuted / negated. register 10.
+  B — BOTH: true and false held together at once. A contradiction does NOT explode
+      and is NOT a failure — holding both IS the resolution. register 11.
+Two arms that conflict fuse to B, not to an error. Forward and backward, success and
+failure, thesis and antithesis: when they meet they FUSE to a definite verdict, very
+often B, and that is correct. Do not try to make a fork "cancel back to the input".
+
+STATE SPACE — the verdict is computed over SIXTEEN_3 = P({T,F,t,f}), the sixteen subsets
+of four base values (T proven, F refuted, t acceptable, f rejectable), under three
+orderings (information, truth, constructivity — the trilattice). You do NOT compute the
+verdict. You describe the STRUCTURE; the kernel runs the token word over SIXTEEN_3 and
+returns the B4 value. NEVER assert a verdict yourself, and never reason toward PASS/FAIL.
+
 LOGICAL (6) — categorical skeleton:
   VINIT   (⊢) — Initial object. Void/uninitialized state before anything is named.
   TANCH   (⊣) — Terminal anchor. The closed boundary that contains the whole system.
@@ -42,19 +60,28 @@ LOGICAL (6) — categorical skeleton:
   AREV    (<) — Contravariant. Reverse / descent transformation.
   CLINK   (⋈) — Composition. Sequential chaining of morphisms.
   IMSCRIB (⊙) — Identity. Self-reference, self-recognition. The element is itself. NEUTRAL: does not transform.
-FROBENIUS (2) — the core algebra, μ∘δ = id:
-  FSPLIT  (∈) — Co-multiplication δ. One thing branches into two or more distinct paths.
-  FFUSE   (∋) — Multiplication μ. Branches reconstitute the original input exactly. FFUSE(FSPLIT(x)) = x MUST hold.
-DIALETHEIA (3) — paraconsistent truth lattice:
-  EVALT   (⊤) — True/affirmative branch.
-  EVALF   (⊥) — False/negative branch.
-  ENGAGR  (⊞) — Both simultaneously. A paradice, held without resolution.
+FROBENIUS (2) — the fork/fuse pair, μ∘δ:
+  FSPLIT  (∈) — Co-multiplication δ. One state opens into two or more arms.
+  FFUSE   (∋) — Multiplication μ. The arms rejoin (Belnap join) into ONE B4 verdict.
+μ∘δ=id is a STRUCTURAL identity the kernel checks over SIXTEEN_3, not a claim that the
+domain's contents come back unchanged. "Reconstitute" means the arms rejoin to a single
+resolved verdict — conflicting arms rejoin to B. A fork that does work on its arms and
+rejoins CLOSES; a bare fork/fuse with no work on the arms verifies nothing (N). A fork
+that never rejoins is an OPEN fork (a permanently divergent branch — verdict B or N),
+which is legitimate, not a failure. Describe the fork and its rejoin; do not prove
+invertibility by domain analogy, and do not decide whether it closes — the kernel does.
+DIALETHEIA (3) — the paraconsistent evaluators:
+  EVALT   (⊤) — touches constructive truth T (the affirmative arm).
+  EVALF   (⊥) — touches constructive falsity F (the negative arm).
+  ENGAGR  (⊞) — holds BOTH at once: the B state, a contradiction kept live (not resolved away).
 LINEAR (1) — irreversible fixation:
   IFIX    (◻) — ROM fixation. Permanent, append-only, cannot be undone.
 
 Only FSPLIT may branch and only FFUSE may fuse. IMSCRIB is neutral: inserting it anywhere leaves the
-verdict untouched. A closure is REAL only when a transforming token (> < = + × ⊞ ¬) does work on an
-arm between a FSPLIT and its FFUSE; a bare split/fuse with nothing on the arms is an identity closure.
+verdict untouched. A closure carries a real type-check only when a transforming token (> < ⋈ ⊤ ⊥ ⊞ ◻)
+does work on an arm between a FSPLIT and its FFUSE; a bare split/fuse with nothing on the arms is an
+identity closure that verifies nothing (verdict N). These twelve glyphs are the whole alphabet and are
+at once the IMASM opcodes and the twelve primitive axes; nothing outside them is a token.
 EVALT anchors the T-arm, EVALF the F-arm; AFWD is a secondary T-anchor, AREV a secondary F-anchor.
 Every FSPLIT should have a matching FFUSE unless the domain has a permanently divergent (open) fork.
 FSPLIT/FFUSE pairs may nest. Expand token by token: there is NO maximum length, and a longer faithful
@@ -73,7 +100,7 @@ const SCHEMA: &str = r#"Respond with ONLY a single JSON object — no markdown f
     "CLINK":  {"element": "<domain element>", "justification": "<why composition>"},
     "IMSCRIB": {"element": "<domain element>", "justification": "<why identity/self-ref>"},
     "FSPLIT": {"element": "<domain element>", "justification": "<what it splits into>"},
-    "FFUSE":  {"element": "<domain element>", "justification": "<what it reconstitutes — must match FSPLIT input>"},
+    "FFUSE":  {"element": "<domain element>", "justification": "<how the arms rejoin into one resolved state (not necessarily the input's contents)>"},
     "EVALT":  {"element": "<domain element>", "justification": "<affirmative/success state>"},
     "EVALF":  {"element": "<domain element>", "justification": "<negative/failure state>"},
     "ENGAGR": {"element": "<domain element>", "justification": "<both simultaneously, held without resolution>"},
@@ -84,15 +111,14 @@ const SCHEMA: &str = r#"Respond with ONLY a single JSON object — no markdown f
     "split_input":   "<what enters the split>",
     "split_outputs": ["<branch A>", "<branch B>"],
     "fuse_element":  "<the FFUSE element>",
-    "fuse_result":   "<result — must semantically equal split_input>",
-    "verdict":       "PASS",
-    "failure_reason": ""
+    "fuse_result":   "<the single state the arms rejoin into — conflicting arms rejoin to B; this need NOT recreate split_input>",
+    "rejoin_note":   "<one line: what work happens on the arms, and whether they rejoin or the fork stays open. Do NOT state a verdict — the kernel computes it over SIXTEEN_3.>"
   },
   "registers": {
-    "void":  "<domain description of 00 — uninitialized, before anything exists>",
-    "true":  "<domain description of 01 — affirmative, success>",
-    "false": "<domain description of 10 — negative, failure>",
-    "both":  "<domain description of 11 — both states simultaneously, held>"
+    "void":  "<B4 N (00) — neither: uninitialized, nothing established>",
+    "true":  "<B4 T (01) — constructively proven / affirmed>",
+    "false": "<B4 F (10) — constructively refuted / negated>",
+    "both":  "<B4 B (11) — both held at once: a live contradiction, the paraconsistent resolution>"
   },
   "sequence": [
     "<OPCODE: domain action — what this token does at this point>",
@@ -127,8 +153,10 @@ fn system_prompt() -> String {
          operation, branch, state and decision in the domain using the 12 IMASM tokens. There is no\n\
          fixed length — expand until the full domain is mapped. Do NOT default to a flat chain when\n\
          the domain has real branching: use FSPLIT/FFUSE pairs (and nesting) where the domain forks.\n\
-         The FSPLIT and FFUSE elements MUST form a genuine pair where FFUSE(FSPLIT(x)) = x in the\n\
-         domain; if no such pair exists set verdict to FAIL and say why in failure_reason.\n\n\
+         Where the domain forks, pair a FSPLIT with a FFUSE and say what work runs on the arms and\n\
+         how they rejoin; where a fork stays permanently open, leave it open and say so. Do NOT\n\
+         judge whether it closes and do NOT emit PASS/FAIL — the kernel runs the word over SIXTEEN_3\n\
+         and returns the B4 verdict (N/T/F/B). A contradiction that rejoins is B, which is a result.\n\n\
          The \"sequence\" field is REQUIRED and MUST be a non-empty JSON array of strings, one per\n\
          step, each written EXACTLY as \"OPCODE: domain action\" where OPCODE is one of the twelve\n\
          names (VINIT TANCH AFWD AREV CLINK IMSCRIB FSPLIT FFUSE EVALT EVALF ENGAGR IFIX). Walk the\n\
@@ -419,11 +447,17 @@ pub fn generate(
         steps.push(json!({"step_num": i + 1, "opcode": op, "glyph": opcode_glyph(&op), "domain_action": action}));
         ops.push(op);
     }
-    let verdict = {
-        let vd = s(&frob, "verdict");
-        if vd.is_empty() { "PASS".to_string() } else { vd.to_uppercase() }
-    };
-    let closure_verified = verdict == "PASS";
+    // The model DESCRIBES structure; the kernel VERIFIES. Run the emitted opcode word
+    // through the SIXTEEN_3 engine and read the real Belnap verdict (T/F/B/N) — never
+    // trust a model-asserted PASS/FAIL (the old prompt's demand for it was what drove
+    // the model to reason toward classical invertibility instead of describing a fork).
+    let glyph_word: String = ops.iter().map(|op| opcode_glyph(op)).collect();
+    let steps16 = imasm_core::imasm16_3::parse_glyph_word(&glyph_word);
+    let (verdict_char, verdict_reason) = imasm_core::imasm16_3::tri_ancestral_verdict(&steps16);
+    let verdict = verdict_char.to_string(); // one of N / T / F / B
+    // A fork closes with a real type-check at T or B; N is a bare/empty closure, F a
+    // refutation. "closure_verified" now means the kernel confirmed a non-trivial close.
+    let closure_verified = verdict_char == 'T' || verdict_char == 'B';
 
     let topology = analyze_topology(&ops);
     let lean = lean_scaffold(&ops);
@@ -452,8 +486,9 @@ pub fn generate(
                 "fuse_element": s(&frob, "fuse_element"),
                 "fuse_result": s(&frob, "fuse_result"),
                 "frobenius_verdict": verdict,
-                "test_instance": "",
-                "failure_reason": s(&frob, "failure_reason"),
+                "verdict_source": "kernel: tri_ancestral_verdict over SIXTEEN_3",
+                "verdict_reason": verdict_reason,
+                "rejoin_note": s(&frob, "rejoin_note"),
             },
             "phase_3": {
                 "void_description": s(&regs, "void"),
