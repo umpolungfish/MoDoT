@@ -248,9 +248,16 @@ impl Engine {
         let shards = safetensor_shards(&cfg.model_dir)?;
         // bf16 on GPU (the weights' native dtype), f32 on CPU (no bf16 matmul there).
         let dtype = if device.is_cuda() { DType::BF16 } else { DType::F32 };
-        let vb = unsafe {
-            VarBuilder::from_mmaped_safetensors(&shards, dtype, &device)
-                .map_err(|e| format!("load weights: {e}"))?
+        // A bitsandbytes-NF4 checkpoint is unpacked to dense weights first (candle
+        // has no 4-bit matmul); everything else mmaps straight in.
+        let vb = if crate::bnb::is_bnb(&cfg.model_dir) {
+            let tensors = crate::bnb::load_dequantized(&shards, dtype, &device, quiet)?;
+            VarBuilder::from_tensors(tensors, dtype, &device)
+        } else {
+            unsafe {
+                VarBuilder::from_mmaped_safetensors(&shards, dtype, &device)
+                    .map_err(|e| format!("load weights: {e}"))?
+            }
         };
         let model = ModelForCausalLM::new(&qcfg, vb).map_err(|e| format!("build model: {e}"))?;
         if !quiet {

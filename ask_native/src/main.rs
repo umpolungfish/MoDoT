@@ -39,6 +39,8 @@ pub(crate) use imasm_core::imasm16_3;
 mod learn;
 mod ob3ect;
 #[cfg(feature = "local")]
+mod bnb;
+#[cfg(feature = "local")]
 mod local;
 mod prover;
 mod windings;
