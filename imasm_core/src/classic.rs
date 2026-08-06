@@ -18,8 +18,6 @@ pub enum Token {
     Ifix,
     Fsplit3,
     Ffuse3,
-    Tneg,
-    Ineg,
     Evali,
     Rotat,
 }
@@ -41,8 +39,6 @@ impl Token {
             Token::Ifix => "IFIX",
             Token::Fsplit3 => "FSPLIT3",
             Token::Ffuse3 => "FFUSE3",
-            Token::Tneg => "TNEG",
-            Token::Ineg => "INEG",
             Token::Evali => "EVALI",
             Token::Rotat => "ROTAT",
         }
@@ -81,8 +77,6 @@ impl Token {
             Token::Ifix => "◻",
             Token::Fsplit3 => "∈",
             Token::Ffuse3 => "∋",
-            Token::Tneg => "~",
-            Token::Ineg => "≁",
             Token::Evali => "⊞",
             Token::Rotat => "↻",
         }
@@ -96,7 +90,7 @@ impl Token {
         matches!(
             self,
             Token::Afwd | Token::Arev | Token::Clink | Token::Evalt | Token::Evalf
-                | Token::Engagr | Token::Ifix | Token::Tneg | Token::Ineg | Token::Evali
+                | Token::Engagr | Token::Ifix | Token::Evali
                 | Token::Rotat
         )
     }
@@ -169,20 +163,16 @@ impl Token {
             "TANCH" | "TA" | "⊣" => Token::Tanch,
             "AFWD" | "AF" | ">" => Token::Afwd,
             "AREV" | "AR" | "<" => Token::Arev,
-            "CLINK" | "CL" | "⋈" | "=" | "═" => Token::Clink,
+            "CLINK" | "CL" | "⋈" => Token::Clink,
             "IMSCRIB" | "IMSCRIBE" | "IM" | "⊙" => Token::Imscrib,
-            // ∈ and ∋ are the dyad. The arity-2 spellings ◇ ● are the same
-            // operator read on the classical slice, so they parse to the same
-            // token rather than to a second one, and a stored word written in
-            // them still loads. What the tools print is the new mark.
-            "FSPLIT" | "FS" | "SPLIT" | "DELTA" | "∈" | "◇" | "δ" | "☊" => Token::Fsplit,
-            "FFUSE" | "FF" | "FUSE" | "MU" | "∋" | "●" | "μ" | "☋" => Token::Ffuse,
-            "EVALT" | "ET" | "⊤" | "+" => Token::Evalt,
-            "EVALF" | "EF" | "⊥" | "×" => Token::Evalf,
+            // ∈ and ∋ are the dyad. The Greek δ/μ name the fork and fuse; ∈ ∋ are
+            // their glyphs. The old marks ◇ ● ☊ ☋ are NOT tokens and do not parse.
+            "FSPLIT" | "FS" | "SPLIT" | "DELTA" | "∈" | "δ" => Token::Fsplit,
+            "FFUSE" | "FF" | "FUSE" | "MU" | "∋" | "μ" => Token::Ffuse,
+            "EVALT" | "ET" | "⊤" => Token::Evalt,
+            "EVALF" | "EF" | "⊥" => Token::Evalf,
             "ENGAGR" | "EG" | "⊞" => Token::Engagr,
-            // ◻ IFIX also absorbs the retired negation marks ~ ≁ (once TNEG/INEG,
-            // only AREV's two internal layer-swaps, never opcodes) and the old ¬.
-            "IFIX" | "IX" | "FIX" | "◻" | "¬" | "TNEG" | "~" | "INEG" | "≁" => Token::Ifix,
+            "IFIX" | "IX" | "FIX" | "◻" => Token::Ifix,
             "FSPLIT3" | "Fsplit3" | "F3" => Token::Fsplit3,
             "FFUSE3" | "Ffuse3" | "FF3" => Token::Ffuse3,
             "EVALI" => Token::Evali,
@@ -207,7 +197,7 @@ impl Token {
             Token::Vinit | Token::Tanch | Token::Afwd |
             Token::Arev | Token::Clink | Token::Imscrib | Token::Rotat => Family::Logical,
             Token::Fsplit | Token::Ffuse | Token::Fsplit3 | Token::Ffuse3 => Family::Frobenius,
-            Token::Evalt | Token::Evalf | Token::Engagr | Token::Tneg | Token::Ineg | Token::Evali => Family::Dialetheia,
+            Token::Evalt | Token::Evalf | Token::Engagr | Token::Evali => Family::Dialetheia,
             Token::Ifix => Family::Linear,
         }
     }

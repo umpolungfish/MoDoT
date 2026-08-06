@@ -229,7 +229,7 @@ fn run_word(prog: &[Token], wraps: u32) -> RunStats {
                 stack.pop();
                 if forks.is_empty() { st.halted = true; }
             }
-            Token::Afwd | Token::Arev | Token::Clink | Token::Imscrib | Token::Ineg | Token::Rotat => {}
+            Token::Afwd | Token::Arev | Token::Clink | Token::Imscrib | Token::Rotat => {}
             Token::Fsplit | Token::Fsplit3 => {
                 let v = *stack.last().unwrap_or(&B4::N);
                 let fu = find_matching_ffuse(prog, ip);
@@ -259,14 +259,6 @@ fn run_word(prog: &[Token], wraps: u32) -> RunStats {
                 }
             }
             Token::Engagr | Token::Evali => stack.push(B4::B),
-            Token::Tneg => {
-                let v = stack.pop().unwrap_or(B4::N);
-                stack.push(match v {
-                    B4::T => B4::F,
-                    B4::F => B4::T,
-                    _ => v,
-                });
-            }
             Token::Ifix => { stack.pop(); }
         }
         trace[head] = *stack.last().unwrap_or(&B4::N);

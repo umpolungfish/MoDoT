@@ -104,20 +104,12 @@ impl Token16_3 {
     }
 
     fn from_glyph(c: char) -> Option<Token16_3> {
-        // The retired spellings still load. ◇ ● and ☊ ☋ were both faces of the
-        // dyad before it was one opcode; = + × ¬ carried equality, sum, product
-        // and negation into a language that means none of them; and ~ ≁ (once
-        // TNEG / INEG) were only the two-layer factors of AREV `<` — ◻ IFIX
-        // replaces them. All map to a live opcode; the set the tools print is 12.
-        match c {
-            '◇' | '☊' => Some(Fsplit3),
-            '●' | '☋' => Some(Ffuse3),
-            '=' | '═' => Some(Clink),
-            '+' => Some(Evalt),
-            '×' => Some(Evalf),
-            '¬' | '~' | '≁' => Some(Ifix),
-            _ => ALL_TOKENS.iter().copied().find(|t| t.glyph() == c),
-        }
+        // Only the twelve glyphs are tokens. The old marks ◇ ● ☊ ☋ = ═ + × ¬ ~ ≁
+        // are NOT IMASM tokens and do not parse — no alias, no shim; a word that
+        // contains one reads it as nothing (N / void), exactly as a stray letter
+        // does. A retired form that still loaded is how legacy notation survives a
+        // purge, so there is none.
+        ALL_TOKENS.iter().copied().find(|t| t.glyph() == c)
     }
 }
 
@@ -553,7 +545,7 @@ pub fn run(args: &[String]) -> String {
                 let _ = writeln!(out, "  {}  {:<9} {}", t.glyph(), t.name(), if t.is_work() { "WORK" } else { "no-op (structural)" });
             }
             let _ = writeln!(out, "  ↺/↻ ROTAT     op-opcode: the cyclic shift (Weyl-Heisenberg X) on the WHOLE word, not a token in it");
-            let _ = writeln!(out, "  (retired: ~ ≁ ¬ + × = → parse to a live opcode; ◻ IFIX replaces the negations ~ ≁)");
+            let _ = writeln!(out, "  (the marks ◇ ● = + × ¬ ~ ≁ are NOT tokens and do not parse — no alias; they read as nothing)");
             out
         }
         "check" => {
@@ -584,19 +576,21 @@ mod tests {
     }
 
     #[test]
-    fn retired_negations_parse_to_ifix() {
-        // ~ and ≁ are retired; ◻ IFIX replaces them, so a stored word using them
-        // loads as if it had ◻ there.
-        assert_eq!(parse_glyph_word("~"), vec![Ifix]);
-        assert_eq!(parse_glyph_word("≁"), vec![Ifix]);
-        assert_eq!(parse_glyph_word("¬"), vec![Ifix]);
+    fn retired_marks_do_not_parse() {
+        // ◇ ● = + × ¬ ~ ≁ (and ═ ☊ ☋) are not IMASM tokens: they do not parse,
+        // they are not aliased to anything, and a word of only them is empty.
+        for m in ["~", "≁", "¬", "◇", "●", "=", "+", "×", "═", "☊", "☋"] {
+            assert!(parse_glyph_word(m).is_empty(), "retired mark {m} still parses");
+        }
+        // Interspersed in a real word they are simply skipped (read as nothing).
+        assert_eq!(parse_glyph_word("⊢∈~⊤≁∋◻⊣"), parse_glyph_word("⊢∈⊤∋◻⊣"));
     }
 
     #[test]
     fn verdict_is_rotat_invariant() {
         // ROTAT is the cyclic shift, so every rotation is the same object and
         // must return the same verdict. Linear pairing gave T,T,F,F,F,F,F,F,F,T,T,T.
-        let base: Vec<char> = "⊢∈=<>+×⊞∋⊙¬⊣".chars().collect();
+        let base: Vec<char> = "⊢∈⋈<>⊤⊥⊞∋⊙◻⊣".chars().collect();
         let n = base.len();
         for k in 0..n {
             let rot: String = (0..n).map(|i| base[(i + k) % n]).collect();
@@ -610,7 +604,7 @@ mod tests {
     fn arev_does_not_close_the_fork() {
         // AREV is work on an arm, not a fuse. Its body used to be identical to
         // VINIT's, which discarded the arms' touches so ∋ folded an empty set.
-        let steps = parse_glyph_word("⊢∈+=×<>⊞∋⊙¬⊣");
+        let steps = parse_glyph_word("⊢∈⊤⋈⊥<>⊞∋⊙◻⊣");
         let mut m = Machine::new();
         for &t in &steps { m.step(t); }
         assert_eq!(m.reg.name(), "A", "the three arms must all reach the apex");
@@ -621,7 +615,7 @@ mod tests {
         // Fork state is a stack: an inner ∋ must not close the enclosing fork.
         // With in_split as a bool the outer region lost every touch after the
         // first inner fuse and landed on Ftf instead of the top.
-        let steps = parse_glyph_word("⊢⊙=∈∈>+<∋∈×<∋⊞∋=⊙¬⊣");
+        let steps = parse_glyph_word("⊢⊙⋈∈∈>⊤<∋∈⊥<∋⊞∋⋈⊙◻⊣");
         let mut m = Machine::new();
         for &t in &steps { m.step(t); }
         assert_eq!(m.reg.name(), "A", "nested apexes must fold into the outer fork");
@@ -643,14 +637,14 @@ mod tests {
 
     #[test]
     fn dangling_split_is_b() {
-        let steps = parse_glyph_word("⊢∈+⊣");
+        let steps = parse_glyph_word("⊢∈⊤⊣");
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'B');
     }
 
     #[test]
     fn fuse_without_split_is_f() {
-        let steps = parse_glyph_word("⊢+∋⊣");
+        let steps = parse_glyph_word("⊢⊤∋⊣");
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'F');
     }

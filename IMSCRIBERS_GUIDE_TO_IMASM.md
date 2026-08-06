@@ -77,8 +77,8 @@ shift, below) is the op-opcode that acts ON a word, not a thirteenth letter in i
 There is no `~`/`≁`: the marks once written TNEG and INEG were never independent
 opcodes, only the two-layer factorization of AREV `<` (T↔F on the constructive
 layer, t↔f on the information layer), and `<` already carries the whole reverse
-morphism by itself. They are RETIRED — `◻` IFIX replaces them — so a stored word
-using `~` or `≁` parses to `◻` and the tools only ever print the twelve.
+morphism by itself. `~` and `≁` are NOT IMASM tokens: they do not parse, they are
+aliased to nothing, and a word containing one reads it as nothing (N / void).
 
 The WORK? column is the most-missed rule: ⊢ ⊣ ⊙ ∈ ∋ ∈ ∋ do NOT transform. An
 arm carrying only ⊙ (or nothing) is an identity arm, and a closure over identity
@@ -88,11 +88,11 @@ WORDS: tokens glued as one string, no spaces, e.g. `⊢>∈⊤⊙∋◻⊣`. Spa
 full names parse identically (VINIT AFWD ...), as do the short forms
 VI TA AF AR CL IM FS FF ET EF EG IX and the aliases δ μ ═ for ∈ ∋ =.
 
-RETIRED: the letter codes V/T/B and ← (the old IMSCRIB) no longer parse. A word
-using a retired code reads as empty and reports N (void). Brackets [ ] are never
-input; they parse to nothing and yield N (void). The negation marks `~` (TNEG) and
-`≁` (INEG) are also retired: `◻` IFIX replaces them, so they parse to `◻` and are
-never printed as opcodes.
+RETIRED: nothing outside the twelve parses. The letter codes V/T/B and ← (the old
+IMSCRIB), the arithmetic marks `◇ ● = + × ¬`, and the negation marks `~ ≁` are all
+NOT tokens — none of them is aliased to anything. A word using any of them reads
+that mark as empty and, if nothing legal remains, reports N (void). Brackets [ ]
+are likewise never input; they parse to nothing.
 
 Glyph provenance: the alphabet is chosen against a single rule, that a mark must
 not arrive already meaning something else. VINIT ⊢ and TANCH ⊣ are the opening
@@ -103,8 +103,8 @@ IMSCRIB is ⊙ because imscribing IS INCLOSURE, the monadic operation itself, he
 self-referential and referenced self-referentially: a boundary around its own
 centre, denoting the act of denoting. The retired spellings ◇ ● = + × ¬ ~ ≁
 carried arithmetic, equality, and layer-negation into a language that has none of
-them, which is what the set was changed to stop; ◻ IFIX replaces ~ ≁. They still
-parse, so a stored word loads; what the tools print is this set of twelve.
+them, which is what the set was changed to stop. They are not tokens and do not
+parse; the twelve above are the whole alphabet.
 
 The same twelve are the primitive alphabet, one glyph per axis in slot order:
 ⊢ Dimensionality, ⊣ Topology, > Relational, < Polarity, ⋈ Fidelity, ⊙ Kinetics,

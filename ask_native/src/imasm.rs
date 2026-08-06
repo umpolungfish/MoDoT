@@ -590,9 +590,9 @@ symbolic — no Latin initials; the retired V/T/B letters and ← no longer pars
   ∈ FSPLIT  ∋ FFUSE   ⊤ EVALT  ⊥ EVALF  ⊞ ENGAGR  ◻ IFIX
 The same twelve are the primitive alphabet, one glyph per axis; ⊞ reads EVALI in
 the trilattice face. ROTAT ↺/↻ is the op-opcode (the cyclic shift on the WHOLE
-word), not a token in it. The marks ~ ≁ (once TNEG/INEG) were only AREV's two
-internal layer-swaps, never opcodes — ◻ IFIX replaces them. The earlier spellings
-◇ ● = + × ¬ ~ ≁ still parse, so a stored word loads.
+word), not a token in it. The marks ◇ ● = + × ¬ ~ ≁ are NOT IMASM tokens: they do
+not parse and are aliased to nothing (~ ≁ once spelled AREV's two internal
+layer-swaps, which were never opcodes). A word containing one reads it as nothing.
 Every build reports topology label, β, branch/merge/source/sink census, arm
 count, spectral radius ρ, and a grammar validation.";
 
@@ -1699,11 +1699,7 @@ fn gate_out(tok: Token, x: Val, seed: Val, slot: usize, fan: usize) -> Val {
         Token::Evalt => x.truth_part(),
         Token::Evalf => x.falsity_part(),
         Token::Arev => x.invol(),
-        // The two factors of that involution, one layer each. Composing them is
-        // AREV, and on the classical slice TNEG alone is AREV, since INEG has no
-        // bits to move there.
-        Token::Tneg => x.truth_swap(),
-        Token::Ineg => x.info_swap(),
+        // AREV `<` is the whole involution; it has no separate opcode factors.
         // FFUSE's join already happened at input aggregation; carriers carry.
         _ => x,
     }
