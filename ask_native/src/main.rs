@@ -117,7 +117,7 @@ struct Cli {
 
     /// Design an ob3ect (the argument is the entity description, the simple ask, or a
     /// path to a file holding it). Routes through the PINNED provider (--provider /
-    /// MODOT_PROVIDER: openrouter | gemini | deepseek | local) exactly like every other
+    /// MODOT_PROVIDER: openrouter | gemini | deepseek | groq | local) exactly like every other
     /// winding — local serves the in-process candle model, the rest go over the network.
     /// Full auto.py parity for the two grounding portions, kept separate from the ask:
     ///   --context (repeatable, file or dir) → a <domain-context> block of background;
@@ -1211,6 +1211,9 @@ enum Provider {
     OpenRouter,
     GeminiDirect,
     DeepSeek,
+    /// Groq — OpenAI-compatible, LPU inference (very low latency). Key: GROQ_API_KEY.
+    /// Shares the OpenRouter inference path like DeepSeek does.
+    Groq,
     /// A local OpenAI-compatible server (llama.cpp `llama-server`, vLLM, etc).
     /// Keyless by default; base URL and model come from the environment so the
     /// same binary points at whatever local endpoint is up. This is the
@@ -1226,6 +1229,7 @@ fn provider_label(p: Provider) -> &'static str {
     match p {
         Provider::OpenRouter => "openrouter",
         Provider::DeepSeek => "deepseek",
+        Provider::Groq => "groq",
         Provider::GeminiDirect => "gemini",
         Provider::Local => "local",
     }
@@ -1235,6 +1239,7 @@ fn provider_default_model(p: Provider) -> &'static str {
     match p {
         Provider::OpenRouter => "google/gemini-3-flash-preview",
         Provider::DeepSeek => "deepseek-chat",
+        Provider::Groq => "llama-3.3-70b-versatile",
         Provider::GeminiDirect => "gemini-2.0-flash",
         // Most local OpenAI-compatible servers ignore the model field (they
         // serve whatever was loaded), so "local" is a harmless placeholder;
@@ -1249,6 +1254,7 @@ fn provider_has_key(p: Provider) -> bool {
     match p {
         Provider::OpenRouter => env_first(&["OPENROUTER_API_KEY", "MODOT_API_KEY"]).is_some(),
         Provider::DeepSeek => env_first(&["DEEPSEEK_API_KEY", "MODOT_API_KEY"]).is_some(),
+        Provider::Groq => env_first(&["GROQ_API_KEY", "MODOT_API_KEY"]).is_some(),
         Provider::GeminiDirect => {
             env_first(&["GEMINI_API_KEY", "GOOGLE_API_KEY", "MODOT_API_KEY"]).is_some()
         }
@@ -1281,6 +1287,15 @@ fn build_llm(provider: Provider, model_override: Option<&str>, think: bool, expl
             model,
             base_url: "https://api.deepseek.com/v1".into(),
             provider: Provider::DeepSeek,
+            think,
+            explicit_provider,
+        },
+        Provider::Groq => Llm {
+            // Groq is OpenAI-compatible, so it reuses the OpenRouter inference path.
+            api_key: env_first(&["GROQ_API_KEY", "MODOT_API_KEY"]),
+            model,
+            base_url: "https://api.groq.com/openai/v1".into(),
+            provider: Provider::Groq,
             think,
             explicit_provider,
         },
@@ -1368,6 +1383,7 @@ fn parse_provider(s: &str) -> Option<Provider> {
         "openrouter" | "or" | "router" => Some(Provider::OpenRouter),
         "gemini" | "google" | "gemini-direct" | "google-ai" => Some(Provider::GeminiDirect),
         "deepseek" | "ds" | "deepseek-direct" => Some(Provider::DeepSeek),
+        "groq" => Some(Provider::Groq),
         "local" | "offline" | "candle" | "modelz" => Some(Provider::Local),
         _ => None,
     }
@@ -1383,6 +1399,7 @@ fn export_ig_env(llm: &Llm) {
         Provider::OpenRouter => "openrouter",
         Provider::GeminiDirect => "gemini",
         Provider::DeepSeek => "deepseek",
+        Provider::Groq => "groq",
         Provider::Local => "local",
     };
     env::set_var("IG_PROVIDER", provider);
@@ -1391,17 +1408,19 @@ fn export_ig_env(llm: &Llm) {
 
 /// Resolve model + provider from CLI / MODOT_* env / key presence.
 fn make_llm(model: Option<&str>, provider_flag: Option<&str>, think: bool) -> Llm {
-    // Model: CLI > MODOT_MODEL > legacy MOMONADOS_MODEL > default
-    let model = model
+    // Model: CLI > MODOT_MODEL > legacy MOMONADOS_MODEL. Left as Some only when the
+    // user actually named one; None means "let the resolved provider pick its own
+    // default", which is why the gemini slug must never be baked in here — doing so
+    // forced OpenRouter's default onto a pinned deepseek/groq run.
+    let explicit_model = model
         .map(|s| s.to_string())
-        .or_else(|| env_first(&["MODOT_MODEL", "MOMONADOS_MODEL"]))
-        .unwrap_or_else(|| "google/gemini-3-flash-preview".into());
+        .or_else(|| env_first(&["MODOT_MODEL", "MOMONADOS_MODEL"]));
 
     // Surface an unrecognized explicit provider instead of silently falling back to a
     // key-based default (the trap: `--provider deepseek` quietly ran on openrouter).
     if let Some(p) = provider_flag {
         if parse_provider(p).is_none() {
-            eprintln!("[ask] unknown --provider/MODOT_PROVIDER '{p}'; use openrouter | gemini | deepseek | local. Falling back to key-based selection.");
+            eprintln!("[ask] unknown --provider/MODOT_PROVIDER '{p}'; use openrouter | gemini | deepseek | groq | local. Falling back to key-based selection.");
         }
     }
     // Provider: CLI > MODOT_PROVIDER (both PIN it) > infer from keys. The inferred default no
@@ -1423,13 +1442,10 @@ fn make_llm(model: Option<&str>, provider_flag: Option<&str>, think: bool) -> Ll
             (inferred, false)
         }
     };
-    // A pinned run keeps the resolved model; an inferred run whose model was left at the
-    // gemini-slug default should fall to each provider's own default so a demotion is valid.
-    let model_override = if model == "google/gemini-3-flash-preview" && !explicit {
-        None
-    } else {
-        Some(model.as_str())
-    };
+    // A run that named a model keeps it; a run that named none falls to the resolved
+    // provider's own default (so a pinned groq/deepseek gets its model, and an inferred
+    // run's later demotion stays valid).
+    let model_override = explicit_model.as_deref();
     build_llm(provider, model_override, think, explicit)
 }
 
@@ -1546,6 +1562,7 @@ fn infer(
     let call = || match llm.provider {
         Provider::OpenRouter => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::DeepSeek => infer_openrouter(llm, key, messages, max_tokens, temperature),
+        Provider::Groq => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature),
         Provider::Local => unreachable!("local is served before the key guard"),
     };
@@ -6217,6 +6234,7 @@ fn run_one(
             Provider::OpenRouter => "openrouter",
             Provider::GeminiDirect => "gemini-direct",
             Provider::DeepSeek => "deepseek",
+            Provider::Groq => "groq",
             Provider::Local => "local",
         }
     );
@@ -6422,6 +6440,7 @@ fn run_one(
                         Provider::OpenRouter => "openrouter",
                         Provider::GeminiDirect => "gemini",
                         Provider::DeepSeek => "deepseek",
+                        Provider::Groq => "groq",
                         Provider::Local => "local",
                     };
                     eprintln!(
