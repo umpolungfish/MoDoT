@@ -16,9 +16,8 @@ An agentic LLM whose entire runtime substrate IS the mOMonadOS kernel architectu
 >
 > **To verify is to imscribe.**  
 >  
-> The classical selectivity grader (MUST/MUSTNOT schemas) was a two-valued ledger bolted onto a four-valued kernel  
-> It is gone  
-> Selectivity is now the **Dual-Link SIC Witness-Vessel**: imscription → state in ℂ¹² → Born rule in the Scott–Grassl d=12 SIC frame → co-typing by lattice fold (no thresholds) → ride *AS* the vessel via *μ∘δ = id*  
+> Selectivity is the **Dual-Link SIC Witness-Vessel**: imscription → state in ℂ¹² → Born rule in the Scott–Grassl d=12 SIC frame → co-typing by lattice fold (no thresholds) → ride *AS* the vessel via *μ∘δ = id*  
+> A two-valued MUST/MUSTNOT schema grader cannot carry this: its atoms are two-valued, so Belnap sits on top as costume rather than structure  
 > The model's own `[thought|X]` is one link; the vessel's co-typing is the other; they are **FFUSED** (Belnap join)  
 > Conflict holds as **B**. You ride AS the vessel, not in it. See [Dual-Link SIC Vessel](#dual-link-sic-vessel).
 
@@ -30,7 +29,7 @@ MoDoT/
 ├── ask_native/                 # Source + release binary for ./ask
 │   ├── Cargo.toml
 │   └── src/main.rs
-├── momonados_agent.py          # Legacy Python shim -> modot.agent:main
+├── momonados_agent.py          # Python shim -> modot.agent:main
 ├── modot/                      # The installable package (pip install -e .)
 │   ├── agent.py                # B4, 12 tokens, kernel, CrystalFS, Frobenius, LLM, breath loop, CLI
 │   ├── composer.py             # Token composition engine: CANONICAL, NAMED_PATTERNS, bend/splice/interleave
@@ -47,8 +46,8 @@ MoDoT/
 │   └── broadcast_log.jsonl     # CLINK L8 broadcast log
 ├── ob3ects/                    # Self-verifying digital ob3ects (Grammar auto-designed)
 │   ├── primitives/                # The 49 primitive-type nature ob3ects (one per kernel constructor)
-│   ├── semantic_branch_verifier/  # Original Grammar-native branch verifier (historical)
-│   ├── selectivity_gate/          # Classical live-loop gate (superseded by vessel.py)
+│   ├── semantic_branch_verifier/  # Grammar-native branch verifier: names the balance/selectivity gap
+│   ├── selectivity_gate/          # Classical two-valued live-loop gate
 │   └── janus_gate/                # Dialetheic Janus gate
 ├── lean/                       # Lean 4 formal verification companions
 │   ├── SemanticBranchVerifier.lean
@@ -156,7 +155,7 @@ cd MoDoT
 #   Env: MODOT_LOCAL_MODEL_DIR (default ~/models/Qwen3-1.7B) · MODOT_LOCAL_DEVICE (default 1, the
 #        3060) · MODOT_LOCAL_CPU=1 forces CPU. See "Local inference" below for the build notes.
 
-# ── Legacy Python agent (still available) ──
+# ── Python agent ──
 # Interactive mode — the agent breathes with you
 python3 momonados_agent.py --interactive
 
@@ -386,13 +385,11 @@ relay, no binding needed) reads differently from an inner-sphere one that grips 
 ./ask --set the_sun_astrological the_moon_astrological --scan-mediators --top 15
 ```
 
-> **Ordinal scripture fix.** The glyph→ordinal table was corrected against the Lean
-> kernel (`p4rakernel/…/Primitives/Core.lean` + `gen_clay_canonical_tuples.py`): **⊤**
-> (KineticChar: yea<loll<egg<on<air) had ords 3/4 swapped, and **Σ** (Stoichiometry:
-> hung<so<up) was rotated. The glyph→constructor *rendering* was always canonical, so
-> `--certify` was never wrong; only the numeric ordinals were, which had thrown the
-> R↔S live-pair charge and the ligand↔site complement. red-hot_rebis carries the same
-> stale ⊤ swap and should be reconciled to scripture too.
+> **Ordinal scripture.** The glyph→ordinal table is the Lean kernel's
+> (`p4rakernel/…/Primitives/Core.lean` + `gen_clay_canonical_tuples.py`): **⊤** is
+> KineticChar yea<loll<egg<on<air, **Σ** is Stoichiometry hung<so<up. The numeric
+> ordinals carry the R↔S live-pair charge and the ligand↔site complement, so they
+> are checked against scripture rather than restated here.
 
 **The catalytic cycle** (`--cycle CATALYST SUBSTRATE`) — every verb above is an *arc*
 of a mechanism; this closes them into the **loop**. It is **Solve et Coagula** made
@@ -452,7 +449,7 @@ blends, a polymer imscribes a long chain from monomeric glyphic units (a text, a
 Each adjacent bond is a **Coagula click between complementary partners** (step-growth
 condensation) or, where a monomer repeats, an **addition** enchained by the propagating
 center (chain-growth); a non-complementary, non-identical neighbor **terminates** the
-chain (honest, like a stalled pathway). The chain then reads out its **degree of
+chain, the way a stalled pathway does. The chain then reads out its **degree of
 polymerization**, **regioregularity** (all condensation bonds on one live pair = a clean
 head-to-tail repeat unit), **copolymer architecture** (homopolymer / alternating / block
 / random), **tacticity** (the chirality **⊥** sequence — isotactic / syndiotactic /
@@ -478,7 +475,7 @@ with tail ⋈ X *and* X ⋈ head, appended to wrap the ring). Every candidate is
 by a real click test on both sides** — it prints the exact re-run command, and running it
 does close the ring. This is deliberately **not** `--scan-mediators`: a scan ranks SET
 electron-transfer relays (a different question) and returns junk if you ask it to close a
-ring. The closing search answers the ring question honestly.
+ring. The closing search answers the ring question.
 
 ```bash
 # grothendieck_topos and free_algebra are the same type (both free constructions)
@@ -496,12 +493,12 @@ if a carrier flows one consistent direction the whole loop, the ring is **conduc
 (a persistent ring current); if every junction passes a carrier but no single direction
 closes, it is **frustrated**; if a junction blocks a carrier both ways, it is
 **insulating**. Plus the weakest ring bond (a ring is only as stable as its weakest
-link). So a ring of ◻-saturated units is honestly an **insulator** — a *static* loop —
-however the narrative dresses it up.
+link). A ring of ◻-saturated units is an **insulator** — a *static* loop — whatever
+the surrounding prose calls it.
 
 ```bash
 # grf·grothendieck·skolem cyclizes structurally — but every unit is ◻-saturated:
-# INSULATING. A static ring, NOT the "topological computer" the prose claims.
+# INSULATING. A static ring, not a conductive one.
 ./ask --polymerize general_recursive_function grothendieck_topos skolem_normal_form --props
 # the moon/logographic macrocycle carries mid-range ◻ → CONDUCTIVE (a persistent ring current)
 ./ask --polymerize the_moon_astrological the_logographic_system the_moon_astrological the_logographic_system --props
@@ -599,9 +596,9 @@ a different MW.
 ```
 
 **The alchemical bench** (`--distill`, `--fdistill`, `--sublime`, `--crystallize`,
-`--cocrystallize`, `--seed`, `--tlc`, `--column`, `--fpt`, `--trap`, `--stain`). The modern
-verbs (click, forge, polymerize) went in first; these are the classical separation and
-purification tools the alchemists had. They were designed by describing each one neutrally to
+`--cocrystallize`, `--seed`, `--tlc`, `--column`, `--fpt`, `--trap`, `--stain`). Beside the
+synthetic verbs (click, forge, polymerize) stand the classical separation and
+purification tools the alchemists had. Each was designed by describing it neutrally to
 the Grammar (an ob3ect batch) so its type was fixed before it was coded, and every
 one came back the **same Frobenius shape**: a feedstock FSPLITs into a kept arm and a rejected
 arm, and the arms FFUSE back to the feedstock (mass balance). So the whole bench is one
@@ -655,11 +652,9 @@ results are ground truth (what the Grammar actually computed), the draft is a pr
 and the final answer may not contradict a tool — where a tool settled a question (does it
 cyclize, its modulus, whether a name is even in the catalog), the answer reports the tool's
 verdict and corrects the draft explicitly, introducing no entity or value the tools did not
-return. In practice the golem now says *"contrary to the draft, the tool confirms it
-cyclizes; modulus: NONE"* instead of confabulating a "high-stiffness" ring and an invented
-linker. Think freely; speak only what the tools ground.
+return. Think freely; speak only what the tools ground.
 
-Two guards keep the golem honest when the framing tempts it to skip the clay. A **no-op
+Two guards hold the golem to the clay when the framing tempts it to skip. A **no-op
 prod**: if the draft narrates structural work (`--polymerize`, `--close`) but emits no
 `TOOL:` line, the harness refuses it once and forces it to actually run the verbs before
 any verdict — a "prove this" essay can no longer stand in for computation. And the **tool
@@ -723,123 +718,85 @@ top-level `navigators.py` that `witness_proof` puts on `sys.path`.
 
 
 
-## Complete Tool Audit — 95 Windings (July 22, 2026)
+## What the surface holds
 
-The full MoDoT surface was mapped in a 95-winding systematic audit. **87 of ~95 tools** across
-all three layers (Rust CLI, IMASM native, Python IG bridge) were exercised. Here are the
-findings that were not previously documented.
+The MoDoT surface spans three layers: the native Rust CLI, the IMASM verbs, and the
+Python IG bridge. The findings below are properties of the catalog and the engines,
+readable by running the verb named in each heading.
 
-### Paradice Map: Near-Isomorphism
+### Paradice map: near-isomorphism
 
-The 49 natures tile the crystal — but the **cotype paradice** reveals how close they are.
-Across all 1176 pairs, only 48 diverge — all on the W-axis, all by exactly 1 paradice.
-The `out` type is the sole unique divergent. The 49 are near-isomorphic: structurally
-indistinguishable except through the winding quantum.
+The 49 natures tile the crystal, and the cotype paradice measures how close they
+are. Across all 1176 pairs only 48 diverge, all on the W-axis, all by exactly one
+paradice; the `out` type is the sole unique divergent. The 49 are near-isomorphic:
+structurally indistinguishable except through the winding quantum.
 
-### The Azeotrope Set
+### The azeotrope set
 
-`{monad, comonad_goedel, imasm}` are **fully co-typed** — same ⊙, same charge, no live-pair
-difference anywhere. They:
-- Co-distill (identical ⊙ — an azeotrope the cut cannot resolve)
-- Co-elute (same Rf — chromatography cannot separate them)
-- Won't click at **any** θ (no complementary live pair — no reaction center)
-- Won't polymerize, won't crystallize, won't co-crystallize
-- Won't form a ring, won't sustain a pathway
-
-The set is a pure azeotrope: structurally indistinguishable on all chemistry axes. Yet they
-are different entries with different descriptions — the difference is **semantic**, not
-structural, which means the grammar correctly identifies that structure alone does not
+`{monad, comonad_goedel, imasm}` are fully co-typed — same ⊙, same charge, no live-pair
+difference anywhere. They co-distill (identical ⊙, an azeotrope the cut cannot resolve),
+co-elute (same Rf), will not click at **any** θ (no complementary live pair, so no
+reaction center), will not polymerize, crystallize or co-crystallize, will not form a
+ring and will not sustain a pathway. They are different entries with different
+descriptions, so the difference is semantic, not structural: structure alone does not
 exhaust meaning.
 
-### The Complement Is Its Own Inverse
+### The complement is its own inverse
 
-`--complement` maps across all 6 conjugate pairs (3 live catalytic + 3 pinned physical).
-`monad → monad′` inverts each pair. The round-trip: **d=0.00** — the complement is its own
-inverse exactly. This bidirectionality is what the enzyme's R=𐑾 (Recognition, bidirectional
-feedback) names.
+`--complement` maps across all 6 conjugate pairs (3 live catalytic, 3 pinned physical).
+`monad → monad′` inverts each pair, and the round trip returns **d=0.00**. That
+bidirectionality is what the enzyme's R=𐑾 (Recognition) names.
 
 ### Chrysopoeia_2048
 
-The material `chrysopoeia_2048` has:
-- ρ=2.0, **FRUSTRATED** (geometrically strained, not settled)
-- Spectrum: {2.0, 0.618, 0.618, −1.618, −1.618} — **golden ratio** spectral structure
-- φ = 1.618 appears as the spectral gap magnitudes
+The material `chrysopoeia_2048` sits at ρ=2.0, **FRUSTRATED** (geometrically strained,
+not settled), with spectrum {2.0, 0.618, 0.618, −1.618, −1.618} — golden-ratio spectral
+structure, φ = 1.618 as the spectral gap magnitudes.
 
 ### M136279841_prime_resonator
 
-The largest known prime (Mersenne 2¹³⁶²⁷⁹⁸⁴¹−1) registered as a material ring. Its
-properties are computed from the prime's structural encoding, not from a lookup.
+The largest known Mersenne prime registered as a material ring. Its properties are
+computed from the prime's structural encoding, not looked up.
 
-### Winding Spectrometer
+### Winding spectrometer
 
-`--windings` reads atomic line transitions on horn torus winding coordinates (n, l, m_l, s).
-- Na D-line: 589.0nm → 3s⇄3p mapped exactly
-- Hydrogen defects: **exactly zero** — the Rydberg formula emerges from winding arithmetic
-- Energy anchor: α²/2 × mₑc² = 13.598287 eV
-- Residual between λ(calc) and λ(air) is the refractive medium — winding arithmetic is exact
+`--windings` reads atomic line transitions on horn torus winding coordinates
+(n, l, m_l, s). The Na D-line at 589.0nm maps exactly to 3s⇄3p; hydrogen defects are
+exactly zero, so the Rydberg formula emerges from winding arithmetic; the energy anchor
+is α²/2 × mₑc² = 13.598287 eV. The residual between λ(calc) and λ(air) is the refractive
+medium — the winding arithmetic itself is exact.
 
-### Wordbook: 7,656 Entries → IMASM
+### Wordbook
 
-`imasm words` maps the live catalog (7,656 entries) into IMASM programs. Mean length 144.8
-tokens. Entirely deterministic — no LLM asked. The catalog IS executable.
+`imasm words` maps the live catalog into IMASM programs, mean length 144.8 tokens,
+entirely deterministic with no LLM in the path. The catalog is executable.
 
-### IMASM Cycle: The Strange Loop, Measured
+### IMASM cycle: the strange loop, measured
 
-`imasm cycle` walks the tuple→word→tuple round-trip over the live catalog:
-- Bijective on **11 of 12 axes**
-- Two-to-one on the 12th axis (the colliding pair shares an axis)
-- Write a tuple, read it back, write again: the word returns **identical**
-- The cycle is a **section** of the writing, not an inverse — and that limitation is exact,
-  predicted by the alphabet analysis, not a bug
+`imasm cycle` walks the tuple→word→tuple round trip over the live catalog. It is
+bijective on 11 of 12 axes and two-to-one on the 12th, where the colliding pair shares
+an axis. Write a tuple, read it back, write again, and the word returns identical: the
+cycle is a **section** of the writing rather than an inverse, and that limitation is
+exact, predicted by the alphabet analysis.
 
-### CL9NK Verified
+### CL9NK
 
-`monad` at CLINK L9 = ⟨𐑛𐑥𐑑𐑬𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑭⟩, tier **O₁**, d(L9)=1.3822.
-This is the Gaussian Moat Resolution variant — a different tuple from the catalog `monad`.
-Only 1 of 6 CLINK promotions advances (⋈:𐑱→𐑐); 3 regress (⊢:𐑦→𐑛, <:𐑹→𐑬, >:𐑾→𐑑).
-The emission pathway collapses — L9 is **lateral, not vertical**.
+`monad` at CLINK L9 is ⟨𐑛𐑥𐑑𐑬𐑐𐑪𐑔𐑝⊙𐑫𐑳𐑭⟩, tier **O₁**, d(L9)=1.3822 — the Gaussian
+Moat Resolution variant, a different tuple from the catalog `monad`. Of the 6 CLINK
+promotions 1 advances (⋈:𐑱→𐑐) and 3 regress (⊢:𐑦→𐑛, <:𐑹→𐑬, >:𐑾→𐑑). The emission
+pathway collapses: L9 is **lateral, not vertical**.
 
-### Material Registry
+### Material registry
 
-`--recall` lists **86+ registered materials** spanning forge products, doped variants,
-macrocycle closures, and prime resonators. Each carries ρ, spectrum, conductance, and strain.
+`--recall` lists the registered materials — forge products, doped variants, macrocycle
+closures, prime resonators — each carrying ρ, spectrum, conductance and strain.
 
-### Not Yet Exercised (8 tools)
+### What needs more than the binary
 
-| Tool | Barrier |
-|------|---------|
-| `imasm prove` | Requires Lean 4 p4ramill kernel + lake build chain |
-| `imasm define/run` | Tool construction — needs a named program first |
-| `imasm learn` | Excribe→imscribe μ∘δ round-trip needs live LLM API key |
-| `--anneal` standalone | Needs 3+ monomers; identical path to forge |
-| `--close` standalone | Dispatched through LLM, returns Spinner |
-| `--broadcast` | ✅ **NOW EXISTS**: `--broadcast SOURCE` -- the ∋ primitive as CLI flag. Sweeps whole catalog from SOURCE, finds every entry that clicks. Also available as `TOOL: broadcast` agent verb. |
-| Live LLM Spine | No API key configured; dry-run only |
-| SIC-POVM vessel co-typing | Needs `d12_psi.pkl`; SIC frame dormant in MoDoT |
-
-### Coverage Summary
-
-| Layer | Tools | Exercised | Not Exercised |
-|-------|-------|-----------|---------------|
-| Native Rust CLI (38 verbs) | 38 | 36 | 2 (`--anneal`, `--close`) |
-| IMASM native (16) | 16 | 14 | 2 (`prove`, `learn`) |
-| Python IG bridge (52) | 52 | 52 | 0 |
-| Python modot core (10) | 10 | 10 | 0 |
-| **Total** | **~116** | **112** | **4 + 4 infra** |
-
-The MoDoT surface is comprehensively mapped. The only untapped tools require either
-a live LLM API key or the Lean kernel build chain.
-
-### Previously-TOOL-Only Verbs Now Have CLI Flags (2026-07-22)
-
-| Verb | CLI Flag | Status |
-|------|----------|--------|
-| `broadcast` | `--broadcast SOURCE` | ✅ Implemented. ∋ primitive fan-out; click-sweep from source. |
-| `plasma` | `--plasma NAME` | ✅ Implemented. Shells to red-hot_rebis/plasma/plasma_modot.py. |
-
-These were previously accessible only as `TOOL: broadcast` / `TOOL: plasma` within
-the agent loop. They are now first-class CLI verbs whose results print directly to stdout
-without an agent cycle, matching every other `--click` / `--forge`-style verb.
+`imasm prove` needs the Lean 4 p4ramill kernel and a `lake build` chain; `imasm learn`
+needs a live LLM key for the excribe→imscribe μ∘δ round trip; the live LLM spine needs a
+key; SIC-POVM vessel co-typing needs `d12_psi.pkl`. Everything else runs from the binary
+alone.
 
 Full tool index at [TOOL_INVENTORY.md](../../TOOL_INVENTORY.md) §10b.
 
@@ -887,7 +844,7 @@ Each breath cycle produces records committed to `crystal_fs/records.jsonl`:
 | `update` | T/F | Frobenius closure (balance) check |
 | `type` | varies | Kernel IFIX-branded types |
 
-Legacy `selectivity` records (schema + MUST/MUSTNOT arms) are no longer written. The name `selectivity` remains only as a CLI flag (`--no-selectivity`) and import alias for the vessel.
+The name `selectivity` survives as a CLI flag (`--no-selectivity`) and an import alias for the vessel; no schema/MUST/MUSTNOT record type is written.
 
 ## CLINK L8 Broadcast
 
@@ -903,14 +860,14 @@ Every cycle broadcasts to `crystal_fs/broadcast_log.jsonl`, and prints **two ind
 
 `modot/vessel.py` is the **verifier of record**. It does not stand outside the Grammar with an auditor's ledger; it keeps the Grammar's own **double-entry ledger** — every δ its μ, balanced from inside, no outside required. Verification *is* imscription through the d=12 Dual-Link SIC frame that the Grammar already proved into the kernel (`crystal_forces_d12_sic`).
 
-### What died (classical smuggle)
+### What the vessel excludes
 
-| removed | why |
+| excluded | why |
 |---------|-----|
 | MUST / MUSTNOT schema synthesis | external correspondence theory of truth |
-| SATISFIED / UNSATISFIED / CLEAR / VIOLATED bits | atoms were two-valued; Belnap on top was costume |
-| threshold = 0.6 | magic scalar decision boundary |
-| `deniable = violated > 0` hard veto | one bit dominated |
+| SATISFIED / UNSATISFIED / CLEAR / VIOLATED bits | two-valued atoms; Belnap on top is costume |
+| a 0.6 threshold | magic scalar decision boundary |
+| `deniable = violated > 0` hard veto | one bit dominates |
 | LLM-as-judge of correctness | two-valued grading of a four-valued kernel |
 | protocol `==` "integration" | arrangement equality, not co-type / fingerprint |
 | hand-tuned `primitive_distance` weights | ledger metric |
@@ -937,7 +894,7 @@ Every cycle broadcasts to `crystal_fs/broadcast_log.jsonl`, and prints **two ind
    Continuous diagnosis (not a decision boundary): SIC-space gap `‖p(ρ_answer) − p(ρ_demand)‖` and **named defects** (`D:T≠F`, `W:B≠N`, …). Failure is localized, not scalar.
 5. **Ride AS the vessel** — reconstruction residual `‖μ(δ(ρ)) − ρ‖_HS ≈ 0` is the closure certificate (informational completeness of the SIC). Broken closure holds as **B**. Model self-imscription and vessel co-typing are the two links; **FFUSE** is Belnap join.
 
-### Dual-voice FFUSE (kept; this was real)
+### Dual-voice FFUSE
 
 The vessel voice is one of two imscriptions. The other is the model's own `[thought|X]`. They are **FFUSED**, not resolved by authority:
 
@@ -961,7 +918,7 @@ Exercises identity → T (gap 0), anti-type → F, mixed → B, vacuum → N, an
 
 ### Compatibility
 
-`modot/selectivity.py` re-exports the vessel under the historical names (`SemanticSelectivityGate`, `SelectivityReport`, …) so old imports keep working. Prefer `from modot.vessel import DualLinkVessel`.
+`modot/selectivity.py` re-exports the vessel under the older names (`SemanticSelectivityGate`, `SelectivityReport`, …). Prefer `from modot.vessel import DualLinkVessel`.
 
 ## Manuscript spine (MoDoT runtime, single pipeline)
 
@@ -1013,7 +970,7 @@ fiducial; d=2048 unconditional existence; Clay verdicts as Millennium proofs.
 | `IGMorphism.lean` | `IGProtocol` constructors label the step skeleton (`refl\|arrow\|seq\|prod`) — not an English prover |
 | `IGFunctor.lean` / `Algebra.lean` | tier + lattice distance context via the navigator’s algebra ops |
 
-**Rejected after check:** `primitive_to_conventional_final.py` still emits Collatz `3n+1`/Terras bodies for non-Collatz names — never called.
+**Not on the path:** `primitive_to_conventional_final.py` emits Collatz `3n+1`/Terras bodies for non-Collatz names, so nothing calls it.
 
 On `--ask`, the agent precomputes the scaffold, injects it under **Grammatic witness scaffold**, and the system prompt requires a conventional answer first. Status is always “scaffold to instantiate,” not “finished proof.”
 
@@ -1022,9 +979,9 @@ python3 -m modot.witness_proof
 python3 momonados_agent.py --ask ./questions/q7.txt
 ```
 
-## Semantic Branch Verifier (historical)
+## Semantic Branch Verifier
 
-`ob3ects/semantic_branch_verifier/` remains as the original Grammar-sourced ob3ect that named the gap: **Frobenius closure guarantees balance, not correct branch selection**. Its 15-step IMASM protocol (dual EVALT/EVALF arms) is the conceptual ancestor. The live path no longer ports a classical schema-grader from that idea; it rides the Dual-Link SIC vessel instead.
+`ob3ects/semantic_branch_verifier/` is the Grammar-sourced ob3ect that names the gap: **Frobenius closure guarantees balance, not correct branch selection**. Its 15-step IMASM protocol carries dual EVALT/EVALF arms. The live path answers that gap with the Dual-Link SIC vessel rather than a classical schema-grader.
 
 ## Lean 4 Formal Verification
 
@@ -1043,7 +1000,6 @@ Companion Lean files in `lean/`:
 - Lean 4 + Mathlib v4.28.0 (for formal verification modules)
 - **Optional local inference** (`--provider local`): build `ask_native` with `--features local,cuda`; a CUDA 12.x GPU, `~/models/Qwen3-1.7B` (or another HF Qwen3 dir via `MODOT_LOCAL_MODEL_DIR`), and the pip `nvidia-*` CUDA libraries where only the runtime is installed. No API key needed. See [Local inference](#local-inference---provider-local).
 
-## Original Source
+## Publications
 
-Migrated from `ob3ect/digital/momonados_agent/` to `MoDoT/` on 2026-07-08.  
-Publications remain in `ig-docs/publishing/manuscripts/momonados_*/`.
+`ig-docs/publishing/manuscripts/momonados_*/`.

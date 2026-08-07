@@ -4,7 +4,7 @@
 
 A comprehensive mathematical environment bridging the Imscribing Grammar to immediate real-world applications. Built on the full MoDoT stack (click-maths catalysis, materials algebra, alchemical bench, winding spectrometer, IMASM composer, and the 7,923-entry IG catalog).
 
-## New Mathematical Environments
+## Mathematical Environments
 
 ### 1. Paraconsistent Number Theory (PNT) — `paranumber.py`
 
@@ -101,7 +101,7 @@ python3 iuft.py synthesize monad O_inf
 python3 iuft.py demo
 ```
 
-## Original Modules
+## Core Modules
 
 | Module | File | Description |
 |--------|------|-------------|
@@ -161,12 +161,10 @@ Each layer is Frobenius-closed: every operation has dual verification (μ∘δ=i
 
 ## Verification
 
-All modules have been tested and verified:
-- **PNT**: 10/10 theorems ✓, μ∘δ=id ✓, dialetheic discovery ✓
-- **IUFT**: Live catalog connection ✓, bridge discovery ✓, landscape exploration ✓
-- **Resonance**: Structural coupling ✓
-- **Proof Forge**: Lean scaffold generation ✓
-- **Winding Predictor**: α⁻¹ prediction matched to 6 decimal places ✓
+Each module carries its own check: PNT proves 10/10 theorems under μ∘δ=id, IUFT
+resolves bridges against the live catalog, Resonance computes structural coupling,
+Proof Forge emits Lean scaffolds, and the Winding Predictor reproduces α⁻¹ to six
+decimal places.
 
 ---
 
