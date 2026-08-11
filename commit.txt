@@ -1,8 +1,4 @@
-The local engine renders the canonical chat template
+IG_THINK names the reasoning toggle
 
-A checkpoint's own template decides how a tool call is written and how a tool
-result comes back, and those differ between checkpoints. The agent parses one
-protocol, so the engine has to render one: the canonical template at
-imscribing_grammar/framework/templates/qwen_tool_chat_template.jinja, overridable
-with IG_CHAT_TEMPLATE, falling back to the checkpoint's only when neither is
-present. The path it used is printed at load.
+One name across the repos for whether the model reasons before it acts. The
+legacy MODOT_THINK still reads behind it.

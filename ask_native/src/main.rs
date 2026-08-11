@@ -49,10 +49,10 @@ mod windings;
 
 // ── CLI ─────────────────────────────────────────────────────────────────────
 
-/// Default for `--think`: on, unless MODOT_THINK is set to a falsey value (0/false/off/no).
+/// Default for `--think`: on, unless IG_THINK (or legacy MODOT_THINK) is falsey (0/false/off/no).
 /// Clap's own bool env parse rejects "0", so the env is read here instead.
 fn default_think() -> bool {
-    match env::var("MODOT_THINK") {
+    match env_first(&["IG_THINK", "MODOT_THINK"]).ok_or(env::VarError::NotPresent) {
         Ok(v) => !matches!(
             v.trim().to_lowercase().as_str(),
             "0" | "false" | "off" | "no" | "n" | ""
@@ -406,7 +406,7 @@ struct Cli {
     /// Toggle model reasoning ("thinking") tokens. On by default; `--think false` (or
     /// `--no-think`) turns it off, sending the provider's disable-reasoning parameter
     /// (OpenRouter `reasoning.enabled=false`, Gemini `thinkingConfig.thinkingBudget=0`).
-    /// Env: MODOT_THINK=0/false to default it off. Bare `--think` forces it on.
+    /// Env: IG_THINK=0/false to default it off. Bare `--think` forces it on.
     #[arg(
         long = "think",
         num_args = 0..=1,
@@ -6274,7 +6274,11 @@ fn run_one(
     // Proof-intent route: a `prove:` prefix or a literal Lean theorem/lemma goes to
     // the kernel-gated prover (native — shells to `lake build`), not the prose spine.
     // Not closed is a navigation frontier (B), never a verdict of unprovability.
-    if !cli.dry_run && llm.api_key.is_some() {
+    // The gate is "can this provider serve", not "is there a key": local is
+    // keyless by construction — the resident model IS the credential — and gating
+    // on a key put the kernel-gated prover out of reach on the only lane that
+    // runs when the network lane is broke, which is exactly when it is needed.
+    if !cli.dry_run && (llm.api_key.is_some() || provider_has_key(llm.provider)) {
         if let Some(goal) = prover::proof_intent(question) {
             println!("── ROUTE: proof-intent → kernel-gated prover ──");
             let mut p = prover::LeanProver::new(llm, cli.verbose);
