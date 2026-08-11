@@ -474,10 +474,50 @@ class LLMInterface:
     """
     
     def __init__(self, api_key=None, model=None, base_url=None):
-        self.api_key = api_key or os.environ.get("OPENROUTER_API_KEY")
-        self.model = model or os.environ.get("MOMONADOS_MODEL", "google/gemini-3-flash-preview")
-        self.base_url = base_url or "https://openrouter.ai/api/v1"
+        if not model:
+            model = os.environ.get("MODOT_MODEL") or os.environ.get("MOMONADOS_MODEL", "google/gemini-3-flash-preview")
+            modot_provider = os.environ.get("MODOT_PROVIDER", "")
+            if modot_provider and ":" not in model:
+                model = f"{modot_provider}:{model}"
+        self.model = model
+        self.base_url = base_url
+        self.api_key = api_key
         self.call_count = 0
+
+        # Resolve prefixes (e.g., kilo:model, kilocode:model)
+        if ":" in self.model:
+            prefix, model_id = self.model.split(":", 1)
+            prefix_lower = prefix.lower()
+            if prefix_lower in ("kilo", "kilocode"):
+                if not self.base_url:
+                    self.base_url = "https://api.kilo.ai/api/gateway"
+                if not self.api_key:
+                    self.api_key = os.environ.get("KILO_API_KEY")
+                self.model = model_id
+            elif prefix_lower == "deepseek":
+                if not self.base_url:
+                    self.base_url = "https://api.deepseek.com/v1"
+                if not self.api_key:
+                    self.api_key = os.environ.get("DEEPSEEK_API_KEY")
+                self.model = model_id
+            elif prefix_lower == "qwen":
+                if not self.base_url:
+                    self.base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+                if not self.api_key:
+                    self.api_key = os.environ.get("QWEN_API_KEY")
+                self.model = model_id
+            elif prefix_lower == "groq":
+                if not self.base_url:
+                    self.base_url = "https://api.groq.com/openai/v1"
+                if not self.api_key:
+                    self.api_key = os.environ.get("GROQ_API_KEY")
+                self.model = model_id
+
+        # Fallbacks to OpenRouter
+        if not self.base_url:
+            self.base_url = "https://openrouter.ai/api/v1"
+        if not self.api_key:
+            self.api_key = os.environ.get("OPENROUTER_API_KEY")
     
     def infer(self, messages, max_tokens=4096, temperature=0.7) -> Tuple[str, B4]:
         """Run inference. Returns (response_text, belnap_verdict).
@@ -1298,15 +1338,15 @@ def build_parser():
           python3 momonados_agent.py --reset --interactive
         
         TIPS:
-          - Set OPENROUTER_API_KEY env var for LLM access.
-          - Set MOMONADOS_MODEL to override default model.
+          - Set OPENROUTER_API_KEY or KILO_API_KEY env var for LLM access.
+          - Set MODOT_MODEL or MOMONADOS_MODEL to override default model.
+          - Set MODOT_PROVIDER to override default provider prefix (e.g. kilo, deepseek).
           - Crystal FS persists between runs in crystal_fs/ directory.
           - Use --dry-run to test the kernel without API calls.
           - The broadcast_log.jsonl tracks all CLINK L8 broadcasts.
         """),
-        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    
+     
     p.add_argument("--cycles", type=int, default=1,
                    help="Number of breath cycles (default: 1)")
     p.add_argument("--interactive", "-i", action="store_true",
@@ -1320,7 +1360,7 @@ def build_parser():
     p.add_argument("--dry-run", action="store_true",
                    help="Run without LLM (test kernel + Crystal FS)")
     p.add_argument("--model", type=str, default=None,
-                   help="LLM model (default: $MOMONADOS_MODEL or google/gemini-3-flash-preview)")
+                   help="LLM model (default: $MODOT_MODEL, $MOMONADOS_MODEL, or google/gemini-3-flash-preview)")
     p.add_argument("--program", choices=["bootstrap","aqua-vitae","agent"],
                    default="agent", help="Bootstrap program (default: agent)")
     p.add_argument("--no-selectivity", action="store_true",
