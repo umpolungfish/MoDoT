@@ -298,6 +298,9 @@ impl ShardedQwen3 {
         devices: &[(Device, Option<usize>)],
         free: &[u64],
         dtype: DType,
+        // Tensor prefix: "model." for a Qwen3 checkpoint, "model.language_model."
+        // where the text stack sits under a ForConditionalGeneration wrapper.
+        prefix: &str,
         quiet: bool,
     ) -> std::result::Result<Self, String> {
         // Per-parameter-count sizing, so the plan is about THIS model, not a guess.
@@ -341,9 +344,9 @@ impl ShardedQwen3 {
             vbs.push(vb);
         }
 
-        let embed = candle_nn::embedding(cfg.vocab_size, cfg.hidden_size, vbs[0].pp("model.embed_tokens"))
+        let embed = candle_nn::embedding(cfg.vocab_size, cfg.hidden_size, vbs[0].pp(format!("{prefix}embed_tokens")))
             .map_err(|e| format!("embed_tokens: {e}"))?;
-        let norm = candle_nn::rms_norm(cfg.hidden_size, cfg.rms_norm_eps, vbs[0].pp("model.norm"))
+        let norm = candle_nn::rms_norm(cfg.hidden_size, cfg.rms_norm_eps, vbs[0].pp(format!("{prefix}norm")))
             .map_err(|e| format!("model.norm: {e}"))?;
         let lm_head = if cfg.tie_word_embeddings {
             Linear::new(embed.embeddings().clone(), None)
@@ -361,7 +364,7 @@ impl ShardedQwen3 {
             let rotary = Arc::new(
                 Rotary::new(dtype, cfg, dev).map_err(|e| format!("rope on stage {si}: {e}"))?,
             );
-            let vb_l = vbs[si].pp("model.layers");
+            let vb_l = vbs[si].pp(format!("{prefix}layers"));
             let mut layers = Vec::with_capacity(*count);
             for li in next..next + count {
                 layers.push(

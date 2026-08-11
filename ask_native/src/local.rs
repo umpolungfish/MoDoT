@@ -254,35 +254,110 @@ struct Engine {
     prefill_chunk: usize,
 }
 
-fn read_qwen3_config(dir: &str) -> Result<Qwen3Config, String> {
+/// What the checkpoint says it is, before any weight is touched.
+///
+/// Qwen3 keeps its hyperparameters at the top level of config.json. Qwen3.5 is a
+/// `ForConditionalGeneration` that nests them under `text_config`, prefixes every
+/// text tensor with `model.language_model.`, and — the part that matters — is a
+/// HYBRID: `layer_types` marks three layers in four as `linear_attention`, a
+/// gated-DeltaNet recurrence with its own conv1d and state, and only every fourth
+/// as `full_attention`. Reading the nested config is a rename; running the
+/// recurrence is a different model.
+struct ModelShape {
+    cfg: Qwen3Config,
+    /// Prefix on the decoder tensors: "model." for Qwen3,
+    /// "model.language_model." for the 3.5 layout.
+    prefix: String,
+}
+
+fn read_model_shape(dir: &str) -> Result<ModelShape, String> {
     let path = format!("{dir}/config.json");
     let raw = std::fs::read_to_string(&path).map_err(|e| format!("read {path}: {e}"))?;
-    let j: serde_json::Value =
+    let root: serde_json::Value =
         serde_json::from_str(&raw).map_err(|e| format!("parse {path}: {e}"))?;
+
+    // The text hyperparameters, wherever this checkpoint keeps them.
+    let (j, prefix) = match root.get("text_config") {
+        Some(t) => (t.clone(), "model.language_model.".to_string()),
+        None => (root.clone(), "model.".to_string()),
+    };
+
+    // Refuse a hybrid rather than load it into a full-attention stack. A stack
+    // that reads a DeltaNet layer's weights as attention does not fail — it
+    // produces numbers, and they are noise. Say what is missing instead.
+    if let Some(types) = j.get("layer_types").and_then(|v| v.as_array()) {
+        let linear = types
+            .iter()
+            .filter(|t| t.as_str() == Some("linear_attention"))
+            .count();
+        if linear > 0 {
+            return Err(format!(
+                "{} of {} layers are linear_attention (gated DeltaNet: conv1d + recurrent state), \
+                 which this in-process stack does not implement — it runs full-attention Qwen3 \
+                 layers only. Serve this model with vLLM or SGLang and point IG_LOCAL_BASE_URL \
+                 at it, or use a Qwen3 checkpoint here.",
+                linear,
+                types.len()
+            ));
+        }
+    }
+    let model_type = j.get("model_type").and_then(|v| v.as_str()).unwrap_or("");
+    if j.get("linear_attn_config").is_some() || model_type.contains("moe") {
+        return Err(format!(
+            "model_type '{model_type}' is not a dense full-attention Qwen3 stack; \
+             serve it with vLLM or SGLang instead of loading it in-process"
+        ));
+    }
+
     let g = |k: &str| j.get(k);
     let u = |k: &str, d: usize| g(k).and_then(|v| v.as_u64()).map(|x| x as usize).unwrap_or(d);
-    let f = |k: &str, d: f64| g(k).and_then(|v| v.as_f64()).unwrap_or(d);
     let b = |k: &str, d: bool| g(k).and_then(|v| v.as_bool()).unwrap_or(d);
+    // rope_theta moved into rope_parameters in the 3.5 layout; read either.
+    let rope_theta = j
+        .get("rope_parameters")
+        .and_then(|r| r.get("rope_theta"))
+        .or_else(|| g("rope_theta"))
+        .and_then(|v| v.as_f64())
+        .unwrap_or(1_000_000.0);
+    let rms_norm_eps = g("rms_norm_eps").and_then(|v| v.as_f64()).unwrap_or(1e-6);
     let hidden = u("hidden_size", 2560);
     let heads = u("num_attention_heads", 32);
-    Ok(Qwen3Config {
-        vocab_size: u("vocab_size", 151936),
-        hidden_size: hidden,
-        intermediate_size: u("intermediate_size", 9728),
-        num_hidden_layers: u("num_hidden_layers", 36),
-        num_attention_heads: heads,
-        // Qwen3 carries head_dim explicitly; fall back to hidden/heads.
-        head_dim: u("head_dim", hidden / heads.max(1)),
-        attention_bias: b("attention_bias", false),
-        num_key_value_heads: u("num_key_value_heads", 8),
-        max_position_embeddings: u("max_position_embeddings", 40960),
-        sliding_window: None,
-        max_window_layers: u("max_window_layers", 0),
-        tie_word_embeddings: b("tie_word_embeddings", true),
-        rope_theta: f("rope_theta", 1_000_000.0),
-        rms_norm_eps: f("rms_norm_eps", 1e-6),
-        use_sliding_window: false,
-        hidden_act: candle_nn::Activation::Silu,
+    // A partial rotary factor rotates only part of each head. Nothing here
+    // implements that, and applying full RoPE to a partially-rotary model is
+    // silent corruption, so it is a refusal rather than a warning.
+    if let Some(f) = j
+        .get("rope_parameters")
+        .and_then(|r| r.get("partial_rotary_factor"))
+        .and_then(|v| v.as_f64())
+    {
+        if (f - 1.0).abs() > 1e-9 {
+            return Err(format!(
+                "partial_rotary_factor {f} rotates only part of each head; this stack applies \
+                 full RoPE, which would corrupt every position. Serve this model instead."
+            ));
+        }
+    }
+    Ok(ModelShape {
+        cfg: Qwen3Config {
+            vocab_size: u("vocab_size", 151936),
+            hidden_size: hidden,
+            intermediate_size: u("intermediate_size", 9728),
+            num_hidden_layers: u("num_hidden_layers", 36),
+            num_attention_heads: heads,
+            // Qwen3 carries head_dim explicitly; fall back to hidden/heads.
+            head_dim: u("head_dim", hidden / heads.max(1)),
+            attention_bias: b("attention_bias", false),
+            num_key_value_heads: u("num_key_value_heads", 8),
+            max_position_embeddings: u("max_position_embeddings", 40960),
+            sliding_window: None,
+            max_window_layers: u("max_window_layers", 0),
+            tie_word_embeddings: b("tie_word_embeddings", true),
+            rope_theta,
+            rms_norm_eps,
+            use_sliding_window: false,
+            hidden_act: candle_nn::Activation::Silu,
+        },
+        prefix,
     })
 }
 
@@ -311,6 +386,73 @@ fn safetensor_shards(dir: &str) -> Result<Vec<std::path::PathBuf>, String> {
     Err(format!("no safetensors found in {dir}"))
 }
 
+/// The sampling a model's own card asks for. Qwen3 and Qwen3.5 differ, and the
+/// difference is not cosmetic: 3.5 thinks at temperature 1.0 and wants a presence
+/// penalty where 3 wanted none. Keyed off the checkpoint directory because that
+/// is what the user actually chose; an unrecognized name gets Qwen3's numbers,
+/// which are the conservative pair.
+struct SamplingCard {
+    think: (f64, f64),
+    instruct: (f64, f64),
+    repeat_penalty: f32,
+    presence_penalty: f32,
+    /// The output length the card asks for on an ordinary query.
+    max_output: usize,
+}
+
+impl SamplingCard {
+    fn for_model(dir: &str) -> Self {
+        let name = dir.to_ascii_lowercase();
+        // Qwen3.5: thinking T=1.0/top-p 0.95, instruct T=0.7/top-p 0.8, presence
+        // penalty 1.5, repetition penalty 1.0 (i.e. off — the presence penalty
+        // does that work instead).
+        if name.contains("qwen3.5") || name.contains("qwen3_5") || name.contains("qwen35") {
+            return Self {
+                think: (1.0, 0.95),
+                instruct: (0.7, 0.8),
+                repeat_penalty: 1.0,
+                presence_penalty: 1.5,
+                max_output: 32768,
+            };
+        }
+        Self {
+            think: (0.6, 0.95),
+            instruct: (0.7, 0.8),
+            repeat_penalty: 1.15,
+            presence_penalty: 0.0,
+            max_output: 8192,
+        }
+    }
+
+    fn mode(&self, think: bool) -> (f64, f64) {
+        if think {
+            self.think
+        } else {
+            self.instruct
+        }
+    }
+}
+
+/// Subtract `penalty` from the logit of every token already emitted — once each,
+/// however many times it has appeared. That "once each" is the whole difference
+/// from a repetition penalty: presence discourages returning to a token at all,
+/// repetition discourages returning to it AGAIN, and a model card asking for one
+/// is not asking for the other.
+fn apply_presence_penalty(logits: &Tensor, penalty: f32, seen: &[u32]) -> candle_core::Result<Tensor> {
+    let device = logits.device().clone();
+    let mut v = logits.to_dtype(DType::F32)?.to_vec1::<f32>()?;
+    let mut done = std::collections::HashSet::new();
+    for &t in seen {
+        if done.insert(t) {
+            if let Some(slot) = v.get_mut(t as usize) {
+                *slot -= penalty;
+            }
+        }
+    }
+    let n = v.len();
+    Tensor::from_vec(v, n, &device)
+}
+
 impl Engine {
     fn load() -> Result<Engine, String> {
         let cfg = local_cfg();
@@ -320,7 +462,8 @@ impl Engine {
         let t0 = std::time::Instant::now();
         let devices = open_devices(&cfg);
         let ordinals: Vec<usize> = devices.iter().filter_map(|(_, o)| *o).collect();
-        let qcfg = read_qwen3_config(&cfg.model_dir)?;
+        let shape = read_model_shape(&cfg.model_dir)?;
+        let qcfg = shape.cfg.clone();
         let shards = safetensor_shards(&cfg.model_dir)?;
         // A bitsandbytes-NF4 checkpoint is unpacked to dense weights on ONE device
         // (the dequantizer materializes the whole tensor set at once), so it takes
@@ -400,9 +543,18 @@ impl Engine {
 
         let model = if split {
             let free: Vec<u64> = ordinals.iter().map(|i| free_vram(*i)).collect();
-            let m = crate::shard::ShardedQwen3::load(&qcfg, &shards, &devices, &free, dtype, quiet)?;
+            let m = crate::shard::ShardedQwen3::load(&qcfg, &shards, &devices, &free, dtype, &shape.prefix, quiet)?;
             Backend::Split(m)
         } else {
+            // candle's own Qwen3 hardcodes the "model." tensor names, so a
+            // wrapped checkpoint can only take the sharded path, which is told
+            // its prefix.
+            if shape.prefix != "model." {
+                return Err(format!(
+                    "this checkpoint keeps its text stack under '{}', which candle's Qwen3 loader                      cannot address; name two cards in IG_DEVICES (or set IG_LOCAL_FORCE_SPLIT=1)                      to load it through the sharded stack",
+                    shape.prefix
+                ));
+            }
             let device = head_device.clone();
             let vb = if is_bnb {
                 let tensors = crate::bnb::load_dequantized(&shards, dtype, &device, quiet)?;
@@ -580,11 +732,13 @@ impl Engine {
             return Err("empty prompt after tokenization".into());
         }
         self.model.clear_kv_cache();
-        // Sampling per Qwen3 guidance (its model card): top-k=20 with top-p and a
-        // per-mode temperature. Greedy / plain temp sampling is what caused the
-        // endless repetition seen in jam. Thinking: T=0.6, top-p=0.95; non-thinking:
-        // T=0.7, top-p=0.8. A caller temperature ~0 still means greedy (argmax).
-        let (temp, top_p) = if think { (0.6f64, 0.95f64) } else { (0.7f64, 0.8f64) };
+        // Sampling per the model's own card. Qwen3: thinking T=0.6/top-p 0.95,
+        // non-thinking T=0.7/top-p 0.8. Qwen3.5 raises the thinking temperature to
+        // 1.0 and asks for a PRESENCE penalty of 1.5 in both modes. Both keep
+        // top-k=20. Greedy / plain temp sampling is what caused the endless
+        // repetition seen in jam. A caller temperature ~0 still means greedy.
+        let card = SamplingCard::for_model(&self.model_dir);
+        let (temp, top_p) = card.mode(think);
         let temp = if temperature > f64::EPSILON { temperature } else { temp };
         let mut logits_proc = if temperature <= f64::EPSILON {
             LogitsProcessor::from_sampling(0, candle_transformers::generation::Sampling::ArgMax)
@@ -594,18 +748,29 @@ impl Engine {
                 candle_transformers::generation::Sampling::TopKThenTopP { k: 20, p: top_p, temperature: temp },
             )
         };
-        // Repeat penalty over a recent window kills the "records the results, records
-        // the results" loop a small model falls into. Qwen suggests presence penalty;
-        // candle gives a multiplicative repeat penalty, same effect.
+        // Two different penalties, because the cards ask for different things.
+        // A REPEAT penalty divides the logit of a recently seen token — Qwen3's
+        // route out of the "records the results, records the results" loop. A
+        // PRESENCE penalty subtracts a constant from every token already emitted,
+        // once, however often it appeared; that is what Qwen3.5 asks for, and it
+        // is additive rather than multiplicative, so it cannot be spelled as a
+        // repeat penalty. Both are honoured, each where its card calls for it.
         let repeat_penalty: f32 = env_ig("IG_LOCAL_REPEAT_PENALTY", &["MODOT_LOCAL_REPEAT_PENALTY"])
             .and_then(|s| s.parse().ok())
-            .unwrap_or(1.15);
+            .unwrap_or(card.repeat_penalty);
+        let presence_penalty: f32 = env_ig("IG_LOCAL_PRESENCE_PENALTY", &[])
+            .and_then(|s| s.parse().ok())
+            .unwrap_or(card.presence_penalty);
         let repeat_window: usize = 128;
 
         let mut out_ids: Vec<u32> = Vec::new();
         let mut offset = 0usize;
-        // cap so a runaway generation cannot spin forever
-        let cap = max_tokens.clamp(1, 8192);
+        // Cap so a runaway generation cannot spin forever, at the ceiling the
+        // model's card asks for: Qwen3.5 wants room for 32768 tokens on an
+        // ordinary query because its reasoning runs long, where 8192 was enough
+        // for Qwen3. The KV cost of that headroom is already reserved in the
+        // context cap.
+        let cap = max_tokens.clamp(1, card.max_output);
 
         // Live progress: the model is silent for seconds while it loads kernels
         // and chews the prompt, then streams tokens. Print to STDERR so the
@@ -636,6 +801,12 @@ impl Engine {
                 let start = out_ids.len().saturating_sub(repeat_window);
                 candle_transformers::utils::apply_repeat_penalty(&logits, repeat_penalty, &out_ids[start..])
                     .map_err(|e| format!("repeat penalty: {e}"))?
+            } else {
+                logits
+            };
+            let logits = if presence_penalty != 0.0 && !out_ids.is_empty() {
+                apply_presence_penalty(&logits, presence_penalty, &out_ids)
+                    .map_err(|e| format!("presence penalty: {e}"))?
             } else {
                 logits
             };
@@ -802,6 +973,33 @@ mod template_tests {
     /// walks the messages in reverse to find the last user query, and drops the
     /// reasoning from every turn before it — the branches a single-turn render
     /// never touches.
+    #[test]
+    fn a_hybrid_checkpoint_is_refused_by_name_not_by_a_wrong_answer() {
+        let dir = dirs::home_dir().unwrap().join(".modelz/3p54b");
+        if !dir.join("config.json").exists() {
+            eprintln!("no qwen3.5 checkpoint present; skipping");
+            return;
+        }
+        let err = super::read_model_shape(dir.to_str().unwrap())
+            .err()
+            .expect("a hybrid must not load into a full-attention stack");
+        eprintln!("REFUSED: {err}");
+        assert!(err.contains("linear_attention"), "the refusal must name what is missing: {err}");
+    }
+
+    #[test]
+    fn the_sampling_card_follows_the_model() {
+        let q3 = super::SamplingCard::for_model("/home/x/models/Qwen3-1.7B");
+        assert_eq!(q3.mode(true), (0.6, 0.95));
+        assert_eq!(q3.presence_penalty, 0.0);
+        let q35 = super::SamplingCard::for_model("/home/x/models/Qwen3.5-27B");
+        assert_eq!(q35.mode(true), (1.0, 0.95));
+        assert_eq!(q35.presence_penalty, 1.5);
+        assert_eq!(q35.repeat_penalty, 1.0);
+        assert_eq!(q35.max_output, 32768);
+        assert_eq!(q3.max_output, 8192);
+    }
+
     #[test]
     fn qwen35_template_survives_a_multi_turn_history() {
         let path = dirs::home_dir().unwrap().join(".modelz/3p54b/chat_template.jinja");

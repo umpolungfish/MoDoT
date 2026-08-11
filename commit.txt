@@ -1,13 +1,24 @@
-Check the sharded decoder against candle's, and the 3.5 chat template against our engine
+Follow the model's own card, and refuse a hybrid instead of answering wrongly
 
-IG_LOCAL_FORCE_SPLIT runs the sharded stack on a single card. It buys nothing at
-runtime; it exists so the two decoders can be compared on the SAME card, where
-identical greedy output means identical arithmetic rather than a coincidence of
-two architectures. Qwen3-1.7B, temperature 0, 476 tokens: byte-identical.
+Sampling was one global default wearing Qwen3's numbers. It now comes from the
+card of the model actually loaded: Qwen3 thinks at 0.6 with a repetition penalty
+of 1.15 and 8192 tokens of output, Qwen3.5 at 1.0 with a presence penalty of 1.5,
+no repetition penalty, and 32768 tokens. The presence penalty is implemented
+properly — a constant subtracted once from every distinct token already emitted —
+rather than folded into the repetition penalty, which divides and fires on every
+repeat. They are different operations and a card asking for one is not asking for
+the other. Qwen3's own path is unchanged: the same question at temperature 0
+gives the same 476 tokens it gave before.
 
-Two tests render a model's own chat template through the same minijinja
-environment the engine builds, so what a template needs is measured rather than
-assumed. Qwen3.5's template renders here — the reverse walk over messages, the
-namespaces, the macro and the pycompat string methods all hold — and a multi-turn
-history drops the earlier turn's reasoning and opens a think block on the live
-turn, which is the behaviour the model card asks for.
+The loader now reads a nested text_config and carries the tensor prefix through
+to the sharded stack, so a checkpoint whose text stack lives under
+model.language_model. is addressable. And it refuses what it cannot run, by name:
+Qwen3.5 is a hybrid whose linear_attention layers are gated DeltaNet with a
+conv1d and a recurrent state, its rotary is partial and multimodal, and reading
+those weights as attention would not fail — it would produce noise. The message
+counts the layers and points at vLLM or SGLang. Tested against the 3.5-4B on
+disk: 24 of 32 layers named, and the refusal is what comes back.
+
+Its chat template needs nothing: it renders through the engine's minijinja as
+written, drops the earlier turn's reasoning in a multi-turn history, and opens
+the think block the model expects.

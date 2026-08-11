@@ -229,8 +229,29 @@ Then select it at runtime:
 | `IG_LOCAL_PREFILL_CHUNK` | `512` | prompt tokens per prefill block — this, not the prompt length, sets the peak attention-score allocation |
 | `IG_LOCAL_STREAM` | on | live progress on **stderr**: model load, then tokens as they generate, then a tok/s + first-token readout. Set `0` to silence for scripted runs. |
 
+| `IG_LOCAL_PRESENCE_PENALTY` | from the model's card | subtracted once from every token already emitted |
+| `IG_LOCAL_REPEAT_PENALTY` | from the model's card | divides the logit of a recently repeated token |
+
 The older `MODOT_LOCAL_*` spellings still read, so an old shell keeps working;
 `IG_*` is the name every repo here answers to.
+
+**Sampling follows the model's own card**, not one global default. Qwen3 thinks at
+temperature 0.6 with a repetition penalty of 1.15 and 8192 tokens of output;
+Qwen3.5 thinks at 1.0 with a presence penalty of 1.5, no repetition penalty, and
+32768 tokens, because its reasoning runs long. The two penalties are different
+operations — presence subtracts a constant once per distinct token already
+emitted, repetition divides the logit of a token seen again — so a card asking for
+one does not get the other.
+
+**Qwen3.5 does not load here, and says so.** It is a hybrid: three layers in four
+are `linear_attention` (gated DeltaNet with a conv1d and a recurrent state), only
+every fourth is full attention, the rotary is partial (0.25 of each head) and
+multimodal, the text stack sits under `model.language_model.` inside a
+`ForConditionalGeneration`, and there is a vision tower and an MTP head besides.
+The loader reads the nested `text_config`, recognizes all of that, and REFUSES
+with the count of unimplemented layers rather than loading DeltaNet weights into
+an attention layer — which would not fail, it would produce noise. Serve a 3.5
+with vLLM or SGLang and point `IG_LOCAL_BASE_URL` at it.
 
 Because the stream is on stderr, you watch the model think in your terminal while
 the structured answer stays clean on stdout. Redirect `2>/dev/null` to hide it, or
