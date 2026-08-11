@@ -339,9 +339,14 @@ impl Engine {
             .filter_map(|p| std::fs::metadata(p).ok())
             .map(|m| m.len())
             .sum();
-        let split = devices.len() > 1
-            && !is_bnb
-            && (cfg.devices_pinned || {
+        // IG_LOCAL_FORCE_SPLIT runs the sharded stack even on ONE card. It buys
+        // nothing at runtime; it is how the sharded decoder is CHECKED against
+        // candle's own — same card, same kernels, so identical greedy output is
+        // identical arithmetic rather than a coincidence of two architectures.
+        let force_split = env("IG_LOCAL_FORCE_SPLIT").is_some();
+        let split = !is_bnb
+            && (force_split && !devices[0].0.is_cpu()
+                || devices.len() > 1 && (cfg.devices_pinned || {
                 let reserve = 3 * 1024 * 1024 * 1024u64; // KV cache + prefill blocks
                 let roomiest = ordinals.iter().map(|i| free_vram(*i)).max().unwrap_or(0);
                 let fits_one = roomiest > 0 && roomiest >= weights_bytes + reserve;
@@ -352,7 +357,7 @@ impl Engine {
                     );
                 }
                 !fits_one
-            });
+            }));
 
         // Not splitting, but several cards are open: take the roomiest, not the
         // first. The first is only an ordinal; the roomiest is where the model
@@ -754,4 +759,84 @@ pub fn model_dir() -> String {
 #[allow(dead_code)]
 fn _keep(e: &Engine) -> &str {
     &e.model_dir
+}
+
+#[cfg(test)]
+mod template_tests {
+    /// Render a model's own chat template through the SAME minijinja setup the
+    /// engine uses, so what a template needs is measured rather than assumed.
+    fn render_msgs(tmpl: &str, msgs: Vec<minijinja::Value>, think: bool) -> Result<String, String> {
+        let mut jenv = minijinja::Environment::new();
+        jenv.set_unknown_method_callback(minijinja_contrib::pycompat::unknown_method_callback);
+        jenv.add_template_owned("chat".to_string(), tmpl.to_string())
+            .map_err(|e| format!("parse: {e:#}"))?;
+        let t = jenv.get_template("chat").map_err(|e| format!("get: {e:#}"))?;
+        t.render(minijinja::context! {
+            messages => msgs,
+            add_generation_prompt => true,
+            enable_thinking => think,
+        })
+        .map_err(|e| format!("render: {e:#}"))
+    }
+
+    fn render(tmpl: &str) -> Result<String, String> {
+        let mut jenv = minijinja::Environment::new();
+        jenv.set_unknown_method_callback(minijinja_contrib::pycompat::unknown_method_callback);
+        jenv.add_template_owned("chat".to_string(), tmpl.to_string())
+            .map_err(|e| format!("parse: {e:#}"))?;
+        let t = jenv.get_template("chat").map_err(|e| format!("get: {e:#}"))?;
+        let msgs = vec![
+            minijinja::context! { role => "system", content => "You are a golem." },
+            minijinja::context! { role => "user", content => "Name the four values." },
+        ];
+        t.render(minijinja::context! {
+            messages => msgs,
+            add_generation_prompt => true,
+            enable_thinking => false,
+        })
+        .map_err(|e| format!("render: {e:#}"))
+    }
+
+    /// The agent's real shape: a multi-turn history where an earlier assistant
+    /// turn carries a think block. Qwen3.5's template splits on `</think>`,
+    /// walks the messages in reverse to find the last user query, and drops the
+    /// reasoning from every turn before it — the branches a single-turn render
+    /// never touches.
+    #[test]
+    fn qwen35_template_survives_a_multi_turn_history() {
+        let path = dirs::home_dir().unwrap().join(".modelz/3p54b/chat_template.jinja");
+        if !path.exists() {
+            eprintln!("no qwen3.5 template present; skipping");
+            return;
+        }
+        let tmpl = std::fs::read_to_string(&path).unwrap();
+        let msgs = vec![
+            minijinja::context! { role => "system", content => "You are a golem." },
+            minijinja::context! { role => "user", content => "First question." },
+            minijinja::context! { role => "assistant", content => "<think>\nweighing it\n</think>\n\nFirst answer." },
+            minijinja::context! { role => "user", content => "Second question." },
+        ];
+        let out = match render_msgs(&tmpl, msgs, true) {
+            Ok(o) => o,
+            Err(e) => panic!("multi-turn render failed: {e}"),
+        };
+        eprintln!("MULTI-TURN:\n{out}");
+        // The prior turn's reasoning is dropped; the live turn opens a think block.
+        assert!(!out.contains("weighing it"), "prior reasoning leaked into the prompt");
+        assert!(out.ends_with("<think>\n"), "expected an open think block, got:\n{out}");
+    }
+
+    #[test]
+    fn qwen35_template_through_our_engine() {
+        let path = dirs::home_dir().unwrap().join(".modelz/3p54b/chat_template.jinja");
+        if !path.exists() {
+            eprintln!("no qwen3.5 template present; skipping");
+            return;
+        }
+        let tmpl = std::fs::read_to_string(&path).unwrap();
+        match render(&tmpl) {
+            Ok(out) => eprintln!("RENDERED OK:\n{out}"),
+            Err(e) => panic!("qwen3.5 template does not render here: {e}"),
+        }
+    }
 }

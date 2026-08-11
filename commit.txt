@@ -1,9 +1,13 @@
-Split only when the split buys something
+Check the sharded decoder against candle's, and the 3.5 chat template against our engine
 
-The first cut split a model across both cards whenever both were open, which
-made a 1.7B that fits either card alone run at 7 tok/s instead of 20 — the
-partition costs a device-to-device copy per forward and it should only be paid
-when it buys VRAM. Now an auto-detected pair splits only when the weights plus a
-working reserve will not sit on the roomiest card alone, and a pair named in
-IG_DEVICES splits because that is a decision. When one card is enough it is the
-roomiest card that takes the model, not whichever ordinal came first.
+IG_LOCAL_FORCE_SPLIT runs the sharded stack on a single card. It buys nothing at
+runtime; it exists so the two decoders can be compared on the SAME card, where
+identical greedy output means identical arithmetic rather than a coincidence of
+two architectures. Qwen3-1.7B, temperature 0, 476 tokens: byte-identical.
+
+Two tests render a model's own chat template through the same minijinja
+environment the engine builds, so what a template needs is measured rather than
+assumed. Qwen3.5's template renders here — the reverse walk over messages, the
+namespaces, the macro and the pycompat string methods all hold — and a multi-turn
+history drops the earlier turn's reasoning and opens a think block on the live
+turn, which is the behaviour the model card asks for.
