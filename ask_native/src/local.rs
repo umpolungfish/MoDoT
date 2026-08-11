@@ -26,6 +26,9 @@ struct LocalCfg {
     model_dir: String,
     /// CUDA ordinals to use, in stage order. Empty means "every card present".
     devices: Vec<usize>,
+    /// The user named the cards. A named pair is a decision to split; an
+    /// unnamed pair is only a fact about the box.
+    devices_pinned: bool,
     force_cpu: bool,
 }
 
@@ -96,6 +99,7 @@ fn local_cfg() -> LocalCfg {
             &env_ig("IG_LOCAL_MODEL_DIR", &["MODOT_LOCAL_MODEL_DIR"])
                 .unwrap_or_else(|| "~/models/Qwen3-1.7B".to_string()),
         ),
+        devices_pinned: devices.len() > 1,
         devices,
         force_cpu: spec_cpu || env_ig("IG_LOCAL_CPU", &["MODOT_LOCAL_CPU"]).is_some(),
     }
@@ -318,14 +322,57 @@ impl Engine {
         let ordinals: Vec<usize> = devices.iter().filter_map(|(_, o)| *o).collect();
         let qcfg = read_qwen3_config(&cfg.model_dir)?;
         let shards = safetensor_shards(&cfg.model_dir)?;
-        let head_device = devices[0].0.clone();
-        // bf16 on GPU (the weights' native dtype), f32 on CPU (no bf16 matmul there).
-        let dtype = if head_device.is_cuda() { DType::BF16 } else { DType::F32 };
         // A bitsandbytes-NF4 checkpoint is unpacked to dense weights on ONE device
         // (the dequantizer materializes the whole tensor set at once), so it takes
         // the single-device path whatever the card count.
         let is_bnb = crate::bnb::is_bnb(&cfg.model_dir);
-        let split = devices.len() > 1 && !is_bnb;
+        // Split only when splitting BUYS something. The partition costs a
+        // device-to-device copy per forward — measured at roughly a third of the
+        // decode rate — and buys the VRAM of a second card. A model that fits one
+        // card with room for its context should stay on one card; a model that
+        // does not fit should split rather than fail. So: an explicitly named
+        // pair (IG_DEVICES=0,1) splits because the user asked, and an
+        // auto-detected pair splits only when the weights plus a working reserve
+        // will not sit on the roomiest card alone.
+        let weights_bytes: u64 = shards
+            .iter()
+            .filter_map(|p| std::fs::metadata(p).ok())
+            .map(|m| m.len())
+            .sum();
+        let split = devices.len() > 1
+            && !is_bnb
+            && (cfg.devices_pinned || {
+                let reserve = 3 * 1024 * 1024 * 1024u64; // KV cache + prefill blocks
+                let roomiest = ordinals.iter().map(|i| free_vram(*i)).max().unwrap_or(0);
+                let fits_one = roomiest > 0 && roomiest >= weights_bytes + reserve;
+                if fits_one && !quiet {
+                    eprintln!(
+                        "\x1b[2m[local] {:.1} GB of weights fit one card — no split (name both in IG_DEVICES to force it)\x1b[0m",
+                        weights_bytes as f64 / (1024.0 * 1024.0 * 1024.0)
+                    );
+                }
+                !fits_one
+            });
+
+        // Not splitting, but several cards are open: take the roomiest, not the
+        // first. The first is only an ordinal; the roomiest is where the model
+        // will actually have space to think.
+        let devices = if split || devices.len() < 2 {
+            devices
+        } else {
+            let mut best = devices;
+            best.sort_by_key(|(_, o)| std::cmp::Reverse(o.map(free_vram).unwrap_or(0)));
+            best
+        };
+        let head_device = devices[0].0.clone();
+        // bf16 on GPU (the weights' native dtype), f32 on CPU (no bf16 matmul there).
+        let dtype = if head_device.is_cuda() { DType::BF16 } else { DType::F32 };
+        // The ctx cap is sized from the cards the model actually lands on.
+        let ordinals: Vec<usize> = if split {
+            ordinals
+        } else {
+            devices[0].1.into_iter().collect()
+        };
 
         let where_ = if split {
             let names: Vec<String> = ordinals.iter().map(|i| format!("cuda:{i}")).collect();

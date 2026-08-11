@@ -236,8 +236,12 @@ Because the stream is on stderr, you watch the model think in your terminal whil
 the structured answer stays clean on stdout. Redirect `2>/dev/null` to hide it, or
 `1>/dev/null` to watch only the thinking.
 
-The default is **Qwen3-1.7B** (~4 GB bf16), which fits either card alone. Bigger
-models run **split across both cards**: with two GPUs open, the decoder stack is
+The default is **Qwen3-1.7B** (~4 GB bf16), which fits either card alone and so
+runs on ONE card — the roomiest one — because the split costs throughput and buys
+nothing for a model that already fits. Bigger models run **split across both
+cards**, automatically when the weights plus a 3 GB working reserve will not sit
+on the roomiest card alone, and on demand whenever `IG_DEVICES` names more than
+one ordinal: with two GPUs open, the decoder stack is
 partitioned by layer — each layer resident on exactly one card, the hidden state
 crossing the boundary once per forward — so a 4 B model runs with 17 layers on
 `cuda:0` and 19 on `cuda:1`, and the KV cache splits with them. Two cards are not

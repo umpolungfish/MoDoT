@@ -1,37 +1,9 @@
-Split a local model across both cards, and unify the model/provider env under IG_
+Split only when the split buys something
 
-Two 12 GB cards are not 24 GB of pooled memory, but they are a partition. With
-more than one CUDA device open, ask_native now shards the Qwen3 decoder stack by
-layer — each layer resident on exactly one card, the hidden state crossing the
-boundary once per forward — so a model that will not fit one card with usable
-context runs across both. The layer counts come from each card's free VRAM at
-load, not from cutting the stack down the middle, and the card that also carries
-the embedding and the head is charged for them first. One card still runs
-candle's own model, unchanged.
-
-candle keeps its DecoderLayer private and builds every layer on one device, so
-the stack is rebuilt in ask_native/src/shard.rs from the public pieces. Same
-arithmetic; what is new is that a layer knows the card it lives on.
-
-The prompt now enters the model in blocks rather than all at once. Without
-flash-attn the attention scores are heads x q_len x kv_len, so a one-shot prefill
-of a long prompt allocates it squared and the card dies before a token is
-decoded — which is exactly what killed the first split run at 8700 tokens.
-Feeding it in blocks makes q_len the block length and the transient drops from
-O(seq^2) to O(chunk x seq). Attention at each position still sees the same keys,
-so this is a memory fix, not an approximation. It also lets the context cap be
-computed from the real budget instead of a constant: the 4B measured 32000 tokens
-across both cards against 9427 on one.
-
-Measured on the 4B: 17 layers on cuda:0, 19 on cuda:1, 6.7 GB and 5.5 GB
-resident, 7.2 tok/s against 10.3 on a single card. The split costs throughput and
-buys context; both numbers are on the table now.
-
-Env: IG_MODEL and IG_PROVIDER are the names everywhere, with IG_DEVICES for the
-cards, IG_LOCAL_MODEL_DIR for the weights, IG_LOCAL_CTX and
-IG_LOCAL_PREFILL_CHUNK for the sizing. The MODOT_ spellings still read, so an old
-shell keeps working.
-
-The sm_86 build runs on the 4070: candle-kernels ship PTX and it JITs forward
-onto sm_89. Do not raise CUDA_COMPUTE_CAP to 89 — the 3060 cannot run it, and
-the split needs both cards on one build.
+The first cut split a model across both cards whenever both were open, which
+made a 1.7B that fits either card alone run at 7 tok/s instead of 20 — the
+partition costs a device-to-device copy per forward and it should only be paid
+when it buys VRAM. Now an auto-detected pair splits only when the weights plus a
+working reserve will not sit on the roomiest card alone, and a pair named in
+IG_DEVICES splits because that is a decision. When one card is enough it is the
+roomiest card that takes the model, not whichever ordinal came first.
