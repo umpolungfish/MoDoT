@@ -465,9 +465,10 @@ impl Engine {
         let shape = read_model_shape(&cfg.model_dir)?;
         let qcfg = shape.cfg.clone();
         let shards = safetensor_shards(&cfg.model_dir)?;
-        // A bitsandbytes-NF4 checkpoint is unpacked to dense weights on ONE device
-        // (the dequantizer materializes the whole tensor set at once), so it takes
-        // the single-device path whatever the card count.
+        // A bitsandbytes-NF4 checkpoint unpacks to DENSE weights — four times the
+        // file size — which is why it used to be pinned to one card and why an 8 B
+        // NF4 model could not run on a 12 GB GPU at all. It splits now: the
+        // dequantizer places each weight on the card its layer will live on.
         let is_bnb = crate::bnb::is_bnb(&cfg.model_dir);
         // Split only when splitting BUYS something. The partition costs a
         // device-to-device copy per forward — measured at roughly a third of the
@@ -487,16 +488,17 @@ impl Engine {
         // candle's own — same card, same kernels, so identical greedy output is
         // identical arithmetic rather than a coincidence of two architectures.
         let force_split = env("IG_LOCAL_FORCE_SPLIT").is_some();
-        let split = !is_bnb
-            && (force_split && !devices[0].0.is_cpu()
+        let split = (force_split && !devices[0].0.is_cpu()
                 || devices.len() > 1 && (cfg.devices_pinned || {
                 let reserve = 3 * 1024 * 1024 * 1024u64; // KV cache + prefill blocks
+                // A 4-bit checkpoint's dense form is what has to fit, not its file.
+                let resident = if is_bnb { weights_bytes * 4 } else { weights_bytes };
                 let roomiest = ordinals.iter().map(|i| free_vram(*i)).max().unwrap_or(0);
-                let fits_one = roomiest > 0 && roomiest >= weights_bytes + reserve;
+                let fits_one = roomiest > 0 && roomiest >= resident + reserve;
                 if fits_one && !quiet {
                     eprintln!(
                         "\x1b[2m[local] {:.1} GB of weights fit one card — no split (name both in IG_DEVICES to force it)\x1b[0m",
-                        weights_bytes as f64 / (1024.0 * 1024.0 * 1024.0)
+                        resident as f64 / (1024.0 * 1024.0 * 1024.0)
                     );
                 }
                 !fits_one
@@ -537,13 +539,44 @@ impl Engine {
                 cfg.model_dir, where_
             );
         }
-        if is_bnb && devices.len() > 1 && !quiet {
-            eprintln!("\x1b[2m[local] bitsandbytes checkpoint — dequantized onto one card, no split\x1b[0m");
-        }
 
         let model = if split {
             let free: Vec<u64> = ordinals.iter().map(|i| free_vram(*i)).collect();
-            let m = crate::shard::ShardedQwen3::load(&qcfg, &shards, &devices, &free, dtype, &shape.prefix, quiet)?;
+            let m = if is_bnb {
+                // Plan first, then dequantize INTO the plan: each weight lands on
+                // the card that will run its layer, so the dense form never has to
+                // fit on one device at any moment.
+                let counts = crate::shard::ShardedQwen3::plan(&qcfg, &free, dtype);
+                let devs: Vec<Device> = devices.iter().map(|(d, _)| d.clone()).collect();
+                let prefix = shape.prefix.clone();
+                let place = |name: &str| -> &Device {
+                    let layer = name
+                        .strip_prefix(&format!("{prefix}layers."))
+                        .and_then(|rest| rest.split('.').next())
+                        .and_then(|n| n.parse::<usize>().ok());
+                    match layer {
+                        Some(li) => &devs[crate::shard::ShardedQwen3::stage_of_layer(&counts, li)],
+                        // embedding, final norm and head live with the first stage
+                        None => &devs[0],
+                    }
+                };
+                let tensors = crate::bnb::load_dequantized_placed(&shards, dtype, &place, quiet)?;
+                // One VarBuilder per device over the tensors that landed there.
+                let mut vbs = Vec::with_capacity(devices.len());
+                for (dev, _) in &devices {
+                    let mine: std::collections::HashMap<String, Tensor> = tensors
+                        .iter()
+                        .filter(|(_, t)| t.device().same_device(dev))
+                        .map(|(k, v)| (k.clone(), v.clone()))
+                        .collect();
+                    vbs.push(VarBuilder::from_tensors(mine, dtype, dev));
+                }
+                crate::shard::ShardedQwen3::from_varbuilders(
+                    &qcfg, &devices, &counts, vbs, &shape.prefix, dtype, quiet,
+                )?
+            } else {
+                crate::shard::ShardedQwen3::load(&qcfg, &shards, &devices, &free, dtype, &shape.prefix, quiet)?
+            };
             Backend::Split(m)
         } else {
             // candle's own Qwen3 hardcodes the "model." tensor names, so a
@@ -588,10 +621,35 @@ impl Engine {
         // Load the model's own Jinja chat template so the prompt is built exactly
         // the way the model was trained (special tokens, the enable_thinking hard
         // switch, glyphs preserved) rather than by a hand-rolled ChatML guess.
-        let chat_template = std::fs::read_to_string(format!("{}/tokenizer_config.json", cfg.model_dir))
-            .ok()
-            .and_then(|s| serde_json::from_str::<serde_json::Value>(&s).ok())
-            .and_then(|j| j.get("chat_template").and_then(|t| t.as_str()).map(String::from));
+        // The CANONICAL template wins over the one the checkpoint shipped.
+        //
+        // A checkpoint carries whatever template it was packaged with, and those
+        // differ in the part that matters most here: how a tool call is written
+        // and how a tool RESULT comes back. An agent talking to several
+        // checkpoints through one parser must render one protocol, or the loop
+        // desynchronises — the model emits a form nothing reads, the harness
+        // returns no observation, and the next winding repeats the last action
+        // with nothing new in front of it. IG_CHAT_TEMPLATE overrides the path.
+        let canonical = env("IG_CHAT_TEMPLATE")
+            .map(std::path::PathBuf::from)
+            .or_else(|| {
+                dirs::home_dir().map(|h| {
+                    h.join("imsgct/imscribing_grammar/framework/templates/qwen_tool_chat_template.jinja")
+                })
+            })
+            .filter(|p| p.exists());
+        let chat_template = match canonical {
+            Some(path) => {
+                if !quiet {
+                    eprintln!("\x1b[2m[local] chat template: {}\x1b[0m", path.display());
+                }
+                std::fs::read_to_string(&path).ok()
+            }
+            None => std::fs::read_to_string(format!("{}/tokenizer_config.json", cfg.model_dir))
+                .ok()
+                .and_then(|s| serde_json::from_str::<serde_json::Value>(&s).ok())
+                .and_then(|j| j.get("chat_template").and_then(|t| t.as_str()).map(String::from)),
+        };
         let template_env = match chat_template {
             Some(tmpl) => {
                 let mut jenv = minijinja::Environment::new();
