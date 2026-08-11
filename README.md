@@ -143,7 +143,7 @@ cd MoDoT
 # ── Provider / model (default openrouter; deepseek + gemini also wired) ──
 ./ask -a "…" --provider deepseek --model deepseek-reasoner       # api.deepseek.com (DEEPSEEK_API_KEY)
 ./ask -a "…" --provider gemini   --model gemini-3-flash-preview  # generativelanguage (GEMINI_API_KEY)
-#   MODOT_PROVIDER / MODOT_MODEL set the defaults; a fatal 402/401 aborts the run instead of grinding every cycle
+#   IG_PROVIDER / IG_MODEL set the defaults; a fatal 402/401 aborts the run instead of grinding every cycle
 
 # ── LOCAL model: no cloud, no credits, no server (in-process candle inference) ──
 #   Build once with the local feature (default build stays lean and Python-free):
@@ -152,8 +152,9 @@ cd MoDoT
 ./ask -a "…" --provider local                             # aliases: offline | candle | modelz
 #   Weights load straight into the ask binary from ~/models (HF Qwen3 safetensors) and run
 #   on the GPU; the model is loaded once and kept resident for the whole run. No port, no daemon.
-#   Env: MODOT_LOCAL_MODEL_DIR (default ~/models/Qwen3-1.7B) · MODOT_LOCAL_DEVICE (default 1, the
-#        3060) · MODOT_LOCAL_CPU=1 forces CPU. See "Local inference" below for the build notes.
+#   Env: IG_LOCAL_MODEL_DIR (default ~/models/Qwen3-1.7B) · IG_DEVICES (default: every card
+#        present, and a model too big for one card is SPLIT across them) · IG_DEVICES=cpu forces
+#        CPU. See "Local inference" below for the build notes.
 
 # ── Python agent ──
 # Interactive mode — the agent breathes with you
@@ -222,31 +223,60 @@ Then select it at runtime:
 
 | var | default | meaning |
 |---|---|---|
-| `MODOT_LOCAL_MODEL_DIR` | `~/models/Qwen3-1.7B` | HF safetensors directory (config.json + tokenizer.json + shards) |
-| `MODOT_LOCAL_DEVICE` | `1` | CUDA device index (the RTX 3060) |
-| `MODOT_LOCAL_CPU` | unset | set to any value to force CPU |
-| `MODOT_LOCAL_STREAM` | on | live progress on **stderr**: model load, then tokens as they generate, then a tok/s + first-token readout. Set `0` to silence for scripted runs. |
+| `IG_LOCAL_MODEL_DIR` | `~/models/Qwen3-1.7B` | HF safetensors directory (config.json + tokenizer.json + shards) |
+| `IG_DEVICES` | every card present | CUDA ordinals in stage order: `0,1` splits the model across both cards, `1` pins one, `cpu` forces the CPU |
+| `IG_LOCAL_CTX` | sized from free VRAM | prompt cap in tokens; overrides the computed one |
+| `IG_LOCAL_PREFILL_CHUNK` | `512` | prompt tokens per prefill block — this, not the prompt length, sets the peak attention-score allocation |
+| `IG_LOCAL_STREAM` | on | live progress on **stderr**: model load, then tokens as they generate, then a tok/s + first-token readout. Set `0` to silence for scripted runs. |
+
+The older `MODOT_LOCAL_*` spellings still read, so an old shell keeps working;
+`IG_*` is the name every repo here answers to.
 
 Because the stream is on stderr, you watch the model think in your terminal while
 the structured answer stays clean on stdout. Redirect `2>/dev/null` to hide it, or
 `1>/dev/null` to watch only the thinking.
 
-The default is **Qwen3-1.7B** (~4 GB bf16): it fits a 12 GB card with room for
-MoDoT's long-context, non-flash attention. A 4B model OOMs on the same card, so
-size up only with more VRAM. A 1.7B is a usable agent for the loop, not the equal
-of the cloud frontier models; it is the substrate that keeps working when the
-credits run out.
+The default is **Qwen3-1.7B** (~4 GB bf16), which fits either card alone. Bigger
+models run **split across both cards**: with two GPUs open, the decoder stack is
+partitioned by layer — each layer resident on exactly one card, the hidden state
+crossing the boundary once per forward — so a 4 B model runs with 17 layers on
+`cuda:0` and 19 on `cuda:1`, and the KV cache splits with them. Two cards are not
+one pooled 24 GB; they are a partition, and the partition is what buys the
+context. The split is measured, not assumed: the layer counts come from each
+card's free VRAM at load, so an unequal or already-busy pair is not cut down the
+middle.
+
+The prompt enters the model in **blocks** (`IG_LOCAL_PREFILL_CHUNK`, default 512)
+rather than all at once. Without flash-attn the attention scores are a
+`heads × q_len × kv_len` tensor, so a one-shot prefill of a long prompt allocates
+it squared and the card dies before a token is decoded; feeding it in blocks makes
+`q_len` the block length, and the transient drops from O(seq²) to O(chunk × seq).
+The arithmetic is unchanged — attention at each position sees exactly the same
+keys — so this is a memory fix, not an approximation. It is also what lets the
+context cap be computed from the real budget rather than a constant.
+
+A local model is a usable agent for the loop, not the equal of the cloud frontier
+models; it is the substrate that keeps working when the credits run out.
 
 **Build notes** (self-contained in-tree, so a rebuild "just works" on this box):
-- `CUDA_COMPUTE_CAP=86` targets the sm_86 card only; candle-kernels 0.11's
-  `__hmax_nan`/`__hmin_nan` polyfill collides with the CUDA 12.4 headers when
-  compiled for sm_75, and building for 8.6 skips it.
+- `CUDA_COMPUTE_CAP=86` targets sm_86 (the 3060) and the sm_89 card (the 4070)
+  runs the same build: candle-kernels ship PTX, which JITs forward onto the newer
+  architecture. Building for 8.6 also skips candle-kernels 0.11's
+  `__hmax_nan`/`__hmin_nan` polyfill, which collides with the CUDA 12.4 headers
+  when compiled for sm_75. Do NOT raise it to 89 — sm_89 PTX will not run on the
+  3060, and the split needs both cards on one build. The `flash-attn` feature is
+  the exception: it compiles arch-specific cubins rather than PTX, so it binds the
+  build to one card.
 - `ask_native/build.rs` points the linker at `ask_native/.cudalibs/` (unversioned
   symlinks to the pip `nvidia-*` CUDA math libraries) and rpaths the real
   versioned `.so`, so the binary links and runs where only the CUDA runtime is
   installed, with no `LD_LIBRARY_PATH` needed.
 - `src/local.rs` sets `CUDA_DEVICE_ORDER=PCI_BUS_ID` so device indices match
-  `nvidia-smi` (otherwise sm_86 PTX can land on the sm_75 card and fail to JIT).
+  `nvidia-smi`, which is what makes `IG_DEVICES=0,1` mean the cards the user sees.
+- `src/shard.rs` holds the multi-card stack. candle's own `qwen3::Model` builds
+  every layer on one device and keeps `DecoderLayer` private, so the decoder is
+  rebuilt there from the public pieces; one card still runs candle's model
+  unchanged.
 
 ## Click-Maths (`./ask --click`)
 
@@ -996,9 +1026,9 @@ Companion Lean files in `lean/`:
 - `ig-pulse` density matrix + `d12_sic_build/d12_psi.pkl` (resolved relative to the imsgct tree; override with `IG_PULSE_PATH` / `D12_SIC_FIDUCIAL`)
 - `imscribing_grammar` (the IG tool corpus / `IG_inquiry` dispatcher; resolved at `~/imsgct/imscribing_grammar`, override with `IG_ROOT`)
 - `OPENROUTER_API_KEY` env var (required for vessel voice — no hash fallback)
-- Default model: `google/gemini-3-flash-preview`; set `MOMONADOS_MODEL` or `--model` to override
+- Default model: `google/gemini-3-flash-preview`; set `IG_MODEL` or `--model` to override
 - Lean 4 + Mathlib v4.28.0 (for formal verification modules)
-- **Optional local inference** (`--provider local`): build `ask_native` with `--features local,cuda`; a CUDA 12.x GPU, `~/models/Qwen3-1.7B` (or another HF Qwen3 dir via `MODOT_LOCAL_MODEL_DIR`), and the pip `nvidia-*` CUDA libraries where only the runtime is installed. No API key needed. See [Local inference](#local-inference---provider-local).
+- **Optional local inference** (`--provider local`): build `ask_native` with `--features local,cuda`; a CUDA 12.x GPU, `~/models/Qwen3-1.7B` (or another HF Qwen3 dir via `IG_LOCAL_MODEL_DIR`), and the pip `nvidia-*` CUDA libraries where only the runtime is installed. No API key needed. See [Local inference](#local-inference---provider-local).
 
 ## Publications
 

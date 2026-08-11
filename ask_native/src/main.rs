@@ -42,6 +42,8 @@ mod ob3ect;
 mod bnb;
 #[cfg(feature = "local")]
 mod local;
+#[cfg(feature = "local")]
+mod shard;
 mod prover;
 mod windings;
 
@@ -74,8 +76,12 @@ Gemini-class answers, ManuscriptSpine prepare→answer→complete.
   ask -i --model google/gemini-3-pro-preview
 
 Env:
-  MODOT_PROVIDER   openrouter | gemini   (default: openrouter if key set, else gemini)
-  MODOT_MODEL      model id              (default: google/gemini-3-flash-preview)
+  IG_PROVIDER      openrouter | gemini | deepseek | groq | local
+                                         (default: openrouter if key set, else gemini)
+  IG_MODEL         model id              (default: google/gemini-3-flash-preview)
+  IG_DEVICES       cuda ordinals for --provider local: 0,1 splits the model
+                                         across both cards; 1 pins one; cpu forces CPU
+                                         (default: every card present)
   OPENROUTER_API_KEY / GEMINI_API_KEY / GOOGLE_API_KEY
   MOMONADOS_CATALOG path to IG_catalog.json (optional)
 "
@@ -117,7 +123,7 @@ struct Cli {
 
     /// Design an ob3ect (the argument is the entity description, the simple ask, or a
     /// path to a file holding it). Routes through the PINNED provider (--provider /
-    /// MODOT_PROVIDER: openrouter | gemini | deepseek | groq | local) exactly like every other
+    /// IG_PROVIDER: openrouter | gemini | deepseek | groq | local) exactly like every other
     /// winding — local serves the in-process candle model, the rest go over the network.
     /// Full auto.py parity for the two grounding portions, kept separate from the ask:
     ///   --context (repeatable, file or dir) → a <domain-context> block of background;
@@ -129,12 +135,12 @@ struct Cli {
     #[arg(long = "ob3ect")]
     ob3ect: Option<String>,
 
-    /// LLM model (default: $MODOT_MODEL or google/gemini-3-flash-preview)
-    #[arg(long = "model", short = 'm', env = "MODOT_MODEL")]
+    /// LLM model (default: $IG_MODEL or google/gemini-3-flash-preview)
+    #[arg(long = "model", short = 'm', env = "IG_MODEL")]
     model: Option<String>,
 
-    /// Provider: openrouter | gemini (default: $MODOT_PROVIDER, else key-based)
-    #[arg(long = "provider", env = "MODOT_PROVIDER")]
+    /// Provider: openrouter | gemini (default: $IG_PROVIDER, else key-based)
+    #[arg(long = "provider", env = "IG_PROVIDER")]
     provider: Option<String>,
 
     /// Disable Dual-Link co-type / selectivity (model-only fuse)
@@ -1200,7 +1206,7 @@ struct Llm {
     /// Whether to request model reasoning ("thinking") tokens. False sends the
     /// provider's explicit disable-reasoning parameter.
     think: bool,
-    /// The caller PINNED this provider (`--provider` / MODOT_PROVIDER). A pinned provider is
+    /// The caller PINNED this provider (`--provider` / IG_PROVIDER). A pinned provider is
     /// respected as-is; an inferred one may self-heal (demote to another funded provider) on
     /// a fatal error (402 out-of-credit, 401/403 bad key).
     explicit_provider: bool,
@@ -1266,7 +1272,7 @@ fn provider_has_key(p: Provider) -> bool {
 
 /// Build the Llm for one provider. `model_override` carries an explicit `--model`; when
 /// None the provider runs its own default (see provider_default_model). `explicit_provider`
-/// records whether the caller PINNED this provider (`--provider` / MODOT_PROVIDER) — a
+/// records whether the caller PINNED this provider (`--provider` / IG_PROVIDER) — a
 /// pinned provider is never demoted, an inferred one may fall through on a fatal error.
 fn build_llm(provider: Provider, model_override: Option<&str>, think: bool, explicit_provider: bool) -> Llm {
     let model = model_override
@@ -1408,29 +1414,29 @@ fn export_ig_env(llm: &Llm) {
 
 /// Resolve model + provider from CLI / MODOT_* env / key presence.
 fn make_llm(model: Option<&str>, provider_flag: Option<&str>, think: bool) -> Llm {
-    // Model: CLI > MODOT_MODEL > legacy MOMONADOS_MODEL. Left as Some only when the
+    // Model: CLI > IG_MODEL > legacy MODOT_MODEL / MOMONADOS_MODEL. Left as Some only when the
     // user actually named one; None means "let the resolved provider pick its own
     // default", which is why the gemini slug must never be baked in here — doing so
     // forced OpenRouter's default onto a pinned deepseek/groq run.
     let explicit_model = model
         .map(|s| s.to_string())
-        .or_else(|| env_first(&["MODOT_MODEL", "MOMONADOS_MODEL"]));
+        .or_else(|| env_first(&["IG_MODEL", "MODOT_MODEL", "MOMONADOS_MODEL"]));
 
     // Surface an unrecognized explicit provider instead of silently falling back to a
     // key-based default (the trap: `--provider deepseek` quietly ran on openrouter).
     if let Some(p) = provider_flag {
         if parse_provider(p).is_none() {
-            eprintln!("[ask] unknown --provider/MODOT_PROVIDER '{p}'; use openrouter | gemini | deepseek | groq | local. Falling back to key-based selection.");
+            eprintln!("[ask] unknown --provider/IG_PROVIDER '{p}'; use openrouter | gemini | deepseek | groq | local. Falling back to key-based selection.");
         }
     }
-    // Provider: CLI > MODOT_PROVIDER (both PIN it) > infer from keys. The inferred default no
+    // Provider: CLI > IG_PROVIDER (both PIN it) > infer from keys. The inferred default no
     // longer blindly prefers openrouter: it prefers a FUNDED provider it can actually reach,
     // and if the preferred one turns out to be broke at call time, infer() self-heals by
     // demoting to the next funded provider (only an inferred provider demotes; a pinned one
     // is respected as chosen).
     let pinned = provider_flag
         .and_then(parse_provider)
-        .or_else(|| env_first(&["MODOT_PROVIDER"]).as_deref().and_then(parse_provider));
+        .or_else(|| env_first(&["IG_PROVIDER", "MODOT_PROVIDER"]).as_deref().and_then(parse_provider));
     let (provider, explicit) = match pinned {
         Some(p) => (p, true),
         None => {
@@ -4325,7 +4331,7 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
             return Some("ob3ect needs a description: TOOL: ob3ect <free-text description of the entity>\n".into());
         }
         // Agent-path (mid-winding tool call): no Llm handle in scope, so build one from
-        // the pinned env provider (MODOT_PROVIDER, else key-based) — same routing the
+        // the pinned env provider (IG_PROVIDER, else key-based) — same routing the
         // CLI uses. Honors openrouter/gemini/local exactly like the rest of the framework.
         let llm = make_llm(None, None, false);
         return Some(run_ob3ect(&args.join(" "), "", &llm));

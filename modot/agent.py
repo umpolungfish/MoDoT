@@ -475,10 +475,12 @@ class LLMInterface:
     
     def __init__(self, api_key=None, model=None, base_url=None):
         if not model:
-            model = os.environ.get("MODOT_MODEL") or os.environ.get("MOMONADOS_MODEL", "google/gemini-3-flash-preview")
-            modot_provider = os.environ.get("MODOT_PROVIDER", "")
-            if modot_provider and ":" not in model:
-                model = f"{modot_provider}:{model}"
+            model = (os.environ.get("IG_MODEL")
+                     or os.environ.get("MODOT_MODEL")
+                     or os.environ.get("MOMONADOS_MODEL", "google/gemini-3-flash-preview"))
+            provider = os.environ.get("IG_PROVIDER") or os.environ.get("MODOT_PROVIDER", "")
+            if provider and ":" not in model:
+                model = f"{provider}:{model}"
         self.model = model
         self.base_url = base_url
         self.api_key = api_key
@@ -1339,8 +1341,8 @@ def build_parser():
         
         TIPS:
           - Set OPENROUTER_API_KEY or KILO_API_KEY env var for LLM access.
-          - Set MODOT_MODEL or MOMONADOS_MODEL to override default model.
-          - Set MODOT_PROVIDER to override default provider prefix (e.g. kilo, deepseek).
+          - Set IG_MODEL to override the default model.
+          - Set IG_PROVIDER to override the default provider prefix (e.g. kilo, deepseek).
           - Crystal FS persists between runs in crystal_fs/ directory.
           - Use --dry-run to test the kernel without API calls.
           - The broadcast_log.jsonl tracks all CLINK L8 broadcasts.
@@ -1360,7 +1362,7 @@ def build_parser():
     p.add_argument("--dry-run", action="store_true",
                    help="Run without LLM (test kernel + Crystal FS)")
     p.add_argument("--model", type=str, default=None,
-                   help="LLM model (default: $MODOT_MODEL, $MOMONADOS_MODEL, or google/gemini-3-flash-preview)")
+                   help="LLM model (default: $IG_MODEL, else google/gemini-3-flash-preview)")
     p.add_argument("--program", choices=["bootstrap","aqua-vitae","agent"],
                    default="agent", help="Bootstrap program (default: agent)")
     p.add_argument("--no-selectivity", action="store_true",
@@ -1589,7 +1591,7 @@ def main():
     print(f"┌{'─'*58}┐")
     print(f"│ mOMonadOS Agent -- LLM within the Frobenius Kernel       │")
     print(f"│ Program: {program} ".ljust(59) + "│")
-    print(f"│ Model: {args.model or os.environ.get('MOMONADOS_MODEL','google/gemini-3-flash-preview')} ".ljust(59) + "│")
+    print(f"│ Model: {args.model or os.environ.get('IG_MODEL') or os.environ.get('MOMONADOS_MODEL','google/gemini-3-flash-preview')} ".ljust(59) + "│")
     print(f"│ Crystal FS: {len(crystal.records)} records".ljust(59) + "│")
     print(f"│ Dry run: {args.dry_run}".ljust(59) + "│")
     print(f"└{'─'*58}┘")

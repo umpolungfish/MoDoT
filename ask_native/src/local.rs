@@ -24,12 +24,27 @@ use tokenizers::Tokenizer;
 /// same binary points at whatever local model is present.
 struct LocalCfg {
     model_dir: String,
-    device_index: usize,
+    /// CUDA ordinals to use, in stage order. Empty means "every card present".
+    devices: Vec<usize>,
     force_cpu: bool,
 }
 
 fn env(k: &str) -> Option<String> {
     std::env::var(k).ok().filter(|v| !v.is_empty())
+}
+
+/// Read the canonical `IG_*` key, falling back to the legacy `MODOT_*` spelling
+/// so an old shell keeps working. IG_ is the one name across every repo here.
+fn env_ig(canonical: &str, legacy: &[&str]) -> Option<String> {
+    if let Some(v) = env(canonical) {
+        return Some(v);
+    }
+    for k in legacy {
+        if let Some(v) = env(k) {
+            return Some(v);
+        }
+    }
+    None
 }
 
 fn expand(p: &str) -> String {
@@ -41,86 +56,55 @@ fn expand(p: &str) -> String {
     p.to_string()
 }
 
+/// Parse `IG_DEVICES`: a comma list of CUDA ordinals ("0,1"), a single ordinal
+/// ("1"), "cpu" to force CPU, or "auto"/unset to take every card present.
+fn parse_devices(spec: &str) -> (Vec<usize>, bool) {
+    let s = spec.trim().to_ascii_lowercase();
+    if s == "cpu" {
+        return (vec![], true);
+    }
+    if s.is_empty() || s == "auto" || s == "all" {
+        return (vec![], false);
+    }
+    let mut out = Vec::new();
+    for part in s.split(',') {
+        if let Ok(i) = part.trim().parse::<usize>() {
+            if !out.contains(&i) {
+                out.push(i);
+            }
+        }
+    }
+    (out, false)
+}
+
 fn local_cfg() -> LocalCfg {
-    // Align candle's device indexing with nvidia-smi so MODOT_LOCAL_DEVICE means
-    // what the user sees. Without this, CUDA's default (fastest-first) ordering
-    // put the sm_75 2080S at index 1 and the sm_86 PTX failed to JIT there. Set
-    // only if the user has not pinned it themselves.
+    // Align candle's device indexing with nvidia-smi so IG_DEVICES means what the
+    // user sees. Without this, CUDA's default (fastest-first) ordering reshuffles
+    // the ordinals with the shell's env. Set only if the user has not pinned it.
     if env("CUDA_DEVICE_ORDER").is_none() {
         std::env::set_var("CUDA_DEVICE_ORDER", "PCI_BUS_ID");
     }
+    let (devices, spec_cpu) = match env_ig("IG_DEVICES", &["MODOT_LOCAL_DEVICE"]) {
+        Some(spec) => parse_devices(&spec),
+        None => (vec![], false),
+    };
     LocalCfg {
-        // MODOT_LOCAL_MODEL_DIR, else Qwen3-1.7B: ~4 GB in bf16, fits the 3060's
-        // 12 GB with room for MoDoT's long-context (non-flash, quadratic) attention.
-        // The 4B OOM'd here; the 1.7B is the working default.
+        // IG_LOCAL_MODEL_DIR, else Qwen3-1.7B: ~4 GB in bf16, which fits either
+        // card alone. Bigger models are what the multi-card split is for — a 4B
+        // or 8B splits across both with room for context neither card has on its own.
         model_dir: expand(
-            &env("MODOT_LOCAL_MODEL_DIR").unwrap_or_else(|| "~/models/Qwen3-1.7B".to_string()),
+            &env_ig("IG_LOCAL_MODEL_DIR", &["MODOT_LOCAL_MODEL_DIR"])
+                .unwrap_or_else(|| "~/models/Qwen3-1.7B".to_string()),
         ),
-        // The 3060 is index 1 under PCI_BUS_ID ordering (the sm_86 card the
-        // kernels are built for); override with MODOT_LOCAL_DEVICE.
-        device_index: env("MODOT_LOCAL_DEVICE")
-            .and_then(|s| s.parse().ok())
-            .unwrap_or(1),
-        force_cpu: env("MODOT_LOCAL_CPU").is_some(),
+        devices,
+        force_cpu: spec_cpu || env_ig("IG_LOCAL_CPU", &["MODOT_LOCAL_CPU"]).is_some(),
     }
 }
 
-fn pick_device(cfg: &LocalCfg) -> candle_core::Result<(Device, Option<usize>)> {
-    if cfg.force_cpu {
-        return Ok((Device::Cpu, None));
-    }
-    // Pin the ordinal meaning BEFORE first CUDA init: the kernels are compiled
-    // for sm_86 only (the 3060, PCI index 1); under the default fastest-first
-    // ordering the ordinals reshuffle with the shell's env and index 1 can
-    // become the sm_75 2080 SUPER, which JIT-crawls or falls to CPU. In-process
-    // pinning makes the shell irrelevant.
-    if std::env::var("CUDA_DEVICE_ORDER").is_err() {
-        std::env::set_var("CUDA_DEVICE_ORDER", "PCI_BUS_ID");
-    }
-    // The configured index first, then EVERY other ordinal before surrendering
-    // to CPU: the 3060's ordinal moves with CUDA_DEVICE_ORDER (index 1 under
-    // PCI_BUS_ID, often 0 otherwise), and a silent CPU fallback because the
-    // preferred slot was empty is a 30x slowdown nobody asked for.
-    let mut order = vec![cfg.device_index];
-    for i in 0..4 {
-        if i != cfg.device_index {
-            order.push(i);
-        }
-    }
-    for idx in order {
-        if let Ok(d) = Device::new_cuda(idx) {
-            if idx != cfg.device_index {
-                eprintln!(
-                    "\x1b[2m[local] cuda:{} not present — using cuda:{idx}\x1b[0m",
-                    cfg.device_index
-                );
-            }
-            return Ok((d, Some(idx)));
-        }
-    }
-    eprintln!("\x1b[2m[local] no CUDA device reachable — CPU (slow); check LD_LIBRARY_PATH / driver\x1b[0m");
-    Ok((Device::Cpu, None))
-}
-
-/// Size the prompt cap from the card itself, not a guess: with the weights
-/// already resident, whatever VRAM remains is what the KV cache and prefill
-/// activations must live in. The per-token KV cost is exact from config.json
-/// (2 × layers × kv_heads × head_dim × bf16), the free VRAM is read from
-/// nvidia-smi (same PCI ordinal — CUDA_DEVICE_ORDER is pinned), and a fixed
-/// headroom plus a generation reserve keep the decode loop from OOMing after
-/// a prefill that "just fit". MODOT_LOCAL_CTX still overrides everything.
-fn compute_ctx_cap(qcfg: &Qwen3Config, cuda_idx: Option<usize>, quiet: bool) -> usize {
-    if let Some(v) = env("MODOT_LOCAL_CTX").and_then(|s| s.parse().ok()) {
-        return v;
-    }
-    // Without flash-attn prefill is O(seq²) in scores, not KV-bound — the old
-    // conservative cap stands. Same on CPU, where RAM is not the constraint.
-    if !cfg!(feature = "flash-attn") {
-        return 9000;
-    }
-    let Some(idx) = cuda_idx else { return 9000 };
-    let kv_per_tok = 2 * qcfg.num_hidden_layers * qcfg.num_key_value_heads * qcfg.head_dim * 2;
-    let free_mib = std::process::Command::new("nvidia-smi")
+/// Free VRAM in bytes for one CUDA ordinal, straight from nvidia-smi (the same
+/// PCI ordinal — CUDA_DEVICE_ORDER is pinned). 0 when unreadable.
+fn free_vram(idx: usize) -> u64 {
+    std::process::Command::new("nvidia-smi")
         .args([
             "--query-gpu=memory.free",
             "--format=csv,noheader,nounits",
@@ -131,31 +115,123 @@ fn compute_ctx_cap(qcfg: &Qwen3Config, cuda_idx: Option<usize>, quiet: bool) -> 
         .ok()
         .filter(|o| o.status.success())
         .and_then(|o| String::from_utf8(o.stdout).ok())
-        .and_then(|s| s.trim().parse::<usize>().ok());
-    let cap = match free_mib {
-        Some(mib) => {
-            let headroom_mib = 2048; // prefill activations + allocator fragmentation
-            let avail = mib.saturating_sub(headroom_mib) * 1024 * 1024;
-            let gen_reserve = 2048; // decode extends the KV cache past the prompt
-            (avail / kv_per_tok.max(1))
-                .saturating_sub(gen_reserve)
-                .clamp(2048, qcfg.max_position_embeddings.min(32000))
+        .and_then(|s| s.trim().parse::<u64>().ok())
+        .map(|mib| mib * 1024 * 1024)
+        .unwrap_or(0)
+}
+
+/// Open every device the run should use, in stage order. Two cards of the same
+/// generation both open here and the model is SPLIT across them; one card (or a
+/// pinned single ordinal) keeps the proven single-device path.
+///
+/// Probing is by open-and-keep rather than by count: an ordinal that will not
+/// open is simply not in the list, so a card claimed by another process or
+/// absent from the driver never becomes a stage that fails mid-load.
+fn open_devices(cfg: &LocalCfg) -> Vec<(Device, Option<usize>)> {
+    if cfg.force_cpu {
+        return vec![(Device::Cpu, None)];
+    }
+    let wanted: Vec<usize> = if cfg.devices.is_empty() {
+        (0..8).collect()
+    } else {
+        cfg.devices.clone()
+    };
+    let mut open: Vec<(Device, Option<usize>)> = Vec::new();
+    for idx in wanted {
+        if let Ok(d) = Device::new_cuda(idx) {
+            open.push((d, Some(idx)));
         }
-        None => 12000, // nvidia-smi unreachable: sized for a 12 GB card with a 4B resident
+    }
+    if open.is_empty() {
+        eprintln!("\x1b[2m[local] no CUDA device reachable — CPU (slow); check LD_LIBRARY_PATH / driver\x1b[0m");
+        return vec![(Device::Cpu, None)];
+    }
+    open
+}
+
+/// Size the prompt cap from the cards themselves, not a guess.
+///
+/// With the weights resident, what is left must hold two things: the KV cache,
+/// which is exact from config.json (2 × layers × kv_heads × head_dim × bf16 per
+/// token), and the transient attention scores of one prefill block, which are
+/// `heads × chunk × seq` twice over (the scores and their softmax). So the
+/// budget equation is linear in the sequence length,
+///
+///   avail ≥ seq × (kv_per_tok + 2 × 2 × heads × chunk × dtype_bytes)
+///
+/// and the cap is what that solves to. Chunked prefill is what makes this
+/// linear rather than quadratic; flash-attn removes the second term entirely.
+///
+/// Across a SPLIT model the KV cache splits with the layers, so the budget is
+/// the sum of what every stage has free — which is the point of the split: two
+/// cards carry a context neither could hold alone. IG_LOCAL_CTX overrides.
+fn compute_ctx_cap(qcfg: &Qwen3Config, cuda_idx: &[usize], chunk: usize, quiet: bool) -> usize {
+    if let Some(v) = env_ig("IG_LOCAL_CTX", &["MODOT_LOCAL_CTX"]).and_then(|s| s.parse().ok()) {
+        return v;
+    }
+    if cuda_idx.is_empty() {
+        return 9000; // CPU: RAM is not the constraint, patience is
+    }
+    let kv_per_tok = 2 * qcfg.num_hidden_layers * qcfg.num_key_value_heads * qcfg.head_dim * 2;
+    // Flash attention never materializes the score matrix, so only the KV term
+    // remains; without it, one block's scores and softmax are live at once.
+    let score_per_tok = if cfg!(feature = "flash-attn") {
+        0
+    } else {
+        2 * 2 * qcfg.num_attention_heads * chunk
+    };
+    let free_bytes: u64 = cuda_idx.iter().map(|i| free_vram(*i)).sum();
+    let total_mib = (free_bytes / (1024 * 1024)) as usize;
+    // One headroom charge per card: each stage runs its own activations and its
+    // own allocator fragmentation.
+    let headroom_mib = 1024 * cuda_idx.len();
+    let cap = if total_mib == 0 {
+        9000 // nvidia-smi unreachable: the old conservative constant
+    } else {
+        let avail = total_mib.saturating_sub(headroom_mib) * 1024 * 1024;
+        let gen_reserve = 2048; // decode extends the KV cache past the prompt
+        (avail / (kv_per_tok + score_per_tok).max(1))
+            .saturating_sub(gen_reserve)
+            .clamp(2048, qcfg.max_position_embeddings.min(32000))
     };
     if !quiet {
         eprintln!(
-            "\x1b[2m[local] ctx cap {cap} tok ({} free MiB, {:.2} MiB/tok KV)\x1b[0m",
-            free_mib.map(|m| m.to_string()).unwrap_or_else(|| "?".into()),
+            "\x1b[2m[local] ctx cap {cap} tok ({} free MiB over {} card(s), {:.2} MiB/tok KV, prefill chunk {chunk})\x1b[0m",
+            total_mib,
+            cuda_idx.len(),
             kv_per_tok as f64 / (1024.0 * 1024.0)
         );
     }
     cap
 }
 
+/// The resident stack: one card runs candle's own Qwen3 (the proven path),
+/// two or more run the pipeline-sharded stack from `shard.rs`. Both answer the
+/// same two calls, so the generate loop below never branches on which it holds.
+enum Backend {
+    Single(ModelForCausalLM),
+    Split(crate::shard::ShardedQwen3),
+}
+
+impl Backend {
+    fn forward(&mut self, input: &Tensor, offset: usize) -> candle_core::Result<Tensor> {
+        match self {
+            Backend::Single(m) => m.forward(input, offset),
+            Backend::Split(m) => m.forward(input, offset),
+        }
+    }
+
+    fn clear_kv_cache(&mut self) {
+        match self {
+            Backend::Single(m) => m.clear_kv_cache(),
+            Backend::Split(m) => m.clear_kv_cache(),
+        }
+    }
+}
+
 /// A loaded model held resident for the process lifetime.
 struct Engine {
-    model: ModelForCausalLM,
+    model: Backend,
     tokenizer: Tokenizer,
     device: Device,
     eos_ids: Vec<u32>,
@@ -169,6 +245,9 @@ struct Engine {
     /// Prompt-length cap in tokens, sized once at load from the free VRAM left
     /// after the weights and this model's exact per-token KV cost.
     ctx_cap: usize,
+    /// How many prompt tokens enter the model at once during prefill. This, not
+    /// the prompt length, is what sets the peak attention-score allocation.
+    prefill_chunk: usize,
 }
 
 fn read_qwen3_config(dir: &str) -> Result<Qwen3Config, String> {
@@ -231,12 +310,31 @@ fn safetensor_shards(dir: &str) -> Result<Vec<std::path::PathBuf>, String> {
 impl Engine {
     fn load() -> Result<Engine, String> {
         let cfg = local_cfg();
-        let quiet = env("MODOT_LOCAL_STREAM").map(|v| v == "0").unwrap_or(false);
+        let quiet = env_ig("IG_LOCAL_STREAM", &["MODOT_LOCAL_STREAM"])
+            .map(|v| v == "0")
+            .unwrap_or(false);
         let t0 = std::time::Instant::now();
-        let (device, cuda_idx) = pick_device(&cfg).map_err(|e| format!("device: {e}"))?;
-        let where_ = match cuda_idx {
-            Some(idx) => format!("cuda:{idx}"),
-            None => "cpu".into(),
+        let devices = open_devices(&cfg);
+        let ordinals: Vec<usize> = devices.iter().filter_map(|(_, o)| *o).collect();
+        let qcfg = read_qwen3_config(&cfg.model_dir)?;
+        let shards = safetensor_shards(&cfg.model_dir)?;
+        let head_device = devices[0].0.clone();
+        // bf16 on GPU (the weights' native dtype), f32 on CPU (no bf16 matmul there).
+        let dtype = if head_device.is_cuda() { DType::BF16 } else { DType::F32 };
+        // A bitsandbytes-NF4 checkpoint is unpacked to dense weights on ONE device
+        // (the dequantizer materializes the whole tensor set at once), so it takes
+        // the single-device path whatever the card count.
+        let is_bnb = crate::bnb::is_bnb(&cfg.model_dir);
+        let split = devices.len() > 1 && !is_bnb;
+
+        let where_ = if split {
+            let names: Vec<String> = ordinals.iter().map(|i| format!("cuda:{i}")).collect();
+            names.join(" + ")
+        } else {
+            match devices[0].1 {
+                Some(idx) => format!("cuda:{idx}"),
+                None => "cpu".into(),
+            }
         };
         if !quiet {
             eprintln!(
@@ -244,22 +342,29 @@ impl Engine {
                 cfg.model_dir, where_
             );
         }
-        let qcfg = read_qwen3_config(&cfg.model_dir)?;
-        let shards = safetensor_shards(&cfg.model_dir)?;
-        // bf16 on GPU (the weights' native dtype), f32 on CPU (no bf16 matmul there).
-        let dtype = if device.is_cuda() { DType::BF16 } else { DType::F32 };
-        // A bitsandbytes-NF4 checkpoint is unpacked to dense weights first (candle
-        // has no 4-bit matmul); everything else mmaps straight in.
-        let vb = if crate::bnb::is_bnb(&cfg.model_dir) {
-            let tensors = crate::bnb::load_dequantized(&shards, dtype, &device, quiet)?;
-            VarBuilder::from_tensors(tensors, dtype, &device)
+        if is_bnb && devices.len() > 1 && !quiet {
+            eprintln!("\x1b[2m[local] bitsandbytes checkpoint — dequantized onto one card, no split\x1b[0m");
+        }
+
+        let model = if split {
+            let free: Vec<u64> = ordinals.iter().map(|i| free_vram(*i)).collect();
+            let m = crate::shard::ShardedQwen3::load(&qcfg, &shards, &devices, &free, dtype, quiet)?;
+            Backend::Split(m)
         } else {
-            unsafe {
-                VarBuilder::from_mmaped_safetensors(&shards, dtype, &device)
-                    .map_err(|e| format!("load weights: {e}"))?
-            }
+            let device = head_device.clone();
+            let vb = if is_bnb {
+                let tensors = crate::bnb::load_dequantized(&shards, dtype, &device, quiet)?;
+                VarBuilder::from_tensors(tensors, dtype, &device)
+            } else {
+                unsafe {
+                    VarBuilder::from_mmaped_safetensors(&shards, dtype, &device)
+                        .map_err(|e| format!("load weights: {e}"))?
+                }
+            };
+            Backend::Single(
+                ModelForCausalLM::new(&qcfg, vb).map_err(|e| format!("build model: {e}"))?,
+            )
         };
-        let model = ModelForCausalLM::new(&qcfg, vb).map_err(|e| format!("build model: {e}"))?;
         if !quiet {
             eprintln!(
                 "\x1b[2m[local] model resident ({:.1}s)\x1b[0m",
@@ -295,8 +400,21 @@ impl Engine {
             }
             None => None,
         };
-        let ctx_cap = compute_ctx_cap(&qcfg, cuda_idx, quiet);
-        Ok(Engine { model, tokenizer, device, eos_ids, model_dir: cfg.model_dir, template_env, ctx_cap })
+        let prefill_chunk = env_ig("IG_LOCAL_PREFILL_CHUNK", &[])
+            .and_then(|s| s.parse::<usize>().ok())
+            .filter(|v| *v > 0)
+            .unwrap_or(512);
+        let ctx_cap = compute_ctx_cap(&qcfg, &ordinals, prefill_chunk, quiet);
+        Ok(Engine {
+            model,
+            tokenizer,
+            device: head_device,
+            eos_ids,
+            model_dir: cfg.model_dir,
+            template_env,
+            ctx_cap,
+            prefill_chunk,
+        })
     }
 
     /// Build the prompt from the model's OWN chat template. `think=false` sets
@@ -331,6 +449,35 @@ impl Engine {
         .map_err(|e| format!("chat template render: {e}"))
     }
 
+    /// Feed `ids` through the model at `offset`, in CHUNKS, and return the
+    /// logits for the last position.
+    ///
+    /// The prefill is where a long prompt dies: without flash-attn the attention
+    /// scores are a [heads × q_len × kv_len] tensor, so a one-shot prefill of an
+    /// 8 k prompt allocates it squared — several GB, twice (scores and softmax) —
+    /// and the card OOMs before a single token is decoded. Feeding the prompt in
+    /// blocks makes that q_len the BLOCK length instead of the whole prompt: the
+    /// KV cache still grows to the full prompt (it must), but the transient drops
+    /// from O(seq²) to O(chunk × seq). The arithmetic is identical — attention at
+    /// position i sees exactly the same keys either way — which is why this is a
+    /// memory fix and not an approximation.
+    fn forward_chunked(&mut self, ids: &[u32], mut offset: usize) -> Result<Tensor, String> {
+        let chunk = self.prefill_chunk.max(1);
+        let mut last: Option<Tensor> = None;
+        for block in ids.chunks(chunk) {
+            let input = Tensor::new(block, &self.device)
+                .and_then(|t| t.unsqueeze(0))
+                .map_err(|e| format!("input tensor: {e}"))?;
+            last = Some(
+                self.model
+                    .forward(&input, offset)
+                    .map_err(|e| format!("forward: {e}"))?,
+            );
+            offset += block.len();
+        }
+        last.ok_or_else(|| "empty forward".to_string())
+    }
+
     fn generate(
         &mut self,
         messages: &[(String, String)],
@@ -354,7 +501,7 @@ impl Engine {
         // kill the series with CUDA_ERROR_OUT_OF_MEMORY. Cap the prefill length:
         // keep the HEAD (system prompt / framing) and the TAIL (current question
         // and most recent results), drop the middle, and say so. Configurable via
-        // MODOT_LOCAL_CTX. With flash-attn the prefill is O(seq) not O(seq²) and
+        // IG_LOCAL_CTX. With flash-attn the prefill is O(seq) not O(seq²) and
         // the constraint becomes the KV cache, so the cap was sized once at load
         // (compute_ctx_cap) from the free VRAM left after the weights — a 4B on
         // a 12 GB card gets ~10-14k, not a hopeful 32k that OOMs mid-series. The
@@ -372,7 +519,7 @@ impl Engine {
             kept.extend_from_slice(&tokens[..head]);
             kept.extend_from_slice(&tokens[tokens.len() - tail..]);
             eprintln!(
-                "\x1b[2m[local] prompt {} tok > ctx cap {} — kept head {}+tail {}, dropped {} in the middle (raise MODOT_LOCAL_CTX or use a bigger card / flash-attn)\x1b[0m",
+                "\x1b[2m[local] prompt {} tok > ctx cap {} — kept head {}+tail {}, dropped {} in the middle (raise IG_LOCAL_CTX, add a card to IG_DEVICES, or build with flash-attn)\x1b[0m",
                 tokens.len(), ctx_cap, head, tail, dropped
             );
             tokens = kept;
@@ -398,7 +545,7 @@ impl Engine {
         // Repeat penalty over a recent window kills the "records the results, records
         // the results" loop a small model falls into. Qwen suggests presence penalty;
         // candle gives a multiplicative repeat penalty, same effect.
-        let repeat_penalty: f32 = env("MODOT_LOCAL_REPEAT_PENALTY")
+        let repeat_penalty: f32 = env_ig("IG_LOCAL_REPEAT_PENALTY", &["MODOT_LOCAL_REPEAT_PENALTY"])
             .and_then(|s| s.parse().ok())
             .unwrap_or(1.15);
         let repeat_window: usize = 128;
@@ -411,8 +558,8 @@ impl Engine {
         // Live progress: the model is silent for seconds while it loads kernels
         // and chews the prompt, then streams tokens. Print to STDERR so the
         // streamed text never contaminates the answer the caller reads on the
-        // return value / stdout. Default on; MODOT_LOCAL_STREAM=0 silences it.
-        let stream = env("MODOT_LOCAL_STREAM").map(|v| v != "0").unwrap_or(true);
+        // return value / stdout. Default on; IG_LOCAL_STREAM=0 silences it.
+        let stream = env_ig("IG_LOCAL_STREAM", &["MODOT_LOCAL_STREAM"]).map(|v| v != "0").unwrap_or(true);
         let mut printed_len = 0usize; // chars already streamed (incremental decode)
         let t_start = std::time::Instant::now();
         let mut first_token_at: Option<std::time::Duration> = None;
@@ -426,13 +573,7 @@ impl Engine {
 
         for _ in 0..cap {
             let ctx = if offset == 0 { &tokens[..] } else { &tokens[tokens.len() - 1..] };
-            let input = Tensor::new(ctx, &self.device)
-                .and_then(|t| t.unsqueeze(0))
-                .map_err(|e| format!("input tensor: {e}"))?;
-            let logits = self
-                .model
-                .forward(&input, offset)
-                .map_err(|e| format!("forward: {e}"))?;
+            let logits = self.forward_chunked(ctx, offset)?;
             let logits = logits
                 .squeeze(0)
                 .and_then(|t| t.squeeze(0))
@@ -530,8 +671,11 @@ pub fn describe() -> String {
     let cfg = local_cfg();
     let dev = if cfg.force_cpu {
         "cpu".to_string()
+    } else if cfg.devices.is_empty() {
+        "every cuda card present (else cpu)".to_string()
     } else {
-        format!("cuda:{} (else cpu)", cfg.device_index)
+        let names: Vec<String> = cfg.devices.iter().map(|i| format!("cuda:{i}")).collect();
+        format!("{} (else cpu)", names.join(" + "))
     };
     format!("local candle · {} · {}", cfg.model_dir, dev)
 }

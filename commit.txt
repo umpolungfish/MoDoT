@@ -1,20 +1,37 @@
-Local inference on the GPU, and ob3ects in the legal glyph alphabet
+Split a local model across both cards, and unify the model/provider env under IG_
 
-Two faults in the --ob3ect / --provider local path.
+Two 12 GB cards are not 24 GB of pooled memory, but they are a partition. With
+more than one CUDA device open, ask_native now shards the Qwen3 decoder stack by
+layer — each layer resident on exactly one card, the hidden state crossing the
+boundary once per forward — so a model that will not fit one card with usable
+context runs across both. The layer counts come from each card's free VRAM at
+load, not from cutting the stack down the middle, and the card that also carries
+the embedding and the head is charged for them first. One card still runs
+candle's own model, unchanged.
 
-GPU. The local candle provider fell to CPU because the binary was built without
-the cuda feature and CUDA_VISIBLE_DEVICES was empty, which hides every card. The
-binary is rebuilt --features local,cuda for the RTX 3060 (sm_86), and the ask
-wrapper now sets the cuda runtime on the loader path and pins the 3060 — under
-PCI_BUS_ID the 2080 SUPER (sm_75) is index 0 and the 3060 index 1, and exposing
-only the sm_86 card means any device the binary selects is the right one. The
-auto-rebuild branch now carries --features local,cuda so a missing binary
-rebuilds with GPU instead of silently dropping it. Local runs at ~29 tok/s.
+candle keeps its DecoderLayer private and builds every layer on one device, so
+the stack is rebuilt in ask_native/src/shard.rs from the public pieces. Same
+arithmetic; what is new is that a layer knows the card it lives on.
 
-Glyphs. The ob3ect design path emitted text opcode names (VINIT, FSPLIT) and its
-reference prompt still showed the retired forms ◇ ● + × ¬ =. opcode_glyph maps
-each name to its legal glyph (⊢ ⊣ > < ⋈ ⊙ ∈ ∋ ⊤ ⊥ ⊞ ◻); phase_1 entries, the
-sequence steps, and a glyph word now carry symbols. The reference prompt shows
-the legal glyphs, and the step parser reads ∈ ∋ ⊤ ⊥ ◻ ⋈ alongside the old forms
-so stored words still load. A regenerated cuboid ob3ect renders ⊢∈⊤<⋈∋⊞◻ with
-zero retired glyphs.
+The prompt now enters the model in blocks rather than all at once. Without
+flash-attn the attention scores are heads x q_len x kv_len, so a one-shot prefill
+of a long prompt allocates it squared and the card dies before a token is
+decoded — which is exactly what killed the first split run at 8700 tokens.
+Feeding it in blocks makes q_len the block length and the transient drops from
+O(seq^2) to O(chunk x seq). Attention at each position still sees the same keys,
+so this is a memory fix, not an approximation. It also lets the context cap be
+computed from the real budget instead of a constant: the 4B measured 32000 tokens
+across both cards against 9427 on one.
+
+Measured on the 4B: 17 layers on cuda:0, 19 on cuda:1, 6.7 GB and 5.5 GB
+resident, 7.2 tok/s against 10.3 on a single card. The split costs throughput and
+buys context; both numbers are on the table now.
+
+Env: IG_MODEL and IG_PROVIDER are the names everywhere, with IG_DEVICES for the
+cards, IG_LOCAL_MODEL_DIR for the weights, IG_LOCAL_CTX and
+IG_LOCAL_PREFILL_CHUNK for the sizing. The MODOT_ spellings still read, so an old
+shell keeps working.
+
+The sm_86 build runs on the 4070: candle-kernels ship PTX and it JITs forward
+onto sm_89. Do not raise CUDA_COMPUTE_CAP to 89 — the 3060 cannot run it, and
+the split needs both cards on one build.
