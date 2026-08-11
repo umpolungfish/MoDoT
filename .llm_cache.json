@@ -1,0 +1,13 @@
+{
+  "136f7c038105a1df44d3ae8d5ccbe6976ae4492809142d48df949da197fbe062": "2 \u2014 The subset-sum distinctness proof forces each subset to occupy a unique sum in the containment lattice, yielding an influence pattern of nested branching without merging.",
+  "0e89de3aa37f32dd0764625ac213b55b8e3798d9df965bc099ab27df8b09ae6f": "",
+  "a3da0fe2aa6cc93cb0678b7c20450a883bb6dc2a068ad00b026e298bdb705077": "1 \u2014 The two assigned primitives are one each, giving a 1:1 symmetric participation ratio.",
+  "43bc0447a05fc3ec2628911aa30eaa7a36d0d4d65f8a59124aac01e74808ad26": "1 \u2014 The growth constant c is a continuous real parameter without a discrete topological invariant, so it can be smoothly deformed to the trivial c=1 case.",
+  "e812d2fdfabe35bfac9d98408902ddbc699027a7e1228355f407abec186436a6": "",
+  "15677fba644b660c835c268d89acc7666a7b815503dd00bcfe0370e2ac8b7b52": "3 \u2014 Broken orientational symmetry that is structurally enforced across multiple axes corresponds to persistent chiral behavior with memory depth n.",
+  "3579d522e07ac8665ff37474b9df160f20df408e7f01c190c1769b3f18dfd000": "4 \u2014 The strict \u201c>\u201d ordering of successive decreasing ratios is asymmetric and irreversible, matching the left-right handed/topological mechanism.",
+  "b26cdc0d5139455d263c17df50760e7f77b798c19fbdb0a612ae8408ebaa9940": "2 \u2014 The primitive < is inherently directional/polar, so its interface has a signed direction with one accepting or donating pole.",
+  "8cb55d69d9b313ebb79547017b2b1d90bda72a2483d54049deda4a5469437f01": "3 \u2014 The AP-free condition forces all subset sums to be distinct, so the fidelity primitive transmits exact, collision-free information and fires with near-certainty.",
+  "9113a0924b93a26e0d917f0b037aa63aa90224b17b31ae601ce0babd39a55d72": "3 \u2014 High barrier corresponds to kinetically frozen resistance requiring external driving to rearrange.",
+  "e85454d144d556b5fb1dbeb7a87fd2f5e2cef755275d42d1753442944993c1e7": "3 \u2014 Each added element participates in half of all subset sums, so its placement affects AP-freeness across the entire range up to nN, i.e. scale-free/global."
+}
