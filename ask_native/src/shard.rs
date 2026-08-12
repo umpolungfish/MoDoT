@@ -292,6 +292,37 @@ impl ShardedQwen3 {
     /// Build the sharded model. `devices` must hold two or more open devices;
     /// `shards` are the safetensors files; `free` is the free VRAM per device
     /// in bytes (0 where unknown).
+    /// How many layers each device carries, for THIS model on THESE cards. Public
+    /// because a quantized checkpoint must know the plan BEFORE it dequantizes:
+    /// each weight is placed on the card its layer will live on, and that placement
+    /// is this plan.
+    pub fn plan(cfg: &Config, free: &[u64], dtype: DType) -> Vec<usize> {
+        let bpe = dtype.size_in_bytes() as u64;
+        let per_layer = {
+            let h = cfg.hidden_size as u64;
+            let i = cfg.intermediate_size as u64;
+            let kv = (cfg.num_key_value_heads * cfg.head_dim) as u64;
+            let q = (cfg.num_attention_heads * cfg.head_dim) as u64;
+            (h * q + h * kv * 2 + q * h + 3 * h * i) * bpe
+        };
+        let head = (cfg.vocab_size as u64) * (cfg.hidden_size as u64) * bpe
+            * if cfg.tie_word_embeddings { 1 } else { 2 };
+        plan_stages(cfg.num_hidden_layers, free, head, per_layer)
+    }
+
+    /// Which stage owns a given layer, from a plan. The inverse of the plan, and
+    /// what a per-tensor placement needs.
+    pub fn stage_of_layer(counts: &[usize], layer: usize) -> usize {
+        let mut acc = 0usize;
+        for (i, c) in counts.iter().enumerate() {
+            acc += c;
+            if layer < acc {
+                return i;
+            }
+        }
+        counts.len().saturating_sub(1)
+    }
+
     pub fn load(
         cfg: &Config,
         shards: &[std::path::PathBuf],
@@ -303,19 +334,31 @@ impl ShardedQwen3 {
         prefix: &str,
         quiet: bool,
     ) -> std::result::Result<Self, String> {
-        // Per-parameter-count sizing, so the plan is about THIS model, not a guess.
-        let bpe = dtype.size_in_bytes() as u64;
-        let per_layer = {
-            let h = cfg.hidden_size as u64;
-            let i = cfg.intermediate_size as u64;
-            let kv = (cfg.num_key_value_heads * cfg.head_dim) as u64;
-            let q = (cfg.num_attention_heads * cfg.head_dim) as u64;
-            (h * q + h * kv * 2 + q * h + 3 * h * i) * bpe
-        };
-        let head = (cfg.vocab_size as u64) * (cfg.hidden_size as u64) * bpe
-            * if cfg.tie_word_embeddings { 1 } else { 2 };
+        let counts = Self::plan(cfg, free, dtype);
+        // One VarBuilder per device over the same mmapped shards: mmap is cheap
+        // and lazy, so each card materializes only the tensors it is asked for.
+        let mut vbs = Vec::with_capacity(devices.len());
+        for (dev, _) in devices {
+            let vb = unsafe {
+                VarBuilder::from_mmaped_safetensors(shards, dtype, dev)
+                    .map_err(|e| format!("load weights on {dev:?}: {e}"))?
+            };
+            vbs.push(vb);
+        }
+        Self::from_varbuilders(cfg, devices, &counts, vbs, prefix, dtype, quiet)
+    }
 
-        let counts = plan_stages(cfg.num_hidden_layers, free, head, per_layer);
+    /// Assemble from VarBuilders already pointed at their devices. The mmap route
+    /// and the dequantized route differ only in where the tensors came from.
+    pub fn from_varbuilders(
+        cfg: &Config,
+        devices: &[(Device, Option<usize>)],
+        counts: &[usize],
+        vbs: Vec<VarBuilder>,
+        prefix: &str,
+        dtype: DType,
+        quiet: bool,
+    ) -> std::result::Result<Self, String> {
         if !quiet {
             let plan: Vec<String> = devices
                 .iter()
@@ -331,19 +374,7 @@ impl ShardedQwen3 {
                 plan.join(" | ")
             );
         }
-
         let head_device = devices[0].0.clone();
-        // One VarBuilder per device over the same mmapped shards: mmap is cheap
-        // and lazy, so each card materializes only the tensors it is asked for.
-        let mut vbs = Vec::with_capacity(devices.len());
-        for (dev, _) in devices {
-            let vb = unsafe {
-                VarBuilder::from_mmaped_safetensors(shards, dtype, dev)
-                    .map_err(|e| format!("load weights on {dev:?}: {e}"))?
-            };
-            vbs.push(vb);
-        }
-
         let embed = candle_nn::embedding(cfg.vocab_size, cfg.hidden_size, vbs[0].pp(format!("{prefix}embed_tokens")))
             .map_err(|e| format!("embed_tokens: {e}"))?;
         let norm = candle_nn::rms_norm(cfg.hidden_size, cfg.rms_norm_eps, vbs[0].pp(format!("{prefix}norm")))

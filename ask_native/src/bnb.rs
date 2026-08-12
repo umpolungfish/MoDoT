@@ -55,6 +55,23 @@ pub fn load_dequantized(
     device: &Device,
     quiet: bool,
 ) -> Result<HashMap<String, Tensor>, String> {
+    load_dequantized_placed(shards, dtype, &|_| device, quiet)
+}
+
+/// Dequantize with each weight landing on the device its LAYER lives on.
+///
+/// The dense form of a 4-bit checkpoint is four times its file size — an 8 B NF4
+/// model is ~16 GB in bf16 — so materializing it all on one card is what put
+/// bitsandbytes out of reach of a 12 GB GPU. Dequantization already runs tensor
+/// by tensor on the CPU; the only thing that tied the result to a single device
+/// was the move at the end. Placing that move per tensor is what lets a
+/// quantized model split across cards like any other.
+pub fn load_dequantized_placed<'a>(
+    shards: &[PathBuf],
+    dtype: DType,
+    place: &dyn Fn(&str) -> &'a Device,
+    quiet: bool,
+) -> Result<HashMap<String, Tensor>, String> {
     let st = unsafe { MmapedSafetensors::multi(shards) }.map_err(|e| format!("mmap: {e}"))?;
     let names: HashSet<String> = st.tensors().into_iter().map(|(n, _)| n).collect();
     let cpu = Device::Cpu;
@@ -70,10 +87,10 @@ pub fn load_dequantized(
             dequant_one(&st, name, &cpu)
                 .map_err(|e| format!("dequant {name}: {e}"))?
                 .to_dtype(dtype)
-                .and_then(|t| t.to_device(device))
+                .and_then(|t| t.to_device(place(name)))
                 .map_err(|e| format!("{name} cast/move: {e}"))?
         } else {
-            st.load(name, device)
+            st.load(name, place(name))
                 .and_then(|t| t.to_dtype(dtype))
                 .map_err(|e| format!("load {name}: {e}"))?
         };
