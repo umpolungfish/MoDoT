@@ -1,10 +1,10 @@
-ask: no deadline on a design call
+ask: the ob3ect designer was capped, and the cap read as an empty answer
 
-Three hundred seconds is shorter than an eight-phase ob3ect, and the deadline
-surfaced as "timed out reading response" — a transport error where the real event
-is a model still writing. Four sites, in fart.rs and main.rs, now carry a day
-rather than five minutes.
+8192 tokens on the design call, against a reasoning model that spends its budget
+on reasoning before the answer starts. What comes back is content: "" with no
+error attached, reported as "empty content" — a failure that names nothing.
 
-The same defect was in the Python provider, capping at 4096 tokens and giving up
-after sixty seconds, and it presented the same way: a working key reading as a
-dead lane.
+Three changes. max_tokens = 0 now means uncapped and the field leaves the payload
+entirely; the ob3ect path passes 0, since a design call is never capped. And when
+content is empty the error says how many characters of reasoning came back and
+what finish_reason was, so the next person sees the budget rather than a mystery.

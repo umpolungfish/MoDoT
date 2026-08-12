@@ -1781,9 +1781,15 @@ fn infer_openrouter(
     let mut body = json!({
         "model": llm.model,
         "messages": msgs,
-        "max_tokens": max_tokens,
         "temperature": temperature,
     });
+    // `0` means UNCAPPED — the field leaves the payload. A reasoning model spends
+    // its budget on reasoning first, so a cap that looks generous can be consumed
+    // entirely before the answer starts, and what comes back is an empty
+    // `content` with no error attached. Design calls pass 0.
+    if max_tokens > 0 {
+        body["max_tokens"] = json!(max_tokens);
+    }
     // Reasoning toggle: OpenRouter takes a `reasoning` object; `enabled: false` suppresses
     // thinking tokens. This was documented as a "no-op on models that don't support it" and
     // that is false: an endpoint may REFUSE the request over it. Live 400 —
@@ -1847,10 +1853,33 @@ fn infer_openrouter(
                 .unwrap_or("")
                 .to_string();
             if content.is_empty() {
+                // A reasoning model can return its whole answer in
+                // `reasoning_content` and leave `content` empty when the budget
+                // ran out mid-thought. Saying which of the two happened is the
+                // difference between a diagnosable failure and a mystery.
+                let reasoned = v
+                    .pointer("/choices/0/message/reasoning_content")
+                    .and_then(|c| c.as_str())
+                    .map(|t| t.len())
+                    .unwrap_or(0);
+                let finish = v
+                    .pointer("/choices/0/finish_reason")
+                    .and_then(|c| c.as_str())
+                    .unwrap_or("");
                 let err = v
                     .get("error")
                     .map(|e| e.to_string())
-                    .unwrap_or_else(|| "empty content".into());
+                    .unwrap_or_else(|| {
+                        if reasoned > 0 {
+                            format!(
+                                "empty content, {reasoned} chars of reasoning \
+                                 (finish_reason={finish}) — the budget went to \
+                                 reasoning; pass --max-tokens 0 to uncap"
+                            )
+                        } else {
+                            format!("empty content (finish_reason={finish})")
+                        }
+                    });
                 LlmResult {
                     text: format!("[LLM empty: {err}]"),
                     voice: 'F',
@@ -5971,7 +6000,11 @@ fn run_ob3ect(description: &str, context: &str, llm: &Llm) -> String {
     // other provider over the network). The designer is no longer hardcoded to local.
     let scope = provider_label(llm.provider);
     let model_fn = |messages: &[(String, String)]| -> Result<String, String> {
-        let res = infer(llm, messages, 8192, 0.0);
+        // Uncapped. The designer emits eight phases of JSON, and a reasoning
+        // model spends its budget on reasoning before the answer starts, so a
+        // cap here returns empty content with no error — which is what the
+        // 8192 that stood here was doing.
+        let res = infer(llm, messages, 0, 0.0);
         match res.err {
             Some(e) => Err(format!("native ob3ect: {scope} completion failed: {e}")),
             None if res.text.trim().is_empty() => {
