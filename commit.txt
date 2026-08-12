@@ -1,4 +1,10 @@
-IG_THINK names the reasoning toggle
+ask: no deadline on a design call
 
-One name across the repos for whether the model reasons before it acts. The
-legacy MODOT_THINK still reads behind it.
+Three hundred seconds is shorter than an eight-phase ob3ect, and the deadline
+surfaced as "timed out reading response" — a transport error where the real event
+is a model still writing. Four sites, in fart.rs and main.rs, now carry a day
+rather than five minutes.
+
+The same defect was in the Python provider, capping at 4096 tokens and giving up
+after sixty seconds, and it presented the same way: a working key reading as a
+dead lane.

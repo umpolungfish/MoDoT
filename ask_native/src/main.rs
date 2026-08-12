@@ -1804,7 +1804,7 @@ fn infer_openrouter(
             .set("Content-Type", "application/json")
             .set("HTTP-Referer", "momonad-ask")
             .set("X-Title", "momonad-ask")
-            .timeout(std::time::Duration::from_secs(300))
+            .timeout(std::time::Duration::from_secs(86_400))
             .send_json(b)
     };
     let mut result = send(body.clone());
@@ -1929,7 +1929,7 @@ fn infer_gemini(
     );
     match ureq::post(&url)
         .set("Content-Type", "application/json")
-        .timeout(std::time::Duration::from_secs(300))
+        .timeout(std::time::Duration::from_secs(86_400))
         .send_json(body)
     {
         Ok(resp) => {
