@@ -84,7 +84,7 @@ pub const ALL_TOKENS: [Token16_3; 12] = [
 impl Token16_3 {
     pub fn glyph(self) -> char {
         match self {
-            Vinit => '⊢', Tanch => '⊣', Afwd => '>', Arev => '<', Clink => '⋈',
+            Vinit => '⊢', Tanch => '⊣', Afwd => '≻', Arev => '≺', Clink => '⋈',
             Imscrib => '⊙', Fsplit3 => '∈', Ffuse3 => '∋', Evalt => '⊤',
             Evalf => '⊥', Evali => '⊞', Ifix => '◻',
         }

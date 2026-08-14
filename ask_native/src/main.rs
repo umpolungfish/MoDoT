@@ -3163,7 +3163,7 @@ fn sym(name: &str) -> &str {
         "Delta" => "Δ", "nabla" => "∇", "partial" => "∂",
         "theta" | "vartheta" => "θ", "Theta" => "Θ",
         "mu" => "μ", "delta" => "δ", "sigma" => "σ", "Sigma" => "⊞",
-        "omega" => "ω", "Omega" => "◻", "phi" | "varphi" => "φ", "Phi" => "<",
+        "omega" => "ω", "Omega" => "◻", "phi" | "varphi" => "φ", "Phi" => "≺",
         "gamma" => "γ", "Gamma" => "∈", "rho" => "ρ", "pi" => "π", "Pi" => "Π",
         "lambda" => "λ", "Lambda" => "Λ", "alpha" => "α", "beta" => "β",
         "epsilon" | "varepsilon" => "ε", "zeta" => "ζ", "eta" => "η",
@@ -5572,7 +5572,7 @@ fn atomic_token_seed(name: &str) -> Option<String> {
 }
 
 /// The twelve catalog keys, in notation order: ⟨⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ ⊞ ◻⟩.
-const PRIM_KEYS: [&str; 12] = ["⊢", "⊣", ">", "<", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "◻"];
+const PRIM_KEYS: [&str; 12] = ["⊢", "⊣", "≻", "≺", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "◻"];
 
 /// Parse a well-formed 12-glyph notation ⟨…⟩ into its twelve values.
 ///

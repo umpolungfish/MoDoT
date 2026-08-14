@@ -167,8 +167,8 @@ impl Token {
         Some(match u.as_str() {
             "VINIT" | "VI" | "⊢" => Token::Vinit,
             "TANCH" | "TA" | "⊣" => Token::Tanch,
-            "AFWD" | "AF" | ">" => Token::Afwd,
-            "AREV" | "AR" | "<" => Token::Arev,
+            "AFWD" | "AF" | "≻" => Token::Afwd,
+            "AREV" | "AR" | "≺" => Token::Arev,
             "CLINK" | "CL" | "⋈" => Token::Clink,
             "IMSCRIB" | "IMSCRIBE" | "IM" | "⊙" => Token::Imscrib,
             // ∈ and ∋ are the dyad. The Greek δ/μ name the fork and fuse; ∈ ∋ are

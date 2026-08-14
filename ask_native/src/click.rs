@@ -107,7 +107,7 @@ pub fn next_step(verb: &str, flag: &str, args: &str) -> String {
 }
 
 /// The twelve primitive keys, in canonical navigator/catalog order.
-pub const PRIMS: [&str; 12] = ["⊢", "⊣", ">", "<", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "◻"];
+pub const PRIMS: [&str; 12] = ["⊢", "⊣", "≻", "≺", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "◻"];
 
 /// glyph → ordinal per primitive. The ORDERING is scripture: each primitive's
 /// constructor order comes from the p4rakernel Lean kernel (`Primitives/Core.lean`)

@@ -26,7 +26,7 @@ const OPCODES: [&str; 12] = [
 /// text. The retired forms ◇ ● + × ¬ = do not appear.
 pub fn opcode_glyph(name: &str) -> &'static str {
     match name {
-        "VINIT" => "⊢", "TANCH" => "⊣", "AFWD" => ">", "AREV" => "<",
+        "VINIT" => "⊢", "TANCH" => "⊣", "AFWD" => "≻", "AREV" => "≺",
         "CLINK" => "⋈", "IMSCRIB" => "⊙", "FSPLIT" => "∈", "FFUSE" => "∋",
         "EVALT" => "⊤", "EVALF" => "⊥", "ENGAGR" => "⊞", "IFIX" => "◻",
         _ => "?",
@@ -222,8 +222,8 @@ fn parse_step(step: &str) -> Option<(String, String)> {
         match head.chars().next()? {
             '⊢' => Some("VINIT".into()),
             '⊣' => Some("TANCH".into()),
-            '>' => Some("AFWD".into()),
-            '<' => Some("AREV".into()),
+            '≻' => Some("AFWD".into()),
+            '≺' => Some("AREV".into()),
             '⊙' => Some("IMSCRIB".into()),
             '⋈' | '=' => Some("CLINK".into()),
             '∈' | '◇' => Some("FSPLIT".into()),

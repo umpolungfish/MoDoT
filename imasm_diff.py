@@ -25,7 +25,7 @@ def census(ops: list[str]) -> dict:
 
 def code_line(ops: list[str]) -> str:
     glyphs = {
-        'VINIT': '⊢', 'TANCH': '⊣', 'AFWD': '>', 'AREV': '<', 'CLINK': '=',
+        'VINIT': '⊢', 'TANCH': '⊣', 'AFWD': '≻', 'AREV': '≺', 'CLINK': '=',
         'IMSCRIB': '⊙', 'FSPLIT': '◇', 'FFUSE': '●', 'EVALT': '+', 'EVALF': '×',
         'ENGAGR': '⊞', 'IFIX': '¬'
     }

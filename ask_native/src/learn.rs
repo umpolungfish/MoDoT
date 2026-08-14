@@ -41,8 +41,8 @@ fn face_of(raw: &str) -> Face {
 /// Body alphabet of a face: every glyph except the ⊢/⊣ boundary pair.
 fn body_alphabet(face: Face) -> &'static [char] {
     match face {
-        Face::Classic => &['>', '<', '=', '⊙', '◇', '●', '+', '×', '⊞', '¬'],
-        Face::Tri => &['>', '<', '=', '⊙', '∈', '∋', '+', '×', '⊞', '~', '≁', '¬'],
+        Face::Classic => &['≻', '≺', '=', '⊙', '◇', '●', '+', '×', '⊞', '¬'],
+        Face::Tri => &['≻', '≺', '=', '⊙', '∈', '∋', '+', '×', '⊞', '~', '≁', '¬'],
     }
 }
 
@@ -720,8 +720,8 @@ fn excribe(
 /// neutron_star, but in falconry).
 /// The twelve axes, named, in canonical tuple order.
 const AXIS_NAMES: [(&str, &str); 12] = [
-    ("⊢", "Dimensionality"), ("⊣", "Topology"), (">", "Relational Mode"),
-    ("<", "Parity / Symmetry"), ("⋈", "Fidelity"), ("⊤", "Kinetic Character"),
+    ("⊢", "Dimensionality"), ("⊣", "Topology"), ("≻", "Relational Mode"),
+    ("≺", "Parity / Symmetry"), ("⋈", "Fidelity"), ("⊤", "Kinetic Character"),
     ("∈", "Scope / Granularity"), ("∋", "Interaction Grammar"), ("⊙", "Criticality"),
     ("⊥", "Chirality"), ("⊞", "Stoichiometry"), ("◻", "Topological Protection"),
 ];

@@ -911,7 +911,7 @@ fn run_tool(rest: &[String]) -> String {
 
 /// Resolve `rest` to a graph: a defined tool name, else a raw opcode word.
 /// The twelve axes in canonical tuple order — the order an entry's types compose in.
-pub(crate) const TUPLE_ORDER: [&str; 12] = ["⊢","⊣",">","<","⋈","⊤","∈","∋","⊙","⊥","⊞","◻"];
+pub(crate) const TUPLE_ORDER: [&str; 12] = ["⊢","⊣","≻","≺","⋈","⊤","∈","∋","⊙","⊥","⊞","◻"];
 
 /// A catalog entry, expanded into the IMASM program it IS.
 ///

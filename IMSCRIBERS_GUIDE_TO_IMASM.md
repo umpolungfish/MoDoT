@@ -60,8 +60,8 @@ tri-ancestral rule.
  GLYPH NAME      MEANING                                VALENCE   WORK?
   ⊢   VINIT     begin / source boundary                 0→1        no   the only source
   ⊣   TANCH     terminal anchor / close boundary        1→1        no   sink; out-port may stay open
-  >   AFWD      forward morphism                        1→1        YES
-  <   AREV      reverse morphism (involution T↔F, t↔f)  1→1        YES
+  ≻   AFWD      forward morphism                        1→1        YES
+  ≺   AREV      reverse morphism (involution T↔F, t↔f)  1→1        YES
   ⋈   CLINK     compose / link                          1→1        YES
   ⊙   IMSCRIB   identity / self-reference               1→1        no   the neutral generator
   ∈   FSPLIT    fork (δ): the ONLY brancher             1→2, 1→3   no
@@ -72,11 +72,11 @@ tri-ancestral rule.
   ◻   IFIX      irreversible commit / fix               1→1        YES
 ```
 
-TWELVE opcodes, no more. The set is `⊣⊢<>⊙∈∋⊤⊥⋈⊞◻`, and ROTAT `↺/↻` (the cyclic
+TWELVE opcodes, no more. The set is `⊣⊢≺≻⊙∈∋⊤⊥⋈⊞◻`, and ROTAT `↺/↻` (the cyclic
 shift, below) is the op-opcode that acts ON a word, not a thirteenth letter in it.
 There is no `~`/`≁`: the marks once written TNEG and INEG were never independent
-opcodes, only the two-layer factorization of AREV `<` (T↔F on the constructive
-layer, t↔f on the information layer), and `<` already carries the whole reverse
+opcodes, only the two-layer factorization of AREV `≺` (T↔F on the constructive
+layer, t↔f on the information layer), and `≺` already carries the whole reverse
 morphism by itself. `~` and `≁` are NOT IMASM tokens: they do not parse, they are
 aliased to nothing, and a word containing one reads it as nothing (N / void).
 
@@ -84,7 +84,7 @@ The WORK? column is the most-missed rule: ⊢ ⊣ ⊙ ∈ ∋ ∈ ∋ do NOT tra
 arm carrying only ⊙ (or nothing) is an identity arm, and a closure over identity
 arms verifies nothing. ⊙ is self-reference, not work.
 
-WORDS: tokens glued as one string, no spaces, e.g. `⊢>∈⊤⊙∋◻⊣`. Space-separated
+WORDS: tokens glued as one string, no spaces, e.g. `⊢≻∈⊤⊙∋◻⊣`. Space-separated
 full names parse identically (VINIT AFWD ...), as do the short forms
 VI TA AF AR CL IM FS FF ET EF EG IX and the aliases δ μ ═ for ∈ ∋ =.
 
@@ -107,7 +107,7 @@ them, which is what the set was changed to stop. They are not tokens and do not
 parse; the twelve above are the whole alphabet.
 
 The same twelve are the primitive alphabet, one glyph per axis in slot order:
-⊢ Dimensionality, ⊣ Topology, > Relational, < Polarity, ⋈ Fidelity, ⊙ Kinetics,
+⊢ Dimensionality, ⊣ Topology, ≻ Relational, ≺ Polarity, ⋈ Fidelity, ⊙ Kinetics,
 ∈ Granularity, ∋ Grammar, ⊤ Criticality, ⊥ Chirality, ⊞ Stoichiometry,
 ◻ Protection. Not a mapping between two alphabets: one alphabet, read as an
 operation or as an axis according to where it stands. The serpent eats its tail.
@@ -163,7 +163,7 @@ drew; at arity 3, two.
 
 For a plain strand the stack reading (each ∋ takes the nearest unfused ∈)
 happens to agree, and such words may be bracketed for READING BY EYE:
-`⊢⊙⋈[∈>⊤<⊞⊥∋]◻◻⊣`, nesting as nested brackets. Three caveats, all load-bearing:
+`⊢⊙⋈[∈≻⊤≺⊞⊥∋]◻◻⊣`, nesting as nested brackets. Three caveats, all load-bearing:
 brackets are NOT input (they parse to nothing, so a bracketed word reports
 N void); the aid works for strands ONLY; and it is not the pairing rule.
 Ancestry is. The two coincide on a strand and part company the moment edges
@@ -246,11 +246,11 @@ Three orderings, each with a meet/join (`imasm16_3 algebra <op> A B`):
   ≤_c constructivity  x∩{T,F} ⊆ y∩{T,F}  and  y∩{t,f} ⊆ x∩{t,f}        △/▽
 ```
 
-Flow uses ≤_i: shuttling only ever moves values up the information order. AREV `<`
+Flow uses ≤_i: shuttling only ever moves values up the information order. AREV `≺`
 is the trilattice negation, and it factors into two bit-SWAPS (not flips), one per
 layer: the paper requires negation to preserve ≤_i exactly, and swapping two bits
 preserves |x| where a flip would not. Those factors are not independent operators —
-`<` alone carries Tf to Ft, and on the classical slice `<` carries T to F by
+`≺` alone carries Tf to Ft, and on the classical slice `≺` carries T to F by
 itself. The retired marks ~ ≁ once spelled the two factors; the twelve-opcode core
 needs no room for either, and ◻ IFIX replaces them.
 
@@ -269,12 +269,12 @@ before the gate acts; the value leaving a gate rides every out-edge except where
   EVALF ⊥          pass-gate: falsity part
   EVALI ⊞ (16_3)   sets the information layer (t and f)
   FFUSE ∋ / ∋      μ / μ₃ joins: union of the arms
-  AREV <           the involution T↔F, t↔f (its own inverse; fixes B and N).
+  AREV ≺           the involution T↔F, t↔f (its own inverse; fixes B and N).
                    Internally it factors as two disjoint-bit swaps, one per layer
                    (T↔F and t↔f); composing the two IS AREV. Those factors are not
                    opcodes and were never in the set — the retired marks ~ ≁ once
                    named them, and ◻ IFIX replaces those marks.
-  AFWD >, CLINK ⋈, IMSCRIB ⊙, ENGAGR ⊞ (as hold)   carry
+  AFWD ≻, CLINK ⋈, IMSCRIB ⊙, ENGAGR ⊞ (as hold)   carry
   IFIX ◻           carry and latch (the commit point)
   TANCH ⊣          readout
 ```
@@ -294,7 +294,7 @@ A program earns three judgments, none implying another:
    worked dyad (split, transform, fuse) proves green; a bare fork-fuse is an
    identity closure and returns N for the program; a dangling fork is OPEN.
 3. **Flow** (`eval` / `eval16`): per dyad, does the fuse RECOVER what the fork
-   was fed? The canonical protocol word (`⊢∈>∋⊤` as VINIT FSPLIT AFWD FFUSE
+   was fed? The canonical protocol word (`⊢∈≻∋⊤` as VINIT FSPLIT AFWD FFUSE
    EVALT) is lossless: B splits to (T,F) and fuses back to B, the operational
    split_fuse_id. The same shape with AREV on the truth arm closes in structure
    and fails in value: fed Tf, recovered Ff, NOT id. The arm inverted what it
@@ -383,8 +383,8 @@ carries ROTAT^a. The balanced tiling of a period-n cycle is unique UP TO ROTAT.
 
 Op-opcodes are open: ROTAT `↺/↻` is the first named one (↺ shifts k→k−1, ↻ shifts
 k→k+1). Its relative is reflection (the half-period involution ROTAT^{d/2}). The
-two-layer swaps that AREV `<` factors into also act on the register rather than the
-word, but they are internal to `<`, not op-opcodes and not set members; the retired
+two-layer swaps that AREV `≺` factors into also act on the register rather than the
+word, but they are internal to `≺`, not op-opcodes and not set members; the retired
 marks ~ ≁ once named them and ◻ IFIX replaces those marks. The class was surfaced by the
 necessity of binding two isotactic rings; no node-opcode rotates one ring
 against another, so the operation had to live one level up, on the word itself.
@@ -488,7 +488,7 @@ Engineering guarantees:
 
 ## Part XIII. Rule of Thumb, Canonical Words, Pitfalls
 
-Express a decision as a word (⊢ begin · ⊙ self-identify · > move · ∈ weigh
+Express a decision as a word (⊢ begin · ⊙ self-identify · ≻ move · ∈ weigh
 options · +/× the true/false arms · ∋ resolve · ⊞ hold paradox · ¬ commit ·
 ⊣ close), then `imasm check` it. Only branchers branch, only mergers fuse. Put
 real WORK on the arms or it is N. Use `protocol` to close, never a bare `ring`.
@@ -496,13 +496,13 @@ real WORK on the arms or it is N. Use `protocol` to close, never a bare `ring`.
 Canonical words:
 
 ```
-  ⊢∈>⊤∋⊣        lossless protocol: closes in shape AND value, recovers B → T
+  ⊢∈≻⊤∋⊣        lossless protocol: closes in shape AND value, recovers B → T
                  wired at three arms it is the same word, and on the FOUR slice
                  it flows identically, the third arm carrying nothing
   ⊢∈⊙∋⊣         identity: reconnects, no work, μ∘δ=id → N
   ⊢∈⊙⊙⊙∋⊣       tri identity: same reading → N
-  ⊢∈⊞>∋⊣        closes over work AND holds paradox → B (paradox held)
-  ⊢>∈⊤⊥∋◻⊣      tri word driving the register toward full A (EVALT, EVALF on
+  ⊢∈⊞≻∋⊣        closes over work AND holds paradox → B (paradox held)
+  ⊢≻∈⊤⊥∋◻⊣      tri word driving the register toward full A (EVALT, EVALF on
                  the arms), fused and latched at ◻ → T
 ```
 
@@ -519,7 +519,7 @@ Pitfalls, all load-bearing:
 - Treating the classic and trilattice faces as separate languages. They share
   the register, the ancestry rule, the close condition, the flow semantics, and
   the composition law; the differences are arity and the information-layer bits.
-- Expecting T from the tri word `⊢>∈⊤⊥⊞∋◻⊣` under `imasm check`. ⊞ is ENGAGR to
+- Expecting T from the tri word `⊢≻∈⊤⊥⊞∋◻⊣` under `imasm check`. ⊞ is ENGAGR to
   the classic reading and EVALI to the trilattice one, and B beats T, so the
   classic checker answers B (paradox held) for it. One glyph, two readings: the
   collision is real and it is the next thing the notation has to settle.
@@ -527,7 +527,8 @@ Pitfalls, all load-bearing:
 ## Part XIV. The Excription Loop: imasm learn
 
 `imasm learn '<word>' [rounds=N] [breadth=K]` runs verification as imscription
-on a MODEL. Quote the word at a shell: > and < are redirections unquoted. Both
+on a MODEL. The word needs no shell quoting: ≺ and ≻ replaced < and > precisely so the
+marks stop colliding with redirection, XML, and generics. Both
 faces run: a word carrying tri tokens selects the SIXTEEN_3 grammar, any other
 the classic grammar; one loop, one knowledge file.
 
