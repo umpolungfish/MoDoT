@@ -71,8 +71,8 @@ impl Token {
         match self {
             Token::Vinit => "⊢",
             Token::Tanch => "⊣",
-            Token::Afwd => ">",
-            Token::Arev => "<",
+            Token::Afwd => "≻",
+            Token::Arev => "≺",
             Token::Clink => "⋈",
             Token::Imscrib => "⊙",
             Token::Fsplit => "∈",

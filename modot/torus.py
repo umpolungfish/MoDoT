@@ -114,7 +114,7 @@ class TorusGraph:
     def imasm_code(self) -> str:
         """Compact glyph code for the torus word."""
         glyph_map = {
-            "VINIT": "⊢", "TANCH": "⊣", "AFWD": ">", "AREV": "<",
+            "VINIT": "⊢", "TANCH": "⊣", "AFWD": "≻", "AREV": "≺",
             "CLINK": "=", "IMSCRIB": "⊙", "FSPLIT": "◇", "FFUSE": "●",
             "EVALT": "+", "EVALF": "×", "EVALI": "⊞", "ENGAGR": "⊞", "IFIX": "¬",
         }

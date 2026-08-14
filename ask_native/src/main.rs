@@ -4002,7 +4002,7 @@ fn is_known_verb(verb: &str) -> bool {
 fn is_template_echo(args: &[String]) -> bool {
     args.iter().any(|a| {
         let a = a.trim();
-        (a.starts_with('<') && a.ends_with('>') && a.len() > 2)
+        (a.starts_with('≺') && a.ends_with('≻') && a.len() > 2)
             || (a.starts_with('[') && a.ends_with(']') && a.len() > 2)
             || matches!(a, "NAME" | "ARGS" | "ARG" | "DESCRIPTION" | "ENTRY" | "ACTION")
     })
@@ -5555,8 +5555,8 @@ fn atomic_token_seed(name: &str) -> Option<String> {
         "*" | "×" => "the binary operation of multiplication: commutative, associative, with identity element 1, distributing over addition",
         "/" | "÷" => "the binary operation of division: the inverse of multiplication, undefined at the additive identity",
         "=" => "the binary relation of equality: reflexive, symmetric, transitive — identity of value, not of reference",
-        "<" => "the binary relation strictly-less-than: a strict total order",
-        ">" => "the binary relation strictly-greater-than: a strict total order, the converse of <",
+        "≺" => "the binary relation strictly-less-than: a strict total order",
+        "≻" => "the binary relation strictly-greater-than: a strict total order, the converse of <",
         "(" | ")" => "a grouping delimiter marking the scope of an expression, overriding default operator precedence",
         "." => "the decimal point, or a sentence-terminating full stop depending on register: a positional/scope boundary marker",
         "," => "the comma: a separator marking a boundary between coordinate items in a list or clause",

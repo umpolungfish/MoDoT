@@ -122,9 +122,9 @@ def catalog_size() -> int:
 
 # Catalog primitive symbol → pipeline role id (from sectionBackbone / roles)
 _PRIM_TO_ROLE_ID = {
-    "<": "Phi_}",          # polarity / Frobenius-symmetric encoding
+    "≺": "Phi_}",          # polarity / Frobenius-symmetric encoding
     "⊣": "Theta_O",        # topology / self-ref structure
-    ">": "R_=",            # relational / bidirectional
+    "≻": "R_=",            # relational / bidirectional
     "◻": "Omega_z",        # protection / winding
     "⊙": "phi_hat_y",      # criticality / phase boundary
     "⊤": "C_@",            # kinetics / equidistribution

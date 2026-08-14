@@ -2153,7 +2153,7 @@ fn embed_manifest_in_surface(manifest: &serde_json::Value) -> String {
     let Ok(html) = std::fs::read_to_string(&page) else {
         return "  (composer surface not found; manifest not embedded)\n".into();
     };
-    const OPEN: &str = r#"<script type="application/json" id="manifest">"#;
+    const OPEN: &str = r#"<script type="application/json" id="manifest"≻"#;
     const CLOSE: &str = "</script>";
     let Some(a) = html.find(OPEN) else {
         return "  (composer surface has no inline-manifest block; manifest not embedded)\n".into();
