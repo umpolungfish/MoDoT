@@ -1330,6 +1330,7 @@ pub fn run_scan_mediators(
     name_a: &str,
     name_b: &str,
     top: usize,
+    photo: bool,
 ) -> i32 {
     let Some(cat) = catalog else {
         eprintln!("scan-mediators: no catalog loaded");
@@ -1347,8 +1348,24 @@ pub fn run_scan_mediators(
         (Some(x), Some(y)) => (x, y),
         _ => { eprintln!("scan-mediators: a form is missing Criticality ⊙."); return 2; }
     };
+    // `--excite` on the same line is exactly what opens the gap the scan needs, and
+    // the flag never reached here: the scan compared ground-state ⊙, found them
+    // equal, and told the caller to excite one — which the caller had already
+    // asked for. Apply the same promotion `--set` applies, before comparing.
+    let (ca, cb) = if photo {
+        match excite_tuple(&ta) {
+            Some((ex, false)) => {
+                println!(
+                    "  photoinduced (hν): {name_a} → {name_a}* — ⊙ {}→{} before the relay scan.",
+                    glyph_of(CRIT, ca), glyph_of(CRIT, EP_RESONANCE)
+                );
+                (ex[CRIT].unwrap_or(ca), cb)
+            }
+            _ => (ca, cb),
+        }
+    } else { (ca, cb) };
     if ca == cb {
-        println!("scan-mediators: {name_a} and {name_b} have equal ⊙ — thermoneutral, no directed relay to scan for. Excite one first.");
+        println!("scan-mediators: {name_a} and {name_b} have equal ⊙ — thermoneutral, no directed relay to scan for. Excite one first (--excite).");
         return 0;
     }
     // donor = higher ⊙, acceptor = lower ⊙

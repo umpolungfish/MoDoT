@@ -7516,7 +7516,7 @@ fn main() {
     if let Some(names) = &cli.set {
         if names.len() == 2 {
             let code = if cli.scan_mediators {
-                click::run_scan_mediators(cat_ref, &names[0], &names[1], cli.top)
+                click::run_scan_mediators(cat_ref, &names[0], &names[1], cli.top, cli.excite.is_some())
             } else {
                 let photo = cli.excite.is_some();
                 click::run_set(

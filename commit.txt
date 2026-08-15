@@ -1,23 +1,10 @@
-The condition was never the cost; the lookup was
+--scan-mediators honours --excite, instead of asking for it
 
-vita and prooflift both crawl on long words while the host auditor answers the
-same question in milliseconds, and the substrate was getting the blame.
+The flag never reached the scan. run_scan_mediators took only the two names and
+the top count, so it compared GROUND-STATE ⊙, found the pair thermoneutral, and
+printed "Excite one first" — to a caller who had written --excite on the same
+line. The one instruction it gave was the one already followed.
 
-`edges` is a flat Vec of pairs, and `successors(n)` scanned the whole edge list
-and allocated a Vec on every call. The traversals call it once per node visited.
-So `fsplit_ancestors` ran a full O(V·E) walk PER FORK, `between` ran two more PER
-PAIR, and every one of those visits allocated. On a word of a few tokens nobody
-notices; on a lifted proof term of tens of thousands it does not return.
-
-Adjacency is now built once, both directions, and the two traversals read it.
-Same verdicts, same condition, and the graph is untouched — only the lookup
-changed.
-
-Measured on the closure law's own proof, a word of tens of thousands of tokens,
-through the bare-metal kernel: before, no return inside ten minutes. After,
-verdict T in about eleven seconds wall-clock including boot. The host auditor
-gives T on the same word in about eleven milliseconds, and that gap is now a
-constant factor rather than a difference in kind.
-
-One test in imasm16_3 fails and was failing before this change. Left alone,
-noted, not adopted.
+It now takes the photo flag and applies the same excite_tuple promotion --set
+applies, before the comparison. On sk_kp1/pk_kp1 the gap opens (⊙ 𐑢→𐑻) and the
+scan runs: 4746 holdable candidates over 8425 entries.
