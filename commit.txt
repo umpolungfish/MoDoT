@@ -1,27 +1,26 @@
-llamacpp is a lane, not a typo — the local HTTP server gets its own provider
+The word instruments move into imasm_core, and ask grows a word lane
 
-IG_PROVIDER=llamacpp printed "unknown provider, falling back to key-based
-selection" on every single invocation, and with both paid lanes at 402 the
-fallback was no lane at all. Every tool run tonight carried that line.
+ask had seventy-one flags and every one of them reads a CATALOG ENTRY — a name,
+a tuple. The kernel's cycle, weight, banked, trans, insert and ringspec read an
+IMASM WORD, and they lived only in the kernel REPL, so reaching them meant
+booting mOMonadOS and driving it over a serial script. That is what I did all
+night to run ROTAT on a key word, and it is why the word lane was missing from
+every analysis until I went around it by hand.
 
-The first fix was wrong and is worth recording: aliasing llamacpp onto
-Provider::Local sends it to the IN-PROCESS candle engine, which on this box is a
-1.7B at a 2048-token context — a silent downgrade from the 27B on :8000, and
-indistinguishable in the output from having reached the big model. Two different
-lanes wearing one name is exactly the drift this repo keeps finding elsewhere.
+They are not ported and not copied. They MOVE, into imasm_core, which both this
+crate and the kernel already depend on. ringspec needed nothing but alloc.
+lattice_flow needed imasm16_3, which is in the same crate, plus the kernel's
+print macro — so the reports build a String now and the kernel prints what they
+return. The `sw!` shim is what made that mechanical rather than a rewrite.
 
-So Provider::LocalHttp is its own variant: llamacpp / llama-cpp / llama.cpp /
-llama-server / vllm / ollama / lm-studio / local-http resolve to it, and it takes
-the OpenAI-compatible path rather than candle. `local | offline | candle |
-modelz` still mean the in-process engine.
+What stayed behind is the part that is genuinely the kernel's: insert_sweep_all
+walks THIS kernel's program table, which the shared crate has no notion of. It
+lives in mOMonadOS beside a wrapper that prints the shared reports.
 
-Two details it needed. The base URL probes :8000 before falling back to
-llama-server's default :8080, since this box serves on the former and making the
-caller set MODOT_LOCAL_URL to discover that is a bad first run. And the API-key
-guard now hands it a placeholder bearer instead of refusing it: the server is
-keyless, but it meets the guard because it goes over HTTP.
+New in ask: --ringspec, --rotat, --weight, --banked, --trans, --insert. The
+orbit verb is --rotat rather than --cycle because --cycle is already the
+catalytic loop here; two different objects must not share a flag.
 
-Verified: ./ask --raw --provider llamacpp --max-tokens 0 returns the answer from
-Qwen3.5-27B. Note --no-think does not reach llama-server — it sends OpenRouter's
-reasoning.enabled and Gemini's thinkingConfig, neither of which that server
-reads — so a small --max-tokens is spent on reasoning and returns empty content.
+Verified: ./ask --rotat ⊢∈⊤∋⊣ returns the same landing map the kernel prints,
+PHASE-BEARING with 2 distinct landings, and --weight and --banked agree with the
+kernel line for line.

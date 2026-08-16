@@ -15,6 +15,14 @@ extern crate alloc;
 pub mod check;
 pub mod classic;
 pub mod imasm16_3;
+/// The spectrum of a ring, in integers. Lived in the kernel, where `ask` could
+/// not reach it; it depends on nothing but `alloc`, so it lives here and both
+/// callers share the one copy.
+pub mod ringspec;
+/// Lattice cycling, weight flow, banked/insert walks over an IMASM word. Moved
+/// out of the kernel for the same reason as `ringspec`: the host could not reach
+/// them, and a second copy is drift.
+pub mod lattice_flow;
 
 /// The sixteen SIXTEEN_3 register states in canonical vocabulary order
 /// (N, A, then T-F-t-f combination order): the order the model alphabets use.

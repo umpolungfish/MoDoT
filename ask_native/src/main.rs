@@ -439,6 +439,42 @@ struct Cli {
     #[arg(long = "calc", num_args = 1.., value_names = ["EXPRESSION"], allow_hyphen_values = true)]
     calc: Vec<String>,
 
+    /// The spectrum of a ring, in integers: `--ringspec <w1> <w2> <w3> …`. Bond
+    /// weights around the cycle — a clean bond is 1, a cross-link is its number of
+    /// reaction centres, and three is the minimum since two units cannot cyclize.
+    /// The characteristic polynomial has integer coefficients, so every question
+    /// the material sheet answers with a decimal is answered here exactly. Pure
+    /// computation; shared with the kernel rather than reimplemented.
+    #[arg(long = "ringspec", num_args = 1.., value_names = ["WEIGHTS"])]
+    ringspec: Vec<String>,
+
+    /// ROTAT the word and read where each cut lands: `--rotat <word>`. A word is
+    /// a ring and ROTAT is the cyclic shift, so every rotation is the same object
+    /// — the verdict and the topology hold across the orbit, the FINAL REGISTER
+    /// does not. The landing map is the only handle on where a word comes to rest.
+    /// (`--cycle` is the catalytic loop; this is the word orbit.)
+    #[arg(long = "rotat", num_args = 1.., value_names = ["WORD"])]
+    rotat: Vec<String>,
+
+    /// Where the weight moves through an IMASM word: `--weight <word>`. The fork
+    /// is a set and the fuse a union, so a finished walk keeps which values were
+    /// touched and nothing else. This counts.
+    #[arg(long = "weight", num_args = 1.., value_names = ["WORD"])]
+    weight: Vec<String>,
+
+    /// Whether a clear fires with nothing banked behind it: `--banked <word>`.
+    #[arg(long = "banked", num_args = 1.., value_names = ["WORD"])]
+    banked: Vec<String>,
+
+    /// Opcode-to-opcode transitions counted ON THE RING: `--trans <word>`.
+    #[arg(long = "trans", num_args = 1.., value_names = ["WORD"])]
+    trans: Vec<String>,
+
+    /// The repair search: what single insertion makes an exposed word hold.
+    /// `--insert <word>`.
+    #[arg(long = "insert", num_args = 1.., value_names = ["WORD"])]
+    insert: Vec<String>,
+
     /// Narrow the catalog to the floor of a reference set: `--filter A B [C …]`
     /// keeps every entry matching all the primitive values the references share.
     #[arg(long = "filter", num_args = 2.., value_names = ["REFS"])]
@@ -7373,6 +7409,12 @@ impl CliClone for Cli {
             star: self.star.clone(),
             imasm: self.imasm.clone(),
             calc: self.calc.clone(),
+            ringspec: self.ringspec.clone(),
+            rotat: self.rotat.clone(),
+            weight: self.weight.clone(),
+            banked: self.banked.clone(),
+            trans: self.trans.clone(),
+            insert: self.insert.clone(),
             filter: self.filter.clone(),
             ascend: self.ascend.clone(),
             descend: self.descend.clone(),
@@ -7762,6 +7804,28 @@ fn main() {
     if !cli.calc.is_empty() {
         println!("{}", calc::run(&cli.calc));
         process::exit(0);
+    }
+
+    if !cli.ringspec.is_empty() {
+        let refs: Vec<&str> = cli.ringspec.iter().map(|s| s.as_str()).collect();
+        print!("{}", imasm_core::ringspec::ringspec_main(&refs));
+        process::exit(0);
+    }
+
+    // The word lane. These read an IMASM WORD, where every other verb here reads
+    // a catalog entry; they lived only in the kernel REPL, so reaching them meant
+    // booting the kernel and driving it over a serial script.
+    for (words, f) in [
+        (&cli.rotat,  imasm_core::lattice_flow::cycle_report       as fn(&str) -> String),
+        (&cli.weight, imasm_core::lattice_flow::weight_report      as fn(&str) -> String),
+        (&cli.banked, imasm_core::lattice_flow::banked_report      as fn(&str) -> String),
+        (&cli.trans,  imasm_core::lattice_flow::transitions_report as fn(&str) -> String),
+        (&cli.insert, imasm_core::lattice_flow::insert_report      as fn(&str) -> String),
+    ] {
+        if !words.is_empty() {
+            print!("{}", f(&words.join(" ")));
+            process::exit(0);
+        }
     }
 
     if !cli.filter.is_empty() {
