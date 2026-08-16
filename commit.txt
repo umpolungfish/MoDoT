@@ -1,10 +1,27 @@
---scan-mediators honours --excite, instead of asking for it
+llamacpp is a lane, not a typo — the local HTTP server gets its own provider
 
-The flag never reached the scan. run_scan_mediators took only the two names and
-the top count, so it compared GROUND-STATE ⊙, found the pair thermoneutral, and
-printed "Excite one first" — to a caller who had written --excite on the same
-line. The one instruction it gave was the one already followed.
+IG_PROVIDER=llamacpp printed "unknown provider, falling back to key-based
+selection" on every single invocation, and with both paid lanes at 402 the
+fallback was no lane at all. Every tool run tonight carried that line.
 
-It now takes the photo flag and applies the same excite_tuple promotion --set
-applies, before the comparison. On sk_kp1/pk_kp1 the gap opens (⊙ 𐑢→𐑻) and the
-scan runs: 4746 holdable candidates over 8425 entries.
+The first fix was wrong and is worth recording: aliasing llamacpp onto
+Provider::Local sends it to the IN-PROCESS candle engine, which on this box is a
+1.7B at a 2048-token context — a silent downgrade from the 27B on :8000, and
+indistinguishable in the output from having reached the big model. Two different
+lanes wearing one name is exactly the drift this repo keeps finding elsewhere.
+
+So Provider::LocalHttp is its own variant: llamacpp / llama-cpp / llama.cpp /
+llama-server / vllm / ollama / lm-studio / local-http resolve to it, and it takes
+the OpenAI-compatible path rather than candle. `local | offline | candle |
+modelz` still mean the in-process engine.
+
+Two details it needed. The base URL probes :8000 before falling back to
+llama-server's default :8080, since this box serves on the former and making the
+caller set MODOT_LOCAL_URL to discover that is a bad first run. And the API-key
+guard now hands it a placeholder bearer instead of refusing it: the server is
+keyless, but it meets the guard because it goes over HTTP.
+
+Verified: ./ask --raw --provider llamacpp --max-tokens 0 returns the answer from
+Qwen3.5-27B. Note --no-think does not reach llama-server — it sends OpenRouter's
+reasoning.enabled and Gemini's thinkingConfig, neither of which that server
+reads — so a small --max-tokens is spent on reasoning and returns empty content.

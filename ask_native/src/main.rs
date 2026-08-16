@@ -1225,6 +1225,12 @@ enum Provider {
     /// same binary points at whatever local endpoint is up. This is the
     /// broke-mode / offline provider: no cloud, no credits.
     Local,
+    /// A local OpenAI-COMPATIBLE HTTP SERVER — llama.cpp `llama-server`, vLLM,
+    /// ollama, LM Studio. Distinct from `Local`, which is the IN-PROCESS candle
+    /// engine: collapsing the two sends a request meant for the 27B on :8000 to
+    /// whatever small checkpoint candle has resident, which is a silent downgrade
+    /// rather than an error.
+    LocalHttp,
 }
 
 /// The default model for a provider when no explicit `--model` is carried — used both for
@@ -1238,6 +1244,7 @@ fn provider_label(p: Provider) -> &'static str {
         Provider::Groq => "groq",
         Provider::GeminiDirect => "gemini",
         Provider::Local => "local",
+        Provider::LocalHttp => "llamacpp",
     }
 }
 
@@ -1251,6 +1258,7 @@ fn provider_default_model(p: Provider) -> &'static str {
         // serve whatever was loaded), so "local" is a harmless placeholder;
         // override with --model or MODOT_LOCAL_MODEL when the server routes on it.
         Provider::Local => "local",
+        Provider::LocalHttp => "llamacpp",
     }
 }
 
@@ -1267,6 +1275,7 @@ fn provider_has_key(p: Provider) -> bool {
         // Local is keyless: a running local server is its own credential. Treated
         // as always-available so a fatal-error demotion can fall through to it.
         Provider::Local => true,
+        Provider::LocalHttp => true,
     }
 }
 
@@ -1330,9 +1339,44 @@ fn build_llm(provider: Provider, model_override: Option<&str>, think: bool, expl
                 .or_else(|| env_first(&["MODOT_LOCAL_MODEL"]))
                 .unwrap_or_else(|| "local".into()),
             // llama.cpp `llama-server` defaults to :8080; override with MODOT_LOCAL_URL.
+            // llama.cpp `llama-server` defaults to :8080, but this box serves on
+            // :8000; probe both rather than make the caller set MODOT_LOCAL_URL to
+            // learn that. Explicit env still wins.
             base_url: env_first(&["MODOT_LOCAL_URL", "LOCAL_BASE_URL"])
-                .unwrap_or_else(|| "http://127.0.0.1:8080/v1".into()),
+                .unwrap_or_else(|| {
+                    let probe = |u: &str| std::net::TcpStream::connect_timeout(
+                        &format!("127.0.0.1:{u}").parse().unwrap(),
+                        std::time::Duration::from_millis(200),
+                    ).is_ok();
+                    if probe("8000") { "http://127.0.0.1:8000/v1".into() }
+                    else { "http://127.0.0.1:8080/v1".into() }
+                }),
             provider: Provider::Local,
+            think,
+            explicit_provider,
+        },
+        Provider::LocalHttp => Llm {
+            // Keyless, but a server behind an auth proxy can still supply one.
+            api_key: env_first(&["MODOT_LOCAL_KEY", "LOCAL_API_KEY"]),
+            // Prefer an explicit --model, else MODOT_LOCAL_MODEL, else the placeholder.
+            model: model_override
+                .map(|s| s.to_string())
+                .or_else(|| env_first(&["MODOT_LOCAL_MODEL"]))
+                .unwrap_or_else(|| "local".into()),
+            // llama.cpp `llama-server` defaults to :8080; override with MODOT_LOCAL_URL.
+            // llama.cpp `llama-server` defaults to :8080, but this box serves on
+            // :8000; probe both rather than make the caller set MODOT_LOCAL_URL to
+            // learn that. Explicit env still wins.
+            base_url: env_first(&["MODOT_LOCAL_URL", "LOCAL_BASE_URL"])
+                .unwrap_or_else(|| {
+                    let probe = |u: &str| std::net::TcpStream::connect_timeout(
+                        &format!("127.0.0.1:{u}").parse().unwrap(),
+                        std::time::Duration::from_millis(200),
+                    ).is_ok();
+                    if probe("8000") { "http://127.0.0.1:8000/v1".into() }
+                    else { "http://127.0.0.1:8080/v1".into() }
+                }),
+            provider: Provider::LocalHttp,
             think,
             explicit_provider,
         },
@@ -1390,7 +1434,14 @@ fn parse_provider(s: &str) -> Option<Provider> {
         "gemini" | "google" | "gemini-direct" | "google-ai" => Some(Provider::GeminiDirect),
         "deepseek" | "ds" | "deepseek-direct" => Some(Provider::DeepSeek),
         "groq" => Some(Provider::Groq),
+        // Provider::Local IS the local OpenAI-compatible server lane, so the names
+        // people actually run it under resolve here rather than being rejected.
+        // IG_PROVIDER=llamacpp was printing "unknown provider" on every invocation
+        // and then falling back to key-based selection — which, with both paid
+        // lanes at 402, is no lane at all.
         "local" | "offline" | "candle" | "modelz" => Some(Provider::Local),
+        "llamacpp" | "llama-cpp" | "llama.cpp" | "llama-server" | "llamaserver"
+        | "vllm" | "ollama" | "lm-studio" | "lmstudio" | "local-http" => Some(Provider::LocalHttp),
         _ => None,
     }
 }
@@ -1407,6 +1458,7 @@ fn export_ig_env(llm: &Llm) {
         Provider::DeepSeek => "deepseek",
         Provider::Groq => "groq",
         Provider::Local => "local",
+        Provider::LocalHttp => "llamacpp",
     };
     env::set_var("IG_PROVIDER", provider);
     env::set_var("IG_MODEL", &llm.model);
@@ -1426,7 +1478,7 @@ fn make_llm(model: Option<&str>, provider_flag: Option<&str>, think: bool) -> Ll
     // key-based default (the trap: `--provider deepseek` quietly ran on openrouter).
     if let Some(p) = provider_flag {
         if parse_provider(p).is_none() {
-            eprintln!("[ask] unknown --provider/IG_PROVIDER '{p}'; use openrouter | gemini | deepseek | groq | local. Falling back to key-based selection.");
+            eprintln!("[ask] unknown --provider/IG_PROVIDER '{p}'; use openrouter | gemini | deepseek | groq | local | llamacpp. Falling back to key-based selection.");
         }
     }
     // Provider: CLI > IG_PROVIDER (both PIN it) > infer from keys. The inferred default no
@@ -1550,14 +1602,22 @@ fn infer(
         return local_infer(messages, max_tokens, temperature, llm.think);
     }
 
-    let Some(key) = llm.api_key.as_ref() else {
-        return LlmResult {
-            text: "[no API key — set OPENROUTER_API_KEY (openrouter) or GEMINI_API_KEY (gemini); use --dry-run for structure-only]".into(),
-            voice: 'N',
-            err: Some("no API key".into()),
+    // A local HTTP server is keyless too, but it goes through the OpenAI-compatible
+    // path rather than in-process candle, so it meets this guard. Hand it a
+    // placeholder bearer rather than refusing a lane that needs no credential.
+    let placeholder = String::from("local");
+    let key = if llm.provider == Provider::LocalHttp {
+        llm.api_key.as_ref().unwrap_or(&placeholder)
+    } else {
+        let Some(k) = llm.api_key.as_ref() else {
+            return LlmResult {
+                text: "[no API key — set OPENROUTER_API_KEY (openrouter) or GEMINI_API_KEY (gemini); use --dry-run for structure-only]".into(),
+                voice: 'N',
+                err: Some("no API key".into()),
+            };
         };
+        k
     };
-
     // A dropped/reset connection is transient and worth retrying — but ONLY if it failed
     // fast. A full read-timeout that hung near the socket deadline must NOT be retried: doing
     // so multiplies one slow call into several, which is the "stuck churning" the operator
@@ -1570,6 +1630,7 @@ fn infer(
         Provider::DeepSeek => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::Groq => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature),
+        Provider::LocalHttp => infer_openrouter(llm, key, messages, max_tokens, temperature),
         Provider::Local => unreachable!("local is served before the key guard"),
     };
     let t0 = std::time::Instant::now();
@@ -6275,6 +6336,7 @@ fn run_one(
             Provider::DeepSeek => "deepseek",
             Provider::Groq => "groq",
             Provider::Local => "local",
+        Provider::LocalHttp => "llamacpp",
         }
     );
     println!("Question ({} chars):\n", question.chars().count());
@@ -6485,6 +6547,7 @@ fn run_one(
                         Provider::DeepSeek => "deepseek",
                         Provider::Groq => "groq",
                         Provider::Local => "local",
+        Provider::LocalHttp => "llamacpp",
                     };
                     eprintln!(
                         "[ask] fatal LLM error on provider '{pname}' — aborting the run (not transient: 402 = out of credits, 401 = bad key). \
