@@ -1,24 +1,17 @@
-A verdict is two bits off the end of a word, not a reading of it
+cl9nk: the agent had the tool and not the caveat
 
-The agent was told to type-check its thinking and then given nothing to do with
-the answer. So a word arrived, returned T or B, and that was the whole
-interrogation — while rotat, weight, banked, trans, insert and ringspec sat unused
-and every one of them says something the verdict cannot.
+Access and knowledge were already there — cl9nk is a first-class TOOL with the
+right framing, it is in the allowed verb list, the handler shells the catalog-native
+Python navigator, and it returns real output. Verified end to end.
 
-Now a hard rule: every IMASM word produced or received — the agent's own
-type-check, a lifted proof term, a key's address, a monomer's composition — is
-CYCLED and then interrogated, and what the instruments returned is reported rather
-than the verdict alone.
+What was missing is that there are TWO cl9nk implementations and the agent was
+never told. This tool runs the Python navigator; `kernel cl9nk` runs the kernel's
+own. Their distances come from different metrics with different ceilings: the
+kernel reports d(L8,L9)=1.7596, the Python variant tops out near 3.46, and
+CL9NK_ASCENT.md records 5.63 from a third. The kernel's own output already carries
+that warning; the agent's tool description did not, so an agent could read one
+number, quote it against a document written from another, and have no way to know.
 
-Each is named with what it is FOR, since a list of verbs teaches nothing: rotat
-reads the landing register at every cut, because the verdict and topology hold
-across the orbit while the final register does not, which makes the phase the only
-handle on where a word rests; weight reads what each step carries and what
-survives; banked asks whether a clear ever fires against a live register with
-nothing behind it, and says outright that VACUOUS is a real answer rather than a
-failure; trans counts transitions ON THE RING including the closing edge, which a
-linear reading cannot see; insert is the repair.
-
-And the reason, stated so it is not read as ceremony: two words with the same
-verdict routinely differ in every one of these, and the difference is usually the
-finding.
+None of the three refutes the others. Added to the description, with the rule that
+follows from it: say which you ran. Also restated that a structural expression this
+returns is never hand-derived.
