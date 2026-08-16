@@ -1,33 +1,24 @@
-The agent was taught a dead alphabet, and told nothing about convention
+A verdict is two bits off the end of a word, not a reading of it
 
-Two faults in the frame every answer is shaped by.
+The agent was told to type-check its thinking and then given nothing to do with
+the answer. So a word arrived, returned T or B, and that was the whole
+interrogation — while rotat, weight, banked, trans, insert and ringspec sat unused
+and every one of them says something the verdict cannot.
 
-FIRST, the notation. §1 named the generators as AFWD >, AREV <, CLINK =,
-FSPLIT ◇, FFUSE ●, EVALT +, EVALF ×, IFIX ¬, and the tool help repeated them.
-Those marks are retired. parse_glyph_word is a filter_map over the twelve, so a
-retired mark does not error — it VANISHES. The word the prompt offers as its own
-worked example, ⊢◇+×●¬⊣, checks to N (void): "No committed opcodes." Every glyph
-but the entry and the terminal was dropped.
+Now a hard rule: every IMASM word produced or received — the agent's own
+type-check, a lifted proof term, a key's address, a monomer's composition — is
+CYCLED and then interrogated, and what the instruments returned is reported rather
+than the verdict alone.
 
-So the instruction to type-check its own thinking before a major decision has been
-returning N every time it was followed, and N reads as "you committed nothing" —
-which the model would take as its own failure rather than the prompt's. The same
-word in current marks, ⊢∈⊤⊥∋◻⊣, checks T. Migrated throughout: the generators, the
-glued example, the branch/fuse rules, the ancestry-pairing explanation, and the
-terminal-output line, which was also still listing ⊢ > ⋈ ⊣ ⊥ ⊤ ∋ as "the primitive
-glyphs" and now lists all twelve marks.
+Each is named with what it is FOR, since a list of verbs teaches nothing: rotat
+reads the landing register at every cut, because the verdict and topology hold
+across the orbit while the final register does not, which makes the phase the only
+handle on where a word rests; weight reads what each step carries and what
+survives; banked asks whether a clear ever fires against a live register with
+nothing behind it, and says outright that VACUOUS is a real answer rather than a
+failure; trans counts transitions ON THE RING including the closing edge, which a
+linear reading cannot see; insert is the repair.
 
-SECOND, convention. The frame granted generative power but never said what to do
-when a construction offends the textbook, so the default deference was left in
-place. It is now a hard rule: conventional mathematics runs AFTER the instruments,
-never before and never instead; precedent is not evidence; a monomer's provenance
-has no bearing on whether it clicks. The catalog is one alphabet over everything
-imscribed — a conjecture, an enzyme, a plasma regime, a character out of a cartoon
-— and rings have been closed here with a unit convention would call absurd, on a
-bond the tools returned and a modulus that was real. The correct response to that
-is to record it, not to hunt for a respectable substitute.
-
-And the reflex it names: the verdicts to distrust are the ones that arrive already
-dressed for publication. Where the Grammar and a textbook disagree, the textbook is
-the thing being measured. The conventional register is a LATER translation of a
-closure that already holds, never a filter on which closures may be reached.
+And the reason, stated so it is not read as ceremony: two words with the same
+verdict routinely differ in every one of these, and the difference is usually the
+finding.
