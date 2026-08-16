@@ -476,6 +476,15 @@ struct Cli {
     #[arg(long = "insert", num_args = 1.., value_names = ["WORD"])]
     insert: Vec<String>,
 
+    /// Which readings of a word survive rotation and which only read the cut:
+    /// `--frames <word>`. Every rotation is the same object and every frame is
+    /// equally available, so a quantity is either INVARIANT (true of the word) or
+    /// FRAME-BOUND (true of the frame, and must be quoted with it). Evaluating one
+    /// cut and reporting what you saw there is how a frame-bound reading gets
+    /// mistaken for a property.
+    #[arg(long = "frames", num_args = 1.., value_names = ["WORD"])]
+    frames: Vec<String>,
+
     /// Run ANY mOMonadOS command: `--kernel <verb> [args…]`. The kernel carries
     /// well over two hundred verbs and porting them one at a time would leave the
     /// set incomplete for as long as the porting took, so this is the bridge that
@@ -7556,6 +7565,7 @@ impl CliClone for Cli {
             banked: self.banked.clone(),
             trans: self.trans.clone(),
             insert: self.insert.clone(),
+            frames: self.frames.clone(),
             kernel: self.kernel.clone(),
             gradient: self.gradient.clone(),
             mask: self.mask.clone(),
@@ -8054,6 +8064,7 @@ fn main() {
         ("banked", &cli.banked, imasm_core::lattice_flow::banked_report      as fn(&str) -> String),
         ("trans",  &cli.trans,  imasm_core::lattice_flow::transitions_report as fn(&str) -> String),
         ("insert", &cli.insert, imasm_core::lattice_flow::insert_report      as fn(&str) -> String),
+        ("frames", &cli.frames, imasm_core::lattice_flow::frames_report      as fn(&str) -> String),
     ] {
         if !words.is_empty() {
             let w = words.join(" ");

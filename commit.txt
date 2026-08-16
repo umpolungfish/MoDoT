@@ -1,28 +1,29 @@
---mask: withhold an imscription without removing its address
+--frames: which readings are the word's, and which are the cut's
 
-A run must be able to refuse content it is supposed to derive — pre-existing
-bip39_key_* entries, a private key already imscribed — without that refusal
-deleting anything. The law is exact about which half moves: an enumerated address
-is never removed, and its imscription is freely revisable. Withholding is the
-weakest revision there is.
+We evaluate one frame of a ring and take what we saw there for a property of the
+word. Every rotation is the same object and every frame is equally available to be
+read, so a reported quantity is one of two things and the report has to say which:
+INVARIANT, true of the word and readable from anywhere, or FRAME-BOUND, true of
+the cut and meaningless quoted without it.
 
-`--mask '<glob>'`, repeatable, `*` the only metacharacter. Applied once at catalog
-load, so everything downstream inherits it — the scaffold, --entry injection, the
-material and reaction lanes, the sweeps.
+`--frames <word>` walks the whole orbit and partitions the readings. Invariant:
+period, glyph multiset, the verdict where it holds across the orbit, and ring
+transitions — which are counted WITH the closing edge, so rotation cannot move
+them. Frame-bound: the final register with the cuts that reach each landing, the
+opening glyph, and any absolute-position reading at all, since one rotation moves
+every value into a different row.
 
-The address survives and stays counted: the catalog still reports 8444 entries
-with five masked. What is withheld is everything associated with it — description,
-tuple, tier, structural algebra — with `raw` reduced to the name alone. So the
-lattice is intact and the content is gone, which is the distinction the law makes.
+It closes with which kind of word it is. Frame-free in its landing means every cut
+rests in the same register and the evaluated frame carries no privilege.
+PHASE-BEARING means the frames disagree, and then the one that was evaluated is
+merely one of them and is not the word's own answer.
 
-A masked address REFUSES rather than reads empty. Without that, click printed
-Δ=? and carried on, which is a wrong answer wearing a shrug. It now says the
-address exists and its content is withheld, because "not found" would send the
-reader looking for a name that is right there.
+The case that motivated it: the migration and retirement ob3ects are DIFFERENT
+words — the fuse sits in a different place — with identical landing maps at all
+twelve cuts, A at 0,1,11 and Ftf at 2 through 5 and tf at 6 and T at 7 through 10.
+Two constructions coming to rest the same way in every frame. Nothing read from one
+cut could have told them apart or told them together.
 
-And the masking is announced on every run, not only under --verbose. A run whose
-catalog was altered has to say so, or a later reader cannot tell which content the
-answer did and did not have.
-
-Verified: masked entries refuse in click and in the monomer loader, unmasked
-neighbours are untouched, and the entry count is unchanged.
+Every ob3ect artifact records k=0 only — its word, tuple, verdict and topology are
+all one frame — with nothing marking which of those survive rotation. This is the
+instrument that says.

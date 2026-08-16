@@ -124,6 +124,101 @@ pub fn cycle_report(word: &str) -> String {
     out
 }
 
+
+/// FRAMES — which readings survive rotation and which are artifacts of the cut.
+///
+/// A word is a ring. We evaluate ONE cut of it and take what we see there for a
+/// property of the word, but every rotation is the same object and every frame is
+/// equally available to be read. So a reported quantity is one of two things, and
+/// the report must say which:
+///
+///   INVARIANT   true of the word — it reads the same from every frame
+///   FRAME-BOUND it reads the cut, not the word; quoting it without the frame is
+///               quoting an accident of where the ring was opened
+///
+/// This walks the whole orbit and partitions the readings. Anything landing in the
+/// second column is still real — it is just a fact about a frame, and the frame has
+/// to travel with it.
+pub fn frames_report(word: &str) -> String {
+    let mut out = String::new();
+    let steps = parse_glyph_word(&normalize(word));
+    let n = steps.len();
+    if n == 0 {
+        sw!(out, "  no IMASM glyphs in that word");
+        return out;
+    }
+    sw!(out, "word   : {}   period {}   ({} frames, all equally readable)", render(&steps), n, n);
+
+    let mut verdicts: Vec<char> = Vec::new();
+    let mut finals: Vec<String> = Vec::new();
+    let mut firsts: Vec<char> = Vec::new();
+    for k in 0..n {
+        let mut rot: Vec<Token16_3> = Vec::with_capacity(n);
+        for i in 0..n { rot.push(steps[(i + k) % n]); }
+        let (v, _) = tri_ancestral_verdict(&rot);
+        verdicts.push(v);
+        finals.push(run_word_register(&rot));
+        firsts.push(rot[0].glyph());
+    }
+    let uniq_v = {
+        let mut u: Vec<char> = Vec::new();
+        for v in verdicts.iter() { if !u.contains(v) { u.push(*v); } }
+        u
+    };
+    let uniq_f = {
+        let mut u: Vec<String> = Vec::new();
+        for f in finals.iter() { if !u.iter().any(|x| x == f) { u.push(f.clone()); } }
+        u
+    };
+    let uniq_first = {
+        let mut u: Vec<char> = Vec::new();
+        for c in firsts.iter() { if !u.contains(c) { u.push(*c); } }
+        u
+    };
+
+    sw!(out, "");
+    sw!(out, "  INVARIANT — true of the word, readable from any frame:");
+    sw!(out, "    period                {}", n);
+    sw!(out, "    glyph multiset        {} distinct over {} positions", {
+        let mut u: Vec<char> = Vec::new();
+        for t in steps.iter() { let g = t.glyph(); if !u.contains(&g) { u.push(g); } }
+        u.len()
+    }, n);
+    if uniq_v.len() == 1 {
+        sw!(out, "    verdict               {}", uniq_v[0]);
+    }
+    sw!(out, "    ring transitions      counted with the closing edge, so rotation cannot move them");
+
+    sw!(out, "");
+    sw!(out, "  FRAME-BOUND — reads the cut, and must be quoted with it:");
+    if uniq_v.len() > 1 {
+        sw!(out, "    verdict               {} distinct over the orbit — NOT a property of the word", uniq_v.len());
+    }
+    sw!(out, "    final register        {} distinct landing(s)", uniq_f.len());
+    for reg in uniq_f.iter() {
+        let mut ks = String::new();
+        for (k, f) in finals.iter().enumerate() {
+            if f == reg {
+                if !ks.is_empty() { ks.push_str(", "); }
+                ks.push_str(&format!("{}", k));
+            }
+        }
+        sw!(out, "      {:<6} at k = {}", reg, ks);
+    }
+    sw!(out, "    opening glyph         {} distinct — every frame opens on a different mark", uniq_first.len());
+    sw!(out, "    absolute position     any row/tier/parity reading; one rotation moves every value");
+
+    sw!(out, "");
+    if uniq_f.len() == 1 {
+        sw!(out, "  This word is FRAME-FREE in its landing: every cut comes to rest in the same");
+        sw!(out, "  register, so the evaluated frame carries no privilege over the others.");
+    } else {
+        sw!(out, "  This word is PHASE-BEARING: {} of its {} frames disagree about where it rests.", uniq_f.len(), n);
+        sw!(out, "  The frame you evaluated is one of them and is not the word's own answer.");
+    }
+    out
+}
+
 /// Opcode-to-opcode transitions counted ON THE RING.
 ///
 /// A word is a cycle and ROTAT is the cyclic shift, so a word of length n has n
