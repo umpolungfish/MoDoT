@@ -1,17 +1,28 @@
-cl9nk: the agent had the tool and not the caveat
+--mask: withhold an imscription without removing its address
 
-Access and knowledge were already there — cl9nk is a first-class TOOL with the
-right framing, it is in the allowed verb list, the handler shells the catalog-native
-Python navigator, and it returns real output. Verified end to end.
+A run must be able to refuse content it is supposed to derive — pre-existing
+bip39_key_* entries, a private key already imscribed — without that refusal
+deleting anything. The law is exact about which half moves: an enumerated address
+is never removed, and its imscription is freely revisable. Withholding is the
+weakest revision there is.
 
-What was missing is that there are TWO cl9nk implementations and the agent was
-never told. This tool runs the Python navigator; `kernel cl9nk` runs the kernel's
-own. Their distances come from different metrics with different ceilings: the
-kernel reports d(L8,L9)=1.7596, the Python variant tops out near 3.46, and
-CL9NK_ASCENT.md records 5.63 from a third. The kernel's own output already carries
-that warning; the agent's tool description did not, so an agent could read one
-number, quote it against a document written from another, and have no way to know.
+`--mask '<glob>'`, repeatable, `*` the only metacharacter. Applied once at catalog
+load, so everything downstream inherits it — the scaffold, --entry injection, the
+material and reaction lanes, the sweeps.
 
-None of the three refutes the others. Added to the description, with the rule that
-follows from it: say which you ran. Also restated that a structural expression this
-returns is never hand-derived.
+The address survives and stays counted: the catalog still reports 8444 entries
+with five masked. What is withheld is everything associated with it — description,
+tuple, tier, structural algebra — with `raw` reduced to the name alone. So the
+lattice is intact and the content is gone, which is the distinction the law makes.
+
+A masked address REFUSES rather than reads empty. Without that, click printed
+Δ=? and carried on, which is a wrong answer wearing a shrug. It now says the
+address exists and its content is withheld, because "not found" would send the
+reader looking for a name that is right there.
+
+And the masking is announced on every run, not only under --verbose. A run whose
+catalog was altered has to say so, or a later reader cannot tell which content the
+answer did and did not have.
+
+Verified: masked entries refuse in click and in the monomer loader, unmasked
+neighbours are untouched, and the entry count is unchanged.

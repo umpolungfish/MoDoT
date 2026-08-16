@@ -498,6 +498,15 @@ struct Cli {
     #[arg(long = "gradient", num_args = 1.., value_names = ["ANALYTES"])]
     gradient: Vec<String>,
 
+    /// Withhold an imscription for this run without removing its address:
+    /// `--mask 'bip39_key_*'` (repeatable, `*` glob). The entry stays in the
+    /// catalog and stays counted — the lattice is not depopulated — but its
+    /// description, tuple, tier and structural algebra are withheld, so the run
+    /// cannot lean on content it is meant to derive. An enumerated address is
+    /// never removed; withholding is the weakest revision of its imscription.
+    #[arg(long = "mask", num_args = 1.., value_names = ["GLOB"])]
+    mask: Vec<String>,
+
     /// Number of composition steps for `--gradient` (the gradient's shallowness).
     #[arg(long = "steps", default_value_t = 20)]
     steps: usize,
@@ -763,6 +772,68 @@ struct CatalogEntry {
     tier: Option<String>,
     d_cl8: Option<f64>,
     raw: Value,
+}
+
+/// What a masked entry's description becomes. Checked by name elsewhere, so it is
+/// one constant rather than a literal repeated at each site.
+pub(crate) const MASK_MARKER: &str = "[imscription masked for this run]";
+
+/// Withhold the imscription at an address WITHOUT removing the address.
+///
+/// The lattice is not depopulated: the entry stays in the catalog, stays counted,
+/// stays enumerable, and its name still resolves. What is withheld is everything
+/// associated with it — description, tuple, structural algebra, tier — so a run
+/// cannot lean on content it is supposed to derive. An enumerated address is never
+/// removed; its imscription is freely revisable, and withholding is the weakest
+/// revision there is.
+///
+/// Patterns are globs over the entry name: `bip39_key_*`, `*_private_key*`, or a
+/// bare name for one address.
+fn apply_masks(entries: &mut [CatalogEntry], patterns: &[String]) -> usize {
+    if patterns.is_empty() {
+        return 0;
+    }
+    let matches = |name: &str, pat: &str| -> bool {
+        // Minimal glob: `*` is the only metacharacter, which is all a catalog name
+        // needs and keeps the matcher small enough to read.
+        let parts: Vec<&str> = pat.split('*').collect();
+        if parts.len() == 1 {
+            return name == pat;
+        }
+        let mut pos = 0usize;
+        for (i, part) in parts.iter().enumerate() {
+            if part.is_empty() {
+                continue;
+            }
+            if i == 0 {
+                if !name.starts_with(part) {
+                    return false;
+                }
+                pos = part.len();
+            } else if i == parts.len() - 1 && !pat.ends_with('*') {
+                return name.len() >= pos && name[pos..].ends_with(part);
+            } else {
+                match name[pos..].find(part) {
+                    Some(k) => pos += k + part.len(),
+                    None => return false,
+                }
+            }
+        }
+        true
+    };
+    let mut n = 0usize;
+    for e in entries.iter_mut() {
+        if patterns.iter().any(|p| matches(&e.name, p)) {
+            e.description = MASK_MARKER.to_string();
+            e.proved_hint = None;
+            e.tier = None;
+            e.d_cl8 = None;
+            // The address survives in `raw`; nothing else does.
+            e.raw = serde_json::json!({ "name": e.name });
+            n += 1;
+        }
+    }
+    n
 }
 
 fn find_catalog(cli: &Cli) -> Option<PathBuf> {
@@ -7487,6 +7558,7 @@ impl CliClone for Cli {
             insert: self.insert.clone(),
             kernel: self.kernel.clone(),
             gradient: self.gradient.clone(),
+            mask: self.mask.clone(),
             steps: self.steps,
             filter: self.filter.clone(),
             ascend: self.ascend.clone(),
@@ -7725,9 +7797,23 @@ fn main() {
     let catalog_path = find_catalog(&cli);
     let catalog = match &catalog_path {
         Some(p) => match load_catalog(p) {
-            Ok(c) => {
+            Ok(mut c) => {
+                let masked = apply_masks(&mut c, &cli.mask);
                 if cli.verbose {
                     eprintln!("[catalog] {} ({} entries)", p.display(), c.len());
+                }
+                // Announced always, not only under --verbose: a run whose catalog
+                // was altered must say so, or a later reader cannot tell which
+                // content the answer did and did not have.
+                if masked > 0 {
+                    eprintln!(
+                        "{}",
+                        style::dim_err(&format!(
+                            "[catalog] {} address(es) masked — enumerated, imscription withheld: {}",
+                            masked,
+                            cli.mask.join(" ")
+                        ))
+                    );
                 }
                 Some(c)
             }

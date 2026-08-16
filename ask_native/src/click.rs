@@ -294,6 +294,12 @@ pub fn run_click_sweep(
         eprintln!("click-sweep: no catalog loaded");
         return 2;
     };
+    if let Some(e) = find_entry(cat, name) {
+        if let Some(msg) = masked_refusal(e) {
+            eprintln!("click-sweep: {msg}");
+            return 2;
+        }
+    }
     let Some(ea) = find_entry(cat, name) else {
         eprintln!("click-sweep: catalog entry not found: {name}");
         return 2;
@@ -665,6 +671,12 @@ pub fn run_click(
             return 2;
         }
     };
+    for e in [ea, eb] {
+        if let Some(msg) = masked_refusal(e) {
+            eprintln!("click: {msg}");
+            return 2;
+        }
+    }
     let ta = Tuple::from_entry(ea);
     let tb = Tuple::from_entry(eb);
 
@@ -1863,6 +1875,21 @@ fn preclick(cat: &[CatalogEntry], token: &str, theta: f32) -> Result<Tuple, Stri
 }
 
 /// Load a monomer feed into tuples, resolving `+` pre-click tokens (`A+B` → one blend).
+/// A masked address resolves — it is still in the catalog — but carries no
+/// imscription, so any tool that needs its content must say that rather than
+/// report it missing. "not found" would send the reader looking for a name that
+/// is right there.
+fn masked_refusal(e: &CatalogEntry) -> Option<String> {
+    if e.description == crate::MASK_MARKER {
+        Some(format!(
+            "{}: imscription masked for this run (--mask). The address exists; its content is withheld.",
+            e.name
+        ))
+    } else {
+        None
+    }
+}
+
 /// Shared by --polymerize and --arrange.
 fn load_monomers(cat: &[CatalogEntry], monomers: &[String], theta: f32) -> Result<Vec<Tuple>, String> {
     let mut units = Vec::with_capacity(monomers.len());
@@ -1871,6 +1898,9 @@ fn load_monomers(cat: &[CatalogEntry], monomers: &[String], theta: f32) -> Resul
             units.push(preclick(cat, m, theta)?);
         } else {
             let e = find_entry(cat, m).ok_or_else(|| format!("monomer not found: {m}"))?;
+            if let Some(msg) = masked_refusal(e) {
+                return Err(msg);
+            }
             units.push(Tuple::from_entry(e));
         }
     }
