@@ -1,27 +1,33 @@
-Colour and separation in the output, and nothing in the pipe
+The agent was taught a dead alphabet, and told nothing about convention
 
-Several verbs print thirty lines with no mark of where one ends and the next
-begins, which is unreadable the moment two run in sequence. Each now opens with a
-ruled header carrying the verb and its subject, and the words that decide a
-result — CYCLIC, INSULATING, RETAINED, VOID, the B4 letters — are painted so the
-eye finds the answer without reading the paragraph.
+Two faults in the frame every answer is shaped by.
 
-The more important half is that it all vanishes when nobody is watching. Colour is
-decided once, from whether the stream is a terminal, with NO_COLOR honoured and
-CLICOLOR_FORCE able to force it back on; when it is off the helpers return bare
-text rather than a dimmer escape. `ask` output is read by pipes, by tee, and by
-the agent itself reading a tool's result, and an escape sequence in any of those
-is noise a later reader has to strip.
+FIRST, the notation. §1 named the generators as AFWD >, AREV <, CLINK =,
+FSPLIT ◇, FFUSE ●, EVALT +, EVALF ×, IFIX ¬, and the tool help repeated them.
+Those marks are retired. parse_glyph_word is a filter_map over the twelve, so a
+retired mark does not error — it VANISHES. The word the prompt offers as its own
+worked example, ⊢◇+×●¬⊣, checks to N (void): "No committed opcodes." Every glyph
+but the entry and the terminal was dropped.
 
-That was already happening. local.rs, bnb.rs and shard.rs emitted \x1b[2m
-unconditionally, so every captured run and every jam log carried escapes in the
-[local] diagnostics with no switch to turn them off. Those go through
-style::dim_err now, which asks about STDERR rather than stdout — a different
-question, since diagnostics and results get redirected separately. No raw escape
-remains anywhere outside style.rs.
+So the instruction to type-check its own thinking before a major decision has been
+returning N every time it was followed, and N reads as "you committed nothing" —
+which the model would take as its own failure rather than the prompt's. The same
+word in current marks, ⊢∈⊤⊥∋◻⊣, checks T. Migrated throughout: the generators, the
+glued example, the branch/fuse rules, the ancestry-pairing explanation, and the
+terminal-output line, which was also still listing ⊢ > ⋈ ⊣ ⊥ ⊤ ∋ as "the primitive
+glyphs" and now lists all twelve marks.
 
-Also fixed: the header nested bold inside cyan and emitted a double reset. One
-escape now, via a combined code.
+SECOND, convention. The frame granted generative power but never said what to do
+when a construction offends the textbook, so the default deference was left in
+place. It is now a hard rule: conventional mathematics runs AFTER the instruments,
+never before and never instead; precedent is not evidence; a monomer's provenance
+has no bearing on whether it clicks. The catalog is one alphabet over everything
+imscribed — a conjecture, an enzyme, a plasma regime, a character out of a cartoon
+— and rings have been closed here with a unit convention would call absurd, on a
+bond the tools returned and a modulus that was real. The correct response to that
+is to record it, not to hunt for a respectable substitute.
 
-Verified both ways — piped output carries zero escapes, CLICOLOR_FORCE=1 shows
-the rules and the painted verdicts.
+And the reflex it names: the verdicts to distrust are the ones that arrive already
+dressed for publication. Where the Grammar and a textbook disagree, the textbook is
+the thing being measured. The conventional register is a LATER translation of a
+closure that already holds, never a filter on which closures may be reached.
