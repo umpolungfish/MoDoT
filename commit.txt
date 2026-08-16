@@ -1,18 +1,31 @@
-Every mOMonadOS verb is reachable from ask
+--gradient: the eluent changes composition over the run
 
-The kernel carries well over two hundred verbs. Porting them one at a time
-leaves the set incomplete for as long as the porting takes, and the requirement
-is availability, so `--kernel <verb> [args…]` bridges all of them at once.
+`--column` is isocratic — one eluent at one strength — and it cannot tell an
+analyte the column never gripped from one that eluted first. Both sit at the
+bottom of the same ranking. Gradient elution separates them, because it asks a
+different question: not "how strongly is this held" but "at what mobile-phase
+composition does the eluent's pull first exceed that hold".
 
-It drives the HOSTED build over stdin rather than the serial script: no QEMU, no
-fixed sleeps, no boot image. Everything before the first prompt is the kernel
-starting up — catalog load, ordinal check, Frobenius identity, banner — and
-belongs to the boot rather than the answer, so it is cut. `--kernel help` lists
-the verbs. MOMONADOS_BIN overrides the path.
+`--gradient M1 M2 … on S from A to B [--steps N]` walks the eluent from a weak
+component to a strong one, blending affinity linearly in the composition, and
+records the step each analyte leaves. The composition IS the parameter, so a
+gradient is a walk along it and retention is where that walk crosses the hold.
 
-This does not retire the relocation route. A verb that is pure computation should
-still MOVE into imasm_core the way ringspec and lattice_flow just did, so it needs
-no kernel at all and no subprocess; the bridge is what makes it available in the
-meantime, and what covers the verbs that genuinely need the kernel's own state.
+That makes four outcomes distinct where the isocratic tool had one ranking:
 
-Checked through the bridge: ringspec, straus, sigma.
+  eluted at step k   the walk crossed the hold, and k is the retention
+  co-eluting         two analytes crossed on the same step — unresolved, and a
+                     shallower gradient separates them if their holds differ
+  RETAINED           the walk never reaches the hold; needs a STRONGER B, and a
+                     longer run will not help
+  VOID               the column never gripped it, so no eluent strength released
+                     it — it separates from nothing and needs a different phase
+
+The void case was a real defect on the first pass: with hold 0.00 the crossing
+test fired at step 0 and reported four analytes eluting together, ranked as
+though they had been separated. An analyte that never adsorbed has no retention
+to report, so void is its own outcome rather than the earliest one.
+
+Demonstrated: on stationary bip39_secp256k1_derivation, plutonium_normal reads
+RETAINED with hold 1.67 against an eluent walking 1.67→1.42 — away from it — so
+the tool says stronger B rather than more steps.

@@ -488,6 +488,19 @@ struct Cli {
     #[arg(long = "kernel", num_args = 1.., value_names = ["VERB"])]
     kernel: Vec<String>,
 
+    /// Gradient chromatography: `--gradient M1 M2 … on S from A to B`. The eluent
+    /// CHANGES COMPOSITION over the run, walking from a weak component to a strong
+    /// one, and each analyte leaves the step the eluent's pull first exceeds the
+    /// stationary phase's hold. `--column` is the isocratic case of this, where an
+    /// over-held analyte simply never comes off. Steps default to 20; set with
+    /// `--steps`.
+    #[arg(long = "gradient", num_args = 1.., value_names = ["ANALYTES"])]
+    gradient: Vec<String>,
+
+    /// Number of composition steps for `--gradient` (the gradient's shallowness).
+    #[arg(long = "steps", default_value_t = 20)]
+    steps: usize,
+
     /// Narrow the catalog to the floor of a reference set: `--filter A B [C …]`
     /// keeps every entry matching all the primitive values the references share.
     #[arg(long = "filter", num_args = 2.., value_names = ["REFS"])]
@@ -7429,6 +7442,8 @@ impl CliClone for Cli {
             trans: self.trans.clone(),
             insert: self.insert.clone(),
             kernel: self.kernel.clone(),
+            gradient: self.gradient.clone(),
+            steps: self.steps,
             filter: self.filter.clone(),
             ascend: self.ascend.clone(),
             descend: self.descend.clone(),
@@ -7888,6 +7903,11 @@ fn main() {
         let refs: Vec<&str> = cli.ringspec.iter().map(|s| s.as_str()).collect();
         print!("{}", imasm_core::ringspec::ringspec_main(&refs));
         process::exit(0);
+    }
+
+    if !cli.gradient.is_empty() {
+        let code = click::run_gradient(cat_ref, &cli.gradient, cli.theta, cli.steps);
+        process::exit(code);
     }
 
     if !cli.kernel.is_empty() {

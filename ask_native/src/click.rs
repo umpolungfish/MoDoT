@@ -2871,6 +2871,131 @@ pub fn run_tlc(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32
 /// order of retention, least-retained first, reporting the resolution gap between each
 /// neighboring pair (a gap below epsilon is co-elution into a shared fraction, B). With
 /// `on S`, retention is affinity to the stationary phase S (the bond drive to S);
+/// CLI entry: `./ask --gradient M1 M2 … on S from A to B [steps N]`
+///
+/// Gradient elution. `--column` is isocratic: one eluent, one strength, and an
+/// analyte held harder than the eluent can pull never comes off at all. Here the
+/// mobile phase CHANGES COMPOSITION over the run, walking from a weak eluent A to
+/// a strong one B, and each analyte leaves the moment the eluent's grip on it
+/// exceeds the stationary phase's.
+///
+/// The blend at fraction t is the affinity a mixed eluent has, taken linearly
+/// between the two pure components — the composition IS the parameter, so a
+/// gradient is a walk along it and retention is where that walk crosses the
+/// analyte's hold. Which makes the two failure modes visible and distinct:
+/// analytes that leave together (unresolved, the gradient is too steep through
+/// their crossing) and analytes that never leave (B is not strong enough).
+pub fn run_gradient(
+    catalog: Option<&[CatalogEntry]>,
+    args: &[String],
+    theta: f32,
+    steps: usize,
+) -> i32 {
+    let Some(cat) = catalog else { eprintln!("gradient: no catalog loaded"); return 2; };
+    let usage = "gradient M1 M2 … on S from A to B";
+    let Some((sample_names, rest)) = split_on(args, "on") else {
+        eprintln!("{usage}  — the stationary phase is required (`on S`)"); return 2;
+    };
+    let Some((stat_name, rest2)) = split_on(rest, "from") else {
+        eprintln!("{usage}  — the weak eluent is required (`from A`)"); return 2;
+    };
+    let Some((weak_name, strong_name)) = split_on(rest2, "to") else {
+        eprintln!("{usage}  — the strong eluent is required (`to B`)"); return 2;
+    };
+    if sample_names.len() < 2 { eprintln!("gradient needs at least two analytes"); return 2; }
+    if stat_name.len() != 1 || weak_name.len() != 1 || strong_name.len() != 1 {
+        eprintln!("{usage}  — `on`, `from` and `to` each take exactly one name"); return 2;
+    }
+    let sample = match load_monomers(cat, sample_names, theta) {
+        Ok(u) => u, Err(e) => { eprintln!("gradient: {e}"); return 2; }
+    };
+    let one = |n: &[String]| -> Result<Tuple, String> {
+        load_monomers(cat, n, theta).map(|v| v.into_iter().next().unwrap())
+    };
+    let (stat, weak, strong) = match (one(stat_name), one(weak_name), one(strong_name)) {
+        (Ok(a), Ok(b), Ok(c)) => (a, b, c),
+        (Err(e), _, _) | (_, Err(e), _) | (_, _, Err(e)) => { eprintln!("gradient: {e}"); return 2; }
+    };
+    let n = steps.max(2);
+
+    println!(
+        "gradient elution:  {{{}}}\n  stationary {}   eluent {} → {}   {} steps",
+        sample_names.join(", "), stat.name, weak.name, strong.name, n
+    );
+
+    // Hold: how hard the stationary phase keeps each analyte. An analyte the
+    // column does not grip at all elutes in the void volume and separates from
+    // nothing, which is worth saying rather than ranking.
+    let hold = |u: &Tuple| bond_forms(u, &stat, theta).unwrap_or(0.0);
+    let pull_w = |u: &Tuple| bond_forms(u, &weak, theta).unwrap_or(0.0);
+    let pull_s = |u: &Tuple| bond_forms(u, &strong, theta).unwrap_or(0.0);
+
+    let mut rows: Vec<(String, f32, f32, f32, Option<usize>)> = Vec::new();
+    for u in &sample {
+        let (h, pw, ps) = (hold(u), pull_w(u), pull_s(u));
+        let mut at = None;
+        // An analyte the column does not grip rides the void volume: it never
+        // adsorbed, so no eluent strength is what releases it, and reporting it as
+        // "eluted at step 0" would rank it against analytes that were actually
+        // separated. Void is its own outcome.
+        if h > 0.0 {
+            for k in 0..n {
+                let t = k as f32 / (n - 1) as f32;
+                let pull = pw + (ps - pw) * t;
+                if pull > h { at = Some(k); break; }
+            }
+        }
+        rows.push((u.name.clone(), h, pw, ps, at));
+    }
+    rows.sort_by(|a, b| match (a.4, b.4) {
+        (Some(x), Some(y)) => x.cmp(&y).then(a.1.partial_cmp(&b.1).unwrap_or(core::cmp::Ordering::Equal)),
+        (Some(_), None) => core::cmp::Ordering::Less,
+        (None, Some(_)) => core::cmp::Ordering::Greater,
+        (None, None) => core::cmp::Ordering::Equal,
+    });
+
+    println!("\n  step  %B    hold   pull(A→B)   analyte");
+    for (name, h, pw, ps, at) in &rows {
+        match at {
+            Some(k) => {
+                let pct = 100.0 * (*k as f32) / ((n - 1) as f32);
+                println!("  {:>4}  {:>3.0}%  {:>5.2}   {:>4.2}→{:<4.2}   {}", k, pct, h, pw, ps, name);
+            }
+            None if *h <= 0.0 => println!(
+                "   void    —   {:>5.2}   {:>4.2}→{:<4.2}   {}  VOID — the column never gripped it", h, pw, ps, name),
+            None => println!(
+                "     —    —   {:>5.2}   {:>4.2}→{:<4.2}   {}  RETAINED — B never out-pulls the column", h, pw, ps, name),
+        }
+    }
+
+    // Resolution: two analytes leaving on the same step are not separated, and a
+    // gradient exists to be shallowed until they are.
+    let eluted: Vec<&(String, f32, f32, f32, Option<usize>)> = rows.iter().filter(|r| r.4.is_some()).collect();
+    let mut coel = 0usize;
+    for w in eluted.windows(2) {
+        if w[0].4 == w[1].4 {
+            println!("\n  ⚠ co-elution at step {}: {} and {} — unresolved", w[0].4.unwrap(), w[0].0, w[1].0);
+            coel += 1;
+        }
+    }
+    let void = rows.iter().filter(|r| r.4.is_none() && r.1 <= 0.0).count();
+    let retained = rows.iter().filter(|r| r.4.is_none() && r.1 > 0.0).count();
+    println!(
+        "\n  {} of {} eluted; {} co-eluting pair(s); {} retained; {} in the void.",
+        eluted.len(), rows.len(), coel, retained, void
+    );
+    if void > 0 {
+        println!("  a void peak separates from nothing — it needs a stationary phase that binds it.");
+    }
+    if coel > 0 {
+        println!("  a shallower gradient (more steps) separates a co-eluting pair if their holds differ at all.");
+    }
+    if retained > 0 {
+        println!("  a retained analyte needs a STRONGER B, not a longer run — the walk never reaches its hold.");
+    }
+    0
+}
+
 /// without, the intrinsic retention norm(>).
 pub fn run_column(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f32) -> i32 {
     let Some(cat) = catalog else { eprintln!("column: no catalog loaded"); return 2; };
