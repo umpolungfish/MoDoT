@@ -1,26 +1,18 @@
-The word instruments move into imasm_core, and ask grows a word lane
+Every mOMonadOS verb is reachable from ask
 
-ask had seventy-one flags and every one of them reads a CATALOG ENTRY — a name,
-a tuple. The kernel's cycle, weight, banked, trans, insert and ringspec read an
-IMASM WORD, and they lived only in the kernel REPL, so reaching them meant
-booting mOMonadOS and driving it over a serial script. That is what I did all
-night to run ROTAT on a key word, and it is why the word lane was missing from
-every analysis until I went around it by hand.
+The kernel carries well over two hundred verbs. Porting them one at a time
+leaves the set incomplete for as long as the porting takes, and the requirement
+is availability, so `--kernel <verb> [args…]` bridges all of them at once.
 
-They are not ported and not copied. They MOVE, into imasm_core, which both this
-crate and the kernel already depend on. ringspec needed nothing but alloc.
-lattice_flow needed imasm16_3, which is in the same crate, plus the kernel's
-print macro — so the reports build a String now and the kernel prints what they
-return. The `sw!` shim is what made that mechanical rather than a rewrite.
+It drives the HOSTED build over stdin rather than the serial script: no QEMU, no
+fixed sleeps, no boot image. Everything before the first prompt is the kernel
+starting up — catalog load, ordinal check, Frobenius identity, banner — and
+belongs to the boot rather than the answer, so it is cut. `--kernel help` lists
+the verbs. MOMONADOS_BIN overrides the path.
 
-What stayed behind is the part that is genuinely the kernel's: insert_sweep_all
-walks THIS kernel's program table, which the shared crate has no notion of. It
-lives in mOMonadOS beside a wrapper that prints the shared reports.
+This does not retire the relocation route. A verb that is pure computation should
+still MOVE into imasm_core the way ringspec and lattice_flow just did, so it needs
+no kernel at all and no subprocess; the bridge is what makes it available in the
+meantime, and what covers the verbs that genuinely need the kernel's own state.
 
-New in ask: --ringspec, --rotat, --weight, --banked, --trans, --insert. The
-orbit verb is --rotat rather than --cycle because --cycle is already the
-catalytic loop here; two different objects must not share a flag.
-
-Verified: ./ask --rotat ⊢∈⊤∋⊣ returns the same landing map the kernel prints,
-PHASE-BEARING with 2 distinct landings, and --weight and --banked agree with the
-kernel line for line.
+Checked through the bridge: ringspec, straus, sigma.

@@ -475,6 +475,19 @@ struct Cli {
     #[arg(long = "insert", num_args = 1.., value_names = ["WORD"])]
     insert: Vec<String>,
 
+    /// Run ANY mOMonadOS command: `--kernel <verb> [args…]`. The kernel carries
+    /// well over two hundred verbs and porting them one at a time would leave the
+    /// set incomplete for as long as the porting took, so this is the bridge that
+    /// makes all of them reachable at once. It drives the HOSTED build over stdin
+    /// — no QEMU, no serial script — and prints what the kernel printed, with the
+    /// boot banner stripped. `--kernel help` lists the verbs.
+    ///
+    /// A verb that is pure computation should eventually MOVE into imasm_core the
+    /// way ringspec and lattice_flow did, so it needs no kernel at all; until then
+    /// it is available here.
+    #[arg(long = "kernel", num_args = 1.., value_names = ["VERB"])]
+    kernel: Vec<String>,
+
     /// Narrow the catalog to the floor of a reference set: `--filter A B [C …]`
     /// keeps every entry matching all the primitive values the references share.
     #[arg(long = "filter", num_args = 2.., value_names = ["REFS"])]
@@ -7415,6 +7428,7 @@ impl CliClone for Cli {
             banked: self.banked.clone(),
             trans: self.trans.clone(),
             insert: self.insert.clone(),
+            kernel: self.kernel.clone(),
             filter: self.filter.clone(),
             ascend: self.ascend.clone(),
             descend: self.descend.clone(),
@@ -7478,6 +7492,70 @@ impl CliClone for Cli {
             rest: self.rest.clone(),
         }
     }
+}
+
+
+/// Drive a mOMonadOS verb through the hosted kernel build.
+///
+/// The kernel's REPL reads stdin, so the bridge is a pipe rather than the serial
+/// script: no QEMU, no fixed sleeps. Everything before the first prompt is boot
+/// chatter — catalog load, ordinal check, Frobenius identity, the banner — and
+/// belongs to the kernel starting up rather than to the answer, so it is cut.
+fn run_kernel_verb(line: &str) -> i32 {
+    use std::io::Write;
+    let bin = std::env::var("MOMONADOS_BIN").ok().unwrap_or_else(|| {
+        let here = std::env::current_exe().ok();
+        let root = here
+            .as_ref()
+            .and_then(|p| p.parent())
+            .and_then(|p| p.parent())
+            .map(|p| p.to_path_buf());
+        let mut cand = vec![
+            std::path::PathBuf::from("../mOMonadOS/target/x86_64-unknown-linux-gnu/release/momonados"),
+            std::path::PathBuf::from(
+                concat!(env!("HOME"), "/imsgct/mOMonadOS/target/x86_64-unknown-linux-gnu/release/momonados"),
+            ),
+        ];
+        if let Some(r) = root {
+            cand.push(r.join("../mOMonadOS/target/x86_64-unknown-linux-gnu/release/momonados"));
+        }
+        cand.into_iter()
+            .find(|p| p.exists())
+            .map(|p| p.display().to_string())
+            .unwrap_or_else(|| "momonados".into())
+    });
+    let mut child = match std::process::Command::new(&bin)
+        .stdin(std::process::Stdio::piped())
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::piped())
+        .spawn()
+    {
+        Ok(c) => c,
+        Err(e) => {
+            eprintln!("[kernel] cannot start {bin}: {e}");
+            eprintln!("[kernel] build it: cd ~/imsgct/mOMonadOS && cargo build --release");
+            return 2;
+        }
+    };
+    if let Some(mut si) = child.stdin.take() {
+        let _ = writeln!(si, "{line}");
+        let _ = writeln!(si, "quit");
+    }
+    let out = match child.wait_with_output() {
+        Ok(o) => o,
+        Err(e) => { eprintln!("[kernel] {e}"); return 2; }
+    };
+    let text = String::from_utf8_lossy(&out.stdout);
+    let mut printing = false;
+    for l in text.lines() {
+        if !printing {
+            if l.contains("⊙>") { printing = true; }
+            continue;
+        }
+        if l.trim() == "⊙> quit" || l.contains("[SHUTDOWN]") || l.starts_with("Halting.") { break; }
+        println!("{l}");
+    }
+    0
 }
 
 fn main() {
@@ -7810,6 +7888,10 @@ fn main() {
         let refs: Vec<&str> = cli.ringspec.iter().map(|s| s.as_str()).collect();
         print!("{}", imasm_core::ringspec::ringspec_main(&refs));
         process::exit(0);
+    }
+
+    if !cli.kernel.is_empty() {
+        process::exit(run_kernel_verb(&cli.kernel.join(" ")));
     }
 
     // The word lane. These read an IMASM WORD, where every other verb here reads
