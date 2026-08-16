@@ -1,14 +1,26 @@
-Colour reaches the surface people actually read
+ask: colour on the screen, clean text in the file, no pipe to type
 
-The styling went onto the tool verbs and stopped there, so the path a normal run
-takes — the ManuscriptSpine banners, the section rules, the outer spine — stayed
-exactly as plain as before. Which is why nothing looked different: the coloured
-part was the part you only see when you call click or forge directly.
+The style layer turns colour off when stdout is not a terminal, which is right —
+escapes have no business in a log or in what the agent reads back when it reads a
+tool's result. But it meant every `| tee` run lost colour, and since every command
+I hand over ends in a tee, the coloured path was the one nobody ever saw. The fix
+kept landing on whoever was running it.
 
-Both spine banners now use the same header as every verb, the twenty-three
-`── SECTION ──` headings become real rules, and the univocal verdict — the one
-line a reader is actually looking for — is bold with its B4 letter painted by
-what it says. The bare 60-character `=` and `═` bars are gone in favour of the
-shared rule, so the output has one visual vocabulary instead of three.
+It lands in the tool now. The binary is `ask.bin` and `ask` is a wrapper:
 
-Still off entirely when stdout is not a terminal.
+  ask …               colour, like any terminal program
+  ask … --log FILE    colour on screen AND a clean copy in FILE
+  ask … | anything    bare, exactly as before
+
+`--log` runs the binary under a pty, so it still sees a terminal and still
+colours, and strips the escapes and the pty's carriage returns on the way to the
+file only. Verified: zero escapes and zero CRs in the log, colour on screen,
+piped output unchanged.
+
+Note for the build: the binary now copies to ask.bin, not ask. `cargo build
+--release --features local,cuda` from inside ask_native, then
+`cp target/release/ask ../ask.bin` — overwriting `ask` would replace the wrapper
+with the binary and silently undo this.
+
+The two sibling wrappers, ~/imsgct/ask and mOMonadOS/ask, exec through and are
+unaffected; so is auto.py's LocalProvider, which invokes the same path.
