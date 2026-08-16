@@ -368,11 +368,10 @@ impl ShardedQwen3 {
                     None => format!("cpu×{c}L"),
                 })
                 .collect();
-            eprintln!(
-                "\x1b[2m[local] sharding {} layers: {}\x1b[0m",
+            eprintln!("{}", crate::style::dim_err(&format!("[local] sharding {} layers: {}",
                 cfg.num_hidden_layers,
                 plan.join(" | ")
-            );
+            )));
         }
         let head_device = devices[0].0.clone();
         let embed = candle_nn::embedding(cfg.vocab_size, cfg.hidden_size, vbs[0].pp(format!("{prefix}embed_tokens")))

@@ -29,6 +29,7 @@ use std::path::{Path, PathBuf};
 use std::process;
 
 mod calc;
+mod style;
 mod click;
 mod arev;
 mod dialect;
@@ -7901,6 +7902,7 @@ fn main() {
 
     if !cli.ringspec.is_empty() {
         let refs: Vec<&str> = cli.ringspec.iter().map(|s| s.as_str()).collect();
+        println!("{}", style::header("ringspec", &refs.join(" ")));
         print!("{}", imasm_core::ringspec::ringspec_main(&refs));
         process::exit(0);
     }
@@ -7917,15 +7919,17 @@ fn main() {
     // The word lane. These read an IMASM WORD, where every other verb here reads
     // a catalog entry; they lived only in the kernel REPL, so reaching them meant
     // booting the kernel and driving it over a serial script.
-    for (words, f) in [
-        (&cli.rotat,  imasm_core::lattice_flow::cycle_report       as fn(&str) -> String),
-        (&cli.weight, imasm_core::lattice_flow::weight_report      as fn(&str) -> String),
-        (&cli.banked, imasm_core::lattice_flow::banked_report      as fn(&str) -> String),
-        (&cli.trans,  imasm_core::lattice_flow::transitions_report as fn(&str) -> String),
-        (&cli.insert, imasm_core::lattice_flow::insert_report      as fn(&str) -> String),
+    for (name, words, f) in [
+        ("rotat",  &cli.rotat,  imasm_core::lattice_flow::cycle_report       as fn(&str) -> String),
+        ("weight", &cli.weight, imasm_core::lattice_flow::weight_report      as fn(&str) -> String),
+        ("banked", &cli.banked, imasm_core::lattice_flow::banked_report      as fn(&str) -> String),
+        ("trans",  &cli.trans,  imasm_core::lattice_flow::transitions_report as fn(&str) -> String),
+        ("insert", &cli.insert, imasm_core::lattice_flow::insert_report      as fn(&str) -> String),
     ] {
         if !words.is_empty() {
-            print!("{}", f(&words.join(" ")));
+            let w = words.join(" ");
+            println!("{}", style::header(name, &w));
+            print!("{}", f(&w));
             process::exit(0);
         }
     }

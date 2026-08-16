@@ -1,31 +1,27 @@
---gradient: the eluent changes composition over the run
+Colour and separation in the output, and nothing in the pipe
 
-`--column` is isocratic — one eluent at one strength — and it cannot tell an
-analyte the column never gripped from one that eluted first. Both sit at the
-bottom of the same ranking. Gradient elution separates them, because it asks a
-different question: not "how strongly is this held" but "at what mobile-phase
-composition does the eluent's pull first exceed that hold".
+Several verbs print thirty lines with no mark of where one ends and the next
+begins, which is unreadable the moment two run in sequence. Each now opens with a
+ruled header carrying the verb and its subject, and the words that decide a
+result — CYCLIC, INSULATING, RETAINED, VOID, the B4 letters — are painted so the
+eye finds the answer without reading the paragraph.
 
-`--gradient M1 M2 … on S from A to B [--steps N]` walks the eluent from a weak
-component to a strong one, blending affinity linearly in the composition, and
-records the step each analyte leaves. The composition IS the parameter, so a
-gradient is a walk along it and retention is where that walk crosses the hold.
+The more important half is that it all vanishes when nobody is watching. Colour is
+decided once, from whether the stream is a terminal, with NO_COLOR honoured and
+CLICOLOR_FORCE able to force it back on; when it is off the helpers return bare
+text rather than a dimmer escape. `ask` output is read by pipes, by tee, and by
+the agent itself reading a tool's result, and an escape sequence in any of those
+is noise a later reader has to strip.
 
-That makes four outcomes distinct where the isocratic tool had one ranking:
+That was already happening. local.rs, bnb.rs and shard.rs emitted \x1b[2m
+unconditionally, so every captured run and every jam log carried escapes in the
+[local] diagnostics with no switch to turn them off. Those go through
+style::dim_err now, which asks about STDERR rather than stdout — a different
+question, since diagnostics and results get redirected separately. No raw escape
+remains anywhere outside style.rs.
 
-  eluted at step k   the walk crossed the hold, and k is the retention
-  co-eluting         two analytes crossed on the same step — unresolved, and a
-                     shallower gradient separates them if their holds differ
-  RETAINED           the walk never reaches the hold; needs a STRONGER B, and a
-                     longer run will not help
-  VOID               the column never gripped it, so no eluent strength released
-                     it — it separates from nothing and needs a different phase
+Also fixed: the header nested bold inside cyan and emitted a double reset. One
+escape now, via a combined code.
 
-The void case was a real defect on the first pass: with hold 0.00 the crossing
-test fired at step 0 and reported four analytes eluting together, ranked as
-though they had been separated. An analyte that never adsorbed has no retention
-to report, so void is its own outcome rather than the earliest one.
-
-Demonstrated: on stationary bip39_secp256k1_derivation, plutonium_normal reads
-RETAINED with hold 1.67 against an eluent walking 1.67→1.42 — away from it — so
-the tool says stronger B rather than more steps.
+Verified both ways — piped output carries zero escapes, CLICOLOR_FORCE=1 shows
+the rules and the painted verdicts.

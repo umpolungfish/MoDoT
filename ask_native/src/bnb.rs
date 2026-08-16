@@ -97,11 +97,10 @@ pub fn load_dequantized_placed<'a>(
         out.insert(name.clone(), t);
     }
     if !quiet {
-        eprintln!(
-            "\x1b[2m[local] bitsandbytes NF4: dequantized {n_dq} weights to {dtype:?} \
-             ({} tensors total)\x1b[0m",
+        eprintln!("{}", crate::style::dim_err(&format!("[local] bitsandbytes NF4: dequantized {n_dq} weights to {dtype:?} \
+             ({} tensors total)",
             out.len()
-        );
+        )));
     }
     Ok(out)
 }

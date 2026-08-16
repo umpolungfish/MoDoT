@@ -905,7 +905,7 @@ pub fn run_homolyze(
 
     let Some(nb) = name_b else {
         // Symmetric homolysis of a single entity — the diagonal split δ_A(a) = (a, a).
-        println!("homolyze (symmetric homolysis, δ_A(a)=(a,a)):  {name_a}");
+        println!("{}", crate::style::header("homolyze", &format!("symmetric δ_A — {name_a}")));
         println!("  → two identical NEUTRAL radicals — the diagonal split (μ∘δ_A=id):");
         println!("      {name_a}•  {}   radical (open SOMO)  [{}]", fmt_tuple(&ta.ord), somo_note(&ta));
         println!("      {name_a}•  {}   radical (open SOMO)  [{}]", fmt_tuple(&ta.ord), somo_note(&ta));
@@ -919,7 +919,7 @@ pub fn run_homolyze(
         return 2;
     };
     let tb = Tuple::from_entry(eb);
-    println!("homolyze (homolytic cleavage — the radical-generating reverse of click, δ_A symmetric):  {name_a} ⋈ {nb}");
+    println!("{}", crate::style::header("homolyze", &format!("{name_a} ⋈ {nb} — the radical-generating reverse of click")));
     match click_pair(&ta, &tb, theta) {
         Ok(p) => {
             let axis = LIVE_LABELS[p.pair_idx];
@@ -1055,7 +1055,7 @@ pub fn run_set(
     let mut da = Tuple::from_entry(ea).ord;
     let db = Tuple::from_entry(eb).ord;
 
-    println!("set (single-electron transfer):  {name_a}  ⟶e⁻⟶  {name_b}");
+    println!("{}", crate::style::header("set", &format!("single-electron transfer — {name_a} ⟶e⁻⟶ {name_b}")));
 
     // Photoinduced: excite the first-named chromophore first, raising its ⊙ so the
     // driving-force gap opens (reductive quenching by the excited state).
@@ -1265,7 +1265,7 @@ pub fn run_complement(
     let ligand = complement_type(&site);
     let g = |t: &[Option<u8>; 12], i: usize| t[i].map(|o| glyph_of(i, o)).unwrap_or("?");
 
-    println!("complement (bidirectional ligand ⇌ catalytic-site):  {name}");
+    println!("{}", crate::style::header("complement", &format!("bidirectional ligand ⇌ catalytic-site — {name}")));
     println!("  site   {name}:   {}", fmt_tuple(&site));
     println!("  ligand {name}′:  {}   (the complementary partner the site binds — lock-and-key over the 6 conjugate pairs)", fmt_tuple(&ligand));
     let (recog_txt, _) = recognition_reading(site[2]);
@@ -1449,7 +1449,7 @@ pub fn run_cycle(
     };
     let cat_t = Tuple::from_entry(ec).ord;
     let sub_t = Tuple::from_entry(es).ord;
-    println!("catalytic cycle:  {catalyst_name}  ⟳  turning over  {substrate_name}");
+    println!("{}", crate::style::header("cycle", &format!("{catalyst_name} ⟳ turning over {substrate_name}")));
 
     // ── Bind (δ / CLINK): the catalyst recognizes the substrate (ligand complement) ──
     let comp = complement_type(&cat_t);
@@ -2011,7 +2011,7 @@ pub fn run_arrange(
     let (dp, cyclic, _) = walk_score(&units, &order, theta);
     let ordered: Vec<String> = order.iter().map(|&i| monomers[i].clone()).collect();
 
-    println!("arrange (unordered set → best order):  {{{}}}", monomers.join(", "));
+    println!("{}", crate::style::header("arrange", &format!("unordered set → best order: {{{}}}", monomers.join(", "))));
     println!(
         "  searched {searched} ordering(s) {} — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).",
         if exhaustive { "(exhaustive: every permutation)" } else { "(greedy nearest-neighbor: heuristic — too many permutations to exhaust)" }
@@ -2333,7 +2333,7 @@ pub fn run_dope(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f3
             return 2;
         }
     };
-    println!("dope (perturb a material):  base + {{{}}}", dopant.join(", "));
+    println!("{}", crate::style::header("dope", &format!("base + {{{}}}", dopant.join(", "))));
     match &before.1 {
         Some((r, c, w)) => println!("  before: [{}]\n          ρ={r:.4}  {c}  weakest Δ={w:.2}", before.0.join(" · ")),
         None => println!("  before: [{}]  — base does not close into a ring", before.0.join(" · ")),
@@ -2387,7 +2387,7 @@ pub fn run_fuse(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: f3
         Some((r, c, w)) => println!("  {tag}: [{}]\n       ρ={r:.4}  {c}  weakest Δ={w:.2}", m.0.join(" · ")),
         None => println!("  {tag}: [{}]  — does NOT close into a ring", m.0.join(" · ")),
     };
-    println!("fuse (weld two rings into one):");
+    println!("{}", crate::style::header("fuse", "weld two rings into one"));
     show("ring A", &a);
     show("ring B", &b);
     show("fused ", &fused);
@@ -2431,7 +2431,7 @@ pub fn run_anneal(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: 
     let quenched = best_ordering(&units, theta).order;
     let (dp0, cyc0, _) = walk_score(&units, &quenched, theta);
     let qnames: Vec<String> = quenched.iter().map(|&i| monomers[i].clone()).collect();
-    println!("anneal (relax the ring to its lowest-strain ordering):");
+    println!("{}", crate::style::header("anneal", "relax the ring to its lowest-strain ordering"));
     if !(dp0 == n && cyc0) {
         println!("  [{}] does not close into a ring — nothing to relax (forge or --close it first).", qnames.join(" · "));
         return 0;
@@ -2512,7 +2512,7 @@ pub fn run_cleave(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: 
     let names: Vec<String> = arr.order.iter().map(|&i| monomers[i].clone()).collect();
     let n = ring.len();
 
-    println!("cleave (fission a ring into two daughter rings):");
+    println!("{}", crate::style::header("cleave", "fission a ring into two daughter rings"));
     let parent_sig = ring_signature(&ring, theta);
     match parent_sig {
         Some((r, c, w)) => println!("  parent: [{}]\n          ρ={r:.4}  {c}  weakest Δ={w:.2}", names.join(" · ")),
@@ -2918,9 +2918,11 @@ pub fn run_gradient(
     };
     let n = steps.max(2);
 
+    println!("{}", crate::style::header("gradient", &format!("{{{}}}", sample_names.join(", "))));
     println!(
-        "gradient elution:  {{{}}}\n  stationary {}   eluent {} → {}   {} steps",
-        sample_names.join(", "), stat.name, weak.name, strong.name, n
+        "  stationary {}   eluent {} → {}   {} steps",
+        crate::style::bold(&stat.name), crate::style::cyan(&weak.name),
+        crate::style::cyan(&strong.name), n
     );
 
     // Hold: how hard the stationary phase keeps each analyte. An analyte the
@@ -2962,9 +2964,9 @@ pub fn run_gradient(
                 println!("  {:>4}  {:>3.0}%  {:>5.2}   {:>4.2}→{:<4.2}   {}", k, pct, h, pw, ps, name);
             }
             None if *h <= 0.0 => println!(
-                "   void    —   {:>5.2}   {:>4.2}→{:<4.2}   {}  VOID — the column never gripped it", h, pw, ps, name),
+                "   void    —   {:>5.2}   {:>4.2}→{:<4.2}   {}  {} — the column never gripped it", h, pw, ps, name, crate::style::verdict("VOID")),
             None => println!(
-                "     —    —   {:>5.2}   {:>4.2}→{:<4.2}   {}  RETAINED — B never out-pulls the column", h, pw, ps, name),
+                "     —    —   {:>5.2}   {:>4.2}→{:<4.2}   {}  {} — B never out-pulls the column", h, pw, ps, name, crate::style::verdict("RETAINED")),
         }
     }
 
@@ -3024,7 +3026,7 @@ pub fn run_column(catalog: Option<&[CatalogEntry]>, monomers: &[String], theta: 
     let mut scored: Vec<(String, f32)> = sample.iter().map(|u| (u.name.clone(), retention(u))).collect();
     scored.sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal));
     let phase = stat.as_ref().map(|s| format!("affinity to {}", s.name)).unwrap_or_else(|| "intrinsic retention >".to_string());
-    println!("column chromatography (elute by {phase}, least-retained first):  {{{}}}", sample_names.join(", "));
+    println!("{}", crate::style::header("column", &format!("elute by {phase}, least-retained first: {{{}}}", sample_names.join(", "))));
     let mut co = 0;
     for i in 0..scored.len() {
         let (n, r) = (scored[i].0.clone(), scored[i].1);
