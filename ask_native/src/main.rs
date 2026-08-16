@@ -6369,12 +6369,11 @@ impl CycleExit {
 
 fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
     println!();
-    println!("{}", "=".repeat(60));
-    println!("MANUSCRIPT SPINE REPORT");
+    println!("{}", style::header("MANUSCRIPT SPINE REPORT", ""));
     // Univocal: ONE verdict speaks. The rest is its provenance — the model's [thought|X] is a
     // PROPOSAL (a δ), the vessel co-type and the tool-call dual are the μ that closed (or did
     // not) to make the single verdict.
-    println!("  VERDICT (univocal): {}", b4_name(rep.fused));
+    println!("  {} {}", style::bold("VERDICT (univocal):"), style::verdict(b4_name(rep.fused)));
     println!(
         "  ← fused voices (none dropped, none overridden): model={} ⋈ vessel={} ⋈ tool-dual={}  · conflict={}",
         b4_name(rep.model_voice),
@@ -6399,7 +6398,7 @@ fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
             println!("    [{s:>3}] {n}");
         }
     }
-    println!("{}", "=".repeat(60));
+    println!("{}", style::rule(""));
     record_spine(rep);
 }
 
@@ -6537,7 +6536,7 @@ fn run_one(
     // IMSCRIB
     let prep = prepare(question, cat);
     if cli.verbose {
-        println!("── IMSCRIB (catalog witness) ──");
+        println!("{}", style::rule("IMSCRIB (catalog witness)"));
         if prep.hits.is_empty() {
             println!("  (no catalog hits)");
         } else {
@@ -6561,7 +6560,7 @@ fn run_one(
     // runs when the network lane is broke, which is exactly when it is needed.
     if !cli.dry_run && (llm.api_key.is_some() || provider_has_key(llm.provider)) {
         if let Some(goal) = prover::proof_intent(question) {
-            println!("── ROUTE: proof-intent → kernel-gated prover ──");
+            println!("{}", style::rule("ROUTE: proof-intent → kernel-gated prover"));
             let mut p = prover::LeanProver::new(llm, cli.verbose);
             p.set_expand(cli.expand);
             p.set_eagles(cli.eagles);
@@ -6574,10 +6573,10 @@ fn run_one(
             let mut used = 1;
             while !r.closed && used < cycles {
                 used += 1;
-                println!("── cycle {used}/{cycles} (re-fly the escalation) ──");
+                println!("{}", style::rule("cycle {used}/{cycles} (re-fly the escalation)"));
                 r = p.prove(&goal);
             }
-            println!("── ANSWER (kernel-gated prover) ──");
+            println!("{}", style::rule("ANSWER (kernel-gated prover)"));
             if r.closed {
                 println!("Closed green through the Lean kernel (no sorry):\n");
                 println!("{}", r.source);
@@ -6598,7 +6597,7 @@ fn run_one(
                 }
             }
             println!();
-            println!("{}", "=".repeat(60));
+            println!("{}", style::rule(""));
             println!("PROVER REPORT");
             println!("  route=proof  closed={}  depth={}", r.closed, r.depth);
             if cli.expand > 0 {
@@ -6617,7 +6616,7 @@ fn run_one(
                 println!("  note: {}", r.note);
             }
             println!("  protocol: VINIT→IMSCRIB→FSPLIT→(lake build)→EVALT/EVALF→FFUSE→TANCH");
-            println!("{}", "=".repeat(60));
+            println!("{}", style::rule(""));
             return if r.closed { 0 } else { 1 };
         }
     }
@@ -6645,7 +6644,7 @@ fn run_one(
     // The outer TAOU brackets the whole series. Name the δ before the arms wind, so the
     // closing μ has something to fuse.
     let cap_note = if cycles_cap == usize::MAX { "uncapped".to_string() } else { format!("cap {cycles_cap}") };
-    println!("── THINK (outer) ──");
+    println!("{}", style::rule("THINK (outer)"));
     println!(
         "  δ: one question, wound as cycles the agent sections for itself ({cap_note}).\n\
          \x20 Each cycle is a set of eagles — TAOU windings. It closes monadically: the model\n\
@@ -6668,9 +6667,9 @@ fn run_one(
     loop {
         cycle += 1;
         if cycles_cap == usize::MAX {
-            println!("── cycle {cycle} ──");
+            println!("{}", style::rule("cycle {cycle}"));
         } else {
-            println!("── cycle {cycle}/{cycles_cap} (cap) ──");
+            println!("{}", style::rule("cycle {cycle}/{cycles_cap} (cap)"));
         }
 
         let mut answer;
@@ -6836,7 +6835,7 @@ fn run_one(
             if extract_tool_calls(&current).is_empty()
                 && (mentions_structural_work(&current) || question.contains("--") || cli.jam)
             {
-                println!("── PROD (narrated tools, ran none — forcing action) ──");
+                println!("{}", style::rule("PROD (narrated tools, ran none — forcing action)"));
                 agent_msgs.push(("assistant".to_string(), current.clone()));
                 agent_msgs.push((
                     "user".to_string(),
@@ -6863,7 +6862,7 @@ fn run_one(
             // reconnecting), not a sentence the model may assert. If the draft declares
             // closure in prose but ran zero tools, prod it once to actually mint it.
             if extract_tool_calls(&current).is_empty() && declares_closure_in_prose(&current) {
-                println!("── PROD (declared closure in prose, minted none — forcing the µ∘δ) ──");
+                println!("{}", style::rule("PROD (declared closure in prose, minted none — forcing the µ∘δ)"));
                 agent_msgs.push(("assistant".to_string(), current.clone()));
                 agent_msgs.push((
                     "user".to_string(),
@@ -6912,7 +6911,7 @@ fn run_one(
                     let phantom = verbs_falsely_called_absent(&current);
                     if !phantom.is_empty() && phantom_prods < 2 {
                         phantom_prods += 1;
-                        println!("── PHANTOM-VERB PROD (claimed a real verb absent — forcing the call) ──");
+                        println!("{}", style::rule("PHANTOM-VERB PROD (claimed a real verb absent — forcing the call)"));
                         let are = if phantom.len() == 1 { "is a real structural verb" } else { "are real structural verbs" };
                         agent_msgs.push(("assistant".to_string(), current.clone()));
                         agent_msgs.push((
@@ -6967,7 +6966,7 @@ fn run_one(
                 if calls.iter().all(|(v, a)| ran_results.contains_key(&format!("{v} {}", a.join(" ")))) {
                     stalled_rounds += 1;
                     if stalled_rounds >= STALL_ROUNDS {
-                        println!("── STALL ({STALL_ROUNDS} rounds of only already-run calls) — closing ──");
+                        println!("{}", style::rule("STALL ({STALL_ROUNDS} rounds of only already-run calls) — closing"));
                         exit_cause = CycleExit::Stall;
                         break;
                     }
@@ -6985,12 +6984,12 @@ fn run_one(
                     calls.into_iter().filter(|(v, _)| v != "cycle_close").collect();
                 if wants_close {
                     if calls.is_empty() {
-                        println!("── CYCLE CLOSE requested by the agent (self-sectioned winding) ──");
+                        println!("{}", style::rule("CYCLE CLOSE requested by the agent (self-sectioned winding)"));
                     } else {
-                        println!("── CYCLE CLOSE requested — {} call(s) ride alongside; they must pass the gate and run before the cycle closes over them ──", calls.len());
+                        println!("{}", style::rule(&format!("CYCLE CLOSE requested — {} call(s) ride alongside; they must pass the gate and run before the cycle closes over them", calls.len())));
                     }
                 }
-                println!("── ACT round {} ({} tool call(s)) ──", round + 1, calls.len());
+                println!("{}", style::rule(&format!("ACT round {} ({} tool call(s))", round + 1, calls.len())));
                 let mut results = String::new();
                 // ── the batch admission gate: all-or-nothing. One improper call and the
                 // whole round is refused unrun; a missing imscription is initiated by the
@@ -6998,7 +6997,7 @@ fn run_one(
                 let admitted = match admit_batch(&calls) {
                     Ok(()) => true,
                     Err(report) => {
-                        println!("── BATCH REFUSED — {} call(s) arrived, none ran (admission gate) ──", calls.len());
+                        println!("{}", style::rule(&format!("BATCH REFUSED — {} call(s) arrived, none ran (admission gate)", calls.len())));
                         for (verb, args) in calls.iter() {
                             record_tool_call(cycle, round + 1, verb, args, "refused", "batch admission refused");
                         }
@@ -7164,7 +7163,7 @@ fn run_one(
                 if let Some(e) = res.err.as_deref() { eprintln!("[warn] LLM: {e}"); }
                 current = strip_kernel_records(&res.text);
                 println!();
-                println!("── OBSERVE/UPDATE round {} ──", round + 1);
+                println!("{}", style::rule(&format!("OBSERVE/UPDATE round {}", round + 1)));
                 println!("{current}");
                 println!();
                 round += 1;
@@ -7204,7 +7203,7 @@ fn run_one(
                 last_call_failed = res.err.is_some();
                 if let Some(e) = res.err.as_deref() { eprintln!("[warn] LLM: {e}"); }
                 current = strip_kernel_records(&res.text);
-                println!("── CLOSING — {} ──", exit_cause.label());
+                println!("{}", style::rule(&format!("CLOSING — {}", exit_cause.label())));
                 println!("{current}");
                 println!();
             }
@@ -7218,7 +7217,7 @@ fn run_one(
                 .filter_map(|v| verb_isomorphism(v).map(|(c, m)| (v.clone(), c, m)))
                 .collect();
             if !iso.is_empty() {
-                println!("── ISOMORPHISM (what each operation means, both ways) ──");
+                println!("{}", style::rule("ISOMORPHISM (what each operation means, both ways)"));
                 for (v, chem, math) in &iso {
                     println!("● {v}");
                     println!("   chemically:    {chem}");
@@ -7250,7 +7249,7 @@ fn run_one(
                 let bt = backtranslate(
                     llm, question, &answer, &all_tool_output, tool_voice, cli.max_tokens, cli.temperature,
                 );
-                println!("── BACKTRANSLATION (closure → conventional proof, μ read-back) ──");
+                println!("{}", style::rule("BACKTRANSLATION (closure → conventional proof, μ read-back)"));
                 println!("{bt}");
                 println!();
             }
@@ -7296,7 +7295,7 @@ fn run_one(
             if cli.jam && ran_tools {
                 consecutive_dones += 1;
                 if consecutive_dones >= 2 {
-                    println!("── two DONE cycles running — the condensate did not reopen the reach, closing the series ──");
+                    println!("{}", style::rule("two DONE cycles running — the condensate did not reopen the reach, closing the series"));
                     break;
                 }
             } else {
@@ -7310,7 +7309,7 @@ fn run_one(
             // "[LLM empty: …]" placeholder forward as if it were real content — poisoning the
             // condensate instead of just losing one cycle. Stop the series here; the outer
             // spine's frontier note says why.
-            println!("── LLM error this cycle — not condensing a failed call into the next seed, closing the series ──");
+            println!("{}", style::rule("LLM error this cycle — not condensing a failed call into the next seed, closing the series"));
             break;
         }
         if consecutive_stalls >= 2 {
@@ -7324,7 +7323,7 @@ fn run_one(
             // The agent sectioned this cycle to wind FURTHER and the cap took the next breath
             // away. That is a cut, and the outer μ has to say so — otherwise a series stopped
             // by our own ceiling reads as a series that finished.
-            println!("── cycle cap {cycles_cap} reached — the series was CUT here, not closed ──");
+            println!("{}", style::rule("cycle cap {cycles_cap} reached — the series was CUT here, not closed"));
             capped = true;
             break;
         }
@@ -7333,7 +7332,7 @@ fn run_one(
         // the harness: append THIS cycle's verbatim results onto the persistent series
         // ledger (the monoid), then build the next seed as ledger ⊕ delta. The premise is
         // never re-injected; it lives in the system prompt and the cycle-1 conversation.
-        println!("── CONDENSE (this cycle's next reach → δ; harness carries the results → μ) ──");
+        println!("{}", style::rule("CONDENSE (this cycle's next reach → δ; harness carries the results → μ)"));
         let delta = condense_cycle(
             llm, &answer, &all_tool_output, cli.max_tokens, cli.temperature,
         );
@@ -7379,9 +7378,8 @@ fn run_one(
             .collect();
         let agree = cycle_reps.iter().all(|r| r.fused == cycle_reps[0].fused);
         println!();
-        println!("{}", "═".repeat(60));
-        println!("OUTER SPINE — the cycle series as one winding");
-        println!("  VERDICT (univocal): {}", b4_name(fused));
+        println!("{}", style::header("OUTER SPINE", "the cycle series as one winding"));
+        println!("  {} {}", style::bold("VERDICT (univocal):"), style::verdict(b4_name(fused)));
         println!("  ← FFUSE of the arms (none dropped): {}", voices.join(" ⋈ "));
         // The arms are a CHAIN, not independent samples: each cycle opened on the previous
         // one's condensate. So agreement here is not corroboration by replication — it is a
@@ -7429,7 +7427,7 @@ fn run_one(
                  \x20 resting place."
             );
         }
-        println!("{}", "═".repeat(60));
+        println!("{}", style::rule(""));
         if fused == B4::F {
             last_code = last_code.max(1);
         }

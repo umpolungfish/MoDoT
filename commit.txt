@@ -1,29 +1,14 @@
---frames: which readings are the word's, and which are the cut's
+Colour reaches the surface people actually read
 
-We evaluate one frame of a ring and take what we saw there for a property of the
-word. Every rotation is the same object and every frame is equally available to be
-read, so a reported quantity is one of two things and the report has to say which:
-INVARIANT, true of the word and readable from anywhere, or FRAME-BOUND, true of
-the cut and meaningless quoted without it.
+The styling went onto the tool verbs and stopped there, so the path a normal run
+takes — the ManuscriptSpine banners, the section rules, the outer spine — stayed
+exactly as plain as before. Which is why nothing looked different: the coloured
+part was the part you only see when you call click or forge directly.
 
-`--frames <word>` walks the whole orbit and partitions the readings. Invariant:
-period, glyph multiset, the verdict where it holds across the orbit, and ring
-transitions — which are counted WITH the closing edge, so rotation cannot move
-them. Frame-bound: the final register with the cuts that reach each landing, the
-opening glyph, and any absolute-position reading at all, since one rotation moves
-every value into a different row.
+Both spine banners now use the same header as every verb, the twenty-three
+`── SECTION ──` headings become real rules, and the univocal verdict — the one
+line a reader is actually looking for — is bold with its B4 letter painted by
+what it says. The bare 60-character `=` and `═` bars are gone in favour of the
+shared rule, so the output has one visual vocabulary instead of three.
 
-It closes with which kind of word it is. Frame-free in its landing means every cut
-rests in the same register and the evaluated frame carries no privilege.
-PHASE-BEARING means the frames disagree, and then the one that was evaluated is
-merely one of them and is not the word's own answer.
-
-The case that motivated it: the migration and retirement ob3ects are DIFFERENT
-words — the fuse sits in a different place — with identical landing maps at all
-twelve cuts, A at 0,1,11 and Ftf at 2 through 5 and tf at 6 and T at 7 through 10.
-Two constructions coming to rest the same way in every frame. Nothing read from one
-cut could have told them apart or told them together.
-
-Every ob3ect artifact records k=0 only — its word, tuple, verdict and topology are
-all one frame — with nothing marking which of those survive rotation. This is the
-instrument that says.
+Still off entirely when stdout is not a terminal.
