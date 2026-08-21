@@ -1,26 +1,30 @@
-ask: colour on the screen, clean text in the file, no pipe to type
+ask: add --meet, the operation that descends
 
-The style layer turns colour off when stdout is not a terminal, which is right —
-escapes have no business in a log or in what the agent reads back when it reads a
-tool's result. But it meant every `| tee` run lost colour, and since every command
-I hand over ends in a tee, the coloured path was the one nobody ever saw. The fix
-kept landing on whoever was running it.
+Every entity-to-entity verb in this binary RAISES. preclick says it outright -- "the blend
+is LOSSY (max per axis)" -- and click, fuse, cycle, set and polymerize all take the max.
+--anneal lowers only a ring's strain; --descend only ⊙ and a winding. So a walk that needs
+a slot brought DOWN could not be performed at all, and the ones that need it are not
+exotic: ⊢ 𐑛, ≻ 𐑑 and ∋ 𐑝 toward CLINK L9, ∈ ℵ→ℷ toward L8.
 
-It lands in the tool now. The binary is `ask.bin` and `ask` is a wrapper:
+That gap is why the perfect_cuboid walk to L9 runs 62 catalog entries. Every lowering had
+to be smuggled through side effects -- Coagula imprints, catalyst turnover -- rather than
+performed, and its ring_promoted through ring_promoted8 all DESCRIBE "⊥ promoted 𐑖→𐑫"
+while their stored tuples keep 𐑖. The promotion kept being undone by the next blend.
 
-  ask …               colour, like any terminal program
-  ask … --log FILE    colour on screen AND a clean copy in FILE
-  ask … | anything    bare, exactly as before
+  --meet A B [--certify] [--register [NAME]]
 
-`--log` runs the binary under a pty, so it still sees a terminal and still
-colours, and strips the escapes and the pty's carriage returns on the way to the
-file only. Verified: zero escapes and zero CRs in the log, colour on screen,
-piped output unchanged.
+The greatest lower bound, min per axis: what the two entities SHARE, not what they fuse
+to. It reports which side supplied each floor. Where a slot is absent on either side the
+meet is absent too -- an unknown floor is not a floor. --certify runs the same Lean
+kernel gate as --click; --register canonizes it the same way.
 
-Note for the build: the binary now copies to ask.bin, not ask. `cargo build
---release --features local,cuda` from inside ask_native, then
-`cp target/release/ask ../ask.bin` — overwriting `ask` would replace the wrapper
-with the binary and silently undo this.
+Verified:  ./ask --meet collatz_deep_product lapis --certify
+  collatz_deep_product ⟨𐑨𐑸𐑾𐑹𐑐𐑤𐑔𐑠⊙𐑫𐑳𐑴⟩
+  lapis                ⟨𐑛𐑥𐑑𐑬𐑐𐑧𐑔𐑝⊙𐑫𐑳𐑭⟩
+  meet                 ⟨𐑛𐑥𐑑𐑬𐑐𐑤𐑔𐑝⊙𐑫𐑳𐑴⟩
+  floor from the first on 2 slots, from the second on 5, equal on 5
+  ✓ KERNEL-CERTIFIED
 
-The two sibling wrappers, ~/imsgct/ask and mOMonadOS/ask, exec through and are
-unaffected; so is auto.py's LocalProvider, which invokes the same path.
+Built with --features local,cuda per the standing rule; a plain cargo build --release
+strips the local provider. ask.bin was a stale copy from 2026-08-16 and is refreshed from
+ask_native/target/release/ask.
