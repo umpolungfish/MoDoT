@@ -645,6 +645,111 @@ pub fn certify_click(product: &[Option<u8>; 12]) -> (bool, String) {
 /// live-pair charge diagnostic and the click verdict for two catalog fragments,
 /// optionally lowering the threshold with a catalyst and/or kernel-certifying the
 /// product's Frobenius closure. Returns a process exit code.
+/// The MEET of two entities: the greatest lower bound, min per axis.
+///
+/// Every entity-to-entity verb in this binary RAISES. `preclick` says so outright --
+/// "the blend is LOSSY (max per axis)" -- and click, fuse, cycle, set and polymerize all
+/// take the max. So a walk that needs a slot brought DOWN could not be performed at all:
+/// ⊢ 𐑛, ≻ 𐑑 and ∋ 𐑝 toward CLINK L9, or ∈ ℵ→ℷ toward L8, are lowerings, and no verb here
+/// could reach them. --anneal lowers only a ring's strain, --descend only ⊙ and a winding.
+///
+/// A meet is not a fusion and does not pretend to be one: it is what the two entities
+/// SHARE, and it can only descend. Where a slot is absent on either side the meet is
+/// absent too -- an unknown floor is not a floor.
+pub fn run_meet(
+    catalog: Option<&[CatalogEntry]>,
+    name_a: &str,
+    name_b: &str,
+    certify: bool,
+    register: Option<&str>,
+    catalog_path: Option<&Path>,
+) -> i32 {
+    let Some(cat) = catalog else {
+        eprintln!("meet: no catalog loaded");
+        return 2;
+    };
+    let find = |n: &str| find_entry(cat, n);
+    let (ea, eb) = match (find(name_a), find(name_b)) {
+        (Some(a), Some(b)) => (a, b),
+        (None, _) => { eprintln!("meet: catalog entry not found: {name_a}"); return 2; }
+        (_, None) => { eprintln!("meet: catalog entry not found: {name_b}"); return 2; }
+    };
+    for e in [ea, eb] {
+        if let Some(msg) = masked_refusal(e) {
+            eprintln!("meet: {msg}");
+            return 2;
+        }
+    }
+    let ta = Tuple::from_entry(ea);
+    let tb = Tuple::from_entry(eb);
+
+    let mut prod: [Option<u8>; 12] = [None; 12];
+    let mut from_a = 0usize;
+    let mut from_b = 0usize;
+    let mut equal = 0usize;
+    let mut undetermined = 0usize;
+    for i in 0..12 {
+        prod[i] = match (ta.ord[i], tb.ord[i]) {
+            (Some(x), Some(y)) => {
+                if x < y { from_a += 1 } else if y < x { from_b += 1 } else { equal += 1 }
+                Some(x.min(y))
+            }
+            _ => { undetermined += 1; None }
+        };
+    }
+
+    println!("meet (greatest lower bound):  {name_a}  ⊓  {name_b}");
+    print!("  {name_a}: ⟨");
+    for i in 0..12 { match ta.ord[i] { Some(o) => print!("{}", glyph_of(i, o)), None => print!("·") } }
+    println!("⟩");
+    print!("  {name_b}: ⟨");
+    for i in 0..12 { match tb.ord[i] { Some(o) => print!("{}", glyph_of(i, o)), None => print!("·") } }
+    println!("⟩");
+    print!("  meet:   ⟨");
+    for i in 0..12 { match prod[i] { Some(o) => print!("{}", glyph_of(i, o)), None => print!("·") } }
+    println!("⟩");
+    println!(
+        "  floor taken from {name_a} on {from_a} slot(s), from {name_b} on {from_b}, equal on {equal}\
+{}",
+        if undetermined > 0 {
+            format!(", undetermined on {undetermined} (absent on one side)")
+        } else { String::new() }
+    );
+    println!("  a meet DESCENDS: no slot rises. This is what the two share, not what they fuse to.");
+
+    if certify {
+        println!("  certifying the meet through the Lean kernel (lake build)…");
+        let (ok, msg) = certify_click(&prod);
+        if ok {
+            println!("  ✓ KERNEL-CERTIFIED: {msg}");
+        } else {
+            println!("  ✗ NOT certified: {msg}");
+        }
+    }
+
+    if let Some(reg_name) = register {
+        let name = if reg_name.is_empty() {
+            format!("meet_{name_a}_{name_b}")
+        } else { reg_name.to_string() };
+        let desc = format!(
+            "meet (greatest lower bound) of {name_a} ⊓ {name_b}: min per axis, the floor the two share. \
+A meet descends where every fusion verb raises."
+        );
+        match catalog_path {
+            Some(path) => match register_chimera(path, &name, &desc, &prod, "meet") {
+                Ok(()) => {
+                    println!("  ✓ registered meet '{name}' in the catalog — now a first-class navigable object.");
+                    println!("  ── decomposition (cl8nk_navigator) ──────────────────────────────");
+                    decompose_via_navigator(path, &name);
+                }
+                Err(e) => println!("  ✗ register failed: {e}"),
+            },
+            None => println!("  ✗ register failed: catalog path not resolved"),
+        }
+    }
+    0
+}
+
 pub fn run_click(
     catalog: Option<&[CatalogEntry]>,
     name_a: &str,

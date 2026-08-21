@@ -187,6 +187,14 @@ struct Cli {
     #[arg(long = "click", num_args = 1..=2, value_names = ["A", "B"])]
     click: Option<Vec<String>>,
 
+    /// Meet: `--meet A B` — the greatest lower bound of two entities, min per axis.
+    /// The mirror of --click, which blends by max. Every fusion verb here RAISES; a meet
+    /// is the only operation that DESCENDS, which is what a walk needs when a slot must
+    /// come down (⊢ 𐑛, ≻ 𐑑, ∋ 𐑝 toward CLINK L9; ∈ ℵ→ℷ toward L8). --certify and
+    /// --register apply exactly as they do for --click.
+    #[arg(long = "meet", num_args = 2, value_names = ["A", "B"])]
+    meet: Option<Vec<String>>,
+
     /// Result count for the --click sweep (default 15).
     #[arg(long = "top", default_value_t = 15)]
     top: usize,
@@ -7583,6 +7591,7 @@ impl CliClone for Cli {
             catalog: self.catalog.clone(),
             expand: self.expand,
             click: self.click.clone(),
+            meet: self.meet.clone(),
             theta: self.theta,
             top: self.top,
             certify: self.certify,
@@ -8137,6 +8146,18 @@ fn main() {
         process::exit(0);
     }
 
+
+    if let Some(names) = &cli.meet {
+        let code = click::run_meet(
+            cat_ref,
+            &names[0],
+            &names[1],
+            cli.certify,
+            cli.register.as_deref(),
+            catalog_path.as_deref(),
+        );
+        process::exit(code);
+    }
 
     if let Some(names) = &cli.click {
         let code = match names.len() {
