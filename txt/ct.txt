@@ -34,7 +34,7 @@ $$\Phi: \text{Trilattice}_{16} \hookrightarrow \mathcal{C}\ell_{1,3}(\mathbb{R})
 
 **Proof:** The `spectral_generator` and `chiral_symmetry_breaker` are bound by the primitive $\odot$ evaluated at $\xi \to \infty \land \mu \circ \delta = \text{id}$ (notation $\mathcal{PHI\_C}$). The critical fixed point under the Frobenius identity restricts the spectral radius $\rho$ of the operator ring to finite values, establishing a strict upper bound on mass and charge eigenvalues. $\blacksquare$
 
-### Lemma 5 (Topological Invariant [◻])
+### Lemma 5 (Topological Invariant [⊡])
 *The integer-valued Euler characteristic of the bowtie crossing topology of the $16_3$ locks the spatial projection to exactly $D = 3$.*
 
 **Proof:** Under the primitive $\Omega$, evaluated at $\oint_\gamma A = 2\pi n \land n \in \mathbb{Z} \land \text{wind}(\gamma) \neq 0$ (notation $\mathcal{ZWIND}$), the winding number is constrained to non-zero integer values. This topological constraint restricts the dimensional projection of the 16-fold manifold to a three-dimensional spatial manifold ($D=3$), ruling out exotic, non-physical dimensions. $\blacksquare$
@@ -127,7 +127,7 @@ This matches the empirical CODATA value to the limits of the boundary resolution
 ### Proof of the Gravitational Sector ($G, \Lambda$)
 
 #### 1. The Gravitational Constant ($G$)
-By Lemma 5 (Topological Invariant [◻]), the spatial projection is locked to $D = 3$. Under a star topology of functionality $f \ge 3$, the spectral radius scales as:
+By Lemma 5 (Topological Invariant [⊡]), the spatial projection is locked to $D = 3$. Under a star topology of functionality $f \ge 3$, the spectral radius scales as:
 
 $$\rho = \sqrt{f}$$
 

@@ -85,7 +85,7 @@ merely returns to its starting node. The kernel has already said what it will
 accept. Nothing in the run has yet handed it one.
 
 Two thresholds recur across independent runs and are the experimental lead:
-the ◻-saturation onset at spectral radius just above 2, and the phase
+the ⊡-saturation onset at spectral radius just above 2, and the phase
 divergence that appeared both as a distillation gap and as a reconstructed
 phase word. Recurrence across runs that did not share a seed is the mark of
 structure surfacing, and the next winding should probe both directly.

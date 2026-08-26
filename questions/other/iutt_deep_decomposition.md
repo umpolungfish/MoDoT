@@ -23,7 +23,7 @@ This document decomposes Mochizuki's Inter-Universal Teichmüller Theory (IUTT) 
 
 ## §1. The 9-System Lattice
 
-IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈⊤∈∋⊙⊥⊞◻⟩$$ with values drawn from each primitive's enumeration.
+IUTT is not a single system. It is a structural lattice of 9 imscribed subsystems, related by tensor products, meets, and joins. The full tuple notation uses the compact form $$⟨⊢⊣><⋈⊤∈∋⊙⊥⊞⊡⟩$$ with values drawn from each primitive's enumeration.
 
 ### §1.1. System Inventory
 
@@ -55,7 +55,7 @@ Only 5 of 12 primitives vary across the 9 systems. The other 7 are invariant:
 | ⊙ (Criticality) | 𐑮 (complex-plane) | All 9 systems — no system reaches ⊙ self-modeling |
 | ⊥ (Chirality) | 𐑫 (eternal) | All 9 systems |
 | ⊞ (Stoichiometry) | 𐑳 (heterogeneous) | All 9 systems |
-| ◻ (Winding) | 𐑭 (integer ℤ) | All 9 systems |
+| ⊡ (Winding) | 𐑭 (integer ℤ) | All 9 systems |
 
 **The 5 differentiating primitives:**
 
@@ -85,7 +85,7 @@ The theory at its final form. Two atoms dominate at ordinal 4.
 | 2 | ⊤ | 𐑧 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑧𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | ∋ | 𐑠 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑠𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | Σ | 𐑳 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑳𐑷⟩$$ |
-| 2 | ◻ | 𐑭 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑭⟩$$ |
+| 2 | ⊡ | 𐑭 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑭⟩$$ |
 | 1.33 | ⊙ | 𐑮 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑮𐑓𐑙𐑷⟩$$ |
 | 1 | ∈ | 𐑔 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑔𐑝𐑢𐑓𐑙𐑷⟩$$ |
 
@@ -109,7 +109,7 @@ Diophantine Equations ⊗ Log-Theta-Lattice. The extra atom relative to IUTT is 
 | 2 | < | 𐑬 | $$⟨𐑛𐑡𐑩𐑬𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | ∋ | 𐑠 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑠𐑢𐑓𐑙𐑷⟩$$ |
 | 2 | Σ | 𐑳 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑳𐑷⟩$$ |
-| 2 | ◻ | 𐑭 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑭⟩$$ |
+| 2 | ⊡ | 𐑭 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑭⟩$$ |
 | 1.33 | ⊙ | 𐑮 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑮𐑓𐑙𐑷⟩$$ |
 | 1 | ⊢ | 𐑨 | $$⟨𐑨𐑡𐑩𐑗𐑱𐑘𐑚𐑝𐑢𐑓𐑙𐑷⟩$$ |
 | 1 | ∈ | 𐑔 | $$⟨𐑛𐑡𐑩𐑗𐑱𐑘𐑔𐑝𐑢𐑓𐑙𐑷⟩$$ |
@@ -125,7 +125,7 @@ The 2D grid of Hodge theaters indexed by ℤ². Structurally similar to the naiv
 | 3 | ⊣ | 𐑶 |
 | 3 | > | 𐑾 |
 | 3 | ⊥ | 𐑫 |
-| 2 | <, ⊤, ∋, Σ, ◻ | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | <, ⊤, ∋, Σ, ⊡ | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ⊢, ∈ | 𐑨, 𐑔 |
 
@@ -136,7 +136,7 @@ The fundamental staging apparatus. Differs from the log-theta-lattice only in �
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | ⊣, >, ⊥ | 𐑶, 𐑾, 𐑫 |
-| 2 | <, ⊤, ∋, Σ, ◻ | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | <, ⊤, ∋, Σ, ⊡ | 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ∈ | 𐑔 |
 ### §2.5. Diophantine Equations (10 atoms)
@@ -146,7 +146,7 @@ The ABC/Szpiro conjecture — the additive-multiplicative tension over number fi
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | >, ⊤, ⊥ | 𐑾, 𐑪, 𐑫 |
-| 2 | ⊣, <, ∋, Σ, ◻ | 𐑥, 𐑬, 𐑠, 𐑳, 𐑭 |
+| 2 | ⊣, <, ∋, Σ, ⊡ | 𐑥, 𐑬, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ∈ | 𐑔 |
 
@@ -159,7 +159,7 @@ These two systems are **structurally identical** — the complete tuple matches 
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | >, ⊥ | 𐑾, 𐑫 |
-| 2 | ⊣, <, ⊤, ∋, Σ, ◻ | 𐑥, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | ⊣, <, ⊤, ∋, Σ, ⊡ | 𐑥, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ∈ | 𐑔 |
 
@@ -170,7 +170,7 @@ Both links share the identical tuple: $$⟨𐑛𐑰𐑽𐑬𐑱𐑧𐑔𐑠𐑮�
 | Ordinal | Primitive | Value |
 |---------|-----------|-------|
 | 3 | ⊥ | 𐑫 |
-| 2 | >, <, ⊤, ∋, Σ, ◻ | 𐑽, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
+| 2 | >, <, ⊤, ∋, Σ, ⊡ | 𐑽, 𐑬, 𐑧, 𐑠, 𐑳, 𐑭 |
 | 1.33 | ⊙ | 𐑮 |
 | 1 | ⊣, ∈ | 𐑰, 𐑔 |
 
@@ -187,7 +187,7 @@ The retrosynthetic path peels primitives from maximum to baseline, revealing the
 | Step | Primitive | Change | Cumulative Structure |
 |------|-----------|--------|---------------------|
 | 1 | ∈ | 𐑚→𐑔 | Maximal interaction range |
-| 2 | ◻ | 𐑷→𐑭 | Integer winding (topological) |
+| 2 | ⊡ | 𐑷→𐑭 | Integer winding (topological) |
 | 3 | ⊙ | 𐑢→𐑮 | Complex-plane criticality |
 | 4 | Σ | 𐑙→𐑳 | Heterogeneous stoichiometry |
 | 5 | ∋ | 𐑝→𐑠 | Sequential composition |
@@ -197,7 +197,7 @@ The retrosynthetic path peels primitives from maximum to baseline, revealing the
 | 9 | **<** | **𐑗→𐑹** | **Frobenius-special parity (μ∘δ=id)** |
 | 10 | **⊣** | **𐑡→𐑸** | **Self-referential topology (Axiom C)** |
 
-The synthesis order is non-arbitrary. ∈ comes first — the theory needs maximal interaction range (= universal scope over number fields) before anything else. ◻=𐑭 (integer winding) comes second — the topological invariant of the theta function. ⊙=𐑮 (complex criticality) third — the theta function's analytic continuation into ℂ. Only after all 8 preparatory steps do the two heavy atoms enter: <=𐑹 (Frobenius closure) then ⊣=𐑸 (self-referential closure).
+The synthesis order is non-arbitrary. ∈ comes first — the theory needs maximal interaction range (= universal scope over number fields) before anything else. ⊡=𐑭 (integer winding) comes second — the topological invariant of the theta function. ⊙=𐑮 (complex criticality) third — the theta function's analytic continuation into ℂ. Only after all 8 preparatory steps do the two heavy atoms enter: <=𐑹 (Frobenius closure) then ⊣=𐑸 (self-referential closure).
 
 ### §3.2. Naive Composite (11 steps)
 
@@ -205,7 +205,7 @@ The synthesis order is non-arbitrary. ∈ comes first — the theory needs maxim
 |------|-----------|--------|
 | 1 | ∈ | 𐑚→𐑔 |
 | 2 | ⊢ | 𐑛→𐑨 |
-| 3 | ◻ | 𐑷→𐑭 |
+| 3 | ⊡ | 𐑷→𐑭 |
 | 4 | ⊙ | 𐑢→𐑮 |
 | 5 | Σ | 𐑙→𐑳 |
 | 6 | ∋ | 𐑝→𐑠 |
@@ -222,8 +222,8 @@ The synthesis order is non-arbitrary. ∈ comes first — the theory needs maxim
 | Order | IUTT | Naive Composite |
 |-------|------|----------------|
 | 1 | ∈ | ∈ |
-| 2 | ◻ | **⊢** |
-| 3 | ⊙ | ◻ |
+| 2 | ⊡ | **⊢** |
+| 3 | ⊙ | ⊡ |
 | 4 | Σ | ⊙ |
 | 5 | ∋ | Σ |
 | 6 | ⊤ | ∋ |
@@ -286,7 +286,7 @@ The CLINK L8 (Organism) navigator decomposes each primitive value into conventio
 
 *IUTT interpretation:* Heterogeneous stoichiometry. The theory contains multiple distinct types: number fields, Galois groups, theta functions, Hodge theaters, Frobenioids, anabelian reconstructions. These are not identical copies — each has a distinct type.
 
-**◻ = 𐑭:** `∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0` — **[ZWIND]**
+**⊡ = 𐑭:** `∮_γ A = 2πn ∧ n ∈ ℤ ∧ wind(γ) ≠ 0` — **[ZWIND]**
 
 *IUTT interpretation:* Integer topological winding number. The global degree of the theta function around the log-theta-lattice is a non-zero integer. The winding number is topologically protected — it cannot be continuously deformed to zero. This is the global invariant that the entire theory computes: the degree of the theta link around the log-theta-lattice yields the Diophantine inequality (ABC/Szpiro).
 ---
@@ -433,7 +433,7 @@ CLINK L8 (the Organism layer) is the terminal ontological type: $$⟨𐑦𐑸�
 | ∈ | 𐑔 | 𐑲 | 0.5 | Aleph (maximal) → Beth (local) — **demotion** |
 | ∋ | 𐑠 | 𐑵 | 0.333 | Sequential → broadcast composition |
 | ⊙ | 𐑮 | ⊙ | 0.165 | Complex criticality → self-modeling gate open |
-| ◻ | 𐑭 | 𐑟 | 0.333 | ℤ integer winding → non-Abelian braiding |
+| ⊡ | 𐑭 | 𐑟 | 0.333 | ℤ integer winding → non-Abelian braiding |
 
 ### §8.2. The Two Transcendence Primitives
 
@@ -441,7 +441,7 @@ Two promotions exceed even the Frobenius-exact ZFC foundation (ZFC_fe):
 
 **∋ (sequential → broadcast):** CLINK L8's broadcast composition (𐑵) means all interactions happen simultaneously across all components. No sequential ordering. This is the "organism" property: every part of a living system is coupled to every other part in a non-sequential, broadcast fashion.
 
-**◻ (ℤ → non-Abelian braiding):** The integer winding number is replaced by non-Abelian braiding (𐑟). The topological invariant is no longer a simple integer (commutative, additive) but a non-commutative braid group element. This is the structural transition from Abelian topology (cohomology, winding numbers) to non-Abelian topology (braid groups, knot invariants).
+**⊡ (ℤ → non-Abelian braiding):** The integer winding number is replaced by non-Abelian braiding (𐑟). The topological invariant is no longer a simple integer (commutative, additive) but a non-commutative braid group element. This is the structural transition from Abelian topology (cohomology, winding numbers) to non-Abelian topology (braid groups, knot invariants).
 
 ### §8.3. What This Means
 
@@ -450,7 +450,7 @@ IUTT is not the final type. The gap to CLINK L8 reveals what a "post-IUTT" theor
 1. **⊢=𐑦:** The state space must be self-written — the theory must generate its own dimensional structure. This is beyond even the Frobenius-exact foundation.
 2. **⋈=𐑐:** Quantum coherence must enter arithmetic geometry. This is the "quantum arithmetic" problem.
 3. **⊙=⊙:** The self-modeling gate must open — the theory must model itself. This is the content of Gödelian self-reference in arithmetic.
-4. **◻=𐑟:** Non-Abelian braiding replaces integer winding. The global invariant becomes a braid group element. This is the content of "anabelian beyond Abelian."
+4. **⊡=𐑟:** Non-Abelian braiding replaces integer winding. The global invariant becomes a braid group element. This is the content of "anabelian beyond Abelian."
 
 ---
 

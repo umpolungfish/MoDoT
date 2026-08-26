@@ -442,7 +442,7 @@ fn segments(args: &[String]) -> Vec<Vec<Token>> {
         .collect()
 }
 
-/// Decompose a glued single-glyph code word (`⊢>∈⊤⊥∋◻⊣`) into its tokens. Every char must
+/// Decompose a glued single-glyph code word (`⊢>∈⊤⊥∋⊡⊣`) into its tokens. Every char must
 /// be a valid code, else None — so a real name (VINIT) is never mangled into letters.
 fn parse_codons(chunk: &str) -> Option<Vec<Token>> {
     let mut out = Vec::new();
@@ -583,11 +583,11 @@ UNFOLDS into its own 12-opcode IMASM program (`imasm expand ado`). Splice an
 expanded type's sequence into a polymer arm to pivot through state space AS that
 type: the alphabet's letters are themselves words in the language.
 SINGLE-GLYPH CODES: each opcode has a one-symbol code (READING_GUIDE §3 glyphs), so
-a word can be written glued, no spaces — `⊢>∈⊤⋈⊙<⊥⊞∋⊙◻⊣` is the same protocol as the
+a word can be written glued, no spaces — `⊢>∈⊤⋈⊙<⊥⊞∋⊙⊡⊣` is the same protocol as the
 13 spelled-out tokens. Every build echoes the word's `code:`. The alphabet is fully
 symbolic — no Latin initials; the retired V/T/B letters and ← no longer parse:
   ⊢ VINIT   ⊣ TANCH   > AFWD   < AREV   ⋈ CLINK   ⊙ IMSCRIB
-  ∈ FSPLIT  ∋ FFUSE   ⊤ EVALT  ⊥ EVALF  ⊞ ENGAGR  ◻ IFIX
+  ∈ FSPLIT  ∋ FFUSE   ⊤ EVALT  ⊥ EVALF  ⊞ ENGAGR  ⊡ IFIX
 The same twelve are the primitive alphabet, one glyph per axis; ⊞ reads EVALI in
 the trilattice face. ROTAT ↺/↻ is the op-opcode (the cyclic shift on the WHOLE
 word), not a token in it. The marks ◇ ● = + × ¬ ~ ≁ are NOT IMASM tokens: they do
@@ -911,7 +911,7 @@ fn run_tool(rest: &[String]) -> String {
 
 /// Resolve `rest` to a graph: a defined tool name, else a raw opcode word.
 /// The twelve axes in canonical tuple order — the order an entry's types compose in.
-pub(crate) const TUPLE_ORDER: [&str; 12] = ["⊢","⊣","≻","≺","⋈","⊤","∈","∋","⊙","⊥","⊞","◻"];
+pub(crate) const TUPLE_ORDER: [&str; 12] = ["⊢","⊣","≻","≺","⋈","⊤","∈","∋","⊙","⊥","⊞","⊡"];
 
 /// A catalog entry, expanded into the IMASM program it IS.
 ///
@@ -2520,7 +2520,7 @@ mod tests {
         }
         // a glued code word parses to the same tokens as the spelled-out names, and a
         // multi-letter name is never char-split
-        let glued = tok_list(&["⊢>∈⊤⊙◻⊣".to_string()]);
+        let glued = tok_list(&["⊢>∈⊤⊙⊡⊣".to_string()]);
         let named = tok_list(&[
             "VINIT AFWD FSPLIT EVALT IMSCRIB IFIX TANCH".to_string(),
         ]);

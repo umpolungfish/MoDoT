@@ -1,20 +1,20 @@
 # Winding Principle: Functional Two-Projection System — Complete
 
 **Grammar tuple**: ⟨𐑼𐑰𐑽𐑬𐑞𐑧𐑔𐑠𐑢𐑖𐑙𐑭⟩
-**IMASM word**: ⊢⊣><⋈⊤∈∋⊙⊥⊞◻
+**IMASM word**: ⊢⊣><⋈⊤∈∋⊙⊥⊞⊡
 
 ## Kernel Instrument Results (run_hosted_cmds.sh)
 
 | Instrument | Result |
 |---|---|
-| word | ⊢⊣⋈⊤∈∋⊙⊥⊞◻ (10 tokens, `>`/`<` consumed as WORK opcodes) |
+| word | ⊢⊣⋈⊤∈∋⊙⊥⊞⊡ (10 tokens, `>`/`<` consumed as WORK opcodes) |
 | weight final | A |
 | weight surviving | T×1, F×1, t×1, f×1 |
 | banked | VACUOUS |
 | cycle period | 10 |
 | cycle phase | PHASE-BEARING, 4 distinct landings |
 | cycle landings | A (k=0..6), Ftf (k=7), tf (k=8), T (k=9) |
-| trans | 10 ring transitions, closing edge ◻→⊢ |
+| trans | 10 ring transitions, closing edge ⊡→⊢ |
 
 ## Two-Projection System
 

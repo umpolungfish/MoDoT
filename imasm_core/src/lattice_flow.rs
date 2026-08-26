@@ -62,7 +62,7 @@ pub fn normalize(word: &str) -> String {
             '=' | '═' => out.push('⋈'),
             '+' => out.push('⊤'),
             '×' => out.push('⊥'),
-            '¬' => out.push('◻'),
+            '¬' => out.push('⊡'),
             c if c.is_whitespace() => {}
             c => out.push(c),
         }
@@ -402,7 +402,7 @@ pub fn insert_report(word: &str) -> String {
         None => return out,
     }
 
-    let glyphs = ['⊢', '⊙', '∈', '∋', '⊤', '⊥', '≻', '≺', '⋈', '⊞', '◻', '⊣'];
+    let glyphs = ['⊢', '⊙', '∈', '∋', '⊤', '⊥', '≻', '≺', '⋈', '⊞', '⊡', '⊣'];
     let chars: Vec<char> = base.chars().collect();
 
     // Distinct words, not distinct sites. Inserting a glyph beside an identical
@@ -441,7 +441,7 @@ pub fn insert_report(word: &str) -> String {
 
 /// How many distinct one-glyph insertions make `base` hold, without printing.
 pub fn repair_count(base: &str) -> usize {
-    let glyphs = ['⊢', '⊙', '∈', '∋', '⊤', '⊥', '≻', '≺', '⋈', '⊞', '◻', '⊣'];
+    let glyphs = ['⊢', '⊙', '∈', '∋', '⊤', '⊥', '≻', '≺', '⋈', '⊞', '⊡', '⊣'];
     let chars: Vec<char> = base.chars().collect();
     let n = chars.len();
     let mut seen: Vec<String> = Vec::new();

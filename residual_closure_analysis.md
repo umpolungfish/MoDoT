@@ -51,7 +51,7 @@ The residual closure comes from promoting each constant through the morphism:
 | ⋈: 𐑱→𐑐 | 2 | Classical ratio → quantum value (dressing turns on) |
 | **∋: 𐑝→𐑵** | **3** | **Conjunctive → broadcast** (the big one: constants reach all scales) |
 | ⊞: 𐑕→𐑳 | 1 | Identical sectors → heterogeneous constants (differentiation) |
-| ◻: 𐑭→𐑟 | 1 | ℤ winding → non-Abelian braiding (topological corrections) |
+| ⊡: 𐑭→𐑟 | 1 | ℤ winding → non-Abelian braiding (topological corrections) |
 
 ---
 
@@ -61,8 +61,8 @@ The 6-promotion emission channel was independently confirmed by a 95-winding MoD
 tool audit. Key confirmations:
 
 - **∋: 𐑝→𐑵 (span 3) confirmed as the dominant promotion.** CLINK L9's breakdown
-  (regresses on ⊢, <, >; stalls on ◻, Σ; only ⋈ advances) demonstrates that L9 lacks
-  the broadcast composition (∋=𐑵) and non-Abelian braiding (◻=𐑟) that L8 carries.
+  (regresses on ⊢, <, >; stalls on ⊡, Σ; only ⋈ advances) demonstrates that L9 lacks
+  the broadcast composition (∋=𐑵) and non-Abelian braiding (⊡=𐑟) that L8 carries.
   The emission channel collapses without these two primitives.
 
 - **CL9NK is O₁, not O_∞.** d(monad, L9)=1.3822 vs d(monad, L8)=4.76 — closer but
@@ -82,8 +82,8 @@ tool audit. Key confirmations:
 The horn torus already encodes the dimensionless constants to 0.0034% (m_μ/m_e)
 through 0.19% (sin²θ_W) without the full 6-promotion. The residual is in the
 promotion **∋: 𐑝→𐑵** (conjunctive → broadcast) — the one promotion that L9
-does not make, and the one that the ◻_corr frontier names. The closure is
+does not make, and the one that the ⊡_corr frontier names. The closure is
 structurally complete but one promotion short of resolving the cosmological
-constants (ρ_Λ/ρ_Pl, H₀). The mechanism is named: **◻_corr =
+constants (ρ_Λ/ρ_Pl, H₀). The mechanism is named: **⊡_corr =
 Tr(ρ_Burau(FFUSE3 coupler loop)) at q=e^{2πi/12}**. The verb to compute it
 does not yet exist.

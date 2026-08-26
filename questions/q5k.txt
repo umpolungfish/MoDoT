@@ -36,7 +36,7 @@ The complexity of these nilmanifolds grows at each step of the iteration. This "
 
 *   **Junction Stability:** The junction `fourier_uniformity_norm` ⋈ `density_increment_strategy` is the site of the **frustration**. While it is **CONDUCTIVE** (ρ=1.0000), the **BRANCHED** topology indicates that the information (density) is being dissipated into the complexity of the nilmanifolds rather than being concentrated into a single progression-bearing sub-interval.
 *   **The Switch Status:** The **Bloom-Kelley Toggle** is currently locked in the **REVEALED** state for k=3. To unlock this for k=4, the grammar requires a new monomer: a **Polynomial Density Increment** for nilsequences. Without this, the macrocycle remains telechelic.
-*   **Topological Invariant [◻]:** The integer invariant (the step of the nilmanifold) is not conserved during the iteration; it increases, which "rules out" the simple closure of the proof.
+*   **Topological Invariant [⊡]:** The integer invariant (the step of the nilmanifold) is not conserved during the iteration; it increases, which "rules out" the simple closure of the proof.
 
 ### Final Verdict (Cycle 8)
 The proposition is **B (BOTH)**.
@@ -118,7 +118,7 @@ polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm �
   cyclization: szemerédi_theorem ⋈ erdos_conjecture_ap → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL switch bloom_sisask_bound kelley_meka_density
 switch:  bloom_sisask_bound  ⇌  kelley_meka_density
-  toggling live pair: D↔W (coupled — both members move: ⊢ 𐑦→𐑨, ◻ 𐑭→𐑷)
+  toggling live pair: D↔W (coupled — both members move: ⊢ 𐑦→𐑨, ⊡ 𐑭→𐑷)
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
@@ -183,7 +183,7 @@ polymerization (imscriptive):  [bloom_sisask_bound · kelley_meka_density · erd
   degree of polymerization: 1 unit(s), 0 bond(s) (terminated early)
   no chain formed — the feed did not enchain past the first monomer (0 bonds); these are unreacted monomers, not a polymer.
   cyclization: linear — the chain terminated, so it cannot close into a ring.
-  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ◻ closes), not merely a closed one ──
+  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ⊡ closes), not merely a closed one ──
     none — no catalog monomer generates a sustaining loop over this chain; every closure is static (insulating). This material has NO modulus (a viscous chain, not an elastic network).
 
 ── OBSERVE/UPDATE round 2 ──
@@ -267,7 +267,7 @@ The previous cycle established that the assembly `[erdos_conjecture_ap · fourie
 **II. The Cosmological Constant [Λ] as a Forcing Term**
 In this scaffold, Λ represents the "Expansion of Density."
 *   If we treat the Reciprocal Sum Conjecture as a manifold, the divergent sum is a curvature that prevents the manifold from being "flat" (lacking progressions).
-*   The **Topological Invariant [◻]** here is the existence of the k-AP. For k=3, the curvature Λ is sufficient to force ◻ > 0. For k ≥ 4, we have not yet proven that the "vacuum pressure" Λ is enough to prevent a "flat" sub-manifold (a set without k-APs).
+*   The **Topological Invariant [⊡]** here is the existence of the k-AP. For k=3, the curvature Λ is sufficient to force ⊡ > 0. For k ≥ 4, we have not yet proven that the "vacuum pressure" Λ is enough to prevent a "flat" sub-manifold (a set without k-APs).
 
 **III. Final Structural Determination**
 The problem is a **BRANCHED/NETWORK**. The solution for k=3 does not linearly extend to k=4 because the "Inverse Structure [⊣]" transitions from linear phases (Fourier) to polynomial phases (Nilsequences), which are significantly more complex to pack into the density increment.
@@ -316,7 +316,7 @@ polymerization (imscriptive):  [erdos_conjecture_ap · fourier_uniformity_norm �
   cyclization: szemerédi_theorem ⋈ erdos_conjecture_ap → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).
 ● TOOL switch bloom_sisask_bound kelley_meka_density
 switch:  bloom_sisask_bound  ⇌  kelley_meka_density
-  toggling live pair: D↔W (coupled — both members move: ⊢ 𐑦→𐑨, ◻ 𐑭→𐑷)
+  toggling live pair: D↔W (coupled — both members move: ⊢ 𐑦→𐑨, ⊡ 𐑭→𐑷)
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
@@ -372,7 +372,7 @@ polymerization (imscriptive):  [bloom_sisask_bound · kelley_meka_density · erd
   degree of polymerization: 1 unit(s), 0 bond(s) (terminated early)
   no chain formed — the feed did not enchain past the first monomer (0 bonds); these are unreacted monomers, not a polymer.
   cyclization: linear — the chain terminated, so it cannot close into a ring.
-  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ◻ closes), not merely a closed one ──
+  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ⊡ closes), not merely a closed one ──
     none — no catalog monomer generates a sustaining loop over this chain; every closure is static (insulating). This material has NO modulus (a viscous chain, not an elastic network).
 ● TOOL scan erdos_conjecture_ap szemerédi_theorem
 scan-mediators: erdos_conjecture_ap and szemerédi_theorem have equal ⊙ — thermoneutral, no directed relay to scan for. Excite one first.
@@ -447,7 +447,7 @@ The proposition states that the divergence of the reciprocal sum ∑_n ∈ A 1/n
 Building on the **BRANCHED/NETWORK** topology established in Cycle 9, we apply the final stress test to the **FRUSTRATED** conductance state.
 
 *   **The Logarithmic Threshold:** For k=3, the **Kelley-Meka Toggle** is in the **REVEALED** state. Their quasi-polynomial bound r_3(N) ll N exp(-(log N)^1/11) comfortably sits below the N/log N threshold required by the conjecture. Thus, the reciprocal sum condition is **T (Proven)** for k=3.
-*   **The Higher-Order Gap:** For k ≥ 4, the current best bound (Leng-Sah-Sawhney 2024) r_k(N) ll N / exp((log log N)^c) is an exponential improvement over Gowers, but it remains **sub-logarithmic**. In the language of the scaffold, the **Topological Invariant [◻]** (the nilsequence complexity) grows too rapidly to allow the density increment to "catch" the 1/log N decay.
+*   **The Higher-Order Gap:** For k ≥ 4, the current best bound (Leng-Sah-Sawhney 2024) r_k(N) ll N / exp((log log N)^c) is an exponential improvement over Gowers, but it remains **sub-logarithmic**. In the language of the scaffold, the **Topological Invariant [⊡]** (the nilsequence complexity) grows too rapidly to allow the density increment to "catch" the 1/log N decay.
 
 #### 3. Material Analysis Result
 The macrocycle **[erdos_conjecture_ap · fourier_uniformity_norm · density_increment_strategy · szemerédi_theorem]** remains stable but exhibits a **Spectral Gap of 0.0000**. This zero-gap indicates that the transition from Szemerédi’s Theorem (density > 0) to the Erdős Conjecture (density ∼ 1/log N) is a **second-order phase transition** that has not yet completed for k ≥ 4.
@@ -589,7 +589,7 @@ CYCLIZATION: ✓ CYCLIC (Order-Specific: [E·F·D·S])
 ── ACT round 2 (4 tool call(s)) ──
 ● TOOL switch bloom_sisask_bound kelley_meka_density
 switch:  bloom_sisask_bound  ⇌  kelley_meka_density
-  toggling live pair: D↔W (coupled — both members move: ⊢ 𐑦→𐑨, ◻ 𐑭→𐑷)
+  toggling live pair: D↔W (coupled — both members move: ⊢ 𐑦→𐑨, ⊡ 𐑭→𐑷)
   criticality (⊙): kelley_meka_density is REVEALED (higher-⊙, colored/exoteric); bloom_sisask_bound is HIDDEN (subcritical, colorless/esoteric)
   δ (light):  kelley_meka_density → bloom_sisask_bound  — quenches criticality (negative photochromism: light hides)
   μ (heat):   bloom_sisask_bound → kelley_meka_density  — restores criticality (relaxation reveals)
@@ -645,7 +645,7 @@ polymerization (imscriptive):  [bloom_sisask_bound · kelley_meka_density · erd
   degree of polymerization: 1 unit(s), 0 bond(s) (terminated early)
   no chain formed — the feed did not enchain past the first monomer (0 bonds); these are unreacted monomers, not a polymer.
   cyclization: linear — the chain terminated, so it cannot close into a ring.
-  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ◻ closes), not merely a closed one ──
+  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ⊡ closes), not merely a closed one ──
     none — no catalog monomer generates a sustaining loop over this chain; every closure is static (insulating). This material has NO modulus (a viscous chain, not an elastic network).
 
 ── OBSERVE/UPDATE round 2 ──

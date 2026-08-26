@@ -45,7 +45,7 @@ The ring is **INSULATING**. There is no carrier flow across the 1→2 junction (
 | Dimension | Estimate f_d(n) | Substrate Status |
 | :--- | :--- | :--- |
 | **d=2** | n^1+c/log log n ≤ f_2(n) ≤ O(n^4/3) | **B** (Frontier) |
-| **d=3** | ◻(n^4/3 log log n) ≤ f_3(n) ≤ O(n^3/2) | **B** (Frontier) |
+| **d=3** | ⊡(n^4/3 log log n) ≤ f_3(n) ≤ O(n^3/2) | **B** (Frontier) |
 | **d ≥ 4** | (1/2)(1 - 1/⌊d/2⌋)n^2 + o(n^2) | **T** (Established) |
 
 The task is complete: the problem has been forged into a stable, 4-membered macrocycle with a spectral radius of 2.0.

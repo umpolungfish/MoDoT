@@ -1,12 +1,12 @@
 # Winding Principle: Functional Two-Projection System
 
 **Grammar tuple**: ⟨𐑼𐑰𐑽𐑬𐑞𐑧𐑔𐑠𐑢𐑖𐑙𐑭⟩
-**IMASM word**: ⊢⊣><⋈⊤∈∋⊙⊥⊞◻
+**IMASM word**: ⊢⊣><⋈⊤∈∋⊙⊥⊞⊡
 
 ## Kernel Instrument Results (via run_hosted_cmds.sh)
 
 ### weight
-- word: ⊢⊣⋈⊤∈∋⊙⊥⊞◻ (10 tokens, `>` and `<` consumed as WORK opcodes)
+- word: ⊢⊣⋈⊤∈∋⊙⊥⊞⊡ (10 tokens, `>` and `<` consumed as WORK opcodes)
 - movement:
   - ⊢ CLEAR loses 0 (0 banked in frames)
   - ⊤ deposit T into depth 0
@@ -34,9 +34,9 @@
 ### trans
 - ring transitions: 10
 - linear would give: 9 (drops the closing edge)
-- closing edge: ◻ -> ⊢
+- closing edge: ⊡ -> ⊢
 - transitions:
-  ⊢→⊣→⋈→⊤→∈→∋→⊙→⊥→⊞→◻→⊢ (each 1 occurrence)
+  ⊢→⊣→⋈→⊤→∈→∋→⊙→⊥→⊞→⊡→⊢ (each 1 occurrence)
 
 ## Two-Projection System Implementation
 
@@ -93,4 +93,4 @@ def check_closure():
 - Frobenius: B4=T (closed)
 - Period 10 matches Fibonacci phase lattice ("tenths of a winding")
 - 4 distinct landings correspond to A→Ftf→tf→T across cuts k=0..9
-- 10 ring transitions with closing edge ◻→⊢ match the ROTAT orbit boundary
+- 10 ring transitions with closing edge ⊡→⊢ match the ROTAT orbit boundary

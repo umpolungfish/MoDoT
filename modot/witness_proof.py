@@ -125,7 +125,7 @@ _PRIM_TO_ROLE_ID = {
     "≺": "Phi_}",          # polarity / Frobenius-symmetric encoding
     "⊣": "Theta_O",        # topology / self-ref structure
     "≻": "R_=",            # relational / bidirectional
-    "◻": "Omega_z",        # protection / winding
+    "⊡": "Omega_z",        # protection / winding
     "⊙": "phi_hat_y",      # criticality / phase boundary
     "⊤": "C_@",            # kinetics / equidistribution
     "⊢": "D_C",            # dimensionality

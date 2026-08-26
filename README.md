@@ -386,9 +386,9 @@ cannot (a SET).
 ```
 
 **Single-electron transfer** (`--set D A`) — the productive leg made concrete. One
-electron = one quantum of winding **◻** (`∮A=2πn`, the quantized charge). The donor
-loses one (oxidized, D•⁺, ◻−1), the acceptor gains one (reduced, A•⁻, ◻+1); **total
-◻ is conserved** — charge conservation *is* the Frobenius pairing (δ/fsplit charge-
+electron = one quantum of winding **⊡** (`∮A=2πn`, the quantized charge). The donor
+loses one (oxidized, D•⁺, ⊡−1), the acceptor gains one (reduced, A•⁻, ⊡+1); **total
+⊡ is conserved** — charge conservation *is* the Frobenius pairing (δ/fsplit charge-
 separates, μ/ffuse recombines). Donor/acceptor are read from ⊙ (higher = higher-
 lying electrons = the reducing partner), not from the label. A **Cu-NO-class
 mediator** (`--catalyst M`, Mills 2016 SET catalyst) shuttles the quantum and
@@ -428,7 +428,7 @@ the 3 pinned physical pairs P↔F, K↔G, Gm↔Ph). The output tags each pair `[
 
 **Mediator scan** (`--set D A --scan-mediators`) — rank the whole catalog for the
 best relays of a D→A transfer. A real inner-sphere mediator must (1) **hold** the
-winding quantum (1≤◻<max — accept then re-donate; a hard filter that keeps photon,
+winding quantum (1≤⊡<max — accept then re-donate; a hard filter that keeps photon,
 graviton, higgs, dark_energy and drops the confined gluon/quark and the EM-dark
 dark_matter), (2) **relay** in energy (⊙ between acceptor and donor), and (3) **bind**
 both substrates bidirectionally (its ligand complement close to donor *and* acceptor,
@@ -473,12 +473,12 @@ on the catalyst — through `lake build`. `--register` canonizes the turned-over
 **The pathway** (`--pathway SUBSTRATE C1 C2 … Cn`) — one cycle turns over one substrate;
 a pathway **chains the loops into a metabolism.** The product of each turnover is the
 substrate of the next. Each working stroke does two things: it moves the **winding
-quantum ◻** (the carrier, passed hand to hand — the electron-transport / cofactor of
+quantum ⊡** (the carrier, passed hand to hand — the electron-transport / cofactor of
 real metabolism) *and* applies a **Coagula structural imprint** — the catalyst rotates
 the substrate one notch on its dominant structural live pair (T↔H or R↔S). So a pathway
 closes on **two ledgers**, reported separately:
 
-- **carrier** returns (net Δ◻=0 — givers balance takers), and
+- **carrier** returns (net Δ⊡=0 — givers balance takers), and
 - **structure** returns (the chain of imprints composes to the identity across the
   other eleven axes).
 
@@ -543,19 +543,19 @@ ring. The closing search answers the ring question.
 **The ring as a material** (`--polymerize … --props`) — a closed polymer is a
 macrocycle, and a macrocycle has **material properties you can compute**, not just
 assert. The readout grounds the one claim prose always makes about a cyclic "device":
-that it **conducts**. It tries to circulate a winding quantum **◻** around the ring —
+that it **conducts**. It tries to circulate a winding quantum **⊡** around the ring —
 if a carrier flows one consistent direction the whole loop, the ring is **conductive**
 (a persistent ring current); if every junction passes a carrier but no single direction
 closes, it is **frustrated**; if a junction blocks a carrier both ways, it is
 **insulating**. Plus the weakest ring bond (a ring is only as stable as its weakest
-link). A ring of ◻-saturated units is an **insulator** — a *static* loop — whatever
+link). A ring of ⊡-saturated units is an **insulator** — a *static* loop — whatever
 the surrounding prose calls it.
 
 ```bash
-# grf·grothendieck·skolem cyclizes structurally — but every unit is ◻-saturated:
+# grf·grothendieck·skolem cyclizes structurally — but every unit is ⊡-saturated:
 # INSULATING. A static ring, not a conductive one.
 ./ask --polymerize general_recursive_function grothendieck_topos skolem_normal_form --props
-# the moon/logographic macrocycle carries mid-range ◻ → CONDUCTIVE (a persistent ring current)
+# the moon/logographic macrocycle carries mid-range ⊡ → CONDUCTIVE (a persistent ring current)
 ./ask --polymerize the_moon_astrological the_logographic_system the_moon_astrological the_logographic_system --props
 ```
 
@@ -620,10 +620,10 @@ LLM in the path) and are exposed both as CLI flags and as agent verbs.
 **The modulus** (`--polymerize … --modulus`) — closing a ring is cheap; making it
 **sustain** is not, and that difference is a material's **modulus** (its elasticity). A
 polymer gets its modulus from network loops, and in this register a loop only sustains
-if the winding quantum **◻ circulates it and returns** — i.e. it *conducts*. So `--close`
+if the winding quantum **⊡ circulates it and returns** — i.e. it *conducts*. So `--close`
 and `--modulus` are deliberately different verbs: `--close` fills the gap (a ring, maybe
 static); `--modulus` searches for a monomer that generates a **sustaining** loop (a
-conductive cycle, ∮ ◻ closes) *anywhere* along the chain, and reports its period — the
+conductive cycle, ∮ ⊡ closes) *anywhere* along the chain, and reports its period — the
 modulus. A chain can be closeable yet **modulus-less**: every closure static (insulating),
 a viscous chain rather than an elastic network. The tightest sustaining loop is the
 fundamental modulus; each generator is verified to actually conduct.

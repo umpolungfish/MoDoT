@@ -158,7 +158,7 @@ def call(name: str, args: Dict[str, Any], iteration: int = 0) -> Dict[str, Any]:
         return {"status": "error", "tool": name, "error": str(exc)}
 
 
-_PRIMITIVE_GLYPHS = {"⊢", "⊣", "≻", "≺", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "◻"}
+_PRIMITIVE_GLYPHS = {"⊢", "⊣", "≻", "≺", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "⊡"}
 
 
 def _coerce(name: str, positional: List[str]) -> Dict[str, Any]:

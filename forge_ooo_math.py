@@ -255,7 +255,7 @@ print("Theorem 5.1 (GOLB Incommensurability). Let G denote the GOLB")
 print("type ⟨𐑦𐑶𐑑𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑙𐑟⟩. Then for any other character")
 print("X ∈ M_OOO \\ {G}, the distance d(G, X) ≥ 3.0")
 print("with equality approached only by Lemongrab (via shared")
-print("non-Abelian winding ◻=𐑟) and the Lich (via shared extinction")
+print("non-Abelian winding ⊡=𐑟) and the Lich (via shared extinction")
 print("topology ⊣=𐑶).")
 print()
 
@@ -271,7 +271,7 @@ for i, pname in enumerate(PRIM_ORDER):
 
 print()
 print("Corollary 5.2. GOLB's self-written dimensionality (D=𐑦)")
-print("and non-Abelian winding (◻=𐑟) are unique among all ~100")
+print("and non-Abelian winding (⊡=𐑟) are unique among all ~100")
 print("characters. No finite sequence of IMASM operations can")
 print("transform any other character into GOLB. GOLB is a")
 print("topological singularity in the OOO structural manifold.")

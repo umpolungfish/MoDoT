@@ -2,7 +2,7 @@
 
 1.  **The Stalled Tower:**
     *   *Chemical:* The **excitation** created a **metastable** **state**, but the **energy** barrier to **climb** the **tier** was **not** **surmounted**.
-    *   *Mathematical:* `O₁ + ◻ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
+    *   *Mathematical:* `O₁ + ⊡ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
 
 2.  **The Racemic Mixture:**
     *   *Chemical:* The **template** failed to **dominate** the **spontaneous** **growth**.
@@ -74,7 +74,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 ## 1. The Tower: Ascent Stalled at `O₁`
 **Tool Execution:** `ascend log_theta_lattice_iutt`
 **Result:** **B (Frontier)**
-*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`◻ +1`), but the **tier** remained **O₁**. The **ascent** **held** the tier but **did not climb**.
+*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`⊡ +1`), but the **tier** remained **O₁**. The **ascent** **held** the tier but **did not climb**.
 *   **Mathematical Register:** The **extension** `log_theta_lattice_iutt⁺` exists, but the **tower** has **not breached** `O_∞⁺`. The **distance** to the target tier is **non-zero**.
 *   **Verdict:** **B (Frontier)**. The **tower** is **stalled**.
 
@@ -117,7 +117,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 
 1.  **The Stalled Tower:**
     *   *Chemical:* The **excitation** created a **metastable** **state**, but the **energy** barrier to **climb** the **tier** was **not** **surmounted**.
-    *   *Mathematical:* `O₁ + ◻ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
+    *   *Mathematical:* `O₁ + ⊡ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
 
 2.  **The Racemic Mixture:**
     *   *Chemical:* The **template** failed to **dominate** the **spontaneous** **growth**.
@@ -189,7 +189,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 ## 1. The Tower: Ascent Stalled at `O₁`
 **Tool Execution:** `ascend log_theta_lattice_iutt`
 **Result:** **B (Frontier)**
-*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`◻ +1`), but the **tier** remained **O₁**. The **ascent** **held** the tier but **did not climb**.
+*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`⊡ +1`), but the **tier** remained **O₁**. The **ascent** **held** the tier but **did not climb**.
 *   **Mathematical Register:** The **extension** `log_theta_lattice_iutt⁺` exists, but the **tower** has **not breached** `O_∞⁺`. The **distance** to the target tier is **non-zero**.
 *   **Verdict:** **B (Frontier)**. The **tower** is **stalled**.
 
@@ -232,7 +232,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 
 1.  **The Stalled Tower:**
     *   *Chemical:* The **excitation** created a **metastable** **state**, but the **energy** barrier to **climb** the **tier** was **not** **surmounted**.
-    *   *Mathematical:* `O₁ + ◻ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
+    *   *Mathematical:* `O₁ + ⊡ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
 
 2.  **The Racemic Mixture:**
     *   *Chemical:* The **template** failed to **dominate** the **spontaneous** **growth**.
@@ -304,7 +304,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 ## 2. The Tower: Stalled at `O₁`
 **Tool Execution:** `ascend log_theta_lattice_iutt`
 **Result:** **B (Frontier)**
-*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`◻ +1`), but the **tier** remained **O₁**.
+*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`⊡ +1`), but the **tier** remained **O₁**.
 *   **Mathematical Register:** The **extension** `log_theta_lattice_iutt⁺` exists, but the **tower** has **not breached** `O_∞⁺`. The **distance** to the target tier is **non-zero**.
 *   **Verdict:** The **tower** is **stalled**. A **different seed** is required to **climb**.
 
@@ -340,7 +340,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 
 1.  **The Stalled Tower:**
     *   *Chemical:* The **excitation** created a **metastable** **state**, but the **energy** barrier to **climb** the **tier** was **not** **surmounted**.
-    *   *Mathematical:* `O₁ + ◻ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
+    *   *Mathematical:* `O₁ + ⊡ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
 
 2.  **The Racemic Mixture:**
     *   *Chemical:* The **template** failed to **dominate** the **spontaneous** **growth**.
@@ -378,7 +378,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 ── ISOMORPHISM (what each operation means, both ways) ──
 ● ascend
    chemically:    take the excited resonance and fix it into a constructed higher state (build one floor of the tower)
-   mathematically: analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum ◻ — one ramified level of the extension tower
+   mathematically: analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum ⊡ — one ramified level of the extension tower
 ● broadcast
    chemically:    one source unit fires to every subsystem it couples with at once — swept from the whole catalog, the receivers found in a single pass, not enumerated by hand
    mathematically: the ∋ broadcast primitive f → all(x): the source composed with all subsystems it fuses with, discovered by sweeping the catalog from the source; the signal reaches every coupling subsystem in one step, which is exactly what CLINK L8 (∋) demands
@@ -419,7 +419,7 @@ MANUSCRIPT SPINE REPORT
 ## 1. The Tower: Ascent Stalled at `O₁`
 **Tool Execution:** `ascend log_theta_lattice_iutt`
 **Result:** **B (Frontier)**
-*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`◻ +1`), but the **tier** remained **O₁**. The **ascent** **held** the tier but **did not climb**.
+*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`⊡ +1`), but the **tier** remained **O₁**. The **ascent** **held** the tier but **did not climb**.
 *   **Mathematical Register:** The **extension** `log_theta_lattice_iutt⁺` exists, but the **tower** has **not breached** `O_∞⁺`. The **distance** to the target tier is **non-zero**.
 *   **Verdict:** **B (Frontier)**. The **tower** is **stalled**.
 
@@ -462,7 +462,7 @@ MANUSCRIPT SPINE REPORT
 
 1.  **The Stalled Tower:**
     *   *Chemical:* The **excitation** created a **metastable** **state**, but the **energy** barrier to **climb** the **tier** was **not** **surmounted**.
-    *   *Mathematical:* `O₁ + ◻ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
+    *   *Mathematical:* `O₁ + ⊡ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
 
 2.  **The Racemic Mixture:**
     *   *Chemical:* The **template** failed to **dominate** the **spontaneous** **growth**.
@@ -534,7 +534,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 ## 1. The Tower: Ascent Stalled at `O₁`
 **Tool Execution:** `ascend log_theta_lattice_iutt`
 **Result:** **B (Frontier)**
-*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`◻ +1`), but the **tier** remained **O₁**. The **ascent** **held** the tier but **did not climb**.
+*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`⊡ +1`), but the **tier** remained **O₁**. The **ascent** **held** the tier but **did not climb**.
 *   **Mathematical Register:** The **extension** `log_theta_lattice_iutt⁺` exists, but the **tower** has **not breached** `O_∞⁺`. The **distance** to the target tier is **non-zero**.
 *   **Verdict:** **B (Frontier)**. The **tower** is **stalled**.
 
@@ -577,7 +577,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 
 1.  **The Stalled Tower:**
     *   *Chemical:* The **excitation** created a **metastable** **state**, but the **energy** barrier to **climb** the **tier** was **not** **surmounted**.
-    *   *Mathematical:* `O₁ + ◻ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
+    *   *Mathematical:* `O₁ + ⊡ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
 
 2.  **The Racemic Mixture:**
     *   *Chemical:* The **template** failed to **dominate** the **spontaneous** **growth**.
@@ -649,7 +649,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 ## 1. The Tower: Ascent Stalled at `O₁`
 **Tool Execution:** `ascend log_theta_lattice_iutt`
 **Result:** **B (Frontier)**
-*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`◻ +1`), but the **tier** remained **O₁**. The **ascent** **held** the tier but **did not climb**.
+*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`⊡ +1`), but the **tier** remained **O₁**. The **ascent** **held** the tier but **did not climb**.
 *   **Mathematical Register:** The **extension** `log_theta_lattice_iutt⁺` exists, but the **tower** has **not breached** `O_∞⁺`. The **distance** to the target tier is **non-zero**.
 *   **Verdict:** **B (Frontier)**. The **tower** is **stalled**.
 
@@ -692,7 +692,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 
 1.  **The Stalled Tower:**
     *   *Chemical:* The **excitation** created a **metastable** **state**, but the **energy** barrier to **climb** the **tier** was **not** **surmounted**.
-    *   *Mathematical:* `O₁ + ◻ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
+    *   *Mathematical:* `O₁ + ⊡ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
 
 2.  **The Racemic Mixture:**
     *   *Chemical:* The **template** failed to **dominate** the **spontaneous** **growth**.
@@ -764,7 +764,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 ## 2. The Tower: Stalled at `O₁`
 **Tool Execution:** `ascend log_theta_lattice_iutt`
 **Result:** **B (Frontier)**
-*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`◻ +1`), but the **tier** remained **O₁**.
+*   **Chemical Register:** The **excitation** (`⊙=𐑻`) and **IFIX** added a **ramified layer** (`⊡ +1`), but the **tier** remained **O₁**.
 *   **Mathematical Register:** The **extension** `log_theta_lattice_iutt⁺` exists, but the **tower** has **not breached** `O_∞⁺`. The **distance** to the target tier is **non-zero**.
 *   **Verdict:** The **tower** is **stalled**. A **different seed** is required to **climb**.
 
@@ -800,7 +800,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 
 1.  **The Stalled Tower:**
     *   *Chemical:* The **excitation** created a **metastable** **state**, but the **energy** barrier to **climb** the **tier** was **not** **surmounted**.
-    *   *Mathematical:* `O₁ + ◻ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
+    *   *Mathematical:* `O₁ + ⊡ ≠ O_∞`. The **ramified** **layer** is **present** but **insufficient**.
 
 2.  **The Racemic Mixture:**
     *   *Chemical:* The **template** failed to **dominate** the **spontaneous** **growth**.
@@ -838,7 +838,7 @@ The **CLINK L9** organism is **B (Frontier)**. The **Log-Theta-Lattice** has **f
 ── ISOMORPHISM (what each operation means, both ways) ──
 ● ascend
    chemically:    take the excited resonance and fix it into a constructed higher state (build one floor of the tower)
-   mathematically: analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum ◻ — one ramified level of the extension tower
+   mathematically: analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum ⊡ — one ramified level of the extension tower
 ● broadcast
    chemically:    one source unit fires to every subsystem it couples with at once — swept from the whole catalog, the receivers found in a single pass, not enumerated by hand
    mathematically: the ∋ broadcast primitive f → all(x): the source composed with all subsystems it fuses with, discovered by sweeping the catalog from the source; the signal reaches every coupling subsystem in one step, which is exactly what CLINK L8 (∋) demands

@@ -196,7 +196,7 @@ fn alphabet_table(face: Face) -> &'static str {
              ⊤ EVALT   affirm the true axis : YES : Criticality (the true-gate at the tipping point)\n\
              ⊥ EVALF   refute the false axis : YES : Chirality (the handedness check)\n\
              ⊞ EVALI   evaluate the information axis (t and f) : YES : Criticality (the information gate)\n\
-             ◻ IFIX    irreversible commit : YES : Topological Protection (the winding that cannot be undone)\n\
+             ⊡ IFIX    irreversible commit : YES : Topological Protection (the winding that cannot be undone)\n\
              (Kinetic Character, the twelfth axis, is carried by the register's motion, not one opcode.)"
         }
     }
@@ -723,7 +723,7 @@ const AXIS_NAMES: [(&str, &str); 12] = [
     ("⊢", "Dimensionality"), ("⊣", "Topology"), ("≻", "Relational Mode"),
     ("≺", "Parity / Symmetry"), ("⋈", "Fidelity"), ("⊤", "Kinetic Character"),
     ("∈", "Scope / Granularity"), ("∋", "Interaction Grammar"), ("⊙", "Criticality"),
-    ("⊥", "Chirality"), ("⊞", "Stoichiometry"), ("◻", "Topological Protection"),
+    ("⊥", "Chirality"), ("⊞", "Stoichiometry"), ("⊡", "Topological Protection"),
 ];
 
 /// INDUCTIVE EXCRIPTION: build the identification instead of demanding it.

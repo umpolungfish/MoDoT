@@ -88,7 +88,7 @@ However, the **kernel cardinality** remains **unverified** as 1024 (2865 candida
 
 #### 10. Compute Meet (Structural Floor) — **T (Established)**
 *   **Tool:** `compute_meet reduced_character_orbit_computation norm_sieve_execution`
-*   **Result:** ✓ **EXISTENCE**. 7 shared primitives (`⊢, >, ⋈, ⊤, ∋, ⊥, ◻`).
+*   **Result:** ✓ **EXISTENCE**. 7 shared primitives (`⊢, >, ⋈, ⊤, ∋, ⊥, ⊡`).
 *   **Verdict:** **T (Established)**.
 
 #### 11. Click (Portal) — **T (Established)**
@@ -116,7 +116,7 @@ However, the **kernel cardinality** remains **unverified** as 1024 (2865 candida
 | **[\⊣] Inverse Structure** | Dual decomposition | **T** | **T** | `cycle` = FIXED POINT. |
 | **[\>] Bidirectional Exhaust** | Forward/inverse | **T** | **T** | `arrange` + `forge` = CYCLIC. |
 | **[odot] Boundedness** | Confinement | **B** | **B** | `distill` = Azeotrope (tie at odot=0.25). |
-| **[◻] Topological Invariant** | Integer invariant | **T** | **T** | `forge` = ρ=2.0000. |
+| **[⊡] Topological Invariant** | Integer invariant | **T** | **T** | `forge` = ρ=2.0000. |
 | **[\⊤] Regularity** | Equidistribution | **T** | **T** | `crystallize` = Clean crystal. |
 | **[Θ] Tower Ascent** | Ramified ascent | **B** | **B** | `excite` = Excited state. `ascend` unavailable. |
 
@@ -188,14 +188,14 @@ TOOL: excite K19_ray_class_field
 ● TOOL homolyze K19_ray_class_field
 homolyze (symmetric homolysis, δ_A(a)=(a,a)):  K19_ray_class_field
   → two identical NEUTRAL radicals — the diagonal split (μ∘δ_A=id):
-      K19_ray_class_field•  ⟨𐑦𐑸𐑑𐑹𐑐𐑧𐑲𐑵⊙𐑫𐑳𐑭⟩   radical (open SOMO)  [◻=𐑭 even — SOMO is the opened bond center]
-      K19_ray_class_field•  ⟨𐑦𐑸𐑑𐑹𐑐𐑧𐑲𐑵⊙𐑫𐑳𐑭⟩   radical (open SOMO)  [◻=𐑭 even — SOMO is the opened bond center]
+      K19_ray_class_field•  ⟨𐑦𐑸𐑑𐑹𐑐𐑧𐑲𐑵⊙𐑫𐑳𐑭⟩   radical (open SOMO)  [⊡=𐑭 even — SOMO is the opened bond center]
+      K19_ray_class_field•  ⟨𐑦𐑸𐑑𐑹𐑐𐑧𐑲𐑵⊙𐑫𐑳𐑭⟩   radical (open SOMO)  [⊡=𐑭 even — SOMO is the opened bond center]
   recombination (μ): K19_ray_class_field• + K19_ray_class_field• → K19_ray_class_field—K19_ray_class_field  — radical coupling re-pairs the SOMO (lossless).
   one electron instead (heterolytic / SET → radical ION): `./ask --set K19_ray_class_field <acceptor>`, or `--excite K19_ray_class_field`.
 ● TOOL scan reduced_character_orbit_computation norm_sieve_execution
 scan-mediators:  reduced_character_orbit_computation  ⟶e⁻⟶  norm_sieve_execution   (2873 holdable candidates over 5872 entries)
-  relay band ⊙∈[𐑢,⊙] (acceptor→donor);  hold band ◻∈[𐑴,𐑭] (accept then re-donate);  bind = complement recognizes both substrates
-  rank   score  relay  bind recog    ◻   ⊙  mediator
+  relay band ⊙∈[𐑢,⊙] (acceptor→donor);  hold band ⊡∈[𐑴,𐑭] (accept then re-donate);  bind = complement recognizes both substrates
+  rank   score  relay  bind recog    ⊡   ⊙  mediator
      1   0.944   1.00  0.86  1.00    𐑭   ⊙  colony_morphology
      2   0.942   1.00  0.85  1.00    𐑴   ⊙  extrapolation_93_units
      3   0.936   1.00  0.84  1.00    𐑭   ⊙  FTL_quantum_tunnel
@@ -310,16 +310,16 @@ crystallization (grow the ordered lattice from the pool; reject what will not fi
 catalytic cycle:  reduced_character_orbit_computation  ⟳  turning over  norm_sieve_execution
   bind (δ / CLINK): reduced_character_orbit_computation grips norm_sieve_execution — complement match d=0.264, binds, but weak recognition (> not bidirectional)
   working stroke (δ / SOLVE — dissolves the bond, reveals the degree of freedom: the winding quantum comes free): reductive — catalyst donates e⁻, substrate reduced
-    carrier   reduced_character_orbit_computation: ◻ 𐑭→𐑴  (spent → reduced_character_orbit_computation*)
-    substrate norm_sieve_execution: ◻ 𐑭→𐑟 + Coagula imprint on T↔H  (transformed → norm_sieve_execution‡)
+    carrier   reduced_character_orbit_computation: ⊡ 𐑭→𐑴  (spent → reduced_character_orbit_computation*)
+    substrate norm_sieve_execution: ⊡ 𐑭→𐑟 + Coagula imprint on T↔H  (transformed → norm_sieve_execution‡)
     reduced_character_orbit_computation*  ⟨𐑛𐑥𐑽𐑬𐑐𐑧𐑲𐑠⊙𐑖𐑕𐑴⟩
     norm_sieve_execution‡  ⟨𐑛𐑡𐑽𐑿𐑐𐑧𐑚𐑠𐑢𐑫𐑙𐑟⟩
-  return stroke (μ / COAGULA — binds the freed quantum into an invariant): reduced_character_orbit_computation* ◻ 𐑴→𐑭 — the catalyst coagulates back to itself (terminal redox restores the resting state).
+  return stroke (μ / COAGULA — binds the freed quantum into an invariant): reduced_character_orbit_computation* ⊡ 𐑴→𐑭 — the catalyst coagulates back to itself (terminal redox restores the resting state).
   turnover: net norm_sieve_execution → norm_sieve_execution‡ (one quantum delivered); reduced_character_orbit_computation returned unchanged — the catalyst is a FIXED POINT of the loop.
   two coagulations: the CATALYST binds back to the SAME invariant (regeneration, μ∘δ=id); the SUBSTRATE binds into a NEW invariant (norm_sieve_execution‡). Solve freed one quantum; Coagula placed it.
   the loop:  reduced_character_orbit_computation ─Solve(δ)→ reduced_character_orbit_computation* ─Coagula(μ)→ reduced_character_orbit_computation   ‖   norm_sieve_execution ──────→ norm_sieve_execution‡
 ● TOOL compute_meet reduced_character_orbit_computation norm_sieve_execution
-{"status": "ok", "operation": "meet", "name_a": "reduced_character_orbit_computation", "name_b": "norm_sieve_execution", "result_notation": "⟨⊢=𐑛; ⊣=𐑰; >=𐑽; <=𐑿; ⋈=𐑐; ⊤=𐑧; ∈=𐑚; ∋=𐑠; ⊙=𐑢; ⊥=𐑖; ⊞=𐑙; ◻=𐑭⟩", "shared_primitives": ["⊢", ">", "⋈", "⊤", "∋", "⊥", "◻"], "resolved_conflicts": [{"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": "<", "a": "𐑬", "b": "𐑿", "resolved": "𐑿"}, {"primitive": "∈", "a": "𐑲", "b": "𐑚", "resolved": "𐑚"}, {"primitive": "⊙", "a": "⊙", "b": "𐑢", "resolved": "𐑢"}, {"primitive": "⊞", "a": "𐑕", "b": "𐑙", "resolved": "𐑙"}], "interpretation": "Structural floor of reduced_character_orbit_computation ∧ norm_sieve_execution. 5 primitive(s) resolved to conservative value; 7 shared. These are the primitives both systems possess without qualification."}
+{"status": "ok", "operation": "meet", "name_a": "reduced_character_orbit_computation", "name_b": "norm_sieve_execution", "result_notation": "⟨⊢=𐑛; ⊣=𐑰; >=𐑽; <=𐑿; ⋈=𐑐; ⊤=𐑧; ∈=𐑚; ∋=𐑠; ⊙=𐑢; ⊥=𐑖; ⊞=𐑙; ⊡=𐑭⟩", "shared_primitives": ["⊢", ">", "⋈", "⊤", "∋", "⊥", "⊡"], "resolved_conflicts": [{"primitive": "⊣", "a": "𐑥", "b": "𐑰", "resolved": "𐑰"}, {"primitive": "<", "a": "𐑬", "b": "𐑿", "resolved": "𐑿"}, {"primitive": "∈", "a": "𐑲", "b": "𐑚", "resolved": "𐑚"}, {"primitive": "⊙", "a": "⊙", "b": "𐑢", "resolved": "𐑢"}, {"primitive": "⊞", "a": "𐑕", "b": "𐑙", "resolved": "𐑙"}], "interpretation": "Structural floor of reduced_character_orbit_computation ∧ norm_sieve_execution. 5 primitive(s) resolved to conservative value; 7 shared. These are the primitives both systems possess without qualification."}
 ● TOOL click ray_class_field_Qsqrt stark_unit_mixed_signature_open
 click-maths:  ray_class_field_Qsqrt  ⋈  stark_unit_mixed_signature_open   (θ=0.50)
   live-pair charges (norm(x) − norm(y), the spring-loaded axis):
@@ -327,7 +327,7 @@ click-maths:  ray_class_field_Qsqrt  ⋈  stark_unit_mixed_signature_open   (θ=
     T↔H    ray_class_field_Qsqrt= -0.42  stark_unit_mixed_signature_open= -0.75   Δ=0.33
     R↔S    ray_class_field_Qsqrt= -0.67  stark_unit_mixed_signature_open= +0.00   Δ=0.67
   ✓ CLICK on D↔W — spring-loaded Δ=0.67, single reaction center, closes.
-  product: ⟨𐑦𐑰𐑑𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑟⟩  (ring saturated on D↔W = ⊢↔◻)
+  product: ⟨𐑦𐑰𐑑𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑟⟩  (ring saturated on D↔W = ⊢↔⊡)
   inherited scaffold (blended from both partners): [>, <, ∋, ⊥, Σ]
 ● TOOL anneal reduced_character_orbit_computation norm_sieve_execution ray_class_field_Qsqrt fibonacci_anyon_o2
 anneal (relax the ring to its lowest-strain ordering):
@@ -424,7 +424,7 @@ However, the **kernel cardinality** remains **unverified** as 1024 (2873 candida
 
 #### 10. Compute Meet (Structural Floor) — **T (Established)**
 *   **Tool:** `compute_meet reduced_character_orbit_computation norm_sieve_execution`
-*   **Result:** ✓ **EXISTENCE**. 7 shared primitives (`⊢`, `>`, `⋈`, `⊤`, `∋`, `⊥`, `◻`).
+*   **Result:** ✓ **EXISTENCE**. 7 shared primitives (`⊢`, `>`, `⋈`, `⊤`, `∋`, `⊥`, `⊡`).
 *   **Verdict:** **T (Established)**.
 
 #### 11. Click (Portal) — **T (Established)**
@@ -452,7 +452,7 @@ However, the **kernel cardinality** remains **unverified** as 1024 (2873 candida
 | **[\⊣] Inverse Structure** | Dual decomposition | **T** | `cycle` = FIXED POINT. |
 | **[\>] Bidirectional Exhaust** | Forward/inverse | **T** | `arrange` + `forge` = CYCLIC. |
 | **[odot] Boundedness** | Confinement | **B** | `distill` = Azeotrope (tie at odot=0.25). |
-| **[◻] Topological Invariant** | Integer invariant | **T** | `forge` = ρ=2.0000. |
+| **[⊡] Topological Invariant** | Integer invariant | **T** | `forge` = ρ=2.0000. |
 | **[{textcyr{C}}] Regularity** | Equidistribution | **T** | `crystallize` = Clean crystal. |
 | **[Θ] Tower Ascent** | Ramified ascent | **B** | `excite` = Excited state. `ascend` unavailable. |
 
