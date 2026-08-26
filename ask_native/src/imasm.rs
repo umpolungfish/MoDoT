@@ -2509,6 +2509,20 @@ mod tests {
     }
 
     #[test]
+    fn pk_seed_sk_triangle_graphs() {
+        let seed = "⊞∋∋⊙⊣∈⊣⊥⊤⊞⊡≺≻⊤⊙⊞≻⊞≻⊙⊤⊙⊢≺∈⋈⋈≺≺≻∋⊞⊥⊙≻⊣⊥⊢∋⊥⊡∋⋈⊙⊡⊞⊙⊢⊞∈⊙∋⊙∈≻≻⊥⊞⋈⋈⊢⊞⊣⊡";
+        let priv_ = "⊞∈≻⋈⊢⊢⊢∈≺⊢⊡⊡≻⊙⊙∈⋈⊡⊡⋈≺≻⊞⊡⊣⊥⊡∋⊣⊢⊙⊢";
+        let pub_ = "≺≻⊞≺⊡⊙⊥⊥⋈≺≻⊤⊥⊢∋⊞≺∋⊢⊤⊡≺⋈≻≺⊙⊤⊡⊡≻⋈⊡⋈";
+        for (label, w) in [("seed", seed), ("privkey", priv_), ("pubkey", pub_)] {
+            for op in ["chain", "ring", "protocol"] {
+                let (title, g) = build_graph(op, &[w.to_string()]).expect("builds");
+                println!("=== {label} / {op} ===");
+                println!("{}", report(title, &g));
+            }
+        }
+    }
+
+    #[test]
     fn codon_word_round_trips() {
         // every opcode's code() re-parses to itself
         for t in [
