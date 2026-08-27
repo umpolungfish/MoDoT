@@ -10,7 +10,7 @@ read from the same partition of the d+1=13 SIC outcomes:
 - 8 outcomes → atmospheric: sin²θ₂₃ = (8/13)·cos²(arctan 1/4) = 128/221; the tilt
   16/17 is the SAME tilt that corrects α, not a new factor.
 - reactor: sin²θ₁₃ = 3/d² = 3/144 = 1/48 (phase-space suppressed).
-Formalized in `Imscribing/Millennium/SICFlavorPartition.lean`, 0 sorries, all inputs
+Formalized in `Imscribing/Millennium/SICFlavorPartition.lean`, *sans* sorry, all inputs
 reduce by `rfl` — no free parameters. `cabibbo_weinberg_identity` is the keystone.
 
 **QLC follows, it is not assumed.** θ₁₂ + θ_C = 46.68° against first-order π/4; the

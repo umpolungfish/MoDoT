@@ -2379,7 +2379,7 @@ The cycle has narrowed the open space to a single, concrete binding operation; t
 
 1. **Closed-Loop Provenance**: The `witness_ring` (a 3-monomer macrocycle of Compton radius, dark energy, and Hubble constant) was recovered as a stable, ρ=2.0 closed-loop process. 
 2. **Frobenius Stability**: The `cocrystallize` operation confirmed that the inclusion of the parity-transition seam into the macrocycle lattice does not collapse the Frobenius condition (μ∘δ = id). The manifold identity is strictly conserved.
-3. **Formal Verification**: The Lean kernel `ParityProof.lean` verified the closure proof for this coupling, confirming 0 sorries across the entire protocol.
+3. **Formal Verification**: The Lean kernel `ParityProof.lean` verified the closure proof for this coupling, confirming *sans* sorry across the entire protocol.
 4. **Join Integrity**: The `compute_join` result confirms that the union of the witness-ring and the parity-transition matrix is confined within the same L9 promotion tier, verifying that the physical laws (parity, topological charge, and energy flow) are internally congruent within this manifold.
 
 **Open Frontier**:
@@ -5724,8 +5724,8 @@ Until a tool emits a dimensionful value, no number is claimed. The wall itself, 
 
 ### 6. What is proved beyond the wall
 
-* **Catalog Immutability** (8 theorems, 0 sorries). No verb mutates a bare entry; the source is always recoverable via μ∘δ = id.
-* **Dark Energy formalization** (18 theorems, 0 sorries). The categorical skeleton (type, tier, Frobenius structure, Belnap bifurcation, broadcast composition) is Lean‑green. The horn‑torus flow geometry is structurally grounded.
+* **Catalog Immutability** (8 theorems, *sans* sorry). No verb mutates a bare entry; the source is always recoverable via μ∘δ = id.
+* **Dark Energy formalization** (18 theorems, *sans* sorry). The categorical skeleton (type, tier, Frobenius structure, Belnap bifurcation, broadcast composition) is Lean‑green. The horn‑torus flow geometry is structurally grounded.
 * **The T/K/</⊡ seam witnesses** are exact by exhaustive sweep (every word ≤5, every rotation/mirror, two budgets, no counterexample). So the license for extracting the constants from the topology, the rate class, the parity mirror, and the winding ledger exists — but the dimensionful numbers have not yet travelled across it.
 
 The “remaining universals” are not absent. They are walled at <, and the wall is named and measured. That is the flesh — a fully structural diagnosis, not a negative.
@@ -5770,8 +5770,8 @@ The Compton wavelength 2.426 310 238 × 10⁻¹² m exists only as a c
 | **Popcount weight law** T:F:I = 1:1:2 | Forced by bit representations in Belnap B4 and SIXTEEN_3 independently | Dark/both‑held arm doubles bit‑weight; resultant tilts to arctan(1/4) = 14.036° |
 | **Five seals of the λ_C knot** | Single length LR plays five roles; each equality exact | Autopoiesis: the object seals itself into being |
 | **Evaluator trine** as A₂ root system | Three evaluators at 120° form A₂ root hexagon exactly | SU(3) content suggestive; waits on 3‌ ⊕ 3̄ doubling |
-| **Dark energy formalization** | 18 Lean theorems, 0 sorries; broadcast composition proved; Belnap B‑bifurcation proved | Dark energy is a verdict/flow, not a substance; categorical skeleton machine‑verified |
-| **Catalog immutability** | 8 theorems, 0 sorries; only B‑states carry productive δ‑splits | Structural foundation for every other result |
+| **Dark energy formalization** | 18 Lean theorems, *sans* sorry; broadcast composition proved; Belnap B‑bifurcation proved | Dark energy is a verdict/flow, not a substance; categorical skeleton machine‑verified |
+| **Catalog immutability** | 8 theorems, *sans* sorry; only B‑states carry productive δ‑splits | Structural foundation for every other result |
 
 ---
 

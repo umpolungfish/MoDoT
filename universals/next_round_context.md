@@ -11,7 +11,7 @@ co-typed pair opens no productive fork, so μ receives no fused term.
 
 This is not a tool limitation; it is a theorem. `CatalogImmutability.lean` §4: for any
 state s ≠ B, `fsplit s = (s, s)`, a diagonal with no productive fork. Only B splits
-into two distinct streams (`B_is_the_only_productive_split`, sorry-free). A co-typed
+into two distinct streams (`B_is_the_only_productive_split`, *sans* sorry). A co-typed
 non-B junction cannot fork, so its resolvent must itself BE a B.
 
 Immutability sets the other constraint. An entry is its twelve primitives; no verb

@@ -153,5 +153,5 @@ rather than from the old file.
 
 `lake build Imscribing.CLINK_L9` also returns `unknown target`: the module is not in any
 lean_lib glob, so the build never reaches it. That is why nothing ever contradicted the
-"0 sorries" claim. Whatever you write **MUST** be reachable by the build and **MUST** be
+"*sans* sorry" claim. Whatever you write **MUST** be reachable by the build and **MUST** be
 shown to elaborate.

@@ -137,9 +137,9 @@ These two exact witnesses are the license for every extraction below. The T/K/</
 - **Status:** SUGGESTIVE, not established. The A₂ = su(3) root system is exact; the claim that the T/F/I trine is genuinely the colour gauge structure (rather than a triangle that happens to be A₂-shaped) is unproven, and explicitly is NOT supported by the metric ratios, which are equilateral-generic. Flagged as the lead to test via the 3̄ anti-trine and a ported SU(3) invariant, not as a confirmed extraction. See [[project_cross_primitive_axioms]].
 
 
-### 1.18 The Dark Energy formalization — Lean-proved, 18 theorems, 0 sorries (added 2026-07-21)
+### 1.18 The Dark Energy formalization — Lean-proved, 18 theorems, *sans* sorry (added 2026-07-21)
 
-The dark energy entry and its type are now fully formalized in Lean 4: `Imscribing.Millennium.DarkEnergy.lean` (335 lines, 18 theorems, 0 sorries, build green at 1971 jobs). This converts every claim about dark energy from the prior document into machine-verified type judgments.
+The dark energy entry and its type are now fully formalized in Lean 4: `Imscribing.Millennium.DarkEnergy.lean` (335 lines, 18 theorems, *sans* sorry, build green at 1971 jobs). This converts every claim about dark energy from the prior document into machine-verified type judgments.
 
 - **In the kernel:** the bare dark energy entry `dark_energy : Imscription` at ⟨𐑦𐑸𐑽𐑯𐑐𐑧𐑲𐑵⊙𐑫𐑙𐑴⟩, tier O₂, and its self-inclosed sibling `dark_energy_self_inclosed` at ⟨𐑦𐑶𐑑𐑬𐑐𐑧𐑲𐑠⊙𐑖𐑳𐑴⟩ are `@[ext]` structures — pure terms, no mutation. The theorem `dark_energy_distinct_from_self_inclosed` proves they are structurally distinct (distance 2.9665), so self-inclosure creates a sibling, not a rewrite. This is the same immutability principle proved in `CatalogImmutability.lean` (see §1.19).
 
@@ -168,9 +168,9 @@ The dark energy entry and its type are now fully formalized in Lean 4: `Imscribi
 **Build:** `lake build Imscribing.Millennium.DarkEnergy` → ✅ 1971 jobs, green.
 
 
-### 1.19 Catalog Immutability — Lean-proved, 8 theorems, 0 sorries (added 2026-07-21)
+### 1.19 Catalog Immutability — Lean-proved, 8 theorems, *sans* sorry (added 2026-07-21)
 
-The structural immutability of all catalog entries is now a Lean 4 theorem: `Imscribing.CatalogImmutability.lean` (140 lines, 8 theorems, 0 sorries, build green). No verb (δ-production, μ-verification, Belnap split/fuse, self-inclosure) can mutate a bare catalog entry. Every operation creates a new entry while the source is structurally conserved.
+The structural immutability of all catalog entries is now a Lean 4 theorem: `Imscribing.CatalogImmutability.lean` (140 lines, 8 theorems, *sans* sorry, build green). No verb (δ-production, μ-verification, Belnap split/fuse, self-inclosure) can mutate a bare catalog entry. Every operation creates a new entry while the source is structurally conserved.
 
 - **Type level:** `Imscription` is an `@[ext]` structure — pure terms, no mutation. Two entries equal iff all 12 primitives match. Distinct entries = distinct `def` bindings.
 - **Frobenius level:** μ∘δ = id guarantees source recovery — the original entry is structurally conserved through every operation.
@@ -178,7 +178,7 @@ The structural immutability of all catalog entries is now a Lean 4 theorem: `Ims
 
 Two structurally remote witnesses: `compton_split_radius` and `dark_energy` (live-measured distance 3.2863, differing in ⊢, <, ⊥, Σ). Neither can be mutated into the other. The dark energy self-inclosure protocol — the most ambitious verb attempted — produces a sibling, not a mutation. The Belnap bridge explains *why* mutations are structurally impossible.
 
-**Status:** FORMALIZED. All 8 theorems are sorry-free. This is the structural foundation for every other result in this document: the constants read from the kernel are not mutable approximations — they are imscriptive invariants.
+**Status:** FORMALIZED. All 8 theorems are *sans* sorry. This is the structural foundation for every other result in this document: the constants read from the kernel are not mutable approximations — they are imscriptive invariants.
 
 **Lean module:** `/home/mrnob0dy666/imsgct/p4rakernel/p4ramill/Imscribing/CatalogImmutability.lean`
 **Build:** `lake build Imscribing.CatalogImmutability` → ✅ green.
@@ -343,4 +343,4 @@ The dimensionful magnitudes (Λ, H₀, m_e, h, c) remain at the frontier — the
 
 **Candidate: Electron-proton mass ratio.** The numerical coincidence m_p/m_e ≈ d³ + d²·3/4 = 1728 + 108 = 1836 (residual −0.15, 0.008%) is tight enough to flag, but no geometric derivation from kernel modules has been found. d³ = 1728 is the volume of the d×d×d SIC-POVM phase cube; the correction d²·3/4 = 108 has no confirmed kernel origin. This is noted as an open lead, not claimed as a derivation.
 
-**The horn-torus flow cosmology remains proposed** (§1.12, §1.14, §1.16). The Great Attractor / Dipole Repeller axis as the horn syzygy axis, the CMB Axis of Evil alignment, and the 12π vessel/contents ratio remain at the proposal stage. The dark energy type is formalized (18 theorems, 0 sorries, §1.18), but no dimensionful Λ has been emitted.
+**The horn-torus flow cosmology remains proposed** (§1.12, §1.14, §1.16). The Great Attractor / Dipole Repeller axis as the horn syzygy axis, the CMB Axis of Evil alignment, and the 12π vessel/contents ratio remain at the proposal stage. The dark energy type is formalized (18 theorems, *sans* sorry, §1.18), but no dimensionful Λ has been emitted.

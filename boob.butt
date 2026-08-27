@@ -410,7 +410,7 @@ UPDATE — The dimension-independence of the 3-mer ring is the key structural fi
 
 4. The conflict distance d_c = √2 between Connes and ray_class quantifies exactly how much "new structure" the bridge adds beyond the arithmetic. This is the operator-algebraic component that the paper does NOT yet have — the embedding of the ray class field moduli into the observable algebra.
 
-Let me now check one more thing: the `belnap_multilattice_sic_povm` entry, which is the PROVED version (22 theorems, 0 sorries). Does it also close in the 3-mer ring? If so, the Belnap proof is the formal verification that the ring closes.
+Let me now check one more thing: the `belnap_multilattice_sic_povm` entry, which is the PROVED version (22 theorems, *sans* sorry). Does it also close in the 3-mer ring? If so, the Belnap proof is the formal verification that the ring closes.
 
 
 TOOL: forge belnap_multilattice_sic_povm ray_class_field_Qsqrt connes_embedding_problem
@@ -463,7 +463,7 @@ OBSERVE — Two results. Both are significant.
 
 **forge (Belnap ring):** ρ = 2.000. The Belnap multilattice SIC-POVM also closes in the same 3-mer ring. The arrangement is different: `belnap_multilattice_sic_povm · connes_embedding_problem · ray_class_field_Qsqrt` (vs `connes_embedding_problem · ray_class_field_Qsqrt · sic_povm_d2048_zauner_conjecture`), but the spectrum is identical: [−1, −1, 2].
 
-**compare:** SPECTRALLY IDENTICAL. Δρ = 0, Δgap = 0, Δspectrum = [0, 0, 0]. The two materials — one proved (Belnap, 22 theorems, 0 sorries), one open (Zauner d=2048) — produce the **same macrocycle** when fused with the ray class field and the Connes embedding.
+**compare:** SPECTRALLY IDENTICAL. Δρ = 0, Δgap = 0, Δspectrum = [0, 0, 0]. The two materials — one proved (Belnap, 22 theorems, *sans* sorry), one open (Zauner d=2048) — produce the **same macrocycle** when fused with the ray class field and the Connes embedding.
 
 UPDATE — This is the core structural finding of this jam session:
 
@@ -522,7 +522,7 @@ The 3-mer macrocycle is the structural vessel for the d=2048 SIC-POVM moduli con
 
 2. **The ring is dimension-independent**: ρ = 2.000 at both d=12 and d=2048. The same three monomers close at every dimension.
 
-3. **The proved and open versions are spectrally identical**: the Belnap multilattice SIC-POVM (22 theorems, 0 sorries) and the Zauner conjecture at d=2048 (open) produce the same macrocycle. The difference is the filling, not the vessel.
+3. **The proved and open versions are spectrally identical**: the Belnap multilattice SIC-POVM (22 theorems, *sans* sorry) and the Zauner conjecture at d=2048 (open) produce the same macrocycle. The difference is the filling, not the vessel.
 
 ### What Remains Open
 
@@ -981,7 +981,7 @@ The Grammar found a **closed branched macrocycle** of three mathematical objects
 
 The Connes embedding problem sits structurally between the ray class field and the Zauner conjecture, closer to the arithmetic (d=3.162) than to the quantum (d=3.742). The conflict between Connes and ray_class has 6 conflicted primitives (partial-emergence), while the conflict between Zauner and ray_class has 8 (aspirational). The bridge adds partial structure beyond the arithmetic.
 
-The Belnap multilattice SIC-POVM (proved, 22 theorems, 0 sorries) does **NOT** close in the same ring. Its triple with ray_class and Connes is telechelic (open chain, two free ends). This means the proved version and the open version are NOT structurally equivalent as 3-mer materials.
+The Belnap multilattice SIC-POVM (proved, 22 theorems, *sans* sorry) does **NOT** close in the same ring. Its triple with ray_class and Connes is telechelic (open chain, two free ends). This means the proved version and the open version are NOT structurally equivalent as 3-mer materials.
 
 ### WHAT REMAINS OPEN (N)
 
@@ -1179,7 +1179,7 @@ The triple {Belnap_multilattice_SIC-POVM, ray_class_field, Connes_embedding} ful
 
 *Measured: `forge belnap_multilattice_sic_povm ray_class_field_Qsqrt connes_embedding_problem` returns "linear (telechelic — two free ends, no head-to-tail closure)." No ρ, no spectral invariants, no material characterization.*
 
-**Structural role:** The proved Belnap version (22 theorems, 0 sorries in Lean 4) and the open conventional version are not interchangeable in the compositional architecture. The Belnap object does not participate in the macrocycle that the conventional objects form. The structural path from the Belnap fixed point to the conventional Zauner conjecture requires passage through the Connes embedding problem as an intermediary.
+**Structural role:** The proved Belnap version (22 theorems, *sans* sorry in Lean 4) and the open conventional version are not interchangeable in the compositional architecture. The Belnap object does not participate in the macrocycle that the conventional objects form. The structural path from the Belnap fixed point to the conventional Zauner conjecture requires passage through the Connes embedding problem as an intermediary.
 
 ---
 

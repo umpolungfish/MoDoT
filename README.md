@@ -1041,7 +1041,7 @@ python3 momonados_agent.py --ask ./questions/q7.txt
 ## Lean 4 Formal Verification
 
 Companion Lean files in `lean/`:
-- **SemanticBranchVerifier.lean** — Built and verified (0 sorries) with `lake build Imscribing.Millennium.SemanticBranchVerifier`
+- **SemanticBranchVerifier.lean** — Built and verified (*sans* sorry) with `lake build Imscribing.Millennium.SemanticBranchVerifier`
 - **ErdosProblems.lean** — 18 sections, 46 definitions/theorems covering Ramsey asymptotics, Erdős polynom kernel divergence, unit distance, difference sets, and Pomerance asymptotic divergence
 
 ## Requirements
