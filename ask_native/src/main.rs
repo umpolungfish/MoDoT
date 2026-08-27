@@ -440,6 +440,15 @@ struct Cli {
     #[arg(long = "imasm", num_args = 1.., value_names = ["OP_AND_ARGS"])]
     imasm: Vec<String>,
 
+    /// `--lean <path.lean>` elaborates a Lean file and reports the kernel's errors — a
+    /// different question from `--lean audit`, which compiles every module's generated C to
+    /// a real ELF and asks vox to read the compiled MACHINE CODE's own control-flow census
+    /// (see p4ramill/scripts/vox_elf_audit.sh's own header: the two do not merge into one
+    /// report). `--lean audit repair` additionally decomposes and repairs, via mOMonadOS's
+    /// `insert`, every function vox itself calls B or F.
+    #[arg(long = "lean", num_args = 1.., value_names = ["PATH_OR_AUDIT"])]
+    lean: Vec<String>,
+
     /// Evaluate a numeric expression exactly: `--calc <expr>`. The arithmetic lane — every
     /// number the agent speaks routes through here, since a slipped exponent reads exactly
     /// like a correct one. Results echo in scientific form always. Pure computation.
@@ -4587,9 +4596,22 @@ fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
         return Some(run_gp(&args.join(" ")));
     }
     if verb == "lean" {
+        // `lean audit [repair]` is a different question from bare `lean <path>`:
+        // elaboration checks the KERNEL accepts the declarations; audit compiles
+        // the generated C to a real ELF and asks vox to read the MACHINE CODE's
+        // own control-flow census — the two do not merge into one report (see
+        // vox_elf_audit.sh's own header). `repair` additionally extracts every
+        // flagged function's word, decomposes it mark by mark, and runs it
+        // through mOMonadOS's `insert` for single-glyph repairs.
+        if a(0).as_deref() == Some("audit") {
+            let repair = a(1).as_deref() == Some("repair");
+            return Some(run_lean_audit(repair));
+        }
         let Some(path) = a(0) else {
             return Some(
-                "lean needs a file: TOOL: lean <path.lean> — elaborates it and reports the kernel's errors.\n"
+                "lean needs a file: TOOL: lean <path.lean> — elaborates it and reports the kernel's errors.\n\
+                 lean audit [repair] — compile every Lean module to a real ELF and vox-audit it \
+                 (add `repair` to also decompose and repair every flagged function's word).\n"
                     .into(),
             );
         };
@@ -5093,7 +5115,10 @@ fn verb_usage(verb: &str) -> Option<&'static str> {
         "cycle"      => "cycle C S; 2 names (catalyst substrate)",
         "pathway"    => "pathway S C1 C2...; 2+ names",
         "polymerize" => "polymerize M1 M2...; 2+ names to chain",
-        "lean" => "lean <path.lean>; elaborate a Lean file and report the kernel's errors",
+        "lean" => "lean <path.lean>; elaborate a Lean file and report the kernel's errors. \
+lean audit [repair]; compile every Lean module's generated C to a real ELF and vox-audit the \
+compiled machine code (a different question from elaboration — see vox_elf_audit.sh's own header); \
+`repair` additionally decomposes and repairs every flagged function's word via mOMonadOS's insert",
         "gp" => "gp <expression>; evaluate PARI/GP — the class-field / L-function lane. Every \
 number it returns is computed by PARI, not asserted. Routines: bnfinit(pol,1) build a number \
 field; bnrinit(bnf,mod,1) a ray class group (mod = [N,[1,1]] ramifies both archimedean places); \
@@ -5776,6 +5801,41 @@ fn run_lean_elaborate(path: &str) -> String {
             body.trim()
         )
     }
+}
+
+/// `lean audit [repair]` — the general procedure: compile every Lean module's
+/// generated C to a real ELF (`lake build` must already have produced
+/// `.lake/build/ir/*.c`), sweep the result through vox's binary control-flow
+/// auditor, and — with `repair` — for every function vox itself calls B or F,
+/// extract its own word, decompose it mark by mark, and run it through
+/// mOMonadOS's `insert` for single-glyph repairs. Shells to
+/// p4ramill/scripts/vox_elf_audit.sh, which is the one place this compile step
+/// is implemented; this is a thin, documented front door onto it, not a second
+/// copy of its logic.
+fn run_lean_audit(repair: bool) -> String {
+    let mill = std::path::Path::new("/home/mrnob0dy666/imsgct/p4rakernel/p4ramill");
+    let script = mill.join("scripts/vox_elf_audit.sh");
+    if !script.is_file() {
+        return format!(
+            "lean audit: script not found at {}. This is the compile-then-vox pipeline; \
+             nothing here reimplements it.\n",
+            script.display()
+        );
+    }
+    let mut cmd = process::Command::new("bash");
+    cmd.arg(&script).current_dir(mill);
+    if repair {
+        cmd.env("VOX_AUDIT_REPAIR", "1");
+    }
+    let out = match cmd.output() {
+        Ok(o) => o,
+        Err(e) => return format!("lean audit: could not run vox_elf_audit.sh ({e}).\n"),
+    };
+    format!(
+        "{}{}",
+        String::from_utf8_lossy(&out.stdout),
+        String::from_utf8_lossy(&out.stderr)
+    )
 }
 
 /// Bare atomic names (a single digit, a common symbol, a closed-class function word) that a
@@ -7564,6 +7624,7 @@ impl CliClone for Cli {
             no_think: self.no_think,
             star: self.star.clone(),
             imasm: self.imasm.clone(),
+            lean: self.lean.clone(),
             calc: self.calc.clone(),
             ringspec: self.ringspec.clone(),
             rotat: self.rotat.clone(),
@@ -8037,6 +8098,17 @@ fn main() {
     // IMASM polymer composition: `./ask --imasm <op> …` — pure computation, no catalog.
     if !cli.imasm.is_empty() {
         print!("{}", imasm::run(&cli.imasm));
+        process::exit(0);
+    }
+
+    // `./ask --lean <path.lean>` (elaborate) or `./ask --lean audit [repair]` (compile to a
+    // real ELF, vox-audit the machine code, optionally repair every flagged function) — the
+    // same "lean"/"lean audit" verb an agent reaches via TOOL:, exposed directly to a human.
+    if !cli.lean.is_empty() {
+        match run_structural_tool("lean", &cli.lean) {
+            Some(o) => print!("{o}"),
+            None => println!("lean: no output."),
+        }
         process::exit(0);
     }
 

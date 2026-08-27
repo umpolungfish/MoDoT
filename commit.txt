@@ -1,16 +1,19 @@
-Rebuild ask.bin: it was four days stale, from before the ⊡ rename
+Give ask its own --lean audit [repair], the general Lean-to-ELF procedure
 
-The ? showing up in place of the winding value on sk_forge, skolem_function
-and skolem_normal_form's tuples wasn't a source bug. The catalog has always
-carried the right key and value for all three, checked byte for byte in both
-copies plus the live-crawler one. click.rs already has the fix, it's the same
-commit that swapped the old mark for ⊡ across the repo.
+The compile-then-vox-then-repair pipeline already existed as a p4ramill
+shell script most people would never think to go looking for. `lean`/`lean
+audit` were also only reachable through the agent's own TOOL: line parser,
+never as something a person could type at the prompt.
 
-ask.bin, the actual binary every ./ask wrapper script in the tree execs, was
-built four days before that rename landed. It still carried the old glyph in
-its compiled-in primitive table, so it looked up the wrong key against the
-now-renamed catalog and got nothing back for the winding axis, which broke
-more than the display: the missing value took out the D-W live-pair charge,
-so the click logic reported no bond where a fresh build correctly finds a
-cross-link. Rebuilt from current source and confirmed clean through the top-
-level ./ask wrapper.
+`ask --lean <path.lean>` still elaborates and reports the kernel's errors.
+`ask --lean audit` now shells straight to the (just-extended)
+vox_elf_audit.sh: compile every module's generated C to a real ELF, vox-read
+the compiled machine code's own control-flow census. `ask --lean audit
+repair` adds the rest of the general procedure in one call: for every
+function vox itself flags B or F, decompose its word mark by mark and run it
+through mOMonadOS's insert for single-glyph repairs.
+
+Registered as a real --lean flag (--imasm already had one, --lean never
+did), so this is reachable directly, not only from inside an agent run.
+Rebuilt ask.bin so the deployed ./ask wrapper carries it too, the same gap
+the ⊡ rename left behind for the wrapper earlier this session.
