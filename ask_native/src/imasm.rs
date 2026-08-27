@@ -470,7 +470,8 @@ fn report(title: &str, g: &Graph) -> String {
     let mut s = String::new();
     let _ = writeln!(s, "IMASM {title}");
     let _ = writeln!(s, "  program: {}", g.program_str());
-    let _ = writeln!(s, "  code: {}", g.code_str());
+    let word = g.code_str();
+    let _ = writeln!(s, "  code: {}", word);
     let _ = writeln!(s, "{}", g.classify());
     let errs = g.validate();
     if errs.is_empty() {
@@ -495,6 +496,16 @@ fn report(title: &str, g: &Graph) -> String {
              protocol does NOT close by looping back to VINIT (a source) — it closes at the fuse."
         );
     }
+    // The above is the GRAPH question: does this wiring close (μ∘δ over how title wired
+    // it). The word instruments below ask a different question of the SAME code string
+    // read linearly, regardless of how it got wired: where the weight moves, whether a
+    // clear banks before a reversal, what a full ROTAT turn looks like, and whether any
+    // single glyph repairs it. Two questions, not two readings of one answer.
+    let _ = writeln!(s, "\n  -- word instruments, the code read linearly --");
+    let _ = write!(s, "{}", imasm_core::lattice_flow::weight_report(&word));
+    let _ = write!(s, "{}", imasm_core::lattice_flow::banked_report(&word));
+    let _ = write!(s, "{}", imasm_core::lattice_flow::cycle_report(&word));
+    let _ = write!(s, "{}", imasm_core::lattice_flow::insert_report(&word));
     s
 }
 
@@ -1149,6 +1160,11 @@ fn write_verb(rest: &[String]) -> String {
         "{} opcodes. `imasm derive word=…` reads it back.",
         word.chars().count()
     );
+    let _ = writeln!(out, "\n  -- word instruments, run on the word above --");
+    let _ = write!(out, "{}", imasm_core::lattice_flow::weight_report(&word));
+    let _ = write!(out, "{}", imasm_core::lattice_flow::banked_report(&word));
+    let _ = write!(out, "{}", imasm_core::lattice_flow::cycle_report(&word));
+    let _ = write!(out, "{}", imasm_core::lattice_flow::insert_report(&word));
     out
 }
 
