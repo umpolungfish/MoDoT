@@ -411,13 +411,34 @@ pub fn banked_report(word: &str) -> String {
     out
 }
 
-/// Every single-glyph insertion that turns an exposed word into one that holds.
-///
-/// A word that loses weight is not usually rewritten; it is repaired, and the
-/// repair is almost always one glyph in the right place. Rather than reason
-/// about which, this walks all twelve glyphs at every position and reports the
-/// ones that hold. The search is small -- twelve times length-plus-one -- and
-/// exact, so there is nothing to infer.
+/// A candidate must hold on the weight instrument AND still close on the
+/// tri-ancestral instrument. These are two different questions
+/// (`law_an_instrument_is_a_question`): `banked_walk` asks whether weight
+/// cleared in the open, `tri_ancestral_word_verdict` asks whether the
+/// fork/fuse pairing itself still closes over real work. A candidate that
+/// fixes the first can break the second -- concretely, inserting an
+/// unpaired `∈` or `∋` fixes banked exposure by giving the walk somewhere
+/// new to deposit, while leaving a fork or fuse dangling, which flips the
+/// tri-ancestral verdict from T to B or F. `insert_report`/`repair_count`
+/// used to check only `banked_walk`, and a candidate that broke tri-ancestral
+/// closure this way still printed as "holds" -- caught live, not by
+/// inspection, checking a real repair candidate against both instruments
+/// before building anything on it.
+pub fn candidate_holds(cand: &str) -> bool {
+    match banked_walk(cand) {
+        Some(b) if b.holds() => {}
+        _ => return false,
+    }
+    tri_ancestral_word_verdict(cand) == Some('T')
+}
+
+/// Every single-glyph insertion that turns an exposed word into one that
+/// both holds (banked) and still closes (tri-ancestral T). A word that
+/// loses weight is not usually rewritten; it is repaired, and the repair
+/// is almost always one glyph in the right place. Rather than reason
+/// about which, this walks all twelve glyphs at every position and reports
+/// the ones that pass both checks. The search is small -- twelve times
+/// length-plus-one -- and exact, so there is nothing to infer.
 pub fn insert_report(word: &str) -> String {
     let mut out = String::new();
     let steps = parse_glyph_word(&normalize(word));
@@ -456,19 +477,17 @@ pub fn insert_report(word: &str) -> String {
             if pos == n { cand.push(*g); }
             if seen.iter().any(|w| w == &cand) { continue; }
             tried += 1;
-            if let Some(b) = banked_walk(&cand) {
-                if b.holds() {
-                    sw!(out, "    {} at {:>2}   {}", g, pos, cand);
-                    seen.push(cand);
-                }
+            if candidate_holds(&cand) {
+                sw!(out, "    {} at {:>2}   {}", g, pos, cand);
+                seen.push(cand);
             }
         }
     }
     let found = seen.len();
     if found == 0 {
-        sw!(out, "    none — no single glyph repairs this word");
+        sw!(out, "    none — no single glyph repairs this word without breaking tri-ancestral closure");
     } else {
-        sw!(out, "  {} distinct word(s) hold, of {} tried", found, tried);
+        sw!(out, "  {} distinct word(s) hold (banked AND tri-ancestral T), of {} tried", found, tried);
     }
     out
 }
@@ -488,9 +507,7 @@ pub fn repair_count(base: &str) -> usize {
             }
             if pos == n { cand.push(*g); }
             if seen.iter().any(|w| w == &cand) { continue; }
-            if let Some(b) = banked_walk(&cand) {
-                if b.holds() { seen.push(cand); }
-            }
+            if candidate_holds(&cand) { seen.push(cand); }
         }
     }
     seen.len()
