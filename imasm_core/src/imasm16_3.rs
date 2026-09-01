@@ -223,6 +223,19 @@ impl Reg16_3 {
         Reg16_3 { big_t: self.big_f, big_f: self.big_t, small_t: self.small_f, small_f: self.small_t }
     }
 
+    /// ENGAGR (⊞) — the house name for what this file's own interpreter
+    /// step calls EVALI: pins both information-axis lanes true, leaving
+    /// the truth-axis lanes exactly as they were. `touch()`'s inline call
+    /// (`self.union(Reg16_3 { small_t: true, small_f: true, ..none })`) is
+    /// this same operation, extracted here as a first-class gate rather
+    /// than left buried in one interpreter match arm -- the paraconsistency
+    /// operator: after ENGAGR, the register unconditionally carries a live,
+    /// held contradiction on the information layer, whatever it carried
+    /// before.
+    pub fn engagr(self) -> Reg16_3 {
+        Reg16_3 { small_t: true, small_f: true, ..self }
+    }
+
     /// FOUR sits inside SIXTEEN_3 as the classical pair {T, F}: N={}, T={T},
     /// F={F}, B={T,F}. Render this value as its FOUR name when it lives in that
     /// slice; a value touching t/f has left the slice and keeps its 16_3 name.
