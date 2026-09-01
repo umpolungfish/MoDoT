@@ -1,13 +1,11 @@
-candidate_holds checked only two instruments, banked_walk and
-tri_ancestral_word_verdict. Found the gap live: gpu_native_build_of_momonados's
-own repaired protocol word passes both of those but its repair (inserting VINIT
-between ENGAGR and FFUSE) gives a zero-in-arity token a predecessor, which
-check::word_verdict's Graph::validate() actually forbids. Neither of the two
-instruments the search already used asks about arity at all, so the bad
-candidate sailed through as "holds." Added the third check: candidate_holds
-now also builds the real protocol graph via check::from_sequence and requires
-validate() to come back empty. A closure that legitimately reads B (ENGAGR
-held, or a fork left open under check's own linear stack pairing) still
-passes -- only an actual grammar violation disqualifies a candidate now.
-New example, check_errors.rs, since nothing in this crate printed
-Graph::validate()'s error list on its own before this.
+Added Reg16_3::engagr, the house-named ENGAGR (⊞) gate as a first-class
+method: pins both information-axis lanes true, leaves the truth-axis
+lanes untouched. This file's own interpreter step already computed
+exactly this (Evali's inline self.touch(Reg16_3{small_t:true,small_f:
+true,..none}, Axis::I)) but only as one match arm buried in a private
+method, under this file's own local name for the token, Evali, which
+never matched the canonical name (classic.rs's Token::Engagr) the rest
+of the codebase uses. Extracted it as a real, reusable, correctly-named
+gate rather than leave it undiscoverable and privately named. Every
+other Reg16_3 gate already had one; this was the one real opcode with no
+public function of its own.
