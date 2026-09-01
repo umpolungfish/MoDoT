@@ -411,25 +411,44 @@ pub fn banked_report(word: &str) -> String {
     out
 }
 
-/// A candidate must hold on the weight instrument AND still close on the
-/// tri-ancestral instrument. These are two different questions
-/// (`law_an_instrument_is_a_question`): `banked_walk` asks whether weight
-/// cleared in the open, `tri_ancestral_word_verdict` asks whether the
-/// fork/fuse pairing itself still closes over real work. A candidate that
-/// fixes the first can break the second -- concretely, inserting an
-/// unpaired `∈` or `∋` fixes banked exposure by giving the walk somewhere
-/// new to deposit, while leaving a fork or fuse dangling, which flips the
-/// tri-ancestral verdict from T to B or F. `insert_report`/`repair_count`
-/// used to check only `banked_walk`, and a candidate that broke tri-ancestral
-/// closure this way still printed as "holds" -- caught live, not by
-/// inspection, checking a real repair candidate against both instruments
-/// before building anything on it.
+/// A candidate must hold on THREE different instruments, not two.
+/// `banked_walk` asks whether weight cleared in the open. `tri_ancestral_word_verdict`
+/// asks whether the fork/fuse pairing closes over real work. Neither of
+/// those asks whether the wiring itself is legal -- `check::word_verdict`'s
+/// `Graph::validate()` does, and a candidate can pass the first two while
+/// failing it. Caught live on gpu_native_build_of_momonados's own repaired
+/// word: inserting `⊢` (VINIT, zero in-arity by contract) between `⊞` and
+/// `∋` fixed the fork/fuse count for tri-ancestral, but the chain gives that
+/// node an in-edge from `⊞` regardless, which `validate()` flags as
+/// "in-degree 1 > arity_in 0" -- a real grammar violation the first two
+/// instruments cannot see, because neither of them asks about arity.
+/// `insert_report`/`repair_count` used to accept that candidate as holding.
+/// A closure carrying `⊞` legitimately reads B on `check` (paradox held,
+/// not a clean T) -- that is not a failure here, only F (validate() non-empty)
+/// disqualifies a candidate.
 pub fn candidate_holds(cand: &str) -> bool {
     match banked_walk(cand) {
         Some(b) if b.holds() => {}
         _ => return false,
     }
-    tri_ancestral_word_verdict(cand) == Some('T')
+    if tri_ancestral_word_verdict(cand) != Some('T') {
+        return false;
+    }
+    let tokens: Option<Vec<crate::classic::Token>> = cand
+        .chars()
+        .map(|c| {
+            let mut buf = [0u8; 4];
+            crate::classic::Token::parse(c.encode_utf8(&mut buf))
+        })
+        .collect();
+    match tokens {
+        Some(toks) => {
+            let pairs = crate::check::match_pairs(&toks);
+            let g = crate::check::from_sequence(&toks, &pairs);
+            g.validate().is_empty()
+        }
+        None => false,
+    }
 }
 
 /// Every single-glyph insertion that turns an exposed word into one that

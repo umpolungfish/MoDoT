@@ -1,19 +1,13 @@
-Give ask its own --lean audit [repair], the general Lean-to-ELF procedure
-
-The compile-then-vox-then-repair pipeline already existed as a p4ramill
-shell script most people would never think to go looking for. `lean`/`lean
-audit` were also only reachable through the agent's own TOOL: line parser,
-never as something a person could type at the prompt.
-
-`ask --lean <path.lean>` still elaborates and reports the kernel's errors.
-`ask --lean audit` now shells straight to the (just-extended)
-vox_elf_audit.sh: compile every module's generated C to a real ELF, vox-read
-the compiled machine code's own control-flow census. `ask --lean audit
-repair` adds the rest of the general procedure in one call: for every
-function vox itself flags B or F, decompose its word mark by mark and run it
-through mOMonadOS's insert for single-glyph repairs.
-
-Registered as a real --lean flag (--imasm already had one, --lean never
-did), so this is reachable directly, not only from inside an agent run.
-Rebuilt ask.bin so the deployed ./ask wrapper carries it too, the same gap
-the ⊡ rename left behind for the wrapper earlier this session.
+candidate_holds checked only two instruments, banked_walk and
+tri_ancestral_word_verdict. Found the gap live: gpu_native_build_of_momonados's
+own repaired protocol word passes both of those but its repair (inserting VINIT
+between ENGAGR and FFUSE) gives a zero-in-arity token a predecessor, which
+check::word_verdict's Graph::validate() actually forbids. Neither of the two
+instruments the search already used asks about arity at all, so the bad
+candidate sailed through as "holds." Added the third check: candidate_holds
+now also builds the real protocol graph via check::from_sequence and requires
+validate() to come back empty. A closure that legitimately reads B (ENGAGR
+held, or a fork left open under check's own linear stack pairing) still
+passes -- only an actual grammar violation disqualifies a candidate now.
+New example, check_errors.rs, since nothing in this crate printed
+Graph::validate()'s error list on its own before this.
