@@ -76,7 +76,41 @@ fn render(steps: &[Token16_3]) -> String {
     s
 }
 
-/// Walk the orbit and report where each cut lands.
+/// The landing register at every cut of the word's rotation orbit, in order
+/// k=0..period. Separated from `cycle_report` the same way `banked_walk` sits
+/// apart from `banked_report`: a caller that needs the verdict, not the
+/// paragraph, walks the orbit once and reads the list.
+pub fn cycle_landings(word: &str) -> Option<Vec<String>> {
+    let steps = parse_glyph_word(&normalize(word));
+    let n = steps.len();
+    if n == 0 { return None; }
+    let mut landings = Vec::with_capacity(n);
+    for k in 0..n {
+        let mut rot: Vec<Token16_3> = Vec::with_capacity(n);
+        for i in 0..n { rot.push(steps[(i + k) % n]); }
+        landings.push(run_word_register(&rot));
+    }
+    Some(landings)
+}
+
+/// The tri-ancestral close condition (`imasm16_3::tri_ancestral_verdict`) on
+/// the word AS A LOOP — the Grammar's own existing T/N/B/F verdict, not a
+/// reduction invented on top of the register content. Pairing is cyclic
+/// (every FSPLIT3 sought against every FFUSE3 around the ring, not linearly),
+/// so this already reads the whole word in one call; it is not one cut
+/// among many the way `cycle_landings`' entries are.
+///
+///   T — every fork pairs with a fuse around the cycle, and real work (a
+///       WORK opcode) ran inside at least one paired region.
+///   N — paired, but no work ran anywhere — void, verifies nothing.
+///   B — a fork has no fuse to pair with around the cycle — left open.
+///   F — a fuse has no fork to pair with — ill-typed.
+pub fn tri_ancestral_word_verdict(word: &str) -> Option<char> {
+    let steps = parse_glyph_word(&normalize(word));
+    if steps.is_empty() { return None; }
+    Some(tri_ancestral_verdict(&steps).0)
+}
+
 pub fn cycle_report(word: &str) -> String {
     let mut out = String::new();
     let steps = parse_glyph_word(&normalize(word));
