@@ -57,19 +57,19 @@ arms is the "two distinct in-arms" rule unchanged and at three is the
 tri-ancestral rule.
 
 ```
- GLYPH NAME      MEANING                                VALENCE   WORK?
-  $⊢$   VINIT     begin / source boundary                 0→1        no   the only source
-  $⊣$   TANCH     terminal anchor / close boundary        1→1        no   sink; out-port may stay open
-  $≺$   AFWD      forward morphism                        1→1        YES
-  $≻$   AREV      reverse morphism (involution T↔F, t↔f)  1→1        YES
-  $⋈$   CLINK     compose / link                          1→1        YES
-  $⊙$   IMSCRIB   identity / self-reference               1→1        no   the neutral generator
-  $∈$   FSPLIT    fork (δ): the ONLY brancher             1→2, 1→3   no
-  $∋$   FFUSE     fuse (μ): the ONLY merger               2→1, 3→1   no
-  $⊤$   EVALT     evaluate TRUE arm / set T               1→1        YES
-  $⊥$   EVALF     evaluate FALSE arm / set F              1→1        YES
-  $⊞$   ENGAGR/EVALI  hold paradox (classic) / set t,f    1→1        YES
-  $⊡$   IFIX      irreversible commit / fix               1→1        YES
+GLYPH NAME      MEANING                                VALENCE   WORK?
+ ⊢   VINIT     begin / source boundary                 0→1        no   the only source
+ ⊣   TANCH     terminal anchor / close boundary        1→1        no   sink; out-port may stay open
+ ≻   AFWD      forward morphism                        1→1        YES
+ ≺   AREV      reverse morphism (involution T↔F, t↔f)  1→1        YES
+ ⋈   CLINK     compose / link                          1→1        YES
+ ⊙   IMSCRIB   identity / self-reference               1→1        no   the neutral generator
+ ∈   FSPLIT    fork (δ): the ONLY brancher             1→2, 1→3   no
+ ∋   FFUSE     fuse (μ): the ONLY merger               2→1, 3→1   no
+ ⊤   EVALT     evaluate TRUE arm / set T               1→1        YES
+ ⊥   EVALF     evaluate FALSE arm / set F              1→1        YES
+ ⊞   ENGAGR/EVALI  hold paradox (classic) / set t,f    1→1        YES
+ ⊡   IFIX      irreversible commit / fix               1→1        YES
 ```
 
 TWELVE opcodes, no more. The set is `$⊣$$⊢$$≺$$≻$$⊙$$∈$$∋$$⊤$$⊥$$⋈$$⊞$$⊡$`, and ROTAT `↺/↻` (the cyclic
