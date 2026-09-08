@@ -68,7 +68,7 @@ GLYPH NAME      MEANING                                VALENCE   WORK?
  ∋   FFUSE     fuse (μ): the ONLY merger               2→1, 3→1   no
  ⊤   EVALT     evaluate TRUE arm / set T               1→1        YES
  ⊥   EVALF     evaluate FALSE arm / set F              1→1        YES
- ⊞   ENGAGR/EVALI  hold paradox (classic) / set t,f    1→1        YES
+ ⊞   ENGAGR hold paradox (classic) / set t,f    1→1        YES
  ⊡   IFIX      irreversible commit / fix               1→1        YES
 ```
 
