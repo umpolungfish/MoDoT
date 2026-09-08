@@ -577,6 +577,40 @@ pub fn run(args: &[String]) -> String {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn empty_split_fuse_preserves_full_machine_state() {
+        // Check the actual step implementation, including nested banked axes.
+        // 16 registers × 2 latch states × (1+8+64+512) frame configurations.
+        for bits in 0..16 {
+            for fixed in [false, true] {
+                for depth in 0..=3u32 {
+                    for encoding in 0..8usize.pow(depth) {
+                        let mut code = encoding;
+                        let mut frames = Vec::new();
+                        for _ in 0..depth {
+                            let mask = code % 8;
+                            code /= 8;
+                            let mut frame = Vec::new();
+                            for (bit, axis) in [Axis::T, Axis::F, Axis::I].into_iter().enumerate() {
+                                if mask & (1 << bit) != 0 { frame.push(axis); }
+                            }
+                            frames.push(frame);
+                        }
+                        let reg = Reg16_3 {
+                            big_t: bits & 1 != 0, big_f: bits & 2 != 0,
+                            small_t: bits & 4 != 0, small_f: bits & 8 != 0,
+                        };
+                        let mut machine = Machine { reg, fixed, split_stack: frames.clone() };
+                        machine.step(Token16_3::Fsplit3);
+                        machine.step(Token16_3::Ffuse3);
+                        assert!(machine.reg == reg);
+                        assert!(machine.fixed == fixed);
+                        assert!(machine.split_stack == frames);
+                    }
+                }
+            }
+        }
+    }
     use super::*;
 
     #[test]
