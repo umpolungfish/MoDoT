@@ -770,6 +770,51 @@ fn verdict_check(rest: &[String]) -> String {
     )
 }
 
+/// The per-pair reading `check` never gives. `check`'s Closed(n) is a global
+/// existential gate: ANY pair transforming flips the whole graph's label to
+/// Closed and reports the TOTAL pair count, not which pairs did the work
+/// (imasm_core::check::closure_state, `.any(...)` over `frobenius_closures()`).
+/// This walks the same pairs and reports each one's own transforms_between
+/// verdict, so a nest of mostly-inert seals with one real seal inside reads as
+/// what it is, seal by seal, not as one contagious aggregate.
+fn verdict_checkpairs(rest: &[String]) -> String {
+    let ops = tok_list(rest);
+    if ops.is_empty() {
+        return "IMASM checkpairs → no committed opcodes\n".into();
+    }
+    let pairs = match_pairs(&ops);
+    let g = from_sequence(&ops, &pairs);
+    let (fpairs, fully) = g.frobenius_closures();
+    let seq: Vec<&str> = ops.iter().map(|t| t.name()).collect();
+    let mut out = format!("IMASM checkpairs\n  word: {}\n", seq.join(" "));
+    if !fully {
+        out.push_str("  open — a fork or fuse dangles unreconnected; no pairs to read\n");
+        return out;
+    }
+    if fpairs.is_empty() {
+        out.push_str("  no δ/μ dyad — nothing to pair\n");
+        return out;
+    }
+    let mut any_work = false;
+    for (i, &(f, j)) in fpairs.iter().enumerate() {
+        let works = g.transforms_between(f, j);
+        if works { any_work = true; }
+        let inner: Vec<&str> = g.between(f, j).into_iter().map(|k| g.nodes[k].name()).collect();
+        out.push_str(&format!(
+            "  pair {}: split@{} fuse@{}  interior=[{}]  {}\n",
+            i, f, j, inner.join(" "),
+            if works { "TRANSFORMS (real work on this arm)" } else { "identity (nothing between split and fuse)" }
+        ));
+    }
+    out.push_str(&format!(
+        "  {} of {} pairs actually transform. (check's aggregate would report Closed({}) here, \
+         same total either way once any_work={})\n",
+        fpairs.iter().filter(|&&(f, j)| g.transforms_between(f, j)).count(),
+        fpairs.len(), fpairs.len(), any_work
+    ));
+    out
+}
+
 // ── kernel-constrained tool registry ─────────────────────────────────────────
 // The model may BUILD its own tools here, but the kernel constrains the space:
 // a tool is a named IMASM program, and only a grammar-VALID composition may be
@@ -2261,6 +2306,7 @@ pub fn run(args: &[String]) -> String {
         "rotat" | "rotate" | "shift" => rotat_op(rest),
         "arev" | "hop" | "door" => crate::arev::run(rest),
         "check" | "typecheck" => verdict_check(rest),
+        "checkpairs" | "pairs" => verdict_checkpairs(rest),
         "define" | "forge_tool" => define_tool(rest),
         "run" | "invoke" => run_tool(rest),
         "prove" | "kernel" => prove_tool(rest),
