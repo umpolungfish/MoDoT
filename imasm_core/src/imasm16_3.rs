@@ -38,7 +38,7 @@
 //!     AREV  the reverse morphism, T↔F and t↔f together (bilattice negation:
 //!           inverts ≤_t, leaves ≤_i exactly — a swap preserves |x|). It factors
 //!           internally into a per-layer swap each, but those factors are not
-//!           opcodes; the retired marks ~ ≁ once named them and ◻ IFIX replaces
+//!           opcodes; the retired marks ~ ≁ once named them and ⊡ IFIX replaces
 //!           them, so the printed set is twelve.
 //! ```
 //!
@@ -67,14 +67,14 @@ pub enum Token16_3 {
     Evalt,   // ⊤  1→1  evaluates the True axis (≤_t), WORK
     Evalf,   // ⊥  1→1  evaluates the False axis (≤_t), WORK
     Evali,   // ⊞  1→1  evaluates the Information axis (≤_i), WORK
-    Ifix,    // ◻  1→1  irreversible commit, WORK
+    Ifix,    // ⊡  1→1  irreversible commit, WORK
 }
 
 use Token16_3::*;
 
 // THE set is twelve. AREV `<` is the whole reverse morphism; the two-layer swaps
 // it factors into (once mis-spelled ~ TNEG / ≁ INEG) are internal to `<`, never
-// opcodes — ◻ IFIX replaces those retired marks. ROTAT ↺/↻ is the op-opcode that
+// opcodes — ⊡ IFIX replaces those retired marks. ROTAT ↺/↻ is the op-opcode that
 // acts ON a word, not a token in it.
 pub const ALL_TOKENS: [Token16_3; 12] = [
     Vinit, Tanch, Afwd, Arev, Clink, Imscrib, Fsplit3, Ffuse3,
@@ -84,9 +84,9 @@ pub const ALL_TOKENS: [Token16_3; 12] = [
 impl Token16_3 {
     pub fn glyph(self) -> char {
         match self {
-            Vinit => '⊢', Tanch => '⊣', Afwd => '>', Arev => '<', Clink => '⋈',
+            Vinit => '⊢', Tanch => '⊣', Afwd => '≻', Arev => '≺', Clink => '⋈',
             Imscrib => '⊙', Fsplit3 => '∈', Ffuse3 => '∋', Evalt => '⊤',
-            Evalf => '⊥', Evali => '⊞', Ifix => '◻',
+            Evalf => '⊥', Evali => '⊞', Ifix => '⊡',
         }
     }
 
@@ -221,6 +221,19 @@ impl Reg16_3 {
     /// values (both layer-swaps at once; ⊆-monotone, its own inverse).
     pub fn invol(self) -> Reg16_3 {
         Reg16_3 { big_t: self.big_f, big_f: self.big_t, small_t: self.small_f, small_f: self.small_t }
+    }
+
+    /// ENGAGR (⊞) — the house name for what this file's own interpreter
+    /// step calls EVALI: pins both information-axis lanes true, leaving
+    /// the truth-axis lanes exactly as they were. `touch()`'s inline call
+    /// (`self.union(Reg16_3 { small_t: true, small_f: true, ..none })`) is
+    /// this same operation, extracted here as a first-class gate rather
+    /// than left buried in one interpreter match arm -- the paraconsistency
+    /// operator: after ENGAGR, the register unconditionally carries a live,
+    /// held contradiction on the information layer, whatever it carried
+    /// before.
+    pub fn engagr(self) -> Reg16_3 {
+        Reg16_3 { small_t: true, small_f: true, ..self }
     }
 
     /// FOUR sits inside SIXTEEN_3 as the classical pair {T, F}: N={}, T={T},
@@ -550,7 +563,7 @@ pub fn run(args: &[String]) -> String {
         }
         "check" => {
             let Some(word) = args.get(1) else {
-                return "imasm16_3 check <glyph_word>; e.g. imasm16_3 check ⊢>∈⊤⊥⊞∋◻⊣\n".to_string();
+                return "imasm16_3 check <glyph_word>; e.g. imasm16_3 check ⊢>∈⊤⊥⊞∋⊡⊣\n".to_string();
             };
             let steps = parse_glyph_word(word);
             if steps.is_empty() {
@@ -564,12 +577,46 @@ pub fn run(args: &[String]) -> String {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn empty_split_fuse_preserves_full_machine_state() {
+        // Check the actual step implementation, including nested banked axes.
+        // 16 registers × 2 latch states × (1+8+64+512) frame configurations.
+        for bits in 0..16 {
+            for fixed in [false, true] {
+                for depth in 0..=3u32 {
+                    for encoding in 0..8usize.pow(depth) {
+                        let mut code = encoding;
+                        let mut frames = Vec::new();
+                        for _ in 0..depth {
+                            let mask = code % 8;
+                            code /= 8;
+                            let mut frame = Vec::new();
+                            for (bit, axis) in [Axis::T, Axis::F, Axis::I].into_iter().enumerate() {
+                                if mask & (1 << bit) != 0 { frame.push(axis); }
+                            }
+                            frames.push(frame);
+                        }
+                        let reg = Reg16_3 {
+                            big_t: bits & 1 != 0, big_f: bits & 2 != 0,
+                            small_t: bits & 4 != 0, small_f: bits & 8 != 0,
+                        };
+                        let mut machine = Machine { reg, fixed, split_stack: frames.clone() };
+                        machine.step(Token16_3::Fsplit3);
+                        machine.step(Token16_3::Ffuse3);
+                        assert!(machine.reg == reg);
+                        assert!(machine.fixed == fixed);
+                        assert!(machine.split_stack == frames);
+                    }
+                }
+            }
+        }
+    }
     use super::*;
 
     #[test]
     fn example_word_closes_with_work() {
         // Legal-alphabet tri word: fork, work on the arms, fuse, latch.
-        let steps = parse_glyph_word("⊢>∈⊤⊥⊞∋◻⊣");
+        let steps = parse_glyph_word("⊢≻∈⊤⊥⊞∋⊡⊣");
         assert_eq!(steps.len(), 9);
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'T');
@@ -583,14 +630,14 @@ mod tests {
             assert!(parse_glyph_word(m).is_empty(), "retired mark {m} still parses");
         }
         // Interspersed in a real word they are simply skipped (read as nothing).
-        assert_eq!(parse_glyph_word("⊢∈~⊤≁∋◻⊣"), parse_glyph_word("⊢∈⊤∋◻⊣"));
+        assert_eq!(parse_glyph_word("⊢∈~⊤≁∋⊡⊣"), parse_glyph_word("⊢∈⊤∋⊡⊣"));
     }
 
     #[test]
     fn verdict_is_rotat_invariant() {
         // ROTAT is the cyclic shift, so every rotation is the same object and
         // must return the same verdict. Linear pairing gave T,T,F,F,F,F,F,F,F,T,T,T.
-        let base: Vec<char> = "⊢∈⋈<>⊤⊥⊞∋⊙◻⊣".chars().collect();
+        let base: Vec<char> = "⊢∈⋈<>⊤⊥⊞∋⊙⊡⊣".chars().collect();
         let n = base.len();
         for k in 0..n {
             let rot: String = (0..n).map(|i| base[(i + k) % n]).collect();
@@ -604,7 +651,7 @@ mod tests {
     fn arev_does_not_close_the_fork() {
         // AREV is work on an arm, not a fuse. Its body used to be identical to
         // VINIT's, which discarded the arms' touches so ∋ folded an empty set.
-        let steps = parse_glyph_word("⊢∈⊤⋈⊥<>⊞∋⊙◻⊣");
+        let steps = parse_glyph_word("⊢∈⊤⋈⊥<>⊞∋⊙⊡⊣");
         let mut m = Machine::new();
         for &t in &steps { m.step(t); }
         assert_eq!(m.reg.name(), "A", "the three arms must all reach the apex");
@@ -615,7 +662,7 @@ mod tests {
         // Fork state is a stack: an inner ∋ must not close the enclosing fork.
         // With in_split as a bool the outer region lost every touch after the
         // first inner fuse and landed on Ftf instead of the top.
-        let steps = parse_glyph_word("⊢⊙⋈∈∈>⊤<∋∈⊥<∋⊞∋⋈⊙◻⊣");
+        let steps = parse_glyph_word("⊢⊙⋈∈∈>⊤<∋∈⊥<∋⊞∋⋈⊙⊡⊣");
         let mut m = Machine::new();
         for &t in &steps { m.step(t); }
         assert_eq!(m.reg.name(), "A", "nested apexes must fold into the outer fork");
@@ -623,7 +670,7 @@ mod tests {
 
     #[test]
     fn cross_repo_parity_word() {
-        let steps = parse_glyph_word("⊢>>⋈∈⊤◻∋<◻⊣");
+        let steps = parse_glyph_word("⊢>>⋈∈⊤⊡∋<⊡⊣");
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'T');
     }

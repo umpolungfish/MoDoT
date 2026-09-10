@@ -49,6 +49,31 @@ impl Graph {
         ids
     }
 
+    /// Adjacency, built once, in both directions.
+    ///
+    /// `successors` used to scan the whole edge list and allocate a Vec on every
+    /// call, and the traversals above call it once per node visited. That put an
+    /// O(E) factor with a heap allocation inside the inner loop of every DFS, so
+    /// `fsplit_ancestors` ran a full O(V·E) walk per fork and `between` two more
+    /// per pair. On a word of a few tokens nobody notices. On a lifted proof term
+    /// of tens of thousands it does not return, while the same condition computed
+    /// by a linear pass answers in milliseconds. The condition was never the cost;
+    /// the lookup was.
+    pub fn adjacency(&self) -> (Vec<Vec<usize>>, Vec<Vec<usize>>) {
+        let n = self.nodes.len();
+        let mut succ = Vec::with_capacity(n);
+        let mut pred = Vec::with_capacity(n);
+        for _ in 0..n {
+            succ.push(Vec::new());
+            pred.push(Vec::new());
+        }
+        for &(a, b) in self.edges.iter() {
+            if a < n { succ[a].push(b); }
+            if b < n { pred[b].push(a); }
+        }
+        (succ, pred)
+    }
+
     pub fn out_degree(&self, n: usize) -> usize {
         self.edges.iter().filter(|&&(a, _)| a == n).count()
     }
@@ -107,6 +132,7 @@ impl Graph {
     /// operator read on two carriers, so ancestry does not distinguish them.
     pub fn fsplit_ancestors(&self) -> Vec<Vec<usize>> {
         let n = self.nodes.len();
+        let (succ, _) = self.adjacency();
         let mut anc = vec![Vec::new(); n];
         for f in 0..n {
             if !self.nodes[f].is_brancher() {
@@ -116,7 +142,7 @@ impl Graph {
             let mut stack = vec![f];
             seen[f] = true;
             while let Some(x) = stack.pop() {
-                for s in self.successors(x) {
+                for &s in succ[x].iter() {
                     if !seen[s] {
                         seen[s] = true;
                         anc[s].push(f);
@@ -191,17 +217,14 @@ impl Graph {
     /// AND backward-reachable from j (endpoints excluded). These are the arms.
     pub fn between(&self, f: usize, j: usize) -> Vec<usize> {
         let n = self.nodes.len();
+        let (succ, pred) = self.adjacency();
         let reach = |start: usize, fwd: bool| -> Vec<bool> {
             let mut seen = vec![false; n];
             let mut stack = vec![start];
             seen[start] = true;
             while let Some(x) = stack.pop() {
-                let nbrs: Vec<usize> = if fwd {
-                    self.successors(x)
-                } else {
-                    self.predecessors(x)
-                };
-                for y in nbrs {
+                let nbrs: &Vec<usize> = if fwd { &succ[x] } else { &pred[x] };
+                for &y in nbrs.iter() {
                     if !seen[y] {
                         seen[y] = true;
                         stack.push(y);

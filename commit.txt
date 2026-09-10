@@ -1,10 +1,6 @@
-ask: the ob3ect designer was capped, and the cap read as an empty answer
+I restore the shared core required by the native GPU build
 
-8192 tokens on the design call, against a reasoning model that spends its budget
-on reasoning before the answer starts. What comes back is content: "" with no
-error attached, reported as "empty content" — a failure that names nothing.
-
-Three changes. max_tokens = 0 now means uncapped and the field leaves the payload
-entirely; the ob3ect path passes 0, since a design call is never capped. And when
-content is empty the error says how many characters of reasoning came back and
-what finish_reason was, so the next person sees the budget rather than a mystery.
+I integrated the compatible imasm_core source from f06eb03, including lattice
+flow, ring specifications, current glyphs, and engagr. I extracted ask's graph
+flow evaluator into the shared core so ask and the GPU controls use the same
+gate semantics. I updated the stale example test to use the current ≻ glyph.

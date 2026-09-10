@@ -1725,67 +1725,7 @@ type Val = crate::imasm16_3::Reg16_3;
 /// values, so μ∘δ = id at either arity, and on the classical slice the second IS
 /// the first: with t and f absent the information arm carries nothing. One
 /// operator, read on whichever carrier the word is using.
-fn gate_out(tok: Token, x: Val, seed: Val, slot: usize, fan: usize) -> Val {
-    match tok {
-        Token::Vinit => seed,
-        t if t.is_brancher() => {
-            if fan >= 3 {
-                match slot {
-                    0 => x.constructive_part().truth_part(),
-                    1 => x.constructive_part().falsity_part(),
-                    _ => x.info_part(),
-                }
-            } else if slot == 0 {
-                x.truth_part()
-            } else {
-                x.falsity_part()
-            }
-        }
-        Token::Evalt => x.truth_part(),
-        Token::Evalf => x.falsity_part(),
-        Token::Arev => x.invol(),
-        // AREV `<` is the whole involution; it has no separate opcode factors.
-        // FFUSE's join already happened at input aggregation; carriers carry.
-        _ => x,
-    }
-}
-
-/// The flow core shared by eval and chaos: Kleene-iterate values over the
-/// graph, return (per-node inputs, per-edge values). Monotone gates, so this
-/// settles in ≤4·E rounds regardless of cycles.
-fn flow_values(g: &Graph, seed: Val) -> (Vec<Val>, Vec<Val>) {
-    let mut edge_val: Vec<Val> = vec![Val::default(); g.edges.len()];
-    let mut node_in: Vec<Val> = vec![Val::default(); g.nodes.len()];
-    let cap = 4 * g.edges.len().max(1) + 4;
-    for _ in 0..cap {
-        let mut changed = false;
-        for i in 0..g.nodes.len() {
-            let mut inp = Val::default();
-            for (eidx, &(_a, b)) in g.edges.iter().enumerate() {
-                if b == i {
-                    inp = inp.union(edge_val[eidx]);
-                }
-            }
-            node_in[i] = inp;
-            let fan = g.edges.iter().filter(|&&(a, _)| a == i).count();
-            let mut slot = 0usize;
-            for (eidx, &(a, _b)) in g.edges.iter().enumerate() {
-                if a == i {
-                    let v = gate_out(g.nodes[i], inp, seed, slot, fan);
-                    if edge_val[eidx] != v {
-                        edge_val[eidx] = v;
-                        changed = true;
-                    }
-                    slot += 1;
-                }
-            }
-        }
-        if !changed {
-            break;
-        }
-    }
-    (node_in, edge_val)
-}
+use imasm_core::flow::{gate_out, flow_values};
 
 /// Dyad flow verdicts: for each δ/μ pair, did the fuse recover the fork's feed?
 fn dyad_signature(g: &Graph, node_in: &[Val]) -> (usize, usize) {
