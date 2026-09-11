@@ -27,7 +27,7 @@ This is the **only** geometry where A/V = 1, and the d=12 SIC-POVM equiangularit
 ### IMASM Wire Word
 
 ```
-Code:  ⊢◇=◇>>>>>>>>>>>>>>>>>>>>>>>>>>●+×●⊣
+Code:  ⊢∈⋈∈≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻≻∋⊤⊥∋⊣
 Nodes: 35   Edges: 36   β=2   genus=1
 μ∘δ:   CLOSED (2 δ-arm reconnections carrying transformation)
 ```

@@ -934,6 +934,11 @@
     "title": "protocol",
     "topology": "  topology: branched | V=9 E=9 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.2216\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
+  "gravity_fixedpoint_closure": {
+    "spec": "protocol VINIT FSPLIT EVALT EVALF FFUSE TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=6 E=7 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8794\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
+  },
   "h0_extract": {
     "spec": "protocol IMSCRIB FSPLIT EVALT FFUSE IFIX TANCH",
     "title": "protocol",

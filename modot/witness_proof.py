@@ -117,15 +117,15 @@ def catalog_size() -> int:
 
 # ── Domain-invariant maps verified from GeneralizedPipeline.lean ─────────────
 # Keys: pipeline primitive ids as in the Lean file. We map catalog primitives
-# (⊢ ⊣ > …) onto these roles by the fixed IG correspondence used in the
-# pipeline sectionBackbone (Phi_} ← <, Theta_O ← ⊣, R_= ← >, …).
+# (⊢ ⊣ ≻ …) onto these roles by the fixed IG correspondence used in the
+# pipeline sectionBackbone (Phi_} ← ≺, Theta_O ← ⊣, R_= ← ≻, …).
 
 # Catalog primitive symbol → pipeline role id (from sectionBackbone / roles)
 _PRIM_TO_ROLE_ID = {
-    "<": "Phi_}",          # polarity / Frobenius-symmetric encoding
+    "≺": "Phi_}",          # polarity / Frobenius-symmetric encoding
     "⊣": "Theta_O",        # topology / self-ref structure
-    ">": "R_=",            # relational / bidirectional
-    "◻": "Omega_z",        # protection / winding
+    "≻": "R_=",            # relational / bidirectional
+    "⊡": "Omega_z",        # protection / winding
     "⊙": "phi_hat_y",      # criticality / phase boundary
     "⊤": "C_@",            # kinetics / equidistribution
     "⊢": "D_C",            # dimensionality

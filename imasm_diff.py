@@ -25,9 +25,9 @@ def census(ops: list[str]) -> dict:
 
 def code_line(ops: list[str]) -> str:
     glyphs = {
-        'VINIT': '⊢', 'TANCH': '⊣', 'AFWD': '>', 'AREV': '<', 'CLINK': '=',
-        'IMSCRIB': '⊙', 'FSPLIT': '◇', 'FFUSE': '●', 'EVALT': '+', 'EVALF': '×',
-        'ENGAGR': '⊞', 'IFIX': '¬'
+        'VINIT': '⊢', 'TANCH': '⊣', 'AFWD': '≻', 'AREV': '≺', 'CLINK': '⋈',
+        'IMSCRIB': '⊙', 'FSPLIT': '∈', 'FFUSE': '∋', 'EVALT': '⊤', 'EVALF': '⊥',
+        'ENGAGR': '⊞', 'IFIX': '⊡'
     }
     return ''.join(glyphs.get(o, o) for o in ops)
 
@@ -124,16 +124,16 @@ def diff_all_pairs() -> str:
     pairs = [
         ('⊢', 'dead', 'dead',   '0D anchor (shared)'),
         ('⊣', 'mime', 'mime',   'crossing topology (shared)'),
-        ('>', 'ear',  'ian',    'coupling: trefoil→frobenioid'),
-        ('<', 'yew',  'out',    'parity: trefoil→frobenioid'),
+        ('≻', 'ear',  'ian',    'coupling: trefoil→frobenioid'),
+        ('≺', 'yew',  'out',    'parity: trefoil→frobenioid'),
         ('⋈', 'peep', 'age',    'fidelity: trefoil→frobenioid'),
         ('⊤', 'egg',  'egg',    'kinetics (shared)'),
         ('∈', 'bib',  'bib',    'cardinality (shared)'),
         ('∋', 'measure','measure','composition (shared)'),
         ('⊙', 'monad','roar',   'criticality: trefoil→frobenioid'),
         ('⊥', 'sure', 'wool',   'chirality: trefoil→frobenioid'),
-        ('Σ', 'hung', 'up',     'stoichiometry: trefoil→frobenioid'),
-        ('◻', 'ah',   'ah',     'winding (shared)'),
+        ('⊞', 'hung', 'up',     'stoichiometry: trefoil→frobenioid'),
+        ('⊡', 'ah',   'ah',     'winding (shared)'),
     ]
     
     sections = []
