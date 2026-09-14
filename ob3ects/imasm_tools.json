@@ -129,6 +129,11 @@
     "title": "chain",
     "topology": "  topology: linear | V=5 E=4 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.7321\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 2 in — reactive, not errors"
   },
+  "TEST_TOOL": {
+    "spec": "chain VINIT FSPLIT EVALT FFUSE TANCH",
+    "title": "chain",
+    "topology": "  topology: linear | V=5 E=4 β=0 branch=0 merge=0 src=1 sink=1 ρ=1.7321\n  a single strand\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
   "active_drone_protocol": {
     "spec": "ring ⊙ drone_protocol inject_commutator_node",
     "title": "ring",

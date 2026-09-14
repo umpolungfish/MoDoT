@@ -956,7 +956,7 @@ fn run_tool(rest: &[String]) -> String {
 
 /// Resolve `rest` to a graph: a defined tool name, else a raw opcode word.
 /// The twelve axes in canonical tuple order — the order an entry's types compose in.
-pub(crate) const TUPLE_ORDER: [&str; 12] = ["⊢","⊣",">","<","⋈","⊤","∈","∋","⊙","⊥","⊞","◻"];
+pub(crate) const TUPLE_ORDER: [&str; 12] = ["⊢","⊣","≻","≺","⋈","⊤","∈","∋","⊙","⊥","⊞","⊡"];
 
 /// A catalog entry, expanded into the IMASM program it IS.
 ///
@@ -1449,9 +1449,10 @@ fn cycle_one(tuple_glyphs: &str) -> String {
         Ok(w) => w,
         Err(e) => return format!("imasm cycle: forward leg — {e}\n"),
     };
+    let _ = writeln!(out, "word: {word}\n");
     let read = match tuple_from_word(&word) {
         Ok(r) => r,
-        Err(e) => return format!("imasm cycle: return leg — {e}\n"),
+        Err(e) => { let _ = writeln!(out, "imasm cycle: return leg — {e}"); return out; }
     };
     let _ = writeln!(out, "IMASM cycle on one tuple — written, then read back.\n");
     let (mut exact, mut amb) = (0usize, 0usize);

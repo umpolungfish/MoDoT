@@ -843,6 +843,23 @@
     ],
     "weakest": 0.6667
   },
+  "demo_ring_xyz": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "belnap_b4_multilattice",
+      "quark"
+    ],
+    "weakest": 1.1667
+  },
   "diophantine_ring": {
     "branched": true,
     "conductance": "CONDUCTIVE",
@@ -941,6 +958,27 @@
       "chromatic_number_omega1"
     ],
     "weakest": 0.5
+  },
+  "forge_reg_probe": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.125,
+    "units": [
+      "fibonacci_anyon_o2",
+      "geomancy",
+      "Ground",
+      "tokamak_fusion"
+    ],
+    "weakest": 0.75
   },
   "fundamental_covering_system": {
     "branched": false,

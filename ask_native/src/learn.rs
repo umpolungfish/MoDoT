@@ -721,9 +721,9 @@ fn excribe(
 /// The twelve axes, named, in canonical tuple order.
 const AXIS_NAMES: [(&str, &str); 12] = [
     ("⊢", "Dimensionality"), ("⊣", "Topology"), (">", "Relational Mode"),
-    ("<", "Parity / Symmetry"), ("⋈", "Fidelity"), ("⊤", "Kinetic Character"),
+    ("≺", "Parity / Symmetry"), ("⋈", "Fidelity"), ("⊤", "Kinetic Character"),
     ("∈", "Scope / Granularity"), ("∋", "Interaction Grammar"), ("⊙", "Criticality"),
-    ("⊥", "Chirality"), ("⊞", "Stoichiometry"), ("◻", "Topological Protection"),
+    ("⊥", "Chirality"), ("⊞", "Stoichiometry"), ("⊡", "Topological Protection"),
 ];
 
 /// INDUCTIVE EXCRIPTION: build the identification instead of demanding it.

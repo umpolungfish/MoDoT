@@ -107,7 +107,7 @@ pub fn next_step(verb: &str, flag: &str, args: &str) -> String {
 }
 
 /// The twelve primitive keys, in canonical navigator/catalog order.
-pub const PRIMS: [&str; 12] = ["⊢", "⊣", ">", "<", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "◻"];
+pub const PRIMS: [&str; 12] = ["⊢", "⊣", "≻", "≺", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "⊡"];
 
 /// glyph → ordinal per primitive. The ORDERING is scripture: each primitive's
 /// constructor order comes from the p4rakernel Lean kernel (`Primitives/Core.lean`)
@@ -1390,7 +1390,7 @@ pub fn run_scan_mediators(
     println!("scan-mediators:  {dn}  ⟶e⁻⟶  {an}   ({} holdable candidates over {} entries)", hits.len(), cat.len());
     println!("  relay band ⊙∈[{},{}] (acceptor→donor);  hold band ◻∈[𐑴,{}] (accept then re-donate);  bind = complement recognizes both substrates",
         glyph_of(CRIT, lo), glyph_of(CRIT, hi), glyph_of(WIND, wmax - 1));
-    println!("  {:>4}  {:>6}  {:>5} {:>5} {:>5}  {:>3} {:>3}  mediator", "rank", "score", "relay", "bind", "recog", "◻", "⊙");
+    println!("  {:>4}  {:>6}  {:>5} {:>5} {:>5}  {:>3} {:>3}  mediator", "rank", "score", "relay", "bind", "recog", "⊡", "⊙");
     for (i, (name, comp, relay, bind, recog, wg, cg)) in hits.iter().take(top).enumerate() {
         println!("  {:>4}  {:>6.3}  {:>5.2} {:>5.2} {:>5.2}  {:>3} {:>3}  {name}", i + 1, comp, relay, bind, recog, wg, cg);
     }

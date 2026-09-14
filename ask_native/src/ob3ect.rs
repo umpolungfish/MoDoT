@@ -26,9 +26,9 @@ const OPCODES: [&str; 12] = [
 /// text. The retired forms ◇ ● + × ¬ = do not appear.
 pub fn opcode_glyph(name: &str) -> &'static str {
     match name {
-        "VINIT" => "⊢", "TANCH" => "⊣", "AFWD" => ">", "AREV" => "<",
+        "VINIT" => "⊢", "TANCH" => "⊣", "AFWD" => "≻", "AREV" => "≺",
         "CLINK" => "⋈", "IMSCRIB" => "⊙", "FSPLIT" => "∈", "FFUSE" => "∋",
-        "EVALT" => "⊤", "EVALF" => "⊥", "ENGAGR" => "⊞", "IFIX" => "◻",
+        "EVALT" => "⊤", "EVALF" => "⊥", "ENGAGR" => "⊞", "IFIX" => "⊡",
         _ => "?",
     }
 }
