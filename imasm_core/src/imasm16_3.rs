@@ -616,4 +616,132 @@ mod tests {
     #[test]
     fn example_word_closes_with_work() {
         // Legal-alphabet tri word: fork, work on the arms, fuse, latch.
-        let steps = parse_glyph_word("⊢≻∈⊤⊥⊞∋⊡⊣");
+        let steps = parse_glyph_word("⊢>∈⊤⊥⊞∋⊡⊣");
+        assert_eq!(steps.len(), 9);
+        let (verdict, _) = tri_ancestral_verdict(&steps);
+        assert_eq!(verdict, 'T');
+    }
+
+    #[test]
+    fn retired_marks_do_not_parse() {
+        // ◇ ● = + × ¬ ~ ≁ (and ═ ☊ ☋) are not IMASM tokens: they do not parse,
+        // they are not aliased to anything, and a word of only them is empty.
+        for m in ["~", "≁", "¬", "◇", "●", "=", "+", "×", "═", "☊", "☋"] {
+            assert!(parse_glyph_word(m).is_empty(), "retired mark {m} still parses");
+        }
+        // Interspersed in a real word they are simply skipped (read as nothing).
+        assert_eq!(parse_glyph_word("⊢∈~⊤≁∋⊡⊣"), parse_glyph_word("⊢∈⊤∋⊡⊣"));
+    }
+
+    #[test]
+    fn verdict_is_rotat_invariant() {
+        // ROTAT is the cyclic shift, so every rotation is the same object and
+        // must return the same verdict. Linear pairing gave T,T,F,F,F,F,F,F,F,T,T,T.
+        let base: Vec<char> = "⊢∈⋈<>⊤⊥⊞∋⊙⊡⊣".chars().collect();
+        let n = base.len();
+        for k in 0..n {
+            let rot: String = (0..n).map(|i| base[(i + k) % n]).collect();
+            let steps = parse_glyph_word(&rot);
+            let (verdict, _) = tri_ancestral_verdict(&steps);
+            assert_eq!(verdict, 'T', "rotation k={k} gave {verdict} for {rot}");
+        }
+    }
+
+    #[test]
+    fn arev_does_not_close_the_fork() {
+        // AREV is work on an arm, not a fuse. Its body used to be identical to
+        // VINIT's, which discarded the arms' touches so ∋ folded an empty set.
+        let steps = parse_glyph_word("⊢∈⊤⋈⊥<>⊞∋⊙⊡⊣");
+        let mut m = Machine::new();
+        for &t in &steps { m.step(t); }
+        assert_eq!(m.reg.name(), "A", "the three arms must all reach the apex");
+    }
+
+    #[test]
+    fn nested_forks_compose() {
+        // Fork state is a stack: an inner ∋ must not close the enclosing fork.
+        // With in_split as a bool the outer region lost every touch after the
+        // first inner fuse and landed on Ftf instead of the top.
+        let steps = parse_glyph_word("⊢⊙⋈∈∈>⊤<∋∈⊥<∋⊞∋⋈⊙⊡⊣");
+        let mut m = Machine::new();
+        for &t in &steps { m.step(t); }
+        assert_eq!(m.reg.name(), "A", "nested apexes must fold into the outer fork");
+    }
+
+    #[test]
+    fn cross_repo_parity_word() {
+        let steps = parse_glyph_word("⊢>>⋈∈⊤⊡∋<⊡⊣");
+        let (verdict, _) = tri_ancestral_verdict(&steps);
+        assert_eq!(verdict, 'T');
+    }
+
+    #[test]
+    fn neutral_inflation_is_identity_not_error() {
+        let steps = parse_glyph_word("⊢∈⊙⊙⊙∋⊣");
+        let (verdict, _) = tri_ancestral_verdict(&steps);
+        assert_eq!(verdict, 'N');
+    }
+
+    #[test]
+    fn dangling_split_is_b() {
+        let steps = parse_glyph_word("⊢∈⊤⊣");
+        let (verdict, _) = tri_ancestral_verdict(&steps);
+        assert_eq!(verdict, 'B');
+    }
+
+    #[test]
+    fn fuse_without_split_is_f() {
+        let steps = parse_glyph_word("⊢⊤∋⊣");
+        let (verdict, _) = tri_ancestral_verdict(&steps);
+        assert_eq!(verdict, 'F');
+    }
+
+    #[test]
+    fn all_12_opcodes_have_distinct_glyphs() {
+        let glyphs: std::collections::HashSet<char> = ALL_TOKENS.iter().map(|t| t.glyph()).collect();
+        assert_eq!(glyphs.len(), 12);
+        for g in &glyphs {
+            assert!(!g.is_ascii_alphabetic(), "opcode glyph {g} is a Latin letter");
+        }
+    }
+
+    /// The paper's own worked example (§5, p.776-777): "T ∧ t = N" — the
+    /// conjunction of two truths gives nothing, because neither conjunct is
+    /// BOTH T and t simultaneously.
+    #[test]
+    fn meet_t_matches_paper_example() {
+        let big_t_only = Reg16_3 { big_t: true, ..Default::default() };
+        let small_t_only = Reg16_3 { small_t: true, ..Default::default() };
+        let result = meet_t(big_t_only, small_t_only);
+        assert_eq!(result.name(), "N");
+    }
+
+    #[test]
+    fn negation_preserves_information_order() {
+        // A defining property of trilattice negation: it must leave ≤_i
+        // (the subset/information order) unchanged. Swapping T↔F preserves
+        // popcount, hence preserves ⊆-comparisons against any fixed y.
+        let x = Reg16_3 { big_t: true, small_t: true, ..Default::default() };
+        let mut neg_x = x;
+        std::mem::swap(&mut neg_x.big_t, &mut neg_x.big_f);
+        // |x| == |neg_x|, and both are still comparable to N and A the same way.
+        assert_eq!(leq_i(Reg16_3::default(), x), leq_i(Reg16_3::default(), neg_x));
+        assert_eq!(leq_i(x, Reg16_3 { big_t: true, big_f: true, small_t: true, small_f: true }),
+                   leq_i(neg_x, Reg16_3 { big_t: true, big_f: true, small_t: true, small_f: true }));
+    }
+
+    #[test]
+    fn sixteen_states_reachable() {
+        // The full carrier has exactly 16 elements — spot check a handful of
+        // named ones from Table 1 of the paper are constructible and distinct.
+        let n = Reg16_3::default();
+        let a = Reg16_3 { big_t: true, big_f: true, small_t: true, small_f: true };
+        let t = Reg16_3 { big_t: true, ..Default::default() };
+        let tf = Reg16_3 { big_t: true, big_f: true, ..Default::default() };
+        assert_eq!(n.name(), "N");
+        assert_eq!(a.name(), "A");
+        assert_eq!(t.name(), "T");
+        assert_eq!(tf.name(), "TF");
+        assert_ne!(n.name(), a.name());
+    }
+}

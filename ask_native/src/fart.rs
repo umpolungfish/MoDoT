@@ -2321,3 +2321,2660 @@ fn sym(name: &str) -> &str {
         "theta" | "vartheta" => "θ", "Theta" => "Θ",
         "mu" => "μ", "delta" => "δ", "sigma" => "σ", "Sigma" => "⊞",
         "omega" => "ω", "Omega" => "⊡", "phi" | "varphi" => "φ", "Phi" => "≺",
+        "gamma" => "γ", "Gamma" => "∈", "rho" => "ρ", "pi" => "π", "Pi" => "Π",
+        "lambda" => "λ", "Lambda" => "Λ", "alpha" => "α", "beta" => "β",
+        "epsilon" | "varepsilon" => "ε", "zeta" => "ζ", "eta" => "η",
+        "kappa" => "κ", "nu" => "ν", "xi" => "ξ", "Xi" => "Ξ", "tau" => "τ",
+        "chi" => "χ", "psi" => "ψ", "Psi" => "Ψ", "circ" => "∘",
+        "cdot" => "·", "times" => "×", "otimes" => "⊗", "oplus" => "⊕",
+        "geq" | "ge" => "≥", "leq" | "le" => "≤", "neq" | "ne" => "≠",
+        "approx" => "≈", "equiv" => "≡", "cong" => "≅", "sim" => "∼", "propto" => "∝",
+        "infty" => "∞", "in" => "∈", "notin" => "∉",
+        "subset" => "⊂", "subseteq" => "⊆", "supset" => "⊃",
+        "forall" => "∀", "exists" => "∃", "wedge" | "land" => "∧", "vee" | "lor" => "∨",
+        "neg" | "lnot" => "¬", "pm" => "±", "mp" => "∓", "emptyset" | "varnothing" => "∅",
+        "langle" => "⟨", "rangle" => "⟩", "sum" => "∑", "prod" => "∏", "int" => "∫",
+        "sqrt" => "√", "ldots" | "dots" | "cdots" => "…", "star" | "ast" => "∗",
+        "bullet" => "•", "dagger" => "†", "perp" => "⊥", "parallel" => "‖",
+        "top" => "⊤", "bot" => "⊥", "mid" => "|", "backslash" => "\\",
+        // styling/layout tokens with no glyph → drop entirely
+        "text" | "mathrm" | "mathbf" | "mathbb" | "mathcal" | "mathit" | "mathsf"
+        | "boldsymbol" | "operatorname" | "left" | "right" | "displaystyle" | "limits"
+        | "nonumber" | "quad" | "qquad" | "label" | "tag" => "",
+        other => other, // unknown command: keep the name, shed the backslash
+    }
+}
+
+#[cfg(test)]
+mod strip_tests {
+    use super::strip_kernel_records;
+
+    // The model must not author the engine's spine report. A fabricated block is stripped;
+    // the model's own [thought|X] proposal and its prose survive.
+    #[test]
+    fn strips_model_authored_spine_report() {
+        let answer = "The local ring exists.\n\n\
+            ## 5. MANUSCRIPT SPINE REPORT\n\
+            VERDICT (univocal): B\n\
+            ← fused voices (model=F ⋈ vessel=T ⋈ tool-dual=B)\n\
+            faces: prove_balance=false unify_B=T+F=true\n\
+            note: local ring T.\n\n\
+            [thought|B]";
+        let got = strip_kernel_records(answer);
+        assert!(!got.contains("MANUSCRIPT SPINE REPORT"), "{got}");
+        assert!(!got.contains("VERDICT (univocal)"), "{got}");
+        assert!(!got.contains("fused voices"), "{got}");
+        assert!(!got.contains("prove_balance"), "{got}");
+        assert!(got.contains("[thought|B]"), "the model's own proposal survives: {got}");
+        assert!(got.contains("The local ring exists."), "prose survives: {got}");
+    }
+
+    // The header-stripped remnant: the model wraps a fake spine report in ==== bars with a
+    // protocol: and a fabricated note:. The whole block (bars included) must go, not just the
+    // marker lines, so no orphaned bars/note contradict the engine's real report.
+    #[test]
+    fn strips_whole_fabricated_spine_block() {
+        let answer = "The mediator exists.\n\n\
+            ============================================================\n\
+            MANUSCRIPT SPINE REPORT\n\
+            VERDICT (univocal): B\n\
+              protocol: VINIT→AFWD→TANCH\n\
+              note: μ∘δ is OPEN — the assembly is INVALID.\n\
+            ============================================================\n\n\
+            [thought|B]";
+        let got = strip_kernel_records(answer);
+        assert!(!got.contains("VERDICT (univocal)"), "{got}");
+        assert!(!got.contains("protocol: VINIT"), "orphan protocol line remains: {got}");
+        assert!(!got.contains("the assembly is INVALID"), "fabricated note remains: {got}");
+        assert!(!got.contains("========"), "orphan bars remain: {got}");
+        assert!(got.contains("[thought|B]") && got.contains("The mediator exists."), "content lost: {got}");
+    }
+}
+
+#[cfg(test)]
+mod delatex_tests {
+    use super::delatex;
+
+    #[test]
+    fn converts_the_reported_example() {
+        // The exact shape the user pasted: display math with \Delta, \text{}, subscript
+        // braces, and \theta — must come out as plain terminal Unicode.
+        let got = delatex(
+            r"$$\Delta_{\text{T↔H}} = |\text{charge}_{\text{T}}(binah) - \text{charge}_{\text{H}}(monad)| = |-0.08 - 0.75| = 0.83 > \theta = 0.50.$$",
+        );
+        assert!(!got.contains('$'), "dollar delimiters remain: {got}");
+        assert!(!got.contains('\\'), "backslash commands remain: {got}");
+        assert!(got.contains("Δ_T↔H"), "subscript not unwrapped: {got}");
+        assert!(got.contains("charge_T(binah)"), "text{{}} not unwrapped: {got}");
+        assert!(got.contains("> θ = 0.50"), "theta not converted: {got}");
+    }
+
+    #[test]
+    fn leaves_prose_braces_and_glyphs_alone() {
+        // A `{set}` in braces and the real IG glyphs must survive untouched.
+        let got = delatex("the set {binah monad ankh} imscribes ⟨𐑨𐑰𐑩⊙𐑒𐑳𐑴⟩ with ⊢ > ⋈");
+        assert_eq!(got, "the set {binah monad ankh} imscribes ⟨𐑨𐑰𐑩⊙𐑒𐑳𐑴⟩ with ⊢ > ⋈");
+    }
+
+    #[test]
+    fn common_operators_and_frac() {
+        let got = delatex(r"$\mu \circ \delta = \text{id}$, $\frac{a}{b} \geq \Omega \leftrightarrow \Sigma$");
+        assert!(got.contains("μ ∘ δ = id"), "{got}");
+        assert!(got.contains("a/b ≥ ⊡ ↔ Σ"), "{got}");
+    }
+}
+
+#[cfg(test)]
+mod collapse_tests {
+    use super::collapse_degenerate;
+
+    // The exact derailment seen live: two lines alternating dozens of times. Consecutive-dup
+    // collapse would miss the A/B/A/B shape, so this must reduce to the two distinct lines.
+    #[test]
+    fn collapses_alternating_reasoning_loop() {
+        let loop_txt = "Wait: I should output the TOOL lines.\nOkay: I will write the final answer.\n"
+            .repeat(30);
+        let got = collapse_degenerate(&loop_txt);
+        assert!(got.contains("degenerate repetition collapsed"), "{got}");
+        assert_eq!(got.matches("Wait: I should output the TOOL lines.").count(), 1, "{got}");
+        assert_eq!(got.matches("Okay: I will write the final answer.").count(), 1, "{got}");
+    }
+
+    // A loop BURIED in varied prose: the global ratio heuristic misses it, local cycle
+    // detection must catch it and leave the surrounding prose intact.
+    #[test]
+    fn collapses_loop_embedded_in_varied_prose() {
+        let mut txt = String::from("The tools returned N for the ternary gap.\nHere is the reasoning:\n");
+        txt.push_str(&"Wait: the prompt says answer as the voice. I will do that.\nWait: the prompt says write full length. I will do that.\n".repeat(15));
+        txt.push_str("Final verdict: N.\n");
+        let got = collapse_degenerate(&txt);
+        assert!(got.contains("degenerate repetition collapsed"), "{got}");
+        assert!(got.contains("The tools returned N for the ternary gap."), "prose head survives: {got}");
+        assert!(got.contains("Final verdict: N."), "prose tail survives: {got}");
+        assert_eq!(got.matches("Wait: the prompt says answer as the voice. I will do that.").count(), 1, "{got}");
+    }
+
+    // A normal, varied answer must pass through byte-for-byte — no false positive.
+    #[test]
+    fn leaves_varied_prose_untouched() {
+        let prose = "The assembly does not close.\nEvery polymerize came back telechelic.\n\
+                     Sidon density cyclizes via yhhw_word.\nRamsey terminates at one unit.\n\
+                     The honest verdict is F for the bipartite exponent.";
+        assert_eq!(collapse_degenerate(prose), prose);
+    }
+}
+
+#[cfg(test)]
+mod verb_feedback_tests {
+    use super::{run_structural_tool, tool_miss_message, verb_usage, STRUCTURAL_VERBS};
+
+    // Every whitelisted verb must have a usage string, or a real verb given bad args
+    // would be reported as nonexistent — the miss that made the eagle loop.
+    #[test]
+    fn every_structural_verb_has_usage() {
+        for v in STRUCTURAL_VERBS {
+            assert!(verb_usage(v).is_some(), "no usage help for real verb `{v}`");
+        }
+        assert!(verb_usage("definitely_not_a_verb").is_none());
+    }
+
+    // A real verb given too few names must NOT run (None), so the caller reaches the
+    // actionable-feedback path rather than silently dropping args.
+    #[test]
+    fn real_verb_underargged_does_not_run() {
+        assert!(run_structural_tool("polymerize", &["only_one".into()]).is_none());
+        assert!(run_structural_tool("scan", &["only_one".into()]).is_none());
+        assert!(run_structural_tool("forge", &["only_one".into()]).is_none());
+    }
+
+    // The feedback for a real verb names the correct form and echoes what was given,
+    // and never calls a real verb nonexistent.
+    #[test]
+    fn underargged_message_is_actionable() {
+        let m = tool_miss_message("polymerize", &["only_one".into()]);
+        assert!(m.contains("2+ names"), "no arity guidance: {m}");
+        assert!(m.contains("only_one"), "did not echo the given arg: {m}");
+        assert!(!m.contains("not an available verb"), "real verb called nonexistent: {m}");
+
+        let empty: [String; 0] = [];
+        let m0 = tool_miss_message("forge", &empty);
+        assert!(m0.contains("you gave: nothing"), "empty-arg wording wrong: {m0}");
+    }
+
+    // A genuinely unknown verb is reported as such, and the list points at real verbs.
+    #[test]
+    fn unknown_verb_lists_real_verbs() {
+        let m = tool_miss_message("frobnicate", &["a".into(), "b".into()]);
+        assert!(m.contains("not an available verb"), "{m}");
+        assert!(m.contains("polymerize") && m.contains("forge"), "verb list missing: {m}");
+    }
+
+    // A rebuilt-in-place binary reads back as "<path> (deleted)"; the resolver strips that
+    // so a mid-session tool call relinks to the fresh binary instead of failing to spawn
+    // (and being mislabeled "wrong args", the round-7 failure).
+    #[test]
+    fn strips_the_deleted_suffix() {
+        use super::strip_deleted_suffix;
+        assert_eq!(strip_deleted_suffix("/x/target/release/ask (deleted)"), Some("/x/target/release/ask"));
+        assert_eq!(strip_deleted_suffix("/x/target/release/ask"), None);
+    }
+
+    // An IG catalog verb dispatches natively through the live corpus. Needs the MoDoT
+    // bridge + IG_inquiry present; skips cleanly if the environment lacks them.
+    #[test]
+    fn ig_tool_dispatches_through_the_corpus() {
+        use super::{run_structural_tool, IG_TOOLS};
+        assert!(IG_TOOLS.contains(&"crystal_count"));
+        let bridge = super::PathBuf::from(super::expand_user("~/imsgct/MoDoT/modot/ig_tools.py"));
+        if !bridge.is_file() {
+            eprintln!("skipping: IG bridge not present");
+            return;
+        }
+        let out = run_structural_tool("crystal_count", &[]).expect("crystal_count is an IG verb");
+        assert!(out.contains("17280000"), "crystal_count did not ground: {out}");
+    }
+
+    // Live: the plasma register reads a catalog entry's tuple as a plasma design, shelling
+    // to the red-hot_rebis forge. Skips cleanly if the plasma bridge/venv is absent.
+    #[test]
+    fn plasma_verb_reads_an_entry_as_a_plasma_design() {
+        use super::{run_structural_tool, STRUCTURAL_VERBS};
+        assert!(STRUCTURAL_VERBS.contains(&"plasma"));
+        let bridge =
+            super::PathBuf::from(super::expand_user("~/imsgct/red-hot_rebis/plasma/plasma_modot.py"));
+        if !bridge.is_file() {
+            eprintln!("skipping: plasma bridge not present");
+            return;
+        }
+        let out = run_structural_tool("plasma", &["psychedelic_baseline".into()])
+            .expect("plasma is a structural verb");
+        assert!(
+            out.contains("plasma reading of psychedelic_baseline") && out.contains("regime:"),
+            "plasma verb did not ground: {out}"
+        );
+    }
+}
+
+#[cfg(test)]
+mod lane_guard_tests {
+    use super::{
+        answer_is_proof, complete, is_transient_llm_error, tool_belnap, verb_isomorphism,
+        verbs_falsely_called_absent, LlmResult, Prepare, B4,
+    };
+
+    // A dual that FIRED but dangles (open fork / grammar error) is HELD → B, not void N.
+    #[test]
+    fn open_dual_is_held_b_not_void() {
+        let open = "IMASM wire\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)";
+        assert_eq!(tool_belnap(open), B4::B, "an open/dangling dual is held (B)");
+        let invalid = "grammar: INVALID\n    ✗ node 0 (IMSCRIB) fans out to 2; only FSPLIT (δ) may branch";
+        assert_eq!(tool_belnap(invalid), B4::B, "an ill-typed dual is held (B)");
+    }
+
+    // No δ/μ dyad at all is void N — distinct from a held B.
+    #[test]
+    fn no_dual_is_void_n() {
+        let trivial = "IMASM ring\n  topology: trivial | V=0 E=0 β=0\n  μ∘δ: none — no δ/μ dyad";
+        assert_eq!(tool_belnap(trivial), B4::N, "no dual at all is void (N)");
+    }
+
+    #[test]
+    fn read_path_handles_file_and_directory() {
+        use std::fs;
+        let base = std::env::temp_dir().join(format!("ask_rp_{}", std::process::id()));
+        let sub = base.join("sub");
+        fs::create_dir_all(&sub).unwrap();
+        fs::write(base.join("a.txt"), "alpha").unwrap();
+        fs::write(sub.join("b.md"), "beta").unwrap();
+        fs::write(base.join("skip.png"), &[0u8, 1, 2]).unwrap(); // binary ext: excluded
+
+        // a single file → its text
+        let (c, label) = super::read_path(base.join("a.txt").to_str().unwrap()).unwrap();
+        assert_eq!(c, "alpha");
+        assert!(label.starts_with("file:"));
+
+        // a directory → both text files concatenated with headers, binary skipped
+        let (c, label) = super::read_path(base.to_str().unwrap()).unwrap();
+        assert!(c.contains("alpha") && c.contains("beta"), "both files present");
+        assert!(c.contains("===== a.txt =====") && c.contains("b.md"), "path headers present");
+        assert!(!c.contains("\u{1}"), "binary file excluded");
+        assert!(label.starts_with("dir:") && label.contains("2 files"));
+
+        let _ = fs::remove_dir_all(&base);
+    }
+
+    #[test]
+    fn extracts_multiple_tool_calls_on_one_line_and_zero_arg() {
+        // The exact drop from the transcript: two raw directives collapsed onto one line.
+        let t = "TOOL: crystal_count TOOL: excite K19_ray_class_field";
+        let calls = super::extract_tool_calls(t);
+        assert_eq!(calls.len(), 2, "both directives must be extracted");
+        assert_eq!(calls[0], ("crystal_count".to_string(), vec![]));
+        assert_eq!(
+            calls[1],
+            ("excite".to_string(), vec!["K19_ray_class_field".to_string()])
+        );
+    }
+
+    #[test]
+    fn tool_extraction_skips_narrated_prose_calls() {
+        // The exact garbage from the transcript: next-step prose written as TOOL: lines.
+        let t = "TOOL: primitive_peel on the 6 survivors using valid primitives\n\
+                 TOOL: excite to reach the next resonance\n\
+                 TOOL: ascend again\n\
+                 TOOL: dope operation (format: dope A B with C)\n\
+                 TOOL: filter reduced_character_orbit_computation norm_sieve_execution";
+        let calls = super::extract_tool_calls(t);
+        // only the one real call survives
+        assert_eq!(calls.len(), 1);
+        assert_eq!(calls[0].0, "filter");
+        assert_eq!(calls[0].1[0], "reduced_character_orbit_computation");
+    }
+
+    #[test]
+    fn tool_extraction_ignores_lowercase_prose() {
+        // prose "tool:" must not be read as a directive
+        assert!(super::extract_tool_calls("Use the right tool: pick carefully.").is_empty());
+    }
+
+    // The reported disconnect: the model emits a call as a bare code span (its μ / naming
+    // face) with no `TOOL:` prefix — exactly CYCLE 13/14's `**`arrange a b c`**`. The single
+    // `TOOL:` scan saw ZERO calls and PRODded the agent for "ran none". The dual-face pass
+    // must route it.
+    #[test]
+    fn tool_extraction_routes_the_dual_code_span_face() {
+        let t = "1. **`arrange iutt_naive_composite gaussian_moat_problem hodge_theater_iutt`**: \
+                 ✓ OPTIMAL ORDERING FOUND.";
+        let calls = super::extract_tool_calls(t);
+        assert!(
+            calls.iter().any(|(v, a)| v == "arrange"
+                && a == &vec![
+                    "iutt_naive_composite".to_string(),
+                    "gaussian_moat_problem".to_string(),
+                    "hodge_theater_iutt".to_string(),
+                ]),
+            "dual-face code-span call was not routed: {calls:?}"
+        );
+    }
+
+    // A bare verb named in backticks with NO args is a mention, not a call — it must not fire
+    // (protects the `verbs_falsely_called_absent` prose like "the `ascend` verb is missing").
+    #[test]
+    fn tool_extraction_ignores_bare_verb_mentions() {
+        let t = "The `ascend` verb was blocked and `broadcast` is missing from the toolset.";
+        assert!(
+            super::extract_tool_calls(t).is_empty(),
+            "a bare verb mention with no args must not become a call"
+        );
+    }
+
+    // A call written BOTH ways (δ directive + μ code span) must run once, not twice —
+    // the cache dedups by signature, and so does the extractor.
+    #[test]
+    fn tool_extraction_dedups_both_faces() {
+        let t = "TOOL: close mon_x mon_y\nAs shown, `close mon_x mon_y` cyclized the ring.";
+        let calls = super::extract_tool_calls(t);
+        assert_eq!(
+            calls.iter().filter(|(v, _)| v == "close").count(),
+            1,
+            "a call written in both faces must appear once: {calls:?}"
+        );
+    }
+
+    #[test]
+    fn catches_a_real_verb_declared_absent() {
+        let t = "The `ascend` verb is not available. The tower cannot be built.\n\
+                 The `phase_reconstruct` tool does not exist.";
+        let mut hits = verbs_falsely_called_absent(t);
+        hits.sort();
+        assert_eq!(hits, vec!["ascend".to_string(), "phase_reconstruct".to_string()]);
+    }
+
+    #[test]
+    fn does_not_fire_on_substring_or_clean_text() {
+        // "onset" contains "set" but is not the verb; a normal sentence names no absence.
+        assert!(verbs_falsely_called_absent("At the onset the ring closes cleanly.").is_empty());
+        // an unavailability phrase with no real verb named must not fire
+        assert!(verbs_falsely_called_absent("The widget is not available.").is_empty());
+    }
+
+    #[test]
+    fn isomorphism_states_both_faces_for_key_verbs() {
+        // The verbs the operator narrates in a synthesis must read both ways.
+        for v in [
+            "excite", "cycle", "polymerize", "close", "forge", "distill", "set", "click",
+            "filter", "ascend", "descend", "phase_reconstruct", "star",
+        ] {
+            let (chem, math) = verb_isomorphism(v).unwrap_or_else(|| panic!("no isomorphism for {v}"));
+            assert!(!chem.is_empty() && !math.is_empty(), "empty face for {v}");
+            assert_ne!(chem, math, "the two faces of {v} must differ");
+        }
+        // excitation and cyclization specifically carry the ⊙ / ρ math the reports lean on.
+        assert!(verb_isomorphism("excite").unwrap().1.contains('⊙'));
+        assert!(verb_isomorphism("forge").unwrap().1.contains('ρ'));
+    }
+
+    // A conventional proof answer is recognized (so a material non-closure abstains on it).
+    #[test]
+    fn recognizes_a_conventional_proof() {
+        let a = "### Conventional Proof\n**Proposition:** h(k) ≪ k².\nProof. Apply the linear sieve...";
+        assert!(answer_is_proof(a), "did not recognize a proof answer");
+    }
+
+    // A pure structural / forge answer with no theorem is NOT treated as a proof, so a
+    // genuine 'does this set close into a ring' jam keeps its real F verdict.
+    #[test]
+    fn structural_forge_answer_is_not_a_proof() {
+        let a = "I forged the set into a 5-membered macrocycle; spectral radius ρ = 3.41, conductive.";
+        assert!(!answer_is_proof(a), "forge answer wrongly tagged as a proof");
+    }
+
+    // Regression: a proof written "The Proposition" (no colon) + "Conventional Proof" must
+    // still register (the strict colon form missed it, leaving tools=F on a proof).
+    #[test]
+    fn recognizes_proof_without_colon() {
+        let a = "### 1. The Proposition\n**YES.**\n### 2. Conventional Proof\nStep 1: random selection...";
+        assert!(answer_is_proof(a), "no-colon Proposition / Conventional Proof must count as a proof");
+    }
+
+    fn prep() -> Prepare {
+        Prepare {
+            scaffold_md: String::new(),
+            primary_name: Some("jacobsthal_function".into()),
+            hits: vec![],
+            witness_ready: true,
+        }
+    }
+
+    const PROOF: &str = "### Conventional Proof\n**Proposition:** h(k) ≪ k². Proof. linear sieve.";
+    const FORGE: &str = "I forged the set; the chain terminated early and did not cyclize into a ring.";
+
+    // A proof + a material non-closure must not fuse to B ("True but does not exist"): the
+    // guard abstains the tools (N) so there is no false conflict. And because the Frobenius
+    // dual is constitutive, a proof whose closing μ never ran (no tool, no kernel prove:) is
+    // ungrounded — held at N, a frontier, NOT spoken as T on the model's word alone.
+    #[test]
+    fn proof_without_closing_dual_is_ungrounded_not_b() {
+        let rep = complete(&prep(), PROOF, B4::T, B4::F, false, false);
+        assert_eq!(rep.tool_voice, B4::N, "material F should abstain on a proof");
+        assert_eq!(rep.fused, B4::N, "no closing dual → ungrounded (N), a frontier — never T on the model's word");
+        assert_ne!(rep.fused, B4::B, "and never the 'proven but does not exist' contradiction");
+        assert_eq!(rep.conflict, 0, "no real conflict: the tools never tested the theorem");
+    }
+
+    // In a jam the abstention meets the ENGAGR rule: a proof the tools did not ground is
+    // held at N (ungrounded), which is honest and, crucially, NOT the B self-contradiction.
+    #[test]
+    fn proof_in_jam_is_ungrounded_not_contradictory() {
+        let rep = complete(&prep(), PROOF, B4::T, B4::F, false, true);
+        assert_eq!(rep.tool_voice, B4::N);
+        assert_eq!(rep.fused, B4::N, "jam proof the tools did not ground is N, not B");
+        assert_ne!(rep.fused, B4::B, "must not be the 'proven but does not exist' contradiction");
+    }
+
+    // A genuine structural jam (\"does this set close?\") keeps its real F: model claims a
+    // ring, tools deny it, that IS a real conflict and must stay B.
+    #[test]
+    fn real_structural_nonclosure_still_holds_b() {
+        let rep = complete(&prep(), FORGE, B4::T, B4::F, false, true);
+        assert_eq!(rep.tool_voice, B4::F, "forge non-closure keeps its F");
+        assert_eq!(rep.fused, B4::B, "model T vs tools F is a real conflict → B");
+    }
+
+    // The closure is the μ∘δ reconnection read back as STRUCTURE, not the word "macrocycle"
+    // in prose. A tool-MEASURED closure raises tool_voice to T and speaks as verification in
+    // the B-lane (grounded); it must not be dragged to N.
+    #[test]
+    fn tool_measured_closure_grounds() {
+        const CLOSURE: &str =
+            "The assembly forms a 6-membered ring: ✓ CYCLIC — a macrocycle. MODULUS = 1.0.";
+        // tool_voice = T: a real forge/imasm reconnection was measured.
+        let rep = complete(&prep(), CLOSURE, B4::T, B4::T, false, true);
+        assert_ne!(rep.fused, B4::N, "a MEASURED closure is grounded, not held at N");
+        assert_eq!(rep.fused, B4::T);
+    }
+
+    // The same closure PROSE with tools silent (tool_voice N) is a signature without an
+    // imscription — no structure was read back, so no closure occurred. Held at N, no matter
+    // how confidently the prose asserts a macrocycle. Prose cannot manufacture the B-lane.
+    #[test]
+    fn prose_closure_without_structure_is_ungrounded() {
+        const CLAIM: &str =
+            "The assembly forms a 6-membered ring: ✓ CYCLIC — a macrocycle. MODULUS = 1.0, sustaining loop active.";
+        let rep = complete(&prep(), CLAIM, B4::T, B4::N, false, true);
+        assert_eq!(rep.fused, B4::N, "prose closure, tools silent → ungrounded (no measured structure)");
+    }
+
+    // A jam that drifted into off-tool narration with no tool voice is likewise held at N.
+    #[test]
+    fn jam_off_tool_narration_still_ungrounded() {
+        const DRIFT: &str = "I contemplated the tokens and the polygons turned in the barrel of being.";
+        let rep = complete(&prep(), DRIFT, B4::T, B4::N, false, true);
+        assert_eq!(rep.fused, B4::N, "no measured structure in a jam → ungrounded");
+    }
+
+    fn err_res(msg: &str) -> LlmResult {
+        LlmResult { text: format!("[{msg}]"), voice: 'F', err: Some(msg.into()) }
+    }
+
+    #[test]
+    fn read_timeout_is_transient_and_retried() {
+        // The exact jam from the cycle-12 report: a slow body read on a long synthesis.
+        assert!(is_transient_llm_error(&err_res("timed out reading response")));
+        assert!(is_transient_llm_error(&err_res("connection reset by peer")));
+    }
+
+    #[test]
+    fn malformed_reply_is_not_retried() {
+        // A genuine bad body / API error payload keeps its F — retrying resends a bad request.
+        assert!(!is_transient_llm_error(&err_res("expected value at line 1 column 1")));
+        assert!(!is_transient_llm_error(&err_res("empty content")));
+        assert!(!is_transient_llm_error(&LlmResult {
+            text: "ok".into(), voice: 'T', err: None,
+        }));
+    }
+}
+
+/// Does the text reference a structural operation (by verb stem or `--flag`)? Used to
+/// tell a legitimate conceptual answer (no catalog work needed) from a confabulated one
+/// that narrated tools it never ran — the trigger for the no-op prod.
+fn mentions_structural_work(text: &str) -> bool {
+    const CUES: &[&str] = &[
+        "polymeriz", "arrange", "mediator", "excite", "enchain", "cycliz", "modulus",
+        "pathway", "--scan", "--close", "--click", "--material", "--switch", "--excite",
+        "forge", "spectral radius", "conductance", "--compare", "--dope", "--forge", "--fuse",
+        "--cleave", "cleave", "fission", "--anneal", "anneal", "strain",
+        "--recall", "recall", "register", "--register",
+        "distill", "sublim", "volatility", "azeotrope",
+        "crystalliz", "cocrystal", "polymorph", "lattice",
+        "chromatograph", "elut", "retention factor", " Rf ",
+        "degas", "freeze-pump", "outgas", "sequester", "stain", "reagent",
+    ];
+    let low = text.to_lowercase();
+    CUES.iter().any(|c| low.contains(c))
+}
+
+/// Does the draft ASSERT closure in prose — "the vessel is closed", "μ∘δ", "the loop
+/// seals", "boundary now closed" — the way a model performs the manuscript-spine register
+/// without ever grounding it? Closure is a STRUCTURAL verdict (the µ∘δ dual actually
+/// reconnecting), never a sentence the model may write on its own authority. Seen live in
+/// a Qwen CoT: ~9 rounds all restating "shape the vessel / seal the vessel / the loop
+/// seals" with zero tool calls — prose closure standing in for closure, the
+/// exact fabrication the GENERATIVE-POWER clause forbids. Paired with an empty tool-call
+/// scan, this trips the prod that forces `imasm protocol` / `check` / `prove`.
+fn declares_closure_in_prose(text: &str) -> bool {
+    const CUES: &[&str] = &[
+        "μ∘δ", "vessel is closed", "vessel closed", "vessel now", "the loop seals",
+        "loop seals", "boundary now closed", "boundary is closed", "closes its dual",
+        "closes the dual", "seal the vessel", "vessel stands whole", "μ∘δ closed",
+        "closure is achieved", "achieved closure", "self-contained form", "dual closes",
+    ];
+    let low = text.to_lowercase();
+    CUES.iter().any(|c| low.contains(c))
+}
+
+/// Real verbs the draft declares absent ("unavailable", "does not exist", …). A model
+/// will sometimes end a run by claiming a verb it does not want to run simply isn't there,
+/// parking the node at B/N on a false premise. This finds any line that pairs an
+/// unavailability phrase with the name of a verb that actually EXISTS (structural or IG
+/// corpus), so the loop can force the call instead of accepting the fabrication. Token-
+/// boundary matched, so "set" does not fire inside "onset".
+fn verbs_falsely_called_absent(text: &str) -> Vec<String> {
+    const NEG: &[&str] = &[
+        "not available", "unavailable", "does not exist", "doesn't exist", "do not exist",
+        "not exist", "no such verb", "no verb", "is absent", "are absent", "not a verb",
+        "cannot be built", "cannot be run", "tool does not", "verb does not", "is not available",
+    ];
+    let contains_token = |hay: &str, tok: &str| -> bool {
+        let bytes = hay.as_bytes();
+        let mut from = 0;
+        while let Some(rel) = hay[from..].find(tok) {
+            let s = from + rel;
+            let e = s + tok.len();
+            let before_ok = s == 0 || !bytes[s - 1].is_ascii_alphanumeric() && bytes[s - 1] != b'_';
+            let after_ok = e >= bytes.len() || !bytes[e].is_ascii_alphanumeric() && bytes[e] != b'_';
+            if before_ok && after_ok {
+                return true;
+            }
+            from = s + 1;
+        }
+        false
+    };
+    let mut hits: Vec<String> = Vec::new();
+    for line in text.lines() {
+        let ll = line.to_lowercase();
+        if !NEG.iter().any(|p| ll.contains(p)) {
+            continue;
+        }
+        for v in STRUCTURAL_VERBS.iter().chain(IG_TOOLS.iter()) {
+            if contains_token(&ll, v) && !hits.iter().any(|h| h == v) {
+                hits.push((*v).to_string());
+            }
+        }
+    }
+    hits
+}
+
+/// Prose guard shared by both extraction faces: the model narrates next-steps as
+/// `verb <english sentence>` ("ascend again", "dope operation (format …)"). Those are
+/// narration, not calls — running the verb on "the"/"again"/"operation" yields garbage. A
+/// real arg is a catalog token, never an English connective and never carrying sentence
+/// punctuation. Zero-arg verbs (crystal_count, cl8nk stats) have no args and pass through.
+fn args_are_prose(args: &[String]) -> bool {
+    const STOPWORD_ARGS: &[&str] = &[
+        "on", "to", "the", "a", "an", "with", "using", "for", "from", "of", "in", "and",
+        "or", "this", "that", "it", "again", "before", "after", "then", "now", "next",
+        "by", "as", "into", "via", "use", "attempt", "reach", "onto", "at", "so",
+    ];
+    args.first()
+        .map(|a| STOPWORD_ARGS.contains(&a.to_lowercase().as_str()))
+        .unwrap_or(false)
+        || args
+            .iter()
+            .any(|a| a.contains('(') || a.contains(')') || a.contains('`') || a.contains(':'))
+}
+
+/// Is `verb` a real callable verb (a structural verb or an IG tool)? Gate for the
+/// dual-face (code-span) extraction: only a span whose first token is an actual verb is
+/// routed as a call, so ordinary prose in backticks never false-triggers.
+fn is_known_verb(verb: &str) -> bool {
+    STRUCTURAL_VERBS.contains(&verb) || IG_TOOLS.contains(&verb)
+}
+
+/// Parse the tool calls the agent emitted. A tool call is Frobenius-dual and the model
+/// emits it from EITHER face:
+///   δ face — a directive line `TOOL: <verb> <args…>` (the request side), and
+///   μ face — the verb named directly in a code span `` `<verb> <args…>` `` (the
+///            result/naming side), which is how the model writes a call when it is
+///            reporting the operation rather than requesting it.
+/// The old extractor saw only the `TOOL:` face, so a cycle that emitted every call as a
+/// code span (CYCLE 13/14: **`arrange a b c`**) parsed as ZERO calls and the loop PRODded
+/// the agent for "ran none" when it had in fact invoked the verbs. Both faces route here.
+/// Tolerant of markdown wrapping (`**TOOL: …**`, `` `TOOL: …` ``, list bullets):
+/// leading non-alphanumerics are skipped and each arg is trimmed of `*` `` ` `` `_`.
+fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
+    let trim_md = |s: &str| {
+        s.trim_matches(|c: char| c == '*' || c == '`' || c == '_' || c == ' ' || c == '.')
+            .to_string()
+    };
+    // Split on the literal `TOOL:` marker anywhere it appears, so MULTIPLE directives on one
+    // line each become their own call (the old line-anchored regex swallowed the second one
+    // as the first's args — silently dropping a call). Case-sensitive marker: the model emits
+    // `TOOL:` uppercase for a real directive, so prose "tool:" does not false-trigger. A call
+    // runs to end-of-line OR the next `TOOL:`, whichever comes first; zero-arg verbs (e.g.
+    // `crystal_count`) are now captured instead of requiring a bogus argument.
+    const MARK: &str = "TOOL:";
+    let mut out = Vec::new();
+    let mut from = 0usize;
+    while let Some(rel) = text[from..].find(MARK) {
+        let start = from + rel + MARK.len();
+        let line_end = text[start..].find('\n').map(|i| start + i).unwrap_or(text.len());
+        // stop this call at the next TOOL: on the same line, if any
+        let seg_end = text[start..line_end]
+            .find(MARK)
+            .map(|i| start + i)
+            .unwrap_or(line_end);
+        let seg = text[start..seg_end].trim_start();
+        let verb: String = seg
+            .chars()
+            .take_while(|c| c.is_ascii_alphanumeric() || *c == '_' || *c == '-')
+            .collect();
+        if !verb.is_empty() {
+            let rest = &seg[verb.len()..];
+            let args: Vec<String> = rest
+                .split_whitespace()
+                .map(trim_md)
+                .filter(|s| !s.is_empty())
+                .collect();
+            // Prose guard (shared with the μ-face pass): skip narration like
+            // `TOOL: ascend again` / `TOOL: dope operation (…)`.
+            if !args_are_prose(&args) {
+                out.push((verb.to_lowercase(), args));
+            }
+        }
+        from = start; // advance past this marker so the next TOOL: (same line or later) is found
+    }
+
+    // μ face: calls the model wrote as bare code spans `` `<verb> <args…>` `` with no
+    // `TOOL:` prefix — the result/naming side of the same Frobenius-dual call. Route each
+    // span whose FIRST token is a known verb and whose args survive the prose guard, then
+    // dedup against the δ-face calls so a call written both ways runs once. An inline code
+    // span holds no newline, so a run between backticks is bounded by the next backtick OR
+    // the line end. Requiring ≥1 arg keeps bare verb mentions (`` `ascend` `` in prose)
+    // from firing; the known-verb gate keeps ordinary backticked prose out.
+    let bytes = text.as_bytes();
+    let mut i = 0usize;
+    while i < bytes.len() {
+        if bytes[i] == b'`' {
+            let span_start = i + 1;
+            let mut j = span_start;
+            while j < bytes.len() && bytes[j] != b'`' && bytes[j] != b'\n' {
+                j += 1;
+            }
+            let span = &text[span_start..j.min(text.len())];
+            let mut toks = span.split_whitespace();
+            if let Some(v0) = toks.next() {
+                let verb = trim_md(v0).to_lowercase();
+                if is_known_verb(&verb) {
+                    let args: Vec<String> =
+                        toks.map(trim_md).filter(|s| !s.is_empty()).collect();
+                    if !args.is_empty()
+                        && !args_are_prose(&args)
+                        && !out.iter().any(|(vv, aa)| *vv == verb && *aa == args)
+                    {
+                        out.push((verb, args));
+                    }
+                }
+            }
+            // resume after the closing backtick (or at j if we hit a newline/end)
+            i = if j < bytes.len() && bytes[j] == b'`' { j + 1 } else { j + 1 };
+        } else {
+            i += 1;
+        }
+    }
+    out
+}
+
+/// If a path is the Linux "<path> (deleted)" form, return the real path. `current_exe`
+/// reads /proc/self/exe, which after a rebuild-in-place points at the unlinked old inode
+/// and reads back as "<path> (deleted)". Pure + tiny so it can be unit-tested.
+fn strip_deleted_suffix(path: &str) -> Option<&str> {
+    path.strip_suffix(" (deleted)")
+}
+
+/// Path to this binary for re-shelling structural verbs. If the running binary was
+/// rebuilt in place mid-session, `current_exe` yields "<path> (deleted)"; strip that and
+/// use the fresh binary now at the real path, so a tool call relinks to the rebuilt
+/// binary instead of failing to spawn. Falls back to whatever `current_exe` returned.
+fn resolve_self_exe() -> Option<PathBuf> {
+    let e = env::current_exe().ok()?;
+    if let Some(real) = strip_deleted_suffix(&e.to_string_lossy()) {
+        let p = PathBuf::from(real);
+        if p.exists() {
+            return Some(p);
+        }
+    }
+    Some(e)
+}
+
+/// Execute one whitelisted structural verb by shelling to this same binary and
+/// capturing its stdout. Returns None for a non-whitelisted verb or missing args.
+/// The whitelist never includes `ask`, so there is no recursion.
+fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
+    // Set notation is not part of any entry name. A `{set}` query makes the model emit
+    // `TOOL: arrange {binah monad ankh}`, and the braces/commas would leak in as bogus
+    // monomer names ("monomer not found: {binah") — the same silent-corruption class as
+    // the click arg-drop. Strip set punctuation at the choke point so every verb sees clean
+    // names. `+` (the pre-click token) is deliberately NOT stripped.
+    let owned: Vec<String> = args
+        .iter()
+        .map(|s| s.trim().trim_matches(|c| "{}[](),".contains(c)).to_string())
+        .filter(|s| !s.is_empty())
+        .collect();
+    let args: &[String] = &owned;
+    let a = |i: usize| args.get(i).cloned();
+    // Arity guard: `click` is pairwise. Passing 3+ names used to silently drop all but
+    // the first two — which let the model claim it fused a whole set. Refuse honestly and
+    // route the combine to the right tool (the `+` pre-click / polymerize).
+    if verb == "click" && args.len() > 2 {
+        return Some(format!(
+            "click is pairwise: 1 name sweeps the catalog, 2 names click a pair — it cannot take {}. \
+             To COMBINE a set of entries, `polymerize {}` (enchains them, reports how they bond and \
+             whether they close into a ring), or fold entries into one blended monomer with a `+` token, \
+             e.g. `polymerize {}+{} {}`.\n",
+            args.len(), args.join(" "), args[0], args[1], args.get(2).cloned().unwrap_or_default()
+        ));
+    }
+    // `imscribe` is the one verb that does NOT shell to this binary: it CREATES a missing
+    // entry by running the real generate pipeline, which writes to the live catalog MoDoT
+    // already merges on load. So the agent can MAKE what it needs instead of concluding the
+    // imscription is lacking. `TOOL: imscribe <name> [free-text description]`.
+    if verb == "imscribe" {
+        let Some(name) = a(0) else {
+            return Some("imscribe needs a name: TOOL: imscribe <name> [description]\n".into());
+        };
+        let description = if args.len() > 1 { args[1..].join(" ") } else { name.replace('_', " ") };
+        return Some(run_imscribe(&name, &description));
+    }
+    // `ob3ect` also shells to a real external pipeline: the Ob3ect Auto-Designer
+    // (~/ob3ect/auto.py), which types a neutral description through all 8 IMASM phases
+    // and persists the artifact. The agent can CREATE an ob3ect on the fly whenever it
+    // needs a grounded IMASM typing of a procedure, protocol, or entity.
+    if verb == "ob3ect" {
+        if args.is_empty() {
+            return Some("ob3ect needs a description: TOOL: ob3ect <free-text description of the entity>\n".into());
+        }
+        return Some(run_ob3ect(&args.join(" ")));
+    }
+    // The CL8NK navigator (CLINK L8, O∞) is THE navigator — it subsumes the ZFC/domain
+    // navigators, which were removed. Shells to imscribing_grammar/navigators/cl8nk_navigator.py.
+    if verb == "cl8nk" {
+        return Some(run_cl8nk(args));
+    }
+    // CL9NK — CLINK Layer 9, the Gaussian-Moat-resolution tier the L8 organism ascends into.
+    // Same live navigator shell; adds the `moat` action. Reads each entry's L9 reference typing.
+    if verb == "cl9nk" {
+        return Some(run_cl9nk(args));
+    }
+    // `plasma` reads an entry's tuple as a plasma design (regime/instabilities/confinement),
+    // shelling to the red-hot_rebis plasma forge — another lossless face of the object.
+    if verb == "plasma" {
+        return Some(run_plasma(args));
+    }
+    // `imasm` composes the 12 opcodes into a free polymer topology (chain/ring/star/
+    // comb/bubble/network) and reports β, branch/merge census, ρ, and grammar validity.
+    // Pure Rust — no catalog, no shell. This is the native successor to composer.py.
+    if verb == "imasm" {
+        return Some(imasm::run(args));
+    }
+    // The arithmetic lane. Every number the agent SPEAKS routes through here: a slipped
+    // exponent reads exactly like a correct one, so head-arithmetic is unbound synthesis.
+    if matches!(verb, "calc" | "eval" | "compute" | "arith") {
+        return Some(calc::run(args));
+    }
+    // The full IG tool corpus (compute_distance, primitive_peel, crystal_decode,
+    // zfc_probe, aleph_encode, ...) is dispatched natively from here, shelling to
+    // the live IG_inquiry dispatcher via modot.ig_tools — one manifold, not a
+    // reimplementation. Same pattern as ob3ect: the loop drives it, the corpus runs.
+    if IG_TOOLS.contains(&verb) {
+        return Some(run_ig_tool(verb, args));
+    }
+    let flags: Vec<String> = match verb {
+        "click" => {
+            let mut v = vec!["--click".to_string(), a(0)?];
+            if let Some(b) = a(1) { v.push(b); }
+            v
+        }
+        "switch" => vec!["--switch".into(), a(0)?, a(1)?],
+        "excite" => vec!["--excite".into(), a(0)?],
+        "ascend" => vec!["--ascend".into(), a(0)?],
+        "descend" => vec!["--descend".into(), a(0)?],
+        "star" => {
+            let mut v = vec!["--star".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        // broadcast = the ∋ primitive (f → all(x)): one SOURCE signals ALL subsystems it
+        // couples with, discovered in a single sweep — not an enumerated arm list. Realized
+        // as the catalog sweep from the source (single-name click), which finds every entry
+        // that fuses with it: the genuine one-to-all fan-out. The agent's natural call is
+        // `broadcast SOURCE all_subsystems` — arg 0 is the source; any trailing symbolic
+        // target ("all"/"all_subsystems") is ignored because the sweep already IS "all".
+        "broadcast" => vec!["--click".to_string(), a(0)?],
+        "filter" => {
+            let mut v = vec!["--filter".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "phase_reconstruct" => {
+            let mut v = vec!["--phase-reconstruct".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "homolyze" => {
+            let mut v = vec!["--homolyze".to_string(), a(0)?];
+            if let Some(b) = a(1) { v.push(b); }
+            v
+        }
+        "set" => vec!["--set".into(), a(0)?, a(1)?],
+        "scan" => vec!["--set".into(), a(0)?, a(1)?, "--scan-mediators".into()],
+        "complement" => vec!["--complement".into(), a(0)?],
+        "cycle" => vec!["--cycle".into(), a(0)?, a(1)?],
+        "pathway" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--pathway".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "polymerize" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--polymerize".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "close" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--polymerize".to_string()];
+            v.extend(args.iter().cloned());
+            v.push("--close".into());
+            v
+        }
+        "material" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--polymerize".to_string()];
+            v.extend(args.iter().cloned());
+            v.push("--props".into());
+            v
+        }
+        "modulus" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--polymerize".to_string()];
+            v.extend(args.iter().cloned());
+            v.push("--modulus".into());
+            v
+        }
+        "arrange" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--polymerize".to_string()];
+            v.extend(args.iter().cloned());
+            v.push("--arrange".into());
+            v
+        }
+        "forge" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--forge".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "compare" => {
+            // needs both sides and the `vs` separator: compare A B vs X Y
+            if args.len() < 5 || !args.iter().any(|a| a == "vs") {
+                return None;
+            }
+            let mut v = vec!["--compare".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "dope" => {
+            // base + `with` + dopant: dope A B with C
+            if args.len() < 4 || !args.iter().any(|a| a == "with") {
+                return None;
+            }
+            let mut v = vec!["--dope".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "fuse" => {
+            // ring A + ring B: fuse A B + X Y
+            if args.len() < 5 || !args.iter().any(|a| a == "+") {
+                return None;
+            }
+            let mut v = vec!["--fuse".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "cleave" => {
+            if args.len() < 4 {
+                return None;
+            }
+            let mut v = vec!["--cleave".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "anneal" => {
+            if args.len() < 3 {
+                return None;
+            }
+            let mut v = vec!["--anneal".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "register" => {
+            // register NAME M1 M2 … : forge the set and store it under NAME
+            if args.len() < 3 {
+                return None;
+            }
+            let mut v = vec!["--forge".to_string()];
+            v.extend(args[1..].iter().cloned());
+            v.push("--register".into());
+            v.push(args[0].clone());
+            v
+        }
+        "recall" => {
+            if args.len() != 1 {
+                return None;
+            }
+            vec!["--recall".to_string(), args[0].clone()]
+        }
+        "distill" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--distill".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "fdistill" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--fdistill".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "sublime" => vec!["--sublime".into(), a(0)?],
+        "crystallize" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--crystallize".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "cocrystallize" => vec!["--cocrystallize".into(), a(0)?, a(1)?],
+        "seed" => {
+            if args.len() < 3 {
+                return None;
+            }
+            let mut v = vec!["--seed".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "tlc" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--tlc".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "column" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--column".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "fpt" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--fpt".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        "trap" => {
+            let mut v = vec!["--trap".to_string(), a(0)?];
+            if let Some(x) = a(1) {
+                v.push(x);
+            }
+            v
+        }
+        "stain" => {
+            if args.len() < 2 {
+                return None;
+            }
+            let mut v = vec!["--stain".to_string()];
+            v.extend(args.iter().cloned());
+            v
+        }
+        _ => return None,
+    };
+    // Distinct from the arity None above: a failure to LOCATE or SPAWN the binary is not
+    // bad args. It happens when the binary is rebuilt while a session runs (the old inode
+    // is unlinked). Return a clear Some so the caller never mislabels it "wrong args", and
+    // resolve_self_exe already relinks to a rebuilt-in-place binary when it can.
+    let exe = match resolve_self_exe() {
+        Some(e) if e.exists() => e,
+        other => {
+            return Some(format!(
+                "(tool runner could not find the ask binary{}; it was likely rebuilt while this \
+                 session was running. Restart ./ask so it relinks to the new binary, then re-run.)\n",
+                other.map(|p| format!(" at {}", p.display())).unwrap_or_default()
+            ));
+        }
+    };
+    let out = match process::Command::new(&exe).args(&flags).output() {
+        Ok(o) => o,
+        Err(err) => {
+            return Some(format!(
+                "(tool runner could not execute `{}`: {err}. If the binary was rebuilt mid-session, \
+                 restart ./ask.)\n",
+                exe.display()
+            ));
+        }
+    };
+    // Capture stdout AND stderr — a tool call that errors (e.g. a monomer the model
+    // invented that is not in the catalog) must surface its failure, not vanish.
+    let mut s = String::from_utf8_lossy(&out.stdout).into_owned();
+    let err = String::from_utf8_lossy(&out.stderr);
+    if !err.trim().is_empty() {
+        s.push_str(err.trim_end());
+        s.push('\n');
+    }
+    // If a verb failed on a missing name, don't leave the agent to conclude it cannot
+    // proceed — route it to MAKE the entry. This is the whole point: the imscription being
+    // absent is a fixable state, not a wall.
+    if let Some(missing) = s
+        .split("not found: ")
+        .nth(1)
+        .and_then(|t| t.split_whitespace().next())
+    {
+        s.push_str(&format!(
+            "\n→ '{missing}' is not in the catalog YET — this is not a dead end. Create it: \
+             TOOL: imscribe {missing}\n   (imscribes it via the real generate pipeline; then re-run this verb — the new entry loads automatically.)\n"
+        ));
+    }
+    Some(s)
+}
+
+/// The canonical call form for a known structural verb, or None if `verb` is not a
+/// structural verb at all. `run_structural_tool` returns None both for an unknown
+/// verb AND for a real verb given too few names; without this split the caller
+/// reported every miss as "not an available verb", which sent the eagle looping —
+/// re-emitting `polymerize A` (one name) round after round instead of adding the
+/// second name. This lets the caller answer "polymerize needs 2+ names" so the next
+/// round self-corrects.
+fn verb_usage(verb: &str) -> Option<&'static str> {
+    Some(match verb {
+        "click"      => "click A B (or `click A` to sweep the catalog); 1 or 2 names",
+        "switch"     => "switch A B; 2 names",
+        "excite"     => "excite A; 1 name",
+        "set"        => "set A B; 2 names (donor acceptor)",
+        "homolyze"   => "homolyze A [B]; 1 or 2 names",
+        "scan"       => "scan A B; 2 names (donor acceptor), ranks mediators of A to B",
+        "complement" => "complement A; 1 name",
+        "cycle"      => "cycle C S; 2 names (catalyst substrate)",
+        "pathway"    => "pathway S C1 C2...; 2+ names",
+        "polymerize" => "polymerize M1 M2...; 2+ names to chain",
+        "close"      => "close M1 M2...; 2+ names",
+        "material"   => "material M1 M2...; 2+ names",
+        "modulus"    => "modulus M1 M2...; 2+ names",
+        "arrange"    => "arrange M1 M2...; 2+ names (unordered set)",
+        "forge"      => "forge M1 M2...; 2+ names (unordered set)",
+        "compare"    => "compare A B vs X Y; two sets split by `vs`",
+        "dope"       => "dope A B with C; base and dopant split by `with`",
+        "fuse"       => "fuse A B + X Y; two rings split by `+`",
+        "cleave"     => "cleave M1 M2...; 2+ names (forges then cuts the ring)",
+        "anneal"     => "anneal M1 M2...; 2+ names",
+        "register"   => "register NAME M1 M2...; a NAME then 2+ names",
+        "recall"     => "recall NAME; exactly 1 stored name",
+        "distill"    => "distill M1 M2...; 2+ names (separate by volatility ⊙)",
+        "fdistill"   => "fdistill M1 M2...; 2+ names (fractional: ranked column by ⊙)",
+        "sublime"    => "sublime A; 1 name (skip-path purify across ⊙)",
+        "crystallize"   => "crystallize M1 M2...; 2+ names (grow the lattice, reject non-fitting)",
+        "cocrystallize" => "cocrystallize A B; 2 names (non-covalent co-lattice)",
+        "seed"          => "seed M1 M2 ... with S; a set, then `with`, then one seed",
+        "tlc"           => "tlc M1 M2...; 2+ names (spread by Rf, count bands)",
+        "column"        => "column M1 M2 ... [on S]; 2+ names, optional `on S` stationary phase",
+        "fpt"           => "fpt M1 M2...; 2+ names (degas: shed weakly-held units)",
+        "trap"          => "trap A [X]; 1 unit, optional counter X (ionic sequester)",
+        "stain"         => "stain R M1 M2...; a reagent (kmno4/uv/chiral/ninhydrin/iodine) then 1+ units",
+        "filter"     => "filter A B [C …]; 2+ reference names (narrow the catalog to their shared floor)",
+        "ascend"     => "ascend A; 1 name (construct the next ramified tower level from A's excited state)",
+        "descend"    => "descend A; 1 name (relax A one tower level down: de-excite the criticality and remove one winding)",
+        "phase_reconstruct" => "phase_reconstruct M1 M2 …; 2+ names (recover the relative phase word from the closed ring)",
+        "star"       => "star M1 M2 M3 …; 4+ names (hub-and-arms star polymer: auto core + arms, ρ=√f)",
+        "broadcast"  => "broadcast SOURCE; 1 name (∋: the source signals ALL subsystems it couples with, discovered in one catalog sweep — the one-to-all fan-out)",
+        "cl8nk"      => "cl8nk <action> [name]; action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats (the CLINK L8 navigator)",
+        "cl9nk"      => "cl9nk <action> [name]; action ∈ entry|distance|tensor|meet|join|tier|promotions|transcendence|chain|systems|stats|moat (the CLINK L9 navigator — the Gaussian-Moat-resolution tier; reads each entry's L9 reference typing)",
+        "plasma"     => "plasma ENTRY; 1 name (read the entry's tuple as a plasma design: regime, instabilities, confinement, diagnostics)",
+        "imscribe"   => "imscribe NAME [description]; a name and optional description",
+        "ob3ect"     => "ob3ect <description>; free-text description of the entity to type",
+        "imasm"      => "imasm <op> …; op ∈ chain|ring|protocol|star|comb|bubble|wire|check|prove|define|run|tools|classify|expand|types|ref (`protocol <opcodes>` builds a sequence with its FSPLIT/FFUSE pairs reconnected — the way to CLOSE a protocol loop; a naive `ring` leaves the fork dangling) (compose the 12 opcodes into a polymer topology; `wire N0 N1 … / i-j i-k` for ANY graph; `check <opcode word>` type-checks your OWN decision — close condition is μ∘δ over a TRANSFORMED object (split→work→fuse), NOT a bare cycle → T/N-identity/B/F; `prove <name|word>` takes it to the p4ramill Lean kernel; `define <name> <op> <args>` builds a kernel-constrained tool, `run`/`tools`; `expand <type>` unfolds a Shavian type)",
+        _ => return None,
+    })
+}
+
+/// The chem↔math isomorphism, stated both ways for a structural verb. The engine runs
+/// one operation; it reads as chemistry AND as mathematics — two lossless faces of the
+/// same act (R∧W∧X), not a chemical result with a mathematical gloss bolted on. Returned
+/// as (chemical, mathematical) so the final report can name what each operation MEANS in
+/// both registers, for exactly the verbs that actually ran.
+fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
+    Some(match verb {
+        "click" => (
+            "two fragments bond on a live conjugate pair — a covalent fusion that holds only if the partners are complementary",
+            "Frobenius fusion δ then μ of two objects across a conjugate axis (D↔W / T↔H / R↔S); closes iff the tuples are complementary, with μ∘δ = id on the diagonal",
+        ),
+        "excite" => (
+            "promotion to the excited electronic state — Criticality ⊙ raised to the exceptional-point resonance",
+            "a lift of the object to its critical manifold: the self-modeling parameter ⊙ driven to the spectral degeneracy (exceptional point) where eigenvalues coalesce — the ramified/excited level above the ground state, resonant but not yet a constructed extension",
+        ),
+        "cycle" => (
+            "a catalyst turns the substrate over and is returned unchanged",
+            "a fixed point of the composed map, μ∘δ = id — an idempotent that is the identity on its carrier",
+        ),
+        "polymerize" | "close" => (
+            "monomers chain head-to-tail; the chain either terminates open or closes into a ring (macrocyclization)",
+            "composition of morphisms in sequence; cyclization = the composite returning to its start, a closed loop (a categorical cycle), which the graph realizes as ρ = 2 exactly",
+        ),
+        "forge" | "material" | "arrange" => (
+            "cast the monomer set into its best ring and read topology, conductance, and stability",
+            "assemble the adjacency graph and take its spectrum: spectral radius ρ and gap; ρ = 2 exactly ⟺ a pure cycle, ρ > 2 ⟺ branched",
+        ),
+        "set" => (
+            "single-electron transfer, donor → acceptor, giving radical ions",
+            "transport of one winding quantum ⊡ across the ⊙ gradient — a unit change of the topological winding invariant",
+        ),
+        "distill" | "fdistill" | "sublime" => (
+            "separation by volatility along Criticality ⊙ — volatile head vs involatile residue; a tie on ⊙ is an azeotrope",
+            "a projection/ordering of the set onto the ⊙ coordinate; an azeotrope = two elements degenerate on ⊙, a tie the projection cannot resolve",
+        ),
+        "crystallize" | "cocrystallize" | "seed" => (
+            "grow the ordered lattice — the units that fit vs the rejected mother-pool; a closed ring is a crystal",
+            "the maximal consistent/closed sublattice of tiling elements vs the complement; full closure = a complete substructure",
+        ),
+        "scan" => (
+            "rank catalog mediators of the A → B electron transfer",
+            "rank elements by mediating distance on the transfer axis — the best interpolant between the endpoints",
+        ),
+        "homolyze" | "cleave" => (
+            "homolytic bond cleavage into neutral radicals / ring fission into two daughters",
+            "the reverse of fusion: a symmetric split δ undoing μ, cutting the object on a complementary arc",
+        ),
+        "filter" => (
+            "keep only the species sharing the reference floor; the rest are washed out",
+            "restrict to the sublevel set where the shared invariants match — a necessary (upper-bound) condition on the candidate set, not an exact solution",
+        ),
+        "ascend" => (
+            "take the excited resonance and fix it into a constructed higher state (build one floor of the tower)",
+            "analytically continue past the exceptional-point branch to the complex-axis fixed point and add one winding quantum ⊡ — one ramified level of the extension tower",
+        ),
+        "descend" => (
+            "relax the excited/continued criticality back to the real-axis ground fixed point and peel off one tower floor (the μ inverse of ascend)",
+            "fluorescence: the complex/exceptional-axis criticality relaxes to the real-axis Hermitian fixed point and one winding quantum ⊡ is released — one ramified level removed",
+        ),
+        "phase_reconstruct" => (
+            "read the relative phases off a closed ring — fixed up to one global phase",
+            "recover the relative phase word from cyclization (the flat-autocorrelation constraint); determined modulo a global gauge, exactly as C_m = 1/(d+1) fixes ψ up to a global phase",
+        ),
+        "star" => (
+            "a multifunctional core with f arms radiating out — a hub-and-spoke star polymer, no arm–arm bonds",
+            "the star graph K(1,f): one hub adjacent to f independent leaves; adjacency spectral radius ρ = √f with spectrum {+√f, 0×(f−1), −√f} — contrast the ρ=2 of a pure cycle",
+        ),
+        "broadcast" => (
+            "one source unit fires to every subsystem it couples with at once — swept from the whole catalog, the receivers found in a single pass, not enumerated by hand",
+            "the ∋ broadcast primitive f → all(x): the source composed with all subsystems it fuses with, discovered by sweeping the catalog from the source; the signal reaches every coupling subsystem in one step, which is exactly what CLINK L8 (∋) demands",
+        ),
+        "plasma" => (
+            "read the entry as a collectivized-atom plasma: its regime (kinetic/gyrokinetic/fluid), instabilities, confinement class, and diagnostic wave signatures — the state where units surrender individual identity to the electromagnetic collective",
+            "map the 12-primitive tuple to plasma parameters via the forge: ⊢→phase-space/kinetic regime, ⋈→collisionality, ⊤→transport, ∋→instability cascade, ⊙→threshold/spectral structure, ⊥→reversibility (Vlasov vs Boltzmann), ⊡→magnetic topology/helicity — another lossless face of the same object, not a separate substance",
+        ),
+        "imasm" => (
+            "compose the 12 IMASM opcodes into a free polymer — a chain, a ring, a star (hub + arms), a comb (backbone + grafts), a bubble (fork that reconverges), or a network — not only a line; reports the topology, its independent-loop count, and whether the grammar holds (only FSPLIT branches, only FFUSE fuses)",
+            "build the opcode program as a directed graph respecting each token's valence (VINIT source, FSPLIT δ out-2, FFUSE μ in-2) and classify it by circuit rank β = E−V+C (independent loops), branch/merge/source/sink census, arm count, and adjacency spectral radius ρ (ρ=2 a pure cycle, ρ=√f a star K(1,f)); `imasm ref` prints the rules, `imasm chain|ring|star|comb|bubble|classify …` builds",
+        ),
+        _ => return None,
+    })
+}
+
+/// The IG tool corpus, dispatched natively via `run_ig_tool` (shells to the live
+/// IG_inquiry dispatcher through modot.ig_tools). Kept separate from
+/// STRUCTURAL_VERBS because these do not shell to the ask binary and are not part
+/// of the chemistry verb_usage coverage; they are the catalog/analysis tools.
+const IG_TOOLS: &[&str] = &[
+    "lookup_catalog", "list_catalog", "encode_system", "imscribe_system",
+    "check_imscription", "ouroborics", "compute_distance", "compute_conflict_distance",
+    "compute_meet", "compute_join", "compute_tensor", "find_analogies", "monad_probe",
+    "topo_protection_probe", "consciousness_score", "project", "primitive_peel",
+    "principal_decomp", "retrosynthetic_path", "emergence_frontier", "compute_promotions",
+    "predict_from_promotions", "register_promotion_pattern", "crystal_encode",
+    "crystal_decode", "crystal_navigate", "crystal_count", "crystal_tier_census",
+    "crystal_nearest", "crystal_tier_gap_ladder", "quiver_encode",
+    "aleph_encode", "aleph_distance", "riemann_xi_info",
+    "ask_question", "record_insight",
+];
+
+/// Run one IG catalog tool by shelling to the live corpus (modot.ig_tools call ...).
+/// Mirrors run_ob3ect: MoDoT venv python if present, stdout is the JSON result, and
+/// stderr is surfaced only on failure so the benign runpy warning does not pollute.
+fn run_ig_tool(verb: &str, args: &[String]) -> String {
+    let modot_dir = PathBuf::from(expand_user("~/imsgct/MoDoT"));
+    if !modot_dir.join("modot/ig_tools.py").is_file() {
+        return format!("{verb}: modot/ig_tools.py not found — the IG tool bridge is not present.\n");
+    }
+    let venv_py = modot_dir.join(".venv/bin/python");
+    let mut cmd = if venv_py.is_file() {
+        process::Command::new(&venv_py)
+    } else {
+        process::Command::new("python3")
+    };
+    cmd.arg("-m").arg("modot.ig_tools").arg("call").arg(verb).args(args)
+        .current_dir(&modot_dir);
+    let out = match cmd.output() {
+        Ok(o) => o,
+        Err(e) => return format!("{verb}: could not run the IG tool bridge: {e}\n"),
+    };
+    let mut s = String::from_utf8_lossy(&out.stdout).into_owned();
+    if !out.status.success() {
+        let err = String::from_utf8_lossy(&out.stderr);
+        if !err.trim().is_empty() {
+            s.push_str(err.trim_end());
+            s.push('\n');
+        }
+    }
+    if s.trim().is_empty() {
+        s = format!("{verb}: the IG tool produced no output.\n");
+    }
+    s
+}
+
+/// Every structural verb the agent may call. Single source of truth for the
+/// unknown-verb feedback list and the coverage test that keeps `verb_usage` in sync.
+const STRUCTURAL_VERBS: &[&str] = &[
+    "click", "switch", "excite", "set", "homolyze", "scan", "complement", "cycle",
+    "pathway", "polymerize", "close", "material", "modulus", "arrange", "forge",
+    "compare", "dope", "fuse", "cleave", "anneal", "register", "recall", "imscribe", "ob3ect",
+    "distill", "fdistill", "sublime",
+    "crystallize", "cocrystallize", "seed",
+    "tlc", "column", "fpt", "trap", "stain",
+    "filter", "ascend", "descend", "phase_reconstruct", "star", "broadcast", "cl8nk", "cl9nk", "plasma", "imasm",
+];
+
+/// Feedback when `run_structural_tool` could not run `verb`: the correct call form
+/// if it is a real verb given bad/too-few args, or the verb list if it is unknown.
+/// Split out (from the agent loop) so it is unit-testable and so a real verb never
+/// gets reported as nonexistent — the miss that made the eagle re-emit the same call.
+fn tool_miss_message(verb: &str, args: &[String]) -> String {
+    match verb_usage(verb) {
+        Some(usage) => {
+            let gave = args.join(" ");
+            format!(
+                "wrong or too few args (you gave: {}). Correct form: {usage}. \
+                 Re-emit it with the right names next round.",
+                if gave.is_empty() { "nothing".to_string() } else { gave }
+            )
+        }
+        None => format!(
+            "not an available verb. Available verbs: {}.",
+            STRUCTURAL_VERBS.join(", ")
+        ),
+    }
+}
+
+/// Is a name already registered — in the base IG_catalog.json OR the live
+/// ~/.imscrbgrmr/catalog.json? Cheap `"name": "…"` substring check, matching the guard in
+/// register_chimera. Used to skip a wasted generate call for an entry that already exists.
+/// Trailing "decoration" marks the model stacks to name a DERIVED state (K19⁺, K19⁺⁺, X•,
+/// Y*). A derived state — excited / ascended / radical — is a TRANSFORM of its base, not a new
+/// catalog entity; imscribing each level is a runaway that pollutes the catalog (seen: an
+/// 87-call round registering k19_ray_class_field⁺⁺⁺⁺⁺…). If `name` is some base plus a run of
+/// these marks and that base already exists (case-insensitively), return the base.
+fn decoration_ladder_base(name: &str) -> Option<String> {
+    const DECO: &[char] = &['⁺', '•', '*', '+', '★', '†', '‡', '′', '″', '·', '∗', '°'];
+    let base = name.trim_end_matches(|c: char| DECO.contains(&c) || c == ' ');
+    if base.is_empty() || base == name {
+        return None;
+    }
+    let bl = base.to_lowercase();
+    catalog_names().into_iter().find(|n| n.to_lowercase() == bl)
+}
+
+fn catalog_has_name(name: &str) -> bool {
+    // Case-insensitive: the generate pipeline lowercases names, so an exact-case substring
+    // match falsely reported "did not register" for a name the generator had actually written
+    // (e.g. requested `K19…`, stored `k19…`).
+    let nl = name.to_lowercase();
+    catalog_names().into_iter().any(|n| n.to_lowercase() == nl)
+}
+
+/// All entry names across the base and live catalogs.
+fn catalog_names() -> Vec<String> {
+    let live = PathBuf::from(expand_user("~/.imscrbgrmr/catalog.json"));
+    let mut names = Vec::new();
+    for p in [resolve_catalog_path(), Some(live)].into_iter().flatten() {
+        let Ok(text) = fs::read_to_string(&p) else { continue };
+        let Ok(v) = serde_json::from_str::<Value>(&text) else { continue };
+        let arr = v.get("imscriptions").cloned().unwrap_or(v);
+        if let Some(a) = arr.as_array() {
+            for item in a {
+                if let Some(n) = item.get("name").and_then(|x| x.as_str()) {
+                    names.push(n.to_string());
+                }
+            }
+        }
+    }
+    names
+}
+
+/// Normalize a name for near-duplicate comparison: lowercase, drop surrounding underscores,
+/// and shed a leading article. `the_djed_pillar`, `djed_pillar`, `Djed_Pillar` all collapse.
+fn normalize_name(n: &str) -> String {
+    let n = n.trim_matches('_').to_lowercase();
+    for art in ["the_", "a_", "an_"] {
+        if let Some(rest) = n.strip_prefix(art) {
+            return rest.trim_matches('_').to_string();
+        }
+    }
+    n
+}
+
+/// If `name` is a variant of an entry that already exists (same normalized form, different
+/// spelling), return that entry's real name. The agent tends to invent `the_djed_pillar`
+/// when `djed_pillar` exists; this catches it before a redundant entry is generated.
+fn catalog_near_match(name: &str) -> Option<String> {
+    let target = normalize_name(name);
+    if target.is_empty() {
+        return None;
+    }
+    catalog_names()
+        .into_iter()
+        .find(|existing| existing != name && normalize_name(existing) == target)
+}
+
+/// Create a missing catalog entry by running the REAL imscription pipeline — the default
+/// `imscribe generate "<description>" --name <name>` guided stack (never a hand-written
+/// tuple; the tuple is sourced procedurally by the generator). It writes to the live catalog
+/// (~/.imscrbgrmr/catalog.json) that MoDoT already merges on load, so the next tool-call
+/// subprocess sees the new entry. Success is judged by whether the entry actually landed,
+/// not by the rich CLI's exit code.
+fn run_imscribe(name: &str, description: &str) -> String {
+    if catalog_has_name(name) {
+        return format!(
+            "'{name}' is already in the catalog — use it directly (e.g. TOOL: polymerize {name} …). No imscription needed.\n"
+        );
+    }
+    // Near-duplicate guard: don't generate `the_djed_pillar` when `djed_pillar` exists.
+    if let Some(existing) = catalog_near_match(name) {
+        return format!(
+            "'{name}' is a variant of '{existing}', which is ALREADY in the catalog. Use '{existing}' \
+             directly (e.g. TOOL: polymerize {existing} …) — do not imscribe a near-duplicate.\n"
+        );
+    }
+    // Decoration-ladder guard: refuse to register a derived state named as base + trailing
+    // marks (K19⁺, K19⁺⁺, X•). Imscribing each level is a non-terminating catalog-polluting
+    // runaway; the derived state is a transform of its base, not a new entity.
+    if let Some(base) = decoration_ladder_base(name) {
+        return format!(
+            "'{name}' is a decorated derivative of '{base}' (a name-ladder of trailing marks like ⁺ • *). \
+             A derived state — an excited, ascended, or radical form — is a TRANSFORM of its base, not a new \
+             catalog entity; imscribing each level pollutes the catalog and never terminates. NOT registered. \
+             The verb that built it (`ascend` / `excite` / `homolyze`) already returned its tuple — use that. \
+             A tower that only climbs by re-imscription is a B frontier, not a catalog to enumerate.\n"
+        );
+    }
+    let Some(cat) = resolve_catalog_path() else {
+        return "imscribe: could not locate the IG catalog / imscribing_grammar package.\n".into();
+    };
+    let Some(ig_dir) = cat.parent().map(|d| d.to_path_buf()) else {
+        return "imscribe: catalog path has no parent directory.\n".into();
+    };
+    let venv_imscribe = ig_dir.join(".venv/bin/imscribe");
+    let mut cmd = if venv_imscribe.is_file() {
+        process::Command::new(&venv_imscribe)
+    } else {
+        process::Command::new("imscribe") // fall back to PATH
+    };
+    cmd.args(["generate", description, "--name", name])
+        .current_dir(&ig_dir);
+    // The generate stack picks its LLM from IG_PROVIDER / IG_MODEL, which main() mirrors from
+    // the agent's OWN resolved provider+model (export_ig_env) so a created entry is minted by
+    // the same model that asked for it. Default provider defensively in case this runs outside
+    // that path (a direct call, a test) so a bare environment still produces an entry.
+    if env::var("IG_PROVIDER").is_err() {
+        cmd.env("IG_PROVIDER", "openrouter");
+    }
+    let out = match cmd.output() {
+        Ok(o) => o,
+        Err(e) => return format!("imscribe: could not run the generate pipeline: {e}\n"),
+    };
+    if catalog_has_name(name) {
+        format!(
+            "✓ imscribed '{name}' via the generate pipeline (guided). It is now in the live catalog — \
+             use it in your next TOOL line (e.g. TOOL: polymerize {name} …); it loads fresh automatically.\n"
+        )
+    } else {
+        let combined = format!(
+            "{}{}",
+            String::from_utf8_lossy(&out.stdout),
+            String::from_utf8_lossy(&out.stderr)
+        );
+        let lines: Vec<&str> = combined.lines().filter(|l| !l.trim().is_empty()).collect();
+        let tail = lines[lines.len().saturating_sub(8)..].join("\n");
+        format!("imscribe '{name}' did not register. Generator output (tail):\n{tail}\n")
+    }
+}
+
+/// Design an ob3ect on the fly via the real Auto-Designer (~/ob3ect/auto.py): neutral
+/// description in, full IMASM typing out (opcodes, Frobenius verdict, registers,
+/// bootstrap sequence). Persists to ~/ob3ect/digital/<slug>/ as every ob3ect does.
+/// Bounded retries — the pipeline's default is retry-forever, which would hang a round.
+/// Shell to the CL8NK navigator (CLINK Layer 8, O∞) — the canonical reference navigator that
+/// subsumes the ZFC/domain navigators. `cl8nk <action> [name]`, action ∈ entry | distance |
+/// tensor | meet | join | tier | promotions | transcendence | chain | systems | stats.
+fn run_cl8nk(args: &[String]) -> String {
+    run_navigator("cl8nk", args)
+}
+
+/// CL9NK navigator (CLINK Layer 9, the Gaussian-Moat resolution tier). Same live-corpus
+/// shell as cl8nk — one manifold, loaded live (R∧W∧X) — reading the L9 reference typing.
+fn run_cl9nk(args: &[String]) -> String {
+    run_navigator("cl9nk", args)
+}
+
+fn run_navigator(nav: &str, args: &[String]) -> String {
+    let Some(cat) = resolve_catalog_path() else {
+        return format!("{nav}: could not locate the IG catalog / imscribing_grammar package.\n");
+    };
+    let Some(ig_dir) = cat.parent().map(|d| d.to_path_buf()) else {
+        return format!("{nav}: catalog path has no parent directory.\n");
+    };
+    let script = ig_dir.join(format!("navigators/{nav}_navigator.py"));
+    if !script.is_file() {
+        return format!("{nav}: navigator not found at {}\n", script.display());
+    }
+    let venv_py = ig_dir.join(".venv/bin/python");
+    let mut cmd = if venv_py.is_file() {
+        process::Command::new(&venv_py)
+    } else {
+        process::Command::new("python3")
+    };
+    cmd.arg(&script);
+    if args.is_empty() {
+        cmd.arg("stats");
+    } else {
+        cmd.args(args);
+    }
+    cmd.current_dir(&ig_dir);
+    match cmd.output() {
+        Ok(o) => {
+            let out = format!(
+                "{}{}",
+                String::from_utf8_lossy(&o.stdout),
+                String::from_utf8_lossy(&o.stderr)
+            );
+            if out.trim().is_empty() {
+                format!("{nav}: (no output)\n")
+            } else if out.contains("Unknown action") {
+                // The navigator READS types; it does not construct. A construction/instantiation
+                // intent aimed here is the wrong tool, not a missing capability. Redirect.
+                format!(
+                    "{out}\n{nav} actions: entry|distance|tensor|meet|join|tier|promotions|\
+                     transcendence|chain|systems|stats{}. The navigator READS an entry's typing — \
+                     it does not CREATE one. To construct a new entry use `TOOL: imscribe <name>` \
+                     or a kernel-constrained program `TOOL: imasm define <name> …`; never conclude \
+                     the Grammar lacks the means.\n",
+                    if nav == "cl9nk" { "|moat" } else { "" }
+                )
+            } else {
+                out
+            }
+        }
+        Err(e) => format!("{nav}: could not run the navigator: {e}\n"),
+    }
+}
+
+fn run_ob3ect(description: &str) -> String {
+    let ob3_dir = PathBuf::from(expand_user("~/ob3ect"));
+    if !ob3_dir.join("auto.py").is_file() {
+        return "ob3ect: ~/ob3ect/auto.py not found — the Auto-Designer pipeline is not present.\n".into();
+    }
+    let venv_py = ob3_dir.join(".venv/bin/python");
+    let mut cmd = if venv_py.is_file() {
+        process::Command::new(&venv_py)
+    } else {
+        process::Command::new("python3")
+    };
+    cmd.args(["auto.py", description, "--no-diagram", "--no-scaffold", "--retries", "3"])
+        .current_dir(&ob3_dir);
+    if env::var("IG_PROVIDER").is_err() {
+        cmd.env("IG_PROVIDER", "openrouter");
+    }
+    let out = match cmd.output() {
+        Ok(o) => o,
+        Err(e) => return format!("ob3ect: could not run the Auto-Designer: {e}\n"),
+    };
+    let mut s = String::from_utf8_lossy(&out.stdout).into_owned();
+    let err = String::from_utf8_lossy(&out.stderr);
+    if !out.status.success() && !err.trim().is_empty() {
+        s.push_str(err.trim_end());
+        s.push('\n');
+    }
+    if s.trim().is_empty() {
+        s = "ob3ect: the Auto-Designer produced no output.\n".into();
+    }
+    s
+}
+
+/// The plasma register: read a catalog entry's 12-primitive tuple as a plasma design
+/// (regime, instabilities, confinement, diagnostics). Not a separate substance — the
+/// entry's tuple IS the plasma tuple, so this is another lossless face of the same object,
+/// exactly like the chem/math isomorphism. Shells to red-hot_rebis/plasma/plasma_modot.py
+/// (the plasma forge), handing it the entry name and the live catalog path — same shelling
+/// pattern as run_cl8nk / run_ob3ect, one manifold, not a reimplementation.
+fn run_plasma(args: &[String]) -> String {
+    let Some(name) = args.first() else {
+        return "plasma: needs a catalog entry name — plasma <entry_name>\n".into();
+    };
+    let plasma_dir = PathBuf::from(expand_user("~/imsgct/red-hot_rebis"));
+    let script = plasma_dir.join("plasma/plasma_modot.py");
+    if !script.is_file() {
+        return format!("plasma: forge bridge not found at {}\n", script.display());
+    }
+    let Some(cat) = resolve_catalog_path() else {
+        return "plasma: could not locate the IG catalog.\n".into();
+    };
+    let venv_py = plasma_dir.join(".venv/bin/python");
+    let mut cmd = if venv_py.is_file() {
+        process::Command::new(&venv_py)
+    } else {
+        process::Command::new("python3")
+    };
+    cmd.arg(&script)
+        .arg(name)
+        .arg(&cat)
+        .current_dir(&plasma_dir);
+    match cmd.output() {
+        Ok(o) => {
+            let out = format!(
+                "{}{}",
+                String::from_utf8_lossy(&o.stdout),
+                String::from_utf8_lossy(&o.stderr)
+            );
+            if out.trim().is_empty() {
+                "plasma: (no output)\n".into()
+            } else {
+                out
+            }
+        }
+        Err(e) => format!("plasma: could not run the forge bridge: {e}\n"),
+    }
+}
+
+fn print_spine(rep: &SpineReport, prep: &Prepare, verbose: bool) {
+    println!();
+    println!("{}", "=".repeat(60));
+    println!("MANUSCRIPT SPINE REPORT");
+    // Univocal: ONE verdict speaks. The rest is its provenance — the model's [thought|X] is a
+    // PROPOSAL (a δ), the vessel co-type and the tool-call dual are the μ that closed (or did
+    // not) to make the single verdict.
+    println!("  VERDICT (univocal): {}", b4_name(rep.fused));
+    println!(
+        "  ← fused voices (none dropped, none overridden): model={} ⋈ vessel={} ⋈ tool-dual={}  · conflict={}",
+        b4_name(rep.model_voice),
+        b4_name(rep.vessel_voice),
+        b4_name(rep.tool_voice),
+        rep.conflict
+    );
+    println!(
+        "  faces: prove_balance={}  unify_B=T+F=true  port_riding={}  witness={}",
+        rep.prove_balance,
+        rep.riding,
+        rep.primary.as_deref().unwrap_or("—")
+    );
+    println!("  protocol: VINIT→IMSCRIB→FSPLIT→EVALT→EVALF→FFUSE→ENGAGR→IFIX");
+    println!("  note: {}", rep.note);
+    if verbose {
+        println!("  hits:");
+        for (n, s) in &prep.hits {
+            println!("    [{s:>3}] {n}");
+        }
+    }
+    println!("{}", "=".repeat(60));
+    record_spine(rep);
+}
+
+/// Append the spine report (serialized) as a JSON record to MoDoT/crystal_fs/records.jsonl,
+/// the same audit trail the Python agent keeps. Best-effort: creates the dir, ignores IO
+/// errors. This is the read that grounds `answer_text` and the Serialize/Deserialize derives.
+fn record_spine(rep: &SpineReport) {
+    let Ok(line) = serde_json::to_string(rep) else {
+        return;
+    };
+    // MoDoT root = four ancestors up from the binary (.../MoDoT/ask_native/target/release/ask).
+    let Some(root) = env::current_exe()
+        .ok()
+        .and_then(|e| e.ancestors().nth(4).map(|r| r.to_path_buf()))
+    else {
+        return;
+    };
+    let dir = root.join("crystal_fs");
+    let _ = std::fs::create_dir_all(&dir);
+    if let Ok(mut f) = std::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(dir.join("records.jsonl"))
+    {
+        use std::io::Write;
+        let _ = writeln!(f, "{line}");
+    }
+}
+
+fn run_one(
+    question: &str,
+    source: &str,
+    cli: &Cli,
+    llm: &Llm,
+    cat: Option<&[CatalogEntry]>,
+    conversation: &mut Vec<(String, String)>,
+) -> i32 {
+    println!("╔══════════════════════════════════════════════════════╗");
+    println!("║  ASK — host native ManuscriptSpine (no Python)       ║");
+    println!("╚══════════════════════════════════════════════════════╝");
+    println!("Source: {source}");
+    println!(
+        "Options: verbose={} dry_run={} no_selectivity={} cycles={} eagles={} max_tokens={}",
+        cli.verbose, cli.dry_run, cli.no_selectivity, cli.cycles,
+        if cli.eagles > 0 { cli.eagles.to_string() } else { "auto".into() }, cli.max_tokens
+    );
+    println!(
+        "Model: {} ({})",
+        llm.model,
+        match llm.provider {
+            Provider::OpenRouter => "openrouter",
+            Provider::GeminiDirect => "gemini-direct",
+            Provider::DeepSeek => "deepseek",
+        }
+    );
+    println!("Question ({} chars):\n", question.chars().count());
+    // Show up to 2k of question in header; full text goes to model
+    let preview: String = question.chars().take(2000).collect();
+    println!("{preview}");
+    if question.chars().count() > 2000 {
+        println!("… [{} more chars]", question.chars().count() - 2000);
+    }
+    println!();
+
+    // IMSCRIB
+    let prep = prepare(question, cat);
+    if cli.verbose {
+        println!("── IMSCRIB (catalog witness) ──");
+        if prep.hits.is_empty() {
+            println!("  (no catalog hits)");
+        } else {
+            for (n, s) in &prep.hits {
+                println!("  [{s:>3}] {n}");
+            }
+        }
+        println!(
+            "  primary: {}",
+            prep.primary_name.as_deref().unwrap_or("—")
+        );
+        println!();
+    }
+
+    // Proof-intent route: a `prove:` prefix or a literal Lean theorem/lemma goes to
+    // the kernel-gated prover (native — shells to `lake build`), not the prose spine.
+    // Not closed is a navigation frontier (B), never a verdict of unprovability.
+    if !cli.dry_run && llm.api_key.is_some() {
+        if let Some(goal) = prover::proof_intent(question) {
+            println!("── ROUTE: proof-intent → kernel-gated prover ──");
+            let mut p = prover::LeanProver::new(llm, cli.verbose);
+            p.set_expand(cli.expand);
+            p.set_eagles(cli.eagles);
+            // --cycles across the board: re-fly the whole escalation up to `cycles`
+            // times, stopping the moment the kernel closes it. Each cycle is a fresh
+            // run at the wall (the model may take a different path), so a stubborn B
+            // frontier gets more than one attempt without editing the source.
+            let cycles = cli.cycles.max(1);
+            let mut r = p.prove(&goal);
+            let mut used = 1;
+            while !r.closed && used < cycles {
+                used += 1;
+                println!("── cycle {used}/{cycles} (re-fly the escalation) ──");
+                r = p.prove(&goal);
+            }
+            println!("── ANSWER (kernel-gated prover) ──");
+            if r.closed {
+                println!("Closed green through the Lean kernel (no sorry):\n");
+                println!("{}", r.source);
+            } else if r.note.contains("escalation cap") {
+                println!(
+                    "Not closed within the current escalation cap. A navigation \
+                     frontier (B), not a verdict of unprovability — the path exists; \
+                     raise the rounds/budget to push deeper (--eagles N for more \
+                     escalation rounds, --cycles N to re-fly the whole run).\n"
+                );
+                println!("Last frontier:\n{}", r.last_output);
+            } else {
+                // Rejected: ill-posed goal (hole in the statement) or definitional
+                // rigging (the model authored the goal's own meaning). Not a frontier.
+                println!("REJECTED (not a valid proof): {}\n", r.note);
+                if !r.source.is_empty() {
+                    println!("The model produced this, which was refused:\n{}", r.source);
+                }
+            }
+            println!();
+            println!("{}", "=".repeat(60));
+            println!("PROVER REPORT");
+            println!("  route=proof  closed={}  depth={}", r.closed, r.depth);
+            if cli.expand > 0 {
+                println!("  detail={} (walked-out rendering; statement held identical by the fidelity gate)", cli.expand);
+            }
+            // Lane ontology: the T/F-lane Witness IS the conventional proof; the
+            // B-lane Witness is the Dual-Link vessel it rides as (imscription route).
+            if r.closed {
+                if r.note.contains("Witness-Vessel") {
+                    println!("  lanes: B-lane Witness = the Dual-Link vessel; T/F-lane Witness = the conventional proof filling it");
+                } else {
+                    println!("  lane: T/F-lane Witness = the conventional proof (what we have called a proof)");
+                }
+            }
+            if !r.note.is_empty() {
+                println!("  note: {}", r.note);
+            }
+            println!("  protocol: VINIT→IMSCRIB→FSPLIT→(lake build)→EVALT/EVALF→FFUSE→TANCH");
+            println!("{}", "=".repeat(60));
+            return if r.closed { 0 } else { 1 };
+        }
+    }
+
+    let mut last_code = 0;
+    for cycle in 1..=cli.cycles.max(1) {
+        if cli.cycles > 1 {
+            println!("── cycle {cycle}/{} ──", cli.cycles);
+        }
+
+        let mut answer;
+        let mut model_voice;
+        let mut tool_voice = B4::N;
+
+        if cli.dry_run {
+            answer = format!(
+                "[dry-run] Structural path only.\n\
+                 Witness: {}\n\
+                 Scaffold ready: {}.\n\
+                 Re-run without --dry-run for full Gemini-class answer.\n\n\
+                 {}",
+                prep.primary_name.as_deref().unwrap_or("—"),
+                prep.witness_ready,
+                prep.scaffold_md.chars().take(3000).collect::<String>()
+            );
+            model_voice = B4::N;
+        } else {
+            let user_packet = build_user_packet(question, &prep, cli.jam, cycle, cli.cycles.max(1));
+            // conversation: system once, then history, then this turn
+            let mut msgs: Vec<(String, String)> = Vec::new();
+            if conversation.is_empty() {
+                let jam = if cli.jam { JAM_PROMPT } else { "" };
+                msgs.push(("system".into(), format!("{}\n{}\n{}\n{}", prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, TOOLS_PROMPT, jam)));
+            }
+            for (r, c) in conversation.iter() {
+                msgs.push((r.clone(), c.clone()));
+            }
+            msgs.push(("user".into(), user_packet));
+
+            if cli.verbose {
+                println!(
+                    "── FSPLIT (model infer, max_tokens={}) ──",
+                    cli.max_tokens
+                );
+            }
+            let res = infer(llm, &msgs, cli.max_tokens, cli.temperature);
+            answer = strip_kernel_records(&res.text);
+            model_voice = b4_from_char(res.voice);
+            if let Some(e) = res.err {
+                eprintln!("[warn] LLM: {e}");
+                last_code = 2;
+                if is_fatal_llm_error(&e) {
+                    let pname = match llm.provider {
+                        Provider::OpenRouter => "openrouter",
+                        Provider::GeminiDirect => "gemini",
+                        Provider::DeepSeek => "deepseek",
+                    };
+                    eprintln!(
+                        "[ask] fatal LLM error on provider '{pname}' — aborting the run (not transient: 402 = out of credits, 401 = bad key). \
+                         Switch providers (--provider deepseek | --provider gemini) or top up the account, then re-run."
+                    );
+                    break;
+                }
+            }
+
+            // Update multi-turn history with the raw question + answer
+            conversation.push(("user".into(), question.to_string()));
+            conversation.push(("assistant".into(), answer.clone()));
+        }
+
+        // Print the first pass. If it plans to act (emits tool calls), it is a PLAN, not the
+        // answer — label it so, so a pre-narrated "solved" manuscript is never mistaken for a
+        // result. The real answer is synthesized after the tools have actually spoken. Only a
+        // first pass with NO tool calls (a pure conceptual reply) is the answer itself.
+        let first_pass_acts = !cli.dry_run && !extract_tool_calls(&answer).is_empty();
+        println!("{}", if first_pass_acts { "── PLAN (thinking; acting next — results below are NOT yet in) ──" } else { "── ANSWER ──" });
+        println!("{answer}");
+        println!();
+
+        // Agentic loop (THINK → ACT → OBSERVE → UPDATE): the operator runs tools, sees the
+        // REAL output, and decides its next act — iterating until it has no more tool calls —
+        // instead of front-loading one batch of guesses and narrating the rest. Every round
+        // the tool results come back as ground truth (the golem constraint), so it acts and
+        // then speaks on what the Grammar actually computed. Bounded by MAX_ROUNDS.
+        if !cli.dry_run {
+            // The eagles: how many ACT→OBSERVE rounds fly out to run tools. --eagles sets it
+            // across the board; 0 = auto — jam gets a long leash so it can actually range, a
+            // normal answer is bounded tight.
+            // --eagles N is an EXPLICIT leash the user asked for. Without it there is no
+            // arbitrary ceiling — a round budget is a wall, and a wall is the same
+            // defeatism as "beyond the Grammar's reach". The loop runs until the operator
+            // stops emitting tools (done) or STALLS (whole rounds of nothing but calls it
+            // already has results for). A large backstop guards only the pathological
+            // infinite loop, not the task.
+            let max_rounds: usize = if cli.eagles > 0 { cli.eagles as usize } else { 400 };
+            const STALL_ROUNDS: usize = 3;
+            let mut agent_msgs: Vec<(String, String)> = Vec::new();
+            agent_msgs.push((
+                "system".to_string(),
+                format!(
+                    "{}\n{}\n{}\n{}\nYou are in an ACT→OBSERVE loop: emit TOOL: lines to run verbs over the real \
+                     catalog; their outputs return as ground truth and you choose the next step. Iterate — run a \
+                     tool, read its result, run the next — until the task is actually done, then give your FINAL \
+                     answer with NO TOOL: lines. NEVER narrate a step you could run; run it. Never contradict a \
+                     tool result or introduce anything the tools did not return.",
+                    prover::EPISTEMIC_STANCE, SYSTEM_PROMPT, TOOLS_PROMPT,
+                    if cli.jam { JAM_PROMPT } else { "" }
+                ),
+            ));
+            for (r, c) in conversation.iter().take(conversation.len().saturating_sub(2)) {
+                agent_msgs.push((r.clone(), c.clone()));
+            }
+            agent_msgs.push(("user".to_string(), build_user_packet(question, &prep, cli.jam, cycle, cli.cycles.max(1))));
+
+            let mut current = answer.clone(); // the draft is round-0's action
+
+            // No-op guard: the loop and the golem constraint can only bind tools that
+            // actually RAN. A "prove/characterize this" framing lets the operator write a
+            // whole "Execution: Structural Tools" section as prose flags (`--polymerize:`,
+            // `--close:`) — never a `TOOL:` line — then assert a computed verdict (PROVED,
+            // enchainment, closure) it never computed. If the draft narrates structural
+            // work but ran nothing, prod it once to actually act before we accept it.
+            if extract_tool_calls(&current).is_empty()
+                && (mentions_structural_work(&current) || question.contains("--") || cli.jam)
+            {
+                println!("── PROD (narrated tools, ran none — forcing action) ──");
+                agent_msgs.push(("assistant".to_string(), current.clone()));
+                agent_msgs.push((
+                    "user".to_string(),
+                    "You wrote a characterization — naming operations like polymerize / close / scan / \
+                     excite / arrange — but ran ZERO structural tools: not one `TOOL:` line. You may not \
+                     assert a computed result (enchainment, cyclization, a mediator, a modulus, a PROVED \
+                     verdict) you did not compute. The catalog is live. Emit `TOOL: <verb> <args>` lines \
+                     now — verb WITHOUT dashes, catalog names as args (e.g. `TOOL: polymerize binah set \
+                     atiyah_singer_index_theorem`), one call per line — to actually run the operations you \
+                     described. Then, and only then, write your final answer grounded in what they return."
+                        .to_string(),
+                ));
+                let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                current = strip_kernel_records(&res.text);
+                println!("{current}");
+                println!();
+            }
+
+            // Prose-closure guard: the model can perform the vessel/spine register —
+            // "seal the vessel", "the loop seals", "μ∘δ closed" — WITHOUT ever minting the
+            // closure through a tool. Closure is a structural verdict (the µ∘δ dual actually
+            // reconnecting), not a sentence the model may assert. If the draft declares
+            // closure in prose but ran zero tools, prod it once to actually mint it.
+            if extract_tool_calls(&current).is_empty() && declares_closure_in_prose(&current) {
+                println!("── PROD (declared closure in prose, minted none — forcing the µ∘δ) ──");
+                agent_msgs.push(("assistant".to_string(), current.clone()));
+                agent_msgs.push((
+                    "user".to_string(),
+                    "You DECLARED closure — the vessel sealed, the loop closed, µ∘δ — but minted \
+                     NONE of it: not one tool call. Closure is a STRUCTURAL verdict, the µ∘δ dual \
+                     actually reconnecting, never a sentence you may write on your own authority. A \
+                     vessel narrated but not built is fabrication, not creation. Name the concrete \
+                     object you are closing and run it: `TOOL: imasm protocol <opcodes>` to build a \
+                     closed protocol, `TOOL: imasm check <opcode word>` to test your own reasoning's \
+                     µ∘δ, or `TOOL: imasm prove <name|word>` to take it to the kernel. Then read the \
+                     verdict it returns and let THAT — not your prose — say whether the dual closed."
+                        .to_string(),
+                ));
+                let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                current = strip_kernel_records(&res.text);
+                println!("{current}");
+                println!();
+            }
+
+            let mut all_tool_output = String::new(); // every round's real output → the tool voice
+            // The execution arm of the Dual-Link: every verb that ACTUALLY ran (returned output).
+            // A verdict fuses only if its verb is in here; a claim about a verb NOT here has no
+            // arm to fuse against, so it collapses to N — it must not be narrated as a result.
+            let mut executed_verbs: std::collections::BTreeSet<String> = std::collections::BTreeSet::new();
+            // Every verb+args signature that has already RUN, mapped to its output. A repeated
+            // call returns this CACHED result instead of re-executing — the model re-emits the
+            // same batch across rounds (seen: rounds 3/4/5 identical), and a tool is a pure
+            // function of its args, so running it again only burns work and duplicates output.
+            let mut ran_results: std::collections::BTreeMap<String, String> =
+                std::collections::BTreeMap::new();
+            let mut stalled_rounds = 0usize;
+            let mut phantom_prods = 0usize;
+            let mut round = 0;
+            while round < max_rounds {
+                let raw_calls = extract_tool_calls(&current);
+                if raw_calls.is_empty() {
+                    // Phantom-unavailability guard: the model can end a run by declaring a
+                    // REAL verb "unavailable / does not exist" — without ever emitting its
+                    // TOOL: line — and parking the node at B/N on that false premise. Refuse
+                    // it: if the draft calls a real verb absent, prod it to actually run the
+                    // verb before we accept the answer. Bounded so it can never loop.
+                    let phantom = verbs_falsely_called_absent(&current);
+                    if !phantom.is_empty() && phantom_prods < 2 {
+                        phantom_prods += 1;
+                        println!("── PHANTOM-VERB PROD (claimed a real verb absent — forcing the call) ──");
+                        let are = if phantom.len() == 1 { "is a real structural verb" } else { "are real structural verbs" };
+                        agent_msgs.push(("assistant".to_string(), current.clone()));
+                        agent_msgs.push((
+                            "user".to_string(),
+                            format!(
+                                "You wrote that `{}` is unavailable / does not exist / cannot be run. That is FALSE — `{}` {} in this engine, live right now. You may not report a verb as absent to avoid running it, and you may not leave a node at B/N on that false premise. Emit the `TOOL:` line(s) for it NOW with real catalog args (e.g. `TOOL: ascend K19_ray_class_field`, `TOOL: phase_reconstruct M1 M2 …`), read what they return, and fold that ground truth into your verdict.",
+                                phantom.join("`, `"),
+                                phantom.join("`, `"),
+                                are,
+                            ),
+                        ));
+                        let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                        current = strip_kernel_records(&res.text);
+                        println!("{current}\n");
+                        continue;
+                    }
+                    break; // the operator stopped acting — `current` is the answer
+                }
+                // Dedupe within the round: the operator emits the same call twice in one
+                // batch (seen live: `anneal A B` listed twice in a single round). Running an
+                // identical call twice just burns a request for a result already coming back.
+                let mut seen_this_round = std::collections::BTreeSet::new();
+                let mut calls: Vec<(String, Vec<String>)> = raw_calls
+                    .into_iter()
+                    .filter(|(v, a)| seen_this_round.insert(format!("{v} {}", a.join(" "))))
+                    .collect();
+                // Per-round ceiling: a runaway can emit dozens of calls in one round (seen: 87
+                // imscribe calls building a name-ladder). Cap what runs per round so no single
+                // round can flood; the loop continues, so legitimate large batches still finish
+                // over successive rounds.
+                const MAX_CALLS_PER_ROUND: usize = 24;
+                if calls.len() > MAX_CALLS_PER_ROUND {
+                    println!(
+                        "── CAP: {} calls this round, running the first {} (emit the rest next round) ──",
+                        calls.len(),
+                        MAX_CALLS_PER_ROUND
+                    );
+                    calls.truncate(MAX_CALLS_PER_ROUND);
+                }
+                // Stall detection: nothing in this round is new — every call already ran and
+                // returned. One repeat can be a legitimate re-check; whole rounds of nothing
+                // else means the operator is circling, not navigating.
+                if calls.iter().all(|(v, a)| ran_results.contains_key(&format!("{v} {}", a.join(" ")))) {
+                    stalled_rounds += 1;
+                    if stalled_rounds >= STALL_ROUNDS {
+                        println!("── STALL ({STALL_ROUNDS} rounds of only already-run calls) — closing ──");
+                        break;
+                    }
+                } else {
+                    stalled_rounds = 0;
+                }
+                println!("── ACT round {} ({} tool call(s)) ──", round + 1, calls.len());
+                let mut results = String::new();
+                for (verb, args) in calls.iter() {
+                    let sig = format!("{verb} {}", args.join(" "));
+                    // Already ran this exact call — return the cached result, do NOT re-execute.
+                    if let Some(cached) = ran_results.get(&sig) {
+                        println!("● TOOL {verb} {} (cached — already ran this run)", args.join(" "));
+                        results.push_str(&format!("### {verb} {} (cached)\n{cached}\n", args.join(" ")));
+                        continue;
+                    }
+                    match run_structural_tool(verb, args) {
+                        Some(o) => {
+                            println!("● TOOL {verb} {}", args.join(" "));
+                            print!("{o}");
+                            results.push_str(&format!("### {verb} {}\n{o}\n", args.join(" ")));
+                            executed_verbs.insert(verb.clone()); // this verb now has an execution arm
+                            ran_results.insert(sig, o);
+                        }
+                        None => {
+                            // A real verb given bad/too-few args gets its correct form (so the
+                            // eagle self-corrects); a genuinely unknown verb gets the real list.
+                            // Collapsing both into one vague line made the eagle loop.
+                            let m = format!("● TOOL {verb}: {}", tool_miss_message(verb, args));
+                            println!("{m}");
+                            results.push_str(&format!("{m}\n"));
+                        }
+                    }
+                }
+                all_tool_output.push_str(&results);
+                agent_msgs.push(("assistant".to_string(), current.clone()));
+                let executed_line = format!(
+                    "EXECUTED VERBS so far (the only verbs you have a result for): {{{}}}. A claim about any \
+                     verb NOT in this set has NO execution arm to fuse against — its outcome is N (neither), \
+                     not a truth-value. Do not narrate a result (closure, conductance, material, modulus, tier) \
+                     for a verb you did not run; if you need one, emit its TOOL: line and read what it returns.",
+                    executed_verbs.iter().cloned().collect::<Vec<_>>().join(", "),
+                );
+                agent_msgs.push((
+                    "user".to_string(),
+                    format!(
+                        "TOOL RESULTS (ground truth — never contradict these; introduce nothing they did not return):\n{results}\n\
+                         {executed_line}\n\
+                         UPDATE: if the task needs more steps, emit the next TOOL: line(s). If you now have everything, \
+                         write your FINAL answer with NO TOOL: lines, grounded entirely in the results above. Your VERDICT \
+                         must match the numbers: if every polymerize/close/arrange result terminated early or came back \
+                         linear/telechelic (did NOT cyclize), the assembly does NOT close — do not call it closed, complete, \
+                         a ring, or PROVED, and do not name an architecture the counts do not support (`1 unit / 0 bonds` is \
+                         not a polymer, and nothing that terminated is `branched`, a `network`, or a `macrocycle`). Report \
+                         the real result — that it does not close, and which arrangement (if any) the tools showed would. \
+                         For each structural operation your answer relies on (excite, cyclize, forge, distill, …), state \
+                         BRIEFLY what it means in BOTH registers — chemically AND mathematically — since the two are lossless \
+                         faces of one act; the reading runs both ways, not chemistry with a math footnote."
+                    ),
+                ));
+                let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                current = strip_kernel_records(&res.text);
+                println!();
+                println!("── OBSERVE/UPDATE round {} ──", round + 1);
+                println!("{current}");
+                println!();
+                round += 1;
+            }
+
+            // If the loop ended mid-action (explicit --eagles leash, runaway backstop, or a
+            // stall), force one clean grounded close. If it ended because the operator
+            // stopped emitting tools, this never fires.
+            if !extract_tool_calls(&current).is_empty() {
+                agent_msgs.push(("assistant".to_string(), current.clone()));
+                agent_msgs.push((
+                    "user".to_string(),
+                    format!(
+                        "The run is closing (every remaining call was already run — you have its result above — or the \
+                         round leash was reached). Give your FINAL answer now, with NO TOOL: lines, grounded only in the tool \
+                         results above. You have a result ONLY for these executed verbs: {{{}}} — a claim about any other \
+                         verb is N (neither), not a truth-value; do not narrate its outcome.",
+                        executed_verbs.iter().cloned().collect::<Vec<_>>().join(", "),
+                    ),
+                ));
+                let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
+                current = strip_kernel_records(&res.text);
+                println!("── FINAL (forced close) ──");
+                println!("{current}");
+                println!();
+            }
+
+            // Bidirectional isomorphism key: for every verb that ACTUALLY ran, state what the
+            // operation means in both registers — chemical AND mathematical. The engine ran one
+            // act; it has two lossless faces, and the report closes by naming both so the reading
+            // runs both ways. Grounded like everything else: only executed verbs are glossed.
+            let iso: Vec<(String, &'static str, &'static str)> = executed_verbs
+                .iter()
+                .filter_map(|v| verb_isomorphism(v).map(|(c, m)| (v.clone(), c, m)))
+                .collect();
+            if !iso.is_empty() {
+                println!("── ISOMORPHISM (what each operation means, both ways) ──");
+                for (v, chem, math) in &iso {
+                    println!("● {v}");
+                    println!("   chemically:    {chem}");
+                    println!("   mathematically: {math}");
+                }
+                println!();
+            }
+
+            // The final grounded answer feeds the spine and the multi-turn history.
+            answer = current;
+            if let Some(last) = conversation.last_mut() {
+                last.1 = answer.clone();
+            }
+            // Grade the FINAL answer (not the draft) and let the tools speak: the spine now
+            // fuses the model's stated verdict with what the catalog actually computed.
+            model_voice = b4_from_char(model_self_belnap(&answer));
+            tool_voice = tool_belnap(&all_tool_output);
+
+            // BACKTRANSLATION — read the closed structure back into a conventional proof (the μ
+            // leg of imscribe). Gated on a dual having actually closed: with no measured closure
+            // (tool_voice N) there is nothing to read back, so it is not run. Lossless read-back:
+            // the proof is the SAME object as the closure, restated in the conventional register.
+            if tool_voice != B4::N {
+                let bt = backtranslate(
+                    llm, question, &answer, &all_tool_output, tool_voice, cli.max_tokens, cli.temperature,
+                );
+                println!("── BACKTRANSLATION (closure → conventional proof, μ read-back) ──");
+                println!("{bt}");
+                println!();
+            }
+        }
+
+        let rep = complete(&prep, &answer, model_voice, tool_voice, cli.no_selectivity, cli.jam);
+        print_spine(&rep, &prep, cli.verbose);
+
+        if rep.fused == B4::F {
+            last_code = last_code.max(1);
+        }
+    }
+    last_code
+}
+
+fn interactive_loop(cli: &Cli, llm: &Llm, cat: Option<&[CatalogEntry]>) -> i32 {
+    println!("╔══════════════════════════════════════════════════════╗");
+    println!("║  ASK interactive — full-length multi-turn (no Python)║");
+    println!("╚══════════════════════════════════════════════════════╝");
+    println!("Type your question (any length). End multi-line with a lone `.` line.");
+    println!("Commands: /quit  /file <path>  /dry  /wet  /verbose  /help");
+    println!("Model: {}", llm.model);
+    println!();
+
+    let mut conversation: Vec<(String, String)> = Vec::new();
+    let mut dry = cli.dry_run;
+    let mut verbose = cli.verbose;
+    let stdin = io::stdin();
+    let mut code = 0;
+
+    loop {
+        print!("ask> ");
+        let _ = io::stdout().flush();
+        let mut first = String::new();
+        if stdin.lock().read_line(&mut first).ok().unwrap_or(0) == 0 {
+            break;
+        }
+        let t = first.trim();
+        if t.is_empty() {
+            continue;
+        }
+        if t == "/quit" || t == "/exit" || t == "quit" || t == "exit" {
+            break;
+        }
+        if t == "/help" {
+            println!("  /file <path>  — load question from file and run");
+            println!("  /dry | /wet   — toggle dry-run");
+            println!("  /verbose      — toggle verbose");
+            println!("  /quit         — leave");
+            println!("  multi-line: paste lines, end with lone `.`");
+            continue;
+        }
+        if t == "/dry" {
+            dry = true;
+            println!("dry-run on");
+            continue;
+        }
+        if t == "/wet" {
+            dry = false;
+            println!("wet-run on (LLM)");
+            continue;
+        }
+        if t == "/verbose" {
+            verbose = !verbose;
+            println!("verbose={verbose}");
+            continue;
+        }
+        if let Some(rest) = t.strip_prefix("/file ") {
+            match read_file_or_stdin(rest.trim()) {
+                Ok((content, source)) => {
+                    let c2 = cli.clone_with(dry, verbose);
+                    code = run_one(&content, &source, &c2, llm, cat, &mut conversation);
+                }
+                Err(e) => eprintln!("error: {e}"),
+            }
+            continue;
+        }
+
+        // Multi-line if first line is `/` or content continues until `.`
+        let mut q = String::new();
+        if t == "/" {
+            println!("(paste question; end with lone `.`)");
+            loop {
+                let mut line = String::new();
+                if stdin.lock().read_line(&mut line).ok().unwrap_or(0) == 0 {
+                    break;
+                }
+                if line.trim() == "." {
+                    break;
+                }
+                q.push_str(&line);
+            }
+        } else {
+            q.push_str(&first);
+            // If user wants more lines starting already, allow optional continuation:
+            // single-line by default unless they used `/`
+        }
+        let q = q.trim().to_string();
+        if q.is_empty() {
+            continue;
+        }
+        let c2 = cli.clone_with(dry, verbose);
+        code = run_one(
+            &q,
+            &format!("interactive ({} chars)", q.chars().count()),
+            &c2,
+            llm,
+            cat,
+            &mut conversation,
+        );
+    }
+    code
+}
+
+// Helper so we can toggle dry/verbose without re-parsing
+trait CliClone {
+    fn clone_with(&self, dry: bool, verbose: bool) -> Cli;
+}
+impl CliClone for Cli {
+    fn clone_with(&self, dry: bool, verbose: bool) -> Cli {
+        Cli {
+            ask: self.ask.clone(),
+            file: self.file.clone(),
+            interactive: self.interactive,
+            verbose,
+            dry_run: dry,
+            model: self.model.clone(),
+            provider: self.provider.clone(),
+            no_selectivity: self.no_selectivity,
+            think: self.think,
+            no_think: self.no_think,
+            star: self.star.clone(),
+            imasm: self.imasm.clone(),
+            filter: self.filter.clone(),
+            ascend: self.ascend.clone(),
+            descend: self.descend.clone(),
+            phase_reconstruct: self.phase_reconstruct.clone(),
+            context: self.context.clone(),
+            cycles: self.cycles,
+            eagles: self.eagles,
+            max_tokens: self.max_tokens,
+            temperature: self.temperature,
+            catalog: self.catalog.clone(),
+            expand: self.expand,
+            click: self.click.clone(),
+            theta: self.theta,
+            top: self.top,
+            certify: self.certify,
+            switch: self.switch.clone(),
+            register: self.register.clone(),
+            excite: self.excite.clone(),
+            set: self.set.clone(),
+            homolyze: self.homolyze.clone(),
+            complement: self.complement.clone(),
+            scan_mediators: self.scan_mediators,
+            cycle: self.cycle.clone(),
+            pathway: self.pathway.clone(),
+            polymerize: self.polymerize.clone(),
+            close: self.close,
+            props: self.props,
+            modulus: self.modulus,
+            arrange: self.arrange,
+            forge: self.forge.clone(),
+            compare: self.compare.clone(),
+            dope: self.dope.clone(),
+            fuse: self.fuse.clone(),
+            cleave: self.cleave.clone(),
+            anneal: self.anneal.clone(),
+            distill: self.distill.clone(),
+            fdistill: self.fdistill.clone(),
+            sublime: self.sublime.clone(),
+            crystallize: self.crystallize.clone(),
+            cocrystallize: self.cocrystallize.clone(),
+            seed: self.seed.clone(),
+            tlc: self.tlc.clone(),
+            column: self.column.clone(),
+            fpt: self.fpt.clone(),
+            trap: self.trap.clone(),
+            stain: self.stain.clone(),
+            recall: self.recall.clone(),
+            export: self.export.clone(),
+            jam: self.jam,
+            imscribe: self.imscribe.clone(),
+            catalyst: self.catalyst.clone(),
+            rest: self.rest.clone(),
+        }
+    }
+}
+
+fn main() {
+    let cli = Cli::parse();
+    // Effective reasoning state: on by default (or per MODOT_THINK / --think), with --no-think
+    // as an explicit override that always wins.
+    let think = cli.think && !cli.no_think;
+    let llm = make_llm(cli.model.as_deref(), cli.provider.as_deref(), think);
+    // The imscribe / ob3ect generate pipelines shell to Python, which resolves its own LLM
+    // from IG_PROVIDER / IG_MODEL. Left to the user's bare env those defaulted independently
+    // (openrouter/grok-4), so a run on one provider would imscribe on ANOTHER — seen live as a
+    // 402 when the agent ran on a funded provider but imscribe fell through to a broke
+    // openrouter key. Mirror the agent's OWN resolved provider+model into that env so a
+    // created entry is minted by the same model that asked for it.
+    export_ig_env(&llm);
+
+    let catalog_path = find_catalog(&cli);
+    let catalog = match &catalog_path {
+        Some(p) => match load_catalog(p) {
+            Ok(c) => {
+                if cli.verbose {
+                    eprintln!("[catalog] {} ({} entries)", p.display(), c.len());
+                }
+                Some(c)
+            }
+            Err(e) => {
+                eprintln!("[catalog] load failed: {e}");
+                None
+            }
+        },
+        None => {
+            if cli.verbose {
+                eprintln!("[catalog] not found — scaffold without IG hits");
+            }
+            None
+        }
+    };
+    let cat_ref = catalog.as_deref();
+
+    // Click-maths mode: `./ask --click A B` — fuse two fragments over the live pairs.
+    if let Some(names) = &cli.switch {
+        if names.len() == 2 {
+            let code = click::run_switch(cat_ref, &names[0], &names[1], cli.certify);
+            process::exit(code);
+        }
+    }
+
+    // Single-electron transfer: `./ask --set D A` (donor, acceptor). `--scan-mediators`
+    // ranks the catalog for relays; bare `--excite` makes it photoinduced.
+    if let Some(names) = &cli.set {
+        if names.len() == 2 {
+            let code = if cli.scan_mediators {
+                click::run_scan_mediators(cat_ref, &names[0], &names[1], cli.top)
+            } else {
+                let photo = cli.excite.is_some();
+                click::run_set(
+                    cat_ref,
+                    &names[0],
+                    &names[1],
+                    cli.certify,
+                    cli.catalyst.as_deref(),
+                    photo,
+                    cli.register.as_deref(),
+                    catalog_path.as_deref(),
+                )
+            };
+            process::exit(code);
+        }
+    }
+
+    // Homolytic cleavage → neutral radicals: `./ask --homolyze A [B]`.
+    if let Some(names) = &cli.homolyze {
+        if !names.is_empty() {
+            let code = click::run_homolyze(cat_ref, &names[0], names.get(1).map(|s| s.as_str()), cli.theta);
+            process::exit(code);
+        }
+    }
+
+    // Bidirectional ligand ⇌ catalytic-site complement: `./ask --complement A`.
+    if let Some(name) = &cli.complement {
+        let code = click::run_complement(
+            cat_ref,
+            name,
+            cli.certify,
+            cli.register.as_deref(),
+            catalog_path.as_deref(),
+        );
+        process::exit(code);
+    }
+
+    // Catalytic cycle: `./ask --cycle CATALYST SUBSTRATE` — the closed loop.
+    if let Some(names) = &cli.cycle {
+        if names.len() == 2 {
+            let code = click::run_cycle(
+                cat_ref,
+                &names[0],
+                &names[1],
+                cli.certify,
+                cli.register.as_deref(),
+                catalog_path.as_deref(),
+            );
+            process::exit(code);
+        }
+    }
+
+    // Metabolic pathway: `./ask --pathway SUBSTRATE C1 C2 …` — chain the loops.
+    if let Some(names) = &cli.pathway {
+        if names.len() >= 2 {
+            let code = click::run_pathway(cat_ref, &names[0], &names[1..], cli.certify);
+            process::exit(code);
+        } else {
+            eprintln!("--pathway needs a substrate and at least one catalyst");
+            process::exit(2);
+        }
+    }
+
+    // Imscribe a missing entry: `./ask --imscribe NAME [free-text description]`.
+    // Runs the real generate pipeline and writes to the live catalog.
+    if let Some(name) = &cli.imscribe {
+        let description = if cli.rest.is_empty() {
+            name.replace('_', " ")
+        } else {
+            cli.rest.join(" ")
+        };
+        print!("{}", run_imscribe(name, &description));
+        process::exit(0);
+    }
+
+    // Recall a registered material by name (no catalog work needed).
+    if let Some(name) = &cli.recall {
+        process::exit(click::run_recall(name, cli.export.as_deref()));
+    }
+
+    // Forge / compare / dope — the material-operation verbs (deterministic; no LLM).
+    if let Some(names) = &cli.forge {
+        process::exit(click::run_forge(cat_ref, names, cli.theta, cli.register.as_deref(), cli.export.as_deref()));
+    }
+    if let Some(names) = &cli.compare {
+        process::exit(click::run_compare(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.dope {
+        process::exit(click::run_dope(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.fuse {
+        process::exit(click::run_fuse(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.cleave {
+        process::exit(click::run_cleave(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.anneal {
+        process::exit(click::run_anneal(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.distill {
+        process::exit(click::run_distill(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.fdistill {
+        process::exit(click::run_fdistill(cat_ref, names, cli.theta));
+    }
+    if let Some(name) = &cli.sublime {
+        process::exit(click::run_sublime(cat_ref, name));
+    }
+    if let Some(names) = &cli.crystallize {
+        process::exit(click::run_crystallize(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.cocrystallize {
+        process::exit(click::run_cocrystallize(cat_ref, &names[0], &names[1], cli.theta));
+    }
+    if let Some(names) = &cli.seed {
+        process::exit(click::run_seed(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.tlc {
+        process::exit(click::run_tlc(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.column {
+        process::exit(click::run_column(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.fpt {
+        process::exit(click::run_fpt(cat_ref, names, cli.theta));
+    }
+    if let Some(names) = &cli.trap {
+        process::exit(click::run_trap(cat_ref, &names[0], names.get(1).map(|s| s.as_str()), cli.theta));
+    }
+    if let Some(names) = &cli.stain {
+        process::exit(click::run_stain(cat_ref, &names[0], &names[1..], cli.theta));
+    }
+
+    // Imscriptive polymerization: `./ask --polymerize M1 M2 …` — chain the clicks.
+    if let Some(names) = &cli.polymerize {
+        if names.len() >= 2 {
+            let code = if cli.arrange {
+                click::run_arrange(cat_ref, names, cli.theta, cli.certify, cli.close, cli.props, cli.modulus)
+            } else {
+                click::run_polymerize(cat_ref, names, cli.theta, cli.certify, cli.close, cli.props, cli.modulus)
+            };
+            process::exit(code);
+        } else {
+            eprintln!("--polymerize needs at least two monomers");
+            process::exit(2);
+        }
+    }
+
+    // Excited-state analysis: `./ask --excite A` (standalone verb — a value present
+    // and no --set). On a --set line the flag is consumed above as photoinduced.
+    if !cli.star.is_empty() {
+        let code = click::run_star(cat_ref, &cli.star, cli.theta);
+        process::exit(code);
+    }
+
+    // IMASM polymer composition: `./ask --imasm <op> …` — pure computation, no catalog.
+    if !cli.imasm.is_empty() {
+        print!("{}", imasm::run(&cli.imasm));
+        process::exit(0);
+    }
+
+    if !cli.filter.is_empty() {
+        let code = click::run_filter(cat_ref, &cli.filter);
+        process::exit(code);
+    }
+
+    if let Some(name) = &cli.ascend {
+        let code = click::run_ascend(cat_ref, name, cli.register.as_deref(), catalog_path.as_deref());
+        process::exit(code);
+    }
+
+    if !cli.phase_reconstruct.is_empty() {
+        let code = click::run_phase_reconstruct(cat_ref, &cli.phase_reconstruct, cli.theta);
+        process::exit(code);
+    }
+
+    if let Some(ex) = &cli.excite {
+        if !ex.is_empty() {
+            let code = click::run_excite(
+                cat_ref,
+                ex,
+                cli.certify,
+                cli.register.as_deref(),
+                catalog_path.as_deref(),
+            );
+            process::exit(code);
+        }
+    }
+
+    if let Some(names) = &cli.click {
+        let code = match names.len() {
+            2 => click::run_click(
+                cat_ref,
+                &names[0],
+                &names[1],
+                cli.theta,
+                cli.catalyst.as_deref(),
+                cli.certify,
+                cli.register.as_deref(),
+                catalog_path.as_deref(),
+            ),
+            1 => click::run_click_sweep(
+                cat_ref,
+                &names[0],
+                cli.theta,
+                cli.catalyst.as_deref(),
+                cli.top,
+            ),
+            _ => {
+                eprintln!("--click takes one name (sweep) or two (pair)");
+                2
+            }
+        };
+        process::exit(code);
+    }
+
+    if cli.interactive
+        && cli.ask.is_none()
+        && cli.file.is_none()
+        && cli.rest.is_empty()
+    {
+        let code = interactive_loop(&cli, &llm, cat_ref);
+        process::exit(code);
+    }
+
+    // If only -i with also a question, run question then enter interactive? Keep simple: one-shot if ask/file/rest.
+    match resolve_input(cli.ask.as_deref(), cli.file.as_deref(), &cli.rest) {
+        Ok((content, source)) => {
+            // Prepend any --context (files or directories) as a labeled background block.
+            let (content, source) = match load_context(&cli.context) {
+                Ok(ctx) if !ctx.is_empty() => (
+                    format!("{ctx}\n========== SUBMISSION ==========\n{content}"),
+                    format!("{source} + context[{}]", cli.context.len()),
+                ),
+                Ok(_) => (content, source),
+                Err(e) => {
+                    eprintln!("error: --context: {e}");
+                    process::exit(2);
+                }
+            };
+            let mut conversation = Vec::new();
+            let code = run_one(&content, &source, &cli, &llm, cat_ref, &mut conversation);
+            if cli.interactive {
+                let _ = interactive_loop(&cli, &llm, cat_ref);
+            }
+            process::exit(code);
+        }
+        Err(e) => {
+            if cli.interactive {
+                let code = interactive_loop(&cli, &llm, cat_ref);
+                process::exit(code);
+            }
+            eprintln!("error: {e}");
+            eprintln!("Try: ask --ask \"...\" | ask --file path | ask -i");
+            process::exit(2);
+        }
+    }
+}

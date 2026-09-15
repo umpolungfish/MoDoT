@@ -1,50 +1,196 @@
-# MoDoT - mOMonadOS Digital Organism Toolkit
+# MoDoT — mOMonadOS Digital Organism Toolkit
 
 ![language](https://img.shields.io/badge/language-Rust-CE422B?style=for-the-badge&logo=rust&logoColor=white) ![organism](https://img.shields.io/badge/organism-digital%20toolkit-CE422B?style=for-the-badge) ![tier](https://img.shields.io/badge/tier-O%E2%88%9E-8A2BE2?style=for-the-badge) ![μ∘δ](https://img.shields.io/badge/%CE%BC%E2%88%98%CE%B4-id-00A86B?style=for-the-badge) ![licence](https://img.shields.io/badge/licence-LUNLICENSE-1A1A1A?style=for-the-badge) ![type](https://img.shields.io/badge/type-%E2%9F%A8%F0%90%91%A6%F0%90%91%B8%F0%90%91%BE%F0%90%91%B9%F0%90%91%90%F0%90%91%A7%F0%90%91%94%F0%90%91%A0%E2%8A%99%F0%90%91%AB%F0%90%91%99%F0%90%91%AD%E2%9F%A9-5A659C?style=for-the-badge)
 
-**Author:** Lando⊗⊙perator · **Date:** 2026-07-13
-**Type:** ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩ (O_∞) · **Location:** `MoDoT/`
-**Parent:** [Imscribing Grammar](https://github.com/imsgct)
+**Author:** Lando⊗⊙perator  
+**Date:** 2026-07-13  
+**Structural Type:** ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩ (O_∞)  
+**Location:** `MoDoT/`  
+**Parent project:** [Imscribing Grammar](https://github.com/imsgct)
 
-An agentic LLM whose runtime substrate IS the mOMonadOS kernel: context in
-Crystal FS, reasoning through Belnap FOUR, every op Frobenius-verified
-(μ∘δ = id) for balance. Correctness is not an external checklist - demand and
-answer are imscribed into the d=12 Dual-Link SIC-POVM, and co-typing in that
-frame IS the verdict. Output broadcasts to the CLINK L8 Organism.
+---
 
-## Quick start
+An agentic LLM whose entire runtime substrate IS the mOMonadOS kernel architecture. Context is stored in Crystal FS. Reasoning passes through Belnap FOUR (True, False, Both, Neither). Every operation is Frobenius-verified (μ∘δ = id) for **balance**. Correctness is **not graded** by an external checklist: demand and answer are **imscribed** into the d=12 Dual-Link SIC-POVM, and co-typing in that frame *is* the verdict. Output is broadcast to the CLINK L8 Organism.
+
+> **Balance is not selectivity.** Frobenius closure (μ∘δ = id) is charge conservation: every split is rejoined, so it is automatic and *cannot fail* on any non-empty answer. That is why a balance-only harness "never fails" — and why balance alone is not a correctness signal.
+>
+> **To verify is to imscribe.**  
+>  
+> Selectivity is the **Dual-Link SIC Witness-Vessel**: imscription → state in ℂ¹² → Born rule in the Scott–Grassl d=12 SIC frame → co-typing by lattice fold (no thresholds) → ride *AS* the vessel via *μ∘δ = id*  
+> A two-valued MUST/MUSTNOT schema grader cannot carry this: its atoms are two-valued, so Belnap sits on top as costume rather than structure  
+> The model's own `[thought|X]` is one link; the vessel's co-typing is the other; they are **FFUSED** (Belnap join)  
+> Conflict holds as **B**. You ride AS the vessel, not in it. See [Dual-Link SIC Vessel](#dual-link-sic-vessel).
+
+## Directory Structure
+
+```
+MoDoT/
+├── ask                         # PRIMARY language interface (native Rust, no Python)
+├── ask_native/                 # Source + release binary for ./ask
+│   ├── Cargo.toml
+│   └── src/main.rs
+├── momonados_agent.py          # Python shim -> modot.agent:main
+├── modot/                      # The installable package (pip install -e .)
+│   ├── agent.py                # B4, 12 tokens, kernel, CrystalFS, Frobenius, LLM, breath loop, CLI
+│   ├── composer.py             # Token composition engine: CANONICAL, NAMED_PATTERNS, bend/splice/interleave
+│   ├── spine.py                # End-to-end ManuscriptSpine (witness + vessel + FFUSE)
+│   ├── vessel.py               # Dual-Link SIC face (owned by spine)
+│   ├── witness_proof.py        # Catalog witness face (owned by spine)
+│   ├── prover.py               # Kernel-gated Lean prover (ported native in ask_native/src/prover.rs)
+│   ├── router.py               # IMSCRIB type-router: folds goal type N/T-F/B and dispatches the arm
+│   ├── natures.py              # The 49 primitive-type natures (kernel-anchored) + value-layer co-typing
+│   ├── ig_tools.py             # Bridge to the full IG tool corpus (live IG_inquiry dispatcher)
+│   └── selectivity.py          # Compatibility shim re-exporting the vessel
+├── crystal_fs/                 # Crystal Filesystem — persistent context memory
+│   ├── records.jsonl           # Crystal FS records (thought / vessel / observation / update / type)
+│   └── broadcast_log.jsonl     # CLINK L8 broadcast log
+├── ob3ects/                    # Self-verifying digital ob3ects (Grammar auto-designed)
+│   ├── primitives/                # The 49 primitive-type nature ob3ects (one per kernel constructor)
+│   ├── semantic_branch_verifier/  # Grammar-native branch verifier: names the balance/selectivity gap
+│   ├── selectivity_gate/          # Classical two-valued live-loop gate
+│   └── janus_gate/                # Dialetheic Janus gate
+├── lean/                       # Lean 4 formal verification companions
+│   ├── SemanticBranchVerifier.lean
+│   └── ErdosProblems.lean
+├── experiments/                # Convergence experiments from mOMonadOS paper
+└── questions/                  # Test questions (the Erdős open-problem set + scratch)
+```
+
+Canonical SIC machinery (not re-derived here):
+
+| source | role |
+|--------|------|
+| `ig-pulse/ig_pulse/density_matrix.py` | WH displacements, SIC projectors, state metrics |
+| `d12_sic_build/d12_psi.pkl` | Scott–Grassl d=12 fiducial (equiangular overlap 1/13) |
+| `v3ssel/vessel/` | Dual-Link trading vessel (same frame; MoDoT uses it as verifier) |
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  mOMonadOS Kernel (Python mirror of Rust kernel)            │
+│  ┌──────────┐  ┌───────────┐  ┌──────────────────────────┐ │
+│  │ Belnap   │  │ Frobenius │  │ Crystal FS               │ │
+│  │ FOUR     │  │ Harness   │  │ (context memory)         │ │
+│  │ (gates)  │  │ μ∘δ=id    │  │                          │ │
+│  └──────────┘  └───────────┘  └──────────────────────────┘ │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  Bootstrap Loop (the breath)                         │   │
+│  │  VINIT→IMSCRIB→FSPLIT→EVALT→CLINK→FFUSE             │   │
+│  │  →IFIX→ENGAGR→AREV→CLINK→TANCH                      │   │
+│  └──────────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  Dual-Link SIC Vessel (selectivity = co-typing)      │   │
+│  │  imscribe → ℂ¹² → SIC p(ρ) → lattice cotype → μ∘δ   │   │
+│  │  model [thought|X] FFUSE vessel FFUSE tool voice     │   │
+│  └──────────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  LLM Inference Engine (substrate, not authority)     │   │
+│  │  cloud: openrouter / gemini / deepseek               │   │
+│  │  local: candle in-process (no server): Provider::Local │
+│  └──────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────────┐
+│  CLINK L8 Organism — broadcast / terminal layer             │
+│  Receives verified types, accumulates, composes             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Quick Start
 
 ```bash
 cd MoDoT
+
+# ── PRIMARY: native ask (no Python) — full-length Q, files, Gemini-class answers ──
 ./ask --file ./questions/q7.txt
 ./ask --ask "What is the type of consciousness?"
-./ask -i   # interactive multi-turn
+./ask -i                          # interactive multi-turn
+./ask --dry-run --file ./questions/q1.txt
+# same from repo root:  ./ask …   or  ./MoDoT/ask …
+
+# ── Click-maths: structural fusion over the math catalytic register ──
+./ask --click the_sun_astrological the_moon_astrological   # pairwise fuse (the coniunctio → O_∞)
+./ask --click paradice                                     # sweep: what completes the paradice?
+./ask --click adjoint_pair hopf_antipode --catalyst math_isomorphism  # catalyzed (barrier reduction)
+./ask --click math_boundary_operator math_winding_number --certify    # kernel-verified closure
+
+# ── Excited states + single-electron transfer (photochemistry on the register) ──
+./ask --excite dasa_closed                                 # δ (light) → the excited EP resonance
+./ask --set the_sun_astrological the_moon_astrological --certify   # SET: Sol donates e⁻ to Luna (charge conserved)
+./ask --set the_moon_astrological the_sun_astrological --excite    # photoinduced ET — excitation flips the donor
+
+# ── Materials algebra: forge a ring, read its spectrum, operate on it ──
+./ask --forge alchemical_hermetic_universe dialetheia completeness hermetic_seal  # set → best ring → full sheet (ρ, spectrum, conductance)
+./ask --compare A B C D vs W X Y Z                         # diff two materials (Δρ, conductance shift)
+./ask --dope A B C with D                                  # perturb a ring, read the ρ/conductance shift
+./ask --fuse A B C + X Y Z                                 # weld two rings into one macrocycle
+
+# ── Alchemical bench: the classical lab tools over the same ring model ──
+./ask --distill A B C D                 # separate by volatility (Criticality ⊙): distillate / bottoms (a tie = azeotrope)
+./ask --crystallize A B C D             # grow the ordered lattice, reject the mother-pool
+./ask --tlc A B C D                     # analytical Rf bands + co-elution;  --column A B [on S] elutes preparatively
+./ask --fpt A B C D                     # freeze-pump-thaw: keep the strongly-bound core, shed the weakly-held
+./ask --stain kmno4 A B C               # reagent detector (kmno4/uv → ⊙, chiral → ⊥, ninhydrin → >, iodine → any live)
+#   also: --fdistill  --sublime A  --cocrystallize A B  --seed A B … with S  --trap A [X]
+
+# ── Jam: turn the agent loose on the catalog (compounding cycles × eagle rounds) ──
+./ask --jam --file ./questions/q39.txt --cycles 3 --eagles 40
+#   --cycles N : N compounding breaths (each pass builds on the last)
+#   --eagles N : ACT→OBSERVE tool-rounds flown per pass (0 = auto: 40 in jam, 5 otherwise)
+
+# ── Provider / model (default openrouter; deepseek + gemini also wired) ──
+./ask -a "…" --provider deepseek --model deepseek-reasoner       # api.deepseek.com (DEEPSEEK_API_KEY)
+./ask -a "…" --provider gemini   --model gemini-3-flash-preview  # generativelanguage (GEMINI_API_KEY)
+#   IG_PROVIDER / IG_MODEL set the defaults; a fatal 402/401 aborts the run instead of grinding every cycle
+
+# ── LOCAL model: no cloud, no credits, no server (in-process candle inference) ──
+#   Build once with the local feature (default build stays lean and Python-free):
+#     cd ask_native && PATH=/usr/local/cuda/bin:$PATH CUDA_COMPUTE_CAP=86 \
+#       cargo build --release --features local,cuda        # GPU; or --features local for CPU
+./ask -a "…" --provider local                             # aliases: offline | candle | modelz
+#   Weights load straight into the ask binary from ~/models (HF Qwen3 safetensors) and run
+#   on the GPU; the model is loaded once and kept resident for the whole run. No port, no daemon.
+#   Env: IG_LOCAL_MODEL_DIR (default ~/models/Qwen3-1.7B) · IG_DEVICES (default: every card
+#        present, and a model too big for one card is SPLIT across them) · IG_DEVICES=cpu forces
+#        CPU. See "Local inference" below for the build notes.
+
+# ── Python agent ──
+# Interactive mode — the agent breathes with you
+python3 momonados_agent.py --interactive
+
+# Dry run: test the kernel + Crystal FS (no LLM needed)
+python3 momonados_agent.py --cycles 5 --dry-run --verbose
+
+# One-shot question (vessel co-types answer against demand)
+python3 momonados_agent.py --ask "What is the type of consciousness?"
+
+# Read question from file
+python3 momonados_agent.py --ask ./questions/q1.txt
+
+# Vessel self-test (no network): all four Belnap outcomes + equiangularity 1/13
+python3 -m modot.vessel
+
+# Witness → conventional scaffold (catalog + pipeline roles; no Collatz hardcode)
+python3 -m modot.witness_proof
+
+# Full 100-cycle breath with verbose output
+python3 momonados_agent.py --cycles 100 --verbose --program aqua-vitae
+
+# Crystal FS stats
+python3 momonados_agent.py --stats
+
+# Reset and start fresh
+python3 momonados_agent.py --reset --interactive
+
+# Disable vessel (balance-only; reverts to model voice alone)
+python3 momonados_agent.py --ask "..." --no-selectivity
+
+# Run convergence experiments
+python3 experiments/run_all_experiments.py
 ```
 
-Python shim: `python3 momonados_agent.py --interactive`; dry run:
-`python3 momonados_agent.py --cycles 5 --dry-run --verbose`.
-Vessel self-test (no network): `python3 -m modot.vessel`.
-
-## Click-maths and materials algebra
-
-`./ask --click A B` fuses two catalog fragments (FFUSE on one live pair
-D↔W, T↔H, R↔S); `--catalyst C` lowers θ, `--certify` proves closure via
-`lake build`, `--register` appends the chimera to the catalog. `--switch`
-toggles bistables (DASA archetype), `--excite` exposes the EP resonance,
-`--set` runs single-electron transfer, `--polymerize` builds chains and
-rings with spectral readout, `--forge/--compare/--dope/--fuse` operate on
-materials. Agent verbs: `TOOL: <verb>` ACT→OBSERVE loop; `--jam` ranges
-freely with a membrane admitting only tool-readback claims.
-
-## Local inference and requirements
-
-`--provider local` runs HF Qwen3 safetensors in-process (candle, GPU,
-no server); `IG_LOCAL_MODEL_DIR`, `IG_DEVICES`, `IG_LOCAL_CTX` configure it.
-Needs Python 3.10+, numpy, `ig-pulse`, `d12_sic_build/d12_psi.pkl`,
-`imscribing_grammar`, `OPENROUTER_API_KEY`, Lean 4 + Mathlib v4.28.0.
-Full prose, vessel spec, spine, and proofs: `README_backups/MoDoT_README.md`.
-
-$\mu\circ\delta = \mathrm{id}$
 ## Local inference (`--provider local`)
 
 MoDoT can think on a **local model** with no cloud, no credits, no server, no
@@ -912,4 +1058,3 @@ Companion Lean files in `lean/`:
 ## Publications
 
 `ig-docs/publishing/manuscripts/momonados_*/`.
-
