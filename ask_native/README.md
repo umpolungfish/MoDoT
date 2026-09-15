@@ -1,6 +1,6 @@
 # MoDoT native `ask`
 
-Host-native language interface for the organism. **Lives in MoDoT** — non-Python replacement for `momonados_agent.py --ask / --file / -i`.
+Host-native language interface for the organism. **Lives in MoDoT** - non-Python replacement for `momonados_agent.py --ask / --file / -i`.
 
 ## Provider & model
 

@@ -1,4 +1,4 @@
-# StructoForge — Mathematical Organism Foundry
+# StructoForge - Mathematical Organism Foundry
 
 **Author:** Lando⊗⊙perator
 
@@ -6,9 +6,9 @@ A comprehensive mathematical environment bridging the Imscribing Grammar to imme
 
 ## Mathematical Environments
 
-### 1. Paraconsistent Number Theory (PNT) — `paranumber.py`
+### 1. Paraconsistent Number Theory (PNT) - `paranumber.py`
 
-A complete paraconsistent arithmetic over the Belnap FOUR lattice (N/T/F/B). Numbers carry Belnap truth values for their properties — a number can be simultaneously prime and composite, even and odd, perfect and imperfect.
+A complete paraconsistent arithmetic over the Belnap FOUR lattice (N/T/F/B). Numbers carry Belnap truth values for their properties - a number can be simultaneously prime and composite, even and odd, perfect and imperfect.
 
 **Verified Theorems (10/10):**
 
@@ -26,7 +26,7 @@ A complete paraconsistent arithmetic over the Belnap FOUR lattice (N/T/F/B). Num
 | 10 | **Dialetheic Uniqueness**: B is the unique dialetheic value | ✓ |
 
 **Key Discoveries:**
-- **39 dialetheic numbers** in [0, 500] — numbers whose primality is both true and false
+- **39 dialetheic numbers** in [0, 500] - numbers whose primality is both true and false
 - **Paraconsistent Prime Theorem**: For every sufficiently large n, [n, 2n] contains a B-prime (verified 245/248 intervals in [2, 250))
 - **Frobenius kernel**: All four Belnap values satisfy μ∘δ=id, confirming the kernel as a Frobenius algebra
 
@@ -54,9 +54,9 @@ python3 paranumber.py table 10
 python3 paranumber.py demo
 ```
 
-### 2. Inter-Universal Frobenius Theory (IUFT) — `iuft.py`
+### 2. Inter-Universal Frobenius Theory (IUFT) - `iuft.py`
 
-A structural formulation of inter-universal geometry using the Imscribing Grammar. Frobenius universes, bridges, multiradial transport, crystal wormholes, Teichmuller deformations, and alien arithmetic — all connected to the live IG catalog and MoDoT binary.
+A structural formulation of inter-universal geometry using the Imscribing Grammar. Frobenius universes, bridges, multiradial transport, crystal wormholes, Teichmuller deformations, and alien arithmetic - all connected to the live IG catalog and MoDoT binary.
 
 **Core Concepts:**
 - **FrobeniusUniverse**: A structural universe anchored at an IG catalog type, with closure radius, ouroboricity tier, and click-partner bridges
@@ -141,7 +141,7 @@ python3 -m structoforge.cli matrix monad topos hopf category
 - `proof_forge.py` generates Lean 4 proof scaffolds from types
 
 ### Drug Discovery
-Use `resonance` to check protein-ligand structural compatibility. Systems that fuse on a live pair are structurally compatible — systems that conflict require mediated coupling.
+Use `resonance` to check protein-ligand structural compatibility. Systems that fuse on a live pair are structurally compatible - systems that conflict require mediated coupling.
 
 ### Physics Prediction
 Use `predict` to derive fundamental constants (α, sin²θ_W, mass ratios) from types. The fine-structure constant α⁻¹ = 137.03536 emerges from pure horn torus winding arithmetic.
@@ -153,9 +153,9 @@ Use `forge` and `sweep` to discover new materials by clicking monomers. The spec
 
 The foundry uses a three-layer architecture:
 
-1. **Structural layer** (the 12 primitives) — universal type system for any system
-2. **Algebraic layer** (cotype, tensor, click) — operations on types
-3. **Applied layer** (materials, physics, proof, paraconsistent, IUFT) — real-world applications
+1. **Structural layer** (the 12 primitives) - universal type system for any system
+2. **Algebraic layer** (cotype, tensor, click) - operations on types
+3. **Applied layer** (materials, physics, proof, paraconsistent, IUFT) - real-world applications
 
 Each layer is Frobenius-closed: every operation has dual verification (μ∘δ=id).
 
