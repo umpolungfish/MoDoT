@@ -16,7 +16,7 @@ Using the **Arithmetic Regularity Lemma**, we partition {1, …, N} into sub-pro
 δ_P' ≥ δ + gain(δ)
 Since δ ≤ 1, this increment cannot continue indefinitely.
 
-**4. Asymptotic Result [◻]:**
+**4. Asymptotic Result [⊡]:**
 The iteration terminates when the density reaches a contradiction or the progression size becomes too small. This proves **Szemerédi's Theorem**: r_k(N) = o(N).
 *   **Lower Bound (Behrend-type):** r_k(N) ≥ N · exp(-c(log N)^1/(k-1)).
 *   **Upper Bound (k=3, Kelley-Meka):** r_3(N) ≤ N · exp(-c(log N)^1/11).
@@ -105,7 +105,7 @@ click-maths:  gowers_norms  ⋈  nil_inverse_theorem   (θ=0.50)
     R↔S    gowers_norms= +0.17  nil_inverse_theorem= -0.33   Δ=0.50
   ✓ CLICK on R↔S — spring-loaded Δ=0.50, single reaction center, closes.
   product: ⟨𐑦𐑡𐑽𐑬𐑐𐑺𐑔𐑝⊙𐑫𐑳𐑟⟩  (ring saturated on R↔S)
-  inherited scaffold (blended from both partners): [⊤, ⊙, ⊥, ◻]
+  inherited scaffold (blended from both partners): [⊤, ⊙, ⊥, ⊡]
 ### NOT RUN this round (5 tool call(s) over the 6-per-round cap)
   TOOL: click nil_inverse_theorem behrend_construction
   TOOL: click behrend_construction kelley_meka_bound
@@ -129,7 +129,7 @@ By the **Inverse Theorem for Gowers Norms**, a large U^k−1 norm implies that f
 Applying the **Arithmetic Regularity Lemma**, we partition the set into components. On a sub-progression (or Nil-Bohr set) P', the correlation with ψ ensures a density increment:
 |A ∩ P'| / |P'| ≥ δ + η(δ)
 
-**4. Boundedness and Termination [◻]:**
+**4. Boundedness and Termination [⊡]:**
 Since density cannot exceed 1, this increment process must terminate in a finite number of steps. This proves **Szemerédi's Theorem**: r_k(N) = o(N).
 *   **Lower Bound (Behrend):** r_k(N) ≥ N · exp(−c(log N)^1/(k−1)).
 *   **Upper Bound (Kelley-Meka, k=3):** r_3(N) ≤ N · exp(−c(log N)^1/11).

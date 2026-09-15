@@ -147,7 +147,7 @@ fn open_devices(cfg: &LocalCfg) -> Vec<(Device, Option<usize>)> {
         }
     }
     if open.is_empty() {
-        eprintln!("\x1b[2m[local] no CUDA device reachable — CPU (slow); check LD_LIBRARY_PATH / driver\x1b[0m");
+        eprintln!("{}", crate::style::dim_err(&format!("[local] no CUDA device reachable — CPU (slow); check LD_LIBRARY_PATH / driver")));
         return vec![(Device::Cpu, None)];
     }
     open
@@ -199,12 +199,11 @@ fn compute_ctx_cap(qcfg: &Qwen3Config, cuda_idx: &[usize], chunk: usize, quiet: 
             .clamp(2048, qcfg.max_position_embeddings.min(32000))
     };
     if !quiet {
-        eprintln!(
-            "\x1b[2m[local] ctx cap {cap} tok ({} free MiB over {} card(s), {:.2} MiB/tok KV, prefill chunk {chunk})\x1b[0m",
+        eprintln!("{}", crate::style::dim_err(&format!("[local] ctx cap {cap} tok ({} free MiB over {} card(s), {:.2} MiB/tok KV, prefill chunk {chunk})",
             total_mib,
             cuda_idx.len(),
             kv_per_tok as f64 / (1024.0 * 1024.0)
-        );
+        )));
     }
     cap
 }
@@ -496,10 +495,9 @@ impl Engine {
                 let roomiest = ordinals.iter().map(|i| free_vram(*i)).max().unwrap_or(0);
                 let fits_one = roomiest > 0 && roomiest >= resident + reserve;
                 if fits_one && !quiet {
-                    eprintln!(
-                        "\x1b[2m[local] {:.1} GB of weights fit one card — no split (name both in IG_DEVICES to force it)\x1b[0m",
+                    eprintln!("{}", crate::style::dim_err(&format!("[local] {:.1} GB of weights fit one card — no split (name both in IG_DEVICES to force it)",
                         resident as f64 / (1024.0 * 1024.0 * 1024.0)
-                    );
+                    )));
                 }
                 !fits_one
             }));
@@ -534,10 +532,9 @@ impl Engine {
             }
         };
         if !quiet {
-            eprintln!(
-                "\x1b[2m[local] loading {} onto {} …\x1b[0m",
+            eprintln!("{}", crate::style::dim_err(&format!("[local] loading {} onto {} …",
                 cfg.model_dir, where_
-            );
+            )));
         }
 
         let model = if split {
@@ -603,10 +600,9 @@ impl Engine {
             )
         };
         if !quiet {
-            eprintln!(
-                "\x1b[2m[local] model resident ({:.1}s)\x1b[0m",
+            eprintln!("{}", crate::style::dim_err(&format!("[local] model resident ({:.1}s)",
                 t0.elapsed().as_secs_f64()
-            );
+            )));
         }
         let tok_path = format!("{}/tokenizer.json", cfg.model_dir);
         let tokenizer =
@@ -641,7 +637,7 @@ impl Engine {
         let chat_template = match canonical {
             Some(path) => {
                 if !quiet {
-                    eprintln!("\x1b[2m[local] chat template: {}\x1b[0m", path.display());
+                    eprintln!("{}", crate::style::dim_err(&format!("[local] chat template: {}", path.display())));
                 }
                 std::fs::read_to_string(&path).ok()
             }
@@ -780,10 +776,9 @@ impl Engine {
             let mut kept = Vec::with_capacity(ctx_cap);
             kept.extend_from_slice(&tokens[..head]);
             kept.extend_from_slice(&tokens[tokens.len() - tail..]);
-            eprintln!(
-                "\x1b[2m[local] prompt {} tok > ctx cap {} — kept head {}+tail {}, dropped {} in the middle (raise IG_LOCAL_CTX, add a card to IG_DEVICES, or build with flash-attn)\x1b[0m",
+            eprintln!("{}", crate::style::dim_err(&format!("[local] prompt {} tok > ctx cap {} — kept head {}+tail {}, dropped {} in the middle (raise IG_LOCAL_CTX, add a card to IG_DEVICES, or build with flash-attn)",
                 tokens.len(), ctx_cap, head, tail, dropped
-            );
+            )));
             tokens = kept;
         }
         if tokens.is_empty() {
@@ -839,10 +834,8 @@ impl Engine {
         let t_start = std::time::Instant::now();
         let mut first_token_at: Option<std::time::Duration> = None;
         if stream {
-            eprint!(
-                "\x1b[2m[local · {} prompt tok · thinking…]\x1b[0m ",
-                tokens.len()
-            );
+            eprint!("{} ", crate::style::dim_err(&format!(
+                "[local · {} prompt tok · thinking…]", tokens.len())));
             let _ = std::io::Write::flush(&mut std::io::stderr());
         }
 
@@ -933,12 +926,12 @@ impl Engine {
         if stream {
             let secs = t_start.elapsed().as_secs_f64().max(1e-6);
             let ttft = first_token_at.map(|d| d.as_secs_f64()).unwrap_or(secs);
-            eprintln!(
-                "\n\x1b[2m[local · {} tok · {:.1} tok/s · first token {:.1}s]\x1b[0m",
+            eprintln!("\n{}", crate::style::dim_err(&format!(
+                "[local · {} tok · {:.1} tok/s · first token {:.1}s]",
                 out_ids.len(),
                 out_ids.len() as f64 / secs,
                 ttft
-            );
+            )));
             let _ = std::io::Write::flush(&mut std::io::stderr());
         }
         Ok(text)

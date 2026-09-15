@@ -442,7 +442,7 @@ fn segments(args: &[String]) -> Vec<Vec<Token>> {
         .collect()
 }
 
-/// Decompose a glued single-glyph code word (`⊢>∈⊤⊥∋◻⊣`) into its tokens. Every char must
+/// Decompose a glued single-glyph code word (`⊢>∈⊤⊥∋⊡⊣`) into its tokens. Every char must
 /// be a valid code, else None — so a real name (VINIT) is never mangled into letters.
 fn parse_codons(chunk: &str) -> Option<Vec<Token>> {
     let mut out = Vec::new();
@@ -470,7 +470,8 @@ fn report(title: &str, g: &Graph) -> String {
     let mut s = String::new();
     let _ = writeln!(s, "IMASM {title}");
     let _ = writeln!(s, "  program: {}", g.program_str());
-    let _ = writeln!(s, "  code: {}", g.code_str());
+    let word = g.code_str();
+    let _ = writeln!(s, "  code: {}", word);
     let _ = writeln!(s, "{}", g.classify());
     let errs = g.validate();
     if errs.is_empty() {
@@ -495,6 +496,16 @@ fn report(title: &str, g: &Graph) -> String {
              protocol does NOT close by looping back to VINIT (a source) — it closes at the fuse."
         );
     }
+    // The above is the GRAPH question: does this wiring close (μ∘δ over how title wired
+    // it). The word instruments below ask a different question of the SAME code string
+    // read linearly, regardless of how it got wired: where the weight moves, whether a
+    // clear banks before a reversal, what a full ROTAT turn looks like, and whether any
+    // single glyph repairs it. Two questions, not two readings of one answer.
+    let _ = writeln!(s, "\n  -- word instruments, the code read linearly --");
+    let _ = write!(s, "{}", imasm_core::lattice_flow::weight_report(&word));
+    let _ = write!(s, "{}", imasm_core::lattice_flow::banked_report(&word));
+    let _ = write!(s, "{}", imasm_core::lattice_flow::cycle_report(&word));
+    let _ = write!(s, "{}", imasm_core::lattice_flow::insert_report(&word));
     s
 }
 
@@ -583,11 +594,11 @@ UNFOLDS into its own 12-opcode IMASM program (`imasm expand ado`). Splice an
 expanded type's sequence into a polymer arm to pivot through state space AS that
 type: the alphabet's letters are themselves words in the language.
 SINGLE-GLYPH CODES: each opcode has a one-symbol code (READING_GUIDE §3 glyphs), so
-a word can be written glued, no spaces — `⊢>∈⊤⋈⊙<⊥⊞∋⊙◻⊣` is the same protocol as the
+a word can be written glued, no spaces — `⊢>∈⊤⋈⊙<⊥⊞∋⊙⊡⊣` is the same protocol as the
 13 spelled-out tokens. Every build echoes the word's `code:`. The alphabet is fully
 symbolic — no Latin initials; the retired V/T/B letters and ← no longer parse:
   ⊢ VINIT   ⊣ TANCH   > AFWD   < AREV   ⋈ CLINK   ⊙ IMSCRIB
-  ∈ FSPLIT  ∋ FFUSE   ⊤ EVALT  ⊥ EVALF  ⊞ ENGAGR  ◻ IFIX
+  ∈ FSPLIT  ∋ FFUSE   ⊤ EVALT  ⊥ EVALF  ⊞ ENGAGR  ⊡ IFIX
 The same twelve are the primitive alphabet, one glyph per axis; ⊞ reads EVALI in
 the trilattice face. ROTAT ↺/↻ is the op-opcode (the cyclic shift on the WHOLE
 word), not a token in it. The marks ◇ ● = + × ¬ ~ ≁ are NOT IMASM tokens: they do
@@ -1194,6 +1205,11 @@ fn write_verb(rest: &[String]) -> String {
         "{} opcodes. `imasm derive word=…` reads it back.",
         word.chars().count()
     );
+    let _ = writeln!(out, "\n  -- word instruments, run on the word above --");
+    let _ = write!(out, "{}", imasm_core::lattice_flow::weight_report(&word));
+    let _ = write!(out, "{}", imasm_core::lattice_flow::banked_report(&word));
+    let _ = write!(out, "{}", imasm_core::lattice_flow::cycle_report(&word));
+    let _ = write!(out, "{}", imasm_core::lattice_flow::insert_report(&word));
     out
 }
 
@@ -2139,7 +2155,7 @@ fn embed_manifest_in_surface(manifest: &serde_json::Value) -> String {
     let Ok(html) = std::fs::read_to_string(&page) else {
         return "  (composer surface not found; manifest not embedded)\n".into();
     };
-    const OPEN: &str = r#"<script type="application/json" id="manifest">"#;
+    const OPEN: &str = r#"<script type="application/json" id="manifest"≻"#;
     const CLOSE: &str = "</script>";
     let Some(a) = html.find(OPEN) else {
         return "  (composer surface has no inline-manifest block; manifest not embedded)\n".into();
@@ -2496,6 +2512,20 @@ mod tests {
     }
 
     #[test]
+    fn pk_seed_sk_triangle_graphs() {
+        let seed = "⊞∋∋⊙⊣∈⊣⊥⊤⊞⊡≺≻⊤⊙⊞≻⊞≻⊙⊤⊙⊢≺∈⋈⋈≺≺≻∋⊞⊥⊙≻⊣⊥⊢∋⊥⊡∋⋈⊙⊡⊞⊙⊢⊞∈⊙∋⊙∈≻≻⊥⊞⋈⋈⊢⊞⊣⊡";
+        let priv_ = "⊞∈≻⋈⊢⊢⊢∈≺⊢⊡⊡≻⊙⊙∈⋈⊡⊡⋈≺≻⊞⊡⊣⊥⊡∋⊣⊢⊙⊢";
+        let pub_ = "≺≻⊞≺⊡⊙⊥⊥⋈≺≻⊤⊥⊢∋⊞≺∋⊢⊤⊡≺⋈≻≺⊙⊤⊡⊡≻⋈⊡⋈";
+        for (label, w) in [("seed", seed), ("privkey", priv_), ("pubkey", pub_)] {
+            for op in ["chain", "ring", "protocol"] {
+                let (title, g) = build_graph(op, &[w.to_string()]).expect("builds");
+                println!("=== {label} / {op} ===");
+                println!("{}", report(title, &g));
+            }
+        }
+    }
+
+    #[test]
     fn codon_word_round_trips() {
         // every opcode's code() re-parses to itself
         for t in [
@@ -2507,7 +2537,7 @@ mod tests {
         }
         // a glued code word parses to the same tokens as the spelled-out names, and a
         // multi-letter name is never char-split
-        let glued = tok_list(&["⊢>∈⊤⊙◻⊣".to_string()]);
+        let glued = tok_list(&["⊢>∈⊤⊙⊡⊣".to_string()]);
         let named = tok_list(&[
             "VINIT AFWD FSPLIT EVALT IMSCRIB IFIX TANCH".to_string(),
         ]);

@@ -28,7 +28,7 @@ The structural assembly of this proof was verified by forging the catalog entrie
     *   **Spectral Radius (ρ):** 2.5616. The value ρ > 2 confirms the branched architecture.
     *   **Spectral Gap:** 0.1473.
     *   **Graph Energy:** 7.9515.
-*   **Conductance:** **INSULATING**. The forging indicates the ring is ◻-saturated at junctions 2→3 and 3→4, meaning the logic acts as a static structural confinement rather than a dynamic turnover cycle.
+*   **Conductance:** **INSULATING**. The forging indicates the ring is ⊡-saturated at junctions 2→3 and 3→4, meaning the logic acts as a static structural confinement rather than a dynamic turnover cycle.
 *   **Stability:** The ring strain σ(Δ) is 0.144, indicating a relaxed, stable proof structure. The weakest clean link (Δ=1.00) is at the [syndetic_set ⋈ upper_banach_density] junction.
 *   **Mediator Scan:** The transition from `difference_set` to `syndetic_set` is optimally mediated by `agent_grammar_optimal` (score 0.921).
 

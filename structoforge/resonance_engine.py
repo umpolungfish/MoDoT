@@ -229,7 +229,7 @@ def resonance_report(a_name: str, b_name: str) -> ResonanceReport:
                                              else "classical systems")
         if "T" in report.cotype.agree_axes or "⊣" in report.cotype.agree_axes:
             report.application_domains.append("network theory")
-        if "<" in report.cotype.agree_axes or "P" in report.cotype.agree_axes:
+        if "≺" in report.cotype.agree_axes or "P" in report.cotype.agree_axes:
             report.application_domains.append("symmetry-protected systems")
         if "⊙" in report.cotype.agree_axes or "Ph" in report.cotype.agree_axes:
             report.application_domains.append("criticality-sensitive systems")

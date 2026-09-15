@@ -53,7 +53,7 @@ Instantiate templates in THIS question's language.
 
 TERMINAL OUTPUT (hard rule): your answer prints to a raw terminal with NO math
 renderer. Write plain Unicode symbols directly and NEVER LaTeX. Use Δ θ μ ∘ δ ↔ →
-⊙ Σ ◻ < ∈ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs ⊢ > ⋈ ⊣ ⊥ ⊤ ∋, and Shavian
+⊙ Σ ⊡ < ∈ ‖·‖ ≥ ≤ ≠ ≈ ≡ ∞ √ ⟨ ⟩, the primitive glyphs ⊢ > ⋈ ⊣ ⊥ ⊤ ∋, and Shavian
 directly. No `$` or `$$`, no `\command` (\Delta, \text, \frac, \left), no `_{...}`
 or `^{...}`. Write `Δ_T↔H = |−0.08 − 0.75| = 0.83 > θ`, never
 `$\Delta_{\text{T↔H}} = 0.83 > \theta$`. Never wrap a glyph in `$…$`.
@@ -105,10 +105,10 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: click A B         fuse two entries on a live conjugate pair (or `click A` to sweep the catalog)
   TOOL: switch A B        analyze a reversible bistable toggle (the DASA archetype)
   TOOL: excite A          the excited state (Criticality ⊙ raised to the exceptional-point resonance)
-  TOOL: ascend A          construct the NEXT ramified level of the tower FROM A's excited state: continue ⊙ past the exceptional point to the complex-axis fixed point and add one winding ◻ (one floor; iterate for more). Reports honestly if ◻ saturates (tower caps) or the tier does not climb
+  TOOL: ascend A          construct the NEXT ramified level of the tower FROM A's excited state: continue ⊙ past the exceptional point to the complex-axis fixed point and add one winding ⊡ (one floor; iterate for more). Reports honestly if ⊡ saturates (tower caps) or the tier does not climb
   TOOL: filter A B [C…]   narrow the catalog to the structural FLOOR of the references (the primitives they all share): reports how many entries match ALL shared values — the honest way to cut a raw candidate pool down (a necessary, upper-bound condition)
   TOOL: phase_reconstruct M1 M2…  recover the relative PHASE WORD from the closed ring (flat autocorrelation ⟺ cyclization): reads back the per-unit ⊥ phase sequence, fixed modulo one global phase; if the set does not close it reports the phases as N (underdetermined), never invented
-  TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum ◻ moved) → radical IONS A•⁺/B•⁻
+  TOOL: set A B           single-electron transfer (donor/acceptor by ⊙, one winding quantum ⊡ moved) → radical IONS A•⁺/B•⁻
   TOOL: homolyze A [B]     homolytic cleavage → NEUTRAL radicals (δ_A symmetric split, the reverse of click): `homolyze A B` breaks the A—B bond into A•+B•; `homolyze A` splits A into two A•
   TOOL: scan A B          rank the catalog for the best mediators of the A→B transfer
   TOOL: complement A      the bidirectional ligand⇌catalytic-site complement (its own inverse)
@@ -117,7 +117,7 @@ what returned. Available verbs (args are catalog entry names, snake_case):
   TOOL: polymerize M1 M2… chain monomers into a sequence-preserving polymer (architecture — homo/hetero/alternating/BLOCK/random copolymer — tacticity, does it cyclize?)
   TOOL: star M1 M2 M3…    assemble a STAR polymer: pick the highest-functionality monomer as the CORE, attach every unit that clicks with it as an ARM; a pure star K(1,f) is a hub of f≥3 non-interbonding arms with ρ=√f (vs a ρ=2 ring). Reports core, arms, purity, and the unattached pool
   TOOL: broadcast SOURCE  the ∋ primitive (f → all(x)): the SOURCE signals every subsystem it couples with at once — swept from the whole catalog in one pass (you do NOT enumerate the receivers). This is how CLINK L8 (∋) broadcasts to all subsystems; use it wherever you need one-to-all simultaneity instead of a ring or chain
-  TOOL: plasma ENTRY      read the entry's 12-primitive tuple as a PLASMA design (the collectivized-atom register between atom and molecule): regime (kinetic/gyrokinetic/fluid via ⊢,⋈), instability cascade (∋,⊙,⊥), confinement/magnetic topology (◻), species (Σ), and diagnostic wave signatures — another lossless face of the object, not a separate substance
+  TOOL: plasma ENTRY      read the entry's 12-primitive tuple as a PLASMA design (the collectivized-atom register between atom and molecule): regime (kinetic/gyrokinetic/fluid via ⊢,⋈), instability cascade (∋,⊙,⊥), confinement/magnetic topology (⊡), species (Σ), and diagnostic wave signatures — another lossless face of the object, not a separate substance
   TOOL: close M1 M2…      polymerize, and if it does not cyclize, find the real monomer that CLOSES the ring or BRIDGES the break
   TOOL: material M1 M2…    polymerize, and if the ring CLOSES, characterize it as a material: conductive / frustrated / insulating, ring stability, AND spectral invariants (adjacency spectrum, spectral radius ρ, gap)
   TOOL: modulus M1 M2…     find a monomer that generates a SUSTAINING loop (a conductive cycle) somewhere along the chain — the modulus (elasticity), NOT mere closure

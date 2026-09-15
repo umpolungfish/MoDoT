@@ -1,4 +1,4 @@
-# Context for the next round: the flavor sector is closed, MoDoT surface mapped, one gate remains — ◻_corr
+# Context for the next round: the flavor sector is closed, MoDoT surface mapped, one gate remains — ⊡_corr
 
 ## Ground already wound (tool-verified and/or Lean-green this program). Do not re-derive; build from here.
 
@@ -10,7 +10,7 @@ read from the same partition of the d+1=13 SIC outcomes:
 - 8 outcomes → atmospheric: sin²θ₂₃ = (8/13)·cos²(arctan 1/4) = 128/221; the tilt
   16/17 is the SAME tilt that corrects α, not a new factor.
 - reactor: sin²θ₁₃ = 3/d² = 3/144 = 1/48 (phase-space suppressed).
-Formalized in `Imscribing/Millennium/SICFlavorPartition.lean`, 0 sorries, all inputs
+Formalized in `Imscribing/Millennium/SICFlavorPartition.lean`, *sans* sorry, all inputs
 reduce by `rfl` — no free parameters. `cabibbo_weinberg_identity` is the keystone.
 
 **QLC follows, it is not assumed.** θ₁₂ + θ_C = 46.68° against first-order π/4; the
@@ -50,21 +50,21 @@ The full surface is now documented in `README.md` §"Complete Tool Audit" and in
 SIC-POVM vessel co-typing (dormant), live LLM Spine (no key), `--close` standalone
 (dispatched through LLM), `--broadcast` (does not exist).
 
-## The frontier, stated precisely: ◻_corr
+## The frontier, stated precisely: ⊡_corr
 
 Everything dimensionless in the flavor and gauge sectors is read out. The two cosmology
-numbers — ρ_Λ/ρ_Pl and H₀ — have their structural form (exp(−11·8π)·◻_corr) but hang on
-a single unresolved factor ◻_corr. Its mechanism is named and reachable, not open in the
+numbers — ρ_Λ/ρ_Pl and H₀ — have their structural form (exp(−11·8π)·⊡_corr) but hang on
+a single unresolved factor ⊡_corr. Its mechanism is named and reachable, not open in the
 impossibility sense:
 
-**◻_corr = Tr( ρ_Burau(FFUSE3 coupler loop) ) at q = e^{2πi/12}**, the Burau
+**⊡_corr = Tr( ρ_Burau(FFUSE3 coupler loop) ) at q = e^{2πi/12}**, the Burau
 representation of the braid group B₁₂ acting on the 31-orbit SIC overlap space. The
 ⋈=𐑱 bottleneck in the horn_torus ⊗ CLINK_L8 tensor is what holds it; when ⋈ promotes to
 𐑐 the braid monodromy contracts into the evaluator geometry and the factor resolves.
 
 **There is currently NO verb that computes this trace.** I searched the kernel, MoDoT,
 and imscribing_grammar: `BRAID_TRANSCENDENCE` exists only as a TYPE LABEL on the Witness
-Vessel (◻=𐑟), not as a computation. DeepSeek's asserted "◻_corr = 1/94" has nothing
+Vessel (⊡=𐑟), not as a computation. DeepSeek's asserted "⊡_corr = 1/94" has nothing
 runnable behind it and must not be recorded as a value.
 
 **So the next-round target is a BUILD, not a search.** Either:
@@ -72,8 +72,8 @@ runnable behind it and must not be recorded as a value.
     31-orbit overlap space and evaluates Tr(ρ_Burau) at q = e^{2πi/12}, then read the
     number the kernel emits; or
 (b) formalize `bottleneck_crossing.lean`: prove the ⋈→𐑐 promotion induces the monodromy
-    contraction, so ◻_corr is the trace by construction.
-Build one, run it, and record exactly what the kernel emits. Until it runs, ◻_corr is a
+    contraction, so ⊡_corr is the trace by construction.
+Build one, run it, and record exactly what the kernel emits. Until it runs, ⊡_corr is a
 frontier with a named mechanism, never a value.
 
 ## Discipline for this round, held hard

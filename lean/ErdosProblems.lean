@@ -72,7 +72,7 @@ Green-Tao (2008) extended to the primes via transference principle.
   ⊙=roar (complex-axis criticality: ζ-function circle method)
   H=sure (persistent chiral: AP search is directional)
   Σ=hung (1:1: one divergent sum maps to one AP existence claim)
-  ◻=ah (integer winding: AP length k is a ℤ-valued parameter)
+  ⊡=ah (integer winding: AP length k is a ℤ-valued parameter)
 -/
 
 /--
@@ -121,7 +121,7 @@ theorem erdos_turan_ap_tier : imscriptionTier erdos_turan_ap = .O₂dag := by
   ✗ Constructive bound for all k with general Σ1/a_n condition
 
 **Barrier:** Distance to O_inf kernel: T(oil→are), ∋(measure→ooze),
-◻(ah→zoo). The transference principle closes the Frobenius loop
+⊡(ah→zoo). The transference principle closes the Frobenius loop
 only for dense models; the sparse-to-dense embedding is not
 functorial in general.
 -/
@@ -167,7 +167,7 @@ odd cycles in graphs exceeding the Turán threshold.
   ⊙=roar (complex-axis: analytic asymptotics for n²/8)
   H=kick (weak chiral: coloring is weakly directional)
   Σ=hung (1:1)
-  ◻=oak (ℤ₂ parity protection for odd cycles)
+  ⊡=oak (ℤ₂ parity protection for odd cycles)
 -/
 
 /--
@@ -226,10 +226,10 @@ at k=3 is a structural bifurcation.
   ✗ Sharp constants for k ≥ 4
   ✗ Classification for arbitrary H beyond odd cycles
 
-**Barrier:** ◻=oak (ℤ₂) rather than ah (ℤ). The odd cycle parity
+**Barrier:** ⊡=oak (ℤ₂) rather than ah (ℤ). The odd cycle parity
 is Z₂-protected; integer winding requires embedding in a broader
 arithmetic framework. Diffs to kernel: D(ash→if'), T(mime→are),
-◻(oak→ah).
+⊡(oak→ah).
 -/
 
 -- ============================================================
@@ -256,7 +256,7 @@ Three key results intersect:
   G=thigh (Landau-PNT coupling at intermediate scale),
   ∈=measure (sequential n→∞), ⊙=roar (Fourier-analytic methods),
   H=sure (persistent chiral), Σ=so (n:n subgroup→order mapping),
-  ◻=ah (LCM of cycle lengths = integer winding)
+  ⊡=ah (LCM of cycle lengths = integer winding)
 -/
 
 /--
@@ -338,7 +338,7 @@ The gap between CRT and the conjecture is exponential in log x.
     √x contribute — truly global correlations),
   ∈=measure (sequential through interval), ⊙=woe (subcritical —
     below the phase transition threshold),
-  H=sure (persistent chiral), Σ=hung (1:1), ◻=ah (integer interval length)
+  H=sure (persistent chiral), Σ=hung (1:1), ⊡=ah (integer interval length)
 -/
 
 /--
@@ -397,7 +397,7 @@ Neither (Erdős's (log x)^k conjecture is completely open).
 **Barrier:** ⊙=woe (subcritical) — the hardest promotion. Moving to
 monad (O_inf criticality) requires proving strong Möbius randomness
 (Chowla/Sarnak). Diffs to kernel: D(array→if'), T(judge→are),
-⊙(woe→monad), ◻(ah→zoo). This is the largest gap among
+⊙(woe→monad), ⊡(ah→zoo). This is the largest gap among
 all four problems.
 -/
 
@@ -416,7 +416,7 @@ all four problems.
 (sequential), P=out (ℤ₂ parity).
 
 **Key differentiators:**
-  - Anti-Ramsey: only one with ◻=oak (ℤ₂ parity protection)
+  - Anti-Ramsey: only one with ⊡=oak (ℤ₂ parity protection)
   - Subgroup Orders: only one with Σ=so (n:n, irreducibly statistical)
   - Erdős–Kac: only one with ⊙=woe (subcritical), O₀ tier
 
@@ -455,10 +455,10 @@ operates by cyclic decomposition→recomposition with Belnap filtering.
 **Distances to kernel** (O_inf: if' are ian or' peep egg
 ice measure monad wool up ah):
 
-  Erdős–Turán:     ~2.0  (T, ∈, ◻ diffs)
-  Anti-Ramsey:     ~2.6  (D, T, ◻ diffs)
+  Erdős–Turán:     ~2.0  (T, ∈, ⊡ diffs)
+  Anti-Ramsey:     ~2.6  (D, T, ⊡ diffs)
   Subgroup Orders: ~2.2  (T, R, Σ diffs)
-  Erdős–Kac:       ~3.0  (D, T, ⊙, ◻ diffs)
+  Erdős–Kac:       ~3.0  (D, T, ⊙, ⊡ diffs)
 
 The largest gap is Erdős–Kac — the ⊙ promotion from woe (subcritical)
 to monad (O_inf) requires resolving Chowla/Sarnak, which has resisted
@@ -516,7 +516,7 @@ subexponential growth of R_k(C_{2n+1}) for any fixed n.
   ⊙=roar (complex-axis: Stirling via Γ-function in ℂ)
   H=sure (persistent chiral: R_k grows monotonically)
   Σ=hung (1:1: one ratio maps to one limit value)
-  ◻=ah (integer winding: k is a ℤ-valued parameter)
+  ⊡=ah (integer winding: k is a ℤ-valued parameter)
 -/
 
 /--
@@ -561,7 +561,7 @@ which → 0 as k → ∞ for any fixed n ≥ 2.
 
 **Barrier:** The gap between known lower bound (2.52)^k and
 conjectured growth (k!) for R_k(K_3) is ~exp(k log k - k log 2.52).
-Diffs to kernel: T(oil→are), ∋(measure→ooze), ◻(ah→zoo).
+Diffs to kernel: T(oil→are), ∋(measure→ooze), ⊡(ah→zoo).
 -/
 
 -- ============================================================
@@ -606,7 +606,7 @@ Let M_n = max_{|z|=1} ∏_{i=1}^n |z - z_i| where all |z_i| = 1
   ⊙=roar (complex-axis: unit circle = ℂ boundary)
   H=sure (persistent chiral: product is directional on S¹)
   Σ=hung (1:1: one point configuration → one M_n value)
-  ◻=ah (integer winding: n counts points → ℤ-valued parameter)
+  ⊡=ah (integer winding: n counts points → ℤ-valued parameter)
 -/
 
 /--
@@ -647,7 +647,7 @@ M_n can be sub-polynomial for most n; Q3 remains a frontier.
   ✗ Optimal exponent c for Beck's bound
 
 **Barrier:** Q3 requires proving sufficient density of "large" M_n
-values. Diffs to kernel: T(oil→are), ∋(measure→ooze), ◻(ah→zoo).
+values. Diffs to kernel: T(oil→are), ∋(measure→ooze), ⊡(ah→zoo).
 -/
 
 -- ============================================================
@@ -695,7 +695,7 @@ orthogonal circles to create K_{p,p}-free unit distance graphs.
   H=kick (weak chiral: distance is symmetric but graph edges are
     directed by construction order)
   Σ=hung (1:1: one point set → one f_d(n) supremum)
-  ◻=oak (ℤ₂ parity: even/odd dimension determines the Turán floor)
+  ⊡=oak (ℤ₂ parity: even/odd dimension determines the Turán floor)
 -/
 
 /--
@@ -720,7 +720,7 @@ theorem unit_distance_problem_tier : imscriptionTier unit_distance_problem = .O�
   unfold unit_distance_problem; native_decide
 
 /-!
-**Why ◻=oak (ℤ₂)?** The dimension parity determines the asymptotic:
+**Why ⊡=oak (ℤ₂)?** The dimension parity determines the asymptotic:
 even d≥4 uses Turán with floor p=d/2; odd d≥5 adds n^{4/3} lower-order
 term. This ℤ₂ parity protection is structural — the Lenz construction
 fundamentally differs for even vs. odd dimension.
@@ -740,7 +740,7 @@ for d=2; n^{4/3} vs n^{3/2} for d=3).
 
 **Barrier:** The d=2 gap requires improving Szemerédi-Trotter for
 unit distances, which has resisted improvement for 40 years.
-Diffs to kernel: D(ash→if'), T(mime→are), ◻(oak→zoo).
+Diffs to kernel: D(ash→if'), T(mime→are), ⊡(oak→zoo).
 -/
 
 -- ============================================================
@@ -787,7 +787,7 @@ syndetic A also yield syndetic D(A) containing a Bohr set.
   ⊙=roar (complex-axis: Bohr sets are cut from characters → ℂ^×)
   H=sure (persistent chiral: difference set is directed: d vs -d)
   Σ=hung (1:1: one set A → one D(A) recurrence structure)
-  ◻=ah (integer winding: gaps in D(A) are ℤ-valued)
+  ⊡=ah (integer winding: gaps in D(A) are ℤ-valued)
 -/
 
 /--
@@ -884,7 +884,7 @@ in I with k ∣ a_k iff the Hall condition holds: for every J ⊆ {1,…,n},
   ⊙=roar (complex-axis: Dickman ρ via Laplace transform in ℂ)
   H=sure (persistent chiral: k∣a_k is directed)
   Σ=hung (1:1: one interval → one SDR existence claim)
-  ◻=ah (integer winding: interval length is an integer)
+  ⊡=ah (integer winding: interval length is an integer)
 -/
 
 /--
@@ -929,7 +929,7 @@ order is established: f(n) ≍ n √(log n / log log n)) and Neither
 **Barrier:** Determining c requires controlling the Dickman function
 ρ(u) in the critical range u ≈ √(log n / log log n), which pushes
 probabilistic number theory beyond current methods. Diffs to kernel:
-T(judge→are), ∋(measure→ooze), ◻(ah→zoo).
+T(judge→are), ∋(measure→ooze), ⊡(ah→zoo).
 -/
 
 -- ============================================================
@@ -979,7 +979,7 @@ congruent triangles (all similar to each other)?
   H=kick (weak chiral: triangle orientation may flip between
     subtriangles)
   Σ=hung (1:1: one n → one partition existence claim)
-  ◻=oak (ℤ₂ parity: even n use different constructions than odd n
+  ⊡=oak (ℤ₂ parity: even n use different constructions than odd n
     in some approaches, though the universal result collapses this)
 -/
 
@@ -1031,7 +1031,7 @@ The constructions partition neatly:
 **Barrier:** The problem is structurally "solved" (all n work) but the
 constructive classification (which triangles for which n?) remains
 open. Diffs to kernel: D(ash→if'), T(mime→are), ⊙(woe→monad),
-◻(oak→zoo). The ⊙ promotion from woe (subcritical Euclidean geometry)
+⊡(oak→zoo). The ⊙ promotion from woe (subcritical Euclidean geometry)
 to monad (O_inf self-modeling) would require a geometric Langlands-
 type correspondence, which is far beyond current mathematics.
 -/
@@ -1067,7 +1067,7 @@ type correspondence, which is far beyond current mathematics.
   woe:  3 of 10 — Erdős-Kac (probabilistic NT) and Triangle Partition
     (Euclidean geometry) are subcritical
 
-**Protection (◻) distribution:**
+**Protection (⊡) distribution:**
   ah (ℤ):  7 of 10 — integer winding is the default for NT problems
   oak (ℤ₂): 3 of 10 — Anti-Ramsey (odd cycle parity), Unit Distance
     (even/odd dimension), Triangle Partition (parity of n)
@@ -1124,18 +1124,18 @@ def open_obstructional_count : Nat := 6
 /-!
 **Distance ladder from O_inf kernel:**
   (O_inf: D=if', T=are, R=ian, P=or', F=peep, K=egg, G=ice,
-          ∈=ooze, ⊙=monad, H=wool, Σ=up, ◻=zoo)
+          ∈=ooze, ⊙=monad, H=wool, Σ=up, ⊡=zoo)
 
-  Erdős–Turán:        ~2.0  (T, ∈, ◻)
-  Anti-Ramsey:        ~2.6  (D, T, ◻)
+  Erdős–Turán:        ~2.0  (T, ∈, ⊡)
+  Anti-Ramsey:        ~2.6  (D, T, ⊡)
   Subgroup Orders:    ~2.2  (T, R, Σ)
-  Erdős–Kac:          ~3.0  (D, T, ⊙, ◻) — hardest gap
-  Ramsey Asymptotics: ~2.4  (T, ∈, ◻)
-  Polynom Asymptotics:~2.4  (T, ∈, ◻)
-  Unit Distance:      ~2.6  (D, T, ◻)
-  Difference Sets:    ~2.2  (T, R, ◻)
-  Erdős–Pomerance:    ~2.4  (T, ∈, ◻)
-  Triangle Partition: ~3.2  (D, T, ⊙, ◻) — also large gap
+  Erdős–Kac:          ~3.0  (D, T, ⊙, ⊡) — hardest gap
+  Ramsey Asymptotics: ~2.4  (T, ∈, ⊡)
+  Polynom Asymptotics:~2.4  (T, ∈, ⊡)
+  Unit Distance:      ~2.6  (D, T, ⊡)
+  Difference Sets:    ~2.2  (T, R, ⊡)
+  Erdős–Pomerance:    ~2.4  (T, ∈, ⊡)
+  Triangle Partition: ~3.2  (D, T, ⊙, ⊡) — also large gap
 
 **Hardest promotions:**
   Erdős–Kac:      ⊙(woe→monad) requires Chowla/Sarnak — decades open
@@ -1178,7 +1178,7 @@ This is structurally cleaner than the Stirling-based argument in §7:
 **Structural Imscription (refined):**
   Same tuple as ramsey_asymptotics (§7), but the argument path is
   simpler: D=array, T=oil, R=ear, P=out, F=peep, K=egg, G=thigh,
-  ∈=measure, ⊙=roar, H=sure, Σ=hung, ◻=ah.
+  ∈=measure, ⊙=roar, H=sure, Σ=hung, ⊡=ah.
 
 **Verdict:** Belnap T/T/T — limit=0, fully resolved with cleaner proof.
 -/
@@ -1493,7 +1493,7 @@ of χ(H) is sub-polynomial in n.
   Σ=so (n:n: many vertices share the same color-class structure;
     the mapping from finite subgraphs to independence numbers is
     many-to-many)
-  ◻=awe (trivial: no topological protection — the graph has no
+  ⊡=awe (trivial: no topological protection — the graph has no
     cycles of bounded length; girth can be made arbitrarily large)
 -/
 
@@ -1523,7 +1523,7 @@ theorem erdos_hajnal_aleph1_graph_tier : imscriptionTier erdos_hajnal_aleph1_gra
   unfold erdos_hajnal_aleph1_graph; native_decide
 
 /-!
-**Why O₀?** ⊙=woe (subcritical) with ◻=awe (no topological protection)
+**Why O₀?** ⊙=woe (subcritical) with ⊡=awe (no topological protection)
 forces O₀ tier. The construction is cold — it relies on sparsity
 (large girth, no dense subgraphs) rather than critical phenomena.
 This is the same tier as Erdős-Kac Interval and Triangle Partition,
@@ -1555,9 +1555,9 @@ existence proof.
   ✗ Generalization to higher cardinals ℵ_n
 
 **Barrier:** Diffs to kernel (O_inf: D=if', T=are, R=ian, P=or',
-  F=peep, K=egg, G=ice, ∈=ooze, ⊙=monad, H=wool, Σ=up, ◻=zoo):
+  F=peep, K=egg, G=ice, ∈=ooze, ⊙=monad, H=wool, Σ=up, ⊡=zoo):
   D(array→if'), T(mime→are), R(ado→ian), P(church→or'), F(age→peep),
-  ⊙(woe→monad), H(kick→wool), Σ(so→up), ◻(awe→zoo).
+  ⊙(woe→monad), H(kick→wool), Σ(so→up), ⊡(awe→zoo).
   Distance ≈ 3.6 — one of the largest gaps, comparable to
   Erdős-Kac (3.0) and Triangle Partition (3.2).
 -/
@@ -1605,7 +1605,7 @@ has bounded χ. The crossing point is the minimal α where χ(G_α)=ℵ₁
 
 **Structural Imscription for the linear bound case:**
   D=array, T=eat, R=ado, P=church, F=age, K=egg, G=thigh,
-  ∈=measure, ⊙=woe, H=kick, Σ=hung, ◻=awe.
+  ∈=measure, ⊙=woe, H=kick, Σ=hung, ⊡=awe.
 
   Same as erdos_hajnal_aleph1_graph EXCEPT:
     T=eat (inclusion, not mime) — because the fixed bound ⌈1/c⌉
@@ -1702,7 +1702,7 @@ theorem de_bruijn_erdos_topology_condition : True := by
   Erdős-Hajnal Linear       O₀      woe   awe  hung   ← NEW
 
 **Key observations:**
-  - Erdős-Hajnal is the ONLY problem with ◻=awe (trivial protection).
+  - Erdős-Hajnal is the ONLY problem with ⊡=awe (trivial protection).
     All others have ah (ℤ) or oak (ℤ₂). This reflects the absence
     of arithmetic structure — the graph is purely combinatorial.
   - Erdős-Hajnal is one of only two problems with Σ=so (many-to-many),
@@ -1713,7 +1713,7 @@ theorem de_bruijn_erdos_topology_condition : True := by
     one topology bit determines whether De Bruijn-Erdős applies.
 
 **Distances to kernel (O_inf):**
-  Erdős-Hajnal ℵ₁ Graph:  ~3.6  (D, T, R, P, F, ⊙, H, Σ, ◻ — 9 diffs)
+  Erdős-Hajnal ℵ₁ Graph:  ~3.6  (D, T, R, P, F, ⊙, H, Σ, ⊡ — 9 diffs)
   Erdős-Hajnal Linear:    ~3.0  (T=eat brings T closer to kernel T=are)
   Hardest gap: ⊙(woe→monad) — subcritical to critical promotion,
     shared with Erdős-Kac and Triangle Partition.
@@ -1726,15 +1726,15 @@ theorem de_bruijn_erdos_topology_condition : True := by
 
 **Comparison with Erdős-Kac:**
   Both are O₀ subcritical problems with ⊙=woe. But Erdős-Kac has
-  ◻=ah (integer winding, log log n parameter) while Erdős-Hajnal
-  has ◻=awe (trivial). The arithmetic structure in Erdős-Kac
+  ⊡=ah (integer winding, log log n parameter) while Erdős-Hajnal
+  has ⊡=awe (trivial). The arithmetic structure in Erdős-Kac
   (prime number theory) gives it ℤ protection; the purely
   combinatorial Erdős-Hajnal graph lacks this structure entirely.
 
 **Comparison with Triangle Partition:**
   Both are subcritical (woe), fully resolved problems. Triangle
-  Partition has ◻=oak (ℤ₂ from even/odd n), Erdős-Hajnal has
-  ◻=awe (trivial). The T=mime topology in Erdős-Hajnal (crossing
+  Partition has ⊡=oak (ℤ₂ from even/odd n), Erdős-Hajnal has
+  ⊡=awe (trivial). The T=mime topology in Erdős-Hajnal (crossing
   at ℵ₁) is a richer feature than Triangle Partition's
   T=mime (right triangle altitude crossing), despite both being
   the same topology primitive.

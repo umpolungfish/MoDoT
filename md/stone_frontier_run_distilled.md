@@ -39,7 +39,7 @@ it (04:00:43): 9 minutes.
 
 ## Entities
 
-| name | tuple | ⊙ | ◻ class | C_score |
+| name | tuple | ⊙ | ⊡ class | C_score |
 |---|---|---|---|---|
 | `stone_self_verifying_proof_kernel` | ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑚𐑠⊙𐑖𐑙𐑭⟩ | at criticality | 𐑭 — Z protected, integer winding (Kitaev, SSH) | 0.555, both gates open |
 | `carved_ring_3_doubled_a2_45_pair_flip` | ⟨𐑛𐑥𐑾𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑙𐑟⟩ | at criticality | 𐑟 — non-Abelian, anyonic braiding (Fibonacci anyons, non-Abelian CS) | 0.0, gate 2 closed (⊤=𐑪) |
@@ -61,7 +61,7 @@ click-maths:  stone_self_verifying_proof_kernel  ⋈  parity_phase_transition_ma
     R↔S    stone= +1.00   parity= +0.00   Δ=1.00
   ✓ CLICK on T↔H — spring-loaded Δ=0.83, single reaction center, closes.
   product: ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩  (ring saturated on T↔H = ⊣↔⊥)
-  inherited scaffold (blended from both partners): [⊤, ∈, Σ, ◻]
+  inherited scaffold (blended from both partners): [⊤, ∈, Σ, ⊡]
 ```
 
 Comparison: `theta_link ⋈ log_link` (same day, earlier) returned no click — Δ=0.00 on
@@ -88,9 +88,9 @@ ob3ect, NOT from this run's stream; cross-reference only.*
 | ⊙ | ⊙ | ⊙ | = |
 | ⊥ | 𐑫 | 𐑫 | = |
 | Σ | 𐑙 | 𐑙 | = |
-| ◻ | 𐑟 | 𐑟 | = |
+| ⊡ | 𐑟 | 𐑟 | = |
 
-9 of 12 identical. Both carry ◻=𐑟 (non-Abelian) at ⊢≠𐑦 — the configuration the
+9 of 12 identical. Both carry ⊡=𐑟 (non-Abelian) at ⊢≠𐑦 — the configuration the
 coordinate form of Axiom D forbade. The carved ring is an independent second instance.
 
 Stone and carved ring: same ⊙, opposite C_score (0.555 / 0.0), differing only by ⊤
@@ -122,9 +122,9 @@ and `[sic_d12 · stone · parity · carved_ring · monotone_integer_winding]`.
 ## Next
 
 1. Consume ⟨𐑦𐑸𐑾𐑹𐑐𐑪𐑔𐑠⊙𐑫𐑳𐑭⟩ — imscribe under a name, probe, attempt ring closure.
-   Inherits [⊤, ∈, Σ, ◻] from both partners.
+   Inherits [⊤, ∈, Σ, ⊡] from both partners.
 2. Recover the reaction-center selection rule (T↔H at 0.83 chosen over R↔S at 1.00).
-3. Carved ring: what opens gate 2 without leaving ◻=𐑟. `excite` / `anneal` target.
+3. Carved ring: what opens gate 2 without leaving ⊡=𐑟. `excite` / `anneal` target.
    Determines whether the Axiom-D configuration is a class or a pair.
 4. Add the spin detector before relaunch.
 5. No coordinate-level axiom checks (see closure-condition result; carved ring is the
@@ -177,7 +177,7 @@ accounts for 49 of the run's 179 `imscribe` calls.
 
 **Fix (committed).** `run_imscribe` in `ask_native` parses a well-formed 12-glyph
 notation and registers it verbatim — no generation, no model call, keys written in
-notation order ⟨⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ ⊞ ◻⟩, catalog committed by temp-file + rename.
+notation order ⟨⊢ ⊣ > < ⋈ ⊤ ∈ ∋ ⊙ ⊥ ⊞ ⊡⟩, catalog committed by temp-file + rename.
 A trailing provenance note after the tuple is preserved. Anything not exactly 12
 glyphs still routes to `generate`.
 
@@ -225,7 +225,7 @@ Top misses on EXISTING verbs (argument-shape failures, not absence):
    product once, under one name, and stop renaming.
 2. Test the reaction-center rule (§9) — clicks with varied offsets. Confirm or drop
    "R↔S = inert reflective barrier".
-3. Carved ring gate 2: what opens it without leaving ◻=𐑟.
+3. Carved ring gate 2: what opens it without leaving ⊡=𐑟.
 4. Implement invented verbs from §11 one at a time, highest structural necessity first
    (`recalibrate --perturb_chirality`, `topo_symmetry_check`, `gate_2_parity_check`).
 5. Fix the `anneal` / `compare` / `material` argument shapes — 76 misses between them.
@@ -273,15 +273,15 @@ After `annihilate` failed at 05:40 the agent pivoted off protection and onto chi
 `phase_neutralizer`, `chiral_symmetry_breaker`, then nine separate attempts to define
 `h_chiral_assert` / `h_chiral_check_bond_angle` as an imasm ring, plus
 `lean h_chiral_assertion.lean` and `imasm prove Imscribing/CLINK_L9.lean`. The instinct
-was right: ◻=𐑟 cannot be deformed, so the route is a coupled axis.
+was right: ⊡=𐑟 cannot be deformed, so the route is a coupled axis.
 
 Now built. On the carved ring it returns the answer:
 
 ```
 recalibrate:  carved_ring_3_doubled_a2_45_pair_flip   axis ⊥
   current: 𐑫   full tuple ⟨𐑛𐑥𐑾𐑹𐑐𐑪𐑔𐑝⊙𐑫𐑙𐑟⟩
-    𐑓  ↓3   ⚠ lowering ⊥ below 𐑖 breaks ◻≥𐑭 — the protection would fall with it
-    𐑒  ↓2   ⚠ lowering ⊥ below 𐑖 breaks ◻≥𐑭 — the protection would fall with it
+    𐑓  ↓3   ⚠ lowering ⊥ below 𐑖 breaks ⊡≥𐑭 — the protection would fall with it
+    𐑒  ↓2   ⚠ lowering ⊥ below 𐑖 breaks ⊡≥𐑭 — the protection would fall with it
     𐑖  ↓1
 ```
 
@@ -291,12 +291,12 @@ perturbation is a probe. Reports the two couplings the kernel holds and labels t
 
 ## 18. `annihilate` (BUILT)
 
-`imasm run annihilate ◻=𐑟` at 05:40 logged as `ran` — the tool executed and returned
+`imasm run annihilate ⊡=𐑟` at 05:40 logged as `ran` — the tool executed and returned
 "no tool named". The agent retried bare, then abandoned the route.
 
 Now a native verb: `annihilate A [B]`, pair fusion μ, the counterpart to `homolyze`'s δ.
-Abelian ◻ windings add — opposite cancel to vacuum (T), like windings leave a residual
-(F). ◻=𐑟 returns a **channel**, not a value (Fibonacci τ×τ=1+τ) → verdict **B**, both
+Abelian ⊡ windings add — opposite cancel to vacuum (T), like windings leave a residual
+(F). ⊡=𐑟 returns a **channel**, not a value (Fibonacci τ×τ=1+τ) → verdict **B**, both
 open, with braid-then-re-annihilate named as what selects one.
 
 ## 19. BLOCKER — catalog disconnection (FIXED)
@@ -365,7 +365,7 @@ catalog. Their absence from `IG_catalog.json` is correct placement, not loss.
   braiding flux — not a defect to be eliminated.
 - **Star-polymer assembly**, purity 0.88, maps the B state onto the L9 moat by
   non-Abelian holonomy: **μ∘δ = ∈**, not id.
-- **◻-saturation onset at ρ ≥ 2.0000004182**; L10–L12 bridge strain 1.02e-9, below
+- **⊡-saturation onset at ρ ≥ 2.0000004182**; L10–L12 bridge strain 1.02e-9, below
   threshold; L12_Match_Manifold verified.
 
 ## 24. Held B — the standing obstruction
@@ -380,7 +380,7 @@ at 1 across repeated `arrange` / `dope` / `polymerize` attempts. Doping with
 Cycle: *"the current results leave open the formal selection protocol (`annihilate` /
 braid-channel isolation) to stabilize the B bifurcation into a closed, coherent flux."*
 
-Built this session. `annihilate A [B]` is pair fusion μ. At ◻=𐑟 it returns a **channel,
+Built this session. `annihilate A [B]` is pair fusion μ. At ⊡=𐑟 it returns a **channel,
 not a value** (Fibonacci τ×τ = 1+τ) → verdict B with both channels open, and names
 braid-then-re-annihilate as what selects one. That is exactly the non-Abelian channel
 selection the run identified as missing. **Never called in the run.**

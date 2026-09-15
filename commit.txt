@@ -4,3 +4,15 @@ I integrated the compatible imasm_core source from f06eb03, including lattice
 flow, ring specifications, current glyphs, and engagr. I extracted ask's graph
 flow evaluator into the shared core so ask and the GPU controls use the same
 gate semantics. I updated the stale example test to use the current ≻ glyph.
+
+Added Reg16_3::engagr, the house-named ENGAGR (⊞) gate as a first-class
+method: pins both information-axis lanes true, leaves the truth-axis
+lanes untouched. This file's own interpreter step already computed
+exactly this (Evali's inline self.touch(Reg16_3{small_t:true,small_f:
+true,..none}, Axis::I)) but only as one match arm buried in a private
+method, under this file's own local name for the token, Evali, which
+never matched the canonical name (classic.rs's Token::Engagr) the rest
+of the codebase uses. Extracted it as a real, reusable, correctly-named
+gate rather than leave it undiscoverable and privately named. Every
+other Reg16_3 gate already had one; this was the one real opcode with no
+public function of its own.

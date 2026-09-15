@@ -21,7 +21,7 @@ const OPCODES: [&str; 12] = [
 ];
 
 /// The legal 12-glyph alphabet — the primitive glyphs of the Grammar, one per
-/// axis (⊢ ⊣ > < ⋈ ⊙ ∈ ∋ ⊤ ⊥ ⊞ ◻). The small local model writes opcode NAMES;
+/// axis (⊢ ⊣ > < ⋈ ⊙ ∈ ∋ ⊤ ⊥ ⊞ ⊡). The small local model writes opcode NAMES;
 /// this maps a name to its glyph so the persisted ob3ect carries symbols, not
 /// text. The retired forms ◇ ● + × ¬ = do not appear.
 pub fn opcode_glyph(name: &str) -> &'static str {
@@ -75,10 +75,10 @@ DIALETHEIA (3) — the paraconsistent evaluators:
   EVALF   (⊥) — touches constructive falsity F (the negative arm).
   ENGAGR  (⊞) — holds BOTH at once: the B state, a contradiction kept live (not resolved away).
 LINEAR (1) — irreversible fixation:
-  IFIX    (◻) — ROM fixation. Permanent, append-only, cannot be undone.
+  IFIX    (⊡) — ROM fixation. Permanent, append-only, cannot be undone.
 
 Only FSPLIT may branch and only FFUSE may fuse. IMSCRIB is neutral: inserting it anywhere leaves the
-verdict untouched. A closure carries a real type-check only when a transforming token (> < ⋈ ⊤ ⊥ ⊞ ◻)
+verdict untouched. A closure carries a real type-check only when a transforming token (> < ⋈ ⊤ ⊥ ⊞ ⊡)
 does work on an arm between a FSPLIT and its FFUSE; a bare split/fuse with nothing on the arms is an
 identity closure that verifies nothing (verdict N). These twelve glyphs are the whole alphabet and are
 at once the IMASM opcodes and the twelve primitive axes; nothing outside them is a token.
@@ -222,8 +222,8 @@ fn parse_step(step: &str) -> Option<(String, String)> {
         match head.chars().next()? {
             '⊢' => Some("VINIT".into()),
             '⊣' => Some("TANCH".into()),
-            '>' => Some("AFWD".into()),
-            '<' => Some("AREV".into()),
+            '≻' => Some("AFWD".into()),
+            '≺' => Some("AREV".into()),
             '⊙' => Some("IMSCRIB".into()),
             '⋈' | '=' => Some("CLINK".into()),
             '∈' | '◇' => Some("FSPLIT".into()),
@@ -231,7 +231,7 @@ fn parse_step(step: &str) -> Option<(String, String)> {
             '⊤' | '+' => Some("EVALT".into()),
             '⊥' | '×' => Some("EVALF".into()),
             '⊞' => Some("ENGAGR".into()),
-            '◻' | '¬' => Some("IFIX".into()),
+            '⊡' | '¬' => Some("IFIX".into()),
             _ => None,
         }
     })?;

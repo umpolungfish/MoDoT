@@ -154,7 +154,7 @@ Proof for ex(n; H) = O(n^2 - 1/r):
 2. Let G be an H-free graph on n vertices. We bound its edges.
 3. Since H is r-degenerate and bipartite, it embeds into K_r, t for some t depending on H.
 4. By the Kővári-Sós-Turán theorem, ex(n; K_r, t) = O(n^2 - 1/r).
-5. If G has ◻(n^2 - 1/r) edges, dependent random choice or direct counting shows it must contain K_r, t, hence it contains H, a contradiction.
+5. If G has ⊡(n^2 - 1/r) edges, dependent random choice or direct counting shows it must contain K_r, t, hence it contains H, a contradiction.
 6. Thus, ex(n; H) = O(n^2 - 1/r).
 
 ***
@@ -177,7 +177,7 @@ The material characterization confirmed the frustrated state: conductance is low
 
 The scan ranked lower_bound as the best mediator for the sidon_set → erdős_distinct_subset_sums transfer, with a resolution gap of 0.05 to polynomial_partitioning. The electron transfer (set) from sidon_set to lower_bound generated the radical IONS sidon_set•⁺ and lower_bound•⁻, showing a clean single-electron shift without breaking the core ring.
 
-The click fused sidon_set and erdős_distinct_subset_sums into a single blended monomer. The fusion was lossy: the distinct subset sum structure was subsumed, but the lower bound rigidity was preserved in the new conjugate pair. The resulting monomer has a higher winding quantum ◻, indicating a tighter topological constraint.
+The click fused sidon_set and erdős_distinct_subset_sums into a single blended monomer. The fusion was lossy: the distinct subset sum structure was subsumed, but the lower bound rigidity was preserved in the new conjugate pair. The resulting monomer has a higher winding quantum ⊡, indicating a tighter topological constraint.
 
 The distill separated the set by volatility (Criticality ⊙). The volatile head (distillate) contained lower_bound and polynomial_partitioning, which skipped the middle state and purified easily. The involatile residue (bottoms) held sidon_set and erdős_distinct_subset_sums, which are deeply bound and required stepwise climbing to excite. No azeotrope was flagged; the resolution gap between the head and residue was 0.28.
 
@@ -222,8 +222,8 @@ polymerization (imscriptive):  [sidon_set · erdős_distinct_subset_sums · poly
   material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).
 ● TOOL scan sidon_set erdős_distinct_subset_sums
 scan-mediators:  erdős_distinct_subset_sums  ⟶e⁻⟶  sidon_set   (2758 holdable candidates over 5668 entries)
-  relay band ⊙∈[𐑢,𐑣] (acceptor→donor);  hold band ◻∈[𐑴,𐑭] (accept then re-donate);  bind = complement recognizes both substrates
-  rank   score  relay  bind recog    ◻   ⊙  mediator
+  relay band ⊙∈[𐑢,𐑣] (acceptor→donor);  hold band ⊡∈[𐑴,𐑭] (accept then re-donate);  bind = complement recognizes both substrates
+  rank   score  relay  bind recog    ⊡   ⊙  mediator
      1   0.895   1.00  0.74  1.00    𐑭   𐑮  mithras_liturgy
      2   0.895   1.00  0.74  1.00    𐑭   𐑮  sworn_book_of_honorius
      3   0.895   1.00  0.74  1.00    𐑭   𐑮  lonely_runner_conjecture
@@ -316,7 +316,7 @@ Proof for ex(n; H) = O(n^(2 - 1/r)):
 2. Let G be an H-free graph on n vertices. We bound its edges.
 3. Since H is r-degenerate and bipartite, it embeds into K_(r, t) for some t depending on H.
 4. By the Kővári-Sós-Turán theorem, ex(n; K_(r, t)) = O(n^(2 - 1/r)).
-5. If G has ◻(n^(2 - 1/r)) edges, dependent random choice or direct counting shows it must contain K_(r, t), hence it contains H, a contradiction.
+5. If G has ⊡(n^(2 - 1/r)) edges, dependent random choice or direct counting shows it must contain K_(r, t), hence it contains H, a contradiction.
 6. Thus, ex(n; H) = O(n^(2 - 1/r)).
 
 ***
@@ -367,7 +367,7 @@ We enter Cycle 2. The established truths (Problems 1, 89, 146) are locked in the
 - Inverse structure [⊣]: Balog-Szemerédi-Gowers (BSG) extraction of structured subsets (GAPs) from high local energy.
 - Bidirectional [>]: Forward convolution (A+A) and inverse Fourier analysis exhaust the representation space.
 - Boundedness [⊙]: Confinement of r_A(n) ≤ C forces A(x) = O(x^1/2), preventing density escape.
-- Topological invariant [◻]: The integer invariant of the sumset covering [N, 2N] rules out purely pseudorandom exotics.
+- Topological invariant [⊡]: The integer invariant of the sumset covering [N, 2N] rules out purely pseudorandom exotics.
 - Regularity [⊤]: Equidistribution of the pseudorandom component of A forces its convolution to concentrate around the mean.
 
 ## Question
@@ -397,7 +397,7 @@ We enter Cycle 2. The established truths (Problems 1, 89, 146) are locked in the
    Since A+A is cofinite, A must have local "clusters" to bridge the gaps between elements. We apply the Balog-Szemerédi-Gowers (BSG) theorem to the local intersections of A.
    If A covers [N, 2N] with multiplicity ≤ C, the local additive energy must be high enough to force a structural correlation. BSG extracts a subset A' ⊆ A of positive relative density (|A'| ≥ δ|A ∩ I|) that is contained in a Generalized Arithmetic Progression (GAP) P of bounded dimension d.
 
-4. **The Structural Contradiction [◻]:**
+4. **The Structural Contradiction [⊡]:**
    We now analyze the sumset A'+A' inside the GAP P.
    - The size of A' is |A'| ~ δ |P|.
    - The number of pairs in A' × A' is δ^2 |P|^2.
@@ -505,7 +505,7 @@ The full conjecture that lim sup r_A(n) = ∞ for any basis of order 2. The obst
    Extract A' ⊆ A with |A'| ≥ δ|A ∩ I|, such that A' ⊆ P, where P is a GAP of dimension d ≤ d_0(δ).
    The size of P is |P| ≤ C_0 |A'| / δ.
 
-3. **Structural Contradiction [◻] inside the GAP:**
+3. **Structural Contradiction [⊡] inside the GAP:**
    The sumset A'+A' is contained in P+P, which has size at most 2^d |P|.
    The number of pairs in A' × A' is |A'|^2.
    By pigeonhole, the maximum multiplicity in A'+A' is:

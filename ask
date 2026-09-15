@@ -1,39 +1,31 @@
 #!/usr/bin/env bash
-# MoDoT native ask — full-length questions, --file, interactive, Gemini-class answers.
-# Drop-in replacement for: python3 momonados_agent.py --ask / --file / -i
-# No Python.
-set -euo pipefail
-HERE="$(cd "$(dirname "$0")" && pwd)"
-BIN="$HERE/ask_native/target/release/ask"
+# ask — colour on the screen, clean text in the file, without anyone typing a pipe.
+#
+# The style layer turns colour off when stdout is not a terminal, which is right:
+# escapes have no business in a log or in what the agent reads back. But it meant
+# every `| tee` run lost colour, and the fix for that kept landing on the person
+# running it. So it lands here instead.
+#
+#   ask …                 → colour, as any terminal program
+#   ask … --log FILE      → colour on screen AND a clean copy in FILE
+#   ask … | anything      → bare, unchanged
+BIN="$(cd "$(dirname "$0")" && pwd)/ask.bin"
 
-# ── GPU for the in-process local provider (candle) ────────────────────────────
-# The local model runs on the RTX 3060 (compute 8.6), which the binary's cuda
-# kernels are built for. Two things have to hold or candle falls back to CPU:
-#   • the cuda runtime is on the loader path,
-#   • the 3060 is the selected device. Under PCI_BUS_ID order the 2080 SUPER
-#     (sm_75) is index 0 and the 3060 (sm_86) is index 1; an EMPTY
-#     CUDA_VISIBLE_DEVICES hides every card, which is the CPU-fallback trap.
-# These are defaults: an explicit value in the environment wins.
-export CUDA_DEVICE_ORDER="${CUDA_DEVICE_ORDER:-PCI_BUS_ID}"
-if [[ -z "${CUDA_VISIBLE_DEVICES:-}" ]]; then export CUDA_VISIBLE_DEVICES=1; fi
-export CUDA_COMPUTE_CAP="${CUDA_COMPUTE_CAP:-86}"
-export LD_LIBRARY_PATH="/usr/local/cuda-12.4/lib64:${LD_LIBRARY_PATH:-}"
+log=""
+args=()
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --log) log="$2"; shift 2 ;;
+    --log=*) log="${1#--log=}"; shift ;;
+    *) args+=("$1"); shift ;;
+  esac
+done
 
-if [[ ! -x "$BIN" ]]; then
-  echo "[ask] building native binary (with local,cuda so GPU inference survives)…" >&2
-  CUDA_COMPUTE_CAP=86 cargo build --release --features local,cuda \
-    --manifest-path "$HERE/ask_native/Cargo.toml"
+if [ -z "$log" ]; then
+  exec "$BIN" "${args[@]}"
 fi
-# Catalog: prefer the canonical imscribing_grammar/IG_catalog.json (the one
-# source of truth); mOMonadOS/IG_catalog.json is a stale, smaller, unsynced
-# copy (5264 vs 5275+live-merge 5292 entries as of 2026-07-10).
-if [[ -z "${MOMONADOS_CATALOG:-}" ]]; then
-  if [[ -f "$HERE/../imscribing_grammar/IG_catalog.json" ]]; then
-    export MOMONADOS_CATALOG="$HERE/../imscribing_grammar/IG_catalog.json"
-  elif [[ -f "$HERE/../mOMonadOS/IG_catalog.json" ]]; then
-    export MOMONADOS_CATALOG="$HERE/../mOMonadOS/IG_catalog.json"
-  elif [[ -f "$HERE/IG_catalog.json" ]]; then
-    export MOMONADOS_CATALOG="$HERE/IG_catalog.json"
-  fi
-fi
-exec "$BIN" "$@"
+
+# `script` hands the program a pty, so it still sees a terminal and still colours;
+# the sed strips the escapes on the way to the file only.
+cmd=$(printf '%q ' "$BIN" "${args[@]}")
+script -qec "$cmd" /dev/null | tee >(sed -u -e 's/\x1b\[[0-9;]*m//g' -e 's/\r$//' > "$log")

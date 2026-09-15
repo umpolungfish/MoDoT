@@ -7,14 +7,14 @@ IMASM PROGRAM (kernel-green via `imasm prove cuboid_descent`:
   5 > AFWD — map to strictly smaller candidate (g'<g)
   6 = CLINK — verify four squares
   7 ¬ IFIX — record descent step
-  8 < AREV — odd-g reverse trace
+  8 ≺ AREV — odd-g reverse trace
   9 × EVALF — hold g-odd candidates
  10 ¬ IFIX — record F-arm step
  11 ● FFUSE — fuse arms, reconstitute transformed object
  12 ⊞ ENGAGR — hold existence/non-existence unresolved
  13 ¬ IFIX — record engagement
  14 = CLINK — compose full proof
- 15 > AFWD — drive to completion
+ 15 ≻ AFWD — drive to completion
  16 ⊣ TANCH — seal boundary, descent terminates
 KERNEL: ✓ green — μ∘δ=id over transformed object, BelnapSplitFuse confirmed.
 

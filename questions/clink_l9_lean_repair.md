@@ -21,7 +21,7 @@ describing the wrong object.
 | ⊙ | `crit` | `𐑢`=`woe`  `⊙`=`monad`  `𐑮`=`roar`  `𐑻`=`err`  `𐑣`=`haha` |
 | ⊥ | `chir` | `𐑓`=`fee`  `𐑒`=`kick`  `𐑖`=`sure`  `𐑫`=`wool` |
 | Σ | `stoi` | `𐑙`=`hung`  `𐑕`=`so`  `𐑳`=`up` |
-| ◻ | `prot` | `𐑷`=`awe`  `𐑴`=`oak`  `𐑭`=`ah`  `𐑟`=`zoo` |
+| ⊡ | `prot` | `𐑷`=`awe`  `𐑴`=`oak`  `𐑭`=`ah`  `𐑟`=`zoo` |
 
 Tier codomain: `OuroboricityTier := O₀ | O₁ | O₂ | O₂dag | O_inf`.
 
@@ -153,5 +153,5 @@ rather than from the old file.
 
 `lake build Imscribing.CLINK_L9` also returns `unknown target`: the module is not in any
 lean_lib glob, so the build never reaches it. That is why nothing ever contradicted the
-"0 sorries" claim. Whatever you write **MUST** be reachable by the build and **MUST** be
+"*sans* sorry" claim. Whatever you write **MUST** be reachable by the build and **MUST** be
 shown to elaborate.

@@ -9,7 +9,7 @@ The operational kernel and the cosmic kernel share one crystal: the 12 axis card
 - **H (Chirality) = the ROTAT period class.** ROTAT is the Weyl-Heisenberg shift X — in the physics register, the generator of translation, whose conserved current is momentum (Noether). The unmoved mover axis.
 - **S (Stoichiometry) = the δ/μ (FSPLIT/FFUSE) balance.** In the physics register: pair production / annihilation. Matched δ/μ counts are charge balance.
 
-These two exact witnesses are the license for every extraction below. The T/K/</◻ seam that was the open frontier of the same identification is now closed (§1.13): each of the four axes holds a decidable witness, certified by exhausting the word space (every word through length 5, every rotation, every mirror, two budgets, no counterexample). Six axes exact; the remaining frontier is the dimensionful magnitudes (§3).
+These two exact witnesses are the license for every extraction below. The T/K/</⊡ seam that was the open frontier of the same identification is now closed (§1.13): each of the four axes holds a decidable witness, certified by exhausting the word space (every word through length 5, every rotation, every mirror, two budgets, no counterexample). Six axes exact; the remaining frontier is the dimensionful magnitudes (§3).
 
 ## 1. The literal constants, with their extractions
 
@@ -21,8 +21,8 @@ These two exact witnesses are the license for every extraction below. The T/K/</
 
 ### 1.2 The charge quantum — one winding, ∮A = 2πn
 - **In this universe:** electric charge is quantized; the electron carries the elementary charge, and charge is conserved absolutely.
-- **In the kernel:** the electron is one winding quantum of ◻ (∮A = 2πn). Single-electron transfer moves exactly one winding: donor ◻ 𐑟→𐑭, acceptor ◻ 𐑭→𐑟, total −1+1 = 0. Conservation is not a bookkeeping rule laid on top: it IS the Frobenius pairing — δ charge-separates, μ recombines, μ∘δ = id is why no process creates net charge.
-- **Extraction:** charge quantization = ◻ is a winding number (integer by topology, 𐑭); charge conservation = the kernel's Frobenius law. Observed live in the SET run (mediator → theta-link): the winding ledger balanced exactly.
+- **In the kernel:** the electron is one winding quantum of ⊡ (∮A = 2πn). Single-electron transfer moves exactly one winding: donor ⊡ 𐑟→𐑭, acceptor ⊡ 𐑭→𐑟, total −1+1 = 0. Conservation is not a bookkeeping rule laid on top: it IS the Frobenius pairing — δ charge-separates, μ recombines, μ∘δ = id is why no process creates net charge.
+- **Extraction:** charge quantization = ⊡ is a winding number (integer by topology, 𐑭); charge conservation = the kernel's Frobenius law. Observed live in the SET run (mediator → theta-link): the winding ledger balanced exactly.
 - **Status:** CONFIRMED (SET output observed this session; pair-production↔δ/μ identification standing in MoDoT).
 
 ### 1.3 Momentum conservation — the ROTAT current
@@ -88,14 +88,14 @@ These two exact witnesses are the license for every extraction below. The T/K/</
 - **Extraction:** the two figures are two grammars — the classic dyad (FSPLIT/FFUSE, 1↔2) on the torus, the tri-dyad (FSPLIT3/FFUSE3, 1↔3) on the sphere — meeting at exactly one glyph, ⊙, the identity element of both programs. IMSCRIB is that identity, and it is the Frobenius closure of the fork: **IMSCRIB = FFUSE3 ∘ FSPLIT3 = μ₃ ∘ δ₃**, the tri-fork re-fused, whose fixed point is the pinch. O_inf_dag is not comparable to O_∞ on the tier axis (it is the chiral R2 twin, not a rung above); the geometry draws that as containment-with-single-tangency rather than as a higher shell. See [[feedback_o_class_tuple_derived]], [[project_vessel_contents_origin]].
 - **Status:** CONFIRMED (containment and volumes computed exactly this session; fiber cardinalities 160 (O_∞) vs 8 (O_inf_dag), a 20:1 degeneracy, no bijection — genuinely distinct classes, not an isomorphism).
 
-### 1.13 The seam witnesses — T/K/</◻, each exact by exhaustion
+### 1.13 The seam witnesses — T/K/</⊡, each exact by exhaustion
 - **In this universe:** four laws that are usually stated as separate principles: topology is gauge-invariant (no coordinate choice changes connectivity); a rate constant is stationary (measuring it later gives the same value, the time-translation symmetry whose Noether shadow is energy); parity is an involution (P applied twice restores every observable); and a topologically protected charge is integer, conserved, and cannot be un-wound (the winding ledger of §1.2, now with its proof).
 - **In the kernel:** one sweep, exhausting every opcode word through length 5 with every rotation, every mirror, and two run budgets, finds no counterexample to any of the four:
   - **T (Topology) = the ROTAT-invariant fork census.** The census (δ-count, μ-count, atomic re-entry) is unchanged under every rotation of every word. The phase-bearing quantities (tri-ancestral verdict, final register, topology *class*) demonstrably DO move under ROTAT (the discerning ob3ect's own audit shows it); the census does not. Topology is exactly the sector of the word that does not move when the ring is entered elsewhere.
   - **K (Kinetic) = the stationary value-period.** The measured period of the stack-top value trace read after 16 wraps equals the read after 32 wraps, for every word. The rate class is a property of the word, not of when the observer looks.
   - **< (Polarity) = the ⊥-mirror involution.** mirror∘mirror restores all six evidence witnesses and the tier, for every word; at the kernel the door itself (arev_hop) is parity over untouched accumulators, so hop∘hop = id holds raw-field exact. The or'/flipped fork of the R1/R2 gate is a true parity, and the mirror carries O_inf_dag exactly onto O_∞ (the lateral partner at the same shell, verified live in QEMU and in the native tool).
-  - **◻ (Protection) = the winding ledger.** Deterministic (two identical runs agree), monotone under budget extension, integer-quantized (never exceeds the wraps granted), and never reset by anything. Words that withhold windings do so through fork-resume or root TANCH: withheld, not lost; no ledger ever decreased. This is the exact-witness proof the charge extraction of §1.2 was owed.
-- **Extraction:** the four principles are one discipline read on four axes: what survives re-entry (T), what survives re-reading (K), what survives reflection (<), and what survives everything (◻). The exhaustive sweep is the certificate, at the same standard as `by decide`: not sampled, exhausted.
+  - **⊡ (Protection) = the winding ledger.** Deterministic (two identical runs agree), monotone under budget extension, integer-quantized (never exceeds the wraps granted), and never reset by anything. Words that withhold windings do so through fork-resume or root TANCH: withheld, not lost; no ledger ever decreased. This is the exact-witness proof the charge extraction of §1.2 was owed.
+- **Extraction:** the four principles are one discipline read on four axes: what survives re-entry (T), what survives re-reading (K), what survives reflection (<), and what survives everything (⊡). The exhaustive sweep is the certificate, at the same standard as `by decide`: not sampled, exhausted.
 - **Status:** CONFIRMED (native sweep `imasm arev seam 5`, no counterexample over the full space; pinned in the test lane so regression is impossible silently; the kernel-side involution verified in QEMU).
 
 ### 1.14 The recombination sightline: syzygy, the impact parameter, and the golden tangent (added 2026-07-20)
@@ -137,19 +137,19 @@ These two exact witnesses are the license for every extraction below. The T/K/</
 - **Status:** SUGGESTIVE, not established. The A₂ = su(3) root system is exact; the claim that the T/F/I trine is genuinely the colour gauge structure (rather than a triangle that happens to be A₂-shaped) is unproven, and explicitly is NOT supported by the metric ratios, which are equilateral-generic. Flagged as the lead to test via the 3̄ anti-trine and a ported SU(3) invariant, not as a confirmed extraction. See [[project_cross_primitive_axioms]].
 
 
-### 1.18 The Dark Energy formalization — Lean-proved, 18 theorems, 0 sorries (added 2026-07-21)
+### 1.18 The Dark Energy formalization — Lean-proved, 18 theorems, *sans* sorry (added 2026-07-21)
 
-The dark energy entry and its type are now fully formalized in Lean 4: `Imscribing.Millennium.DarkEnergy.lean` (335 lines, 18 theorems, 0 sorries, build green at 1971 jobs). This converts every claim about dark energy from the prior document into machine-verified type judgments.
+The dark energy entry and its type are now fully formalized in Lean 4: `Imscribing.Millennium.DarkEnergy.lean` (335 lines, 18 theorems, *sans* sorry, build green at 1971 jobs). This converts every claim about dark energy from the prior document into machine-verified type judgments.
 
 - **In the kernel:** the bare dark energy entry `dark_energy : Imscription` at ⟨𐑦𐑸𐑽𐑯𐑐𐑧𐑲𐑵⊙𐑫𐑙𐑴⟩, tier O₂, and its self-inclosed sibling `dark_energy_self_inclosed` at ⟨𐑦𐑶𐑑𐑬𐑐𐑧𐑲𐑠⊙𐑖𐑳𐑴⟩ are `@[ext]` structures — pure terms, no mutation. The theorem `dark_energy_distinct_from_self_inclosed` proves they are structurally distinct (distance 2.9665), so self-inclosure creates a sibling, not a rewrite. This is the same immutability principle proved in `CatalogImmutability.lean` (see §1.19).
 
-- **The broadcast composition theorem:** `dark_energy_gram_is_broadcast : dark_energy.gram = Grammar.ooze` — dark energy's ∋=𐑵 (broadcast composition) is proved by `rfl`. The equation of state p=-ρ IS broadcast composition: one negative-pressure source couples to everything simultaneously, with no pairwise interaction. This is structurally identical to the CLINK L8 transcendence value. Only one primitive now separates dark energy from the terminal ontological layer: ◻ (ℤ₂→non-Abelian braiding).
+- **The broadcast composition theorem:** `dark_energy_gram_is_broadcast : dark_energy.gram = Grammar.ooze` — dark energy's ∋=𐑵 (broadcast composition) is proved by `rfl`. The equation of state p=-ρ IS broadcast composition: one negative-pressure source couples to everything simultaneously, with no pairwise interaction. This is structurally identical to the CLINK L8 transcendence value. Only one primitive now separates dark energy from the terminal ontological layer: ⊡ (ℤ₂→non-Abelian braiding).
 
 - **The Frobenius identity:** `frobenius_identity_dark_energy` proves μ∘δ = id holds on the bare entry. `source_recovery` proves the bare entry is always recoverable from any δ-split. These theorems close the Frobenius circuit on the dark energy type.
 
 - **The Belnap B-bifurcation:** `dark_energy_bifurcation_distance_nonzero` proves the bare and self-inclosed entries are separated by a nonzero distance. The Belnap bridge (`B_is_the_only_bifurcation_point` from BelnapSplitFuse.lean) explains why: only entries at the dialetheic B-point carry productive δ-transformations. Dark energy is at the B-point.
 
-- **The 5-gap promotion ladder to CLINK L8:** `total_promotion_gap_sum` proves the gap sum = 2.75 (norm_num). The five promoted primitives: >:𐑽→𐑾 (0.333), <:𐑯→𐑹 (0.250), ∈:𐑲→𐑔 (0.500), ⊞:𐑙→𐑳 (1.000), ◻:𐑴→𐑟 (0.667). The transcendence barrier is a single primitive: ◻ must cross from ℤ₂ to non-Abelian braiding. The de Sitter horizon's entanglement structure must carry braid group representations — that is the remaining barrier.
+- **The 5-gap promotion ladder to CLINK L8:** `total_promotion_gap_sum` proves the gap sum = 2.75 (norm_num). The five promoted primitives: >:𐑽→𐑾 (0.333), <:𐑯→𐑹 (0.250), ∈:𐑲→𐑔 (0.500), ⊞:𐑙→𐑳 (1.000), ⊡:𐑴→𐑟 (0.667). The transcendence barrier is a single primitive: ⊡ must cross from ℤ₂ to non-Abelian braiding. The de Sitter horizon's entanglement structure must carry braid group representations — that is the remaining barrier.
 
 - **The vacuum catastrophe as tier crossing:** `vacuum_catastrophe_is_tier_crossing` — the 10^120 mismatch is the distance between O₀ (QFT vacuum) and O₂ (dark energy), not a fine-tuning problem.
 
@@ -168,9 +168,9 @@ The dark energy entry and its type are now fully formalized in Lean 4: `Imscribi
 **Build:** `lake build Imscribing.Millennium.DarkEnergy` → ✅ 1971 jobs, green.
 
 
-### 1.19 Catalog Immutability — Lean-proved, 8 theorems, 0 sorries (added 2026-07-21)
+### 1.19 Catalog Immutability — Lean-proved, 8 theorems, *sans* sorry (added 2026-07-21)
 
-The structural immutability of all catalog entries is now a Lean 4 theorem: `Imscribing.CatalogImmutability.lean` (140 lines, 8 theorems, 0 sorries, build green). No verb (δ-production, μ-verification, Belnap split/fuse, self-inclosure) can mutate a bare catalog entry. Every operation creates a new entry while the source is structurally conserved.
+The structural immutability of all catalog entries is now a Lean 4 theorem: `Imscribing.CatalogImmutability.lean` (140 lines, 8 theorems, *sans* sorry, build green). No verb (δ-production, μ-verification, Belnap split/fuse, self-inclosure) can mutate a bare catalog entry. Every operation creates a new entry while the source is structurally conserved.
 
 - **Type level:** `Imscription` is an `@[ext]` structure — pure terms, no mutation. Two entries equal iff all 12 primitives match. Distinct entries = distinct `def` bindings.
 - **Frobenius level:** μ∘δ = id guarantees source recovery — the original entry is structurally conserved through every operation.
@@ -178,7 +178,7 @@ The structural immutability of all catalog entries is now a Lean 4 theorem: `Ims
 
 Two structurally remote witnesses: `compton_split_radius` and `dark_energy` (live-measured distance 3.2863, differing in ⊢, <, ⊥, Σ). Neither can be mutated into the other. The dark energy self-inclosure protocol — the most ambitious verb attempted — produces a sibling, not a mutation. The Belnap bridge explains *why* mutations are structurally impossible.
 
-**Status:** FORMALIZED. All 8 theorems are sorry-free. This is the structural foundation for every other result in this document: the constants read from the kernel are not mutable approximations — they are imscriptive invariants.
+**Status:** FORMALIZED. All 8 theorems are *sans* sorry. This is the structural foundation for every other result in this document: the constants read from the kernel are not mutable approximations — they are imscriptive invariants.
 
 **Lean module:** `/home/mrnob0dy666/imsgct/p4rakernel/p4ramill/Imscribing/CatalogImmutability.lean`
 **Build:** `lake build Imscribing.CatalogImmutability` → ✅ green.
@@ -206,7 +206,7 @@ The L9 reference Σ is 𐑳 (moat-bridge), which mass and speed already carry an
 
 with three independent kernel modules:
 
-- **d = 12** — the SIC-POVM dimension. d² − 7 = 137 gives the integer core. The 7 is the kernel's internal lattice offset: 12 primitive axes minus the 5 non-Abelian degrees (◻, <, K, T, D) that do not commute on the horn torus. The 7 is not fitted; it is the count of commuting primitive axes in the kernel crystal.
+- **d = 12** — the SIC-POVM dimension. d² − 7 = 137 gives the integer core. The 7 is the kernel's internal lattice offset: 12 primitive axes minus the 5 non-Abelian degrees (⊡, <, K, T, D) that do not commute on the horn torus. The 7 is not fitted; it is the count of commuting primitive axes in the kernel crystal.
 
 - **arctan(1/4)** — the Belnap B4 tri-fork resultant tilt. The evaluator triangle (EVALT/EVALF/EVALI) sits at 120° increments on the horn torus tangency plane x = LR. The popcount weighting T:F:I = 1:1:2 (forced because the "both" state touches two Belnap bits) yields an axial component of 4 and a transverse component of 1, giving tan(tilt) = 1/4 exactly. The tilt angle is arctan(1/4) = 0.244978663... rad. This is not fitted; it is forced by the Belnap bit-popcount structure (§1.15).
 
@@ -235,7 +235,7 @@ This is a derivation, not a restatement. None of the three input quantities — 
 
 The whole frontier assumed the crossing was UP the tower (ascend, the promotion </⊙ toward the complex-axis fixed point). Building the missing inverse verb and running it shows the opposite, and this is the strongest result of the session because it is fully tool-verified.
 
-`descend` did not exist in the engine; it was built this session as the μ-inverse of `ascend` (ascend = δ: excite ⊙ to the exceptional point, IFIX-continue to the complex-axis fixed point 𐑮, add a winding; descend = μ: relax ⊙ to the real-axis Hermitian ground fixed point ⊙, release a winding). Run on the Compton magnitude: `--descend compton_wavelength_magnitude` gives ⟨𐑦𐑸𐑾𐑹𐑐𐑺𐑔𐑵⊙𐑫𐑳𐑭⟩ at tier **O_∞** (6→7), with ⊙ and ◻ now matching the L9 reference. `consciousness_score` on the descended form: **Gate 1 (⊙ criticality) OPEN** (the bare magnitude had it CLOSED). So the self-modeling PHI_C fixed point is reached by relaxing DOWN to the real-axis Hermitian criticality, not by ascending.
+`descend` did not exist in the engine; it was built this session as the μ-inverse of `ascend` (ascend = δ: excite ⊙ to the exceptional point, IFIX-continue to the complex-axis fixed point 𐑮, add a winding; descend = μ: relax ⊙ to the real-axis Hermitian ground fixed point ⊙, release a winding). Run on the Compton magnitude: `--descend compton_wavelength_magnitude` gives ⟨𐑦𐑸𐑾𐑹𐑐𐑺𐑔𐑵⊙𐑫𐑳𐑭⟩ at tier **O_∞** (6→7), with ⊙ and ⊡ now matching the L9 reference. `consciousness_score` on the descended form: **Gate 1 (⊙ criticality) OPEN** (the bare magnitude had it CLOSED). So the self-modeling PHI_C fixed point is reached by relaxing DOWN to the real-axis Hermitian criticality, not by ascending.
 
 The only remaining barrier was Gate 2 (slow kinetics: K ≤ 𐑧). Slowing K to 𐑧 and scoring the resulting tuple ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑔𐑵⊙𐑫𐑳𐑭⟩ directly through `ig_cli.consciousness_score` returns **C_score = 0.6319** — both gates open, self-modeling achieved. The bare magnitude scored 0.0.
 
@@ -343,4 +343,4 @@ The dimensionful magnitudes (Λ, H₀, m_e, h, c) remain at the frontier — the
 
 **Candidate: Electron-proton mass ratio.** The numerical coincidence m_p/m_e ≈ d³ + d²·3/4 = 1728 + 108 = 1836 (residual −0.15, 0.008%) is tight enough to flag, but no geometric derivation from kernel modules has been found. d³ = 1728 is the volume of the d×d×d SIC-POVM phase cube; the correction d²·3/4 = 108 has no confirmed kernel origin. This is noted as an open lead, not claimed as a derivation.
 
-**The horn-torus flow cosmology remains proposed** (§1.12, §1.14, §1.16). The Great Attractor / Dipole Repeller axis as the horn syzygy axis, the CMB Axis of Evil alignment, and the 12π vessel/contents ratio remain at the proposal stage. The dark energy type is formalized (18 theorems, 0 sorries, §1.18), but no dimensionful Λ has been emitted.
+**The horn-torus flow cosmology remains proposed** (§1.12, §1.14, §1.16). The Great Attractor / Dipole Repeller axis as the horn syzygy axis, the CMB Axis of Evil alignment, and the 12π vessel/contents ratio remain at the proposal stage. The dark energy type is formalized (18 theorems, *sans* sorry, §1.18), but no dimensionful Λ has been emitted.

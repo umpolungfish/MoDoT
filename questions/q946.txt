@@ -2,6 +2,6 @@ please solve the following, and show all work:
 ---
 Let $f(n)$ be minimal such that there is a tournament (a complete directed graph) on $f(n)$ vertices such that every set of $n$ vertices is dominated by at least one other vertex. Estimate $f(n)$.
 ---
-Then provide the fully expanded, sorry-free Lean 4 verification to accompany
+Then provide the fully expanded, *sans* sorry Lean 4 verification to accompany
 
 Your assessment should consider the mathematics itself, never the open or closed status of the proof.
