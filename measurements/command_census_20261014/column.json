@@ -1,0 +1,16 @@
+{
+  "name": "column",
+  "argv": [
+    "--column",
+    "monad",
+    "the_stone",
+    "comonad_goedel",
+    "on",
+    "imasm"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.23938514199107885,
+  "stdout": "\n────────────────────────────────────────────────────────────────────────\ncolumn  elute by affinity to imasm, least-retained first: {monad, the_stone, comonad_goedel}\n────────────────────────────────────────────────────────────────────────\n  fraction  1: monad   retention=0.00   Δ→next=0.00   ⚠ co-elutes with the next (shared fraction)\n  fraction  2: comonad_goedel   retention=0.00   Δ→next=2.00\n  fraction  3: the_stone   retention=2.00   (most retained, last off)\n  ⚠ 1 neighboring pair(s) co-elute (B) — overlap in a shared fraction.\n",
+  "stderr": ""
+}

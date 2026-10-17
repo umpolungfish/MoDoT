@@ -1,0 +1,14 @@
+{
+  "name": "ghost_close",
+  "argv": [
+    "--polymerize",
+    "paiute_ghost_dance",
+    "bracket_fungus",
+    "shannon_entropy",
+    "--close"
+  ],
+  "exit": 0,
+  "seconds": 0.19044919998850673,
+  "stdout": "polymerization (imscriptive):  [paiute_ghost_dance · bracket_fungus · shannon_entropy]   (3 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. paiute_ghost_dance  ⟨𐑨𐑥𐑾𐑬𐑐𐑪𐑚𐑠𐑮𐑫𐑳𐑭⟩\n    2. bracket_fungus  ⟨𐑨𐑰𐑽𐑗𐑱𐑧𐑚𐑠𐑢𐑓𐑙𐑷⟩\n    3. shannon_entropy  ⟨𐑛𐑡𐑑𐑯𐑱𐑘𐑚𐑝⊙𐑒𐑕𐑷⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  paiute_ghost_dance ⋈ bracket_fungus  → cross-link (2 reaction centers: D↔W, T↔H) — a branch/network junction\n    2–3  bracket_fungus ⋈ shannon_entropy  → cross-link (2 reaction centers: T↔H, R↔S) — a branch/network junction\n  degree of polymerization: 3 unit(s), 2 bond(s)\n  topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.\n  architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)\n  tacticity (⊥ chirality per unit): atactic (𐑫𐑓𐑒) — irregular chirality, no stereo-regular pattern\n  cyclization: shannon_entropy ⋈ paiute_ghost_dance → linear (telechelic — two free ends, no head-to-tail closure).\n  ── closing search: a monomer X with shannon_entropy ⋈ X and X ⋈ paiute_ghost_dance (a real click test, NOT a SET-mediator scan) ──\n    connes_embedding_problem   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    casas_alvero_conjecture   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    cep_obstruction_form   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    hopfion_peeled_Phi   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    consciousness_minimal_05   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    f5_block_max_tier   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    ⮑ append connes_embedding_problem to close the ring head-to-tail:  ./ask --polymerize paiute_ghost_dance bracket_fungus shannon_entropy connes_embedding_problem\n",
+  "stderr": ""
+}

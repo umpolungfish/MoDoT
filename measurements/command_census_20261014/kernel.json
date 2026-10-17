@@ -1,0 +1,16 @@
+{
+  "name": "kernel",
+  "argv": [
+    "--kernel",
+    "ringspec",
+    "1",
+    "1",
+    "1",
+    "1"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.5336300039780326,
+  "stdout": "RINGSPEC — the spectrum of a ring, in integers\n=============================================\n\n  units:   4\n  weights: 1 1 1 1 \n  topology: pure cycle — every junction one clean bond\n\n  char poly det(λI − A) = λ^4 + -4λ^2\n\n  Σλ² = tr(A²) = 8   (= 2·Σwᵢ² = 2·4)  ✓\n  spectrum symmetric under λ ↦ -λ: YES — every odd coefficient vanishes\n  ⟹ the top eigenvalue is paired with its negative, so |λ₂| = ρ\n  ⟹ SPECTRAL GAP = 0 exactly — no privileged mode\n\n  even ring — bipartite, so gap 0 whatever the weights.\n  Bipartite means the units fall into two classes and every bond runs\n  between them. A ring alternates because something mediates on both\n  sides of what it mediates — which is also why the count is even. One\n  fact, two readings. Compare gap within a parity; across parities the\n  gap is fixed before any weight is read, so compare strain instead.\n  zero eigenvalues: 2 (λ^2 divides the polynomial)\n  ⟹ the spectrum is {0 ×2, ±ρ} with ρ² = Σλ²/2 = 4 EXACTLY\n\n  Every line above is an integer identity. A ring reported as ρ=3.1623\n  has to be believed; one reported as ρ²=10 can be checked.\n\n",
+  "stderr": ""
+}

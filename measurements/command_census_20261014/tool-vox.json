@@ -1,0 +1,14 @@
+{
+  "name": "tool-vox",
+  "argv": [
+    "--tool",
+    "vox",
+    "verdict",
+    "⊢∈≻⊤∋⊣"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.1490800309984479,
+  "stdout": "⊢∈≻⊤∋⊣\nverdict T\n",
+  "stderr": ""
+}

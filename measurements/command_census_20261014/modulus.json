@@ -1,0 +1,16 @@
+{
+  "name": "modulus",
+  "argv": [
+    "--polymerize",
+    "monad",
+    "the_stone",
+    "monad",
+    "the_stone",
+    "--modulus"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.20446516401716508,
+  "stdout": "polymerization (imscriptive):  [monad · the_stone · monad · the_stone]   (4 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    2. the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n    3. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    4. the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  monad ⋈ the_stone  → condensation on R↔S (Δ=1.33)\n    2–3  the_stone ⋈ monad  → condensation on R↔S (Δ=1.33)\n    3–4  monad ⋈ the_stone  → condensation on R↔S (Δ=1.33)\n  degree of polymerization: 4 unit(s), 3 bond(s)\n  backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).\n  architecture: alternating copolymer (2 types, strict …ABAB… alternation)\n  tacticity (⊥ chirality per unit): syndiotactic (𐑓𐑫𐑓𐑫) — chirality strictly inverts each unit, a regular alternation\n  cyclization: the_stone ⋈ monad → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).\n  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ⊡ closes), not merely a closed one ──\n    none — no catalog monomer generates a sustaining loop over this chain; every closure is static (insulating). This material has NO modulus (a viscous chain, not an elastic network).\n",
+  "stderr": ""
+}

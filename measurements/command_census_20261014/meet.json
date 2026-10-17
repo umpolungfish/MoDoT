@@ -1,0 +1,13 @@
+{
+  "name": "meet",
+  "argv": [
+    "--meet",
+    "monad",
+    "the_stone"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.1948213349969592,
+  "stdout": "meet (greatest lower bound):  monad  ⊓  the_stone\n  monad: ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n  the_stone: ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n  meet:   ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑙𐑷⟩\n  floor taken from monad on 7 slot(s), from the_stone on 1, equal on 4\n  a meet DESCENDS: no slot rises. This is what the two share, not what they fuse to.\n",
+  "stderr": ""
+}

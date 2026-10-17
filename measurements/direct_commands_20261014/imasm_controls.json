@@ -1,0 +1,12 @@
+{
+  "name": "imasm_controls",
+  "argv": [
+    "--imasm",
+    "check",
+    "⊢∈⊙∋⊣"
+  ],
+  "exit": 0,
+  "seconds": 0.1990069930034224,
+  "stdout": "IMASM check → N (identity)\n  word: VINIT FSPLIT IMSCRIB FFUSE TANCH\n  the arms split and refuse but nothing transforms between them — μ∘δ=id does no work and verifies nothing. Put a transformation on the arms (weigh the alternatives: EVALT/EVALF, AFWD/AREV, CLINK) before this counts as a check.\n  shape: network | V=5 E=6 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=3.0000\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: identity — δ arms reconnect at μ but nothing transforms between them; μ∘δ=id does no work and type-checks nothing\n",
+  "stderr": ""
+}

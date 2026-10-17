@@ -296,20 +296,20 @@ impl Graph {
             if od > 1 && !tok.is_brancher() {
                 errs.push(format!(
                     "node {n} ({}) fans out to {od}; only the fork (δ) may branch",
-                    tok.name()
+                    tok.code()
                 ));
             }
             if idg > 1 && !tok.is_merger() {
                 errs.push(format!(
                     "node {n} ({}) merges {idg} in; only the fuse (μ) may fuse",
-                    tok.name()
+                    tok.code()
                 ));
             }
             if od > ao {
-                errs.push(format!("node {n} ({}) out-degree {od} > arity_out {ao}", tok.name()));
+                errs.push(format!("node {n} ({}) out-degree {od} > arity_out {ao}", tok.code()));
             }
             if idg > ai {
-                errs.push(format!("node {n} ({}) in-degree {idg} > arity_in {ai}", tok.name()));
+                errs.push(format!("node {n} ({}) in-degree {idg} > arity_in {ai}", tok.code()));
             }
         }
         errs

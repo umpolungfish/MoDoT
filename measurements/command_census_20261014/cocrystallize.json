@@ -1,0 +1,13 @@
+{
+  "name": "cocrystallize",
+  "argv": [
+    "--cocrystallize",
+    "monad",
+    "the_stone"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.2263309609843418,
+  "stdout": "co-crystallization (one lattice of two components held by non-covalent complementarity):  monad + the_stone\n  ✓ cocrystal (EVALT): monad and the_stone recognize each other on R↔S (Δ=1.33), a non-covalent adduct in 1:1 stoichiometry.\n  note: they also click covalently on a live pair — a true bond (--click) is the stronger option; the cocrystal is the non-bonded co-lattice.\n",
+  "stderr": ""
+}

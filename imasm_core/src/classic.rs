@@ -152,7 +152,7 @@ impl Token {
                 .map(|t| {
                     let (ain, aout) = t.arity();
                     serde_json::json!({
-                        "name": t.name(), "code": t.code(),
+                        "code": t.code(),
                         "arity_in": ain, "arity_out": aout,
                     })
                 })

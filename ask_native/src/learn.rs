@@ -50,6 +50,7 @@ fn body_alphabet(face: Face) -> &'static [char] {
 /// source and one sink per program, so judging it as a single word answers F to
 /// every catalog entry ever written. Judge each program and speak the weakest
 /// verdict its programs reach, which is the honest reading of a conjunction.
+#[allow(dead_code)]
 fn composite_verdict(face: Face, w: &[char]) -> char {
     let segs = segments(w);
     if segs.len() <= 1 {
@@ -154,11 +155,12 @@ fn classic_tokens(w: &[char]) -> Vec<Token> {
 /// Opcode name of one glyph in its face, for the excriber's prompt.
 fn glyph_name(face: Face, c: char) -> &'static str {
     match face {
-        Face::Classic => Token::parse(&c.to_string()).map(|t| t.name()).unwrap_or("?"),
-        Face::Tri => parse_glyph_word(&c.to_string())
-            .first()
-            .map(|t| t.name())
-            .unwrap_or("?"),
+        Face::Classic => Token::parse(&c.to_string()).map(|t| t.code()).unwrap_or("?"),
+        Face::Tri => match c {
+            '⊢' => "⊢", '⊣' => "⊣", '≻' => "≻", '≺' => "≺", '⋈' => "⋈", '⊙' => "⊙",
+            '∈' => "∈", '∋' => "∋", '⊤' => "⊤", '⊥' => "⊥", '⊞' => "⊞", '⊡' => "⊡",
+            _ => "?",
+        },
     }
 }
 

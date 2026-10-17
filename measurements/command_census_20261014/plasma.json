@@ -1,0 +1,12 @@
+{
+  "name": "plasma",
+  "argv": [
+    "--plasma",
+    "monad"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.6952311230124906,
+  "stdout": "plasma: 'monad' has an incomplete tuple (missing ◻)\n\n",
+  "stderr": ""
+}

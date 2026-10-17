@@ -1799,6 +1799,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
   },
+  "semiprime_factor": {
+    "spec": "protocol VINIT FSPLIT AFWD EVALT AREV FFUSE TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=7 E=8 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8260\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
+  },
   "seven_ring": {
     "spec": "protocol IMSCRIB ENGAGR FFUSE IFIX",
     "title": "protocol",

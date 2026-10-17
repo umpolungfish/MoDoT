@@ -507,13 +507,13 @@ pub fn tri_ancestral_verdict(steps: &[Token16_3]) -> (char, String) {
 fn run_trace(steps: &[Token16_3]) -> String {
     let mut mach = Machine::new();
     let mut out = String::new();
-    let _ = writeln!(out, "  {:>3} {:^5} {:<9} {:>5} → {:>5}", "Step", "Glyph", "Token", "Reg↓", "Reg↑");
+    let _ = writeln!(out, "  {:>3} {:^5} {:>5} → {:>5}", "Step", "Glyph", "Reg↓", "Reg↑");
     let start = mach.reg;
     for (idx, &tok) in steps.iter().enumerate() {
         let before = mach.reg.name();
         mach.step(tok);
         let after = mach.reg.name();
-        let _ = writeln!(out, "  {:>3} {:^5} {:<9} {:>5} → {:>5}", idx + 1, tok.glyph(), tok.name(), before, after);
+        let _ = writeln!(out, "  {:>3} {:^5} {:>5} → {:>5}", idx + 1, tok.glyph(), before, after);
     }
     let closed = mach.reg == start;
     let (verdict, msg) = tri_ancestral_verdict(steps);
@@ -555,7 +555,7 @@ pub fn run(args: &[String]) -> String {
         "ref" => {
             let mut out = String::from("IMASM-16_3 — 12 symbolic opcodes (SIXTEEN_3 = P({T,F,t,f}), Shramko/Dunn/Takenaka 2001):\n");
             for t in ALL_TOKENS {
-                let _ = writeln!(out, "  {}  {:<9} {}", t.glyph(), t.name(), if t.is_work() { "WORK" } else { "no-op (structural)" });
+                let _ = writeln!(out, "  {}  {}", t.glyph(), if t.is_work() { "WORK" } else { "no-op (structural)" });
             }
             let _ = writeln!(out, "  ↺/↻ ROTAT     op-opcode: the cyclic shift (Weyl-Heisenberg X) on the WHOLE word, not a token in it");
             let _ = writeln!(out, "  (the marks ◇ ● = + × ¬ ~ ≁ are NOT tokens and do not parse — no alias; they read as nothing)");

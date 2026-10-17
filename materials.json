@@ -1721,6 +1721,46 @@
     ],
     "weakest": 0.5
   },
+  "modot_demo_cycle_20261014": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone"
+    ],
+    "weakest": 1.3333
+  },
+  "modot_three_component_cycle_20261015": {
+    "branched": false,
+    "conductance": "INSULATING",
+    "energy": 4.0,
+    "n": 3,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      -1.0,
+      -1.0
+    ],
+    "strain": 0.2453,
+    "units": [
+      "the_stone",
+      "monad",
+      "thermodynamic_entropy"
+    ],
+    "weakest": 1.1667
+  },
   "o2_macrocycle_6": {
     "branched": false,
     "conductance": "INSULATING",
@@ -2397,6 +2437,111 @@
       "anti_chiral_linker_M136279841"
     ],
     "weakest": 1.0
+  },
+  "weird_alchemy_serpent_dream_20261015": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 4.0,
+    "n": 3,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      -1.0,
+      -1.0
+    ],
+    "strain": 0.1179,
+    "units": [
+      "alchemy",
+      "jormungandr_world_serpent",
+      "lucid_dreaming"
+    ],
+    "weakest": 0.75
+  },
+  "weird_fungus_angel_moon_20261015": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 5.4641,
+    "n": 3,
+    "rho": 2.7321,
+    "spectrum": [
+      2.7321,
+      -0.7321,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "predatory_fungus",
+      "holy_guardian_angel_claimed",
+      "xviii_the_moon"
+    ],
+    "weakest": 1.0
+  },
+  "weird_ghost_fungus_entropy_connes_20261015": {
+    "branched": true,
+    "conductance": "INSULATING",
+    "energy": 6.3246,
+    "n": 4,
+    "rho": 3.1623,
+    "spectrum": [
+      3.1623,
+      0.0,
+      -0.0,
+      -3.1623
+    ],
+    "strain": 0.0833,
+    "units": [
+      "shannon_entropy",
+      "bracket_fungus",
+      "paiute_ghost_dance",
+      "connes_embedding_problem"
+    ],
+    "weakest": 1.3333
+  },
+  "weird_serpent_angel_hybrid_20261015": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 8.0,
+    "n": 6,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -2.0
+    ],
+    "strain": 0.2982,
+    "units": [
+      "alchemy",
+      "holy_guardian_angel_claimed",
+      "predatory_fungus",
+      "jormungandr_world_serpent",
+      "xviii_the_moon",
+      "lucid_dreaming"
+    ],
+    "weakest": 0.75
+  },
+  "weird_spirit_moon_mirror_contract_20261015": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.3246,
+    "n": 4,
+    "rho": 3.1623,
+    "spectrum": [
+      3.1623,
+      0.0,
+      -0.0,
+      -3.1623
+    ],
+    "strain": 0.0,
+    "units": [
+      "holy_spirit",
+      "the_moon",
+      "kozyrev_mirror",
+      "Devil's_Contract_Paradox"
+    ],
+    "weakest": 1.3333
   },
   "witness_ring": {
     "branched": true,

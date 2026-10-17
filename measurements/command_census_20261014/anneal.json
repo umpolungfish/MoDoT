@@ -1,0 +1,15 @@
+{
+  "name": "anneal",
+  "argv": [
+    "--anneal",
+    "monad",
+    "the_stone",
+    "monad",
+    "the_stone"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.21997264900710434,
+  "stdout": "\n────────────────────────────────────────────────────────────────────────\nanneal  relax the ring to its lowest-strain ordering\n────────────────────────────────────────────────────────────────────────\n  quenched (forge order): [monad · the_stone · monad · the_stone]\n            strain σ(Δ)=0.000\n  annealed: the forge order is ALREADY the lowest-strain ring (exhaustive over every ordering) — no relaxation available.\n",
+  "stderr": ""
+}

@@ -130,7 +130,7 @@ MAX_PROGRAM = 64
 @dataclass
 class Program:
     tokens: List[Token] = field(default_factory=list)
-    def push(self, t): 
+    def push(self, t):
         if len(self.tokens) < MAX_PROGRAM: self.tokens.append(t)
     def __len__(self): return len(self.tokens)
     def __getitem__(self, i): return self.tokens[i % len(self.tokens)]
@@ -239,21 +239,21 @@ class CrystalFS:
 
 class FrobeniusHarness:
     """mu circ delta = id verification for every emit/verify pair."""
-    
+
     def __init__(self):
         self.checks = 0
         self.passed = 0
         self.open_count = 0
         self.pending_emits = {}  # emit_id -> emitted_value
-    
+
     def emit(self, emit_id, value):
         """delta: record an emission."""
         self.pending_emits[emit_id] = value
         self.open_count += 1
-    
+
     def verify(self, emit_id, observed_hash):
         """mu: verify that the round-trip completed (mu circ delta = id).
-        
+
         The verify confirms that an emit was received and processed.
         observed_hash should be a hash of the observed result.
         We check that the emit was registered (closure),
@@ -270,11 +270,11 @@ class FrobeniusHarness:
             else:
                 return B4.F
         return B4.N  # no pending emit
-    
+
     def frobenius_ratio(self):
         if self.checks == 0: return 1.0
         return self.passed / self.checks
-    
+
     def is_closed(self):
         return self.open_count == 0
 
@@ -285,7 +285,7 @@ class Phase(Enum):
 
 class MomonadosKernel:
     """The kernel execution engine -- mirrors the Rust kernel.rs."""
-    
+
     def __init__(self, program=None, crystal_fs=None):
         self.program = program or bootstrap_loop()
         self.ip = 0
@@ -302,15 +302,15 @@ class MomonadosKernel:
         self.b_live_ticks = 0
         self.gate_discriminations = 0
         self.value_trace = deque(maxlen=16)
-    
+
     def step(self) -> Optional[B4]:
         """Execute one token. Returns the output value or None."""
         if self.halted: return None
         if len(self.program) == 0: return None
-        
+
         token = self.program[self.ip]
         self.tick_count += 1
-        
+
         # Check arity
         need = token.arity_in()
         if len(self.stack) < need:
@@ -319,21 +319,21 @@ class MomonadosKernel:
             result = B4.N
         else:
             result = self._execute(token)
-        
+
         # Track value trace
         if result is not None:
             self.value_trace.append(result)
-        
+
         # Advance IP (cyclic)
         self.ip = (self.ip + 1) % len(self.program)
-        
+
         # TANCH at root depth: wrap to beginning (cyclic breath)
         if token == Token.TANCH and len(self.fork_stack) == 0:
             self.ip = 0  # wrap to start of program
             # Don't halt -- this is a cyclic organism
-        
+
         return result
-    
+
     def _execute(self, token: Token) -> Optional[B4]:
         if token == Token.VINIT:
             # Initialize from void -- unless a semantic verdict was seeded, in
@@ -343,23 +343,23 @@ class MomonadosKernel:
             self.injected_value = None
             self.stack.append(v)
             return v
-        
+
         elif token == Token.TANCH:
             val = self.stack.pop() if self.stack else B4.N
             return val  # sinks the value
-        
+
         elif token == Token.AFWD:
             val = self.stack[-1] if self.stack else B4.N
             self.stack.append(val)  # forward morphism: duplicate top
             return val
-        
+
         elif token == Token.AREV:
             if self.stack:
                 val = self.stack.pop()
                 self.stack.append(val.bnot())
                 return val.bnot()
             return B4.N
-        
+
         elif token == Token.CLINK:
             if len(self.stack) >= 2:
                 b = self.stack.pop()
@@ -369,13 +369,13 @@ class MomonadosKernel:
                 result = self.stack.pop() if self.stack else B4.N
             self.stack.append(result)
             return result
-        
+
         elif token == Token.IMSCRIB:
             val = self.stack[-1] if self.stack else B4.N
             # Self-imscription: record snapshot
             self.snapshot = self._take_snapshot(val)
             return val
-        
+
         elif token == Token.FSPLIT:
             val = self.stack.pop() if self.stack else B4.N
             # delta: co-multiplication -- push both copies
@@ -384,7 +384,7 @@ class MomonadosKernel:
             # Record fork frame
             self.fork_stack.append(dict(resume_ip=self.ip, right_val=val))
             return val
-        
+
         elif token == Token.FFUSE:
             if len(self.stack) >= 2:
                 right = self.stack.pop()
@@ -397,7 +397,7 @@ class MomonadosKernel:
             if self.fork_stack:
                 self.fork_stack.pop()
             return result
-        
+
         elif token == Token.EVALT:
             val = self.stack[-1] if self.stack else B4.N
             self.gate_discriminations += 1
@@ -405,7 +405,7 @@ class MomonadosKernel:
                 return B4.T
             self.stack.append(B4.N)
             return B4.N
-        
+
         elif token == Token.EVALF:
             val = self.stack[-1] if self.stack else B4.N
             self.gate_discriminations += 1
@@ -413,7 +413,7 @@ class MomonadosKernel:
                 return B4.F
             self.stack.append(B4.N)
             return B4.N
-        
+
         elif token == Token.ENGAGR:
             val = self.stack[-1] if self.stack else B4.N
             if val == B4.B:
@@ -421,7 +421,7 @@ class MomonadosKernel:
             result = B4.B  # paradox stabilized
             self.stack.append(result)
             return result
-        
+
         elif token == Token.IFIX:
             val = self.stack[-1] if self.stack else B4.N
             # Permanent brand: commit to Crystal FS
@@ -438,9 +438,9 @@ class MomonadosKernel:
                     content_type="type",
                 ))
             return val
-        
+
         return B4.N
-    
+
     def _take_snapshot(self, val):
         b_live = self.b_live_ticks
         gd = self.gate_discriminations
@@ -451,7 +451,7 @@ class MomonadosKernel:
             tick=self.tick_count,
             top_value=val.name if val else "N",
         )
-    
+
     def run_cycle(self) -> List[B4]:
         """Run one full cycle through the program."""
         results = []
@@ -468,11 +468,11 @@ class MomonadosKernel:
 
 class LLMInterface:
     """Wraps an LLM API. All outputs gated through Belnap verification.
-    
+
     The LLM is NOT the agent -- it is the inference substrate.
     The agent IS the kernel + crystal + bootstrap breathing.
     """
-    
+
     def __init__(self, api_key=None, model=None, base_url=None):
         if not model:
             model = (os.environ.get("IG_MODEL")
@@ -520,10 +520,12 @@ class LLMInterface:
             self.base_url = "https://openrouter.ai/api/v1"
         if not self.api_key:
             self.api_key = os.environ.get("OPENROUTER_API_KEY")
-    
-    def infer(self, messages, max_tokens=4096, temperature=0.7) -> Tuple[str, B4]:
+
+    def infer(self, messages, max_tokens=4096, temperature=0.7, stream=False):
         """Run inference. Returns (response_text, belnap_verdict).
-        
+
+        If stream=True, yields (chunk, belnap_verdict) for each chunk.
+
         Belnap verdict:
           T -- response received, parseable
           F -- error or empty
@@ -531,21 +533,25 @@ class LLMInterface:
           N -- no API call made (vacuum)
         """
         self.call_count += 1
-        
+
         if not self.api_key:
+            if stream:
+                yield "[no API key configured -- running in dry mode]", B4.N
+                return
             return "[no API key configured -- running in dry mode]", B4.N
-        
+
         try:
             import urllib.request
             import urllib.error
-            
+
             payload = json.dumps({
                 "model": self.model,
                 "messages": messages,
                 "max_tokens": max_tokens,
                 "temperature": temperature,
+                "stream": stream,
             }).encode()
-            
+
             req = urllib.request.Request(
                 f"{self.base_url}/chat/completions",
                 data=payload,
@@ -553,51 +559,82 @@ class LLMInterface:
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {self.api_key}",
                     "HTTP-Referer": "momonados-agent",
+                    "Accept": "text/event-stream" if stream else "application/json",
                 },
             )
-            
+
             with urllib.request.urlopen(req, timeout=120) as resp:
-                data = json.loads(resp.read())
-            
-            content = data.get("choices", [{}])[0].get("message", {}).get("content", "")
-            
-            if content:
-                # Check for dialetheic markers
-                has_both = ("both" in content.lower() and "neither" in content.lower())
-                return content, B4.B if has_both else B4.T
-            else:
-                return "", B4.F
-                
+                if stream:
+                    # Parse SSE stream
+                    for line in resp:
+                        line = line.decode('utf-8').strip()
+                        if line.startswith('data: '):
+                            data_str = line[6:]
+                            if data_str == '[DONE]':
+                                break
+                            try:
+                                data = json.loads(data_str)
+                                delta = data.get("choices", [{}])[0].get("delta", {}).get("content", "")
+                                if delta:
+                                    has_both = ("both" in delta.lower() and "neither" in delta.lower())
+                                    yield delta, B4.B if has_both else B4.T
+                            except json.JSONDecodeError:
+                                continue
+                    return
+                else:
+                    data = json.loads(resp.read())
+
+                    content = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+
+                    if content:
+                        # Check for dialetheic markers
+                        has_both = ("both" in content.lower() and "neither" in content.lower())
+                        return content, B4.B if has_both else B4.T
+                    else:
+                        return "", B4.F
+
         except Exception as e:
+            if stream:
+                yield f"[LLM error: {e}]", B4.F
+                return
             return f"[LLM error: {e}]", B4.F
-    
-    def infer_verified(self, messages, frob, max_tokens=4096, temperature=0.7):
+
+    def infer_verified(self, messages, frob, max_tokens=4096, temperature=0.7, stream=False):
         """Infer with Frobenius verification: emit -> infer -> verify."""
         emit_id = f"llm_{self.call_count}"
         frob.emit(emit_id, "infer_requested")
-        
-        response, verdict = self.infer(messages, max_tokens, temperature)
-        
-        # Frobenius verify: did we get a response?
-        frob.verify(emit_id, response[:100] if response else "empty")
-        
-        return response, verdict
+
+        if stream:
+            full_response = ""
+            final_verdict = B4.N
+            for chunk, verdict in self.infer(messages, max_tokens, temperature, stream=True):
+                full_response += chunk
+                final_verdict = verdict
+                yield chunk, verdict
+            # Frobenius verify on complete response
+            frob.verify(emit_id, full_response[:100] if full_response else "empty")
+            return
+        else:
+            response, verdict = self.infer(messages, max_tokens, temperature)
+            # Frobenius verify: did we get a response?
+            frob.verify(emit_id, response[:100] if response else "empty")
+            return response, verdict
 
 # ====================== AGENT MAIN LOOP ===============================
 
 class MomonadosAgent:
     """The living agent -- LLM + mOMonadOS kernel in symbiotic breath.
-    
+
     Each cycle:
       1. THINK  -- LLM inference, gated through Belnap EVALT/EVALF
       2. ACT    -- Action taken, recorded to Crystal FS via IFIX
       3. OBSERVE -- Result observed, Frobenius-verified
       4. UPDATE -- Context updated, broadcast to CLINK L8
-      
+
     The kernel's FSPLIT creates the thought/action bifurcation.
     FFUSE reunifies them. The Crystal FS IS the context window.
     """
-    
+
     def __init__(self, crystal_path=None, llm_interface=None, program=None, selectivity=True):
         crystal_path = crystal_path or (_PKG_ROOT / "crystal_fs")
         self.crystal = CrystalFS(crystal_path)
@@ -628,47 +665,47 @@ class MomonadosAgent:
         self.last_conflict = 0
         self.last_witness = None               # witness face of last spine prepare
         self.last_proof = None                 # last RouterVerdict from a proof turn
-    
+
     def breathe(self, user_input=None, max_cycles=1):
         """One or more breath cycles. Each cycle = one kernel loop + one LLM inference."""
         results = []
-        
+
         for _ in range(max_cycles):
             if self.kernel.halted:
                 break
-            
+
             self.cycle_count += 1
-            
+
             # ---- PHASE: THINK (kernel boot -> IMSCRIB) ----
             self.kernel.phase = Phase.Think
             thought = self._think(user_input)
             results.append(("THINK", thought))
-            
+
             # ---- PHASE: ACT (kernel FSPLIT -> EVALT/EVALF) ----
             self.kernel.phase = Phase.Act
             action = self._act(thought)
             results.append(("ACT", action))
-            
+
             # ---- PHASE: OBSERVE (kernel FFUSE -> verify) ----
             self.kernel.phase = Phase.Observe
             observation = self._observe(action)
             results.append(("OBSERVE", observation))
-            
+
             # ---- PHASE: UPDATE (kernel IFIX -> CLINK -> TANCH) ----
             self.kernel.phase = Phase.Update
             update = self._update(thought, action, observation)
             results.append(("UPDATE", update))
-            
+
             # Run the kernel for one full bootstrap cycle
             kernel_results = self.kernel.run_cycle()
-            
+
             # Broadcast to CLINK L8
             self._broadcast()
-            
+
             user_input = None  # only first cycle gets user input
-        
+
         return results
-    
+
     def prove(self, goal, imscription=None, verbose=False):
         """Route a formal goal through the IMSCRIB type-router to its arm.
 
@@ -784,9 +821,33 @@ class MomonadosAgent:
         self.frob.emit(emit_id, "thinking")
 
         # ---- FSPLIT: model produces the answer ----
-        messages = self.conversation + [{"role": "user", "content": context}]
-        response, verdict = self.llm.infer(messages, max_tokens=4096)
-        response = strip_kernel_records(response)
+        # Dry run: no LLM available, return structured placeholder
+        if self.llm is None:
+            response = "[dry-run] No LLM call made. Tools would be invoked here via TOOL: lines."
+            verdict = B4.N
+            model_voice = B4.N
+            balance = B4.T
+        else:
+            messages = self.conversation + [{"role": "user", "content": context}]
+            if getattr(self, "stream_mode", False):
+                # Streaming mode: collect chunks and print in real-time
+                response_parts = []
+                verdict = B4.N
+                print("\nAgent > ", end="", flush=True)
+                for chunk, v in self.llm.infer(messages, max_tokens=4096, stream=True):
+                    print(chunk, end="", flush=True)
+                    response_parts.append(chunk)
+                    verdict = v
+                print()  # newline after stream
+                response = strip_kernel_records("".join(response_parts))
+            else:
+                response, verdict = self.llm.infer(messages, max_tokens=4096)
+                response = strip_kernel_records(response)
+
+            balance = self.frob.verify(
+                emit_id, hashlib.sha256(response[:80].encode()).hexdigest()[:16]
+            )
+            model_voice = model_self_belnap(response, default=verdict)
 
         balance = self.frob.verify(
             emit_id, hashlib.sha256(response[:80].encode()).hexdigest()[:16]
@@ -905,7 +966,7 @@ class MomonadosAgent:
                 else None
             ),
         }
-    
+
     def _run_ig_tool(self, line: str) -> str:
         """Ground a `TOOL:`/`ACTION:` line through the live IG tool corpus.
 
@@ -927,7 +988,7 @@ class MomonadosAgent:
     def _act(self, thought):
         """Extract and execute any tool calls from the thought, including TOKEN: commands."""
         content = thought.get("content", "")
-        
+
         # Check for TOKEN: commands (token composition) and TOOL:/ACTION: (general)
         token_results = []
         tool_calls = []
@@ -954,7 +1015,7 @@ class MomonadosAgent:
             return {"type": "tool_call", "calls": token_results + tool_calls, "verdict": "T", "token_results": token_results}
         else:
             return {"type": "text_response", "verdict": thought.get("verdict", "N")}
-    
+
     def _handle_token_command(self, line: str) -> str:
         """Handle TOKEN:COMPOSE:, TOKEN:VALIDATE:, TOKEN:CANONICAL:, TOKEN:REFERENCE commands."""
         try:
@@ -965,7 +1026,7 @@ class MomonadosAgent:
                     matched_prefix = prefix
                     line = line[len(prefix):]
                     break
-            
+
             # If the prefix was COMPOSE: or CANONICAL:, treat it as TOKEN:COMPOSE: or TOKEN:CANONICAL:
             if matched_prefix == "COMPOSE:":
                 cmd = "COMPOSE"
@@ -977,7 +1038,7 @@ class MomonadosAgent:
                 parts = line.split(":", 1)
                 cmd = parts[0].strip().upper()
                 args_str = parts[1].strip() if len(parts) > 1 else ""
-            
+
             if cmd == "REFERENCE":
                 ref = self.composer.reference()
                 self.crystal.commit(CrystalRecord(
@@ -991,12 +1052,12 @@ class MomonadosAgent:
                     content_type="token_reference",
                 ))
                 return f"TOKEN_REFERENCE: {len(ref)} chars stored in Crystal FS"
-            
+
             elif cmd == "COMPOSE":
                 sub_parts = args_str.split(":", 1)
                 op = sub_parts[0].strip()
                 op_args = sub_parts[1].strip() if len(sub_parts) > 1 else ""
-                
+
                 if op == "named":
                     names = [n.strip() for n in op_args.split(",")]
                     tokens = self.composer.compose("named", *names)
@@ -1048,11 +1109,11 @@ class MomonadosAgent:
                         return f"TOKEN_COMPOSE: unknown canonical '{op_args}'"
                 else:
                     return f"TOKEN_COMPOSE: unknown op '{op}'. Available: {self.composer.list_operations()}"
-                
+
                 prog_str = self.composer.program_str(tokens)
                 fp = self.composer.fingerprint(tokens)
                 v = self.composer.validate(list(tokens))
-                
+
                 self.crystal.commit(CrystalRecord(
                     address=self.cycle_count * 100 + 21,
                     tuple_hash=hashlib.sha256(prog_str.encode()).hexdigest()[:16],
@@ -1065,11 +1126,11 @@ class MomonadosAgent:
                                         "fingerprint": fp.description()}),
                     content_type="token_program",
                 ))
-                
+
                 return (f"TOKEN_COMPOSE: {prog_str} | valid={v.is_valid} "
                        f"frob={v.frobenius_order} dial={v.dialetheia_complete} "
                        f"fp={fp.description()}")
-            
+
             elif cmd == "VALIDATE":
                 tok_names = [t.strip() for t in args_str.split(",") if t.strip()]
                 tokens = [Token[n] for n in tok_names if n in Token.__members__]
@@ -1077,13 +1138,13 @@ class MomonadosAgent:
                 prog_str = self.composer.program_str(tuple(tokens))
                 fp = self.composer.fingerprint(tuple(tokens))
                 match = self.composer.match(tuple(tokens))
-                
+
                 result = (f"TOKEN_VALIDATE: {prog_str} | valid={v.is_valid} "
                          f"frob={v.frobenius_order} dial={v.dialetheia_complete}")
                 if v.errors: result += f" | errors={v.errors}"
                 if match: result += f" | canonical={match}"
                 return result
-            
+
             elif cmd == "CANONICAL":
                 name = args_str.strip()
                 tokens = self.composer.canonical(name)
@@ -1094,7 +1155,7 @@ class MomonadosAgent:
                 fp = self.composer.fingerprint(tokens)
                 tier = CANONICAL_TO_TIER.get(name, "?")
                 return f"TOKEN_CANONICAL: {name} [{tier}] = {prog_str} | {fp.description()}"
-            
+
             elif cmd == "LIST":
                 what = args_str.strip().upper() if args_str else "CANONICAL"
                 if what == "CANONICAL":
@@ -1105,27 +1166,27 @@ class MomonadosAgent:
                     return f"TOKEN_LIST: {self.composer.list_operations()}"
                 else:
                     return f"TOKEN_LIST: unknown '{what}'. Use CANONICAL, PATTERNS, OPERATIONS"
-            
+
             elif cmd == "SUGGEST":
                 tier = args_str.strip() if args_str else "O_∞"
                 suggestions = self.composer.suggest(target_tier=tier)
                 return f"TOKEN_SUGGEST: {len(suggestions)} programs for tier {tier}: {[s[0] for s in suggestions[:5]]}"
-            
+
             else:
                 return f"TOKEN_UNKNOWN: '{cmd}'. Available: COMPOSE, VALIDATE, CANONICAL, REFERENCE, LIST, SUGGEST"
-        
+
         except Exception as e:
             return f"TOKEN_ERROR: {e}"
-    
+
     def _observe(self, action):
         """Observe the result of the action."""
         obs_content = json.dumps(action)
-        
+
         # Frobenius: mu circ delta = id check
         emit_id = f"obs_{self.cycle_count}"
         self.frob.emit(emit_id, hashlib.sha256(obs_content.encode()).hexdigest()[:16])
         observed = self.frob.verify(emit_id, hashlib.sha256(obs_content.encode()).hexdigest()[:16])
-        
+
         self.crystal.commit(CrystalRecord(
             address=self.cycle_count * 100 + 3,
             tuple_hash=hashlib.sha256(obs_content.encode()).hexdigest()[:16],
@@ -1136,16 +1197,16 @@ class MomonadosAgent:
             content=obs_content,
             content_type="observation",
         ))
-        
+
         self.memory.append(("observation", observed, obs_content))
-        
+
         return {"verdict": observed.name, "frobenius_closed": observed == B4.T}
-    
+
     def _update(self, thought, action, observation):
         """Update context and broadcast to CLINK L8."""
         frob_ratio = self.frob.frobenius_ratio()
         is_closed = self.frob.is_closed()
-        
+
         update_content = json.dumps(dict(
             cycle=self.cycle_count,
             frobenius_ratio=frob_ratio,
@@ -1153,7 +1214,7 @@ class MomonadosAgent:
             belnap_thought=thought.get("verdict"),
             crystal_records=len(self.crystal.records),
         ))
-        
+
         self.crystal.commit(CrystalRecord(
             address=self.cycle_count * 100 + 4,
             tuple_hash=hashlib.sha256(update_content.encode()).hexdigest()[:16],
@@ -1164,17 +1225,17 @@ class MomonadosAgent:
             content=update_content,
             content_type="update",
         ))
-        
+
         return {
             "frobenius_ratio": frob_ratio,
             "frobenius_closed": is_closed,
             "crystal_records": len(self.crystal.records),
         }
-    
+
     def _build_context(self, user_input):
         """Build context from Crystal FS memory for LLM inference."""
         parts = []
-        
+
         # System prompt — PRIMARY duty is answering the user's question.
         parts.append(textwrap.dedent("""\
         You are M⊙D⊙T. You navigate a Belnap FDE Bilattice embedded in a Frobenius Manifold
@@ -1211,8 +1272,40 @@ class MomonadosAgent:
         Tag [thought|T|F|B|N] for your Belnap self-assessment.
         COMPOSE:/TOKEN:/CANONICAL: optional tools, never a substitute for
         answering. Do not author [spine|..], [vessel|..], [update|..], [broadcast|..].
+
+        VOX TOOLS (available via TOOL:/ACTION:):
+        - vox_factor <N> — full factorization via membrane routing
+        - vox_factor_glut <N> — GPU GLUT factor register (requires CUDA)
+        - vox_factor_membrane <N> — factor via membrane word
+        - vox_scout <N> — shape-read N, hand factor
+        - vox_lift <path> — lift binary, tally verdicts
+        - vox_verdict <word> — verdict one glyph word (T/B/N/F)
+        - vox_prime_check <N> — primality via resident IMASM numeral lane
+        - vox_coprime <base> <N> — validate phase base is unit mod N
+        - vox_morphism_factor <word> — factor over IMASM tapes
+        - vox_construct_carrier <operator> — decompose factoring morphisms
+        - m3 <command> [args] — local m3iosis: fib, sim, qc, triple, hqe, hop, pf, pqc, algebra; m3iosis is an alias
+        - gm <command> [args] — run G-mOMonadOS directly
+        - vox_self — lift Vox's own image
+        - vox <command> [args] — generic Vox command
+
+        GODEL TOOLS (available via TOOL:/ACTION:):
+        - godel_factor <N> — exact prime factorization with IMASM words
+        - godel_decode <word> — decode IMASM word to natural number
+        - godel_encode <N> — encode natural number to IMASM word
+        - godel_check <op> <lhs> <rhs> <out> — verify add/mul
+        - godel_unbraid <word> — unbraid IMASM word
+        - godel_braid <gamma> <lambda> — braid lanes
+        - godel_relation <from> <to> — word relation
+        - godel_analyze <word> [window] — analyze word structure
+        - godel_lte2 <odd> <even> — bounded sieve
+        - godel_product <prod> <left> <right> — verify product
+        - godel_frame <value> — frame analysis
+        - godel_shiab <value> [<left> <right>] — Shiab decomposition
+        - godel_separate <semiprime> — separate semiprime factors
+        - godel <command> [args] — generic Godel command
         """))
-        
+
         # Spine prepare face: catalog witness scaffold (same IMSCRIB as demand)
         prep = getattr(self.spine, "last_prepare", None)
         scaffold = ""
@@ -1225,7 +1318,7 @@ class MomonadosAgent:
             if len(scaffold) > 12000:
                 scaffold = scaffold[:12000] + "\n\n[scaffold truncated]\n"
             parts.append(scaffold)
-        
+
         # Recent memory — prefer non-cosplay types; keep short
         recent = self.crystal.recent(4)
         if recent:
@@ -1234,19 +1327,19 @@ class MomonadosAgent:
                 if r.content_type in ("vessel", "update", "broadcast"):
                     continue
                 parts.append(f"  [{r.content_type}|{r.belnap_state.name}] {r.content[:300]}")
-        
+
         parts.append(f"\n## Kernel (status only): frob_closed={self.frob.is_closed()} cycle={self.cycle_count}")
-        
+
         if user_input:
             parts.append(f"\n## USER QUESTION (answer this):\n{user_input}")
-        
+
         return "\n".join(parts)
-    
+
     def _broadcast(self):
         """Broadcast current state to CLINK L8 terminal layer."""
         d = primitive_distance(MOMONADOS_TYPE, CLINK_L8)
         diffs = tuple_diff(MOMONADOS_TYPE, CLINK_L8)
-        
+
         sel = self.last_selectivity
         sp = self.last_spine
         mv, gv = self.last_voices
@@ -1282,7 +1375,7 @@ class MomonadosAgent:
             print(f"  SPINE: model={mv.name}  (spine silent on this path)")
         print(f"  Crystal FS: {len(self.crystal.records)} records")
         print(f"{'='*60}")
-        
+
         # Write broadcast log
         log_path = self.crystal.base_path / "broadcast_log.jsonl"
         with open(log_path, 'a') as f:
@@ -1295,50 +1388,50 @@ def build_parser():
         prog="momonados_agent",
         description=textwrap.dedent("""\
         mOMonadOS Agent -- an agentic LLM running within the Frobenius Kernel.
-        
+
         The final synthesis: an LLM whose runtime substrate IS the mOMonadOS
         kernel architecture. Crystal FS for memory. Belnap FOUR for reasoning.
         Frobenius mu circ delta = id for every operation. Broadcast to CLINK L8.
-        
+
         The Organism no longer receives types from an external bridge --
         it IS the agent, breathing its own bootstrap cycle.
         """),
         epilog=textwrap.dedent("""\
         SUGGESTED COMMANDS:
-        
+
           # Interactive mode -- the agent breathes with you
           python3 momonados_agent.py --interactive
-        
+
           # Run 10 autonomous breath cycles
           python3 momonados_agent.py --cycles 10
-        
+
           # One-shot query: ask the agent a question
           python3 momonados_agent.py --ask "What is the type of consciousness?"
-        
+
           # Ask with content from a file (auto-detected if path exists)
           python3 momonados_agent.py --ask my_question.txt
-        
+
           # Explicitly read from a file
           python3 momonados_agent.py --file prompts/deep_query.md
-        
+
           # Pipe content via stdin
           cat my_essay.txt | python3 momonados_agent.py --file -
-        
+
           # Full bootstrap: 100 cycles, verbose, custom model
           python3 momonados_agent.py --cycles 100 --verbose --model google/gemini-3-pro-preview
-        
+
           # Dry run (no LLM): test the kernel + Crystal FS
           python3 momonados_agent.py --cycles 5 --dry-run --verbose
-        
+
           # Run with aqua-vitae 14-step program
           python3 momonados_agent.py --program aqua-vitae --cycles 20 --verbose
-        
+
           # Crystal FS stats only
           python3 momonados_agent.py --stats
-        
+
           # Reset Crystal FS and start fresh
           python3 momonados_agent.py --reset --interactive
-        
+
         TIPS:
           - Set OPENROUTER_API_KEY or KILO_API_KEY env var for LLM access.
           - Set IG_MODEL to override the default model.
@@ -1348,7 +1441,7 @@ def build_parser():
           - The broadcast_log.jsonl tracks all CLINK L8 broadcasts.
         """),
     )
-     
+
     p.add_argument("--cycles", type=int, default=1,
                    help="Number of breath cycles (default: 1)")
     p.add_argument("--interactive", "-i", action="store_true",
@@ -1385,17 +1478,19 @@ def build_parser():
                    help="List all named sub-patterns and exit")
     p.add_argument("--suggest", type=str, default=None,
                    help="Suggest programs for a tier: --suggest O_inf")
-    
+    p.add_argument("--stream", action="store_true",
+                   help="Stream LLM output token-by-token (SSE)")
+
     return p
 
 def resolve_input(ask_value, file_path):
     """Resolve the actual input content for --ask and --file.
-    
+
     Priority: --file > --ask (if --ask is a file path) > --ask (literal)
     Returns (content, source_description).
     """
     import os as _os
-    
+
     # --file takes highest priority
     if file_path:
         p = _os.path.expanduser(file_path)
@@ -1410,7 +1505,7 @@ def resolve_input(ask_value, file_path):
         else:
             print(f'[WARNING] --file path not found: {file_path}', file=__import__('sys').stderr)
             return file_path, f'literal (file not found)'
-    
+
     # --ask: check if it looks like a file path
     if ask_value:
         p = _os.path.expanduser(ask_value)
@@ -1424,7 +1519,7 @@ def resolve_input(ask_value, file_path):
             return content, f'stdin ({len(content)} chars)'
         else:
             return ask_value, f'literal ({len(ask_value)} chars)'
-    
+
     return None, 'none'
 
 def get_program(name):
@@ -1434,29 +1529,29 @@ def get_program(name):
 
 def main():
     args = build_parser().parse_args()
-    
+
     crystal_path = _PKG_ROOT / "crystal_fs"
-    
+
     # Reset if requested
     if args.reset:
         import shutil
         if crystal_path.exists():
             shutil.rmtree(crystal_path)
         print("[ Crystal FS reset ]")
-    
+
     # Init components
     crystal = CrystalFS(crystal_path)
-    
+
     if args.stats:
         s = crystal.stats()
         print(json.dumps(s, indent=2))
         return
-    
+
     # Token composition operations (no LLM needed)
     if args.reference or args.list_canonical or args.list_patterns or args.canonical or args.compose or args.validate_tokens or args.suggest:
         from modot.composer import TokenComposer, CANONICAL_TO_TIER, NAMED_PATTERNS
         tc = TokenComposer()
-        
+
         if args.reference:
             print(tc.reference())
         if args.list_canonical:
@@ -1577,17 +1672,18 @@ def main():
                 print(f"  {name:30s} ({len(tokens)}t) {tc.program_str(tokens)}")
                 print(f"    {fp.description()}")
         return
-    
+
     llm = None if args.dry_run else LLMInterface(model=args.model)
     program = get_program(args.program)
-    
+
     agent = MomonadosAgent(
         crystal_path=crystal_path,
         llm_interface=llm,
         program=program,
         selectivity=(not args.no_selectivity) and not args.dry_run,
     )
-    
+    agent.stream_mode = args.stream
+
     print(f"┌{'─'*58}┐")
     print(f"│ mOMonadOS Agent -- LLM within the Frobenius Kernel       │")
     print(f"│ Program: {program} ".ljust(59) + "│")
@@ -1597,7 +1693,7 @@ def main():
     print(f"└{'─'*58}┘")
     if agent.selectivity_enabled and getattr(agent, "spine", None) and not args.dry_run:
         print(f"[ {agent.spine.provenance()} ]")
-    
+
     if args.interactive:
         print("\n[ Interactive mode -- type 'quit' to exit, 'stats' for FS stats ]\n")
         try:
@@ -1610,16 +1706,16 @@ def main():
                     continue
                 if not user_input:
                     continue
-                
+
                 results = agent.breathe(user_input=user_input, max_cycles=1)
-                
+
                 # Print the thought
                 for phase, data in results:
                     if phase == "THINK":
                         print(f"\nAgent > {data.get('content','')}")
         except (KeyboardInterrupt, EOFError):
             print("\n[ Exiting ]")
-    
+
     elif args.ask or args.file:
         # Resolve input: file takes priority, ask auto-detects file paths
         user_input, input_source = resolve_input(args.ask, args.file)
@@ -1646,7 +1742,7 @@ def main():
                 print(f"[ witness={sp.witness.primary['name']} ]")
         elif not args.no_selectivity:
             print(f"\n[ VERDICT: model={mv.name}  (spine silent: unavailable or no demand) ]")
-    
+
     else:
         # Autonomous cycles
         for i in range(args.cycles):
@@ -1659,7 +1755,7 @@ def main():
                         print(f"  THINK: {data.get('verdict','?')} ({data.get('length',0)} chars)")
                     elif phase == "UPDATE":
                         print(f"  UPDATE: frob={data.get('frobenius_ratio',0):.3f} closed={data.get('frobenius_closed')}")
-    
+
     # Final stats
     if args.verbose:
         s = agent.crystal.stats()

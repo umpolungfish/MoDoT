@@ -1,0 +1,19 @@
+{
+  "branched": true,
+  "conductance": "FRUSTRATED",
+  "energy": 5.4641,
+  "n": 3,
+  "rho": 2.7321,
+  "spectrum": [
+    2.7321,
+    -0.7321,
+    -2.0
+  ],
+  "strain": 0.1667,
+  "units": [
+    "predatory_fungus",
+    "holy_guardian_angel_claimed",
+    "xviii_the_moon"
+  ],
+  "weakest": 1.0
+}

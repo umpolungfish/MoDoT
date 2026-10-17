@@ -1,0 +1,12 @@
+{
+  "name": "catalytic_cycle",
+  "argv": [
+    "--cycle",
+    "the_stone",
+    "monad"
+  ],
+  "exit": 0,
+  "seconds": 0.20830271500744857,
+  "stdout": "\n────────────────────────────────────────────────────────────────────────\ncycle  the_stone ⟳ turning over monad\n────────────────────────────────────────────────────────────────────────\n  bind (δ / CLINK): the_stone grips monad — complement match d=0.465, a real catalytic grip (>=𐑾 bidirectional, complement fits)\n  working stroke (δ / SOLVE — dissolves the bond, reveals the degree of freedom: the winding quantum comes free): reductive — catalyst donates e⁻, substrate reduced\n    carrier   the_stone: ⊡ 𐑭→𐑴  (spent → the_stone*)\n    substrate monad: ⊡ 𐑷→𐑴 + Coagula imprint on R↔S  (transformed → monad‡)\n    the_stone*  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑴⟩\n    monad‡  ⟨𐑼𐑶𐑾𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑕𐑴⟩\n  return stroke (μ / COAGULA — binds the freed quantum into an invariant): the_stone* ⊡ 𐑴→𐑭 — the catalyst coagulates back to itself (terminal redox restores the resting state).\n  turnover: net monad → monad‡ (one quantum delivered); the_stone returned unchanged — the catalyst is a FIXED POINT of the loop.\n  two coagulations: the CATALYST binds back to the SAME invariant (regeneration, μ∘δ=id); the SUBSTRATE binds into a NEW invariant (monad‡). Solve freed one quantum; Coagula placed it.\n  the loop:  the_stone ─Solve(δ)→ the_stone* ─Coagula(μ)→ the_stone   ‖   monad ──────→ monad‡\n  product not registered — to canonize this walked state as a catalog entry (tuple-derived, provenance-stamped): TOOL: cycle the_stone monad <new_name>\n",
+  "stderr": ""
+}

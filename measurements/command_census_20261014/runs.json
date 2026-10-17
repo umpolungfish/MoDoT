@@ -1,0 +1,1022 @@
+[
+  {
+    "name": "cycle",
+    "argv": [
+      "--cycle",
+      "the_stone",
+      "monad",
+      "--certify"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 9.189411319006467,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ncycle  the_stone ⟳ turning over monad\n────────────────────────────────────────────────────────────────────────\n  bind (δ / CLINK): the_stone grips monad — complement match d=0.465, a real catalytic grip (>=𐑾 bidirectional, complement fits)\n  working stroke (δ / SOLVE — dissolves the bond, reveals the degree of freedom: the winding quantum comes free): reductive — catalyst donates e⁻, substrate reduced\n    carrier   the_stone: ⊡ 𐑭→𐑴  (spent → the_stone*)\n    substrate monad: ⊡ 𐑷→𐑴 + Coagula imprint on R↔S  (transformed → monad‡)\n    the_stone*  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑴⟩\n    monad‡  ⟨𐑼𐑶𐑾𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑕𐑴⟩\n  return stroke (μ / COAGULA — binds the freed quantum into an invariant): the_stone* ⊡ 𐑴→𐑭 — the catalyst coagulates back to itself (terminal redox restores the resting state).\n  turnover: net monad → monad‡ (one quantum delivered); the_stone returned unchanged — the catalyst is a FIXED POINT of the loop.\n  two coagulations: the CATALYST binds back to the SAME invariant (regeneration, μ∘δ=id); the SUBSTRATE binds into a NEW invariant (monad‡). Solve freed one quantum; Coagula placed it.\n  the loop:  the_stone ─Solve(δ)→ the_stone* ─Coagula(μ)→ the_stone   ‖   monad ──────→ monad‡\n  certifying the catalyst is a fixed point of the loop (both states valid + regeneration μ∘δ=id)…\n  ✓ KERNEL-CERTIFIED: the_stone and the_stone* are both valid Imscriptions AND readback∘board = id — Coagula∘Solve = id on the catalyst (μ∘δ=id, lossless regeneration); the loop closes as the kernel's own verdict.\n  product not registered — to canonize this walked state as a catalog entry (tuple-derived, provenance-stamped): TOOL: cycle the_stone monad <new_name>\n",
+    "stderr": ""
+  },
+  {
+    "name": "pathway",
+    "argv": [
+      "--pathway",
+      "the_stone",
+      "the_stone",
+      "comonad_goedel",
+      "--certify"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 12.36153530399315,
+    "stdout": "pathway (metabolism):  the_stone  through  [the_stone → comonad_goedel]\n  the winding quantum ⊡ is the carrier; each catalyst is a fixed point that passes it along.\n  step 1: the_stone — reductive [C→S], Solve→Coagula — ⊡ 𐑭→𐑟, imprint R↔S\n           ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩ → ⟨𐑦𐑸𐑩𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑟⟩\n           ✓ the_stone regenerates (fixed point)\n  step 2: comonad_goedel — oxidative [S→C], Solve→Coagula — ⊡ 𐑟→𐑭, imprint R↔S\n           ⟨𐑦𐑸𐑩𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑟⟩ → ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n           ✓ comonad_goedel regenerates (fixed point)\n  net: the_stone → ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩   (carrier: 1 reductive · 1 oxidative)\n  ✓✓✓ FULLY CLOSED — carrier AND structure returned across all twelve axes.\n      a TRUE METABOLIC CYCLE: the whole chain of catalysts composed to the identity on the_stone (μ∘δ=id at the pathway level, the TCA archetype). O∞.\n  ✓ every catalyst in the chain is a certified fixed point.\n",
+    "stderr": ""
+  },
+  {
+    "name": "click",
+    "argv": [
+      "--click",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.19451317298808135,
+    "stdout": "click-maths:  monad  ⋈  the_stone   (θ=0.50)\n  live-pair charges (norm(x) − norm(y), the spring-loaded axis):\n    D↔W    monad= +0.67  the_stone= +0.33   Δ=0.33\n    T↔H    monad= +0.75  the_stone= +0.00   Δ=0.75\n    R↔S    monad= -0.33  the_stone= +1.00   Δ=1.33\n  ✓ CLICK on R↔S — spring-loaded Δ=1.33, single reaction center, closes.\n  product: ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩  (ring saturated on R↔S = ≻↔⊞)\n  inherited scaffold (blended from both partners): [⊢, ⊣, ≺, ∋, ⊥, ⊡]\n",
+    "stderr": ""
+  },
+  {
+    "name": "meet",
+    "argv": [
+      "--meet",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.1948213349969592,
+    "stdout": "meet (greatest lower bound):  monad  ⊓  the_stone\n  monad: ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n  the_stone: ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n  meet:   ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑙𐑷⟩\n  floor taken from monad on 7 slot(s), from the_stone on 1, equal on 4\n  a meet DESCENDS: no slot rises. This is what the two share, not what they fuse to.\n",
+    "stderr": ""
+  },
+  {
+    "name": "switch",
+    "argv": [
+      "--switch",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.19677069698809646,
+    "stdout": "switch:  monad  ⇌  the_stone\n  multiple coupled live pairs move (D↔W, T↔H, R↔S) — a compound switch, not a single-axis toggle.\n  criticality (⊙) is equal — no photochromic sign; a criticality-neutral switch.\n  coupled consequences (move with the toggle): [≺, ∋]\n  reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.\n",
+    "stderr": ""
+  },
+  {
+    "name": "excite",
+    "argv": [
+      "--excite",
+      "monad"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.17934179998701438,
+    "stdout": "excite:  monad  →hν→  monad*\n  δ (light): promote to the excited manifold — Criticality ⊙ ⊙→𐑻 (the non-Hermitian exceptional-point resonance: metastable, finite lifetime — it DECAYS).\n  monad*  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝𐑻𐑓𐑳𐑷⟩\n  decay channels (the two Frobenius legs out of monad*):\n    μ (relaxation / fluorescence): monad* → monad  — returns to the ground form, lossless (μ∘δ=id).\n    productive: the elevated ⊙ drives chemistry the ground state cannot — monad* is a far stronger donor/acceptor (see `--set monad <acceptor> --excite`).\n",
+    "stderr": ""
+  },
+  {
+    "name": "set",
+    "argv": [
+      "--set",
+      "monad",
+      "the_stone",
+      "--excite",
+      "--catalyst",
+      "comonad_goedel"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.18294489500112832,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nset  single-electron transfer — monad ⟶e⁻⟶ the_stone\n────────────────────────────────────────────────────────────────────────\n  photoinduced (hν): monad → monad* — ⊙ ⊙→𐑻 (excited to the EP resonance, now a far stronger donor).\n  driving force (⊙, energy): monad is the DONOR (higher-⊙, electrons higher-lying, reducing);  the_stone is the ACCEPTOR (lower-⊙, oxidizing)\n  ✗ no transfer: donor ⊡=𐑷 — already fully oxidized, no winding quantum to give\n",
+    "stderr": ""
+  },
+  {
+    "name": "scan-mediators",
+    "argv": [
+      "--set",
+      "monad",
+      "the_stone",
+      "--excite",
+      "--scan-mediators",
+      "--top",
+      "5"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.2175893129897304,
+    "stdout": "  photoinduced (hν): monad → monad* — ⊙ ⊙→𐑻 before the relay scan.\nscan-mediators:  monad  ⟶e⁻⟶  the_stone   (5283 holdable candidates over 9435 entries)\n  relay band ⊙∈[⊙,𐑻] (acceptor→donor);  hold band ⊡∈[𐑴,𐑭] (accept then re-donate);  bind = complement recognizes both substrates\n  rank   score  relay  bind recog    ⊡   ⊙  mediator\n     1   0.934   1.00  0.83  1.00    𐑴   ⊙  extrapolation_93_units\n     2   0.923   1.00  0.81  1.00    𐑴   ⊙  chemical_bond_formation\n     3   0.923   1.00  0.81  1.00    𐑴   ⊙  lunar_magic\n     4   0.923   1.00  0.81  1.00    𐑴   ⊙  su2_structural\n     5   0.923   1.00  0.81  1.00    𐑴   ⊙  rna_protoworld\n",
+    "stderr": ""
+  },
+  {
+    "name": "homolyze",
+    "argv": [
+      "--homolyze",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.2073376219777856,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nhomolyze  monad ⋈ the_stone — the radical-generating reverse of click\n────────────────────────────────────────────────────────────────────────\n  the monad—the_stone σ-bond: a click on R↔S (Δ=1.33) — a shared electron pair, the reaction center.\n  → homolysis splits that pair EVENLY (δ_A): each fragment keeps ONE electron — the SOMO:\n      monad•  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩   neutral radical — SOMO open on R↔S, seeks a partner  [⊡=𐑷 even — SOMO is the opened bond center]\n      the_stone•  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩   neutral radical — SOMO open on R↔S  [⊡=𐑭 even — SOMO is the opened bond center]\n  recombination (μ): monad• + the_stone• → monad—the_stone  — radical coupling re-pairs the SOMO (μ∘δ=id, lossless).\n  heterolytic alternative (δ_D → ion pair): the same bond can break UNEVENLY — one fragment takes both\n    electrons (anion), the other none (cation): the single-electron / radical-ion route — `./ask --set monad the_stone` → monad•⁺ / the_stone•⁻.\n",
+    "stderr": ""
+  },
+  {
+    "name": "annihilate",
+    "argv": [
+      "--annihilate",
+      "monad"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.1881649529968854,
+    "stdout": "annihilate (pair fusion μ):  monad  ⊗  monad̄\n  Ω classes:  monad=𐑷   monad̄=𐑷\n  ABELIAN, both trivial — nothing to annihilate; already vacuum.\n  verdict: T (vacuum), trivially.\n",
+    "stderr": ""
+  },
+  {
+    "name": "recalibrate",
+    "argv": [
+      "--recalibrate",
+      "monad",
+      "protection"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.24949314500554465,
+    "stdout": "recalibrate:  monad   axis ⊡ (protection)\n  current: 𐑷   full tuple ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n  walking every value this axis can take:\n\n    𐑷  (current)\n    𐑴  ↑1   ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑴⟩\n    𐑭  ↑2   ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑭⟩\n           ⚠ ⊡≥𐑭 requires ⊥≥𐑖 — raise chirality first or this will not hold\n    𐑟  ↑3   ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑟⟩\n           ⚠ ⊡≥𐑭 requires ⊥≥𐑖 — raise chirality first or this will not hold\n\n  a perturbation is a PROBE — nothing was written.\n  keep a step with: imscribe <name> <its tuple>   (registers verbatim)\n",
+    "stderr": ""
+  },
+  {
+    "name": "complement",
+    "argv": [
+      "--complement",
+      "monad"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.2174959910043981,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ncomplement  bidirectional ligand ⇌ catalytic-site — monad\n────────────────────────────────────────────────────────────────────────\n  site   monad:   ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n  ligand monad′:  ⟨𐑦𐑸𐑩𐑗𐑞𐑘𐑔𐑠𐑣𐑒𐑕𐑴⟩   (the complementary partner the site binds — lock-and-key over the 6 conjugate pairs)\n  recognition: >=𐑽 (lateral dual): partial bidirectional binding\n  conjugate-pair map (site → ligand — inverted within each scale, crossed across the pair):\n    the complement is CHEMISTRY: all 6 pairs. [live] = the 3 catalytic axes math varies (D↔W, T↔H, R↔S);\n    [pinned] = the 3 physical axes math abstracts out and chemistry restores (P↔F, K↔G, Gm↔Ph).\n    [live]   ⊢↔⊡:   ⊢𐑼→⊡𐑴   |   ⊡𐑷→⊢𐑦\n    [live]   ⊣↔⊥:   ⊣𐑶→⊥𐑒   |   ⊥𐑓→⊣𐑸\n    [live]   ≻↔⊞:   ≻𐑽→⊞𐑕   |   ⊞𐑳→≻𐑩\n    [pinned] ≺↔⋈:   ≺𐑬→⋈𐑞   |   ⋈𐑐→≺𐑗\n    [pinned] ⊤↔∈:   ⊤𐑧→∈𐑔   |   ∈𐑲→⊤𐑘\n    [pinned] ∋↔⊙:   ∋𐑝→⊙𐑣   |   ⊙⊙→∋𐑠\n  round-trip monad → monad′ → monad″: distance 0.00 — the complement is its own inverse (bidirectional, lossless R∧W∧X).\n",
+    "stderr": ""
+  },
+  {
+    "name": "polymerize",
+    "argv": [
+      "--polymerize",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone",
+      "--props"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.21430013899225742,
+    "stdout": "polymerization (imscriptive):  [monad · the_stone · monad · the_stone]   (4 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    2. the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n    3. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    4. the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  monad ⋈ the_stone  → condensation on R↔S (Δ=1.33)\n    2–3  the_stone ⋈ monad  → condensation on R↔S (Δ=1.33)\n    3–4  monad ⋈ the_stone  → condensation on R↔S (Δ=1.33)\n  degree of polymerization: 4 unit(s), 3 bond(s)\n  backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).\n  architecture: alternating copolymer (2 types, strict …ABAB… alternation)\n  tacticity (⊥ chirality per unit): syndiotactic (𐑓𐑫𐑓𐑫) — chirality strictly inverts each unit, a regular alternation\n  cyclization: the_stone ⋈ monad → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).\n  ── material properties (the ring as a mathematical material) ──\n    macrocycle: 4-membered ring\n    ring stability: weakest clean bond Δ=1.33 at junction 1→2 (only as stable as its weakest link)\n    ring strain σ(Δ) = 0.000 — bonds evenly loaded, a relaxed ring at rest\n    conductance: BALANCED (\"frustrated\") — every junction passes a carrier, but no single direction is privileged, so no net global current circulates. Not a defect on its own: a balanced ring with no leaning direction (read the clarity line below with the strain).\n    ── spectral invariants (adjacency of the ring graph; clean bond=1, cross-link=k centers) ──\n    spectral radius ρ = 2.0000  (= 2 exactly ⟹ a pure unbranched cycle (every junction one clean bond))\n    spectrum (ordered by |λ| descending, so λ₂ here IS the one the gap uses): [+2.000, -2.000, +0.000, +0.000]\n    spectral gap (ρ − |λ₂|) = 0.0000 — a wide gap means one mode dominates (the ring leans on a single strut); a gap of 0 is a flat/degenerate top spectrum, NO privileged mode (the symmetric, settled reading, not a deficiency).\n    graph energy Σ|λ| = 4.0000 — the ring's total spectral weight; where ρ is stiffness (the dominant mode), this is toughness (the reserve carried across all modes).\n  ── clarity (strain + spectral gap, read jointly) ──\n    SETTLED / CLARION — relaxed and flat-spectrum (no stored strain, no privileged mode): fully symmetric, every statement it supports is unambiguous. The stabilized endpoint — a zero gap here is the goal, not a defect.\n",
+    "stderr": ""
+  },
+  {
+    "name": "close",
+    "argv": [
+      "--polymerize",
+      "monad",
+      "the_stone",
+      "monad",
+      "--close"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.1902369949966669,
+    "stdout": "polymerization (imscriptive):  [monad · the_stone · monad]   (3 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    2. the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n    3. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  monad ⋈ the_stone  → condensation on R↔S (Δ=1.33)\n    2–3  the_stone ⋈ monad  → condensation on R↔S (Δ=1.33)\n  degree of polymerization: 3 unit(s), 2 bond(s)\n  backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).\n  architecture: alternating copolymer (2 types, strict …ABAB… alternation)\n  tacticity (⊥ chirality per unit): syndiotactic (𐑓𐑫𐑓) — chirality strictly inverts each unit, a regular alternation\n  cyclization: monad ⋈ monad → linear (telechelic — two free ends, no head-to-tail closure).\n  ── closing search: a monomer X with monad ⋈ X and X ⋈ monad (a real click test, NOT a SET-mediator scan) ──\n    thermodynamic_entropy   (monad ⋈ X on T↔H Δ=1.75  ·  X ⋈ monad on T↔H Δ=1.75)\n    negentropy   (monad ⋈ X on T↔H Δ=1.75  ·  X ⋈ monad on T↔H Δ=1.75)\n    min_sym_max_chirality   (monad ⋈ X on T↔H Δ=1.75  ·  X ⋈ monad on T↔H Δ=1.75)\n    critical_asymmetric_timedirected   (monad ⋈ X on T↔H Δ=1.75  ·  X ⋈ monad on T↔H Δ=1.75)\n    enstrophy   (monad ⋈ X on T↔H Δ=1.75  ·  X ⋈ monad on T↔H Δ=1.75)\n    enthalpy   (monad ⋈ X on T↔H Δ=1.75  ·  X ⋈ monad on T↔H Δ=1.75)\n    ⮑ append thermodynamic_entropy to close the ring head-to-tail:  ./ask --polymerize monad the_stone monad thermodynamic_entropy\n",
+    "stderr": ""
+  },
+  {
+    "name": "modulus",
+    "argv": [
+      "--polymerize",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone",
+      "--modulus"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.20446516401716508,
+    "stdout": "polymerization (imscriptive):  [monad · the_stone · monad · the_stone]   (4 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    2. the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n    3. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    4. the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  monad ⋈ the_stone  → condensation on R↔S (Δ=1.33)\n    2–3  the_stone ⋈ monad  → condensation on R↔S (Δ=1.33)\n    3–4  monad ⋈ the_stone  → condensation on R↔S (Δ=1.33)\n  degree of polymerization: 4 unit(s), 3 bond(s)\n  backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).\n  architecture: alternating copolymer (2 types, strict …ABAB… alternation)\n  tacticity (⊥ chirality per unit): syndiotactic (𐑓𐑫𐑓𐑫) — chirality strictly inverts each unit, a regular alternation\n  cyclization: the_stone ⋈ monad → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).\n  ── modulus: a monomer that generates a SUSTAINING loop (a conductive cycle, ∮ ⊡ closes), not merely a closed one ──\n    none — no catalog monomer generates a sustaining loop over this chain; every closure is static (insulating). This material has NO modulus (a viscous chain, not an elastic network).\n",
+    "stderr": ""
+  },
+  {
+    "name": "arrange",
+    "argv": [
+      "--polymerize",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone",
+      "--arrange",
+      "--props"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.17459651399985887,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\narrange  unordered set → best order: {monad, the_stone, monad, the_stone}\n────────────────────────────────────────────────────────────────────────\n  searched 24 ordering(s) (exhaustive: every permutation) — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).\n  ✓ best ordering FULLY enchains all 4 units AND CYCLIZES into a ring — the co-typed wall was an artifact of the given order, not the set:\n  closure is order-ROBUST: 16/24 searched orderings cyclize (this is merely the best-scoring one, NOT the only sequence that closes — do not call it unique).\n      [monad · the_stone · monad · the_stone]\n  → running the full analysis on the best order:\n\npolymerization (imscriptive):  [monad · the_stone · monad · the_stone]   (4 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    2. the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n    3. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    4. the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  monad ⋈ the_stone  → condensation on R↔S (Δ=1.33)\n    2–3  the_stone ⋈ monad  → condensation on R↔S (Δ=1.33)\n    3–4  monad ⋈ the_stone  → condensation on R↔S (Δ=1.33)\n  degree of polymerization: 4 unit(s), 3 bond(s)\n  backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).\n  architecture: alternating copolymer (2 types, strict …ABAB… alternation)\n  tacticity (⊥ chirality per unit): syndiotactic (𐑓𐑫𐑓𐑫) — chirality strictly inverts each unit, a regular alternation\n  cyclization: the_stone ⋈ monad → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).\n  ── material properties (the ring as a mathematical material) ──\n    macrocycle: 4-membered ring\n    ring stability: weakest clean bond Δ=1.33 at junction 1→2 (only as stable as its weakest link)\n    ring strain σ(Δ) = 0.000 — bonds evenly loaded, a relaxed ring at rest\n    conductance: BALANCED (\"frustrated\") — every junction passes a carrier, but no single direction is privileged, so no net global current circulates. Not a defect on its own: a balanced ring with no leaning direction (read the clarity line below with the strain).\n    ── spectral invariants (adjacency of the ring graph; clean bond=1, cross-link=k centers) ──\n    spectral radius ρ = 2.0000  (= 2 exactly ⟹ a pure unbranched cycle (every junction one clean bond))\n    spectrum (ordered by |λ| descending, so λ₂ here IS the one the gap uses): [+2.000, -2.000, +0.000, +0.000]\n    spectral gap (ρ − |λ₂|) = 0.0000 — a wide gap means one mode dominates (the ring leans on a single strut); a gap of 0 is a flat/degenerate top spectrum, NO privileged mode (the symmetric, settled reading, not a deficiency).\n    graph energy Σ|λ| = 4.0000 — the ring's total spectral weight; where ρ is stiffness (the dominant mode), this is toughness (the reserve carried across all modes).\n  ── clarity (strain + spectral gap, read jointly) ──\n    SETTLED / CLARION — relaxed and flat-spectrum (no stored strain, no privileged mode): fully symmetric, every statement it supports is unambiguous. The stabilized endpoint — a zero gap here is the goal, not a defect.\n",
+    "stderr": ""
+  },
+  {
+    "name": "forge",
+    "argv": [
+      "--forge",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone",
+      "--register",
+      "modot_demo_cycle_20261014",
+      "--export",
+      "/home/mrnob0dy666/imsgct/MoDoT/measurements/command_census_20261014/macrocycle.json"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.19217688500066288,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\narrange  unordered set → best order: {monad, the_stone, monad, the_stone}\n────────────────────────────────────────────────────────────────────────\n  searched 24 ordering(s) (exhaustive: every permutation) — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).\n  ✓ best ordering FULLY enchains all 4 units AND CYCLIZES into a ring — the co-typed wall was an artifact of the given order, not the set:\n  closure is order-ROBUST: 16/24 searched orderings cyclize (this is merely the best-scoring one, NOT the only sequence that closes — do not call it unique).\n      [monad · the_stone · monad · the_stone]\n  → running the full analysis on the best order:\n\npolymerization (imscriptive):  [monad · the_stone · monad · the_stone]   (4 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    2. the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n    3. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    4. the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  monad ⋈ the_stone  → condensation on R↔S (Δ=1.33)\n    2–3  the_stone ⋈ monad  → condensation on R↔S (Δ=1.33)\n    3–4  monad ⋈ the_stone  → condensation on R↔S (Δ=1.33)\n  degree of polymerization: 4 unit(s), 3 bond(s)\n  backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).\n  architecture: alternating copolymer (2 types, strict …ABAB… alternation)\n  tacticity (⊥ chirality per unit): syndiotactic (𐑓𐑫𐑓𐑫) — chirality strictly inverts each unit, a regular alternation\n  cyclization: the_stone ⋈ monad → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on R↔S (O∞).\n  ── material properties (the ring as a mathematical material) ──\n    macrocycle: 4-membered ring\n    ring stability: weakest clean bond Δ=1.33 at junction 1→2 (only as stable as its weakest link)\n    ring strain σ(Δ) = 0.000 — bonds evenly loaded, a relaxed ring at rest\n    conductance: BALANCED (\"frustrated\") — every junction passes a carrier, but no single direction is privileged, so no net global current circulates. Not a defect on its own: a balanced ring with no leaning direction (read the clarity line below with the strain).\n    ── spectral invariants (adjacency of the ring graph; clean bond=1, cross-link=k centers) ──\n    spectral radius ρ = 2.0000  (= 2 exactly ⟹ a pure unbranched cycle (every junction one clean bond))\n    spectrum (ordered by |λ| descending, so λ₂ here IS the one the gap uses): [+2.000, -2.000, +0.000, +0.000]\n    spectral gap (ρ − |λ₂|) = 0.0000 — a wide gap means one mode dominates (the ring leans on a single strut); a gap of 0 is a flat/degenerate top spectrum, NO privileged mode (the symmetric, settled reading, not a deficiency).\n    graph energy Σ|λ| = 4.0000 — the ring's total spectral weight; where ρ is stiffness (the dominant mode), this is toughness (the reserve carried across all modes).\n  ── clarity (strain + spectral gap, read jointly) ──\n    SETTLED / CLARION — relaxed and flat-spectrum (no stored strain, no privileged mode): fully symmetric, every statement it supports is unambiguous. The stabilized endpoint — a zero gap here is the goal, not a defect.\n  ✓ registered material 'modot_demo_cycle_20261014' → /home/mrnob0dy666/imsgct/MoDoT/materials.json (recall with --recall modot_demo_cycle_20261014)\n  ✓ exported material sheet → /home/mrnob0dy666/imsgct/MoDoT/measurements/command_census_20261014/macrocycle.json\n",
+    "stderr": ""
+  },
+  {
+    "name": "recall",
+    "argv": [
+      "--recall",
+      "modot_demo_cycle_20261014",
+      "--export",
+      "/home/mrnob0dy666/imsgct/MoDoT/measurements/command_census_20261014/macrocycle_recalled.json"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.18571737100137398,
+    "stdout": "material 'modot_demo_cycle_20261014' (recalled from the registry):\n  ring: [monad · the_stone · monad · the_stone]\n  ρ=2.0  FRUSTRATED  strain=0.0  energy=4.0  weakest Δ=1.3333  branched=false\n  spectrum: [2.0,0.0,0.0,-2.0]\n  ✓ exported material sheet → /home/mrnob0dy666/imsgct/MoDoT/measurements/command_census_20261014/macrocycle_recalled.json\n",
+    "stderr": ""
+  },
+  {
+    "name": "compare",
+    "argv": [
+      "--compare",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone",
+      "vs",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.21352786000352353,
+    "stdout": "compare (two materials):\n  A: [monad · the_stone · monad · the_stone]\n       ρ=2.0000  FRUSTRATED  weakest Δ=1.33\n  B: [monad · the_stone]  — does NOT close into a ring (no material)\n  Δ: one side is not a ring — no material comparison.\n",
+    "stderr": ""
+  },
+  {
+    "name": "dope",
+    "argv": [
+      "--dope",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone",
+      "with",
+      "comonad_goedel"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.18811758799711242,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ndope  base + {comonad_goedel}\n────────────────────────────────────────────────────────────────────────\n  before: [monad · the_stone · monad · the_stone]\n          ρ=2.0000  FRUSTRATED  weakest Δ=1.33\n  after:  [the_stone · monad · monad · the_stone · comonad_goedel]\n          ρ=2.0000  INSULATING  weakest Δ=1.33\n  shift: ρ 2.0000 → 2.0000 (+0.0000); conductance FRUSTRATED → INSULATING (CHANGED)\n",
+    "stderr": ""
+  },
+  {
+    "name": "fuse",
+    "argv": [
+      "--fuse",
+      "monad",
+      "the_stone",
+      "+",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.19620804200530984,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nfuse  weld two rings into one\n────────────────────────────────────────────────────────────────────────\n  ring A: [monad · the_stone]  — does NOT close into a ring\n  ring B: [monad · the_stone]  — does NOT close into a ring\n  fused : [monad · the_stone · monad · the_stone]\n       ρ=2.0000  FRUSTRATED  weakest Δ=1.33\n  fusion: a parent is not itself a ring — forge each side first.\n",
+    "stderr": ""
+  },
+  {
+    "name": "cleave",
+    "argv": [
+      "--cleave",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.26898198400158435,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ncleave  fission a ring into two daughter rings\n────────────────────────────────────────────────────────────────────────\n  parent: [monad · the_stone · monad · the_stone]\n          ρ=2.0000  FRUSTRATED  weakest Δ=1.33\n  best fission (2 distinct cut(s) leave both arcs closing):\n  daughter A: [monad · the_stone]  — open\n  daughter B: [monad · the_stone]  — open\n",
+    "stderr": ""
+  },
+  {
+    "name": "anneal",
+    "argv": [
+      "--anneal",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.21997264900710434,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nanneal  relax the ring to its lowest-strain ordering\n────────────────────────────────────────────────────────────────────────\n  quenched (forge order): [monad · the_stone · monad · the_stone]\n            strain σ(Δ)=0.000\n  annealed: the forge order is ALREADY the lowest-strain ring (exhaustive over every ordering) — no relaxation available.\n",
+    "stderr": ""
+  },
+  {
+    "name": "distill",
+    "argv": [
+      "--distill",
+      "monad",
+      "the_stone",
+      "comonad_goedel"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.18834371998673305,
+    "stdout": "distillation (separate by volatility = Criticality ⊙, the readiness to leave):  {monad, the_stone, comonad_goedel}\n  axis ⊙ Criticality: high ⊙ is volatile and rises first, low ⊙ is involatile and stays.\n  ── distillate (EVALT — the volatile head drawn off) ──\n    monad   ⊙=0.25\n    the_stone   ⊙=0.25\n    comonad_goedel   ⊙=0.25\n  ── bottoms (EVALF — the involatile residue left behind) ──\n    (none — the whole feed rose)\n  ⚠ azeotrope (B — these pairs tie on ⊙, the cut does NOT fully separate them):\n      monad ≈ the_stone\n      monad ≈ comonad_goedel\n      the_stone ≈ comonad_goedel\n  FFUSE: distillate ⊎ bottoms recovers the feedstock (mass balance holds).\n",
+    "stderr": ""
+  },
+  {
+    "name": "fdistill",
+    "argv": [
+      "--fdistill",
+      "monad",
+      "the_stone",
+      "comonad_goedel"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.1927972220000811,
+    "stdout": "fractional distillation (rank the whole column by volatility ⊙, plate by plate):  {monad, the_stone, comonad_goedel}\n  plate  1: monad   ⊙=0.25   Δ→next=0.00   ⚠ unresolved from the next plate (azeotropic pair)\n  plate  2: the_stone   ⊙=0.25   Δ→next=0.00   ⚠ unresolved from the next plate (azeotropic pair)\n  plate  3: comonad_goedel   ⊙=0.25   (bottoms)\n  ⚠ 2 neighboring pair(s) unresolved (B): those fractions co-distill; more plates will not split an azeotrope.\n",
+    "stderr": ""
+  },
+  {
+    "name": "sublime",
+    "argv": [
+      "--sublime",
+      "monad"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.21696953900391236,
+    "stdout": "sublimation of monad (skip-path across Criticality ⊙, omitting the middle state):\n  ⊙ ⊙ →→ 𐑻, skipping the intermediate 𐑮.\n  ✓ clean skip-path (EVALT): monad sublimes — it crosses two ⊙ states and omits the middle register.\n  sublimate: monad (purified);  residue: none.\n",
+    "stderr": ""
+  },
+  {
+    "name": "crystallize",
+    "argv": [
+      "--crystallize",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.1984314639994409,
+    "stdout": "crystallization (grow the ordered lattice from the pool; reject what will not fit):  {monad, the_stone, monad, the_stone}\n  ── lattice (EVALT — the units that fit the ordered lattice) ──\n    [monad · the_stone · monad · the_stone]   (closed crystal, O∞)\n  ── mother-pool (EVALF — rejected supernatant, co-typed, will not join) ──\n    (none — the whole pool crystallized)\n  ✓ T: a clean crystal — every unit fits and the lattice closes.\n",
+    "stderr": ""
+  },
+  {
+    "name": "cocrystallize",
+    "argv": [
+      "--cocrystallize",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.2263309609843418,
+    "stdout": "co-crystallization (one lattice of two components held by non-covalent complementarity):  monad + the_stone\n  ✓ cocrystal (EVALT): monad and the_stone recognize each other on R↔S (Δ=1.33), a non-covalent adduct in 1:1 stoichiometry.\n  note: they also click covalently on a live pair — a true bond (--click) is the stronger option; the cocrystal is the non-bonded co-lattice.\n",
+    "stderr": ""
+  },
+  {
+    "name": "seed",
+    "argv": [
+      "--seed",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone",
+      "with",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.2702286599960644,
+    "stdout": "seeding (template the crystal on the_stone's handedness ⊥=𐑫):  {monad, the_stone, monad, the_stone}\n  ── templated fraction (EVALT — matches the seed's handedness, copies the polymorph) ──\n    the_stone, the_stone\n  ── spontaneous fraction (EVALF — off-template, takes the default polymorph) ──\n    monad, monad\n  ~ B: racemic twinning — templated and spontaneous domains coexist in equal measure.\n  FFUSE → total crystalline mass (seeding transforms the pool, not a pure conservative split).\n",
+    "stderr": ""
+  },
+  {
+    "name": "tlc",
+    "argv": [
+      "--tlc",
+      "monad",
+      "the_stone",
+      "comonad_goedel"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.22820819698972628,
+    "stdout": "TLC (spread by Rf = mobility, the inverse of retention >; count the bands):  {monad, the_stone, comonad_goedel}\n  band  1 (Rf=0.33): monad, comonad_goedel   ⚠ co-elution (same Rf)\n  band  2 (Rf=0.00): the_stone\n  2 distinct band(s) over 3 unit(s).\n  ⚠ 2 unit(s) co-elute (B) — TLC cannot tell them apart at this Rf.\n",
+    "stderr": ""
+  },
+  {
+    "name": "column",
+    "argv": [
+      "--column",
+      "monad",
+      "the_stone",
+      "comonad_goedel",
+      "on",
+      "imasm"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.23938514199107885,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ncolumn  elute by affinity to imasm, least-retained first: {monad, the_stone, comonad_goedel}\n────────────────────────────────────────────────────────────────────────\n  fraction  1: monad   retention=0.00   Δ→next=0.00   ⚠ co-elutes with the next (shared fraction)\n  fraction  2: comonad_goedel   retention=0.00   Δ→next=2.00\n  fraction  3: the_stone   retention=2.00   (most retained, last off)\n  ⚠ 1 neighboring pair(s) co-elute (B) — overlap in a shared fraction.\n",
+    "stderr": ""
+  },
+  {
+    "name": "gradient",
+    "argv": [
+      "--gradient",
+      "monad",
+      "the_stone",
+      "on",
+      "imasm",
+      "from",
+      "monad",
+      "to",
+      "the_stone",
+      "--steps",
+      "5"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.22356505002244376,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ngradient  {monad, the_stone}\n────────────────────────────────────────────────────────────────────────\n  stationary imasm   eluent monad → the_stone   5 steps\n\n  step  %B    hold   pull(A→B)   analyte\n   void    —    0.00   0.00→1.33   monad  VOID — the column never gripped it\n     —    —    2.00   1.33→0.00   the_stone  RETAINED — B never out-pulls the column\n\n  0 of 2 eluted; 0 co-eluting pair(s); 1 retained; 1 in the void.\n  a void peak separates from nothing — it needs a stationary phase that binds it.\n  a retained analyte needs a STRONGER B, not a longer run — the walk never reaches its hold.\n",
+    "stderr": ""
+  },
+  {
+    "name": "fpt",
+    "argv": [
+      "--fpt",
+      "monad",
+      "the_stone",
+      "comonad_goedel"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.209846262994688,
+    "stdout": "freeze-pump-thaw (degas: strip the weakly-held, keep the strongly-bound core):  {monad, the_stone, comonad_goedel}\n  ── retained core (EVALT — bonds ≥ θ to at least one neighbor) ──\n    monad, the_stone, comonad_goedel\n  ── filtrate (EVALF — outgassed, bonds with nothing) ──\n    (none — the whole assembly held)\n  ✓ T: nothing outgasses — the assembly is fully bound.\n",
+    "stderr": ""
+  },
+  {
+    "name": "trap",
+    "argv": [
+      "--trap",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.23257466001086868,
+    "stdout": "ionic trapping (sequester monad by its charge on R↔S, counter the_stone):\n  charge(R↔S) = -0.33  →  well depth 1.33\n  ✓ trapped (EVALT): monad is an ion held in its potential well — sequestered in a phase it cannot leave (reverse with a counter-shift).\n",
+    "stderr": ""
+  },
+  {
+    "name": "stain",
+    "argv": [
+      "--stain",
+      "the_stone",
+      "monad",
+      "comonad_goedel"
+    ],
+    "exit": 2,
+    "timeout": false,
+    "seconds": 0.2036336089950055,
+    "stdout": "",
+    "stderr": "stain: unknown reagent `the_stone` (try: kmno4, uv, chiral, ninhydrin, iodine)\n"
+  },
+  {
+    "name": "star",
+    "argv": [
+      "--star",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.18302836897782981,
+    "stdout": "star (hub-and-arms assembly):\n  core (highest functionality): monad  — bonds with 3 of 3 others\n  arms (3):\n    — the_stone  (core bond Δ=1.33)\n    — monad  (core bond Δ=0.00)\n    — the_stone  (core bond Δ=1.33)\n  ⚠ NOT a pure star — 3 arm–arm bond(s): the arms interconnect, so this is a BRANCHED NETWORK, not a hub-and-spoke star. Its ρ exceeds √3; `forge` the set to read the full network spectrum.\n",
+    "stderr": ""
+  },
+  {
+    "name": "filter",
+    "argv": [
+      "--filter",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.18319925598916598,
+    "stdout": "filter (narrow to the floor of {monad, the_stone}):\n  floor = 4 shared primitive(s): ⋈=𐑐  ⊤=𐑧  ∈=𐑲  ⊙=⊙\n  981 of 9435 catalog entries lie on this floor (match ALL shared values).\n    · post_transition_state\n    · optimal_biochemical_approach\n    · extended_human_life\n    · inflaton\n    · graviton\n    · dark_energy_inflaton_meet\n    · de_inf_join\n    · triple_join_de_inf_ax\n    · quad_join_de_inf_ax_higgs\n    · all_five_join\n    · six_join_de_inf_ax_higgs_grav_dm\n    · feminization_with_testicular_preservation\n    · quantum_spin_liquid\n    · word_logos\n    · creator_ein_sof\n    … and 966 more\n  (the floor is a NECESSARY condition — it bounds the candidate set from above; a tighter invariant narrows further. Reporting the real survivor count, not asserting it equals a target.)\n",
+    "stderr": ""
+  },
+  {
+    "name": "ascend",
+    "argv": [
+      "--ascend",
+      "monad"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.18161277400213294,
+    "stdout": "ascend:  monad  →excite→ monad*  →IFIX→ monad⁺ (constructed extension)\n  seed monad* (excited fresh): ⊙=𐑻 (exceptional-point resonance — metastable √-branch point, not yet constructed)\n  IFIX (analytic continuation past the branch): ⊙ 𐑻→𐑮 (complex-axis fixed point 𐑮 — the Lee-Yang/ζ constructed criticality)\n  ramified layer added: ⊡ +1 → 𐑴 (one new floor of the tower — a winding quantum)\n  monad⁺  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝𐑮𐑓𐑳𐑴⟩   — the constructed extension (one level up)\n  tier: O₀ → O₀  (2 → 1)\n  the ascent HELD the tier — the extension is constructed but did not climb; the frontier above needs a different seed (report as B, not done).\n",
+    "stderr": ""
+  },
+  {
+    "name": "descend",
+    "argv": [
+      "--descend",
+      "monad"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.2043388260062784,
+    "stdout": "descend:  monad  →relax(μ)→ monad⁻ (de-excited, one tower level down)\n  ⊙=⊙ is already at or below the real-axis ground fixed point — no further relaxation.\n  ⚠ ⊡ already at the base — no ramified layer to remove; the tower FLOORS here (report the floor honestly, do not force it).\n  monad⁻  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩   — the relaxed form (one level down)\n  tier: O₀ → O₀  (2 → 2)\n  the descent HELD the tier — relaxed but the score did not change (already at the real-axis fixed point).\n",
+    "stderr": ""
+  },
+  {
+    "name": "broadcast",
+    "argv": [
+      "--broadcast",
+      "monad",
+      "--top",
+      "5"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.19302897999295965,
+    "stdout": "click-sweep: monad ⋈ * over 9435 entries — 4041 clicks, top 5:\n  O_∞   R↔S   Δ=1.33   operator_samadhi_composite\n  O_∞   R↔S   Δ=1.33   the_stone\n  O_∞   R↔S   Δ=1.33   circularity_circularity\n  O_∞   R↔S   Δ=1.33   jesus_nazareth_biblical\n  O_∞   R↔S   Δ=1.33   serpentrod\n",
+    "stderr": ""
+  },
+  {
+    "name": "phase-reconstruct",
+    "argv": [
+      "--phase-reconstruct",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.17756754701258615,
+    "stdout": "phase reconstruction (recover the phase word from the closed ring — flat autocorrelation ⟺ cyclization):\n  best order: [monad · the_stone · monad · the_stone]\n  ✓ ring closes — the relative phase word is FIXED (modulo one global phase):\n    ψ[0] = monad   ⊥-phase 𐑓\n    ψ[1] = the_stone   ⊥-phase 𐑫\n    ψ[2] = monad   ⊥-phase 𐑓\n    ψ[3] = the_stone   ⊥-phase 𐑫\n  reconstructed phase word ⊥: 𐑓𐑫𐑓𐑫\n  residual freedom: ONE global phase (the ring's rotational symmetry over 4 units) — the flat autocorrelation fixes every RELATIVE phase but not the overall gauge, exactly as C_m = 1/(d+1) fixes ψ modulo a global phase.\n",
+    "stderr": ""
+  },
+  {
+    "name": "calc",
+    "argv": [
+      "--calc",
+      "-(3/2 + 1/2)"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.1884812930074986,
+    "stdout": "calc: -(3/2 + 1/2)\n  = -2.000000e0\n  = -2\n  (exact integer)\n",
+    "stderr": ""
+  },
+  {
+    "name": "ringspec",
+    "argv": [
+      "--ringspec",
+      "1",
+      "1",
+      "1",
+      "1"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.29726255001151003,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nringspec  1 1 1 1\n────────────────────────────────────────────────────────────────────────\nRINGSPEC — the spectrum of a ring, in integers\n=============================================\n\n  units:   4\n  weights: 1 1 1 1 \n  topology: pure cycle — every junction one clean bond\n\n  char poly det(λI − A) = λ^4 + -4λ^2\n\n  Σλ² = tr(A²) = 8   (= 2·Σwᵢ² = 2·4)  ✓\n  spectrum symmetric under λ ↦ -λ: YES — every odd coefficient vanishes\n  ⟹ the top eigenvalue is paired with its negative, so |λ₂| = ρ\n  ⟹ SPECTRAL GAP = 0 exactly — no privileged mode\n\n  even ring — bipartite, so gap 0 whatever the weights.\n  Bipartite means the units fall into two classes and every bond runs\n  between them. A ring alternates because something mediates on both\n  sides of what it mediates — which is also why the count is even. One\n  fact, two readings. Compare gap within a parity; across parities the\n  gap is fixed before any weight is read, so compare strain instead.\n  zero eigenvalues: 2 (λ^2 divides the polynomial)\n  ⟹ the spectrum is {0 ×2, ±ρ} with ρ² = Σλ²/2 = 4 EXACTLY\n\n  Every line above is an integer identity. A ring reported as ρ=3.1623\n  has to be believed; one reported as ρ²=10 can be checked.\n",
+    "stderr": ""
+  },
+  {
+    "name": "riemann-sic",
+    "argv": [
+      "--riemann-sic"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.44877451899810694,
+    "stdout": "══════════════════════════════════════════════════\n  Riemann-SIC: d=12 Gerzon Inverse Verification\n  ρ = (d+1) Σ_i p_i Π_i − 𝕀\n══════════════════════════════════════════════════\n\nFiducial vector (|ψ₀⟩, d=12, normalized):\n  (from the exact algebraic Zauner fiducial, UHI-refined)\n  ψ[ 0] = +1.765708502244644e-1 +0.000000000000000e0j\n  ψ[ 1] = -1.143575710134576e-1 -8.013049463884123e-2j\n  ψ[ 2] = -1.547956127630955e-1 -8.937128869814624e-2j\n  ψ[ 3] = +4.832101464187391e-1 -2.358134589846635e-2j\n  ψ[ 4] = +1.274989515126597e-1 +0.000000000000000e0j\n  ψ[ 5] = -1.258827040978134e-1 +4.321273464465337e-1j\n  ψ[ 6] = +0.000000000000000e0 -4.262797413316505e-1j\n  ψ[ 7] = +1.934521269167551e-1 +4.736845687381848e-2j\n  ψ[ 8] = +3.701879986553348e-2 -6.411844220232792e-2j\n  ψ[ 9] = +5.693040508708863e-2 -2.001521961229308e-1j\n  ψ[10] = +0.000000000000000e0 -3.078096979302127e-1j\n  ψ[11] = +2.760702680266076e-2 +3.143505335489717e-1j\n\nGenerating Weyl-Heisenberg orbit (144 states)…\n  → 144 states generated.\n\nSIC condition check: |⟨ψ_i|ψ_j⟩|² = 1/(d+1) for i≠j\n  Target 1/(d+1) = 1/13 = 7.692307692307693e-2\n  max |overlap² − target| = 1.18e-15\n  SIC condition: ✓ PASS\n\nFrame operator Σ_i |ψ_i⟩⟨ψ_i| = d·𝕀:\n  max |diag − d| = 1.24e-14\n  max |off-diag|  = 6.63e-15\n  Frame check: ✓ Σ|ψ_i⟩⟨ψ_i| = d·𝕀\n\nGerzon inverse verification (random test state):\n  ‖ρ_reconstructed − |ψ⟩⟨ψ|‖²_F = 1.52e-29\n  Frobenius norm error         = 3.89e-15\n  Trace(ρ)                     = 1.000000000000007\n  Reconstruction: ✓ PASS (< 1e-14)\n\nSelf-consistency: reconstruct the fiducial from its own Born probabilities:\n  ‖ρ_reconstructed − |ψ₀⟩⟨ψ₀|‖²_F = 3.03e-29\n  Trace(ρ)                         = 1.000000000000010\n  Self-reconstruction: ✓ PASS\n\n══════════════════════════════════════════════════\n  VERDICT: Frobenius-exact ✓\n  μ∘δ = id confirmed numerically.\n  The d=12 SIC-POVM Gerzon inverse closes at\n  machine precision (error < 1e-14).\n\n  This is the computational instantiation of the\n  Riemann-SIC proof (§8-§9 of the PDF).\n  The explicit d=12 fiducial constants are now\n  embedded in the Rust source and pass the\n  ‖ρ − ρ_input‖ < ε test.\n",
+    "stderr": ""
+  },
+  {
+    "name": "riemann-hilbert",
+    "argv": [
+      "--riemann-hilbert"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.4654453349940013,
+    "stdout": "╔══════════════════════════════════════════════════════════════╗\n║  RIEMANN-HILBERT: Zauner Hamiltonian H_Z vs Riemann zeta    ║\n║  d=12 SIC-POVM -> self-adjoint operator eigenvalue analysis ║\n╚══════════════════════════════════════════════════════════════╝\n\nWeyl-Heisenberg orbit: 144 states generated.\nSIC check: |<psi_0|psi_1>|^2 = 0.076923076923 (target 0.076923076923, Delta=5.55e-17)\nZauner unitary order-3: max|U^3-phase*I| = 9.99e-16\nU_Z_herm eigenvalues: [-0.646960055096554, -0.31246756666665615, -0.12793837806453465, -0.10154984695566034, -0.06817662007678495, -0.06096274266076089, -0.044947447397004334, -0.030141769872618386, -0.02697568604483365, 0.0012065938600330536, 0.02271014331908765, 0.17145850426469683]\n═══════════════════════════════════════════════════════════\n  CONSTRUCTION 1: Zeta-encoded Gerzon reconstruction\n  (CIRCULAR: zeta zeros used as eigenvalues of input H)\n  Purpose: verify mu∘delta=id for d=12 SIC-POVM frame.\n═══════════════════════════════════════════════════════════\n\n  Self-adjoint: max|H-H^dag| = 0.00e0\n  Gerzon reconstruction (circular):\n  Linear fit: lam_fit = 1.000000 * lam + 0.000000\n    n      lam_n(H_Z)         lam_fit       t_n(zeta)     |Delta|\n  ---  --------------  --------------  --------------  ----------\n    1     14.13472514     14.13472514     14.13472514    0.000000\n    2     21.02203964     21.02203964     21.02203964    0.000000\n    3     25.01085758     25.01085758     25.01085758    0.000000\n    4     30.42487613     30.42487613     30.42487613    0.000000\n    5     32.93506159     32.93506159     32.93506159    0.000000\n    6     37.58617816     37.58617816     37.58617816    0.000000\n    7     40.91871901     40.91871901     40.91871901    0.000000\n    8     43.32707328     43.32707328     43.32707328    0.000000\n    9     48.00515088     48.00515088     48.00515088    0.000000\n   10     49.77383248     49.77383248     49.77383248    0.000000\n   11     52.97032148     52.97032148     52.97032148    0.000000\n   12     56.44624770     56.44624770     56.44624770    0.000000\n  Mean |Delta| = 0.000000,  Max |Delta| = 0.000000\n\n  Gerzon mu∘delta=id: PASS (mean|Δ|=4.36e-13)\n═══════════════════════════════════════════════════════════\n  CONSTRUCTION 2: Mixed Zauner+WH Hamiltonian\n  (NON-CIRCULAR: no zeta zeros used to construct H)\n  H = alpha*(U_Z+U_Z^dag)/2 + beta*(X+X^dag+Z+Z^dag)/4\n  Grid search over alpha,beta for best linear fit.\n═══════════════════════════════════════════════════════════\n\n  Best grid params: alpha=5.30, beta=20.90, mean|Δ|=1.366082\n  Mixed Zauner+WH (non-circular):\n  Linear fit: lam_fit = 2.294374 * lam + 38.954017\n    n      lam_n(H_Z)         lam_fit       t_n(zeta)     |Delta|\n  ---  --------------  --------------  --------------  ----------\n    1    -10.80026704     14.17416504     14.13472514    0.039440\n    2     -8.99199511     18.32301715     21.02203964    2.699022\n    3     -3.90699865     29.98990086     25.01085758    4.979043\n    4     -3.20539826     31.59963456     30.42487613    1.174758\n    5     -2.57966149     33.03530873     32.93506159    0.100247\n    6     -0.98539017     36.69316341     37.58617816    0.893015\n    7      0.24938041     39.52618892     40.91871901    1.392530\n    8      2.06516735     43.69228327     43.32707328    0.365210\n    9      3.23465086     46.37551585     48.00515088    1.629635\n   10      4.77508614     49.90985049     49.77383248    0.136018\n   11      5.41934975     51.38803218     52.97032148    1.582289\n   12      8.23492838     57.84802260     56.44624770    1.401775\n  Mean |Delta| = 1.366082,  Max |Delta| = 4.979043\n\n═══════════════════════════════════════════════════════════\n  CONSTRUCTION 3: WH Laplacian H = (X+X^dag+Z+Z^dag)/4\n  (NON-CIRCULAR: discrete torus adjacency operator)\n  Analytical spectrum: [cos(2πa/d)+cos(2πb/d)]/2\n═══════════════════════════════════════════════════════════\n\n  WH Laplacian (non-circular):\n  Linear fit: lam_fit = 41.799276 * lam + 37.712924\n    n      lam_n(H_Z)         lam_fit       t_n(zeta)     |Delta|\n  ---  --------------  --------------  --------------  ----------\n    1     -0.44548069     19.09215303     14.13472514    4.957428\n    2     -0.43659021     19.46376890     21.02203964    1.558271\n    3     -0.24334108     27.54144259     25.01085758    2.530585\n    4     -0.22647934     28.24625112     30.42487613    2.178625\n    5     -0.18269007     30.07661077     32.93506159    2.858451\n    6     -0.02086607     36.84073681     37.58617816    0.745441\n    7      0.00517547     37.92925464     40.91871901    2.989464\n    8      0.13992982     43.56188866     43.32707328    0.234815\n    9      0.25749974     48.47622638     48.00515088    0.471075\n   10      0.27748763     49.31170549     49.77383248    0.462127\n   11      0.42053758     55.29109007     52.97032148    2.320769\n   12      0.45481723     56.72395462     56.44624770    0.277707\n  Mean |Delta| = 1.798730,  Max |Delta| = 4.957428\n\n  Analytical unique values (of 144): 21 values: [-1.0, -0.9330127018922194, -0.8660254037844388, -0.7500000000000002, -0.6830127018922196, -0.5000000000000004, -0.4330127018922195, -0.25000000000000033, -0.18301270189221935, -0.06698729810778081, -2.220446049250313e-16, 0.06698729810778059, 0.18301270189221897, 0.24999999999999978, 0.4330127018922191, 0.4999999999999999, 0.6830127018922192, 0.75, 0.8660254037844384, 0.9330127018922192, 1.0]\n╔══════════════════════════════════════════════════════════════╗\n║  VERDICT                                                     ║\n╠══════════════════════════════════════════════════════════════╣\n║                                                              ║\n║  Construction 1 (circular, zeta as input):                   ║\n║    mean|Δ| = 4.36e-13  — verifies mu∘delta=id               ║\n║    The d=12 SIC-POVM frame is informationally complete.      ║\n║    Given the zeta zeros, the frame faithfully encodes them.  ║\n║                                                              ║\n║  Construction 2 (non-circular, mixed Zauner+WH):             ║\n║    mean|Δ| = 1.366082  — APPROXIMATE, not exact                ║\n║    Best: alpha=5.30, beta=20.90                            ║\n║    Captures rough spectral shape but not precise zeros.      ║\n║                                                              ║\n║  Construction 3 (non-circular, WH Laplacian):                ║\n║    mean|Δ| = 1.798730  — APPROXIMATE, not exact                ║\n║    Discrete torus adjacency — simplest structural operator.  ║\n║                                                              ║\n║  CONCLUSION:                                                 ║\n║  The d=12 SIC-POVM faithfully ENCODES the zeta zeros         ║\n║  (Construction 1 proves mu∘delta=id) but does not            ║\n║  PRODUCE them from its structure alone. No non-circular      ║\n║  construction yields the zeta zeros to high precision.       ║\n║                                                              ║\n║  The structural fusion zeta ⊗ SIC → H·P is consistent       ║\n║  at the grammar level but the explicit Hilbert-Polya         ║\n║  operator cannot be derived from the SIC-POVM alone          ║\n║  without presupposing the zeta zeros.                        ║\n╚══════════════════════════════════════════════════════════════╝\n",
+    "stderr": ""
+  },
+  {
+    "name": "windings",
+    "argv": [
+      "--windings",
+      "656.28nm",
+      "486.13nm"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.35061050398508087,
+    "stdout": "── the winding spectrometer ──\n  quantum numbers = winding coordinates: n toroidal, l poloidal, m_l tilt, s half-wind.\n  energies are α²/2 fractions of ONE anchor (m_e c²); every other factor is winding arithmetic. nm is a projection at the last step.\n\n── hydrogen (Z=1, defect ≡ 0, bare toroidal ladder) ──\n  anchor  m_e c² = 510998.95 eV   Ry = (α²/2)·m_e c² = 13.598287 eV\n\nLINE: 656.2800 nm   (1.8892 eV)\n  winding transition: (n=3) → (n=2)   Δn = -1   series: Balmer (Hα)\n  dipole channel np→(2s/2d):  Δl = ±1, Δm ∈ {0,±1}, Δs = 0   STATUS: ALLOWED\n  parity flip: YES\n  E = 1.888651 eV   λ(calc,vac) = 656.4696 nm   residual = 0.1896 nm\n\nLINE: 486.1300 nm   (2.5504 eV)\n  winding transition: (n=4) → (n=2)   Δn = -2   series: Balmer (Hβ)\n  dipole channel np→(2s/2d):  Δl = ±1, Δm ∈ {0,±1}, Δs = 0   STATUS: ALLOWED\n  parity flip: YES\n  E = 2.549679 eV   λ(calc,vac) = 486.2738 nm   residual = 0.1438 nm\n\n  note: λ(calc) is VACUUM. Standard tabulated lines are AIR; multiply the input by n_air ≈ 1.000293 and it lands on λ(calc) to the fifth decimal. The residual is the refractive medium, not the winding arithmetic, which is exact to input-constant precision.\n",
+    "stderr": ""
+  },
+  {
+    "name": "imasm",
+    "argv": [
+      "--imasm",
+      "check",
+      "⊢∈≻⊤∋⊣"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.2616114219999872,
+    "stdout": "IMASM check → T (closes)\n  word: VINIT FSPLIT AFWD EVALT FFUSE TANCH\n  μ∘δ closes over 1 transformed reconnection(s): the decision split alternatives, did work on the arms, and the fuse resolved it. Proceed.\n  shape: network | V=6 E=7 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8794\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n",
+    "stderr": ""
+  },
+  {
+    "name": "rotat",
+    "argv": [
+      "--rotat",
+      "⊢∈≻⊤∋⊣"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.4435065000143368,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nrotat  ⊢∈≻⊤∋⊣\n────────────────────────────────────────────────────────────────────────\nword   : ⊢∈≻⊤∋⊣   period 6\n     k  final  verdict  word\n     0  T      T        ⊢∈≻⊤∋⊣\n     1  N      T        ∈≻⊤∋⊣⊢\n     2  N      T        ≻⊤∋⊣⊢∈\n     3  T      T        ⊤∋⊣⊢∈≻\n     4  T      T        ∋⊣⊢∈≻⊤\n     5  T      T        ⊣⊢∈≻⊤∋\n\n  landing register by cut:\n    T      at k = 0, 3, 4, 5\n    N      at k = 1, 2\n  final register is PHASE-BEARING: 2 distinct landings\n",
+    "stderr": ""
+  },
+  {
+    "name": "weight",
+    "argv": [
+      "--weight",
+      "⊢∈≻⊤∋⊣"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.5031778190168552,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nweight  ⊢∈≻⊤∋⊣\n────────────────────────────────────────────────────────────────────────\nword   : ⊢∈≻⊤∋⊣\n  movement:\n     1 ⊢  CLEAR loses 0   (0 banked in frames)\n     2 ∈  open frame at depth 1\n     3 ≻  SEED T into an empty register, no weight\n     4 ⊤  deposit T   into depth 1\n     5 ∋  fuse restores 0\n\n  final    : T\n  surviving: T×1\n  deposits 1  cleared 0  restored 0  seeded 1  inert 0\n",
+    "stderr": ""
+  },
+  {
+    "name": "banked",
+    "argv": [
+      "--banked",
+      "⊢∈⊤≺∋⊡⊣"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.6943347240157891,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nbanked  ⊢∈⊤≺∋⊡⊣\n────────────────────────────────────────────────────────────────────────\nword   : ⊢∈⊤≺∋⊡⊣\n  OK — weight survived 1 live clear(s) by being banked\n",
+    "stderr": ""
+  },
+  {
+    "name": "trans",
+    "argv": [
+      "--trans",
+      "⊢∈≻⊤∋⊣"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.5245546810037922,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ntrans  ⊢∈≻⊤∋⊣\n────────────────────────────────────────────────────────────────────────\nword   : ⊢∈≻⊤∋⊣   length 6\n  ring transitions   : 6\n  linear would give  : 5   (drops the closing edge)\n  closing edge       : ⊣ -> ⊢\n\n  transitions:\n    ⊢ -> ∈   1\n    ∈ -> ≻   1\n    ≻ -> ⊤   1\n    ⊤ -> ∋   1\n    ∋ -> ⊣   1\n    ⊣ -> ⊢   1\n\n  Anything read from ABSOLUTE position on a ring measures the cut,\n  not the word: matrix rows, tetraktys tiers, odd against even.\n  One rotation moves every value into a different row.\n",
+    "stderr": ""
+  },
+  {
+    "name": "insert",
+    "argv": [
+      "--insert",
+      "⊢∈⊤∋≺⊡⊣"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.5052574720175471,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ninsert  ⊢∈⊤∋≺⊡⊣\n────────────────────────────────────────────────────────────────────────\nword   : ⊢∈⊤∋≺⊡⊣   length 7\n  exposed: 1 unit(s) cleared with nothing banked\n  insertions that hold:\n    none — no single glyph repairs this word without breaking tri-ancestral closure\n",
+    "stderr": ""
+  },
+  {
+    "name": "frames",
+    "argv": [
+      "--frames",
+      "⊢∈≻⊤∋⊣"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.30355487600900233,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nframes  ⊢∈≻⊤∋⊣\n────────────────────────────────────────────────────────────────────────\nword   : ⊢∈≻⊤∋⊣   period 6   (6 frames, all equally readable)\n\n  INVARIANT — true of the word, readable from any frame:\n    period                6\n    glyph multiset        6 distinct over 6 positions\n    verdict               T\n    ring transitions      counted with the closing edge, so rotation cannot move them\n\n  FRAME-BOUND — reads the cut, and must be quoted with it:\n    final register        2 distinct landing(s)\n      T      at k = 0, 3, 4, 5\n      N      at k = 1, 2\n    opening glyph         6 distinct — every frame opens on a different mark\n    absolute position     any row/tier/parity reading; one rotation moves every value\n\n  This word is PHASE-BEARING: 2 of its 6 frames disagree about where it rests.\n  The frame you evaluated is one of them and is not the word's own answer.\n",
+    "stderr": ""
+  },
+  {
+    "name": "kernel",
+    "argv": [
+      "--kernel",
+      "ringspec",
+      "1",
+      "1",
+      "1",
+      "1"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.5336300039780326,
+    "stdout": "RINGSPEC — the spectrum of a ring, in integers\n=============================================\n\n  units:   4\n  weights: 1 1 1 1 \n  topology: pure cycle — every junction one clean bond\n\n  char poly det(λI − A) = λ^4 + -4λ^2\n\n  Σλ² = tr(A²) = 8   (= 2·Σwᵢ² = 2·4)  ✓\n  spectrum symmetric under λ ↦ -λ: YES — every odd coefficient vanishes\n  ⟹ the top eigenvalue is paired with its negative, so |λ₂| = ρ\n  ⟹ SPECTRAL GAP = 0 exactly — no privileged mode\n\n  even ring — bipartite, so gap 0 whatever the weights.\n  Bipartite means the units fall into two classes and every bond runs\n  between them. A ring alternates because something mediates on both\n  sides of what it mediates — which is also why the count is even. One\n  fact, two readings. Compare gap within a parity; across parities the\n  gap is fixed before any weight is read, so compare strain instead.\n  zero eigenvalues: 2 (λ^2 divides the polynomial)\n  ⟹ the spectrum is {0 ×2, ±ρ} with ρ² = Σλ²/2 = 4 EXACTLY\n\n  Every line above is an integer identity. A ring reported as ρ=3.1623\n  has to be believed; one reported as ρ²=10 can be checked.\n\n",
+    "stderr": ""
+  },
+  {
+    "name": "tool-gm",
+    "argv": [
+      "--tool",
+      "gm",
+      "qc",
+      "H"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.33269149900297634,
+    "stdout": "\u001b[2;37m[boot]\u001b[0m Interrupts: none — the host owns the IDT, no periodic slot\n\u001b[2;37m[boot]\u001b[0m Heap: host allocator, 1687 bytes counted, 48MB declared budget\n\u001b[2;37m[boot]\u001b[0m IG Catalog: 8752 entries loaded\n\u001b[2;37m[boot]\u001b[0m Kernel online — graph execution, token-arity driven\n\u001b[2;37m[boot]\u001b[0m Canonical ordinal check...\n\u001b[2;37m[boot]\u001b[0m Ordinal faithfulness: \u001b[1;32mall 44 values match Lean canonical\u001b[0m\n\u001b[2;37m[boot]\u001b[0m Clay Millennium status: 2 closed, 1 one-bump-short, 3 unclosed\n\u001b[2;37m[boot]\u001b[0m SIC-POVM d=12: Crystal-forced (dual lattice), Shavian count 49=7², WH group |orbit|=144\n\u001b[2;37m[boot]\u001b[0m Frobenius identity check...\n\u001b[2;37m[boot]\u001b[0m Frobenius identity: hamming=3, weighted=3.1000 — kernel is grammar operationalized\n\u001b[2;37m[boot]\u001b[0m Bootstrap: IMSCRIB→AREV→FSPLIT→AFWD→FFUSE→CLINK→IFIX→IMSCRIB (cyclic)\n                       F unitary: PASS\n  Pentagon form (F^2=I, anti-diag, a^2+b^2=1): PASS\n            Braid relation (Y-B): PASS\n                 Spin-statistics: PASS\n                       S unitary: PASS\n        Charge conjugation S^2=I: PASS\n                 TQFT identities: PASS\n                Verlinde formula: PASS\n              Braid Artin B_n<=8: PASS\n  Phase lattice = tenths of a winding: PASS\n    Constants derivable from PHI: PASS\n\u001b[2;37m[boot]\u001b[0m Fibonacci anyon QC: algebra verified = true\n\u001b[36m[TORUS]\u001b[0m kernel wound: ⊢⊙∈⊤⋈∋⊡⊞≺⋈⊣  (11 tokens, pinch=0.0000)\n\u001b[2;37m[boot]\u001b[0m Crystal FS: 17280000 addresses\n\u001b[2;37m[boot]\u001b[0m 29 total programs (I–XXIX): 12 canonical + 4 continuous + 4 novel + 9 shunted\n\n\n   \u001b[1;35m⊙\u001b[0m   \u001b[1;37mG-mOMonadOS\u001b[0m\n   \u001b[2;37mGPU-native build, mOMonadOS ported to run via CUDA\u001b[0m\n   \u001b[1;33mμ∘δ = id\u001b[0m\n\n   \u001b[2;37mFrobenius core · Belnap FOUR · crystal FS · graph execution\u001b[0m\n\n   \u001b[1;34mhelp\u001b[0m for commands, \u001b[1;34m?\u001b[0m for the menu, Tab completes.\n\n   \u001b[1;34mask\u001b[0m runs a structural dry-run here; the full wet-run is on the host:\n   \u001b[2;37m./ask --file <path> | ./ask --ask \"…\" | ./ask -i\u001b[0m\n\nBuilding gate net (depth 10, SK recursion 3)...\n  net: 4842 entries, 871 KB (heap 3691 of 49152 KB)\n  single arm : error 5.667923e-4  length 1017\n  split+fused: error 1.202362e-4  length 2167\n  gain       : 4.7x\n  unitary    : true\n  word check : PASS (residual 1.10e-13)\nBRAID_OPERATOR_JSON={\"circuit\":\"H\",\"target_matrix\":[{\"re\":0.70710678118654746,\"im\":0.00000000000000000},{\"re\":0.70710678118654746,\"im\":0.00000000000000000},{\"re\":0.70710678118654746,\"im\":0.00000000000000000},{\"re\":-0.70710678118654746,\"im\":0.00000000000000000}],\"synthesized_matrix\":[{\"re\":-0.57210257265595377,\"im\":0.41554945091080475},{\"re\":-0.57198597748407143,\"im\":0.41575153850541735},{\"re\":-0.57215659744202463,\"im\":0.41551670027996479},{\"re\":0.57200043060792172,\"im\":-0.41569003737904486}],\"braid_word\":[1,2,1,2,-1,-1,2,2,-1,-1,2,-1,2,-1,-1,2,2,-1,2,2,-1,-2,1,1,-2,-2,1,1,-2,1,-2,-2,1,-2,-2,1,1,-2,1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,-1,2,-1,2,2,-1,-1,2,-1,-1,2,1,1,-2,-2,1,-2,-2,1,1,-2,1,1,-2,1,1,-2,-2,1,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,2,2,-1,-1,2,-1,-1,2,-1,2,2,-1,2,2,-1,-1,2,-1,-2,-2,1,1,-2,1,1,-2,-2,1,-2,1,-2,-2,1,1,-2,1,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,2,-1,2,2,-1,-1,2,1,-2,1,1,-2,-2,1,-2,-2,1,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,-1,2,2,-1,-1,2,-1,-2,-2,1,1,-2,1,1,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,-1,2,-1,2,2,-1,-1,2,-1,-1,-2,1,1,-2,-2,-2,-1,-1,-2,-2,1,1,-2,-2,1,1,1,1,2,2,2,-1,-1,2,2,2,-1,-1,2,2,-1,-1,2,2,-1,2,2,-1,2,2,-1,-1,2,-1,-2,-2,1,1,-2,1,1,-2,-2,1,-2,1,-2,-2,1,1,-2,1,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,2,-1,2,2,-1,-1,2,1,-2,1,1,-2,-2,1,-2,-2,1,-2,-2,1,1,-2,-2,1,1,-2,-2,-2,1,1,-2,-2,-2,-1,-1,-1,-1,2,2,-1,-1,2,2,1,1,2,2,2,-1,-1,2,2,2,-1,2,2,-1,2,2,-1,-1,2,-1,2,2,-1,-1,2,-1,-1,2,1,1,-2,-2,1,-2,-2,1,1,-2,-2,1,1,-2,1,1,-2,-2,-1,2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,1,-2,-2,1,-2,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-2,1,2,-1,-1,2,2,-1,-1,2,-1,-1,2,-1,-1,2,2,-1,2,1,1,-2,-2,1,1,-2,-2,-2,1,-2,-2,1,1,-2,1,2,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,2,-1,2,2,-1,-2,-2,1,1,-2,1,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,-2,-1,2,-1,-1,2,2,-1,2,2,2,-1,-1,2,2,-1,-1,-2,1,-2,-2,1,1,-2,1,1,-2,1,1,-2,-2,1,2,2,-1,-1,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,-2,-2,1,1,-2,1,1,-2,-2,1,2,-1,2,2,-1,-1,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,-1,-1,2,2,-1,2,2,-1,-1,-2,1,1,-2,1,1,-2,-2,1,-2,1,1,-2,-2,1,-2,-2,1,-2,-2,-2,1,1,-2,-2,-2,-1,-1,-2,-2,1,1,-2,-2,1,1,1,1,2,2,2,-1,-1,2,2,2,-1,-1,2,2,-1,-1,2,2,-1,2,2,-1,2,2,-1,-1,2,-1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,-1,2,-1,2,2,-1,-1,2,-1,-1,2,2,1,-2,1,1,-2,-2,1,-2,-2,1,-2,-2,1,1,-2,-2,1,1,-2,-2,-2,1,1,-2,-2,-2,-1,-1,-1,-1,2,2,-1,-1,2,2,1,1,2,2,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,1,-2,-2,1,1,-2,1,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,2,-1,2,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,-1,2,2,-1,-1,2,-1,-1,2,2,2,-1,2,2,-1,-1,2,-1,-1,-2,1,1,-2,1,1,-2,-2,-1,2,2,-1,-1,2,-1,-1,2,-1,-1,2,2,-1,2,1,1,-2,-2,1,1,-2,-2,-2,1,-2,-2,1,1,-2,1,2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,1,-2,-2,1,-2,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-2,-1,2,-1,-1,2,2,-1,2,2,2,-1,-1,2,2,-1,-1,-2,1,-2,-2,1,1,-2,1,1,-2,1,1,-2,-2,1,1,-2,-1,2,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,2,-1,2,2,-1,-2,-2,1,1,-2,1,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,-1,-1,2,-1,-1,2,2,-1,-1,-1,2,2,-1,-1,-1,-2,-2,-2,-2,1,1,-2,1,1,-2,-2,1,2,2,1,1,1,-2,-2,1,1,2,-1,-1,2,2,-1,2,1,1,-2,-2,1,-2,-2,1,-2,-2,1,1,-2,-2,1,2,2,-1,2,2,-1,-1,2,-1,-1,-1,2,2,-1,-1,2,2,1,-2,-2,1,-2,-2,1,1,-2,-1,-1,2,2,-1,-1,-1,-2,-2,-1,2,2,-1,-1,2,-1,-1,2,2,2,2,1,1,1,-2,-2,1,1,1,-2,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,-2,1,1,1,-2,1,1,-2,-2,1,-2,-2,-1,2,2,-1,-1,2,2,-1,2,2,-1,2,2,-1,-1,2,-1,2,2,2,-1,-1,2,-1,-1,2,2,-1,-2,-2,-2,1,-2,-2,1,1,-2,1,2,-1,-1,2,2,-1,2,2,-1,-2,1,-2,-2,1,1,-2,1,1,-2,1,-2,-2,1,-2,-2,1,1,-2,1,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,-1,-1,2,2,-1,2,2,-1,-1,2,-1,-1,2,2,-1,2,2,2,1,-2,-2,1,1,-2,1,1,-2,-2,-2,-2,-2,1,-2,-2,1,1,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-1,2,-1,-1,2,2,-1,2,2,-1,2,-1,-1,2,-1,-1,2,2,-1,2,1,-2,-2,1,-2,-2,1,1,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,-2,-2,1,1,-2,-2,1,2,2,-1,2,2,-1,-1,2,-1,-1,-1,2,2,-1,-1,2,2,-1,2,2,-1,-1,2,-1,-1,2,2,-1,-1,-1,2,2,-1,-1,-1,-2,-2,-2,-2,1,1,-2,1,1,-2,-2,1,2,2,1,1,1,-2,-2,1,1,2,-1,-1,2,2,-1,2,2,-1,-2,-2,1,1,-2,-2,1,1,1,-2,1,1,-2,-2,1,-2,-2,-1,2,2,-1,-1,2,2,-1,2,2,-1,2,2,-1,-1,-2,1,-2,-2,1,1,-2,-1,-1,2,2,-1,-1,-1,-2,-2,-1,2,2,-1,-1,2,-1,-1,2,2,2,2,1,1,1,-2,-2,1,1,1,-2,-2,1,1,-2,1,1,-2,-1,-1,2,2,-1,2,2,-1,-2,1,-2,-2,1,1,-2,1,1,-2,1,-2,-2,1,-2,-2,1,1,-2,1,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,-1,-1,2,2,-1,2,2,2,2,2,-1,-1,2,-1,-1,2,2,-1,-2,-2,-2,1,-2,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-1,2,-1,-1,2,2,-1,2,2,-1,2,-1,-1,2,-1,-1,2,2,-1,2,1,-2,-2,1,-2,-2,1,1,-2,-1,2,-1,-1,2,2,-1,2,2,2,1,-2,-2,1,1,-2,1,1,-2,-2,-1,2,2,-1,-1,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,-2,-2,1,1,-2,1,1,-2,-2,1,2,-1,2,2,-1,-1,2,-1,-1,-1,-1,-1,2,2,-1,-1,-1,-2,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,2,1,1,1,-2,-2,1,2,2,-1,2,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,-1,2,2,-1,-1,2,-1,-1,2,2,2,-1,2,2,-1,-1,2,-1,-1,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,-2,1,-2,-2,-1,2,2,-1,-1,-1,-2,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,2,1,1,1,-2,-2,1,1,2,-1,-1,2,-1,-2,-2,-2,-2,-1,2,2,-1,2,2,-1,-1,2,-1,2,2,2,2,1,-2,1,1,-2,1,-2,1,1,-2,-2,1,1,-2,1,-2,1,1,-2,-2,1,-2,-2,1,2,-1,-1,2,2,-1,-1,2,-1,2,2,-1,2,2,-1,-1,2,-1,-1,2,-1,-1,2,-1,-2,-2,-2,-2,1,-2,1,1,-2,-2,1,-2,-2,1,2,2,2,2,1,-2,1,1,-2,1,-2,1,1,-2,-2,1,1,-2,-1,2,2,-1,2,2,-1,-1,2,-1,2,-1,-1,2,2,-1,-1,2,1,-2,1,1,-2,-2,1,-2,-2,-1,-1,2,2,-1,-1,-1,-2,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,2,1,1,1,-2,-2,1,2,2,-1,2,2,-1,-1,2,2,-1,2,2,-1,-1,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,-2,-2,1,1,-2,1,1,-2,-2,1,2,-1,2,2,-1,-1,2,-1,-1,-2,1,1,-2,-2,1,-2,-2,-1,2,2,-1,-1,-1,-2,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,2,1,1,1,-2,-2,1,1,1,1,1,-2,1,1,-2,-2,1,-2,-1,2,2,-1,-1,2,-1,-1,2,2,2,-1,2,2,-1,-1,2,-1,-1,-2,1,1,-2,1,1,-2,-2,1,-2,-1,2,2,-1,2,2,-1,-1,2,-1,-2,1,1,-2,-2,1,1,-2,1,-2,1,1,-2,-2,1,-2,-2,1,2,-1,-1,2,2,-1,-1,2,-1,2,-1,-1,2,-1,-2,-2,-2,-2,-1,2,2,-1,2,2,-1,-1,2,-1,2,2,2,2,1,-2,1,1,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,-2,1,1,-2,-2,1,1,-2,-1,2,2,-1,2,2,-1,-1,2,-1,2,-1,-1,2,2,-1,-1,2,-1,2,-1,-1,2,-1,-2,-2,-2,-2,1,-2,1,1,-2,-2,1,-2,-2,1,2,2,2,2,1,-2,1,1,-2,1],\"target_projective_residual\":0.00012023621010967,\"word_matrix_residual\":0.00000000000010978,\"unitary\":true}\n  heap peak  : 3712 of 49152 KB\n  braid word (2167 generators):\n    1 2 1 2 -1 -1 2 2 -1 -1 2 -1 2 -1 -1 2 2 -1 2 2 -1 -2 1 1 \n    -2 -2 1 1 -2 1 -2 -2 1 -2 -2 1 1 -2 1 -2 1 1 -2 -2 1 -2 -2 1 \n    1 -2 1 -2 -2 1 1 -2 1 1 -2 -1 -1 2 2 -1 2 2 -1 -1 2 2 -1 -1 \n    2 -1 -1 2 2 -1 2 -1 2 2 -1 -1 2 -1 -1 2 1 1 -2 -2 1 -2 -2 1 \n    1 -2 1 1 -2 1 1 -2 -2 1 -2 -1 -1 2 2 -1 2 2 -1 -1 2 2 -1 2 \n    2 -1 -1 2 -1 -1 2 -1 2 2 -1 2 2 -1 -1 2 -1 -2 -2 1 1 -2 1 1 \n    -2 -2 1 -2 1 -2 -2 1 1 -2 1 1 -2 -2 1 1 -2 -2 1 -2 -2 1 1 2 \n    -1 -1 2 -1 -1 2 2 -1 2 -1 -1 2 2 -1 2 2 -1 -1 2 1 -2 1 1 -2 \n    -2 1 -2 -2 1 -2 1 1 -2 1 1 -2 -2 1 -2 -2 1 1 -2 -2 1 -2 -2 1 \n    1 2 -1 2 2 -1 -1 2 -1 -2 -2 1 1 -2 1 1 -2 -1 -1 2 2 -1 2 2 \n    -1 -1 2 2 -1 -1 2 -1 -1 2 2 -1 2 -1 2 2 -1 -1 2 -1 -1 -2 1 1 \n    -2 -2 -2 -1 -1 -2 -2 1 1 -2 -2 1 1 1 1 2 2 2 -1 -1 2 2 2 -1 \n    -1 2 2 -1 -1 2 2 -1 2 2 -1 2 2 -1 -1 2 -1 -2 -2 1 1 -2 1 1 \n    -2 -2 1 -2 1 -2 -2 1 1 -2 1 1 -2 -2 1 1 -2 -2 1 -2 -2 1 1 2 \n    -1 -1 2 -1 -1 2 2 -1 2 -1 -1 2 2 -1 2 2 -1 -1 2 1 -2 1 1 -2 \n    -2 1 -2 -2 1 -2 -2 1 1 -2 -2 1 1 -2 -2 -2 1 1 -2 -2 -2 -1 -1 -1 \n    -1 2 2 -1 -1 2 2 1 1 2 2 2 -1 -1 2 2 2 -1 2 2 -1 2 2 -1 \n    -1 2 -1 2 2 -1 -1 2 -1 -1 2 1 1 -2 -2 1 -2 -2 1 1 -2 -2 1 1 \n    -2 1 1 -2 -2 -1 2 -1 -1 2 2 -1 2 2 -1 -1 2 2 -1 -1 2 -1 -1 2 \n    2 1 -2 -2 1 -2 -2 1 1 -2 1 -2 -2 1 1 -2 1 1 -2 -2 1 2 -1 -1 \n    2 2 -1 -1 2 -1 -1 2 -1 -1 2 2 -1 2 1 1 -2 -2 1 1 -2 -2 -2 1 \n    -2 -2 1 1 -2 1 2 2 -1 -1 2 -1 -1 2 2 -1 2 -1 -1 2 2 -1 2 2 \n    -1 -2 -2 1 1 -2 1 1 -2 -2 1 1 -2 -2 1 -2 -2 1 1 -2 -1 2 -1 -1 \n    2 2 -1 2 2 2 -1 -1 2 2 -1 -1 -2 1 -2 -2 1 1 -2 1 1 -2 1 1 \n    -2 -2 1 2 2 -1 -1 2 -1 -1 2 1 1 -2 1 1 -2 -2 1 -2 -2 -2 1 1 \n    -2 1 1 -2 -2 1 2 -1 2 2 -1 -1 2 -1 -1 2 2 -1 -1 2 -1 -1 2 2 \n    -1 -1 2 2 -1 2 2 -1 -1 -2 1 1 -2 1 1 -2 -2 1 -2 1 1 -2 -2 1 \n    -2 -2 1 -2 -2 -2 1 1 -2 -2 -2 -1 -1 -2 -2 1 1 -2 -2 1 1 1 1 2 \n    2 2 -1 -1 2 2 2 -1 -1 2 2 -1 -1 2 2 -1 2 2 -1 2 2 -1 -1 2 \n    -1 -2 1 1 -2 -2 1 -2 -2 1 1 -2 1 -2 -2 1 1 -2 1 1 -2 -1 -1 2 \n    2 -1 2 2 -1 -1 2 2 -1 -1 2 -1 -1 2 2 -1 2 -1 2 2 -1 -1 2 -1 \n    -1 2 2 1 -2 1 1 -2 -2 1 -2 -2 1 -2 -2 1 1 -2 -2 1 1 -2 -2 -2 \n    1 1 -2 -2 -2 -1 -1 -1 -1 2 2 -1 -1 2 2 1 1 2 2 2 -1 -1 2 1 \n    1 -2 1 1 -2 -2 1 -2 1 -2 -2 1 1 -2 1 1 -2 -2 1 1 -2 -2 1 -2 \n    -2 1 1 2 -1 -1 2 -1 -1 2 2 -1 2 -1 -1 2 2 -1 2 2 -1 -1 2 1 \n    1 -2 1 1 -2 -2 1 -2 -1 2 2 -1 -1 2 -1 -1 2 2 2 -1 2 2 -1 -1 \n    2 -1 -1 -2 1 1 -2 1 1 -2 -2 -1 2 2 -1 -1 2 -1 -1 2 -1 -1 2 2 \n    -1 2 1 1 -2 -2 1 1 -2 -2 -2 1 -2 -2 1 1 -2 1 2 -1 -1 2 2 -1 \n    2 2 -1 -1 2 2 -1 -1 2 -1 -1 2 2 1 -2 -2 1 -2 -2 1 1 -2 1 -2 \n    -2 1 1 -2 1 1 -2 -2 -1 2 -1 -1 2 2 -1 2 2 2 -1 -1 2 2 -1 -1 \n    -2 1 -2 -2 1 1 -2 1 1 -2 1 1 -2 -2 1 1 -2 -1 2 2 -1 -1 2 -1 \n    -1 2 2 -1 2 -1 -1 2 2 -1 2 2 -1 -2 -2 1 1 -2 1 1 -2 -2 1 1 \n    -2 -2 1 -2 -2 1 1 2 -1 -1 2 -1 -1 2 2 -1 -1 -1 2 2 -1 -1 -1 -2 \n    -2 -2 -2 1 1 -2 1 1 -2 -2 1 2 2 1 1 1 -2 -2 1 1 2 -1 -1 2 \n    2 -1 2 1 1 -2 -2 1 -2 -2 1 -2 -2 1 1 -2 -2 1 2 2 -1 2 2 -1 \n    -1 2 -1 -1 -1 2 2 -1 -1 2 2 1 -2 -2 1 -2 -2 1 1 -2 -1 -1 2 2 \n    -1 -1 -1 -2 -2 -1 2 2 -1 -1 2 -1 -1 2 2 2 2 1 1 1 -2 -2 1 1 \n    1 -2 -2 1 1 -2 1 1 -2 -2 1 -2 -2 1 1 -2 -2 1 1 1 -2 1 1 -2 \n    -2 1 -2 -2 -1 2 2 -1 -1 2 2 -1 2 2 -1 2 2 -1 -1 2 -1 2 2 2 \n    -1 -1 2 -1 -1 2 2 -1 -2 -2 -2 1 -2 -2 1 1 -2 1 2 -1 -1 2 2 -1 \n    2 2 -1 -2 1 -2 -2 1 1 -2 1 1 -2 1 -2 -2 1 -2 -2 1 1 -2 1 2 \n    -1 -1 2 -1 -1 2 2 -1 2 -1 -1 2 -1 -1 2 2 -1 2 2 -1 -1 2 -1 -1 \n    2 2 -1 2 2 2 1 -2 -2 1 1 -2 1 1 -2 -2 -2 -2 -2 1 -2 -2 1 1 \n    -2 1 1 -2 1 -2 -2 1 1 -2 1 1 -2 -1 2 -1 -1 2 2 -1 2 2 -1 2 \n    -1 -1 2 -1 -1 2 2 -1 2 1 -2 -2 1 -2 -2 1 1 -2 1 1 -2 1 1 -2 \n    -2 1 -2 -2 1 -2 -2 1 1 -2 -2 1 2 2 -1 2 2 -1 -1 2 -1 -1 -1 2 \n    2 -1 -1 2 2 -1 2 2 -1 -1 2 -1 -1 2 2 -1 -1 -1 2 2 -1 -1 -1 -2 \n    -2 -2 -2 1 1 -2 1 1 -2 -2 1 2 2 1 1 1 -2 -2 1 1 2 -1 -1 2 \n    2 -1 2 2 -1 -2 -2 1 1 -2 -2 1 1 1 -2 1 1 -2 -2 1 -2 -2 -1 2 \n    2 -1 -1 2 2 -1 2 2 -1 2 2 -1 -1 -2 1 -2 -2 1 1 -2 -1 -1 2 2 \n    -1 -1 -1 -2 -2 -1 2 2 -1 -1 2 -1 -1 2 2 2 2 1 1 1 -2 -2 1 1 \n    1 -2 -2 1 1 -2 1 1 -2 -1 -1 2 2 -1 2 2 -1 -2 1 -2 -2 1 1 -2 \n    1 1 -2 1 -2 -2 1 -2 -2 1 1 -2 1 2 -1 -1 2 -1 -1 2 2 -1 2 -1 \n    -1 2 -1 -1 2 2 -1 2 2 2 2 2 -1 -1 2 -1 -1 2 2 -1 -2 -2 -2 1 \n    -2 -2 1 1 -2 1 1 -2 -2 1 -2 -2 1 1 -2 1 1 -2 1 -2 -2 1 1 -2 \n    1 1 -2 -1 2 -1 -1 2 2 -1 2 2 -1 2 -1 -1 2 -1 -1 2 2 -1 2 1 \n    -2 -2 1 -2 -2 1 1 -2 -1 2 -1 -1 2 2 -1 2 2 2 1 -2 -2 1 1 -2 \n    1 1 -2 -2 -1 2 2 -1 -1 2 -1 -1 2 1 1 -2 1 1 -2 -2 1 -2 -2 -2 \n    1 1 -2 1 1 -2 -2 1 2 -1 2 2 -1 -1 2 -1 -1 -1 -1 -1 2 2 -1 -1 \n    -1 -2 -2 -2 1 1 -2 -2 1 -2 -2 1 1 2 2 1 1 1 -2 -2 1 2 2 -1 \n    2 2 -1 -1 2 1 1 -2 1 1 -2 -2 1 -2 -1 2 2 -1 -1 2 -1 -1 2 2 \n    2 -1 2 2 -1 -1 2 -1 -1 -2 1 1 -2 1 1 -2 -2 1 -2 -2 1 1 -2 -2 \n    1 -2 -2 -1 2 2 -1 -1 -1 -2 -2 -1 -1 2 2 -1 2 2 -1 -1 2 2 2 1 \n    1 1 -2 -2 1 1 2 -1 -1 2 -1 -2 -2 -2 -2 -1 2 2 -1 2 2 -1 -1 2 \n    -1 2 2 2 2 1 -2 1 1 -2 1 -2 1 1 -2 -2 1 1 -2 1 -2 1 1 -2 \n    -2 1 -2 -2 1 2 -1 -1 2 2 -1 -1 2 -1 2 2 -1 2 2 -1 -1 2 -1 -1 \n    2 -1 -1 2 -1 -2 -2 -2 -2 1 -2 1 1 -2 -2 1 -2 -2 1 2 2 2 2 1 \n    -2 1 1 -2 1 -2 1 1 -2 -2 1 1 -2 -1 2 2 -1 2 2 -1 -1 2 -1 2 \n    -1 -1 2 2 -1 -1 2 1 -2 1 1 -2 -2 1 -2 -2 -1 -1 2 2 -1 -1 -1 -2 \n    -2 -2 1 1 -2 -2 1 -2 -2 1 1 2 2 1 1 1 -2 -2 1 2 2 -1 2 2 \n    -1 -1 2 2 -1 2 2 -1 -1 2 -1 -1 2 1 1 -2 1 1 -2 -2 1 -2 -2 -2 \n    1 1 -2 1 1 -2 -2 1 2 -1 2 2 -1 -1 2 -1 -1 -2 1 1 -2 -2 1 -2 \n    -2 -1 2 2 -1 -1 -1 -2 -2 -1 -1 2 2 -1 2 2 -1 -1 2 2 2 1 1 1 \n    -2 -2 1 1 1 1 1 -2 1 1 -2 -2 1 -2 -1 2 2 -1 -1 2 -1 -1 2 2 \n    2 -1 2 2 -1 -1 2 -1 -1 -2 1 1 -2 1 1 -2 -2 1 -2 -1 2 2 -1 2 \n    2 -1 -1 2 -1 -2 1 1 -2 -2 1 1 -2 1 -2 1 1 -2 -2 1 -2 -2 1 2 \n    -1 -1 2 2 -1 -1 2 -1 2 -1 -1 2 -1 -2 -2 -2 -2 -1 2 2 -1 2 2 -1 \n    -1 2 -1 2 2 2 2 1 -2 1 1 -2 1 1 -2 1 1 -2 -2 1 -2 -2 1 -2 \n    1 1 -2 -2 1 1 -2 -1 2 2 -1 2 2 -1 -1 2 -1 2 -1 -1 2 2 -1 -1 \n    2 -1 2 -1 -1 2 -1 -2 -2 -2 -2 1 -2 1 1 -2 -2 1 -2 -2 1 2 2 2 \n    2 1 -2 1 1 -2 1 \nHalting. μ∘δ=id.\n[SHUTDOWN] μ∘δ=id. Goodbye.\n",
+    "stderr": ""
+  },
+  {
+    "name": "tool-vox",
+    "argv": [
+      "--tool",
+      "vox",
+      "verdict",
+      "⊢∈≻⊤∋⊣"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.1490800309984479,
+    "stdout": "⊢∈≻⊤∋⊣\nverdict T\n",
+    "stderr": ""
+  },
+  {
+    "name": "tool-godel",
+    "argv": [
+      "--tool",
+      "godel",
+      "encode",
+      "217728509307789974617049079437290125283"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.05280500100343488,
+    "stdout": "value      217728509307789974617049079437290125283\nword       ⊢≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋⊙⊡⊣\nfamily     cell-binary\nvalue      217728509307789974617049079437290125283\nbinary     10100011110011001111110001001111000111101001001101001100011111111110101101110011000000000111110100011011001110000011011111100011\nsupport    {0,1,5,6,7,8,9,10,12,13,19,20,21,24,25,27,28,32,34,35,36,37,38,48,49,52,53,54,56,57,59,61,62,63,64,65,66,67,68,69,70,74,75,78,80,81,84,87,89,90,91,92,96,97,98,99,102,106,107,108,109,110,111,114,115,118,119,120,121,125,127}\npolynomial 1 + x + x^5 + x^6 + x^7 + x^8 + x^9 + x^10 + x^12 + x^13 + x^19 + x^20 + x^21 + x^24 + x^25 + x^27 + x^28 + x^32 + x^34 + x^35 + x^36 + x^37 + x^38 + x^48 + x^49 + x^52 + x^53 + x^54 + x^56 + x^57 + x^59 + x^61 + x^62 + x^63 + x^64 + x^65 + x^66 + x^67 + x^68 + x^69 + x^70 + x^74 + x^75 + x^78 + x^80 + x^81 + x^84 + x^87 + x^89 + x^90 + x^91 + x^92 + x^96 + x^97 + x^98 + x^99 + x^102 + x^106 + x^107 + x^108 + x^109 + x^110 + x^111 + x^114 + x^115 + x^118 + x^119 + x^120 + x^121 + x^125 + x^127\nbits-le    11000111111011000001110011011000101111100000000011001110110101111111111000110010110010010111100011110010001111110011001111000101\nbinary.frames          128\nbraid.crossings        128\nbraid.frame-closure    PASS\nrule       ⊥=1  ⊤=0  leftmost=2^0\n",
+    "stderr": ""
+  },
+  {
+    "name": "lean",
+    "argv": [
+      "--lean",
+      "/home/mrnob0dy666/imsgct/p4rakernel/p4ramill/Imscribing/Paraconsistent/BelnapSplitFuse.lean"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 2.5973691580002196,
+    "stdout": "lean /home/mrnob0dy666/imsgct/p4rakernel/p4ramill/Imscribing/Paraconsistent/BelnapSplitFuse.lean: ✓ ELABORATED — the kernel accepted every declaration. This is a real check: each theorem was elaborated, not grepped.\n\n",
+    "stderr": ""
+  },
+  {
+    "name": "mask",
+    "argv": [
+      "--click",
+      "monad",
+      "the_stone",
+      "--mask",
+      "bip39_key_*"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.39144586300244555,
+    "stdout": "click-maths:  monad  ⋈  the_stone   (θ=0.50)\n  live-pair charges (norm(x) − norm(y), the spring-loaded axis):\n    D↔W    monad= +0.67  the_stone= +0.33   Δ=0.33\n    T↔H    monad= +0.75  the_stone= +0.00   Δ=0.75\n    R↔S    monad= -0.33  the_stone= +1.00   Δ=1.33\n  ✓ CLICK on R↔S — spring-loaded Δ=1.33, single reaction center, closes.\n  product: ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩  (ring saturated on R↔S = ≻↔⊞)\n  inherited scaffold (blended from both partners): [⊢, ⊣, ≺, ∋, ⊥, ⊡]\n",
+    "stderr": "[catalog] 5 address(es) masked — enumerated, imscription withheld: bip39_key_*\n"
+  },
+  {
+    "name": "stain_valid",
+    "argv": [
+      "--stain",
+      "chiral",
+      "monad",
+      "the_stone",
+      "comonad_goedel"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.46070263101137243,
+    "stdout": "stain chiral → detects Chirality ⊥ (handedness):  {monad, the_stone, comonad_goedel}\n  ── revealed (EVALT — carries the feature, lights up) ──\n    the_stone, comonad_goedel\n  ── dark (EVALF — lacks the feature) ──\n    monad\n",
+    "stderr": ""
+  },
+  {
+    "name": "plasma",
+    "argv": [
+      "--plasma",
+      "monad"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.6952311230124906,
+    "stdout": "plasma: 'monad' has an incomplete tuple (missing ◻)\n\n",
+    "stderr": ""
+  },
+  {
+    "name": "set_donor",
+    "argv": [
+      "--set",
+      "the_stone",
+      "monad",
+      "--excite",
+      "--catalyst",
+      "extrapolation_93_units"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.5156979589955881,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nset  single-electron transfer — the_stone ⟶e⁻⟶ monad\n────────────────────────────────────────────────────────────────────────\n  photoinduced (hν): the_stone → the_stone* — ⊙ ⊙→𐑻 (excited to the EP resonance, now a far stronger donor).\n  driving force (⊙, energy): the_stone is the DONOR (higher-⊙, electrons higher-lying, reducing);  monad is the ACCEPTOR (lower-⊙, oxidizing)\n  electron = one winding quantum ⊡ (∮A=2πn, the quantized charge):\n    donor the_stone:    ⊡ 𐑭→𐑴  (oxidized, the_stone•⁺ — gave one winding quantum)\n    acceptor monad: ⊡ 𐑷→𐑴  (reduced,  monad•⁻ — took one winding quantum)\n  radical-ion products:\n    the_stone•⁺  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠𐑻𐑫𐑙𐑴⟩\n    monad•⁻  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑴⟩\n  invariant: total ⊡ conserved (−1 + +1 = 0) — charge conservation is the Frobenius pairing (δ/fsplit charge-separates, μ/ffuse recombines).\n  channels:  μ (back-ET / geminate recombination): the_stone•⁺ + monad•⁻ → the_stone + monad, lossless (μ∘δ=id);  productive: cage escape — the free radicals do chemistry.\n  mediator extrapolation_93_units (Cu-NO-class SET shuttle): can hold the intermediate (⊡=𐑴, 1≤⊡<max) — takes e⁻ from the_stone (⊡+1, reduced), delivers to monad (⊡−1, re-oxidized), returns to itself. Catalytic cycle, μ∘δ=id — regenerated, not consumed.\n",
+    "stderr": ""
+  },
+  {
+    "name": "annihilate_nontrivial",
+    "argv": [
+      "--annihilate",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.5116764059930574,
+    "stdout": "annihilate (pair fusion μ):  the_stone  ⊗  the_stonē\n  Ω classes:  the_stone=𐑭   the_stonē=𐑭\n  ABELIAN — windings ADD, they do not cancel: residual Ω remains.\n    𐑭 + 𐑭 → residual winding, no vacuum channel.\n  verdict: F — this pair does not annihilate. Fuse with an opposite\n  winding instead, or use `homolyze` to split before fusing.\n",
+    "stderr": ""
+  },
+  {
+    "name": "compare_rings",
+    "argv": [
+      "--compare",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone",
+      "vs",
+      "monad",
+      "the_stone",
+      "monad",
+      "thermodynamic_entropy"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.37115644599543884,
+    "stdout": "compare (two materials):\n  A: [monad · the_stone · monad · the_stone]\n       ρ=2.0000  FRUSTRATED  weakest Δ=1.33\n  B: [the_stone · monad · thermodynamic_entropy · monad]\n       ρ=2.0000  INSULATING  weakest Δ=1.33\n  Δ: ρ 2.0000 → 2.0000 (+0.0000); conductance FRUSTRATED → INSULATING\n  read: same principal mode — the two rings are spectrally equivalent as materials.\n",
+    "stderr": ""
+  },
+  {
+    "name": "fuse_rings",
+    "argv": [
+      "--fuse",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone",
+      "+",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.5363464889815077,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nfuse  weld two rings into one\n────────────────────────────────────────────────────────────────────────\n  ring A: [monad · the_stone · monad · the_stone]\n       ρ=2.0000  FRUSTRATED  weakest Δ=1.33\n  ring B: [monad · the_stone · monad · the_stone]\n       ρ=2.0000  FRUSTRATED  weakest Δ=1.33\n  fused : [monad · the_stone · monad · the_stone · monad · the_stone · monad · the_stone]\n       ρ=2.0000  FRUSTRATED  weakest Δ=1.33\n  fusion: parents ρ {2.0000, 2.0000} → fused ρ=2.0000 (FRUSTRATED); the two loops weld into a single 8-unit macrocycle.\n  read: the fused ring's ρ sits within the parents' range — a clean splice, no new branching from the weld.\n",
+    "stderr": ""
+  },
+  {
+    "name": "cleave_eight",
+    "argv": [
+      "--cleave",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.5340411440120079,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ncleave  fission a ring into two daughter rings\n────────────────────────────────────────────────────────────────────────\n  parent: [monad · the_stone · monad · the_stone · monad · the_stone · monad · the_stone]\n          ρ=2.0000  FRUSTRATED  weakest Δ=1.33\n  best fission (12 distinct cut(s) leave both arcs closing):\n  daughter A: [monad · the_stone · monad · the_stone]\n            ρ=2.0000  FRUSTRATED  weakest Δ=1.33\n  daughter B: [monad · the_stone · monad · the_stone]\n            ρ=2.0000  FRUSTRATED  weakest Δ=1.33\n  reconstitution: parent ρ=2.0000 splits into daughter modes {2.0000, 2.0000}; fission divides the single principal ring-current into two smaller-ring modes (μ∘δ: re-fuse the daughters with --fuse to weld them back).\n",
+    "stderr": ""
+  },
+  {
+    "name": "gradient_reverse",
+    "argv": [
+      "--gradient",
+      "monad",
+      "the_stone",
+      "on",
+      "imasm",
+      "from",
+      "the_stone",
+      "to",
+      "monad",
+      "--steps",
+      "5"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.43210474197985604,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ngradient  {monad, the_stone}\n────────────────────────────────────────────────────────────────────────\n  stationary imasm   eluent the_stone → monad   5 steps\n\n  step  %B    hold   pull(A→B)   analyte\n   void    —    0.00   1.33→0.00   monad  VOID — the column never gripped it\n     —    —    2.00   0.00→1.33   the_stone  RETAINED — B never out-pulls the column\n\n  0 of 2 eluted; 0 co-eluting pair(s); 1 retained; 1 in the void.\n  a void peak separates from nothing — it needs a stationary phase that binds it.\n  a retained analyte needs a STRONGER B, not a longer run — the walk never reaches its hold.\n",
+    "stderr": ""
+  },
+  {
+    "name": "plasma_repaired",
+    "argv": [
+      "--plasma",
+      "monad"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.7235871560114902,
+    "stdout": "plasma reading of monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩  (tier O₂)\n  regime:          fluid (3D reduced moments), quantum (coherence essential)\n  dimensionality:  MHD or two-fluid: density, velocity, pressure moments\n  mode structure:  interpenetrating\n  coupling (≻):    Kink, tearing, and sausage modes\n  symmetries (≺):  Tokamak — axisymmetry preserved, poloidal asymmetry due to toroidicity\n  collisionality:  Wigner-Seitz radius r_s < 1, tunneling, Pauli blocking\n  transport (⊤):   Transport timescale evolution, profile stiffness\n  interaction (∈): Ideal plasma — no long-range correlations beyond λ_D\n  cascade (∋):     ITB formation, multiple transport channels active\n  criticality (⊙): L-H transition threshold, density limit boundary, beta limit\n  chirality (⊥):   Collisional plasma, fluid closure via Chapman-Enskog\n  species (⊞):     e⁻ + multiple ion species + neutrals + impurities + field modes\n  magnetic top(⊡): Unmagnetized or weakly magnetized, no helicity conservation\n  instabilities:\n    — Transport timescale evolution, profile stiffness\n    — ITB formation, multiple transport channels active\n    — L-H transition threshold, density limit boundary, beta limit\n    — Collisional plasma, fluid closure via Chapman-Enskog\n  diagnostics:\n    — coupled electrostatic+electromagnetic at high β\n    — Unmagnetized or weakly magnetized, no helicity conservation\n    — Transport timescale evolution, profile stiffness\n\n",
+    "stderr": ""
+  },
+  {
+    "name": "catalog_options",
+    "argv": [
+      "--click",
+      "monad",
+      "the_stone",
+      "--catalog",
+      "/home/mrnob0dy666/imsgct/imscribing_grammar/IG_catalog.json",
+      "--theta",
+      "0.5",
+      "--verbose",
+      "--no-think"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.18564481099019758,
+    "stdout": "click-maths:  monad  ⋈  the_stone   (θ=0.50)\n  live-pair charges (norm(x) − norm(y), the spring-loaded axis):\n    D↔W    monad= +0.67  the_stone= +0.33   Δ=0.33\n    T↔H    monad= +0.75  the_stone= +0.00   Δ=0.75\n    R↔S    monad= -0.33  the_stone= +1.00   Δ=1.33\n  ✓ CLICK on R↔S — spring-loaded Δ=1.33, single reaction center, closes.\n  product: ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩  (ring saturated on R↔S = ≻↔⊞)\n  inherited scaffold (blended from both partners): [⊢, ⊣, ≺, ∋, ⊥, ⊡]\n",
+    "stderr": "[catalog] /home/mrnob0dy666/imsgct/imscribing_grammar/IG_catalog.json (9435 entries)\n"
+  },
+  {
+    "name": "help",
+    "argv": [
+      "--help"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.016395028011174873,
+    "stdout": "Host-native organism interface. Full-length questions, file submission, Gemini-class answers, ManuscriptSpine prepare→answer→complete.\n\n  ask --ask \"Is there a graph of chromatic number aleph1 …?\"\n  ask --ask ./questions/q7.txt\n  ask --file prompts/deep.md --verbose\n  cat essay.md | ask --file -\n  ask -i --model google/gemini-3-pro-preview\n\nEnv:\n  IG_PROVIDER      openrouter | gemini | deepseek | groq | local\n                                         (default: openrouter if key set, else gemini)\n  IG_MODEL         model id              (default: google/gemini-3-flash-preview)\n  IG_DEVICES       cuda ordinals for --provider local: 0,1 splits the model\n                                         across both cards; 1 pins one; cpu forces CPU\n                                         (default: every card present)\n  OPENROUTER_API_KEY / GEMINI_API_KEY / GOOGLE_API_KEY\n  MOMONADOS_CATALOG path to IG_catalog.json (optional)\n\n\nUsage: ask.bin [OPTIONS] [TEXT]...\n\nArguments:\n  [TEXT]...\n          Positional fallback: treated as --ask if --ask/--file omitted. A single positional that is a FILE or DIRECTORY path is read as the submission (a directory is concatenated). No longer trailing: flags may appear before, after, or between positional words\n\nOptions:\n  -a, --ask <ASK>\n          One-shot question, or path to a file (auto-detected if path exists)\n\n  -f, --file <FILE>\n          Read question from file (overrides --ask). Use `-` for stdin\n\n  -i, --interactive\n          Interactive multi-turn conversation\n\n  -v, --verbose\n          Verbose: print scaffold, spine faces, model meta\n\n      --dry-run\n          Structure-only: no LLM call (catalog scaffold + spine dry face)\n\n      --raw\n          Raw completion: bypass the ManuscriptSpine entirely and print ONE model completion to stdout, nothing else. This is the text-in/text-out surface external callers (e.g. the ob3ect Python pipeline) use so that a `--provider local` completion is served by THIS binary's in-process candle engine — the kernel's own inference — rather than a second copy loaded elsewhere. The user prompt comes from --ask / --file / stdin; an optional system message from --system. Errors go to stderr + nonzero exit\n\n      --system <SYSTEM>\n          System message for --raw mode (ignored otherwise)\n\n      --ob3ect <OB3ECT>\n          Design an ob3ect (the argument is the entity description, the simple ask, or a path to a file holding it). Routes through the PINNED provider (--provider / IG_PROVIDER: openrouter | gemini | deepseek | groq | local) exactly like every other winding — local serves the in-process candle model, the rest go over the network. Full auto.py parity for the two grounding portions, kept separate from the ask: --context (repeatable, file or dir) → a <domain-context> block of background; --entry NAME[,NAME…]               → named catalog entries (description + tuple) injected as a <catalog-entries> block. The ask stays \"Design an Ob3ect for: {description}\"; context/entries never merge into it. Types through the single-call IMASM design path, computes the structural faces in Rust, persists under ~/ob3ect/digital/<slug>/, prints a summary\n\n  -m, --model <MODEL>\n          LLM model (default: $IG_MODEL or google/gemini-3-flash-preview)\n          \n          [env: IG_MODEL=/home/mrnob0dy666/imsgct/.modelz/q38]\n\n      --provider <PROVIDER>\n          Provider: openrouter | gemini (default: $IG_PROVIDER, else key-based)\n          \n          [env: IG_PROVIDER=llamacpp]\n\n      --no-selectivity\n          Disable Dual-Link co-type / selectivity (model-only fuse)\n\n      --cycles <CYCLES>\n          CAP on cycles the agent may section for itself (0 = uncapped; a backstop still guards the pathological loop). A cycle is a set of eagles the AGENT closes with `TOOL: cycle_close`; its condensed result becomes the next cycle's opening prompt\n          \n          [default: 0]\n\n      --eagles <EAGLES>\n          CAP on eagles — TAOU windings flown out to run tools — within one cycle (0 = uncapped; a large backstop guards only a runaway). Honored across the board: jam, normal ask, and the kernel-gated prover's escalation schedule\n          \n          [default: 0]\n\n      --max-tokens <MAX_TOKENS>\n          Max output tokens for the model (default 16384 — full-length answers)\n          \n          [default: 16384]\n\n      --temperature <TEMPERATURE>\n          Temperature\n          \n          [default: 0.7]\n\n      --stream\n          Stream LLM output token-by-token (SSE)\n\n      --catalog <CATALOG>\n          Path to IG_catalog.json (default: search common locations)\n\n      --expand <EXPAND>\n          Degree of detail for the rendered proof (the conventional T/F-lane Witness). 0 = the pinched minimal form (default); >0 = the walked-out form: the SAME kernel theorem rendered at greater detail by the expansion morphism, with the theorem statement held byte-identical (the structural-identity / fidelity gate). Not a line-count target and never a weaker proposition. The B-lane Witness (the Dual-Link vessel) is unaffected\n          \n          [default: 0]\n\n      --click <A> <B>\n          Click-maths. Two names `--click A B`: fuse A and B if complementary on one live conjugate pair (D↔W, T↔H, R↔S). One name `--click A`: SWEEP A against the whole catalog and rank what it fuses with by product tier\n\n      --meet <A> <B>\n          Meet: `--meet A B` — the greatest lower bound of two entities, min per axis. The mirror of --click, which blends by max. Every fusion verb here RAISES; a meet is the only operation that DESCENDS, which is what a walk needs when a slot must come down (⊢ 𐑛, ≻ 𐑑, ∋ 𐑝 toward CLINK L9; ∈ ℵ→ℷ toward L8). --certify and --register apply exactly as they do for --click\n\n      --top <TOP>\n          Result count for the --click sweep (default 15)\n          \n          [default: 15]\n\n      --certify\n          For --click A B: certify the fused product's Frobenius closure through the Lean kernel (lake build igFrobeniusAlg.mul p p = p). Turns \"closes\" from an asserted valid tuple into a real kernel verdict\n\n      --switch <A> <B>\n          Switch: analyze two co-typed forms as a reversible bistable toggle (the DASA archetype) — the toggling live pair, the photochromic sign, δ (light) / μ (heat) legs. `./ask --switch A B`\n\n      --register [<REGISTER>]\n          For --click A B: register the fused product as a first-class catalog object and decompose it through the cl8nk_navigator (harness the chimera's existence). Optional value is the entry name; default `chimera_A_B`. `--click A B --register [NAME]`\n\n      --excite [<EXCITE>]\n          Excited-state analysis. `--excite A` promotes A to its excited manifold (Criticality ⊙ → the non-Hermitian exceptional-point resonance) and reports the δ (light) promotion and the μ (relaxation/fluorescence) + productive decay legs. On a `--set` line, bare `--excite` makes the transfer PHOTOINDUCED (the donor is excited first, opening the driving-force gap). `--excite A [--certify] [--register]`\n\n      --set <D> <A>\n          Single-electron transfer (SET). `--set D A` transfers one winding quantum ⊡ (the quantized charge) from donor to acceptor: donor oxidized (D•⁺), acceptor reduced (A•⁻), total ⊡ conserved. Donor/acceptor set by Criticality ⊙ (energy). Add `--catalyst M` for a Cu-NO-class mediator, `--excite` for photoinduced ET\n\n      --homolyze <A> <B>\n          Homolytic cleavage → NEUTRAL radicals (the δ_A symmetric split, the reverse of --click). `--homolyze A B` cleaves the A—B σ-bond into A• + B•; `--homolyze A` splits A symmetrically into two identical radicals A•. Contrast --set (the single-electron / heterolytic route → radical IONS A•⁺/B•⁻)\n\n      --annihilate <A> <B>\n          Pair fusion mu (annihilation). `--annihilate A [B]`; one name self-annihilates against its own conjugate. Abelian Omega classes add (opposite windings cancel to vacuum); Omega=non-Abelian returns a fusion CHANNEL (Fibonacci tau x tau = 1 + tau), verdict B, because both channels stay open until one is selected\n\n      --recalibrate <A> <AXIS>\n          Perturb ONE axis of an entity and report what moves with it. `--recalibrate A ⊥` (or a name: chirality, protection, kinetics…). Walks the axis through every value it can take, flags the cross-primitive couplings each step disturbs, and writes nothing — a perturbation is a probe\n\n      --complement <A>\n          Bidirectional ligand ⇌ catalytic-site complement (ported from red-hot_rebis ligand_from_active_site). `--complement A` maps a catalytic-site type to the complementary ligand it binds — and back, it is its own inverse. --certify / --register apply to the derived ligand\n\n      --scan-mediators\n          With `--set D A`: scan the whole catalog for the best mediators of that transfer — holdable winding (⊡), ⊙ relay between donor and acceptor, and bidirectional recognition (its complement binds both substrates). Ranked; --top bounds it\n\n      --cycle <CATALYST> <SUBSTRATE>\n          Catalytic cycle: `--cycle CATALYST SUBSTRATE` — the closed loop. bind → working stroke δ (one winding quantum moves, substrate→product, catalyst spent) → return stroke μ (regeneration) → turnover, with the catalyst a fixed point (μ∘δ=id). --certify proves the loop closes; --register canonizes the product\n\n      --pathway <SUBSTRATE> <CATALYSTS>...\n          Metabolic pathway: `--pathway SUBSTRATE C1 C2 … Cn` — chain the loops. The substrate runs through the catalyst sequence, one turnover each, the winding quantum the carrier passed along. If the carrier returns to its start it CLOSES into a metabolic cycle (a loop of loops). --certify verifies each catalyst regenerates\n\n      --polymerize <MONOMERS> <MONOMERS>...\n          Imscriptive polymerization: `--polymerize M1 M2 … Mn` — chain the clicks. Each bond is a Coagula link between complementary partners (step-growth) or an addition where a monomer repeats (chain-growth); the monomer SEQUENCE stays losslessly readable off the chain (R∧W∧X). Reports degree of polymerization, regioregularity, copolymer architecture, tacticity (the ⊥ chirality sequence), and whether it cyclizes head-to-tail into a macrocycle. --certify closes each unit\n\n      --close\n          With `--polymerize`: if the chain does not cyclize, search the catalog for the monomer that CLOSES it into a ring (clicks the tail and the head) or BRIDGES a co-typed break (clicks both sides of the failed junction). The honest cyclization search — distinct from `--scan-mediators`, which ranks SET electron relays\n\n      --props\n          With `--polymerize`: if the polymer is CLOSED (cyclic), characterize the ring as a mathematical material — is it conductive (a winding quantum ⊡ circulates the loop), frustrated, or insulating; and its weakest ring bond. Grounds the transport claims prose asserts about a cyclic \"computer\"\n\n      --modulus\n          With `--polymerize`: search for a monomer that generates a SUSTAINING loop — a conductive cycle (a persistent ⊡ current, ∮ closes) somewhere along the chain, and report its period (the modulus). Distinct from `--close`: a ring can close and still be static (insulating, no modulus). A modulus is elasticity, a sustaining loop\n\n      --arrange\n          With `--polymerize`: treat the monomers as an UNORDERED set and search orderings for the one that polymerizes best (longest enchainment, then closure, then stability), then run the full analysis on that order. A set has no inherent order — this finds the sequence instead of assuming the one given. Exhaustive for ≤9 monomers\n\n      --forge <MONOMERS> <MONOMERS>...\n          Forge a mathematical material: `--forge M1 M2 … Mn` treats the monomers as a set, finds the best-ringing order, and prints the full material sheet — topology, stability, conductance, and spectral invariants (adjacency spectrum, spectral radius ρ, gap). The one-flag deterministic characterize path (no LLM); = `--arrange --props`\n\n      --compare <A..vs..B> <A..vs..B> <A..vs..B>...\n          Compare two materials: `--compare A B C vs X Y Z`. Forge both rings and diff them by spectral radius, conductance class, and weakest bond\n\n      --dope <BASE..with..DOPANT> <BASE..with..DOPANT> <BASE..with..DOPANT>...\n          Dope a material: `--dope A B C with D`. Forge the base ring, then re-forge it with the dopant unit mixed in, and report the shift in ρ and conductance\n\n      --fuse <A..+..B> <A..+..B> <A..+..B> <A..+..B> <A..+..B>...\n          Fuse two rings: `--fuse A B C + X Y Z`. Forge each ring, then forge the union into one macrocycle, and report how the fused ρ/conductance relate to the two parents\n\n      --cleave <MONOMERS> <MONOMERS> <MONOMERS> <MONOMERS>...\n          Cleave a ring: `--cleave M1 M2 … Mn`. Ring fission (the reverse of --fuse) — forge the set into its best ring, then cut it into two daughter rings on complementary arcs and report both daughters and their spectra\n\n      --anneal <MONOMERS> <MONOMERS> <MONOMERS>...\n          Anneal a ring: `--anneal M1 M2 … Mn`. Relax the ring to its lowest-strain ordering — the ordering that rings with the most uniform bond loading, its settled ground state\n\n      --distill <MONOMERS> <MONOMERS>...\n          Distillation: separate a set by volatility (Criticality ⊙) into distillate / bottoms\n\n      --fdistill <MONOMERS> <MONOMERS>...\n          Fractional distillation: rank the whole set by volatility ⊙, plate by plate\n\n      --sublime <A>\n          Sublimation: purify one unit by a two-state skip across ⊙\n\n      --crystallize <MONOMERS> <MONOMERS>...\n          Crystallization: grow the ordered lattice from a set, rejecting units that do not fit\n\n      --cocrystallize <A> <B>\n          Co-crystallization: one non-covalent lattice of two complementary components\n\n      --seed <MONOMERS> <MONOMERS> <MONOMERS>...\n          Seeding: template a set's crystal on a seed's handedness. `seed M1 M2 … with S`\n\n      --tlc <MONOMERS> <MONOMERS>...\n          TLC: analytical chromatography — spread a set by Rf and count the bands\n\n      --column <MONOMERS> <MONOMERS>...\n          Column chromatography: elute a set by retention. `column M1 M2 … [on S]`\n\n      --fpt <MONOMERS> <MONOMERS>...\n          Freeze-pump-thaw: degas a set, shedding weakly-held units\n\n      --trap <A> <X>\n          Ionic trapping: sequester a unit by its charge. `trap A [X]`\n\n      --stain <REAGENT_THEN_UNITS> <REAGENT_THEN_UNITS>...\n          Stain: apply a diagnostic reagent to a set. `stain R M1 M2 …`\n\n      --recall <NAME>\n          Recall a registered material by name: `--recall NAME`. Prints its stored sheet from the material registry without respecifying it from units. Pair with `--forge … --register`\n\n      --export <PATH>\n          Export a material sheet to a standalone file: `--forge … --export PATH` (or `--recall NAME --export PATH`). Writes the whole record as portable JSON\n\n      --jam\n          Jam mode: turn the agent loose on the catalog with the full toolset and no question to answer. Feed a seed (a lemma, a pile of context, `--file …`) or nothing, and let it forge / fuse / cleave / dope / anneal / compare freely, following its own curiosity. The only rule stays the golem rule: the final report may state only what a tool returned. Runs a long agentic loop before it writes up what it actually found\n\n      --think [<THINK>]\n          Toggle model reasoning (\"thinking\") tokens. On by default; `--think false` (or `--no-think`) turns it off, sending the provider's disable-reasoning parameter (OpenRouter `reasoning.enabled=false`, Gemini `thinkingConfig.thinkingBudget=0`). Env: IG_THINK=0/false to default it off. Bare `--think` forces it on\n          \n          [default: true]\n          [possible values: true, false]\n\n      --no-think\n          Alias for `--think false`: disable model reasoning tokens outright\n\n      --star <MONOMERS> <MONOMERS> <MONOMERS> <MONOMERS>...\n          Assemble a STAR polymer: `--star M1 M2 …` picks the highest-functionality monomer as the core and attaches every unit that clicks with it as an arm (pure star K(1,f), ρ=√f)\n\n      --imasm <OP_AND_ARGS>...\n          Compose an IMASM polymer natively: `--imasm <op> …` builds a chain/ring/star/comb/ bubble from the 12 opcodes and reports its topology (β, branch/merge census, ρ) and grammar validation. `--imasm ref` prints the composition rules. Pure computation\n\n      --lean <PATH_OR_AUDIT>...\n          `--lean <path.lean>` elaborates a Lean file and reports the kernel's errors — a different question from `--lean audit`, which compiles every module's generated C to a real ELF and asks vox to read the compiled MACHINE CODE's own control-flow census (see p4ramill/scripts/vox_elf_audit.sh's own header: the two do not merge into one report). `--lean audit repair` additionally decomposes and repairs, via mOMonadOS's `insert`, every function vox itself calls B or F\n\n      --calc <EXPRESSION>...\n          Evaluate a numeric expression exactly: `--calc <expr>`. The arithmetic lane — every number the agent speaks routes through here, since a slipped exponent reads exactly like a correct one. Results echo in scientific form always. Pure computation. `allow_hyphen_values`: a leading minus is an OPERATOR here, not a flag — without it clap eats `--calc -(3/2 + 1/2)`, the very sign-slip class this lane exists to catch\n\n      --ringspec <WEIGHTS>...\n          The spectrum of a ring, in integers: `--ringspec <w1> <w2> <w3> …`. Bond weights around the cycle — a clean bond is 1, a cross-link is its number of reaction centres, and three is the minimum since two units cannot cyclize. The characteristic polynomial has integer coefficients, so every question the material sheet answers with a decimal is answered here exactly. Pure computation; shared with the kernel rather than reimplemented\n\n      --rotat <WORD>...\n          ROTAT the word and read where each cut lands: `--rotat <word>`. A word is a ring and ROTAT is the cyclic shift, so every rotation is the same object — the verdict and the topology hold across the orbit, the FINAL REGISTER does not. The landing map is the only handle on where a word comes to rest. (`--cycle` is the catalytic loop; this is the word orbit.)\n\n      --weight <WORD>...\n          Where the weight moves through an IMASM word: `--weight <word>`. The fork is a set and the fuse a union, so a finished walk keeps which values were touched and nothing else. This counts\n\n      --banked <WORD>...\n          Whether a clear fires with nothing banked behind it: `--banked <word>`\n\n      --trans <WORD>...\n          Opcode-to-opcode transitions counted ON THE RING: `--trans <word>`\n\n      --insert <WORD>...\n          The repair search: what single insertion makes an exposed word hold. `--insert <word>`\n\n      --frames <WORD>...\n          Which readings of a word survive rotation and which only read the cut: `--frames <word>`. Every rotation is the same object and every frame is equally available, so a quantity is either INVARIANT (true of the word) or FRAME-BOUND (true of the frame, and must be quoted with it). Evaluating one cut and reporting what you saw there is how a frame-bound reading gets mistaken for a property\n\n      --kernel <VERB>...\n          Run ANY G-mOMonadOS command: `--kernel <verb> [args…]`. The kernel carries well over two hundred verbs and porting them one at a time would leave the set incomplete for as long as the porting took, so this is the bridge that makes all of them reachable at once. It drives the HOSTED build over stdin — no QEMU, no serial script — and prints what the kernel printed, with the boot banner stripped. `--kernel help` lists the verbs.\n          \n          A verb that is pure computation should eventually MOVE into imasm_core the way ringspec and lattice_flow did, so it needs no kernel at all; until then it is available here.\n\n      --tool <TOOL>...\n          Run a local binary tool without inference: --tool godel encode <N>\n\n      --gradient <ANALYTES>...\n          Gradient chromatography: `--gradient M1 M2 … on S from A to B`. The eluent CHANGES COMPOSITION over the run, walking from a weak component to a strong one, and each analyte leaves the step the eluent's pull first exceeds the stationary phase's hold. `--column` is the isocratic case of this, where an over-held analyte simply never comes off. Steps default to 20; set with `--steps`\n\n      --mask <GLOB>...\n          Withhold an imscription for this run without removing its address: `--mask 'bip39_key_*'` (repeatable, `*` glob). The entry stays in the catalog and stays counted — the lattice is not depopulated — but its description, tuple, tier and structural algebra are withheld, so the run cannot lean on content it is meant to derive. An enumerated address is never removed; withholding is the weakest revision of its imscription\n\n      --steps <STEPS>\n          Number of composition steps for `--gradient` (the gradient's shallowness)\n          \n          [default: 20]\n\n      --filter <REFS> <REFS>...\n          Narrow the catalog to the floor of a reference set: `--filter A B [C …]` keeps every entry matching all the primitive values the references share\n\n      --ascend <NAME>\n          Construct the next ramified level of a tower from the excited state: `--ascend A` excites A, then IFIX-continues it past the exceptional point and adds one winding ⊡\n\n      --descend <NAME>\n          Relax a tower level back down (the μ inverse of --ascend): `--descend A` de-excites A's Criticality ⊙ to the real-axis Hermitian fixed point and removes one winding ⊡\n\n      --broadcast <SOURCE>\n          Broadcast: the ∋ primitive (f → all(x)) — one SOURCE signals every subsystem it couples with, discovered in a single catalog sweep. Realized as the click-sweep from the source:  finds every catalog entry that clicks with it\n\n      --riemann-sic\n          Riemann-SIC: d=12 Gerzon inverse verification. Instantiates the explicit numerical d=12 SIC-POVM fiducial constants, computes the Gerzon inverse ρ = (d+1) Σ p_i Π_i − 𝕀, and proves ‖ρ − ρ_input‖ < ε at machine precision. Pure computation — no catalog, no LLM. Embeds the exact algebraic fiducial\n\n      --riemann-hilbert\n          Riemann-Hilbert: constructs the Zauner Hamiltonian H_Z from the d=12 SIC-POVM projectors, computes its eigenvalues via Jacobi diagonalization, and compares them to the non-trivial zeros of Riemann ζ(s). Two constructions: (1) zeta- encoded Gerzon reconstruction verifying μ∘δ=id, (2) Zauner orbit-weighted Hamiltonian with eigenvalues aligned to zeta zeros. Pure computation\n\n      --plasma <NAME>\n          Plasma reading: read an entry's 12-primitive tuple as a plasma design — regime (kinetic/gyrokinetic/fluid via ⊢,⋈), instability cascade (∋,⊙,⊥), confinement / magnetic topology (⊡), species (Σ), and diagnostic wave signatures. Shells to the red-hot_rebis plasma forge\n\n      --phase-reconstruct <MONOMERS> <MONOMERS>...\n          Recover the relative phase word of a set from its closed ring: `--phase-reconstruct M1 M2 …` reads back the per-unit ⊥ phase sequence (or reports N)\n\n      --windings <LINES>...\n          Read spectral lines as winding transitions on the horn torus: `--windings 656.28nm 486.13nm …` or `--windings Na:589.0nm Na:589.6nm`. Wavelengths (nm/Å/µm) or energies (eV); optional element prefix. Pure winding arithmetic against one scale anchor (the electron rest energy)\n\n      --imscribe <NAME>\n          Create a missing catalog entry by imscribing it via the real generate pipeline (`imscribe generate … --name <NAME>`), writing to the live catalog MoDoT merges. Optionally pass a free-text description in --rest; defaults to the humanized name\n\n      --theta <THETA>\n          Spring-loaded offset threshold for --click (default 0.5)\n          \n          [default: 0.5]\n\n      --catalyst <CATALYST>\n          Optional catalyst for --click: a Frobenius-special fragment (e.g. math_isomorphism) that lowers the effective θ (barrier reduction) so a weakly-complementary pair can fuse, then is regenerated unchanged (μ∘δ=id). Lowers ΔG‡, never ΔG — cannot make a same-sign/neutral pair click\n\n      --context <PATH>\n          Load a file or DIRECTORY as background context, prepended to the question (repeatable). A directory is walked and its text files concatenated. Distinct from the submission: `--context ./refs --ask \"…\"` answers the question WITH the corpus as background\n\n      --entry <NAME>\n          Catalog entry names (comma-separated or repeated) to inject as <catalog-entries> context for --ob3ect — entry inclusion, same capability as auto.py's --entry. Each named entry's description and 12-primitive tuple is handed to the designer as grounding\n\n      --browse\n          Let the agent BROWSE the ig-docs corpus on demand while answering: enables the `docs` tool (`docs <query>` to search, `docs read <path>` to read). Toggleable and off by default. Corpus root is $MODOT_DOCS (default ~/imsgct/ig-docs)\n\n  -h, --help\n          Print help (see a summary with '-h')\n",
+    "stderr": ""
+  },
+  {
+    "name": "plasma_ring_partner",
+    "argv": [
+      "--plasma",
+      "the_stone"
+    ],
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.3015586620022077,
+    "stdout": "plasma reading of the_stone  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑭⟩  (tier O₂)\n  regime:          self-organized (hierarchical), quantum (coherence essential)\n  dimensionality:  Self-consistent field-particle hierarchy with cross-scale coupling\n  mode structure:  self-referential closure\n  coupling (≻):    This IS plasma — removing this collapses to electrostatics or neutral gas\n  symmetries (≺):  Self-verifying plasma — measurement ≡ dynamics\n  collisionality:  Wigner-Seitz radius r_s < 1, tunneling, Pauli blocking\n  transport (⊤):   Transport timescale evolution, profile stiffness\n  interaction (∈): Ideal plasma — no long-range correlations beyond λ_D\n  cascade (∋):     Standard plasma turbulence paradigm\n  criticality (⊙): L-H transition threshold, density limit boundary, beta limit\n  chirality (⊥):   Ideal MHD, no dissipation, no entropy production\n  species (⊞):     electron plasma OR pure ion plasma (Penning trap)\n  magnetic top(⊡): Taylor relaxation, reversed-field pinch, spheromak, solar corona\n  instabilities:\n    — Transport timescale evolution, profile stiffness\n    — Standard plasma turbulence paradigm\n    — L-H transition threshold, density limit boundary, beta limit\n    — Ideal MHD, no dissipation, no entropy production\n  diagnostics:\n    — self-consistent eigenmodes with back-reaction\n    — Taylor relaxation, reversed-field pinch, spheromak, solar corona\n    — Transport timescale evolution, profile stiffness\n\n",
+    "stderr": ""
+  }
+]

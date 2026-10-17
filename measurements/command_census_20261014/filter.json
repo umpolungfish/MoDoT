@@ -1,0 +1,13 @@
+{
+  "name": "filter",
+  "argv": [
+    "--filter",
+    "monad",
+    "the_stone"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.18319925598916598,
+  "stdout": "filter (narrow to the floor of {monad, the_stone}):\n  floor = 4 shared primitive(s): ⋈=𐑐  ⊤=𐑧  ∈=𐑲  ⊙=⊙\n  981 of 9435 catalog entries lie on this floor (match ALL shared values).\n    · post_transition_state\n    · optimal_biochemical_approach\n    · extended_human_life\n    · inflaton\n    · graviton\n    · dark_energy_inflaton_meet\n    · de_inf_join\n    · triple_join_de_inf_ax\n    · quad_join_de_inf_ax_higgs\n    · all_five_join\n    · six_join_de_inf_ax_higgs_grav_dm\n    · feminization_with_testicular_preservation\n    · quantum_spin_liquid\n    · word_logos\n    · creator_ein_sof\n    … and 966 more\n  (the floor is a NECESSARY condition — it bounds the candidate set from above; a tighter invariant narrows further. Reporting the real survivor count, not asserting it equals a target.)\n",
+  "stderr": ""
+}

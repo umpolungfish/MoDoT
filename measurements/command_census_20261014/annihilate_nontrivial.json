@@ -1,0 +1,12 @@
+{
+  "name": "annihilate_nontrivial",
+  "argv": [
+    "--annihilate",
+    "the_stone"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.5116764059930574,
+  "stdout": "annihilate (pair fusion μ):  the_stone  ⊗  the_stonē\n  Ω classes:  the_stone=𐑭   the_stonē=𐑭\n  ABELIAN — windings ADD, they do not cancel: residual Ω remains.\n    𐑭 + 𐑭 → residual winding, no vacuum channel.\n  verdict: F — this pair does not annihilate. Fuse with an opposite\n  winding instead, or use `homolyze` to split before fusing.\n",
+  "stderr": ""
+}

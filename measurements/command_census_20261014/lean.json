@@ -1,0 +1,12 @@
+{
+  "name": "lean",
+  "argv": [
+    "--lean",
+    "/home/mrnob0dy666/imsgct/p4rakernel/p4ramill/Imscribing/Paraconsistent/BelnapSplitFuse.lean"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 2.5973691580002196,
+  "stdout": "lean /home/mrnob0dy666/imsgct/p4rakernel/p4ramill/Imscribing/Paraconsistent/BelnapSplitFuse.lean: ✓ ELABORATED — the kernel accepted every declaration. This is a real check: each theorem was elaborated, not grepped.\n\n",
+  "stderr": ""
+}

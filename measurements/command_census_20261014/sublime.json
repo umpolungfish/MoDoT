@@ -1,0 +1,12 @@
+{
+  "name": "sublime",
+  "argv": [
+    "--sublime",
+    "monad"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.21696953900391236,
+  "stdout": "sublimation of monad (skip-path across Criticality ⊙, omitting the middle state):\n  ⊙ ⊙ →→ 𐑻, skipping the intermediate 𐑮.\n  ✓ clean skip-path (EVALT): monad sublimes — it crosses two ⊙ states and omits the middle register.\n  sublimate: monad (purified);  residue: none.\n",
+  "stderr": ""
+}

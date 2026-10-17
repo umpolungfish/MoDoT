@@ -218,14 +218,14 @@ impl GraphExt for Graph {
                     break;
                 }
                 seen[n] = true;
-                order.push(self.nodes[n].name());
+                order.push(self.nodes[n].code());
                 cur = self.successors(n).into_iter().next();
             }
             return order.join(" → ");
         }
         self.edges
             .iter()
-            .map(|&(a, b)| format!("{a}:{} → {b}:{}", self.nodes[a].name(), self.nodes[b].name()))
+            .map(|&(a, b)| format!("{a}:{} → {b}:{}", self.nodes[a].code(), self.nodes[b].code()))
             .collect::<Vec<_>>()
             .join("  ;  ")
     }
@@ -725,7 +725,7 @@ fn verdict_check(rest: &[String]) -> String {
     let g = from_sequence(&ops, &pairs);
     let errs = g.validate();
     let has_engagr = ops.iter().any(|&t| t == Token::Engagr);
-    let seq: Vec<&str> = ops.iter().map(|t| t.name()).collect();
+    let seq: Vec<&str> = ops.iter().map(|t| t.code()).collect();
 
     // The close condition is μ∘δ over a TRANSFORMED object (split → work → fuse),
     // not a bare cycle and not identity. closure_state encodes exactly that.
@@ -796,7 +796,7 @@ fn verdict_checkpairs(rest: &[String]) -> String {
     let pairs = match_pairs(&ops);
     let g = from_sequence(&ops, &pairs);
     let (fpairs, fully) = g.frobenius_closures();
-    let seq: Vec<&str> = ops.iter().map(|t| t.name()).collect();
+    let seq: Vec<&str> = ops.iter().map(|t| t.code()).collect();
     let mut out = format!("IMASM checkpairs\n  word: {}\n", seq.join(" "));
     if !fully {
         out.push_str("  open — a fork or fuse dangles unreconnected; no pairs to read\n");
@@ -810,7 +810,7 @@ fn verdict_checkpairs(rest: &[String]) -> String {
     for (i, &(f, j)) in fpairs.iter().enumerate() {
         let works = g.transforms_between(f, j);
         if works { any_work = true; }
-        let inner: Vec<&str> = g.between(f, j).into_iter().map(|k| g.nodes[k].name()).collect();
+        let inner: Vec<&str> = g.between(f, j).into_iter().map(|k| g.nodes[k].code()).collect();
         out.push_str(&format!(
             "  pair {}: split@{} fuse@{}  interior=[{}]  {}\n",
             i, f, j, inner.join(" "),
@@ -1091,23 +1091,23 @@ fn diff_types(rest: &[String]) -> String {
     let mut diffs = Vec::new();
     let _ = writeln!(out, "  {:<4} | {:<12} | {:<12} |", "Step", &name_a, &name_b);
     for i in 0..max_len {
-        let sa = if i < ops_a.len() { ops_a[i].name().to_string() } else { "—".into() };
-        let sb = if i < ops_b.len() { ops_b[i].name().to_string() } else { "—".into() };
+        let sa = if i < ops_a.len() { ops_a[i].code() } else { "—" };
+        let sb = if i < ops_b.len() { ops_b[i].code() } else { "—" };
         let marker = if i < ops_a.len() && i < ops_b.len() && ops_a[i] == ops_b[i] { " " } else { "←" };
-        if marker == " " { common += 1; } else { diffs.push((i+1, sa.clone(), sb.clone())); }
+        if marker == " " { common += 1; } else { diffs.push((i+1, sa.to_string(), sb.to_string())); }
         let _ = writeln!(out, "  {:<4} | {:<12} | {:<12} | {}", i+1, sa, sb, marker);
     }
 
     let _ = writeln!(out, "\n  Census:");
     let mut all: Vec<&Token> = ops_a.iter().chain(ops_b.iter()).collect();
-    all.sort_by_key(|t| t.name());
+    all.sort_by_key(|t| t.code());
     all.dedup();
     for t in &all {
         let ca = ops_a.iter().filter(|&x| x == *t).count();
         let cb = ops_b.iter().filter(|&x| x == *t).count();
         let delta = cb as isize - ca as isize;
         let mark = if delta != 0 { " ←" } else { "" };
-        let _ = writeln!(out, "    {:<10} {:>3} {:>3} {:>+4}{}", t.name(), ca, cb, delta, mark);
+        let _ = writeln!(out, "    {:<10} {:>3} {:>3} {:>+4}{}", t.code(), ca, cb, delta, mark);
     }
 
     let _ = writeln!(out, "\n  Common: {}/{}  Diffs: {}", common, max_len, diffs.len());
@@ -1803,10 +1803,9 @@ fn eval_tool(rest: &[String], sixteen: bool) -> String {
             outs.join(",")
         };
         out.push_str(&format!(
-            "  {:>3} {} {:<8} in {:>4} → out {}\n",
+            "  {:>3} {} in {:>4} → out {}\n",
             i,
             tok.code(),
-            tok.name(),
             render(node_in[i]),
             shown
         ));
@@ -1814,7 +1813,7 @@ fn eval_tool(rest: &[String], sixteen: bool) -> String {
     // readout: sinks (no outgoing edges)
     let sinks: Vec<String> = (0..g.nodes.len())
         .filter(|&i| g.out_degree(i) == 0)
-        .map(|i| format!("{}({})", g.nodes[i].name(), render(gate_out(g.nodes[i], node_in[i], seed, 0, 0))))
+        .map(|i| format!("{}({})", g.nodes[i].code(), render(gate_out(g.nodes[i], node_in[i], seed, 0, 0))))
         .collect();
     if !sinks.is_empty() {
         out.push_str(&format!("  readout at sink(s): {}\n", sinks.join("  ")));
@@ -2056,7 +2055,7 @@ fn compose_tool(rest: &[String]) -> String {
     };
     let k = bindings.len();
     // persist as a wire spec so it rebuilds through the identical parse
-    let toks: Vec<&str> = g.nodes.iter().map(|t| t.name()).collect();
+    let toks: Vec<&str> = g.nodes.iter().map(|t| t.code()).collect();
     let edges: Vec<String> = g.edges.iter().map(|&(a, b)| format!("{a}-{b}")).collect();
     let spec = format!("wire {} / {}", toks.join(" "), edges.join(" "));
     let mut reg = load_registry();
@@ -2073,7 +2072,7 @@ fn compose_tool(rest: &[String]) -> String {
     }
     let bind_str: Vec<String> = bindings
         .iter()
-        .map(|&(a, b)| format!("{}@{a} → {}@{b}", g.nodes[a].name(), g.nodes[b].name()))
+        .map(|&(a, b)| format!("{}@{a} → {}@{b}", g.nodes[a].code(), g.nodes[b].code()))
         .collect();
     format!(
         "IMASM compose → '{new_name}' admitted: {} ∘ {} bound at {} end(s).\n  \
@@ -2121,7 +2120,7 @@ fn export_tools() -> String {
         items.push(serde_json::json!({
             "name": name,
             "spec": spec,
-            "nodes": g.nodes.iter().map(|t| t.name()).collect::<Vec<_>>(),
+            "nodes": g.nodes.iter().map(|t| t.code()).collect::<Vec<_>>(),
             "codes": g.nodes.iter().map(|t| t.code()).collect::<Vec<_>>(),
             "edges": g.edges,
             "free_in": free_in,
@@ -2281,7 +2280,7 @@ pub fn run(args: &[String]) -> String {
         "chaos" | "space" => chaos_tool(rest),
         "export" | "manifest" => export_tools(),
         "tools" => list_tools(),
-        "chain" | "ring" | "cycle" | "loop" | "protocol" | "seq" | "sequence" | "classify"
+        "chain" | "ring" | "loop" | "protocol" | "seq" | "sequence" | "classify"
         | "read" | "wire" | "graph" | "free" | "star" | "bubble" | "fork" | "comb" | "graft" => {
             match build_graph(&op, rest) {
                 Ok((title, g)) => report(title, &g),
@@ -2308,7 +2307,7 @@ pub fn run(args: &[String]) -> String {
                 Err(e) => format!("{e}\n"),
                 Ok((ops, pairs, actions)) => {
                     let g = from_sequence(&ops, &pairs);
-                    let seq: Vec<&str> = ops.iter().map(|t| t.name()).collect();
+                    let seq: Vec<&str> = ops.iter().map(|t| t.code()).collect();
                     let mut s = String::new();
                     let _ = writeln!(
                         s,
@@ -2355,7 +2354,7 @@ pub fn run(args: &[String]) -> String {
                  opcode; it is not.\n"
             )
         }
-        "verify" | "typecheck" | "test" | "close" => {
+        "verify" | "test" | "close" => {
             format!(
                 "imasm has no '{op}' subcommand — use `imasm check <opcode word>` (Belnap type-check of a \
                  decision/program) to check if a word closes, or `imasm protocol <opcode word>` to wire a word so it closes.\n"

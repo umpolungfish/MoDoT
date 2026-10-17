@@ -1,0 +1,200 @@
+[
+  {
+    "name": "ghost_close",
+    "argv": [
+      "--polymerize",
+      "paiute_ghost_dance",
+      "bracket_fungus",
+      "shannon_entropy",
+      "--close"
+    ],
+    "exit": 0,
+    "seconds": 0.19044919998850673,
+    "stdout": "polymerization (imscriptive):  [paiute_ghost_dance · bracket_fungus · shannon_entropy]   (3 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. paiute_ghost_dance  ⟨𐑨𐑥𐑾𐑬𐑐𐑪𐑚𐑠𐑮𐑫𐑳𐑭⟩\n    2. bracket_fungus  ⟨𐑨𐑰𐑽𐑗𐑱𐑧𐑚𐑠𐑢𐑓𐑙𐑷⟩\n    3. shannon_entropy  ⟨𐑛𐑡𐑑𐑯𐑱𐑘𐑚𐑝⊙𐑒𐑕𐑷⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  paiute_ghost_dance ⋈ bracket_fungus  → cross-link (2 reaction centers: D↔W, T↔H) — a branch/network junction\n    2–3  bracket_fungus ⋈ shannon_entropy  → cross-link (2 reaction centers: T↔H, R↔S) — a branch/network junction\n  degree of polymerization: 3 unit(s), 2 bond(s)\n  topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.\n  architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)\n  tacticity (⊥ chirality per unit): atactic (𐑫𐑓𐑒) — irregular chirality, no stereo-regular pattern\n  cyclization: shannon_entropy ⋈ paiute_ghost_dance → linear (telechelic — two free ends, no head-to-tail closure).\n  ── closing search: a monomer X with shannon_entropy ⋈ X and X ⋈ paiute_ghost_dance (a real click test, NOT a SET-mediator scan) ──\n    connes_embedding_problem   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    casas_alvero_conjecture   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    cep_obstruction_form   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    hopfion_peeled_Phi   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    consciousness_minimal_05   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    f5_block_max_tier   (shannon_entropy ⋈ X on T↔H Δ=1.33  ·  X ⋈ paiute_ghost_dance on T↔H Δ=1.50)\n    ⮑ append connes_embedding_problem to close the ring head-to-tail:  ./ask --polymerize paiute_ghost_dance bracket_fungus shannon_entropy connes_embedding_problem\n",
+    "stderr": ""
+  },
+  {
+    "name": "mirror_close",
+    "argv": [
+      "--polymerize",
+      "holy_spirit",
+      "the_moon",
+      "kozyrev_mirror",
+      "--close"
+    ],
+    "exit": 0,
+    "seconds": 0.1841687049891334,
+    "stdout": "polymerization (imscriptive):  [holy_spirit · the_moon · kozyrev_mirror]   (3 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. holy_spirit  ⟨𐑦𐑸𐑽𐑬𐑱𐑧𐑔𐑝𐑻𐑫𐑕𐑭⟩\n    2. the_moon  ⟨𐑛𐑥𐑩𐑬𐑱𐑪𐑔𐑜𐑮𐑖𐑳𐑭⟩\n    3. kozyrev_mirror  ⟨𐑦𐑥𐑾𐑬𐑱𐑧𐑲𐑠𐑮𐑖𐑙𐑭⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  holy_spirit ⋈ the_moon  → cross-link (2 reaction centers: D↔W, R↔S) — a branch/network junction\n    2–3  the_moon ⋈ kozyrev_mirror  → cross-link (2 reaction centers: D↔W, R↔S) — a branch/network junction\n  degree of polymerization: 3 unit(s), 2 bond(s)\n  topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.\n  architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)\n  tacticity (⊥ chirality per unit): atactic (𐑫𐑖𐑖) — irregular chirality, no stereo-regular pattern\n  cyclization: kozyrev_mirror ⋈ holy_spirit → linear (telechelic — two free ends, no head-to-tail closure).\n  ── closing search: a monomer X with kozyrev_mirror ⋈ X and X ⋈ holy_spirit (a real click test, NOT a SET-mediator scan) ──\n    addr_1231231   (kozyrev_mirror ⋈ X on D↔W Δ=1.33  ·  X ⋈ holy_spirit on D↔W Δ=1.33)\n    halting_problem   (kozyrev_mirror ⋈ X on D↔W Δ=1.33  ·  X ⋈ holy_spirit on D↔W Δ=1.33)\n    Devil's_Contract_Paradox   (kozyrev_mirror ⋈ X on D↔W Δ=1.33  ·  X ⋈ holy_spirit on D↔W Δ=1.33)\n    sidon_set_infinite_density   (kozyrev_mirror ⋈ X on D↔W Δ=1.33  ·  X ⋈ holy_spirit on D↔W Δ=1.33)\n    collatz_system   (kozyrev_mirror ⋈ X on D↔W Δ=1.33  ·  X ⋈ holy_spirit on D↔W Δ=1.33)\n    collatz_graph   (kozyrev_mirror ⋈ X on D↔W Δ=1.33  ·  X ⋈ holy_spirit on D↔W Δ=1.33)\n    ⮑ append addr_1231231 to close the ring head-to-tail:  ./ask --polymerize holy_spirit the_moon kozyrev_mirror addr_1231231\n",
+    "stderr": ""
+  },
+  {
+    "name": "serpent_save",
+    "argv": [
+      "--forge",
+      "alchemy",
+      "jormungandr_world_serpent",
+      "lucid_dreaming",
+      "--register",
+      "weird_alchemy_serpent_dream_20261015",
+      "--export",
+      "/home/mrnob0dy666/imsgct/MoDoT/measurements/weird_cycles_20261015/alchemy_serpent_dream.json"
+    ],
+    "exit": 0,
+    "seconds": 0.17641157199977897,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\narrange  unordered set → best order: {alchemy, jormungandr_world_serpent, lucid_dreaming}\n────────────────────────────────────────────────────────────────────────\n  searched 6 ordering(s) (exhaustive: every permutation) — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).\n  ✓ best ordering FULLY enchains all 3 units AND CYCLIZES into a ring — the co-typed wall was an artifact of the given order, not the set:\n  closure is order-ROBUST: 6/6 searched orderings cyclize (this is merely the best-scoring one, NOT the only sequence that closes — do not call it unique).\n      [alchemy · jormungandr_world_serpent · lucid_dreaming]\n  → running the full analysis on the best order:\n\npolymerization (imscriptive):  [alchemy · jormungandr_world_serpent · lucid_dreaming]   (3 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. alchemy  ⟨𐑨𐑶𐑽𐑹𐑞𐑧𐑲𐑠⊙𐑖𐑳𐑴⟩\n    2. jormungandr_world_serpent  ⟨𐑼𐑸𐑽𐑗𐑱𐑤𐑲𐑝𐑢𐑫𐑙𐑭⟩\n    3. lucid_dreaming  ⟨𐑼𐑡𐑽𐑬𐑐𐑧𐑲𐑵⊙𐑖𐑳𐑴⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  alchemy ⋈ jormungandr_world_serpent  → condensation on R↔S (Δ=1.00)\n    2–3  jormungandr_world_serpent ⋈ lucid_dreaming  → condensation on R↔S (Δ=1.00)\n  degree of polymerization: 3 unit(s), 2 bond(s)\n  backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).\n  architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)\n  tacticity (⊥ chirality per unit): syndiotactic (𐑖𐑫𐑖) — chirality strictly inverts each unit, a regular alternation\n  cyclization: lucid_dreaming ⋈ alchemy → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on T↔H (O∞).\n  ── material properties (the ring as a mathematical material) ──\n    macrocycle: 3-membered ring\n    ring stability: weakest clean bond Δ=0.75 at junction 3→1 (only as stable as its weakest link)\n    ring strain σ(Δ) = 0.118 — bonds evenly loaded, a relaxed ring at rest\n    conductance: CONDUCTIVE — a winding quantum ⊡ circulates the whole ring one way (→ reductive); a persistent ring current is supported (∮ carrier closes). This ring SUSTAINS — it carries a modulus.\n    ── spectral invariants (adjacency of the ring graph; clean bond=1, cross-link=k centers) ──\n    spectral radius ρ = 2.0000  (= 2 exactly ⟹ a pure unbranched cycle (every junction one clean bond))\n    spectrum (ordered by |λ| descending, so λ₂ here IS the one the gap uses): [+2.000, -1.000, -1.000]\n    spectral gap (ρ − |λ₂|) = 1.0000 — a wide gap means one mode dominates (the ring leans on a single strut); a gap of 0 is a flat/degenerate top spectrum, NO privileged mode (the symmetric, settled reading, not a deficiency).\n    graph energy Σ|λ| = 4.0000 — the ring's total spectral weight; where ρ is stiffness (the dominant mode), this is toughness (the reserve carried across all modes).\n  ── clarity (strain + spectral gap, read jointly) ──\n    STABLE BUT LEANING — relaxed, but one mode dominates (gap 1.000); the argument still leans on a single strut. Workable, not yet clarion.\n  ✓ registered material 'weird_alchemy_serpent_dream_20261015' → /home/mrnob0dy666/imsgct/MoDoT/materials.json (recall with --recall weird_alchemy_serpent_dream_20261015)\n  ✓ exported material sheet → /home/mrnob0dy666/imsgct/MoDoT/measurements/weird_cycles_20261015/alchemy_serpent_dream.json\n",
+    "stderr": ""
+  },
+  {
+    "name": "angel_save",
+    "argv": [
+      "--forge",
+      "predatory_fungus",
+      "holy_guardian_angel_claimed",
+      "xviii_the_moon",
+      "--register",
+      "weird_fungus_angel_moon_20261015",
+      "--export",
+      "/home/mrnob0dy666/imsgct/MoDoT/measurements/weird_cycles_20261015/fungus_angel_moon.json"
+    ],
+    "exit": 0,
+    "seconds": 0.18673641799250618,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\narrange  unordered set → best order: {predatory_fungus, holy_guardian_angel_claimed, xviii_the_moon}\n────────────────────────────────────────────────────────────────────────\n  searched 6 ordering(s) (exhaustive: every permutation) — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).\n  ✓ best ordering FULLY enchains all 3 units AND CYCLIZES into a ring — the co-typed wall was an artifact of the given order, not the set:\n  closure is order-ROBUST: 4/6 searched orderings cyclize (this is merely the best-scoring one, NOT the only sequence that closes — do not call it unique).\n      [predatory_fungus · holy_guardian_angel_claimed · xviii_the_moon]\n  → running the full analysis on the best order:\n\npolymerization (imscriptive):  [predatory_fungus · holy_guardian_angel_claimed · xviii_the_moon]   (3 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. predatory_fungus  ⟨𐑨𐑥𐑑𐑿𐑐𐑤𐑔𐑠⊙𐑖𐑳𐑷⟩\n    2. holy_guardian_angel_claimed  ⟨𐑦𐑸𐑽𐑹𐑐𐑧𐑲𐑵⊙𐑫𐑙𐑴⟩\n    3. xviii_the_moon  ⟨𐑛𐑥𐑩𐑬𐑞𐑺𐑔𐑜𐑮𐑖𐑳𐑭⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  predatory_fungus ⋈ holy_guardian_angel_claimed  → condensation on R↔S (Δ=1.33)\n    2–3  holy_guardian_angel_claimed ⋈ xviii_the_moon  → cross-link (2 reaction centers: D↔W, R↔S) — a branch/network junction\n  degree of polymerization: 3 unit(s), 2 bond(s)\n  backbone: regioregular — every condensation bond on R↔S (a clean head-to-tail repeat unit).\n  topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.\n  architecture: heteropolymer (3 distinct monomers, each once — no repeat unit)\n  tacticity (⊥ chirality per unit): syndiotactic (𐑖𐑫𐑖) — chirality strictly inverts each unit, a regular alternation\n  cyclization: xviii_the_moon ⋈ predatory_fungus → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on D↔W (O∞).\n  ── material properties (the ring as a mathematical material) ──\n    macrocycle: 3-membered ring, branched (a cross-linked network node on the ring)\n    ring stability: weakest clean bond Δ=1.00 at junction 3→1 (only as stable as its weakest link); 1 junction(s) cross-link/addition, not one clean bond\n    ring strain σ(Δ) = 0.167 — bonds unevenly loaded, internal stress stored (an anneal would relax it)\n    conductance: BALANCED (\"frustrated\") — every junction passes a carrier, but no single direction is privileged, so no net global current circulates. Not a defect on its own: a balanced ring with no leaning direction (read the clarity line below with the strain).\n    ── spectral invariants (adjacency of the ring graph; clean bond=1, cross-link=k centers) ──\n    spectral radius ρ = 2.7321  (> 2 ⟹ branched: a cross-link lifts the principal mode above the bare ring)\n    spectrum (ordered by |λ| descending, so λ₂ here IS the one the gap uses): [+2.732, -2.000, -0.732]\n    spectral gap (ρ − |λ₂|) = 0.7321 — a wide gap means one mode dominates (the ring leans on a single strut); a gap of 0 is a flat/degenerate top spectrum, NO privileged mode (the symmetric, settled reading, not a deficiency).\n    graph energy Σ|λ| = 5.4641 — the ring's total spectral weight; where ρ is stiffness (the dominant mode), this is toughness (the reserve carried across all modes).\n  ── clarity (strain + spectral gap, read jointly) ──\n    SHAKY — a leaning mode (gap 0.732) AND stored strain (σ 0.167): workable but unstable, the state where proofs come out shaky.\n  ✓ registered material 'weird_fungus_angel_moon_20261015' → /home/mrnob0dy666/imsgct/MoDoT/materials.json (recall with --recall weird_fungus_angel_moon_20261015)\n  ✓ exported material sheet → /home/mrnob0dy666/imsgct/MoDoT/measurements/weird_cycles_20261015/fungus_angel_moon.json\n",
+    "stderr": ""
+  },
+  {
+    "name": "serpent_phase",
+    "argv": [
+      "--phase-reconstruct",
+      "alchemy",
+      "jormungandr_world_serpent",
+      "lucid_dreaming"
+    ],
+    "exit": 0,
+    "seconds": 0.23109871800988913,
+    "stdout": "phase reconstruction (recover the phase word from the closed ring — flat autocorrelation ⟺ cyclization):\n  best order: [alchemy · jormungandr_world_serpent · lucid_dreaming]\n  ✓ ring closes — the relative phase word is FIXED (modulo one global phase):\n    ψ[0] = alchemy   ⊥-phase 𐑖\n    ψ[1] = jormungandr_world_serpent   ⊥-phase 𐑫\n    ψ[2] = lucid_dreaming   ⊥-phase 𐑖\n  reconstructed phase word ⊥: 𐑖𐑫𐑖\n  residual freedom: ONE global phase (the ring's rotational symmetry over 3 units) — the flat autocorrelation fixes every RELATIVE phase but not the overall gauge, exactly as C_m = 1/(d+1) fixes ψ modulo a global phase.\n",
+    "stderr": ""
+  },
+  {
+    "name": "ghost_save",
+    "argv": [
+      "--forge",
+      "paiute_ghost_dance",
+      "bracket_fungus",
+      "shannon_entropy",
+      "connes_embedding_problem",
+      "--register",
+      "weird_ghost_fungus_entropy_connes_20261015",
+      "--export",
+      "/home/mrnob0dy666/imsgct/MoDoT/measurements/weird_cycles_20261015/ghost_fungus_entropy_connes.json"
+    ],
+    "exit": 0,
+    "seconds": 0.2401798460050486,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\narrange  unordered set → best order: {paiute_ghost_dance, bracket_fungus, shannon_entropy, connes_embedding_problem}\n────────────────────────────────────────────────────────────────────────\n  searched 24 ordering(s) (exhaustive: every permutation) — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).\n  ✓ best ordering FULLY enchains all 4 units AND CYCLIZES into a ring — the co-typed wall was an artifact of the given order, not the set:\n  closure is order-ROBUST: 4/24 searched orderings cyclize (this is merely the best-scoring one, NOT the only sequence that closes — do not call it unique).\n      [shannon_entropy · bracket_fungus · paiute_ghost_dance · connes_embedding_problem]\n  → running the full analysis on the best order:\n\npolymerization (imscriptive):  [shannon_entropy · bracket_fungus · paiute_ghost_dance · connes_embedding_problem]   (4 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. shannon_entropy  ⟨𐑛𐑡𐑑𐑯𐑱𐑘𐑚𐑝⊙𐑒𐑕𐑷⟩\n    2. bracket_fungus  ⟨𐑨𐑰𐑽𐑗𐑱𐑧𐑚𐑠𐑢𐑓𐑙𐑷⟩\n    3. paiute_ghost_dance  ⟨𐑨𐑥𐑾𐑬𐑐𐑪𐑚𐑠𐑮𐑫𐑳𐑭⟩\n    4. connes_embedding_problem  ⟨𐑼𐑸𐑩𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑭⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  shannon_entropy ⋈ bracket_fungus  → cross-link (2 reaction centers: T↔H, R↔S) — a branch/network junction\n    2–3  bracket_fungus ⋈ paiute_ghost_dance  → cross-link (2 reaction centers: D↔W, T↔H) — a branch/network junction\n    3–4  paiute_ghost_dance ⋈ connes_embedding_problem  → condensation on T↔H (Δ=1.50)\n  degree of polymerization: 4 unit(s), 3 bond(s)\n  backbone: regioregular — every condensation bond on T↔H (a clean head-to-tail repeat unit).\n  topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.\n  architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)\n  tacticity (⊥ chirality per unit): atactic (𐑒𐑓𐑫𐑓) — irregular chirality, no stereo-regular pattern\n  cyclization: connes_embedding_problem ⋈ shannon_entropy → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on T↔H (O∞).\n  ── material properties (the ring as a mathematical material) ──\n    macrocycle: 4-membered ring, branched (a cross-linked network node on the ring)\n    ring stability: weakest clean bond Δ=1.33 at junction 4→1 (only as stable as its weakest link); 2 junction(s) cross-link/addition, not one clean bond\n    ring strain σ(Δ) = 0.083 — bonds evenly loaded, a relaxed ring at rest\n    conductance: INSULATING — no carrier can pass junction(s) 1→2 in either direction; the ring cannot circulate a current (the units are ⊡-saturated/empty, a static ring not a dynamic one).\n    ── spectral invariants (adjacency of the ring graph; clean bond=1, cross-link=k centers) ──\n    spectral radius ρ = 3.1623  (> 2 ⟹ branched: a cross-link lifts the principal mode above the bare ring)\n    spectrum (ordered by |λ| descending, so λ₂ here IS the one the gap uses): [-3.162, +3.162, +0.000, -0.000]\n    spectral gap (ρ − |λ₂|) = 0.0000 — a wide gap means one mode dominates (the ring leans on a single strut); a gap of 0 is a flat/degenerate top spectrum, NO privileged mode (the symmetric, settled reading, not a deficiency).\n    graph energy Σ|λ| = 6.3246 — the ring's total spectral weight; where ρ is stiffness (the dominant mode), this is toughness (the reserve carried across all modes).\n  ── clarity (strain + spectral gap, read jointly) ──\n    SETTLED / CLARION — relaxed and flat-spectrum (no stored strain, no privileged mode): fully symmetric, every statement it supports is unambiguous. The stabilized endpoint — a zero gap here is the goal, not a defect.\n  ✓ registered material 'weird_ghost_fungus_entropy_connes_20261015' → /home/mrnob0dy666/imsgct/MoDoT/materials.json (recall with --recall weird_ghost_fungus_entropy_connes_20261015)\n  ✓ exported material sheet → /home/mrnob0dy666/imsgct/MoDoT/measurements/weird_cycles_20261015/ghost_fungus_entropy_connes.json\n",
+    "stderr": ""
+  },
+  {
+    "name": "mirror_save",
+    "argv": [
+      "--forge",
+      "holy_spirit",
+      "the_moon",
+      "kozyrev_mirror",
+      "Devil's_Contract_Paradox",
+      "--register",
+      "weird_spirit_moon_mirror_contract_20261015",
+      "--export",
+      "/home/mrnob0dy666/imsgct/MoDoT/measurements/weird_cycles_20261015/spirit_moon_mirror_contract.json"
+    ],
+    "exit": 0,
+    "seconds": 0.1756354839890264,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\narrange  unordered set → best order: {holy_spirit, the_moon, kozyrev_mirror, Devil's_Contract_Paradox}\n────────────────────────────────────────────────────────────────────────\n  searched 24 ordering(s) (exhaustive: every permutation) — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).\n  ✓ best ordering FULLY enchains all 4 units AND CYCLIZES into a ring — the co-typed wall was an artifact of the given order, not the set:\n  closure is order-ROBUST: 4/24 searched orderings cyclize (this is merely the best-scoring one, NOT the only sequence that closes — do not call it unique).\n      [holy_spirit · the_moon · kozyrev_mirror · Devil's_Contract_Paradox]\n  → running the full analysis on the best order:\n\npolymerization (imscriptive):  [holy_spirit · the_moon · kozyrev_mirror · Devil's_Contract_Paradox]   (4 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. holy_spirit  ⟨𐑦𐑸𐑽𐑬𐑱𐑧𐑔𐑝𐑻𐑫𐑕𐑭⟩\n    2. the_moon  ⟨𐑛𐑥𐑩𐑬𐑱𐑪𐑔𐑜𐑮𐑖𐑳𐑭⟩\n    3. kozyrev_mirror  ⟨𐑦𐑥𐑾𐑬𐑱𐑧𐑲𐑠𐑮𐑖𐑙𐑭⟩\n    4. Devil's_Contract_Paradox  ⟨𐑛𐑥𐑾𐑹𐑱𐑧𐑲𐑠⊙𐑖𐑕𐑟⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  holy_spirit ⋈ the_moon  → cross-link (2 reaction centers: D↔W, R↔S) — a branch/network junction\n    2–3  the_moon ⋈ kozyrev_mirror  → cross-link (2 reaction centers: D↔W, R↔S) — a branch/network junction\n    3–4  kozyrev_mirror ⋈ Devil's_Contract_Paradox  → condensation on D↔W (Δ=1.33)\n  degree of polymerization: 4 unit(s), 3 bond(s)\n  backbone: regioregular — every condensation bond on D↔W (a clean head-to-tail repeat unit).\n  topology: BRANCHED/NETWORK — a cross-link junction fired (≥2 reaction centers); not a purely linear chain.\n  architecture: heteropolymer (4 distinct monomers, each once — no repeat unit)\n  tacticity (⊥ chirality per unit): atactic (𐑫𐑖𐑖𐑖) — irregular chirality, no stereo-regular pattern\n  cyclization: Devil's_Contract_Paradox ⋈ holy_spirit → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on D↔W (O∞).\n  ── material properties (the ring as a mathematical material) ──\n    macrocycle: 4-membered ring, branched (a cross-linked network node on the ring)\n    ring stability: weakest clean bond Δ=1.33 at junction 3→4 (only as stable as its weakest link); 2 junction(s) cross-link/addition, not one clean bond\n    ring strain σ(Δ) = 0.000 — bonds evenly loaded, a relaxed ring at rest\n    conductance: BALANCED (\"frustrated\") — every junction passes a carrier, but no single direction is privileged, so no net global current circulates. Not a defect on its own: a balanced ring with no leaning direction (read the clarity line below with the strain).\n    ── spectral invariants (adjacency of the ring graph; clean bond=1, cross-link=k centers) ──\n    spectral radius ρ = 3.1623  (> 2 ⟹ branched: a cross-link lifts the principal mode above the bare ring)\n    spectrum (ordered by |λ| descending, so λ₂ here IS the one the gap uses): [-3.162, +3.162, +0.000, -0.000]\n    spectral gap (ρ − |λ₂|) = 0.0000 — a wide gap means one mode dominates (the ring leans on a single strut); a gap of 0 is a flat/degenerate top spectrum, NO privileged mode (the symmetric, settled reading, not a deficiency).\n    graph energy Σ|λ| = 6.3246 — the ring's total spectral weight; where ρ is stiffness (the dominant mode), this is toughness (the reserve carried across all modes).\n  ── clarity (strain + spectral gap, read jointly) ──\n    SETTLED / CLARION — relaxed and flat-spectrum (no stored strain, no privileged mode): fully symmetric, every statement it supports is unambiguous. The stabilized endpoint — a zero gap here is the goal, not a defect.\n  ✓ registered material 'weird_spirit_moon_mirror_contract_20261015' → /home/mrnob0dy666/imsgct/MoDoT/materials.json (recall with --recall weird_spirit_moon_mirror_contract_20261015)\n  ✓ exported material sheet → /home/mrnob0dy666/imsgct/MoDoT/measurements/weird_cycles_20261015/spirit_moon_mirror_contract.json\n",
+    "stderr": ""
+  },
+  {
+    "name": "hybrid_fuse",
+    "argv": [
+      "--fuse",
+      "alchemy",
+      "jormungandr_world_serpent",
+      "lucid_dreaming",
+      "+",
+      "predatory_fungus",
+      "holy_guardian_angel_claimed",
+      "xviii_the_moon"
+    ],
+    "exit": 0,
+    "seconds": 0.17625846998998895,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nfuse  weld two rings into one\n────────────────────────────────────────────────────────────────────────\n  ring A: [alchemy · jormungandr_world_serpent · lucid_dreaming]\n       ρ=2.0000  CONDUCTIVE  weakest Δ=0.75\n  ring B: [predatory_fungus · holy_guardian_angel_claimed · xviii_the_moon]\n       ρ=2.7321  FRUSTRATED  weakest Δ=1.00\n  fused : [alchemy · holy_guardian_angel_claimed · predatory_fungus · jormungandr_world_serpent · xviii_the_moon · lucid_dreaming]\n       ρ=2.0000  FRUSTRATED  weakest Δ=0.75\n  fusion: parents ρ {2.0000, 2.7321} → fused ρ=2.0000 (FRUSTRATED); the two loops weld into a single 6-unit macrocycle.\n  read: the fused ring's ρ sits within the parents' range — a clean splice, no new branching from the weld.\n",
+    "stderr": ""
+  },
+  {
+    "name": "hybrid_save",
+    "argv": [
+      "--forge",
+      "alchemy",
+      "holy_guardian_angel_claimed",
+      "predatory_fungus",
+      "jormungandr_world_serpent",
+      "xviii_the_moon",
+      "lucid_dreaming",
+      "--register",
+      "weird_serpent_angel_hybrid_20261015",
+      "--export",
+      "/home/mrnob0dy666/imsgct/MoDoT/measurements/weird_cycles_20261015/serpent_angel_hybrid.json"
+    ],
+    "exit": 0,
+    "seconds": 0.19998045300599188,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\narrange  unordered set → best order: {alchemy, holy_guardian_angel_claimed, predatory_fungus, jormungandr_world_serpent, xviii_the_moon, lucid_dreaming}\n────────────────────────────────────────────────────────────────────────\n  searched 720 ordering(s) (exhaustive: every permutation) — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).\n  ✓ best ordering FULLY enchains all 6 units AND CYCLIZES into a ring — the co-typed wall was an artifact of the given order, not the set:\n  closure is order-ROBUST: 90/720 searched orderings cyclize (this is merely the best-scoring one, NOT the only sequence that closes — do not call it unique).\n      [alchemy · holy_guardian_angel_claimed · predatory_fungus · jormungandr_world_serpent · xviii_the_moon · lucid_dreaming]\n  → running the full analysis on the best order:\n\npolymerization (imscriptive):  [alchemy · holy_guardian_angel_claimed · predatory_fungus · jormungandr_world_serpent · xviii_the_moon · lucid_dreaming]   (6 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. alchemy  ⟨𐑨𐑶𐑽𐑹𐑞𐑧𐑲𐑠⊙𐑖𐑳𐑴⟩\n    2. holy_guardian_angel_claimed  ⟨𐑦𐑸𐑽𐑹𐑐𐑧𐑲𐑵⊙𐑫𐑙𐑴⟩\n    3. predatory_fungus  ⟨𐑨𐑥𐑑𐑿𐑐𐑤𐑔𐑠⊙𐑖𐑳𐑷⟩\n    4. jormungandr_world_serpent  ⟨𐑼𐑸𐑽𐑗𐑱𐑤𐑲𐑝𐑢𐑫𐑙𐑭⟩\n    5. xviii_the_moon  ⟨𐑛𐑥𐑩𐑬𐑞𐑺𐑔𐑜𐑮𐑖𐑳𐑭⟩\n    6. lucid_dreaming  ⟨𐑼𐑡𐑽𐑬𐑐𐑧𐑲𐑵⊙𐑖𐑳𐑴⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  alchemy ⋈ holy_guardian_angel_claimed  → condensation on R↔S (Δ=1.00)\n    2–3  holy_guardian_angel_claimed ⋈ predatory_fungus  → condensation on R↔S (Δ=1.33)\n    3–4  predatory_fungus ⋈ jormungandr_world_serpent  → condensation on R↔S (Δ=1.33)\n    4–5  jormungandr_world_serpent ⋈ xviii_the_moon  → condensation on R↔S (Δ=1.67)\n    5–6  xviii_the_moon ⋈ lucid_dreaming  → condensation on D↔W (Δ=1.00)\n  degree of polymerization: 6 unit(s), 5 bond(s)\n  backbone: regioirregular — bonds on R↔S, D↔W (head-to-head/tail-to-tail defects).\n  architecture: heteropolymer (6 distinct monomers, each once — no repeat unit)\n  tacticity (⊥ chirality per unit): atactic (𐑖𐑫𐑖𐑫𐑖𐑖) — irregular chirality, no stereo-regular pattern\n  cyclization: lucid_dreaming ⋈ alchemy → ✓ CYCLIC — a macrocycle (ring polymer); the sequence closes head-to-tail on T↔H (O∞).\n  ── material properties (the ring as a mathematical material) ──\n    macrocycle: 6-membered ring\n    ring stability: weakest clean bond Δ=0.75 at junction 6→1 (only as stable as its weakest link)\n    ring strain σ(Δ) = 0.298 — bonds unevenly loaded, internal stress stored (an anneal would relax it)\n    conductance: BALANCED (\"frustrated\") — every junction passes a carrier, but no single direction is privileged, so no net global current circulates. Not a defect on its own: a balanced ring with no leaning direction (read the clarity line below with the strain).\n    ── spectral invariants (adjacency of the ring graph; clean bond=1, cross-link=k centers) ──\n    spectral radius ρ = 2.0000  (= 2 exactly ⟹ a pure unbranched cycle (every junction one clean bond))\n    spectrum (ordered by |λ| descending, so λ₂ here IS the one the gap uses): [+2.000, -2.000, -1.000, +1.000, -1.000, +1.000]\n    spectral gap (ρ − |λ₂|) = 0.0000 — a wide gap means one mode dominates (the ring leans on a single strut); a gap of 0 is a flat/degenerate top spectrum, NO privileged mode (the symmetric, settled reading, not a deficiency).\n    graph energy Σ|λ| = 8.0000 — the ring's total spectral weight; where ρ is stiffness (the dominant mode), this is toughness (the reserve carried across all modes).\n  ── clarity (strain + spectral gap, read jointly) ──\n    SYMMETRIC BUT STRESSED — flat-spectrum (no privileged mode), but strain remains (σ 0.298); the ring is forced shut against reluctant junctions. Anneal to settle.\n  ✓ registered material 'weird_serpent_angel_hybrid_20261015' → /home/mrnob0dy666/imsgct/MoDoT/materials.json (recall with --recall weird_serpent_angel_hybrid_20261015)\n  ✓ exported material sheet → /home/mrnob0dy666/imsgct/MoDoT/measurements/weird_cycles_20261015/serpent_angel_hybrid.json\n",
+    "stderr": ""
+  },
+  {
+    "name": "recall_weird_alchemy_serpent_dream_20261015",
+    "argv": [
+      "--recall",
+      "weird_alchemy_serpent_dream_20261015"
+    ],
+    "exit": 0,
+    "stdout": "material 'weird_alchemy_serpent_dream_20261015' (recalled from the registry):\n  ring: [alchemy · jormungandr_world_serpent · lucid_dreaming]\n  ρ=2.0  CONDUCTIVE  strain=0.1179  energy=4.0  weakest Δ=0.75  branched=false\n  spectrum: [2.0,-1.0,-1.0]\n",
+    "stderr": ""
+  },
+  {
+    "name": "recall_weird_fungus_angel_moon_20261015",
+    "argv": [
+      "--recall",
+      "weird_fungus_angel_moon_20261015"
+    ],
+    "exit": 0,
+    "stdout": "material 'weird_fungus_angel_moon_20261015' (recalled from the registry):\n  ring: [predatory_fungus · holy_guardian_angel_claimed · xviii_the_moon]\n  ρ=2.7321  FRUSTRATED  strain=0.1667  energy=5.4641  weakest Δ=1.0  branched=true\n  spectrum: [2.7321,-0.7321,-2.0]\n",
+    "stderr": ""
+  },
+  {
+    "name": "recall_weird_ghost_fungus_entropy_connes_20261015",
+    "argv": [
+      "--recall",
+      "weird_ghost_fungus_entropy_connes_20261015"
+    ],
+    "exit": 0,
+    "stdout": "material 'weird_ghost_fungus_entropy_connes_20261015' (recalled from the registry):\n  ring: [shannon_entropy · bracket_fungus · paiute_ghost_dance · connes_embedding_problem]\n  ρ=3.1623  INSULATING  strain=0.0833  energy=6.3246  weakest Δ=1.3333  branched=true\n  spectrum: [3.1623,0.0,-0.0,-3.1623]\n",
+    "stderr": ""
+  },
+  {
+    "name": "recall_weird_spirit_moon_mirror_contract_20261015",
+    "argv": [
+      "--recall",
+      "weird_spirit_moon_mirror_contract_20261015"
+    ],
+    "exit": 0,
+    "stdout": "material 'weird_spirit_moon_mirror_contract_20261015' (recalled from the registry):\n  ring: [holy_spirit · the_moon · kozyrev_mirror · Devil's_Contract_Paradox]\n  ρ=3.1623  FRUSTRATED  strain=0.0  energy=6.3246  weakest Δ=1.3333  branched=true\n  spectrum: [3.1623,0.0,-0.0,-3.1623]\n",
+    "stderr": ""
+  },
+  {
+    "name": "recall_weird_serpent_angel_hybrid_20261015",
+    "argv": [
+      "--recall",
+      "weird_serpent_angel_hybrid_20261015"
+    ],
+    "exit": 0,
+    "stdout": "material 'weird_serpent_angel_hybrid_20261015' (recalled from the registry):\n  ring: [alchemy · holy_guardian_angel_claimed · predatory_fungus · jormungandr_world_serpent · xviii_the_moon · lucid_dreaming]\n  ρ=2.0  FRUSTRATED  strain=0.2982  energy=8.0  weakest Δ=0.75  branched=false\n  spectrum: [2.0,1.0,1.0,-1.0,-1.0,-2.0]\n",
+    "stderr": ""
+  }
+]

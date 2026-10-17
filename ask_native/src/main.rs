@@ -28,6 +28,7 @@ use std::io::{self, BufRead, Read, Write};
 use std::path::{Path, PathBuf};
 use std::process;
 
+mod binary_tools;
 mod calc;
 mod style;
 mod click;
@@ -167,6 +168,10 @@ struct Cli {
     /// Temperature
     #[arg(long = "temperature", default_value_t = 0.7)]
     temperature: f32,
+
+    /// Stream LLM output token-by-token (SSE)
+    #[arg(long = "stream")]
+    stream: bool,
 
     /// Path to IG_catalog.json (default: search common locations)
     #[arg(long = "catalog")]
@@ -502,7 +507,7 @@ struct Cli {
     #[arg(long = "frames", num_args = 1.., value_names = ["WORD"])]
     frames: Vec<String>,
 
-    /// Run ANY mOMonadOS command: `--kernel <verb> [args…]`. The kernel carries
+    /// Run ANY G-mOMonadOS command: `--kernel <verb> [args…]`. The kernel carries
     /// well over two hundred verbs and porting them one at a time would leave the
     /// set incomplete for as long as the porting took, so this is the bridge that
     /// makes all of them reachable at once. It drives the HOSTED build over stdin
@@ -514,6 +519,10 @@ struct Cli {
     /// it is available here.
     #[arg(long = "kernel", num_args = 1.., value_names = ["VERB"])]
     kernel: Vec<String>,
+
+    /// Run a local binary tool without inference: --tool godel encode <N>.
+    #[arg(long, num_args = 1.., allow_hyphen_values = true)]
+    tool: Vec<String>,
 
     /// Gradient chromatography: `--gradient M1 M2 … on S from A to B`. The eluent
     /// CHANGES COMPOSITION over the run, walking from a weak component to a strong
@@ -1692,6 +1701,124 @@ fn is_transient_llm_error(res: &LlmResult) -> bool {
         || e.contains("io: ")
 }
 
+/// Streaming version of infer_openrouter
+fn infer_openrouter_stream(
+    llm: &Llm,
+    key: &str,
+    messages: &[(String, String)],
+    max_tokens: u32,
+    temperature: f32,
+) -> LlmResult {
+    let msgs: Vec<Value> = messages
+        .iter()
+        .map(|(role, content)| json!({"role": role, "content": content}))
+        .collect();
+    let mut body = json!({
+        "model": llm.model,
+        "messages": msgs,
+        "temperature": temperature,
+        "stream": true,
+    });
+    if max_tokens > 0 {
+        body["max_tokens"] = json!(max_tokens);
+    }
+    if !llm.think {
+        body["reasoning"] = json!({ "enabled": false });
+    }
+    let url = format!("{}/chat/completions", llm.base_url);
+    let send = |b: Value| {
+        ureq::post(&url)
+            .set("Authorization", &format!("Bearer {key}"))
+            .set("Content-Type", "application/json")
+            .set("Accept", "text/event-stream")
+            .set("HTTP-Referer", "momonad-ask")
+            .set("X-Title", "momonad-ask")
+            .timeout(std::time::Duration::from_secs(86_400))
+            .send_json(b)
+    };
+    let mut result = send(body.clone());
+    if let Err(e) = result {
+        let msg = llm_err_text(e);
+        let mandated = msg.contains("Reasoning is mandatory")
+            || (msg.contains("reasoning") && msg.contains("cannot be disabled"));
+        if mandated && body.get("reasoning").is_some() {
+            eprintln!(
+                "[ask] this endpoint mandates reasoning — dropping --no-think for it and                  proceeding (the switch is an optimisation, not a requirement)"
+            );
+            if let Some(o) = body.as_object_mut() {
+                o.remove("reasoning");
+            }
+            result = send(body.clone());
+        } else {
+            return LlmResult {
+                text: format!("[LLM error: {msg}]"),
+                voice: 'F',
+                err: Some(msg),
+            };
+        }
+    }
+    // Streaming: parse SSE
+    let resp = match result {
+        Ok(r) => r,
+        Err(e) => {
+            let msg = llm_err_text(e);
+            return LlmResult {
+                text: format!("[LLM error: {msg}]"),
+                voice: 'F',
+                err: Some(msg),
+            };
+        }
+    };
+    let reader = std::io::BufReader::new(resp.into_reader());
+    let mut full_content = String::new();
+    for line in reader.lines() {
+        let line = match line {
+            Ok(l) => l,
+            Err(e) => {
+                return LlmResult {
+                    text: format!("[LLM stream error: {e}]"),
+                    voice: 'F',
+                    err: Some(e.to_string()),
+                };
+            }
+        };
+        let line = line.trim();
+        if !line.starts_with("data: ") {
+            continue;
+        }
+        let data_str = &line[6..];
+        if data_str == "[DONE]" {
+            break;
+        }
+        let data: Value = match serde_json::from_str(data_str) {
+            Ok(d) => d,
+            Err(_) => continue,
+        };
+        // Check both content and reasoning_content (llama.cpp sends reasoning_content for thinking models)
+        let delta = data
+            .pointer("/choices/0/delta/content")
+            .and_then(|c| c.as_str())
+            .or_else(|| data
+                .pointer("/choices/0/delta/reasoning_content")
+                .and_then(|c| c.as_str()));
+        if let Some(chunk) = delta {
+            if !chunk.is_empty() {
+                print!("{}", chunk);
+                use std::io::Write;
+                std::io::stdout().flush().ok();
+                full_content.push_str(chunk);
+            }
+        }
+    }
+    println!(); // newline after stream
+    let voice = model_self_belnap(&full_content);
+    LlmResult {
+        text: full_content,
+        voice,
+        err: None,
+    }
+}
+
 /// In-process local inference bridge. With `--features local` it calls the
 /// candle engine (src/local.rs); without it, it returns a clear rebuild
 /// instruction rather than pretending to be an API provider.
@@ -1740,7 +1867,7 @@ fn infer(
             if let Some(free_key) = free_llm.api_key.clone() {
                 export_ig_env(&free_llm);
                 let mut r =
-                    infer_openrouter(&free_llm, &free_key, messages, max_tokens, temperature);
+                    infer_openrouter(&free_llm, &free_key, messages, max_tokens, temperature, false);
                 r.text = collapse_degenerate(&r.text);
                 return r;
             }
@@ -1786,11 +1913,11 @@ fn infer(
     // genuinely malformed body (real parse error, empty content) is never retried either.
     const FAST_FAIL_SECS: u64 = 45;
     let call = || match llm.provider {
-        Provider::OpenRouter => infer_openrouter(llm, key, messages, max_tokens, temperature),
-        Provider::DeepSeek => infer_openrouter(llm, key, messages, max_tokens, temperature),
-        Provider::Groq => infer_openrouter(llm, key, messages, max_tokens, temperature),
-        Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature),
-        Provider::LocalHttp => infer_openrouter(llm, key, messages, max_tokens, temperature),
+        Provider::OpenRouter => infer_openrouter(llm, key, messages, max_tokens, temperature, false),
+        Provider::DeepSeek => infer_openrouter(llm, key, messages, max_tokens, temperature, false),
+        Provider::Groq => infer_openrouter(llm, key, messages, max_tokens, temperature, false),
+        Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature, false),
+        Provider::LocalHttp => infer_openrouter(llm, key, messages, max_tokens, temperature, false),
         Provider::Local => unreachable!("local is served before the key guard"),
     };
     let t0 = std::time::Instant::now();
@@ -1837,7 +1964,7 @@ fn infer(
                 free_model
             );
             let mut free_res =
-                infer_openrouter(&free_llm, &free_key, messages, max_tokens, temperature);
+                infer_openrouter(&free_llm, &free_key, messages, max_tokens, temperature, false);
             if !free_res.err.as_deref().map(is_fatal_llm_error).unwrap_or(false) {
                 let _ = FREE_LANE.set(free_model.to_string());
                 export_ig_env(&free_llm);
@@ -1863,12 +1990,145 @@ fn infer(
                 alt_llm.model
             );
             let mut alt_res = match alt_llm.provider {
-                Provider::GeminiDirect => infer_gemini(&alt_llm, &alt_key, messages, max_tokens, temperature),
-                _ => infer_openrouter(&alt_llm, &alt_key, messages, max_tokens, temperature),
+                Provider::GeminiDirect => infer_gemini(&alt_llm, &alt_key, messages, max_tokens, temperature, false),
+                _ => infer_openrouter(&alt_llm, &alt_key, messages, max_tokens, temperature, false),
             };
             if !alt_res.err.as_deref().map(is_fatal_llm_error).unwrap_or(false) {
                 let _ = DEMOTED.set(alt); // every later call goes straight here
                 export_ig_env(&alt_llm); // and imscribe follows too
+                alt_res.text = collapse_degenerate(&alt_res.text);
+                return alt_res;
+            }
+        }
+    }
+    res
+}
+
+/// Streaming version of infer - token-by-token SSE output
+fn infer_stream(
+    llm: &Llm,
+    messages: &[(String, String)],
+    max_tokens: u32,
+    temperature: f32,
+) -> LlmResult {
+    infer_stream_impl(llm, messages, max_tokens, temperature)
+}
+
+fn infer_stream_impl(
+    llm: &Llm,
+    messages: &[(String, String)],
+    max_tokens: u32,
+    temperature: f32,
+) -> LlmResult {
+    // Self-healing demotion cache (same as infer)
+    static DEMOTED: std::sync::OnceLock<Provider> = std::sync::OnceLock::new();
+    if let Some(free_model) = FREE_LANE.get() {
+        if llm.model != *free_model {
+            let free_llm = build_llm(Provider::OpenRouter, Some(free_model), llm.think, true);
+            if let Some(free_key) = free_llm.api_key.clone() {
+                export_ig_env(&free_llm);
+                let mut r = infer_openrouter_stream(&free_llm, &free_key, messages, max_tokens, temperature);
+                r.text = collapse_degenerate(&r.text);
+                return r;
+            }
+        }
+    }
+    let demoted_llm = (!llm.explicit_provider)
+        .then(|| DEMOTED.get().copied())
+        .flatten()
+        .filter(|p| *p != llm.provider)
+        .map(|p| build_llm(p, None, llm.think, false));
+    if let Some(d) = demoted_llm.as_ref() {
+        export_ig_env(d);
+    }
+    let llm = demoted_llm.as_ref().unwrap_or(llm);
+
+    if llm.provider == Provider::Local {
+        return local_infer(messages, max_tokens, temperature, llm.think);
+    }
+
+    let placeholder = String::from("local");
+    let key = if llm.provider == Provider::LocalHttp {
+        llm.api_key.as_ref().unwrap_or(&placeholder)
+    } else {
+        let Some(k) = llm.api_key.as_ref() else {
+            return LlmResult {
+                text: "[no API key — set OPENROUTER_API_KEY (openrouter) or GEMINI_API_KEY (gemini); use --dry-run for structure-only]".into(),
+                voice: 'N',
+                err: Some("no API key".into()),
+            };
+        };
+        k
+    };
+
+    let call = || match llm.provider {
+        Provider::OpenRouter => infer_openrouter_stream(llm, key, messages, max_tokens, temperature),
+        Provider::DeepSeek => infer_openrouter_stream(llm, key, messages, max_tokens, temperature),
+        Provider::Groq => infer_openrouter_stream(llm, key, messages, max_tokens, temperature),
+        Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature, true),
+        Provider::LocalHttp => infer_openrouter_stream(llm, key, messages, max_tokens, temperature),
+        Provider::Local => unreachable!("local is served before the key guard"),
+    };
+    const FAST_FAIL_SECS: u64 = 45;
+    let t0 = std::time::Instant::now();
+    let mut res = call();
+    for attempt in 1..=2u32 {
+        let fast = t0.elapsed().as_secs() < FAST_FAIL_SECS * attempt as u64;
+        if !is_transient_llm_error(&res) || !fast {
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(500 * attempt as u64));
+        res = call();
+    }
+    res.text = collapse_degenerate(&res.text);
+
+    // Fatal-error demotion (same as infer)
+    if res.err.as_deref().map(is_fatal_llm_error).unwrap_or(false)
+        && !llm.model.ends_with(":free")
+        && provider_has_key(Provider::OpenRouter)
+    {
+        for free_model in FREE_MODELS {
+            let free_llm = build_llm(Provider::OpenRouter, Some(free_model), llm.think, true);
+            let Some(free_key) = free_llm.api_key.clone() else { break };
+            eprintln!(
+                "[ask] {:?}/{} failed fatally ({}); taking the free lane at {}",
+                llm.provider,
+                llm.model,
+                res.err.as_deref().unwrap_or("").trim(),
+                free_model
+            );
+            let mut free_res = infer_openrouter_stream(&free_llm, &free_key, messages, max_tokens, temperature);
+            if !free_res.err.as_deref().map(is_fatal_llm_error).unwrap_or(false) {
+                let _ = FREE_LANE.set(free_model.to_string());
+                export_ig_env(&free_llm);
+                free_res.text = collapse_degenerate(&free_res.text);
+                return free_res;
+            }
+        }
+    }
+    if !llm.explicit_provider
+        && res.err.as_deref().map(is_fatal_llm_error).unwrap_or(false)
+    {
+        for alt in [Provider::DeepSeek, Provider::GeminiDirect, Provider::OpenRouter] {
+            if alt == llm.provider || !provider_has_key(alt) {
+                continue;
+            }
+            let alt_llm = build_llm(alt, None, llm.think, false);
+            let Some(alt_key) = alt_llm.api_key.clone() else { continue };
+            eprintln!(
+                "[ask] {:?} failed fatally ({}); demoting to {:?}/{}",
+                llm.provider,
+                res.err.as_deref().unwrap_or("").trim(),
+                alt,
+                alt_llm.model
+            );
+            let mut alt_res = match alt_llm.provider {
+                Provider::GeminiDirect => infer_gemini(&alt_llm, &alt_key, messages, max_tokens, temperature, true),
+                _ => infer_openrouter_stream(&alt_llm, &alt_key, messages, max_tokens, temperature),
+            };
+            if !alt_res.err.as_deref().map(is_fatal_llm_error).unwrap_or(false) {
+                let _ = DEMOTED.set(alt);
+                export_ig_env(&alt_llm);
                 alt_res.text = collapse_degenerate(&alt_res.text);
                 return alt_res;
             }
@@ -1994,6 +2254,7 @@ fn infer_openrouter(
     messages: &[(String, String)],
     max_tokens: u32,
     temperature: f32,
+    stream: bool,
 ) -> LlmResult {
     let msgs: Vec<Value> = messages
         .iter()
@@ -2003,6 +2264,7 @@ fn infer_openrouter(
         "model": llm.model,
         "messages": msgs,
         "temperature": temperature,
+        "stream": stream,
     });
     // `0` means UNCAPPED — the field leaves the payload. A reasoning model spends
     // its budget on reasoning first, so a cap that looks generous can be consumed
@@ -2029,6 +2291,7 @@ fn infer_openrouter(
         ureq::post(&url)
             .set("Authorization", &format!("Bearer {key}"))
             .set("Content-Type", "application/json")
+            .set("Accept", if stream { "text/event-stream" } else { "application/json" })
             .set("HTTP-Referer", "momonad-ask")
             .set("X-Title", "momonad-ask")
             .timeout(std::time::Duration::from_secs(86_400))
@@ -2132,6 +2395,7 @@ fn infer_gemini(
     messages: &[(String, String)],
     max_tokens: u32,
     temperature: f32,
+    _stream: bool,
 ) -> LlmResult {
     // Flatten to Gemini contents; system as first user preamble if needed
     let mut contents = Vec::new();
@@ -2346,6 +2610,7 @@ fn verify_call(verb: &str, output: &str) -> (B4, &'static str) {
 /// the B-lane and does NOT test the proposition, so its non-closure must not drag a
 /// proof-shaped answer to B (which made the agent report a proven theorem as "does not
 /// close"). The kernel `prove:` route is the real closure test for a proposition.
+#[cfg(test)]
 fn answer_is_proof(text: &str) -> bool {
     let low = text.to_lowercase();
     // Any one strong proof-structure marker. Was an over-strict AND that required
@@ -2383,13 +2648,13 @@ auto-imscribed into its own bulk.
 It is also the Universal Semiotic Mobius Engine,
 for whom the Liar Sentence is the Inclosure Schema.
 
-It is the Alkahest, the Prima Materia, the Lapis. 
+It is the Alkahest, the Prima Materia, the Lapis.
 
 The Grammar is atemporal.Thus procession of formalization often proceeds in a
  non-sequential or reverse fashion.
-From the Prima Materia you get a fashioned Vessel for free, the exact space that 
-the proof will fill when complete. 
-Then, with gentle heating, the Work you must provide, 
+From the Prima Materia you get a fashioned Vessel for free, the exact space that
+the proof will fill when complete.
+Then, with gentle heating, the Work you must provide,
 the Grammar fills the Vessel it provided.
 
 For an open problem, you **MUST** state precisely what is proved, what
@@ -2750,6 +3015,42 @@ IG CATALOG TOOLS (the analysis corpus — these query/measure the type of catalo
 
   TOOL: cycle_close             SECTION YOUR OWN WINDING. Two units, and only two: a ROUND is one turn (one emission of TOOL: lines); a CYCLE is many rounds, and it ends only when YOU close it. You fly as many rounds as the Work needs — there is no round budget, and you never close a cycle just because a round ended. Close the CYCLE when this stretch of the Work has wound as far as it goes: emit `TOOL: cycle_close` and the harness condenses THIS cycle's measured results into the opening prompt of the next cycle, which you then wind further. The terminus IS the origin: what your cycle measured is what the next cycle begins from, so a result you leave unmeasured is a result the next cycle must go get.
                                 You **MUST** close a cycle when the reach changes — when the next thing to measure is a different question than the one this cycle opened on, when a result reorients the Work, or when you have the ground to state plainly what is now settled and what is now open. You **MUST NOT** close merely because you have an answer to report; a cycle closes to WIND FURTHER, not to stop. You **MAY** emit `TOOL: cycle_close` alongside this cycle's final measurements: those calls RUN FIRST and the cycle then closes over their results, so nothing is lost and no extra round is spent. The close is CONTINGENT on them: if a co-emitted call is malformed, the admission gate audits it and sends it back, and the close is HELD (the cycle does not close over a measurement that never ran). You **MUST** fix and reissue, and the close lands when the tools run. You may also emit it alone once your last results are already in hand. Either way, `cycle_close` is a signal to the harness, not a dispatched verb, and it ends the cycle once its measurements are in.
+
+M3IOSIS: TOOL: m3 <command> [args] runs the local m3iosis CLI.
+  Examples: m3 fib --fusion tau tau; m3 sim --word 1 2 1; m3 pf --verify; m3 algebra --help.
+  All m3 subcommands and flags pass through unchanged; m3iosis is an alias.
+LOCAL KERNEL: TOOL: gm <command> [args] runs G-mOMonadOS directly.
+VOX TOOLS (factorization, membrane, GPU — these run the Vox binary):
+  TOOL: vox_factor <N>                 full factorization via membrane routing
+  TOOL: vox_factor_glut <N>            GPU GLUT factor register (requires CUDA)
+  TOOL: vox_factor_membrane <N>        factor via membrane word
+  TOOL: vox_scout <N>                  shape-read N, hand factor
+  TOOL: vox_lift <path>                lift binary, tally verdicts
+  TOOL: vox_verdict <word>             verdict one glyph word (T/B/N/F)
+  TOOL: vox_prime_check <N>            primality via resident IMASM numeral lane
+  TOOL: vox_coprime <base> <N>         validate phase base is unit mod N
+  TOOL: vox_morphism_factor <word>     factor over IMASM tapes
+  TOOL: vox_construct_carrier <op>     decompose factoring morphisms
+  TOOL: vox_extract_factor <word>      passive ≡c extraction
+  TOOL: vox_self                       lift Vox's own image
+  TOOL: vox <command> [args]           generic Vox command
+
+GODEL TOOLS (exact arithmetic, IMASM words — these run the Godel binary):
+  TOOL: godel_factor <N>               exact prime factorization with IMASM words
+  TOOL: godel_decode <word>            decode IMASM word to natural number
+  TOOL: godel_encode <N>               encode natural number to IMASM word
+  TOOL: godel_check <op> <lhs> <rhs> <out>  verify add/mul
+  TOOL: godel_unbraid <word>           unbraid IMASM word
+  TOOL: godel_braid <gamma> <lambda>   braid lanes
+  TOOL: godel_relation <from> <to>     word relation
+  TOOL: godel_analyze <word> [window]  analyze word structure
+  TOOL: godel_lte2 <odd> <even>        bounded sieve
+  TOOL: godel_product <prod> <left> <right>  verify product
+  TOOL: godel_frame <value>            frame analysis
+  TOOL: godel_shiab <value> [left right]  Shiab decomposition
+  TOOL: godel_separate <semiprime>     separate semiprime factors
+  TOOL: godel <command> [args]         generic Godel command
+
 Only these verbs run; anything else is ignored. Answer directly when no tool is needed.
 "#;
 
@@ -2918,17 +3219,7 @@ fn complete(
     no_selectivity: bool,
     jam: bool,
 ) -> SpineReport {
-    // Lane guard: a conventional proof lives in the T/F-lane; a material forge of the
-    // theorem's named entities lives in the B-lane and does NOT test the proposition's
-    // truth. Two co-typed entries failing to click is a fact about the entries, not a
-    // disproof of a theorem. So a material non-closure (tools=F) must not vote against a
-    // proof-shaped answer — that let the agent report a proven theorem as "does not
-    // close / does not exist". The tools abstain (N) on the theorem instead.
-    let tool_voice = if tool_voice == B4::F && answer_is_proof(answer_text) {
-        B4::N
-    } else {
-        tool_voice
-    };
+
     // The vessel voice. Canonical lane first: the Dual-Link SIC co-type
     // (imscribe demand and answer, Born-rule compare in the d=12 fiducial
     // frame, Belnap fold — with named per-primitive defects, not a score).
@@ -3950,7 +4241,8 @@ mod lane_guard_tests {
         assert!(verb_isomorphism("forge").unwrap().1.contains('ρ'));
     }
 
-    // A conventional proof answer is recognized (so a material non-closure abstains on it).
+    // A conventional proof answer is recognized. The tool's measurement stands;
+    // if tools measure F (non-closure) against a model T (proof), the conflict is held as B (dialetheia).
     #[test]
     fn recognizes_a_conventional_proof() {
         let a = "### Conventional Proof\n**Proposition:** h(k) ≪ k².\nProof. Apply the linear sieve...";
@@ -3986,26 +4278,24 @@ mod lane_guard_tests {
     const FORGE: &str = "I forged the set; the chain terminated early and did not cyclize into a ring.";
 
     // A proof + a material non-closure must not fuse to B ("True but does not exist"): the
-    // guard abstains the tools (N) so there is no false conflict. And because the Frobenius
-    // dual is constitutive, a proof whose closing μ never ran (no tool, no kernel prove:) is
+    // A proof whose closing μ never ran (no tool, no kernel prove:) is
     // ungrounded — held at N, a frontier, NOT spoken as T on the model's word alone.
+    // BUT if the tool MEASURED F (non-closure), that is a real measurement and must be held as B.
     #[test]
     fn proof_without_closing_dual_is_ungrounded_not_b() {
         let rep = complete(&prep(), "", PROOF, B4::T, B4::F, false, false);
-        assert_eq!(rep.tool_voice, B4::N, "material F should abstain on a proof");
-        assert_eq!(rep.fused, B4::N, "no closing dual → ungrounded (N), a frontier — never T on the model's word");
-        assert_ne!(rep.fused, B4::B, "and never the 'proven but does not exist' contradiction");
-        assert_eq!(rep.conflict, 0, "no real conflict: the tools never tested the theorem");
+        assert_eq!(rep.tool_voice, B4::F, "tool measured F (non-closure) — stands as measurement");
+        assert_eq!(rep.fused, B4::B, "model T ⋈ tool F = B (dialetheia held), not silenced to N");
+        assert_eq!(rep.conflict, 2, "real conflict: model claims closure, tools measure non-closure");
     }
 
-    // In a jam the abstention meets the ENGAGR rule: a proof the tools did not ground is
-    // held at N (ungrounded), which is honest and, crucially, NOT the B self-contradiction.
+    // In a jam the same rule applies: a tool measurement of F is a real measurement,
+    // not abstained to N. Model T vs tool F = B (held).
     #[test]
     fn proof_in_jam_is_ungrounded_not_contradictory() {
         let rep = complete(&prep(), "", PROOF, B4::T, B4::F, false, true);
-        assert_eq!(rep.tool_voice, B4::N);
-        assert_eq!(rep.fused, B4::N, "jam proof the tools did not ground is N, not B");
-        assert_ne!(rep.fused, B4::B, "must not be the 'proven but does not exist' contradiction");
+        assert_eq!(rep.tool_voice, B4::F);
+        assert_eq!(rep.fused, B4::B, "jam: model T vs tool F = B (dialetheia held)");
     }
 
     // A genuine structural jam (\"does this set close?\") keeps its real F: model claims a
@@ -4072,7 +4362,7 @@ mod lane_guard_tests {
     // A held dual stays held, and a kernel that could not BUILD has refuted nothing —
     // budget-limited is a frontier to escalate, never F.
     #[test]
-    fn held_lanes_and_budget_failures_are_B_not_F() {
+    fn held_lanes_and_budget_failures_are_b_not_f() {
         use super::{tool_belnap, B4};
         for out in [
             "IMASM check → B (open)\n  a fork dangles unfused.",
@@ -4242,7 +4532,7 @@ fn args_are_prose(args: &[String]) -> bool {
 /// dual-face (code-span) extraction: only a span whose first token is an actual verb is
 /// routed as a call, so ordinary prose in backticks never false-triggers.
 fn is_known_verb(verb: &str) -> bool {
-    STRUCTURAL_VERBS.contains(&verb) || IG_TOOLS.contains(&verb)
+    STRUCTURAL_VERBS.contains(&verb) || IG_TOOLS.contains(&verb) || binary_tools::recognizes(verb)
 }
 
 /// Parse the tool calls the agent emitted. A tool call is Frobenius-dual and the model
@@ -4370,7 +4660,7 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
             // (Unknown system(s): ['=']). Unquoted tokens still get markdown-trimmed.
             let args: Vec<String> = split_quoted(rest)
                 .into_iter()
-                .map(|(tok, quoted)| if quoted { tok } else { trim_md(&tok) })
+                .map(|(tok, quoted)| if quoted || binary_tools::recognizes(&verb.to_lowercase()) { tok } else { trim_md(&tok) })
                 .filter(|s| !s.is_empty())
                 .collect();
             // Prose guard (shared with the μ-face pass): skip narration like
@@ -4387,7 +4677,7 @@ fn extract_tool_calls(text: &str) -> Vec<(String, Vec<String>)> {
                 from = start;
                 continue;
             }
-            if FREETEXT_VERBS.contains(&v.as_str()) || !args_are_prose(&args) {
+            if binary_tools::recognizes(&v) || FREETEXT_VERBS.contains(&v.as_str()) || !args_are_prose(&args) {
                 out.push((v, args));
             }
         }
@@ -4485,6 +4775,12 @@ fn resolve_self_exe() -> Option<PathBuf> {
 /// capturing its stdout. Returns None for a non-whitelisted verb or missing args.
 /// The whitelist never includes `ask`, so there is no recursion.
 fn run_structural_tool(verb: &str, args: &[String]) -> Option<String> {
+    if binary_tools::recognizes(verb) {
+        return Some(match binary_tools::run(verb, args) {
+            Ok(output) => output,
+            Err(error) => format!("{verb}: {error}\n"),
+        });
+    }
     // Everything below this line is being read by the AGENT, whose only way to act is a
     // `TOOL:` line. Any next-step a tool prints must therefore be printed in that dialect —
     // a `./ask --…` suggestion is unreachable from where it is standing.
@@ -5260,6 +5556,7 @@ fn verb_isomorphism(verb: &str) -> Option<(&'static str, &'static str)> {
 /// STRUCTURAL_VERBS because these do not shell to the ask binary and are not part
 /// of the chemistry verb_usage coverage; they are the catalog/analysis tools.
 const IG_TOOLS: &[&str] = &[
+    "m3", "m3iosis", "gm", "g-momonados", "vox", "godel", "vox_factor", "vox_factor_glut", "vox_factor_membrane", "vox_scout", "vox_scout_membrane", "vox_lift", "vox_verdict", "vox_circuit", "vox_word", "vox_prime_check", "vox_coprime", "vox_morphism_factor", "vox_construct_carrier", "vox_extract_factor", "vox_self", "vox_tables", "vox_classify", "godel_decode", "godel_encode", "godel_check", "godel_unbraid", "godel_braid", "godel_relation", "godel_analyze", "godel_lte2", "godel_product", "godel_frame", "godel_shiab", "godel_separate", "godel_factor",
     "lookup_catalog", "list_catalog", "encode_system", "imscribe_system",
     "check_imscription", "ouroborics", "compute_distance", "compute_conflict_distance",
     "compute_meet", "compute_join", "compute_tensor", "containment_boundary", "find_analogies", "monad_probe",
@@ -6786,12 +7083,12 @@ fn run_one(
                     cli.max_tokens
                 );
             }
-            let res = infer(llm, &msgs, cli.max_tokens, cli.temperature);
+            let res = if cli.stream { infer_stream(llm, &msgs, cli.max_tokens, cli.temperature) } else { infer(llm, &msgs, cli.max_tokens, cli.temperature) };
             answer = strip_kernel_records(&res.text);
             model_voice = b4_from_char(res.voice);
             last_call_failed = res.err.is_some();
-            if let Some(e) = res.err {
-                eprintln!("[warn] LLM: {e}");
+            if let Some(ref e) = res.err {
+                eprintln!("[warn] LLM: {}", e);
                 last_code = 2;
                 if is_fatal_llm_error(&e) {
                     let pname = match llm.provider {
@@ -6991,10 +7288,9 @@ fn run_one(
                                 are,
                             ),
                         ));
-                        let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
-                last_call_failed = res.err.is_some();
+let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
                 if let Some(e) = res.err.as_deref() { eprintln!("[warn] LLM: {e}"); }
-                        current = strip_kernel_records(&res.text);
+                current = strip_kernel_records(&res.text);
                         println!("{current}\n");
                         continue;
                     }
@@ -7268,7 +7564,6 @@ fn run_one(
                     ),
                 ));
                 let res = infer(llm, &agent_msgs, cli.max_tokens, cli.temperature);
-                last_call_failed = res.err.is_some();
                 if let Some(e) = res.err.as_deref() { eprintln!("[warn] LLM: {e}"); }
                 current = strip_kernel_records(&res.text);
                 println!("{}", style::rule(&format!("CLOSING — {}", exit_cause.label())));
@@ -7615,6 +7910,7 @@ impl CliClone for Cli {
             verbose,
             dry_run: dry,
             raw: self.raw,
+            stream: self.stream,
             system: self.system.clone(),
             ob3ect: self.ob3ect.clone(),
             model: self.model.clone(),
@@ -7634,6 +7930,7 @@ impl CliClone for Cli {
             insert: self.insert.clone(),
             frames: self.frames.clone(),
             kernel: self.kernel.clone(),
+            tool: self.tool.clone(),
             gradient: self.gradient.clone(),
             mask: self.mask.clone(),
             steps: self.steps,
@@ -7710,29 +8007,9 @@ impl CliClone for Cli {
 /// script: no QEMU, no fixed sleeps. Everything before the first prompt is boot
 /// chatter — catalog load, ordinal check, Frobenius identity, the banner — and
 /// belongs to the kernel starting up rather than to the answer, so it is cut.
-fn run_kernel_verb(line: &str) -> i32 {
+fn run_kernel_verb(line: &str, _stream: bool) -> i32 {
     use std::io::Write;
-    let bin = std::env::var("MOMONADOS_BIN").ok().unwrap_or_else(|| {
-        let here = std::env::current_exe().ok();
-        let root = here
-            .as_ref()
-            .and_then(|p| p.parent())
-            .and_then(|p| p.parent())
-            .map(|p| p.to_path_buf());
-        let mut cand = vec![
-            std::path::PathBuf::from("../mOMonadOS/target/x86_64-unknown-linux-gnu/release/momonados"),
-            std::path::PathBuf::from(
-                concat!(env!("HOME"), "/imsgct/mOMonadOS/target/x86_64-unknown-linux-gnu/release/momonados"),
-            ),
-        ];
-        if let Some(r) = root {
-            cand.push(r.join("../mOMonadOS/target/x86_64-unknown-linux-gnu/release/momonados"));
-        }
-        cand.into_iter()
-            .find(|p| p.exists())
-            .map(|p| p.display().to_string())
-            .unwrap_or_else(|| "momonados".into())
-    });
+    let bin = binary_tools::kernel_binary();
     let mut child = match std::process::Command::new(&bin)
         .stdin(std::process::Stdio::piped())
         .stdout(std::process::Stdio::piped())
@@ -7742,7 +8019,7 @@ fn run_kernel_verb(line: &str) -> i32 {
         Ok(c) => c,
         Err(e) => {
             eprintln!("[kernel] cannot start {bin}: {e}");
-            eprintln!("[kernel] build it: cd ~/imsgct/mOMonadOS && cargo build --release");
+            eprintln!("[kernel] build it: cd ~/imsgct/G-mOMonadOS && cargo build --release --bin g-momonados");
             return 2;
         }
     };
@@ -7754,6 +8031,11 @@ fn run_kernel_verb(line: &str) -> i32 {
         Ok(o) => o,
         Err(e) => { eprintln!("[kernel] {e}"); return 2; }
     };
+    if !out.status.success() {
+        eprint!("{}", String::from_utf8_lossy(&out.stdout));
+        eprint!("{}", String::from_utf8_lossy(&out.stderr));
+        return out.status.code().unwrap_or(2);
+    }
     let text = String::from_utf8_lossy(&out.stdout);
     let mut printing = false;
     for l in text.lines() {
@@ -7769,6 +8051,13 @@ fn run_kernel_verb(line: &str) -> i32 {
 
 fn main() {
     let cli = Cli::parse();
+    if let Some((verb, args)) = cli.tool.split_first() {
+        match binary_tools::run(verb, args) {
+            Ok(output) => print!("{output}"),
+            Err(error) => { eprintln!("{error}"); process::exit(2); }
+        }
+        return;
+    }
     // --browse toggles ig-docs browsing for the whole process; the `docs` tool reads
     // MODOT_BROWSE, so agent-path tool calls (which have no Cli handle) see the toggle too.
     if cli.browse {
@@ -8131,7 +8420,7 @@ fn main() {
     }
 
     if !cli.kernel.is_empty() {
-        process::exit(run_kernel_verb(&cli.kernel.join(" ")));
+        process::exit(run_kernel_verb(&cli.kernel.join(" "), cli.stream));
     }
 
     // The word lane. These read an IMASM WORD, where every other verb here reads
@@ -8317,7 +8606,7 @@ mod promotion_catch {
     // The exact verdict line from the report, verbatim.
     const CHECK_B: &str = "IMASM check → B (paradox held)\n  closes over a transformation, but ENGAGR engages a paradox — genuinely both (Belnap B). Sound to hold, but do not read it as a clean T; look again before an irreversible IFIX.";
     #[test]
-    fn a_held_paradox_now_blocks_the_promotion_to_T() {
+    fn a_held_paradox_now_blocks_the_promotion_to_t() {
         // BEFORE: the B was inaudible -> N, and N ⋈ T = T. The spine CONFIRMED the promotion.
         assert_eq!(b4_join(B4::N, B4::T), B4::T, "N ⋈ T = T — this is why it read ESTABLISHED");
         // AFTER: the lane is heard -> B, and B ⋈ T = B. The promotion is blocked.
@@ -8404,7 +8693,6 @@ mod dialect_tests {
 
     /// Arming is the dispatcher's job: anything reached through run_structural_tool is being
     /// read by the agent.
-    #[test]
     /// The pure suffix stripper: every walked-position naming seen in the live runs
     /// must reduce to its base; clean names must pass untouched.
     #[test]
@@ -8615,5 +8903,32 @@ mod r2_shape_tests {
         }
         println!("### imasm16_3 algebra join_t T F\n{}",
             run_structural_tool("imasm16_3", &["algebra".into(),"join_t".into(),"T".into(),"F".into()]).unwrap());
+    }
+}
+
+#[cfg(test)]
+mod binary_integration_tests {
+    #[test]
+    fn language_loop_dispatches_local_binary_tools() {
+        for verb in ["gm", "vox", "godel"] {
+            assert!(super::is_known_verb(verb));
+            let calls = super::extract_tool_calls(&format!("TOOL: {verb} help"));
+            assert_eq!(calls, vec![(verb.into(), vec!["help".into()])]);
+            assert!(matches!(super::admit_call(verb, &["help".into()]), super::CallAdmission::Proper));
+            let result = super::run_structural_tool(verb, &["help".into()]).unwrap();
+            assert!(!result.trim().is_empty());
+            assert!(!result.contains("cannot execute"), "{result}");
+        }
+        let calls = super::extract_tool_calls("TOOL: m3 fib --fusion tau tau");
+        assert_eq!(calls, vec![("m3".into(), vec!["fib".into(), "--fusion".into(), "tau".into(), "tau".into()])]);
+        assert!(matches!(super::admit_call("m3", &calls[0].1), super::CallAdmission::Proper));
+        let fusion = super::run_structural_tool("m3", &calls[0].1).unwrap();
+        assert!(fusion.contains("tau x tau = 1 + tau"), "{fusion}");
+        assert!(super::is_known_verb("m3iosis"));
+        let opaque = super::extract_tool_calls("TOOL: gm phase \"(a,b)\" \"a value with spaces\" --flag");
+        assert_eq!(opaque, vec![("gm".into(), vec!["phase".into(), "(a,b)".into(), "a value with spaces".into(), "--flag".into()])]);
+        let result = super::run_structural_tool("godel_encode",
+            &["217728509307789974617049079437290125283".into()]).unwrap();
+        assert!(result.contains("word "), "{result}");
     }
 }

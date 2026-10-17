@@ -1,0 +1,12 @@
+{
+  "name": "rotat",
+  "argv": [
+    "--rotat",
+    "⊢∈≻⊤∋⊣"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.4435065000143368,
+  "stdout": "\n────────────────────────────────────────────────────────────────────────\nrotat  ⊢∈≻⊤∋⊣\n────────────────────────────────────────────────────────────────────────\nword   : ⊢∈≻⊤∋⊣   period 6\n     k  final  verdict  word\n     0  T      T        ⊢∈≻⊤∋⊣\n     1  N      T        ∈≻⊤∋⊣⊢\n     2  N      T        ≻⊤∋⊣⊢∈\n     3  T      T        ⊤∋⊣⊢∈≻\n     4  T      T        ∋⊣⊢∈≻⊤\n     5  T      T        ⊣⊢∈≻⊤∋\n\n  landing register by cut:\n    T      at k = 0, 3, 4, 5\n    N      at k = 1, 2\n  final register is PHASE-BEARING: 2 distinct landings\n",
+  "stderr": ""
+}

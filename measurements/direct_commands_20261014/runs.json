@@ -1,0 +1,185 @@
+[
+  {
+    "name": "calc",
+    "argv": [
+      "--calc",
+      "-(3/2 + 1/2)"
+    ],
+    "exit": 0,
+    "seconds": 0.22835789699456654,
+    "stdout": "calc: -(3/2 + 1/2)\n  = -2.000000e0\n  = -2\n  (exact integer)\n",
+    "stderr": ""
+  },
+  {
+    "name": "ringspec",
+    "argv": [
+      "--ringspec",
+      "1",
+      "1",
+      "1",
+      "1"
+    ],
+    "exit": 0,
+    "seconds": 0.1910390899865888,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\nringspec  1 1 1 1\n────────────────────────────────────────────────────────────────────────\nRINGSPEC — the spectrum of a ring, in integers\n=============================================\n\n  units:   4\n  weights: 1 1 1 1 \n  topology: pure cycle — every junction one clean bond\n\n  char poly det(λI − A) = λ^4 + -4λ^2\n\n  Σλ² = tr(A²) = 8   (= 2·Σwᵢ² = 2·4)  ✓\n  spectrum symmetric under λ ↦ -λ: YES — every odd coefficient vanishes\n  ⟹ the top eigenvalue is paired with its negative, so |λ₂| = ρ\n  ⟹ SPECTRAL GAP = 0 exactly — no privileged mode\n\n  even ring — bipartite, so gap 0 whatever the weights.\n  Bipartite means the units fall into two classes and every bond runs\n  between them. A ring alternates because something mediates on both\n  sides of what it mediates — which is also why the count is even. One\n  fact, two readings. Compare gap within a parity; across parities the\n  gap is fixed before any weight is read, so compare strain instead.\n  zero eigenvalues: 2 (λ^2 divides the polynomial)\n  ⟹ the spectrum is {0 ×2, ±ρ} with ρ² = Σλ²/2 = 4 EXACTLY\n\n  Every line above is an integer identity. A ring reported as ρ=3.1623\n  has to be believed; one reported as ρ²=10 can be checked.\n",
+    "stderr": ""
+  },
+  {
+    "name": "sic",
+    "argv": [
+      "--riemann-sic"
+    ],
+    "exit": 0,
+    "seconds": 0.23093801000504754,
+    "stdout": "══════════════════════════════════════════════════\n  Riemann-SIC: d=12 Gerzon Inverse Verification\n  ρ = (d+1) Σ_i p_i Π_i − 𝕀\n══════════════════════════════════════════════════\n\nFiducial vector (|ψ₀⟩, d=12, normalized):\n  (from the exact algebraic Zauner fiducial, UHI-refined)\n  ψ[ 0] = +1.765708502244644e-1 +0.000000000000000e0j\n  ψ[ 1] = -1.143575710134576e-1 -8.013049463884123e-2j\n  ψ[ 2] = -1.547956127630955e-1 -8.937128869814624e-2j\n  ψ[ 3] = +4.832101464187391e-1 -2.358134589846635e-2j\n  ψ[ 4] = +1.274989515126597e-1 +0.000000000000000e0j\n  ψ[ 5] = -1.258827040978134e-1 +4.321273464465337e-1j\n  ψ[ 6] = +0.000000000000000e0 -4.262797413316505e-1j\n  ψ[ 7] = +1.934521269167551e-1 +4.736845687381848e-2j\n  ψ[ 8] = +3.701879986553348e-2 -6.411844220232792e-2j\n  ψ[ 9] = +5.693040508708863e-2 -2.001521961229308e-1j\n  ψ[10] = +0.000000000000000e0 -3.078096979302127e-1j\n  ψ[11] = +2.760702680266076e-2 +3.143505335489717e-1j\n\nGenerating Weyl-Heisenberg orbit (144 states)…\n  → 144 states generated.\n\nSIC condition check: |⟨ψ_i|ψ_j⟩|² = 1/(d+1) for i≠j\n  Target 1/(d+1) = 1/13 = 7.692307692307693e-2\n  max |overlap² − target| = 1.18e-15\n  SIC condition: ✓ PASS\n\nFrame operator Σ_i |ψ_i⟩⟨ψ_i| = d·𝕀:\n  max |diag − d| = 1.24e-14\n  max |off-diag|  = 6.63e-15\n  Frame check: ✓ Σ|ψ_i⟩⟨ψ_i| = d·𝕀\n\nGerzon inverse verification (random test state):\n  ‖ρ_reconstructed − |ψ⟩⟨ψ|‖²_F = 1.52e-29\n  Frobenius norm error         = 3.89e-15\n  Trace(ρ)                     = 1.000000000000007\n  Reconstruction: ✓ PASS (< 1e-14)\n\nSelf-consistency: reconstruct the fiducial from its own Born probabilities:\n  ‖ρ_reconstructed − |ψ₀⟩⟨ψ₀|‖²_F = 3.03e-29\n  Trace(ρ)                         = 1.000000000000010\n  Self-reconstruction: ✓ PASS\n\n══════════════════════════════════════════════════\n  VERDICT: Frobenius-exact ✓\n  μ∘δ = id confirmed numerically.\n  The d=12 SIC-POVM Gerzon inverse closes at\n  machine precision (error < 1e-14).\n\n  This is the computational instantiation of the\n  Riemann-SIC proof (§8-§9 of the PDF).\n  The explicit d=12 fiducial constants are now\n  embedded in the Rust source and pass the\n  ‖ρ − ρ_input‖ < ε test.\n",
+    "stderr": ""
+  },
+  {
+    "name": "click",
+    "argv": [
+      "--click",
+      "monad",
+      "comonad_goedel"
+    ],
+    "exit": 0,
+    "seconds": 0.22874081000918522,
+    "stdout": "click-maths:  monad  ⋈  comonad_goedel   (θ=0.50)\n  live-pair charges (norm(x) − norm(y), the spring-loaded axis):\n    D↔W    monad= +0.67  comonad_goedel= +0.00   Δ=0.67\n    T↔H    monad= +0.75  comonad_goedel= +0.00   Δ=0.75\n    R↔S    monad= -0.33  comonad_goedel= -0.33   Δ=0.00\n  ✗ no click: no live pair reaches the spring-loaded offset θ.\n",
+    "stderr": ""
+  },
+  {
+    "name": "complement",
+    "argv": [
+      "--complement",
+      "monad"
+    ],
+    "exit": 0,
+    "seconds": 0.18141723799635656,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ncomplement  bidirectional ligand ⇌ catalytic-site — monad\n────────────────────────────────────────────────────────────────────────\n  site   monad:   ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n  ligand monad′:  ⟨𐑦𐑸𐑩𐑗𐑞𐑘𐑔𐑠𐑣𐑒𐑕𐑴⟩   (the complementary partner the site binds — lock-and-key over the 6 conjugate pairs)\n  recognition: >=𐑽 (lateral dual): partial bidirectional binding\n  conjugate-pair map (site → ligand — inverted within each scale, crossed across the pair):\n    the complement is CHEMISTRY: all 6 pairs. [live] = the 3 catalytic axes math varies (D↔W, T↔H, R↔S);\n    [pinned] = the 3 physical axes math abstracts out and chemistry restores (P↔F, K↔G, Gm↔Ph).\n    [live]   ⊢↔⊡:   ⊢𐑼→⊡𐑴   |   ⊡𐑷→⊢𐑦\n    [live]   ⊣↔⊥:   ⊣𐑶→⊥𐑒   |   ⊥𐑓→⊣𐑸\n    [live]   ≻↔⊞:   ≻𐑽→⊞𐑕   |   ⊞𐑳→≻𐑩\n    [pinned] ≺↔⋈:   ≺𐑬→⋈𐑞   |   ⋈𐑐→≺𐑗\n    [pinned] ⊤↔∈:   ⊤𐑧→∈𐑔   |   ∈𐑲→⊤𐑘\n    [pinned] ∋↔⊙:   ∋𐑝→⊙𐑣   |   ⊙⊙→∋𐑠\n  round-trip monad → monad′ → monad″: distance 0.00 — the complement is its own inverse (bidirectional, lossless R∧W∧X).\n",
+    "stderr": ""
+  },
+  {
+    "name": "forge",
+    "argv": [
+      "--forge",
+      "monad",
+      "comonad_goedel",
+      "imasm"
+    ],
+    "exit": 0,
+    "seconds": 0.18276199701358564,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\narrange  unordered set → best order: {monad, comonad_goedel, imasm}\n────────────────────────────────────────────────────────────────────────\n  searched 6 ordering(s) (exhaustive: every permutation) — a set has no inherent order, so this finds the sequence that polymerizes best (longest enchainment, then closure, then stability).\n  ✗ NO ordering fully enchains — best reaches 1/3. The set is fundamentally fragmented (a monomer is co-typed with every other); a linker is needed regardless of order (--close):\n      [monad · comonad_goedel · imasm]\n  → running the full analysis on the best order:\n\npolymerization (imscriptive):  [monad · comonad_goedel · imasm]   (3 monomers)\n  imscriptive: the chain stores the monomer SEQUENCE losslessly (R∧W∧X) — a click blends, a polymer remembers.\n  sequence (read back off the chain, unit by unit):\n    1. monad  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n    2. comonad_goedel  ⟨𐑼𐑸𐑽𐑬𐑐𐑧𐑲𐑵⊙𐑫𐑳𐑭⟩\n    3. imasm  ⟨𐑦𐑥𐑩𐑿𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n  bonds (each a Coagula link — a click between complementary partners, or an addition where a monomer repeats):\n    1–2  monad ⋈ comonad_goedel  → ✗ termination at θ=0.50 — the chain ends here.\n           no oppositely-charged live pair at all — fully co-typed / same-handed; no reaction center exists.\n  degree of polymerization: 1 unit(s), 0 bond(s) (terminated early)\n  no chain formed — the feed did not enchain past the first monomer (0 bonds); these are unreacted monomers, not a polymer.\n  cyclization: linear — the chain terminated, so it cannot close into a ring.\n  material properties: not a closed ring — no macrocycle to characterize (use --close to find the ring-closing monomer first).\n",
+    "stderr": ""
+  },
+  {
+    "name": "windings",
+    "argv": [
+      "--windings",
+      "656.28nm",
+      "486.13nm"
+    ],
+    "exit": 0,
+    "seconds": 0.18483228201512247,
+    "stdout": "── the winding spectrometer ──\n  quantum numbers = winding coordinates: n toroidal, l poloidal, m_l tilt, s half-wind.\n  energies are α²/2 fractions of ONE anchor (m_e c²); every other factor is winding arithmetic. nm is a projection at the last step.\n\n── hydrogen (Z=1, defect ≡ 0, bare toroidal ladder) ──\n  anchor  m_e c² = 510998.95 eV   Ry = (α²/2)·m_e c² = 13.598287 eV\n\nLINE: 656.2800 nm   (1.8892 eV)\n  winding transition: (n=3) → (n=2)   Δn = -1   series: Balmer (Hα)\n  dipole channel np→(2s/2d):  Δl = ±1, Δm ∈ {0,±1}, Δs = 0   STATUS: ALLOWED\n  parity flip: YES\n  E = 1.888651 eV   λ(calc,vac) = 656.4696 nm   residual = 0.1896 nm\n\nLINE: 486.1300 nm   (2.5504 eV)\n  winding transition: (n=4) → (n=2)   Δn = -2   series: Balmer (Hβ)\n  dipole channel np→(2s/2d):  Δl = ±1, Δm ∈ {0,±1}, Δs = 0   STATUS: ALLOWED\n  parity flip: YES\n  E = 2.549679 eV   λ(calc,vac) = 486.2738 nm   residual = 0.1438 nm\n\n  note: λ(calc) is VACUUM. Standard tabulated lines are AIR; multiply the input by n_air ≈ 1.000293 and it lands on λ(calc) to the fifth decimal. The residual is the refractive medium, not the winding arithmetic, which is exact to input-constant precision.\n",
+    "stderr": ""
+  },
+  {
+    "name": "imasm_controls",
+    "argv": [
+      "--imasm",
+      "check",
+      "⊢∈⊙∋⊣"
+    ],
+    "exit": 0,
+    "seconds": 0.1990069930034224,
+    "stdout": "IMASM check → N (identity)\n  word: VINIT FSPLIT IMSCRIB FFUSE TANCH\n  the arms split and refuse but nothing transforms between them — μ∘δ=id does no work and verifies nothing. Put a transformation on the arms (weigh the alternatives: EVALT/EVALF, AFWD/AREV, CLINK) before this counts as a check.\n  shape: network | V=5 E=6 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=3.0000\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: identity — δ arms reconnect at μ but nothing transforms between them; μ∘δ=id does no work and type-checks nothing\n",
+    "stderr": ""
+  },
+  {
+    "name": "imasm_work",
+    "argv": [
+      "--imasm",
+      "check",
+      "⊢∈≻⊤∋⊣"
+    ],
+    "exit": 0,
+    "seconds": 0.1864788880047854,
+    "stdout": "IMASM check → T (closes)\n  word: VINIT FSPLIT AFWD EVALT FFUSE TANCH\n  μ∘δ closes over 1 transformed reconnection(s): the decision split alternatives, did work on the arms, and the fuse resolved it. Proceed.\n  shape: network | V=6 E=7 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8794\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n",
+    "stderr": ""
+  },
+  {
+    "name": "gm",
+    "argv": [
+      "--tool",
+      "gm",
+      "qc",
+      "H"
+    ],
+    "exit": 0,
+    "seconds": 0.1682840259745717,
+    "stdout": "\u001b[2;37m[boot]\u001b[0m Interrupts: none — the host owns the IDT, no periodic slot\n\u001b[2;37m[boot]\u001b[0m Heap: host allocator, 1687 bytes counted, 48MB declared budget\n\u001b[2;37m[boot]\u001b[0m IG Catalog: 8752 entries loaded\n\u001b[2;37m[boot]\u001b[0m Kernel online — graph execution, token-arity driven\n\u001b[2;37m[boot]\u001b[0m Canonical ordinal check...\n\u001b[2;37m[boot]\u001b[0m Ordinal faithfulness: \u001b[1;32mall 44 values match Lean canonical\u001b[0m\n\u001b[2;37m[boot]\u001b[0m Clay Millennium status: 2 closed, 1 one-bump-short, 3 unclosed\n\u001b[2;37m[boot]\u001b[0m SIC-POVM d=12: Crystal-forced (dual lattice), Shavian count 49=7², WH group |orbit|=144\n\u001b[2;37m[boot]\u001b[0m Frobenius identity check...\n\u001b[2;37m[boot]\u001b[0m Frobenius identity: hamming=3, weighted=3.1000 — kernel is grammar operationalized\n\u001b[2;37m[boot]\u001b[0m Bootstrap: IMSCRIB→AREV→FSPLIT→AFWD→FFUSE→CLINK→IFIX→IMSCRIB (cyclic)\n                       F unitary: PASS\n  Pentagon form (F^2=I, anti-diag, a^2+b^2=1): PASS\n            Braid relation (Y-B): PASS\n                 Spin-statistics: PASS\n                       S unitary: PASS\n        Charge conjugation S^2=I: PASS\n                 TQFT identities: PASS\n                Verlinde formula: PASS\n              Braid Artin B_n<=8: PASS\n  Phase lattice = tenths of a winding: PASS\n    Constants derivable from PHI: PASS\n\u001b[2;37m[boot]\u001b[0m Fibonacci anyon QC: algebra verified = true\n\u001b[36m[TORUS]\u001b[0m kernel wound: ⊢⊙∈⊤⋈∋⊡⊞≺⋈⊣  (11 tokens, pinch=0.0000)\n\u001b[2;37m[boot]\u001b[0m Crystal FS: 17280000 addresses\n\u001b[2;37m[boot]\u001b[0m 29 total programs (I–XXIX): 12 canonical + 4 continuous + 4 novel + 9 shunted\n\n\n   \u001b[1;35m⊙\u001b[0m   \u001b[1;37mG-mOMonadOS\u001b[0m\n   \u001b[2;37mGPU-native build, mOMonadOS ported to run via CUDA\u001b[0m\n   \u001b[1;33mμ∘δ = id\u001b[0m\n\n   \u001b[2;37mFrobenius core · Belnap FOUR · crystal FS · graph execution\u001b[0m\n\n   \u001b[1;34mhelp\u001b[0m for commands, \u001b[1;34m?\u001b[0m for the menu, Tab completes.\n\n   \u001b[1;34mask\u001b[0m runs a structural dry-run here; the full wet-run is on the host:\n   \u001b[2;37m./ask --file <path> | ./ask --ask \"…\" | ./ask -i\u001b[0m\n\nBuilding gate net (depth 10, SK recursion 3)...\n  net: 4842 entries, 871 KB (heap 3691 of 49152 KB)\n  single arm : error 5.667923e-4  length 1017\n  split+fused: error 1.202362e-4  length 2167\n  gain       : 4.7x\n  unitary    : true\n  word check : PASS (residual 1.10e-13)\nBRAID_OPERATOR_JSON={\"circuit\":\"H\",\"target_matrix\":[{\"re\":0.70710678118654746,\"im\":0.00000000000000000},{\"re\":0.70710678118654746,\"im\":0.00000000000000000},{\"re\":0.70710678118654746,\"im\":0.00000000000000000},{\"re\":-0.70710678118654746,\"im\":0.00000000000000000}],\"synthesized_matrix\":[{\"re\":-0.57210257265595377,\"im\":0.41554945091080475},{\"re\":-0.57198597748407143,\"im\":0.41575153850541735},{\"re\":-0.57215659744202463,\"im\":0.41551670027996479},{\"re\":0.57200043060792172,\"im\":-0.41569003737904486}],\"braid_word\":[1,2,1,2,-1,-1,2,2,-1,-1,2,-1,2,-1,-1,2,2,-1,2,2,-1,-2,1,1,-2,-2,1,1,-2,1,-2,-2,1,-2,-2,1,1,-2,1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,-1,2,-1,2,2,-1,-1,2,-1,-1,2,1,1,-2,-2,1,-2,-2,1,1,-2,1,1,-2,1,1,-2,-2,1,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,2,2,-1,-1,2,-1,-1,2,-1,2,2,-1,2,2,-1,-1,2,-1,-2,-2,1,1,-2,1,1,-2,-2,1,-2,1,-2,-2,1,1,-2,1,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,2,-1,2,2,-1,-1,2,1,-2,1,1,-2,-2,1,-2,-2,1,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,-1,2,2,-1,-1,2,-1,-2,-2,1,1,-2,1,1,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,-1,2,-1,2,2,-1,-1,2,-1,-1,-2,1,1,-2,-2,-2,-1,-1,-2,-2,1,1,-2,-2,1,1,1,1,2,2,2,-1,-1,2,2,2,-1,-1,2,2,-1,-1,2,2,-1,2,2,-1,2,2,-1,-1,2,-1,-2,-2,1,1,-2,1,1,-2,-2,1,-2,1,-2,-2,1,1,-2,1,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,2,-1,2,2,-1,-1,2,1,-2,1,1,-2,-2,1,-2,-2,1,-2,-2,1,1,-2,-2,1,1,-2,-2,-2,1,1,-2,-2,-2,-1,-1,-1,-1,2,2,-1,-1,2,2,1,1,2,2,2,-1,-1,2,2,2,-1,2,2,-1,2,2,-1,-1,2,-1,2,2,-1,-1,2,-1,-1,2,1,1,-2,-2,1,-2,-2,1,1,-2,-2,1,1,-2,1,1,-2,-2,-1,2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,1,-2,-2,1,-2,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-2,1,2,-1,-1,2,2,-1,-1,2,-1,-1,2,-1,-1,2,2,-1,2,1,1,-2,-2,1,1,-2,-2,-2,1,-2,-2,1,1,-2,1,2,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,2,-1,2,2,-1,-2,-2,1,1,-2,1,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,-2,-1,2,-1,-1,2,2,-1,2,2,2,-1,-1,2,2,-1,-1,-2,1,-2,-2,1,1,-2,1,1,-2,1,1,-2,-2,1,2,2,-1,-1,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,-2,-2,1,1,-2,1,1,-2,-2,1,2,-1,2,2,-1,-1,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,-1,-1,2,2,-1,2,2,-1,-1,-2,1,1,-2,1,1,-2,-2,1,-2,1,1,-2,-2,1,-2,-2,1,-2,-2,-2,1,1,-2,-2,-2,-1,-1,-2,-2,1,1,-2,-2,1,1,1,1,2,2,2,-1,-1,2,2,2,-1,-1,2,2,-1,-1,2,2,-1,2,2,-1,2,2,-1,-1,2,-1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,-1,2,-1,2,2,-1,-1,2,-1,-1,2,2,1,-2,1,1,-2,-2,1,-2,-2,1,-2,-2,1,1,-2,-2,1,1,-2,-2,-2,1,1,-2,-2,-2,-1,-1,-1,-1,2,2,-1,-1,2,2,1,1,2,2,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,1,-2,-2,1,1,-2,1,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,2,-1,2,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,-1,2,2,-1,-1,2,-1,-1,2,2,2,-1,2,2,-1,-1,2,-1,-1,-2,1,1,-2,1,1,-2,-2,-1,2,2,-1,-1,2,-1,-1,2,-1,-1,2,2,-1,2,1,1,-2,-2,1,1,-2,-2,-2,1,-2,-2,1,1,-2,1,2,-1,-1,2,2,-1,2,2,-1,-1,2,2,-1,-1,2,-1,-1,2,2,1,-2,-2,1,-2,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-2,-1,2,-1,-1,2,2,-1,2,2,2,-1,-1,2,2,-1,-1,-2,1,-2,-2,1,1,-2,1,1,-2,1,1,-2,-2,1,1,-2,-1,2,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,2,-1,2,2,-1,-2,-2,1,1,-2,1,1,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,-1,-1,2,-1,-1,2,2,-1,-1,-1,2,2,-1,-1,-1,-2,-2,-2,-2,1,1,-2,1,1,-2,-2,1,2,2,1,1,1,-2,-2,1,1,2,-1,-1,2,2,-1,2,1,1,-2,-2,1,-2,-2,1,-2,-2,1,1,-2,-2,1,2,2,-1,2,2,-1,-1,2,-1,-1,-1,2,2,-1,-1,2,2,1,-2,-2,1,-2,-2,1,1,-2,-1,-1,2,2,-1,-1,-1,-2,-2,-1,2,2,-1,-1,2,-1,-1,2,2,2,2,1,1,1,-2,-2,1,1,1,-2,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,-2,1,1,1,-2,1,1,-2,-2,1,-2,-2,-1,2,2,-1,-1,2,2,-1,2,2,-1,2,2,-1,-1,2,-1,2,2,2,-1,-1,2,-1,-1,2,2,-1,-2,-2,-2,1,-2,-2,1,1,-2,1,2,-1,-1,2,2,-1,2,2,-1,-2,1,-2,-2,1,1,-2,1,1,-2,1,-2,-2,1,-2,-2,1,1,-2,1,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,-1,-1,2,2,-1,2,2,-1,-1,2,-1,-1,2,2,-1,2,2,2,1,-2,-2,1,1,-2,1,1,-2,-2,-2,-2,-2,1,-2,-2,1,1,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-1,2,-1,-1,2,2,-1,2,2,-1,2,-1,-1,2,-1,-1,2,2,-1,2,1,-2,-2,1,-2,-2,1,1,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,-2,-2,1,1,-2,-2,1,2,2,-1,2,2,-1,-1,2,-1,-1,-1,2,2,-1,-1,2,2,-1,2,2,-1,-1,2,-1,-1,2,2,-1,-1,-1,2,2,-1,-1,-1,-2,-2,-2,-2,1,1,-2,1,1,-2,-2,1,2,2,1,1,1,-2,-2,1,1,2,-1,-1,2,2,-1,2,2,-1,-2,-2,1,1,-2,-2,1,1,1,-2,1,1,-2,-2,1,-2,-2,-1,2,2,-1,-1,2,2,-1,2,2,-1,2,2,-1,-1,-2,1,-2,-2,1,1,-2,-1,-1,2,2,-1,-1,-1,-2,-2,-1,2,2,-1,-1,2,-1,-1,2,2,2,2,1,1,1,-2,-2,1,1,1,-2,-2,1,1,-2,1,1,-2,-1,-1,2,2,-1,2,2,-1,-2,1,-2,-2,1,1,-2,1,1,-2,1,-2,-2,1,-2,-2,1,1,-2,1,2,-1,-1,2,-1,-1,2,2,-1,2,-1,-1,2,-1,-1,2,2,-1,2,2,2,2,2,-1,-1,2,-1,-1,2,2,-1,-2,-2,-2,1,-2,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,1,1,-2,1,-2,-2,1,1,-2,1,1,-2,-1,2,-1,-1,2,2,-1,2,2,-1,2,-1,-1,2,-1,-1,2,2,-1,2,1,-2,-2,1,-2,-2,1,1,-2,-1,2,-1,-1,2,2,-1,2,2,2,1,-2,-2,1,1,-2,1,1,-2,-2,-1,2,2,-1,-1,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,-2,-2,1,1,-2,1,1,-2,-2,1,2,-1,2,2,-1,-1,2,-1,-1,-1,-1,-1,2,2,-1,-1,-1,-2,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,2,1,1,1,-2,-2,1,2,2,-1,2,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,-1,2,2,-1,-1,2,-1,-1,2,2,2,-1,2,2,-1,-1,2,-1,-1,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,1,-2,-2,1,-2,-2,-1,2,2,-1,-1,-1,-2,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,2,1,1,1,-2,-2,1,1,2,-1,-1,2,-1,-2,-2,-2,-2,-1,2,2,-1,2,2,-1,-1,2,-1,2,2,2,2,1,-2,1,1,-2,1,-2,1,1,-2,-2,1,1,-2,1,-2,1,1,-2,-2,1,-2,-2,1,2,-1,-1,2,2,-1,-1,2,-1,2,2,-1,2,2,-1,-1,2,-1,-1,2,-1,-1,2,-1,-2,-2,-2,-2,1,-2,1,1,-2,-2,1,-2,-2,1,2,2,2,2,1,-2,1,1,-2,1,-2,1,1,-2,-2,1,1,-2,-1,2,2,-1,2,2,-1,-1,2,-1,2,-1,-1,2,2,-1,-1,2,1,-2,1,1,-2,-2,1,-2,-2,-1,-1,2,2,-1,-1,-1,-2,-2,-2,1,1,-2,-2,1,-2,-2,1,1,2,2,1,1,1,-2,-2,1,2,2,-1,2,2,-1,-1,2,2,-1,2,2,-1,-1,2,-1,-1,2,1,1,-2,1,1,-2,-2,1,-2,-2,-2,1,1,-2,1,1,-2,-2,1,2,-1,2,2,-1,-1,2,-1,-1,-2,1,1,-2,-2,1,-2,-2,-1,2,2,-1,-1,-1,-2,-2,-1,-1,2,2,-1,2,2,-1,-1,2,2,2,1,1,1,-2,-2,1,1,1,1,1,-2,1,1,-2,-2,1,-2,-1,2,2,-1,-1,2,-1,-1,2,2,2,-1,2,2,-1,-1,2,-1,-1,-2,1,1,-2,1,1,-2,-2,1,-2,-1,2,2,-1,2,2,-1,-1,2,-1,-2,1,1,-2,-2,1,1,-2,1,-2,1,1,-2,-2,1,-2,-2,1,2,-1,-1,2,2,-1,-1,2,-1,2,-1,-1,2,-1,-2,-2,-2,-2,-1,2,2,-1,2,2,-1,-1,2,-1,2,2,2,2,1,-2,1,1,-2,1,1,-2,1,1,-2,-2,1,-2,-2,1,-2,1,1,-2,-2,1,1,-2,-1,2,2,-1,2,2,-1,-1,2,-1,2,-1,-1,2,2,-1,-1,2,-1,2,-1,-1,2,-1,-2,-2,-2,-2,1,-2,1,1,-2,-2,1,-2,-2,1,2,2,2,2,1,-2,1,1,-2,1],\"target_projective_residual\":0.00012023621010967,\"word_matrix_residual\":0.00000000000010978,\"unitary\":true}\n  heap peak  : 3712 of 49152 KB\n  braid word (2167 generators):\n    1 2 1 2 -1 -1 2 2 -1 -1 2 -1 2 -1 -1 2 2 -1 2 2 -1 -2 1 1 \n    -2 -2 1 1 -2 1 -2 -2 1 -2 -2 1 1 -2 1 -2 1 1 -2 -2 1 -2 -2 1 \n    1 -2 1 -2 -2 1 1 -2 1 1 -2 -1 -1 2 2 -1 2 2 -1 -1 2 2 -1 -1 \n    2 -1 -1 2 2 -1 2 -1 2 2 -1 -1 2 -1 -1 2 1 1 -2 -2 1 -2 -2 1 \n    1 -2 1 1 -2 1 1 -2 -2 1 -2 -1 -1 2 2 -1 2 2 -1 -1 2 2 -1 2 \n    2 -1 -1 2 -1 -1 2 -1 2 2 -1 2 2 -1 -1 2 -1 -2 -2 1 1 -2 1 1 \n    -2 -2 1 -2 1 -2 -2 1 1 -2 1 1 -2 -2 1 1 -2 -2 1 -2 -2 1 1 2 \n    -1 -1 2 -1 -1 2 2 -1 2 -1 -1 2 2 -1 2 2 -1 -1 2 1 -2 1 1 -2 \n    -2 1 -2 -2 1 -2 1 1 -2 1 1 -2 -2 1 -2 -2 1 1 -2 -2 1 -2 -2 1 \n    1 2 -1 2 2 -1 -1 2 -1 -2 -2 1 1 -2 1 1 -2 -1 -1 2 2 -1 2 2 \n    -1 -1 2 2 -1 -1 2 -1 -1 2 2 -1 2 -1 2 2 -1 -1 2 -1 -1 -2 1 1 \n    -2 -2 -2 -1 -1 -2 -2 1 1 -2 -2 1 1 1 1 2 2 2 -1 -1 2 2 2 -1 \n    -1 2 2 -1 -1 2 2 -1 2 2 -1 2 2 -1 -1 2 -1 -2 -2 1 1 -2 1 1 \n    -2 -2 1 -2 1 -2 -2 1 1 -2 1 1 -2 -2 1 1 -2 -2 1 -2 -2 1 1 2 \n    -1 -1 2 -1 -1 2 2 -1 2 -1 -1 2 2 -1 2 2 -1 -1 2 1 -2 1 1 -2 \n    -2 1 -2 -2 1 -2 -2 1 1 -2 -2 1 1 -2 -2 -2 1 1 -2 -2 -2 -1 -1 -1 \n    -1 2 2 -1 -1 2 2 1 1 2 2 2 -1 -1 2 2 2 -1 2 2 -1 2 2 -1 \n    -1 2 -1 2 2 -1 -1 2 -1 -1 2 1 1 -2 -2 1 -2 -2 1 1 -2 -2 1 1 \n    -2 1 1 -2 -2 -1 2 -1 -1 2 2 -1 2 2 -1 -1 2 2 -1 -1 2 -1 -1 2 \n    2 1 -2 -2 1 -2 -2 1 1 -2 1 -2 -2 1 1 -2 1 1 -2 -2 1 2 -1 -1 \n    2 2 -1 -1 2 -1 -1 2 -1 -1 2 2 -1 2 1 1 -2 -2 1 1 -2 -2 -2 1 \n    -2 -2 1 1 -2 1 2 2 -1 -1 2 -1 -1 2 2 -1 2 -1 -1 2 2 -1 2 2 \n    -1 -2 -2 1 1 -2 1 1 -2 -2 1 1 -2 -2 1 -2 -2 1 1 -2 -1 2 -1 -1 \n    2 2 -1 2 2 2 -1 -1 2 2 -1 -1 -2 1 -2 -2 1 1 -2 1 1 -2 1 1 \n    -2 -2 1 2 2 -1 -1 2 -1 -1 2 1 1 -2 1 1 -2 -2 1 -2 -2 -2 1 1 \n    -2 1 1 -2 -2 1 2 -1 2 2 -1 -1 2 -1 -1 2 2 -1 -1 2 -1 -1 2 2 \n    -1 -1 2 2 -1 2 2 -1 -1 -2 1 1 -2 1 1 -2 -2 1 -2 1 1 -2 -2 1 \n    -2 -2 1 -2 -2 -2 1 1 -2 -2 -2 -1 -1 -2 -2 1 1 -2 -2 1 1 1 1 2 \n    2 2 -1 -1 2 2 2 -1 -1 2 2 -1 -1 2 2 -1 2 2 -1 2 2 -1 -1 2 \n    -1 -2 1 1 -2 -2 1 -2 -2 1 1 -2 1 -2 -2 1 1 -2 1 1 -2 -1 -1 2 \n    2 -1 2 2 -1 -1 2 2 -1 -1 2 -1 -1 2 2 -1 2 -1 2 2 -1 -1 2 -1 \n    -1 2 2 1 -2 1 1 -2 -2 1 -2 -2 1 -2 -2 1 1 -2 -2 1 1 -2 -2 -2 \n    1 1 -2 -2 -2 -1 -1 -1 -1 2 2 -1 -1 2 2 1 1 2 2 2 -1 -1 2 1 \n    1 -2 1 1 -2 -2 1 -2 1 -2 -2 1 1 -2 1 1 -2 -2 1 1 -2 -2 1 -2 \n    -2 1 1 2 -1 -1 2 -1 -1 2 2 -1 2 -1 -1 2 2 -1 2 2 -1 -1 2 1 \n    1 -2 1 1 -2 -2 1 -2 -1 2 2 -1 -1 2 -1 -1 2 2 2 -1 2 2 -1 -1 \n    2 -1 -1 -2 1 1 -2 1 1 -2 -2 -1 2 2 -1 -1 2 -1 -1 2 -1 -1 2 2 \n    -1 2 1 1 -2 -2 1 1 -2 -2 -2 1 -2 -2 1 1 -2 1 2 -1 -1 2 2 -1 \n    2 2 -1 -1 2 2 -1 -1 2 -1 -1 2 2 1 -2 -2 1 -2 -2 1 1 -2 1 -2 \n    -2 1 1 -2 1 1 -2 -2 -1 2 -1 -1 2 2 -1 2 2 2 -1 -1 2 2 -1 -1 \n    -2 1 -2 -2 1 1 -2 1 1 -2 1 1 -2 -2 1 1 -2 -1 2 2 -1 -1 2 -1 \n    -1 2 2 -1 2 -1 -1 2 2 -1 2 2 -1 -2 -2 1 1 -2 1 1 -2 -2 1 1 \n    -2 -2 1 -2 -2 1 1 2 -1 -1 2 -1 -1 2 2 -1 -1 -1 2 2 -1 -1 -1 -2 \n    -2 -2 -2 1 1 -2 1 1 -2 -2 1 2 2 1 1 1 -2 -2 1 1 2 -1 -1 2 \n    2 -1 2 1 1 -2 -2 1 -2 -2 1 -2 -2 1 1 -2 -2 1 2 2 -1 2 2 -1 \n    -1 2 -1 -1 -1 2 2 -1 -1 2 2 1 -2 -2 1 -2 -2 1 1 -2 -1 -1 2 2 \n    -1 -1 -1 -2 -2 -1 2 2 -1 -1 2 -1 -1 2 2 2 2 1 1 1 -2 -2 1 1 \n    1 -2 -2 1 1 -2 1 1 -2 -2 1 -2 -2 1 1 -2 -2 1 1 1 -2 1 1 -2 \n    -2 1 -2 -2 -1 2 2 -1 -1 2 2 -1 2 2 -1 2 2 -1 -1 2 -1 2 2 2 \n    -1 -1 2 -1 -1 2 2 -1 -2 -2 -2 1 -2 -2 1 1 -2 1 2 -1 -1 2 2 -1 \n    2 2 -1 -2 1 -2 -2 1 1 -2 1 1 -2 1 -2 -2 1 -2 -2 1 1 -2 1 2 \n    -1 -1 2 -1 -1 2 2 -1 2 -1 -1 2 -1 -1 2 2 -1 2 2 -1 -1 2 -1 -1 \n    2 2 -1 2 2 2 1 -2 -2 1 1 -2 1 1 -2 -2 -2 -2 -2 1 -2 -2 1 1 \n    -2 1 1 -2 1 -2 -2 1 1 -2 1 1 -2 -1 2 -1 -1 2 2 -1 2 2 -1 2 \n    -1 -1 2 -1 -1 2 2 -1 2 1 -2 -2 1 -2 -2 1 1 -2 1 1 -2 1 1 -2 \n    -2 1 -2 -2 1 -2 -2 1 1 -2 -2 1 2 2 -1 2 2 -1 -1 2 -1 -1 -1 2 \n    2 -1 -1 2 2 -1 2 2 -1 -1 2 -1 -1 2 2 -1 -1 -1 2 2 -1 -1 -1 -2 \n    -2 -2 -2 1 1 -2 1 1 -2 -2 1 2 2 1 1 1 -2 -2 1 1 2 -1 -1 2 \n    2 -1 2 2 -1 -2 -2 1 1 -2 -2 1 1 1 -2 1 1 -2 -2 1 -2 -2 -1 2 \n    2 -1 -1 2 2 -1 2 2 -1 2 2 -1 -1 -2 1 -2 -2 1 1 -2 -1 -1 2 2 \n    -1 -1 -1 -2 -2 -1 2 2 -1 -1 2 -1 -1 2 2 2 2 1 1 1 -2 -2 1 1 \n    1 -2 -2 1 1 -2 1 1 -2 -1 -1 2 2 -1 2 2 -1 -2 1 -2 -2 1 1 -2 \n    1 1 -2 1 -2 -2 1 -2 -2 1 1 -2 1 2 -1 -1 2 -1 -1 2 2 -1 2 -1 \n    -1 2 -1 -1 2 2 -1 2 2 2 2 2 -1 -1 2 -1 -1 2 2 -1 -2 -2 -2 1 \n    -2 -2 1 1 -2 1 1 -2 -2 1 -2 -2 1 1 -2 1 1 -2 1 -2 -2 1 1 -2 \n    1 1 -2 -1 2 -1 -1 2 2 -1 2 2 -1 2 -1 -1 2 -1 -1 2 2 -1 2 1 \n    -2 -2 1 -2 -2 1 1 -2 -1 2 -1 -1 2 2 -1 2 2 2 1 -2 -2 1 1 -2 \n    1 1 -2 -2 -1 2 2 -1 -1 2 -1 -1 2 1 1 -2 1 1 -2 -2 1 -2 -2 -2 \n    1 1 -2 1 1 -2 -2 1 2 -1 2 2 -1 -1 2 -1 -1 -1 -1 -1 2 2 -1 -1 \n    -1 -2 -2 -2 1 1 -2 -2 1 -2 -2 1 1 2 2 1 1 1 -2 -2 1 2 2 -1 \n    2 2 -1 -1 2 1 1 -2 1 1 -2 -2 1 -2 -1 2 2 -1 -1 2 -1 -1 2 2 \n    2 -1 2 2 -1 -1 2 -1 -1 -2 1 1 -2 1 1 -2 -2 1 -2 -2 1 1 -2 -2 \n    1 -2 -2 -1 2 2 -1 -1 -1 -2 -2 -1 -1 2 2 -1 2 2 -1 -1 2 2 2 1 \n    1 1 -2 -2 1 1 2 -1 -1 2 -1 -2 -2 -2 -2 -1 2 2 -1 2 2 -1 -1 2 \n    -1 2 2 2 2 1 -2 1 1 -2 1 -2 1 1 -2 -2 1 1 -2 1 -2 1 1 -2 \n    -2 1 -2 -2 1 2 -1 -1 2 2 -1 -1 2 -1 2 2 -1 2 2 -1 -1 2 -1 -1 \n    2 -1 -1 2 -1 -2 -2 -2 -2 1 -2 1 1 -2 -2 1 -2 -2 1 2 2 2 2 1 \n    -2 1 1 -2 1 -2 1 1 -2 -2 1 1 -2 -1 2 2 -1 2 2 -1 -1 2 -1 2 \n    -1 -1 2 2 -1 -1 2 1 -2 1 1 -2 -2 1 -2 -2 -1 -1 2 2 -1 -1 -1 -2 \n    -2 -2 1 1 -2 -2 1 -2 -2 1 1 2 2 1 1 1 -2 -2 1 2 2 -1 2 2 \n    -1 -1 2 2 -1 2 2 -1 -1 2 -1 -1 2 1 1 -2 1 1 -2 -2 1 -2 -2 -2 \n    1 1 -2 1 1 -2 -2 1 2 -1 2 2 -1 -1 2 -1 -1 -2 1 1 -2 -2 1 -2 \n    -2 -1 2 2 -1 -1 -1 -2 -2 -1 -1 2 2 -1 2 2 -1 -1 2 2 2 1 1 1 \n    -2 -2 1 1 1 1 1 -2 1 1 -2 -2 1 -2 -1 2 2 -1 -1 2 -1 -1 2 2 \n    2 -1 2 2 -1 -1 2 -1 -1 -2 1 1 -2 1 1 -2 -2 1 -2 -1 2 2 -1 2 \n    2 -1 -1 2 -1 -2 1 1 -2 -2 1 1 -2 1 -2 1 1 -2 -2 1 -2 -2 1 2 \n    -1 -1 2 2 -1 -1 2 -1 2 -1 -1 2 -1 -2 -2 -2 -2 -1 2 2 -1 2 2 -1 \n    -1 2 -1 2 2 2 2 1 -2 1 1 -2 1 1 -2 1 1 -2 -2 1 -2 -2 1 -2 \n    1 1 -2 -2 1 1 -2 -1 2 2 -1 2 2 -1 -1 2 -1 2 -1 -1 2 2 -1 -1 \n    2 -1 2 -1 -1 2 -1 -2 -2 -2 -2 1 -2 1 1 -2 -2 1 -2 -2 1 2 2 2 \n    2 1 -2 1 1 -2 1 \nHalting. μ∘δ=id.\n[SHUTDOWN] μ∘δ=id. Goodbye.\n",
+    "stderr": ""
+  },
+  {
+    "name": "click_partner",
+    "argv": [
+      "--click",
+      "monad",
+      "the_stone"
+    ],
+    "exit": 0,
+    "seconds": 0.19514224500744604,
+    "stdout": "click-maths:  monad  ⋈  the_stone   (θ=0.50)\n  live-pair charges (norm(x) − norm(y), the spring-loaded axis):\n    D↔W    monad= +0.67  the_stone= +0.33   Δ=0.33\n    T↔H    monad= +0.75  the_stone= +0.00   Δ=0.75\n    R↔S    monad= -0.33  the_stone= +1.00   Δ=1.33\n  ✓ CLICK on R↔S — spring-loaded Δ=1.33, single reaction center, closes.\n  product: ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑳𐑭⟩  (ring saturated on R↔S = ≻↔⊞)\n  inherited scaffold (blended from both partners): [⊢, ⊣, ≺, ∋, ⊥, ⊡]\n",
+    "stderr": ""
+  },
+  {
+    "name": "catalytic_cycle",
+    "argv": [
+      "--cycle",
+      "the_stone",
+      "monad"
+    ],
+    "exit": 0,
+    "seconds": 0.20830271500744857,
+    "stdout": "\n────────────────────────────────────────────────────────────────────────\ncycle  the_stone ⟳ turning over monad\n────────────────────────────────────────────────────────────────────────\n  bind (δ / CLINK): the_stone grips monad — complement match d=0.465, a real catalytic grip (>=𐑾 bidirectional, complement fits)\n  working stroke (δ / SOLVE — dissolves the bond, reveals the degree of freedom: the winding quantum comes free): reductive — catalyst donates e⁻, substrate reduced\n    carrier   the_stone: ⊡ 𐑭→𐑴  (spent → the_stone*)\n    substrate monad: ⊡ 𐑷→𐑴 + Coagula imprint on R↔S  (transformed → monad‡)\n    the_stone*  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠⊙𐑫𐑙𐑴⟩\n    monad‡  ⟨𐑼𐑶𐑾𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑕𐑴⟩\n  return stroke (μ / COAGULA — binds the freed quantum into an invariant): the_stone* ⊡ 𐑴→𐑭 — the catalyst coagulates back to itself (terminal redox restores the resting state).\n  turnover: net monad → monad‡ (one quantum delivered); the_stone returned unchanged — the catalyst is a FIXED POINT of the loop.\n  two coagulations: the CATALYST binds back to the SAME invariant (regeneration, μ∘δ=id); the SUBSTRATE binds into a NEW invariant (monad‡). Solve freed one quantum; Coagula placed it.\n  the loop:  the_stone ─Solve(δ)→ the_stone* ─Coagula(μ)→ the_stone   ‖   monad ──────→ monad‡\n  product not registered — to canonize this walked state as a catalog entry (tuple-derived, provenance-stamped): TOOL: cycle the_stone monad <new_name>\n",
+    "stderr": ""
+  },
+  {
+    "name": "godel_encode",
+    "argv": [
+      "--tool",
+      "godel",
+      "encode",
+      "217728509307789974617049079437290125283"
+    ],
+    "exit": 0,
+    "seconds": 0.016878523980267346,
+    "stdout": "value      217728509307789974617049079437290125283\nword       ⊢≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋⊙⊡⊣\nfamily     cell-binary\nvalue      217728509307789974617049079437290125283\nbinary     10100011110011001111110001001111000111101001001101001100011111111110101101110011000000000111110100011011001110000011011111100011\nsupport    {0,1,5,6,7,8,9,10,12,13,19,20,21,24,25,27,28,32,34,35,36,37,38,48,49,52,53,54,56,57,59,61,62,63,64,65,66,67,68,69,70,74,75,78,80,81,84,87,89,90,91,92,96,97,98,99,102,106,107,108,109,110,111,114,115,118,119,120,121,125,127}\npolynomial 1 + x + x^5 + x^6 + x^7 + x^8 + x^9 + x^10 + x^12 + x^13 + x^19 + x^20 + x^21 + x^24 + x^25 + x^27 + x^28 + x^32 + x^34 + x^35 + x^36 + x^37 + x^38 + x^48 + x^49 + x^52 + x^53 + x^54 + x^56 + x^57 + x^59 + x^61 + x^62 + x^63 + x^64 + x^65 + x^66 + x^67 + x^68 + x^69 + x^70 + x^74 + x^75 + x^78 + x^80 + x^81 + x^84 + x^87 + x^89 + x^90 + x^91 + x^92 + x^96 + x^97 + x^98 + x^99 + x^102 + x^106 + x^107 + x^108 + x^109 + x^110 + x^111 + x^114 + x^115 + x^118 + x^119 + x^120 + x^121 + x^125 + x^127\nbits-le    11000111111011000001110011011000101111100000000011001110110101111111111000110010110010010111100011110010001111110011001111000101\nbinary.frames          128\nbraid.crossings        128\nbraid.frame-closure    PASS\nrule       ⊥=1  ⊤=0  leftmost=2^0\n",
+    "stderr": ""
+  },
+  {
+    "name": "godel_decode",
+    "argv": [
+      "--tool",
+      "godel",
+      "decode",
+      "⊢≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋⊙⊡⊣"
+    ],
+    "exit": 0,
+    "seconds": 0.017402669007424265,
+    "stdout": "word       ⊢≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋⊙⊡⊣\nfamily     cell-binary\nvalue      217728509307789974617049079437290125283\nbinary     10100011110011001111110001001111000111101001001101001100011111111110101101110011000000000111110100011011001110000011011111100011\nsupport    {0,1,5,6,7,8,9,10,12,13,19,20,21,24,25,27,28,32,34,35,36,37,38,48,49,52,53,54,56,57,59,61,62,63,64,65,66,67,68,69,70,74,75,78,80,81,84,87,89,90,91,92,96,97,98,99,102,106,107,108,109,110,111,114,115,118,119,120,121,125,127}\npolynomial 1 + x + x^5 + x^6 + x^7 + x^8 + x^9 + x^10 + x^12 + x^13 + x^19 + x^20 + x^21 + x^24 + x^25 + x^27 + x^28 + x^32 + x^34 + x^35 + x^36 + x^37 + x^38 + x^48 + x^49 + x^52 + x^53 + x^54 + x^56 + x^57 + x^59 + x^61 + x^62 + x^63 + x^64 + x^65 + x^66 + x^67 + x^68 + x^69 + x^70 + x^74 + x^75 + x^78 + x^80 + x^81 + x^84 + x^87 + x^89 + x^90 + x^91 + x^92 + x^96 + x^97 + x^98 + x^99 + x^102 + x^106 + x^107 + x^108 + x^109 + x^110 + x^111 + x^114 + x^115 + x^118 + x^119 + x^120 + x^121 + x^125 + x^127\nbits-le    11000111111011000001110011011000101111100000000011001110110101111111111000110010110010010111100011110010001111110011001111000101\nbinary.frames          128\nbraid.crossings        128\nbraid.frame-closure    PASS\nrule       ⊥=1  ⊤=0  leftmost=2^0\n",
+    "stderr": ""
+  },
+  {
+    "name": "vox_generated_word",
+    "argv": [
+      "--tool",
+      "vox",
+      "verdict",
+      "⊢≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋⊙⊡⊣"
+    ],
+    "exit": 0,
+    "seconds": 0.0790133609843906,
+    "stdout": "⊢≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊤∋≻⋈∈⊥∋≻⋈∈⊤∋≻⋈∈⊥∋⊙⊡⊣\nverdict T\n",
+    "stderr": ""
+  }
+]

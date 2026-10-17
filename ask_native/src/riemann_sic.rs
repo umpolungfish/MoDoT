@@ -182,7 +182,6 @@ pub fn run() -> i32 {
             frame[r][c] = cadd(frame[r][c], cmul(oi[r], cconj(oi[c])));
         }}
     }
-    let mut frame_ok = true;
     let mut max_diag_err = 0.0f64;
     let mut max_off_err = 0.0f64;
     for r in 0..D {
@@ -199,7 +198,7 @@ pub fn run() -> i32 {
     println!("  max |diag − d| = {:.2e}", max_diag_err);
     println!("  max |off-diag|  = {:.2e}", max_off_err);
     let tol = 1e-12;
-    frame_ok = max_diag_err < tol && max_off_err < tol;
+    let frame_ok = max_diag_err < tol && max_off_err < tol;
     println!("  Frame check: {}", if frame_ok { "✓ Σ|ψ_i⟩⟨ψ_i| = d·𝕀" } else { "✗ FAIL" });
 
     // Gerzon inverse verification with random test state

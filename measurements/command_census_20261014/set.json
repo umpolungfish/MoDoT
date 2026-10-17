@@ -1,0 +1,16 @@
+{
+  "name": "set",
+  "argv": [
+    "--set",
+    "monad",
+    "the_stone",
+    "--excite",
+    "--catalyst",
+    "comonad_goedel"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.18294489500112832,
+  "stdout": "\n────────────────────────────────────────────────────────────────────────\nset  single-electron transfer — monad ⟶e⁻⟶ the_stone\n────────────────────────────────────────────────────────────────────────\n  photoinduced (hν): monad → monad* — ⊙ ⊙→𐑻 (excited to the EP resonance, now a far stronger donor).\n  driving force (⊙, energy): monad is the DONOR (higher-⊙, electrons higher-lying, reducing);  the_stone is the ACCEPTOR (lower-⊙, oxidizing)\n  ✗ no transfer: donor ⊡=𐑷 — already fully oxidized, no winding quantum to give\n",
+  "stderr": ""
+}

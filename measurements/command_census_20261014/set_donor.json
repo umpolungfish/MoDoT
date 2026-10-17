@@ -1,0 +1,16 @@
+{
+  "name": "set_donor",
+  "argv": [
+    "--set",
+    "the_stone",
+    "monad",
+    "--excite",
+    "--catalyst",
+    "extrapolation_93_units"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.5156979589955881,
+  "stdout": "\n────────────────────────────────────────────────────────────────────────\nset  single-electron transfer — the_stone ⟶e⁻⟶ monad\n────────────────────────────────────────────────────────────────────────\n  photoinduced (hν): the_stone → the_stone* — ⊙ ⊙→𐑻 (excited to the EP resonance, now a far stronger donor).\n  driving force (⊙, energy): the_stone is the DONOR (higher-⊙, electrons higher-lying, reducing);  monad is the ACCEPTOR (lower-⊙, oxidizing)\n  electron = one winding quantum ⊡ (∮A=2πn, the quantized charge):\n    donor the_stone:    ⊡ 𐑭→𐑴  (oxidized, the_stone•⁺ — gave one winding quantum)\n    acceptor monad: ⊡ 𐑷→𐑴  (reduced,  monad•⁻ — took one winding quantum)\n  radical-ion products:\n    the_stone•⁺  ⟨𐑦𐑸𐑾𐑹𐑐𐑧𐑲𐑠𐑻𐑫𐑙𐑴⟩\n    monad•⁻  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑴⟩\n  invariant: total ⊡ conserved (−1 + +1 = 0) — charge conservation is the Frobenius pairing (δ/fsplit charge-separates, μ/ffuse recombines).\n  channels:  μ (back-ET / geminate recombination): the_stone•⁺ + monad•⁻ → the_stone + monad, lossless (μ∘δ=id);  productive: cage escape — the free radicals do chemistry.\n  mediator extrapolation_93_units (Cu-NO-class SET shuttle): can hold the intermediate (⊡=𐑴, 1≤⊡<max) — takes e⁻ from the_stone (⊡+1, reduced), delivers to monad (⊡−1, re-oxidized), returns to itself. Catalytic cycle, μ∘δ=id — regenerated, not consumed.\n",
+  "stderr": ""
+}

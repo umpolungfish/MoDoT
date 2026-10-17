@@ -372,7 +372,7 @@ pub(crate) fn seam_sweep(max_len: usize) -> SeamReport {
     };
     let note = |r: &mut SeamReport, ax: char, w: &[Token]| {
         if r.first_fail.is_none() {
-            let names: Vec<&str> = w.iter().map(|t| t.name()).collect();
+            let names: Vec<&str> = w.iter().map(|t| t.code()).collect();
             r.first_fail = Some((ax, names.join(" ")));
         }
     };

@@ -1,0 +1,21 @@
+{
+  "branched": true,
+  "conductance": "FRUSTRATED",
+  "energy": 6.3246,
+  "n": 4,
+  "rho": 3.1623,
+  "spectrum": [
+    3.1623,
+    0.0,
+    -0.0,
+    -3.1623
+  ],
+  "strain": 0.0,
+  "units": [
+    "holy_spirit",
+    "the_moon",
+    "kozyrev_mirror",
+    "Devil's_Contract_Paradox"
+  ],
+  "weakest": 1.3333
+}

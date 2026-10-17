@@ -487,7 +487,7 @@ impl Engine {
         // candle's own — same card, same kernels, so identical greedy output is
         // identical arithmetic rather than a coincidence of two architectures.
         let force_split = env("IG_LOCAL_FORCE_SPLIT").is_some();
-        let split = (force_split && !devices[0].0.is_cpu()
+        let split = force_split && !devices[0].0.is_cpu()
                 || devices.len() > 1 && (cfg.devices_pinned || {
                 let reserve = 3 * 1024 * 1024 * 1024u64; // KV cache + prefill blocks
                 // A 4-bit checkpoint's dense form is what has to fit, not its file.
@@ -500,7 +500,7 @@ impl Engine {
                     )));
                 }
                 !fits_one
-            }));
+            });
 
         // Not splitting, but several cards are open: take the roomiest, not the
         // first. The first is only an ordinal; the roomiest is where the model
@@ -941,6 +941,7 @@ impl Engine {
 static ENGINE: OnceLock<Mutex<Result<Engine, String>>> = OnceLock::new();
 
 /// One-line description of the resident engine, for the startup banner.
+#[allow(dead_code)] // Retained for the local-engine status interface.
 pub fn describe() -> String {
     let cfg = local_cfg();
     let dev = if cfg.force_cpu {
@@ -973,6 +974,7 @@ pub fn generate(
 
 /// Exposed so a `--warm` / status path can confirm the model directory resolves
 /// without paying for a full generation.
+#[allow(dead_code)] // Retained for the local-engine status interface.
 pub fn model_dir() -> String {
     local_cfg().model_dir
 }

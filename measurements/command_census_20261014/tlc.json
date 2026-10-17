@@ -1,0 +1,14 @@
+{
+  "name": "tlc",
+  "argv": [
+    "--tlc",
+    "monad",
+    "the_stone",
+    "comonad_goedel"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.22820819698972628,
+  "stdout": "TLC (spread by Rf = mobility, the inverse of retention >; count the bands):  {monad, the_stone, comonad_goedel}\n  band  1 (Rf=0.33): monad, comonad_goedel   ⚠ co-elution (same Rf)\n  band  2 (Rf=0.00): the_stone\n  2 distinct band(s) over 3 unit(s).\n  ⚠ 2 unit(s) co-elute (B) — TLC cannot tell them apart at this Rf.\n",
+  "stderr": ""
+}

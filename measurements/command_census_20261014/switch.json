@@ -1,0 +1,13 @@
+{
+  "name": "switch",
+  "argv": [
+    "--switch",
+    "monad",
+    "the_stone"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.19677069698809646,
+  "stdout": "switch:  monad  ⇌  the_stone\n  multiple coupled live pairs move (D↔W, T↔H, R↔S) — a compound switch, not a single-axis toggle.\n  criticality (⊙) is equal — no photochromic sign; a criticality-neutral switch.\n  coupled consequences (move with the toggle): [≺, ∋]\n  reversible: μ∘δ = id — forward (δ) then reverse (μ) returns to the start form, lossless.\n",
+  "stderr": ""
+}

@@ -1,0 +1,25 @@
+{
+  "branched": false,
+  "conductance": "FRUSTRATED",
+  "energy": 8.0,
+  "n": 6,
+  "rho": 2.0,
+  "spectrum": [
+    2.0,
+    1.0,
+    1.0,
+    -1.0,
+    -1.0,
+    -2.0
+  ],
+  "strain": 0.2982,
+  "units": [
+    "alchemy",
+    "holy_guardian_angel_claimed",
+    "predatory_fungus",
+    "jormungandr_world_serpent",
+    "xviii_the_moon",
+    "lucid_dreaming"
+  ],
+  "weakest": 0.75
+}

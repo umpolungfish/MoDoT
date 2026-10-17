@@ -1,0 +1,13 @@
+{
+  "name": "trap",
+  "argv": [
+    "--trap",
+    "monad",
+    "the_stone"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.23257466001086868,
+  "stdout": "ionic trapping (sequester monad by its charge on R↔S, counter the_stone):\n  charge(R↔S) = -0.33  →  well depth 1.33\n  ✓ trapped (EVALT): monad is an ion held in its potential well — sequestered in a phase it cannot leave (reverse with a counter-shift).\n",
+  "stderr": ""
+}

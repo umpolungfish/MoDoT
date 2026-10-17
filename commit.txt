@@ -1,18 +1,3 @@
-I restore the shared core required by the native GPU build
+I connect the MoDoT agent to the local m3iosis tools
 
-I integrated the compatible imasm_core source from f06eb03, including lattice
-flow, ring specifications, current glyphs, and engagr. I extracted ask's graph
-flow evaluator into the shared core so ask and the GPU controls use the same
-gate semantics. I updated the stale example test to use the current ≻ glyph.
-
-Added Reg16_3::engagr, the house-named ENGAGR (⊞) gate as a first-class
-method: pins both information-axis lanes true, leaves the truth-axis
-lanes untouched. This file's own interpreter step already computed
-exactly this (Evali's inline self.touch(Reg16_3{small_t:true,small_f:
-true,..none}, Axis::I)) but only as one match arm buried in a private
-method, under this file's own local name for the token, Evali, which
-never matched the canonical name (classic.rs's Token::Engagr) the rest
-of the codebase uses. Extracted it as a real, reusable, correctly-named
-gate rather than leave it undiscoverable and privately named. Every
-other Reg16_3 gate already had one; this was the one real opcode with no
-public function of its own.
+I expose m3 and m3iosis in the native and Python prompts, register and dispatch their calls to the existing CLI, preserve its arguments and executable override, and resolve its source and environment from the checkout. I install the local,cuda build and verify fusion, braid simulation, Frobenius checks, aliases, argument boundaries, and failure propagation without launching inference.

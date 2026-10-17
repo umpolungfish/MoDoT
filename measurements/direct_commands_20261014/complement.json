@@ -1,0 +1,11 @@
+{
+  "name": "complement",
+  "argv": [
+    "--complement",
+    "monad"
+  ],
+  "exit": 0,
+  "seconds": 0.18141723799635656,
+  "stdout": "\n────────────────────────────────────────────────────────────────────────\ncomplement  bidirectional ligand ⇌ catalytic-site — monad\n────────────────────────────────────────────────────────────────────────\n  site   monad:   ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝⊙𐑓𐑳𐑷⟩\n  ligand monad′:  ⟨𐑦𐑸𐑩𐑗𐑞𐑘𐑔𐑠𐑣𐑒𐑕𐑴⟩   (the complementary partner the site binds — lock-and-key over the 6 conjugate pairs)\n  recognition: >=𐑽 (lateral dual): partial bidirectional binding\n  conjugate-pair map (site → ligand — inverted within each scale, crossed across the pair):\n    the complement is CHEMISTRY: all 6 pairs. [live] = the 3 catalytic axes math varies (D↔W, T↔H, R↔S);\n    [pinned] = the 3 physical axes math abstracts out and chemistry restores (P↔F, K↔G, Gm↔Ph).\n    [live]   ⊢↔⊡:   ⊢𐑼→⊡𐑴   |   ⊡𐑷→⊢𐑦\n    [live]   ⊣↔⊥:   ⊣𐑶→⊥𐑒   |   ⊥𐑓→⊣𐑸\n    [live]   ≻↔⊞:   ≻𐑽→⊞𐑕   |   ⊞𐑳→≻𐑩\n    [pinned] ≺↔⋈:   ≺𐑬→⋈𐑞   |   ⋈𐑐→≺𐑗\n    [pinned] ⊤↔∈:   ⊤𐑧→∈𐑔   |   ∈𐑲→⊤𐑘\n    [pinned] ∋↔⊙:   ∋𐑝→⊙𐑣   |   ⊙⊙→∋𐑠\n  round-trip monad → monad′ → monad″: distance 0.00 — the complement is its own inverse (bidirectional, lossless R∧W∧X).\n",
+  "stderr": ""
+}

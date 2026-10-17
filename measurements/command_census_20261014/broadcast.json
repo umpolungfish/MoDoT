@@ -1,0 +1,14 @@
+{
+  "name": "broadcast",
+  "argv": [
+    "--broadcast",
+    "monad",
+    "--top",
+    "5"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.19302897999295965,
+  "stdout": "click-sweep: monad ⋈ * over 9435 entries — 4041 clicks, top 5:\n  O_∞   R↔S   Δ=1.33   operator_samadhi_composite\n  O_∞   R↔S   Δ=1.33   the_stone\n  O_∞   R↔S   Δ=1.33   circularity_circularity\n  O_∞   R↔S   Δ=1.33   jesus_nazareth_biblical\n  O_∞   R↔S   Δ=1.33   serpentrod\n",
+  "stderr": ""
+}

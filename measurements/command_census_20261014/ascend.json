@@ -1,0 +1,12 @@
+{
+  "name": "ascend",
+  "argv": [
+    "--ascend",
+    "monad"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.18161277400213294,
+  "stdout": "ascend:  monad  →excite→ monad*  →IFIX→ monad⁺ (constructed extension)\n  seed monad* (excited fresh): ⊙=𐑻 (exceptional-point resonance — metastable √-branch point, not yet constructed)\n  IFIX (analytic continuation past the branch): ⊙ 𐑻→𐑮 (complex-axis fixed point 𐑮 — the Lee-Yang/ζ constructed criticality)\n  ramified layer added: ⊡ +1 → 𐑴 (one new floor of the tower — a winding quantum)\n  monad⁺  ⟨𐑼𐑶𐑽𐑬𐑐𐑧𐑲𐑝𐑮𐑓𐑳𐑴⟩   — the constructed extension (one level up)\n  tier: O₀ → O₀  (2 → 1)\n  the ascent HELD the tier — the extension is constructed but did not climb; the frontier above needs a different seed (report as B, not done).\n",
+  "stderr": ""
+}

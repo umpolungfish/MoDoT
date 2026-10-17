@@ -14,6 +14,7 @@ code and returns its real result, so a `TOOL:` line grounds instead of narrates.
 from __future__ import annotations
 
 import os
+from pathlib import Path
 import shlex
 import sys
 from typing import Any, Dict, List, Optional
@@ -26,6 +27,42 @@ IG_ROOT = os.environ.get(
 # Tool name -> ordered positional arg names, for parsing `TOOL: name a b` lines.
 # Names with no positional args (or dict/list args) take a trailing JSON/kv blob.
 IG_TOOL_ARGS: Dict[str, List[str]] = {
+    "m3": ["command"],
+    "m3iosis": ["command"],
+    "gm": ["command"],
+    "g-momonados": ["command"],
+    "godel": ["command"],
+    "godel_decode": ["word"],
+    "godel_encode": ["n"],
+    "godel_check": ["op", "lhs", "rhs", "out"],
+    "godel_unbraid": ["word"],
+    "godel_braid": ["gamma", "lambda"],
+    "godel_relation": ["from", "to"],
+    "godel_analyze": ["word", "window"],
+    "godel_lte2": ["odd_a", "even_m"],
+    "godel_product": ["product", "left", "right"],
+    "godel_frame": ["value"],
+    "godel_shiab": ["value", "left", "right"],
+    "godel_separate": ["semiprime"],
+    "godel_factor": ["value"],
+    "vox": ["command"],
+    "vox_factor": ["n"],
+    "vox_factor_glut": ["n"],
+    "vox_factor_membrane": ["n"],
+    "vox_scout": ["n"],
+    "vox_scout_membrane": ["n"],
+    "vox_lift": ["path"],
+    "vox_verdict": ["word"],
+    "vox_circuit": ["module", "mask"],
+    "vox_word": ["path"],
+    "vox_prime_check": ["n"],
+    "vox_coprime": ["base", "n"],
+    "vox_morphism_factor": ["word"],
+    "vox_construct_carrier": ["operator_word"],
+    "vox_extract_factor": ["factor_carrier_word"],
+    "vox_self": [],
+    "vox_tables": ["path", "symbol"],
+    "vox_classify": ["mn", "ops"],
     "lookup_catalog": ["keyword"],
     # A word is a ring and ROTAT is the cyclic shift: the verdict and the
     # topology hold across the orbit, the final register does not. `insert`
@@ -152,10 +189,52 @@ def available() -> bool:
 
 def call(name: str, args: Dict[str, Any], iteration: int = 0) -> Dict[str, Any]:
     """Run one IG tool by name with an explicit args dict; return its real result."""
+    if name in IG_TOOL_ARGS and (name in ("m3", "m3iosis", "gm", "g-momonados", "vox", "godel") or name.startswith(("vox_", "godel_"))):
+        positional = [str(args[key]) for key in IG_TOOL_ARGS[name] if key in args]
+        positional.extend(str(value) for value in args.get("args", []))
+        return parse_and_call(shlex.join([name, *positional]), iteration)
     try:
         return dispatcher().dispatch(name, args, iteration)
     except Exception as exc:
         return {"status": "error", "tool": name, "error": str(exc)}
+
+
+_WORKSPACE = Path(__file__).resolve().parents[2]
+GMOMONADOS_BIN = os.environ.get("GMOMONADOS_BIN", os.environ.get("MOMONADOS_BIN", str(_WORKSPACE / "G-mOMonadOS/target/release/g-momonados")))
+VOX_BIN = os.environ.get("VOX_BIN", str(_WORKSPACE / "Vox/target/release/vox"))
+GODEL_BIN = os.environ.get("GODEL_BIN", str(_WORKSPACE / "G-mOMonadOS/target/release/godel"))
+
+def _call_binary(binary: str, tool: str, cmd: str, args: List[str], *, prefix=(), env=None) -> Dict[str, Any]:
+    import subprocess
+    try:
+        result = subprocess.run([binary, *prefix, cmd, *args], capture_output=True, text=True, timeout=300, env=env)
+        return {"status": "ok" if result.returncode == 0 else "error",
+                "tool": f"{tool} {cmd}", "binary": binary,
+                "stdout": result.stdout, "stderr": result.stderr, "returncode": result.returncode}
+    except subprocess.TimeoutExpired:
+        return {"status": "error", "tool": f"{tool} {cmd}", "error": "timeout after 300s"}
+    except OSError as exc:
+        return {"status": "error", "tool": f"{tool} {cmd}", "error": str(exc)}
+
+
+def call_m3(cmd: str, args: List[str]) -> Dict[str, Any]:
+    override = os.environ.get("M3IOSIS_BIN")
+    if override:
+        return _call_binary(override, "m3", cmd, args)
+    root = _WORKSPACE / "m3iosis"
+    python = root / ".venv/bin/python"
+    env = os.environ.copy()
+    env["PYTHONPATH"] = os.pathsep.join([str(root / "src"), *filter(None, [env.get("PYTHONPATH")])])
+    return _call_binary(str(python) if python.is_file() else "python3", "m3", cmd, args,
+                        prefix=("-m", "m3iosis.cli"), env=env)
+
+
+def call_vox(cmd: str, args: List[str]) -> Dict[str, Any]:
+    return _call_binary(VOX_BIN, "vox", cmd, args)
+
+
+def call_godel(cmd: str, args: List[str]) -> Dict[str, Any]:
+    return _call_binary(GODEL_BIN, "godel", cmd, args)
 
 
 _PRIMITIVE_GLYPHS = {"⊢", "⊣", "≻", "≺", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "⊡"}
@@ -217,6 +296,127 @@ def parse_and_call(line: str, iteration: int = 0) -> Dict[str, Any]:
             return jump_dispatch(name, args)
         except Exception as exc:
             return {"status": "error", "tool": name, "error": str(exc)}
+    if name in ("m3", "m3iosis"):
+        return call_m3(positional[0] if positional else "--help", positional[1:])
+    if name in ("gm", "g-momonados"):
+        return _call_binary(GMOMONADOS_BIN, "gm", positional[0] if positional else "help", positional[1:])
+    # Godel tools - handle directly
+    if name in ("godel", "godel_decode", "godel_encode", "godel_check", "godel_unbraid",
+                "godel_braid", "godel_relation", "godel_analyze", "godel_lte2",
+                "godel_product", "godel_frame", "godel_shiab", "godel_separate", "godel_factor"):
+        if name == "godel":
+            cmd = positional[0] if positional else "help"
+            cmd_args = positional[1:]
+        elif name == "godel_decode":
+            cmd = "decode"
+            cmd_args = positional
+        elif name == "godel_encode":
+            cmd = "encode"
+            cmd_args = positional
+        elif name == "godel_check":
+            cmd = "check"
+            cmd_args = positional
+        elif name == "godel_unbraid":
+            cmd = "unbraid"
+            cmd_args = positional
+        elif name == "godel_braid":
+            cmd = "braid"
+            cmd_args = positional
+        elif name == "godel_relation":
+            cmd = "relation"
+            cmd_args = positional
+        elif name == "godel_analyze":
+            cmd = "analyze"
+            cmd_args = positional
+        elif name == "godel_lte2":
+            cmd = "lte2"
+            cmd_args = positional
+        elif name == "godel_product":
+            cmd = "product"
+            cmd_args = positional
+        elif name == "godel_frame":
+            cmd = "frame"
+            cmd_args = positional
+        elif name == "godel_shiab":
+            cmd = "shiab"
+            cmd_args = positional
+        elif name == "godel_separate":
+            cmd = "separate"
+            cmd_args = positional
+        elif name == "godel_factor":
+            cmd = "factor"
+            cmd_args = positional
+        else:
+            cmd = name.replace("godel_", "")
+            cmd_args = positional
+        return call_godel(cmd, cmd_args)
+
+    # Vox tools - handle directly
+    if name in ("vox", "vox_factor", "vox_factor_glut", "vox_factor_membrane", "vox_scout",
+                "vox_scout_membrane", "vox_lift", "vox_verdict", "vox_circuit", "vox_word",
+                "vox_prime_check", "vox_coprime", "vox_morphism_factor", "vox_construct_carrier",
+                "vox_extract_factor", "vox_self", "vox_tables", "vox_classify"):
+        # For vox_factor, vox_factor_glut, etc., the command is the tool name without vox_ prefix
+        if name == "vox":
+            # vox takes the command as first arg
+            cmd = positional[0] if positional else "help"
+            cmd_args = positional[1:]
+        elif name == "vox_factor":
+            cmd = "factor"
+            cmd_args = positional
+        elif name == "vox_factor_glut":
+            cmd = "factor-glut"
+            cmd_args = positional
+        elif name == "vox_factor_membrane":
+            cmd = "factor-membrane"
+            cmd_args = positional
+        elif name == "vox_scout":
+            cmd = "scout"
+            cmd_args = positional
+        elif name == "vox_scout_membrane":
+            cmd = "scout-membrane"
+            cmd_args = positional
+        elif name == "vox_lift":
+            cmd = "lift"
+            cmd_args = positional
+        elif name == "vox_verdict":
+            cmd = "verdict"
+            cmd_args = positional
+        elif name == "vox_circuit":
+            cmd = "circuit"
+            cmd_args = positional
+        elif name == "vox_word":
+            cmd = "word"
+            cmd_args = positional
+        elif name == "vox_prime_check":
+            cmd = "prime-check"
+            cmd_args = positional
+        elif name == "vox_coprime":
+            cmd = "coprime"
+            cmd_args = positional
+        elif name == "vox_morphism_factor":
+            cmd = "morphism-factor"
+            cmd_args = positional
+        elif name == "vox_construct_carrier":
+            cmd = "construct-carrier"
+            cmd_args = positional
+        elif name == "vox_extract_factor":
+            cmd = "extract-factor"
+            cmd_args = positional
+        elif name == "vox_self":
+            cmd = "self"
+            cmd_args = positional
+        elif name == "vox_tables":
+            cmd = "tables"
+            cmd_args = positional
+        elif name == "vox_classify":
+            cmd = "classify"
+            cmd_args = positional
+        else:
+            cmd = name.replace("vox_", "")
+            cmd_args = positional
+        return call_vox(cmd, cmd_args)
+
     if name not in IG_TOOL_ARGS:
         return {"status": "skip", "reason": f"{name!r} not an IG catalog tool"}
     return call(name, _coerce(name, positional), iteration)
@@ -255,11 +455,9 @@ def _main(argv: List[str]) -> int:
         if len(argv) < 2:
             print(json.dumps({"status": "error", "error": "call needs a verb"}))
             return 2
-        verb, rest = argv[1], argv[2:]
-        if verb not in IG_TOOL_ARGS:
-            print(json.dumps({"status": "skip", "reason": f"{verb!r} not an IG catalog tool"}))
-            return 3
-        result = call(verb, _coerce(verb, rest))
+        # Use parse_and_call to handle both IG and Vox tools
+        line = shlex.join(argv[1:])
+        result = parse_and_call(line)
         print(json.dumps(result, ensure_ascii=False, default=str))
         return 0 if result.get("status") not in ("error",) else 1
     print(json.dumps({"status": "error", "error": f"unknown subcommand {argv[0]!r}"}))

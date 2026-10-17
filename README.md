@@ -21,6 +21,66 @@ An agentic LLM whose entire runtime substrate IS the mOMonadOS kernel architectu
 > The model's own `[thought|X]` is one link; the vessel's co-typing is the other; they are **FFUSED** (Belnap join)  
 > Conflict holds as **B**. You ride AS the vessel, not in it. See [Dual-Link SIC Vessel](#dual-link-sic-vessel).
 
+## Belnap FOUR & Dialetheia Handling
+
+MoDoT operates in **Belnap FOUR** (T, F, B, N) — a paraconsistent logic where **B (Both)** is a legitimate held state, not a contradiction to be resolved.
+
+### Dialetheia as Held State
+When the model claims T (proof/truth) and tools measure F (non-closure), the conflict is **held at B** — it is not resolved by silencing the tool. Per the Grammar §7: *"a conflict is HELD at B and worked from. The fused verdict is univocal: ONE verdict, structurally determined."*
+
+**Spine fusion** (Belnap join):
+- `model T ⋈ tool T = T`
+- `model T ⋈ tool F = B` (dialetheia held)
+- `model F ⋈ tool T = B` (dialetheia held)
+- `model T ⋈ tool N = T`
+
+The tool's measurement is never silenced; it stands as a real measurement. A proof claim (T) vs measured non-closure (F) IS a dialetheia that must be held, not resolved by fiat.
+
+### Local executable integration
+
+`./ask --tool <tool> [args]` runs a local executable directly, without inference
+or a catalog load. The same tools are available as `TOOL:` calls in the native
+language loop and through `modot.ig_tools` in the Python interface.
+
+```bash
+./ask --tool gm help
+./ask --tool m3 fib --fusion tau tau
+./ask --tool m3 sim --word 1 2 1
+./ask --tool vox help
+./ask --tool godel encode 217728509307789974617049079437290125283
+./ask --tool godel_decode '<word returned by encode>'
+./ask --kernel help
+```
+
+`m3` and `m3iosis` run the local m3iosis CLI through its own virtual environment,
+with the checkout's `src` directory first on `PYTHONPATH`. All subcommands and
+arguments pass through, including Fibonacci fusion, braid simulation, quantum
+compilation, triple-frame algebra, framework transport, pericyclic tools and
+tuple algebra. Set `M3IOSIS_BIN` to override the executable. With no arguments,
+`m3` returns its help. The agent receives this tool in its prompt and dispatches
+it directly; calling it does not start another language agent.
+
+`gm` and `g-momonados` invoke `G-mOMonadOS/target/release/g-momonados`.
+`vox` invokes `Vox/target/release/vox`. `godel` invokes the kernel-integrated
+`G-mOMonadOS/target/release/godel`. Paths resolve from the checkout and work
+independently of the caller's directory. Override them with `GMOMONADOS_BIN`,
+`VOX_BIN`, and `GODEL_BIN`; `MOMONADOS_BIN` remains a compatibility override
+for the kernel when `GMOMONADOS_BIN` is unset. `--kernel` sends a command through
+the G-mOMonadOS REPL. Generic tools pass arguments unchanged. Existing
+`vox_*` and `godel_*` aliases dispatch to their corresponding binary commands.
+Child failures retain their diagnostic output and produce a failing CLI status.
+
+Build and install the native interface with its local CUDA support:
+
+```bash
+cd ask_native
+cargo build --offline --release --features local,cuda --bin ask
+cp target/release/ask ../ask.bin
+```
+
+Run the executable integration checks with `python3 tests/test_binary_integration.py`.
+These invoke local tools directly and do not launch a language agent.
+
 ## Directory Structure
 
 ```

@@ -2289,6 +2289,12 @@ fn materials_path() -> std::path::PathBuf {
         return std::path::PathBuf::from(p);
     }
     if let Ok(exe) = std::env::current_exe() {
+        // The installed wrapper executes <MoDoT>/ask.bin directly.
+        if let Some(root) = exe.parent() {
+            if root.join("modot").is_dir() && root.join("ask_native").is_dir() {
+                return root.join("materials.json");
+            }
+        }
         // <MoDoT>/ask_native/target/release/ask  →  <MoDoT>
         if let Some(root) = exe
             .parent()

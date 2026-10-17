@@ -1,0 +1,53 @@
+{
+  "timestamp": "2026-10-15T06:31:33.799959+00:00",
+  "checks": [
+    {
+      "cwd": "/home/mrnob0dy666/imsgct/MoDoT",
+      "argv": [
+        "python3",
+        "tests/test_binary_integration.py"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 1.278s\n\nOK\n"
+    },
+    {
+      "cwd": "/home/mrnob0dy666/imsgct/MoDoT/ask_native",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--features",
+        "local,cuda",
+        "--bin",
+        "ask",
+        "binary_integration_tests",
+        "--",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "stdout": "\nrunning 1 test\ntest binary_integration_tests::language_loop_dispatches_local_binary_tools ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 138 filtered out; finished in 0.11s\n\n",
+      "stderr": "    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s\n     Running unittests src/main.rs (target/debug/deps/ask-d885c3c71b27b6cb)\n"
+    },
+    {
+      "cwd": "/home/mrnob0dy666/imsgct/MoDoT",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "sha256": {
+    "/home/mrnob0dy666/imsgct/MoDoT/ask.bin": "0ec4d1cdad3f84c651f0f00ccbba2f46c39321db40aa0e230abbc768eba311fa",
+    "/home/mrnob0dy666/imsgct/MoDoT/ask_native/src/main.rs": "45a495389b7828189f7d55ec13230df1253f698ec744bd72d049e89418f81921",
+    "/home/mrnob0dy666/imsgct/MoDoT/ask_native/src/binary_tools.rs": "f2c283edadc6971f784f0a4fe911944e4180f6029aecdda0f69fc3f1adab843f",
+    "/home/mrnob0dy666/imsgct/MoDoT/modot/ig_tools.py": "8b2ed7c4edb16315d5c45cfcea0dca3d8b4743ffcaae1af14d9fd461797e8893",
+    "/home/mrnob0dy666/imsgct/G-mOMonadOS/target/release/g-momonados": "f89e735bf203d84f52105e82b8b4459569b3be29d7fc5d2e18aef8bf0dee1a60",
+    "/home/mrnob0dy666/imsgct/G-mOMonadOS/target/release/godel": "077a03b2b77374983126b1d959ee4f2f9b0b47331e2f85d97e49bb8f4e7e6738",
+    "/home/mrnob0dy666/imsgct/Vox/target/release/vox": "31763265508cb4af2b6df0427ccba229c4d0b01b54cadecdfbe02f7d792b428a"
+  }
+}

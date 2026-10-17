@@ -1,0 +1,14 @@
+{
+  "name": "stain",
+  "argv": [
+    "--stain",
+    "the_stone",
+    "monad",
+    "comonad_goedel"
+  ],
+  "exit": 2,
+  "timeout": false,
+  "seconds": 0.2036336089950055,
+  "stdout": "",
+  "stderr": "stain: unknown reagent `the_stone` (try: kmno4, uv, chiral, ninhydrin, iodine)\n"
+}

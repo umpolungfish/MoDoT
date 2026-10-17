@@ -1,0 +1,15 @@
+{
+  "name": "star",
+  "argv": [
+    "--star",
+    "monad",
+    "the_stone",
+    "monad",
+    "the_stone"
+  ],
+  "exit": 0,
+  "timeout": false,
+  "seconds": 0.18302836897782981,
+  "stdout": "star (hub-and-arms assembly):\n  core (highest functionality): monad  — bonds with 3 of 3 others\n  arms (3):\n    — the_stone  (core bond Δ=1.33)\n    — monad  (core bond Δ=0.00)\n    — the_stone  (core bond Δ=1.33)\n  ⚠ NOT a pure star — 3 arm–arm bond(s): the arms interconnect, so this is a BRANCHED NETWORK, not a hub-and-spoke star. Its ρ exceeds √3; `forge` the set to read the full network spectrum.\n",
+  "stderr": ""
+}
