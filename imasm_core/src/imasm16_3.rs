@@ -616,7 +616,7 @@ mod tests {
     #[test]
     fn example_word_closes_with_work() {
         // Legal-alphabet tri word: fork, work on the arms, fuse, latch.
-        let steps = parse_glyph_word("⊢>∈⊤⊥⊞∋⊡⊣");
+        let steps = parse_glyph_word("⊢≻∈⊤⊥⊞∋⊡⊣");
         assert_eq!(steps.len(), 9);
         let (verdict, _) = tri_ancestral_verdict(&steps);
         assert_eq!(verdict, 'T');
