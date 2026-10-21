@@ -1,3 +1,3 @@
-I connect the MoDoT agent to the local m3iosis tools
+I execute engagement on the shared graph carrier
 
-I expose m3 and m3iosis in the native and Python prompts, register and dispatch their calls to the existing CLI, preserve its arguments and executable override, and resolve its source and environment from the checkout. I install the local,cuda build and verify fusion, braid simulation, Frobenius checks, aliases, argument boundaries, and failure propagation without launching inference.
+I connect ENGAGR to the existing paired information-layer gate and check the reconnected readout over all sixteen seeds. I enable the native no_std test build and correct its stale example glyph. All 15 core tests pass.
