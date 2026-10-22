@@ -24,6 +24,9 @@ IG_ROOT = os.environ.get(
     "IG_ROOT", os.path.expanduser("~/imsgct/imscribing_grammar")
 )
 
+_WORKSPACE = Path(__file__).resolve().parents[2]
+ASK_NATIVE_BIN = os.environ.get("ASK_NATIVE_BIN", str(_WORKSPACE / "MoDoT" / "ask.bin"))
+
 # Tool name -> ordered positional arg names, for parsing `TOOL: name a b` lines.
 # Names with no positional args (or dict/list args) take a trailing JSON/kv blob.
 IG_TOOL_ARGS: Dict[str, List[str]] = {
@@ -123,6 +126,50 @@ IG_TOOL_ARGS: Dict[str, List[str]] = {
     "riemann_xi_info": [],
     "ask_question": ["question"],
     "record_insight": ["text", "plane", "confidence", "systems"],
+    # Structural verbs (native ask_native CLI verbs) — shell out to ask.bin
+    "click": ["a", "b"],
+    "switch": ["a", "b"],
+    "excite": ["name"],
+    "ascend": ["name"],
+    "descend": ["name"],
+    "filter": ["names"],
+    "phase_reconstruct": ["monomers"],
+    "set": ["donor", "acceptor"],
+    "homolyze": ["a", "b"],
+    "scan": ["donor", "acceptor"],
+    "complement": ["name"],
+    "cycle": ["catalyst", "substrate"],
+    "pathway": ["substrate", "catalysts"],
+    "polymerize": ["monomers"],
+    "star": ["monomers"],
+    "broadcast": ["source"],
+    "close": ["monomers"],
+    "material": ["monomers"],
+    "modulus": ["monomers"],
+    "arrange": ["monomers"],
+    "forge": ["monomers"],
+    "compare": ["set_a", "vs", "set_b"],
+    "dope": ["base", "with", "dopant"],
+    "fuse": ["ring_a", "plus", "ring_b"],
+    "cleave": ["monomers"],
+    "anneal": ["monomers"],
+    "distill": ["monomers"],
+    "fdistill": ["monomers"],
+    "sublime": ["name"],
+    "crystallize": ["monomers"],
+    "cocrystallize": ["a", "b"],
+    "seed": ["monomers"],
+    "tlc": ["monomers"],
+    "column": ["monomers"],
+    "fpt": ["monomers"],
+    "trap": ["name"],
+    "stain": ["reagent", "monomers"],
+    "register": ["name", "monomers"],
+    "recall": ["name"],
+    "imscribe": ["name"],
+    "ob3ect": ["description"],
+    "imasm": ["command"],
+    "calc": ["expression"],
 }
 
 # args that must be coerced to int / list when parsed from a bare `TOOL:` line
@@ -235,6 +282,198 @@ def call_vox(cmd: str, args: List[str]) -> Dict[str, Any]:
 
 def call_godel(cmd: str, args: List[str]) -> Dict[str, Any]:
     return _call_binary(GODEL_BIN, "godel", cmd, args)
+
+
+def _call_structural_tool(verb: str, args: List[str]) -> Dict[str, Any]:
+    """Shell out to ask_native binary for structural verbs.
+
+    Mirrors the Rust `run_structural_tool` in fart.rs.
+    """
+    # Build CLI flags for each verb (matching Rust run_structural_tool)
+    flags: List[str]
+    a = lambda i: args[i] if i < len(args) else None
+
+    if verb == "click":
+        if a(0) is None:
+            return {"status": "error", "tool": verb, "error": "click needs at least 1 argument"}
+        flags = ["--click", a(0)]
+        if a(1):
+            flags.append(a(1))
+    elif verb == "switch":
+        if a(0) is None or a(1) is None:
+            return {"status": "error", "tool": verb, "error": "switch needs 2 arguments"}
+        flags = ["--switch", a(0), a(1)]
+    elif verb == "excite":
+        if a(0) is None:
+            return {"status": "error", "tool": verb, "error": "excite needs 1 argument"}
+        flags = ["--excite", a(0)]
+    elif verb == "ascend":
+        if a(0) is None:
+            return {"status": "error", "tool": verb, "error": "ascend needs 1 argument"}
+        flags = ["--ascend", a(0)]
+    elif verb == "descend":
+        if a(0) is None:
+            return {"status": "error", "tool": verb, "error": "descend needs 1 argument"}
+        flags = ["--descend", a(0)]
+    elif verb == "star":
+        if len(args) < 4:
+            return {"status": "error", "tool": verb, "error": "star needs at least 4 arguments"}
+        flags = ["--star"] + args
+    elif verb == "filter":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "filter needs at least 2 arguments"}
+        flags = ["--filter"] + args
+    elif verb == "phase_reconstruct":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "phase_reconstruct needs at least 2 arguments"}
+        flags = ["--phase-reconstruct"] + args
+    elif verb == "set":
+        if a(0) is None or a(1) is None:
+            return {"status": "error", "tool": verb, "error": "set needs 2 arguments"}
+        flags = ["--set", a(0), a(1)]
+    elif verb == "homolyze":
+        if a(0) is None:
+            return {"status": "error", "tool": verb, "error": "homolyze needs at least 1 argument"}
+        flags = ["--homolyze", a(0)]
+        if a(1):
+            flags.append(a(1))
+    elif verb == "scan":
+        if a(0) is None or a(1) is None:
+            return {"status": "error", "tool": verb, "error": "scan needs 2 arguments"}
+        flags = ["--set", a(0), a(1), "--scan-mediators"]
+    elif verb == "complement":
+        if a(0) is None:
+            return {"status": "error", "tool": verb, "error": "complement needs 1 argument"}
+        flags = ["--complement", a(0)]
+    elif verb == "cycle":
+        if a(0) is None or a(1) is None:
+            return {"status": "error", "tool": verb, "error": "cycle needs 2 arguments"}
+        flags = ["--cycle", a(0), a(1)]
+    elif verb == "pathway":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "pathway needs at least 2 arguments"}
+        flags = ["--pathway"] + args
+    elif verb == "polymerize":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "polymerize needs at least 2 arguments"}
+        flags = ["--polymerize"] + args
+    elif verb == "close":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "close needs at least 2 arguments"}
+        flags = ["--polymerize"] + args + ["--close"]
+    elif verb == "material":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "material needs at least 2 arguments"}
+        flags = ["--polymerize"] + args + ["--props"]
+    elif verb == "modulus":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "modulus needs at least 2 arguments"}
+        flags = ["--polymerize"] + args + ["--modulus"]
+    elif verb == "arrange":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "arrange needs at least 2 arguments"}
+        flags = ["--polymerize"] + args + ["--arrange"]
+    elif verb == "forge":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "forge needs at least 2 arguments"}
+        flags = ["--forge"] + args
+    elif verb == "compare":
+        # compare format: A B vs X Y Z -> need to parse "vs" separator
+        if len(args) < 3:
+            return {"status": "error", "tool": verb, "error": "compare needs at least 3 arguments (A B vs X Y...)"}
+        flags = ["--compare"] + args
+    elif verb == "dope":
+        # dope format: A B with C -> need to parse "with" separator
+        if len(args) < 3:
+            return {"status": "error", "tool": verb, "error": "dope needs at least 3 arguments (A B with C)"}
+        flags = ["--dope"] + args
+    elif verb == "fuse":
+        # fuse format: A B + X Y Z -> need to parse "+" separator
+        if len(args) < 5:
+            return {"status": "error", "tool": verb, "error": "fuse needs at least 5 arguments (A B + X Y...)"}
+        flags = ["--fuse"] + args
+    elif verb == "cleave":
+        if len(args) < 4:
+            return {"status": "error", "tool": verb, "error": "cleave needs at least 4 arguments"}
+        flags = ["--cleave"] + args
+    elif verb == "anneal":
+        if len(args) < 3:
+            return {"status": "error", "tool": verb, "error": "anneal needs at least 3 arguments"}
+        flags = ["--anneal"] + args
+    elif verb == "distill":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "distill needs at least 2 arguments"}
+        flags = ["--distill"] + args
+    elif verb == "fdistill":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "fdistill needs at least 2 arguments"}
+        flags = ["--fdistill"] + args
+    elif verb == "sublime":
+        if a(0) is None:
+            return {"status": "error", "tool": verb, "error": "sublime needs 1 argument"}
+        flags = ["--sublime", a(0)]
+    elif verb == "crystallize":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "crystallize needs at least 2 arguments"}
+        flags = ["--crystallize"] + args
+    elif verb == "cocrystallize":
+        if a(0) is None or a(1) is None:
+            return {"status": "error", "tool": verb, "error": "cocrystallize needs 2 arguments"}
+        flags = ["--cocrystallize", a(0), a(1)]
+    elif verb == "seed":
+        if len(args) < 3:
+            return {"status": "error", "tool": verb, "error": "seed needs at least 3 arguments"}
+        flags = ["--seed"] + args
+    elif verb == "tlc":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "tlc needs at least 2 arguments"}
+        flags = ["--tlc"] + args
+    elif verb == "column":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "column needs at least 2 arguments"}
+        flags = ["--column"] + args
+    elif verb == "fpt":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "fpt needs at least 2 arguments"}
+        flags = ["--fpt"] + args
+    elif verb == "trap":
+        if a(0) is None:
+            return {"status": "error", "tool": verb, "error": "trap needs at least 1 argument"}
+        flags = ["--trap", a(0)]
+        if a(1):
+            flags.append(a(1))
+    elif verb == "stain":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "stain needs at least 2 arguments"}
+        flags = ["--stain"] + args
+    elif verb == "register":
+        if len(args) < 2:
+            return {"status": "error", "tool": verb, "error": "register needs at least 2 arguments (name + monomers)"}
+        flags = ["--register", a(0)] + args[1:]
+    elif verb == "recall":
+        if a(0) is None:
+            return {"status": "error", "tool": verb, "error": "recall needs 1 argument"}
+        flags = ["--recall", a(0)]
+    elif verb == "imscribe":
+        # imscribe is special - it runs the generate pipeline, not ask.bin
+        # For now, delegate to the IG catalog imscribe tool
+        return {"status": "skip", "reason": "imscribe not implemented in structural bridge; use IG catalog imscribe_system"}
+    elif verb == "ob3ect":
+        # ob3ect runs the Auto-Designer pipeline
+        return {"status": "skip", "reason": "ob3ect not implemented in structural bridge; runs external auto.py"}
+    elif verb == "imasm":
+        # imasm composes opcodes - could shell to ask.bin --imasm
+        if len(args) < 1:
+            return {"status": "error", "tool": verb, "error": "imasm needs at least 1 argument"}
+        flags = ["--imasm"] + args
+    elif verb == "calc":
+        if len(args) < 1:
+            return {"status": "error", "tool": verb, "error": "calc needs an expression"}
+        flags = ["--calc"] + args
+    else:
+        return {"status": "error", "tool": verb, "error": f"unhandled structural verb: {verb}"}
+
+    return _call_binary(ASK_NATIVE_BIN, "ask", "", flags)
 
 
 _PRIMITIVE_GLYPHS = {"⊢", "⊣", "≻", "≺", "⋈", "⊤", "∈", "∋", "⊙", "⊥", "⊞", "⊡"}
@@ -416,6 +655,20 @@ def parse_and_call(line: str, iteration: int = 0) -> Dict[str, Any]:
             cmd = name.replace("vox_", "")
             cmd_args = positional
         return call_vox(cmd, cmd_args)
+
+    # Structural verbs (native ask_native CLI verbs) — shell out to ask.bin
+    _STRUCTURAL_VERBS = {
+        "click", "switch", "excite", "ascend", "descend", "filter",
+        "phase_reconstruct", "set", "homolyze", "scan", "complement",
+        "cycle", "pathway", "polymerize", "star", "broadcast",
+        "close", "material", "modulus", "arrange", "forge",
+        "compare", "dope", "fuse", "cleave", "anneal",
+        "distill", "fdistill", "sublime", "crystallize", "cocrystallize",
+        "seed", "tlc", "column", "fpt", "trap", "stain",
+        "register", "recall", "imscribe", "ob3ect", "imasm", "calc",
+    }
+    if name in _STRUCTURAL_VERBS:
+        return _call_structural_tool(name, positional)
 
     if name not in IG_TOOL_ARGS:
         return {"status": "skip", "reason": f"{name!r} not an IG catalog tool"}
