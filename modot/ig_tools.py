@@ -168,7 +168,7 @@ def dispatcher():
         raise IGToolError(
             f"cannot import IG_inquiry from {IG_ROOT}: {exc}"
         ) from exc
-    catalog = SessionCatalog(catalog_path=CATALOG_PATH)
+    catalog = SessionCatalog(catalog_path=os.environ.get("MOMONADOS_CATALOG", CATALOG_PATH))
     _dispatcher = ToolDispatcher(catalog=catalog, question_queue=[], insights=[])
     return _dispatcher
 
@@ -434,6 +434,101 @@ def _selftest() -> None:
     print(f"  crystal_decode 0 -> {str(dec)[:120]}")
 
 
+def batch_compose(plan_path: str, receipt_path: str) -> Dict[str, Any]:
+    """Compose and register a dependency-ordered plan with one catalog commit.
+
+    Coordinates come only from compute_join/meet/tensor. Registration uses the
+    existing encode_system tool; its ordinary per-entry persistence is deferred
+    until the complete batch has passed, then the same catalog writer commits.
+    """
+    import hashlib
+    import json
+    from IG_inquiry import PRIMITIVE_ORDER
+
+    engine = dispatcher()
+    catalog = engine.catalog
+    path = Path(catalog._catalog_path)
+    before_bytes = path.read_bytes()
+    before = json.loads(before_bytes)
+    before_entries = before.get("imscriptions", []) if isinstance(before, dict) else before
+    plan = json.loads(Path(plan_path).read_text(encoding="utf-8"))
+    results = []
+    expected = {}
+    saved_path = catalog._catalog_path
+    catalog._catalog_path = None
+    try:
+        for recipe in plan:
+            name = recipe["original"]
+            parts = recipe["operands"]
+            if not parts or len(parts) < 2:
+                raise IGToolError(f"{name}: incomplete composition recipe")
+            operation = "meet" if name.startswith("polymer_meet_") else (
+                "tensor" if name.startswith("polymer_tensor_") else "join")
+            left = parts[0]
+            steps = []
+            for index, right in enumerate(parts[1:], 1):
+                target = name if index == len(parts) - 1 else f"{name}__prefix_{index}"
+                result = engine.dispatch(f"compute_{operation}", {"name_a": left, "name_b": right}, 0)
+                if result.get("status") != "ok":
+                    raise IGToolError(f"{name}: {result}")
+                notation = result["result_notation"]
+                registered = engine.dispatch("encode_system", {
+                    "name": target, "tuple": notation,
+                    "description": f"MoDoT compute_{operation}({left}, {right}); batch receipt {receipt_path}",
+                }, 0)
+                if registered.get("status") not in ("ok", "updated") or registered.get("notation") != notation:
+                    raise IGToolError(f"{target}: registration did not preserve tool output: {registered}")
+                expected[target] = catalog.get(target).copy()
+                steps.append({"target": target, "computation": result, "registration": registered})
+                left = target
+            results.append({"name": name, "operation": operation, "operands": parts, "steps": steps})
+        if path.read_bytes() != before_bytes:
+            raise IGToolError("main catalog changed during preparation; batch was not committed")
+        # Commit exactly the registered tool outputs while retaining the full
+        # source envelope and every unrelated record, including empty names or
+        # repeated records which a name-indexed whole-catalog save would fold.
+        entries = []
+        existing_names = set()
+        for entry in before_entries:
+            name = entry.get("name")
+            existing_names.add(name)
+            if name in expected:
+                entry = dict(entry)
+                entry.update(expected[name])
+                entry["description"] = catalog._descriptions[name]
+            entries.append(entry)
+        for name, values in expected.items():
+            if name not in existing_names:
+                entries.append({"name": name, "description": catalog._descriptions[name], **values})
+        payload = dict(before) if isinstance(before, dict) else entries
+        if isinstance(payload, dict):
+            payload["imscriptions"] = entries
+        pending = path.with_suffix(path.suffix + ".batch.tmp")
+        pending.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        if path.read_bytes() != before_bytes:
+            pending.unlink()
+            raise IGToolError("main catalog changed before commit; batch was not committed")
+        pending.replace(path)
+        after = json.loads(path.read_text(encoding="utf-8"))
+        entries = after.get("imscriptions", []) if isinstance(after, dict) else after
+        readback = {entry["name"]: entry for entry in entries}
+        for name, values in expected.items():
+            if any(readback.get(name, {}).get(key) != values[key] for key in PRIMITIVE_ORDER):
+                raise IGToolError(f"{name}: committed readback differs from the computed tuple")
+        if [entry for entry in entries if entry.get("name") not in expected] != [
+            entry for entry in before_entries if entry.get("name") not in expected
+        ]:
+            raise IGToolError("unrelated records changed")
+        receipt = {"status": "ok", "catalog": str(path), "requested": len(plan),
+                   "reissued": len(results), "registered_results": len(expected),
+                   "before_sha256": hashlib.sha256(before_bytes).hexdigest(),
+                   "after_sha256": hashlib.sha256(path.read_bytes()).hexdigest(), "results": results}
+        Path(receipt_path).write_text(json.dumps(receipt, ensure_ascii=False, indent=2), encoding="utf-8")
+        return {key: value for key, value in receipt.items() if key != "results"}
+    finally:
+        catalog._catalog_path = saved_path
+
+
 def _main(argv: List[str]) -> int:
     """CLI entry so the native (Rust) loop can shell one IG tool per call.
 
@@ -445,6 +540,17 @@ def _main(argv: List[str]) -> int:
     ask_native can capture it exactly as it captures close/forge/ob3ect.
     """
     import json
+    if argv and argv[0] == "batch-compose":
+        if len(argv) != 3:
+            print(json.dumps({"status": "error", "error": "batch-compose PLAN.json RECEIPT.json"}))
+            return 2
+        try:
+            _deshadow_navigators()
+            print(json.dumps(batch_compose(argv[1], argv[2]), ensure_ascii=False))
+            return 0
+        except Exception as exc:
+            print(json.dumps({"status": "error", "error": str(exc)}, ensure_ascii=False))
+            return 1
     if not argv or argv[0] in ("selftest", "--selftest"):
         _selftest()
         return 0

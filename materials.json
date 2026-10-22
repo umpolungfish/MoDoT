@@ -1926,6 +1926,1413 @@
     ],
     "weakest": 1.0
   },
+  "polymer_goldbach_erdos_join": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.3143,
+    "units": [
+      "erdos_distinct_distances",
+      "goldbach_conjecture",
+      "erdos_power_of_two_cycle",
+      "witness_vessel"
+    ],
+    "weakest": 1.3333
+  },
+  "polymer_join_Newcomb's_Problem_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "INSULATING",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.4779,
+    "units": [
+      "Newcomb's_Problem",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "erdos_distinct_distances"
+    ],
+    "weakest": 0.8333
+  },
+  "polymer_join_abc_conjecture_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.3143,
+    "units": [
+      "erdos_distinct_distances",
+      "abc_conjecture",
+      "erdos_power_of_two_cycle",
+      "witness_vessel"
+    ],
+    "weakest": 1.3333
+  },
+  "polymer_join_abhyankar_moh_theorem_ring_collatz_modo": {
+    "branched": true,
+    "conductance": "CONDUCTIVE",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.1571,
+    "units": [
+      "abhyankar_moh_theorem",
+      "collatz_structure",
+      "MoDoT",
+      "collatz_conjecture_proven"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_abhyankar_moh_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.3727,
+    "units": [
+      "abhyankar_moh_theorem",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "erdos_distinct_distances"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_artin_primitive_root_conjecture_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.3143,
+    "units": [
+      "erdos_distinct_distances",
+      "artin_primitive_root_conjecture",
+      "erdos_power_of_two_cycle",
+      "witness_vessel"
+    ],
+    "weakest": 1.3333
+  },
+  "polymer_join_atiyah_singer_index_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "atiyah_singer_index_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_birch_and_swinnerton_dyer_theorem__ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "birch_and_swinnerton_dyer_theorem_",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_bondy_erdos_conjecture_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.2764,
+    "units": [
+      "bondy_erdos_conjecture",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_borsuk_conjecture_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "INSULATING",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.5443,
+    "units": [
+      "borsuk_conjecture",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "erdos_distinct_distances"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_join_bounded_burnside_theorem_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.36,
+    "units": [
+      "bounded_burnside_theorem",
+      "erdos_distinct_distances",
+      "witness_vessel",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.1667
+  },
+  "polymer_join_bunyakovsky_conjecture_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.3143,
+    "units": [
+      "erdos_distinct_distances",
+      "bunyakovsky_conjecture",
+      "erdos_power_of_two_cycle",
+      "witness_vessel"
+    ],
+    "weakest": 1.3333
+  },
+  "polymer_join_burnside_problem_bounded_theorem_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.36,
+    "units": [
+      "burnside_problem_bounded_theorem",
+      "erdos_distinct_distances",
+      "witness_vessel",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.1667
+  },
+  "polymer_join_caratheodory_conjecture_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1382,
+    "units": [
+      "caratheodory_conjecture",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_chowlas_conjecture_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.3143,
+    "units": [
+      "erdos_distinct_distances",
+      "chowlas_conjecture",
+      "erdos_power_of_two_cycle",
+      "witness_vessel"
+    ],
+    "weakest": 1.3333
+  },
+  "polymer_join_connes_embedding_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "connes_embedding_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_crouzeix_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "crouzeix_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_density_stability_theorem_ring_collatz_modo": {
+    "branched": true,
+    "conductance": "CONDUCTIVE",
+    "energy": 6.3246,
+    "n": 4,
+    "rho": 3.1623,
+    "spectrum": [
+      3.1623,
+      0.0,
+      -0.0,
+      -3.1623
+    ],
+    "strain": 0.0,
+    "units": [
+      "collatz_conjecture_proven",
+      "density_stability_theorem",
+      "MoDoT",
+      "collatz_structure"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_join_density_stability_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.493,
+    "units": [
+      "density_stability_theorem",
+      "witness_vessel",
+      "erdos_power_of_two_cycle",
+      "erdos_distinct_distances"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_join_erdos_problem_1_distinct_subset_sums_ring_collatz_modo": {
+    "branched": true,
+    "conductance": "CONDUCTIVE",
+    "energy": 6.3246,
+    "n": 4,
+    "rho": 3.1623,
+    "spectrum": [
+      3.1623,
+      0.0,
+      -0.0,
+      -3.1623
+    ],
+    "strain": 0.3333,
+    "units": [
+      "erdos_problem_1_distinct_subset_sums",
+      "collatz_structure",
+      "MoDoT",
+      "collatz_conjecture_proven"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_join_erdos_problem_1_distinct_subset_sums_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.5443,
+    "units": [
+      "erdos_problem_1_distinct_subset_sums",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "erdos_distinct_distances"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_join_erdos_problem_44_critique_resolution_ring_collatz_modo": {
+    "branched": true,
+    "conductance": "CONDUCTIVE",
+    "energy": 6.3246,
+    "n": 4,
+    "rho": 3.1623,
+    "spectrum": [
+      3.1623,
+      0.0,
+      -0.0,
+      -3.1623
+    ],
+    "strain": 0.1667,
+    "units": [
+      "collatz_conjecture_proven",
+      "erdos_problem_44_critique_resolution",
+      "MoDoT",
+      "collatz_structure"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_join_erdos_problem_44_critique_resolution_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.4082,
+    "units": [
+      "erdos_distinct_distances",
+      "erdos_problem_44_critique_resolution",
+      "witness_vessel",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_fontaine_mazur_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "fontaine_mazur_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_goldbach_conjecture_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.3143,
+    "units": [
+      "erdos_distinct_distances",
+      "goldbach_conjecture",
+      "erdos_power_of_two_cycle",
+      "witness_vessel"
+    ],
+    "weakest": 1.3333
+  },
+  "polymer_join_goldbach_conjecture_zeta_all_zeros": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "goldbach_conjecture",
+      "zeta_all_zeros"
+    ],
+    "weakest": 1.3333
+  },
+  "polymer_join_greenberg_iwasawa_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "greenberg_iwasawa_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_greenberg_padic_lfunction_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "greenberg_padic_lfunction_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_height_inequality_saturation_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "height_inequality_saturation",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_inverse_galois_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "inverse_galois_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_inverse_theorem_for_gowers_norms_ring_collatz_modo": {
+    "branched": true,
+    "conductance": "CONDUCTIVE",
+    "energy": 8.2462,
+    "n": 4,
+    "rho": 3.8643,
+    "spectrum": [
+      3.8643,
+      0.2588,
+      -0.2588,
+      -3.8643
+    ],
+    "strain": 0.4167,
+    "units": [
+      "inverse_theorem_for_gowers_norms",
+      "collatz_structure",
+      "MoDoT",
+      "collatz_conjecture_proven"
+    ],
+    "weakest": 0.5
+  },
+  "polymer_join_inverse_theorem_for_gowers_norms_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 8.0,
+    "n": 4,
+    "rho": 3.4142,
+    "spectrum": [
+      3.4142,
+      0.5858,
+      -0.5858,
+      -3.4142
+    ],
+    "strain": 0.6136,
+    "units": [
+      "inverse_theorem_for_gowers_norms",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "erdos_distinct_distances"
+    ],
+    "weakest": 0.5
+  },
+  "polymer_join_kummer_vandiver_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "kummer_vandiver_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_p_versus_np_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "p_versus_np_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_poincare_conjecture_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.5443,
+    "units": [
+      "poincare_conjecture",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "erdos_distinct_distances"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_join_poincare_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "poincare_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_quantum_kummer–vandiver–iwasawa_main_conjectures_over_𝔽₁_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "quantum_kummer–vandiver–iwasawa_main_conjectures_over_𝔽₁",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_riemann_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "riemann_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_ring_collatz_modo_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 8.0,
+    "n": 6,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -2.0
+    ],
+    "strain": 0.4303,
+    "units": [
+      "collatz_conjecture_proven",
+      "MoDoT",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "collatz_structure"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_join_ring_collatz_modo_ring_es_collatz_modo": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 8.0,
+    "n": 6,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -2.0
+    ],
+    "strain": 0.3143,
+    "units": [
+      "problem_1135_theorem",
+      "MoDoT",
+      "problem_107_theorem",
+      "MoDoT",
+      "collatz_conjecture_proven",
+      "collatz_structure"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_join_ring_erdos_dist_wv_ring_es_collatz_modo": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 8.0,
+    "n": 6,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -2.0
+    ],
+    "strain": 0.3841,
+    "units": [
+      "problem_107_theorem",
+      "MoDoT",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "problem_1135_theorem"
+    ],
+    "weakest": 0.75
+  },
+  "polymer_join_ring_es_collatz_wv_ring_collatz_modo": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 8.0,
+    "n": 6,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -2.0
+    ],
+    "strain": 0.3549,
+    "units": [
+      "collatz_conjecture_proven",
+      "MoDoT",
+      "problem_1135_theorem",
+      "problem_107_theorem",
+      "witness_vessel",
+      "collatz_structure"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_join_ring_es_collatz_wv_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 8.0,
+    "n": 6,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -2.0
+    ],
+    "strain": 0.3841,
+    "units": [
+      "problem_107_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "problem_1135_theorem"
+    ],
+    "weakest": 0.75
+  },
+  "polymer_join_ring_es_collatz_wv_ring_es_collatz_modo": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 8.0,
+    "n": 6,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.0,
+      1.0,
+      -1.0,
+      -1.0,
+      -2.0
+    ],
+    "strain": 0.275,
+    "units": [
+      "problem_107_theorem",
+      "witness_vessel",
+      "problem_1135_theorem",
+      "problem_107_theorem",
+      "MoDoT",
+      "problem_1135_theorem"
+    ],
+    "weakest": 0.75
+  },
+  "polymer_join_simon_problem_classical_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1443,
+    "units": [
+      "erdos_distinct_distances",
+      "witness_vessel",
+      "simon_problem_classical_theorem",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_simon_problem_quantum_theorem_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.4157,
+    "units": [
+      "simon_problem_quantum_theorem",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "erdos_distinct_distances"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_stable_fibonacci_identity_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 6.0,
+    "n": 4,
+    "rho": 2.618,
+    "spectrum": [
+      2.618,
+      0.382,
+      -0.382,
+      -2.618
+    ],
+    "strain": 0.2722,
+    "units": [
+      "erdos_distinct_distances",
+      "stable_fibonacci_identity",
+      "erdos_power_of_two_cycle",
+      "witness_vessel"
+    ],
+    "weakest": 1.3333
+  },
+  "polymer_join_sumner_conjecture_statement_theorem_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "sumner_conjecture_statement_theorem",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_the_hodge_conjecture_for_integral_motives_over_the_field_of_fractions_of_the_witt_ring_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1667,
+    "units": [
+      "the_hodge_conjecture_for_integral_motives_over_the_field_of_fractions_of_the_witt_ring",
+      "witness_vessel",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_join_winding_2pi_principle_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 8.0,
+    "n": 4,
+    "rho": 3.4142,
+    "spectrum": [
+      3.4142,
+      0.5858,
+      -0.5858,
+      -3.4142
+    ],
+    "strain": 0.3143,
+    "units": [
+      "erdos_distinct_distances",
+      "winding_2pi_principle",
+      "erdos_power_of_two_cycle",
+      "witness_vessel"
+    ],
+    "weakest": 1.3333
+  },
+  "polymer_join_zeta_all_zeros_abc_conjecture": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 2.0,
+    "n": 2,
+    "rho": 1.0,
+    "spectrum": [
+      1.0,
+      -1.0
+    ],
+    "strain": 0.0,
+    "units": [
+      "zeta_all_zeros",
+      "abc_conjecture"
+    ],
+    "weakest": 1.3333
+  },
+  "polymer_join_zeta_all_zeros_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1443,
+    "units": [
+      "erdos_distinct_distances",
+      "witness_vessel",
+      "zeta_all_zeros",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "polymer_quad_goldbach_conjecture_n_squared_plus_one_primes_ring_collatz_modo_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 9.6569,
+    "n": 8,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.4142,
+      1.4142,
+      0.0,
+      -0.0,
+      -1.4142,
+      -1.4142,
+      -2.0
+    ],
+    "strain": 0.3886,
+    "units": [
+      "goldbach_conjecture",
+      "collatz_conjecture_proven",
+      "MoDoT",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "collatz_structure",
+      "n_squared_plus_one_primes"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_quad_goldbach_conjecture_n_squared_plus_one_primes_ring_es_collatz_wv_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 9.6569,
+    "n": 8,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.4142,
+      1.4142,
+      0.0,
+      -0.0,
+      -1.4142,
+      -1.4142,
+      -2.0
+    ],
+    "strain": 0.3333,
+    "units": [
+      "problem_107_theorem",
+      "goldbach_conjecture",
+      "erdos_distinct_distances",
+      "witness_vessel",
+      "problem_1135_theorem",
+      "witness_vessel",
+      "erdos_power_of_two_cycle",
+      "n_squared_plus_one_primes"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_quad_goldbach_conjecture_poincare_conjecture_ring_collatz_modo_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 12.5921,
+    "n": 8,
+    "rho": 2.6458,
+    "spectrum": [
+      2.6458,
+      2.2361,
+      1.4142,
+      0.0,
+      -0.0,
+      -1.4142,
+      -2.2361,
+      -2.6458
+    ],
+    "strain": 0.4045,
+    "units": [
+      "erdos_distinct_distances",
+      "MoDoT",
+      "collatz_conjecture_proven",
+      "goldbach_conjecture",
+      "collatz_structure",
+      "witness_vessel",
+      "erdos_power_of_two_cycle",
+      "poincare_conjecture"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_quad_goldbach_conjecture_poincare_conjecture_ring_erdos_dist_wv_ring_es_collatz_modo": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 11.4494,
+    "n": 8,
+    "rho": 2.5085,
+    "spectrum": [
+      2.5085,
+      1.6796,
+      1.3623,
+      0.1742,
+      -0.1742,
+      -1.3623,
+      -1.6796,
+      -2.5085
+    ],
+    "strain": 0.3563,
+    "units": [
+      "erdos_distinct_distances",
+      "goldbach_conjecture",
+      "problem_107_theorem",
+      "MoDoT",
+      "problem_1135_theorem",
+      "witness_vessel",
+      "erdos_power_of_two_cycle",
+      "poincare_conjecture"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_quad_goldbach_conjecture_poincare_conjecture_ring_es_collatz_wv_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 11.4494,
+    "n": 8,
+    "rho": 2.5085,
+    "spectrum": [
+      2.5085,
+      1.6796,
+      1.3623,
+      0.1742,
+      -0.1742,
+      -1.3623,
+      -1.6796,
+      -2.5085
+    ],
+    "strain": 0.4259,
+    "units": [
+      "problem_107_theorem",
+      "goldbach_conjecture",
+      "erdos_distinct_distances",
+      "witness_vessel",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "problem_1135_theorem",
+      "poincare_conjecture"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_quad_goldbach_conjecture_twin_prime_conjecture_ring_collatz_modo_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 11.4494,
+    "n": 8,
+    "rho": 2.5085,
+    "spectrum": [
+      2.5085,
+      1.6796,
+      1.3623,
+      0.1742,
+      -0.1742,
+      -1.3623,
+      -1.6796,
+      -2.5085
+    ],
+    "strain": 0.4403,
+    "units": [
+      "goldbach_conjecture",
+      "collatz_conjecture_proven",
+      "MoDoT",
+      "erdos_distinct_distances",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "collatz_structure",
+      "twin_prime_conjecture"
+    ],
+    "weakest": 0.5
+  },
+  "polymer_quad_goldbach_conjecture_twin_prime_conjecture_ring_erdos_dist_wv_ring_es_collatz_modo": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 9.6569,
+    "n": 8,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.4142,
+      1.4142,
+      0.0,
+      -0.0,
+      -1.4142,
+      -1.4142,
+      -2.0
+    ],
+    "strain": 0.4146,
+    "units": [
+      "goldbach_conjecture",
+      "erdos_distinct_distances",
+      "MoDoT",
+      "problem_107_theorem",
+      "witness_vessel",
+      "erdos_power_of_two_cycle",
+      "problem_1135_theorem",
+      "twin_prime_conjecture"
+    ],
+    "weakest": 0.5
+  },
+  "polymer_quad_goldbach_conjecture_twin_prime_conjecture_ring_es_collatz_wv_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 9.6569,
+    "n": 8,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      1.4142,
+      1.4142,
+      0.0,
+      -0.0,
+      -1.4142,
+      -1.4142,
+      -2.0
+    ],
+    "strain": 0.4146,
+    "units": [
+      "erdos_distinct_distances",
+      "goldbach_conjecture",
+      "problem_107_theorem",
+      "witness_vessel",
+      "erdos_power_of_two_cycle",
+      "witness_vessel",
+      "problem_1135_theorem",
+      "twin_prime_conjecture"
+    ],
+    "weakest": 0.8333
+  },
+  "polymer_tri_goldbach_conjecture_n_squared_plus_one_primes_ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 6.4721,
+    "n": 5,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.618,
+      0.618,
+      -1.618,
+      -1.618
+    ],
+    "strain": 0.4216,
+    "units": [
+      "goldbach_conjecture",
+      "erdos_distinct_distances",
+      "witness_vessel",
+      "erdos_power_of_two_cycle",
+      "n_squared_plus_one_primes"
+    ],
+    "weakest": 0.6667
+  },
+  "polymer_tri_goldbach_conjecture_twin_prime_conjecture_ring_erdos_dist_wv": {
+    "branched": true,
+    "conductance": "FRUSTRATED",
+    "energy": 7.9515,
+    "n": 5,
+    "rho": 2.5616,
+    "spectrum": [
+      2.5616,
+      1.0,
+      0.4142,
+      -1.5616,
+      -2.4142
+    ],
+    "strain": 0.532,
+    "units": [
+      "goldbach_conjecture",
+      "erdos_distinct_distances",
+      "witness_vessel",
+      "erdos_power_of_two_cycle",
+      "twin_prime_conjecture"
+    ],
+    "weakest": 0.5
+  },
+  "polymer_zeta_erdos_join": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 4,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "strain": 0.1443,
+    "units": [
+      "erdos_distinct_distances",
+      "witness_vessel",
+      "zeta_all_zeros",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
   "product_1": {
     "branched": false,
     "conductance": "CONDUCTIVE",
@@ -2280,6 +3687,82 @@
       "platonic_archetype"
     ],
     "weakest": 1.5
+  },
+  "ring_collatz_modo": {
+    "branched": true,
+    "conductance": "CONDUCTIVE",
+    "energy": 5.4641,
+    "n": 3,
+    "rho": 2.7321,
+    "spectrum": [
+      2.7321,
+      -0.7321,
+      -2.0
+    ],
+    "strain": 0.3333,
+    "units": [
+      "collatz_conjecture_proven",
+      "MoDoT",
+      "collatz_structure"
+    ],
+    "weakest": 0.6667
+  },
+  "ring_erdos_dist_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 3,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      -1.0,
+      -1.0
+    ],
+    "strain": 0.4157,
+    "units": [
+      "erdos_distinct_distances",
+      "witness_vessel",
+      "erdos_power_of_two_cycle"
+    ],
+    "weakest": 1.0
+  },
+  "ring_es_collatz_modo": {
+    "branched": false,
+    "conductance": "CONDUCTIVE",
+    "energy": 4.0,
+    "n": 3,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      -1.0,
+      -1.0
+    ],
+    "strain": 0.275,
+    "units": [
+      "problem_107_theorem",
+      "MoDoT",
+      "problem_1135_theorem"
+    ],
+    "weakest": 0.75
+  },
+  "ring_es_collatz_wv": {
+    "branched": false,
+    "conductance": "FRUSTRATED",
+    "energy": 4.0,
+    "n": 3,
+    "rho": 2.0,
+    "spectrum": [
+      2.0,
+      -1.0,
+      -1.0
+    ],
+    "strain": 0.275,
+    "units": [
+      "problem_107_theorem",
+      "witness_vessel",
+      "problem_1135_theorem"
+    ],
+    "weakest": 0.75
   },
   "sealed_magnitude_gate": {
     "branched": false,

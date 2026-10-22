@@ -100,7 +100,9 @@ def _merge_live_catalog() -> int:
 try:
     import cl8nk_navigator as _NAV  # type: ignore
     _NAV.load_catalog()
-    _LIVE_MERGED = _merge_live_catalog()
+    # The navigator itself reads ~/.imscrbgrmr/catalog.json. Do not merge a
+    # different catalog into that namespace.
+    _LIVE_MERGED = 0
 except Exception as e:  # pragma: no cover
     _NAV_ERR = f"{type(e).__name__}: {e}"
     _NAV = None

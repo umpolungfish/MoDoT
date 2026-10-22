@@ -880,107 +880,18 @@ fn find_catalog(cli: &Cli) -> Option<PathBuf> {
     resolve_catalog_path()
 }
 
-/// Catalog path resolution without a `Cli` (env var + candidate search only).
+/// Resolve the operator's main catalog; explicit overrides support isolated runs.
 /// Shared by `find_catalog` (CLI entry point) and the prover's portal lookup
 /// (`prover::portal_hint`), which has no `Cli` of its own.
 pub(crate) fn resolve_catalog_path() -> Option<PathBuf> {
-    if let Ok(p) = env::var("MOMONADOS_CATALOG") {
+    if let Ok(p) = env::var("MOMONADOS_CATALOG").or_else(|_| env::var("IG_CATALOG")) {
         let pb = PathBuf::from(expand_user(&p));
         if pb.is_file() {
             return Some(pb);
         }
     }
-    let mut candidates = Vec::new();
-    // Canonical catalog first (imscribing_grammar/IG_catalog.json is the ONE
-    // source of truth per [[project_ig_catalog]]; mOMonadOS/IG_catalog.json is a
-    // stale, smaller, unsynced copy — see [[project_lean_prover_loop]]).
-    candidates.push(PathBuf::from("../imscribing_grammar/IG_catalog.json"));
-    candidates.push(PathBuf::from("../../imscribing_grammar/IG_catalog.json"));
-    if let Ok(exe) = env::current_exe() {
-        if let Some(dir) = exe.parent() {
-            candidates.push(dir.join("../../../../imscribing_grammar/IG_catalog.json"));
-            candidates.push(dir.join("../../../../../imscribing_grammar/IG_catalog.json"));
-        }
-    }
-    // relative to this binary / CWD / repo layouts
-    candidates.push(PathBuf::from("IG_catalog.json"));
-    candidates.push(PathBuf::from("mOMonadOS/IG_catalog.json"));
-    candidates.push(PathBuf::from("../IG_catalog.json"));
-    if let Ok(exe) = env::current_exe() {
-        if let Some(dir) = exe.parent() {
-            candidates.push(dir.join("IG_catalog.json"));
-            candidates.push(dir.join("../IG_catalog.json"));
-            candidates.push(dir.join("../../IG_catalog.json"));
-            candidates.push(dir.join("../../../IG_catalog.json"));
-        }
-    }
-    // relative to common layouts (no machine-absolute paths)
-    candidates.push(PathBuf::from("../mOMonadOS/IG_catalog.json"));
-    candidates.push(PathBuf::from("../../mOMonadOS/IG_catalog.json"));
-    for c in candidates {
-        if c.is_file() {
-            return Some(c);
-        }
-    }
-    None
-}
-
-/// Fold the live-crawler catalog (~/.imscrbgrmr/catalog.json) into the base
-/// catalog, first-name-wins. Mirrors the Python Witness arm's
-/// `_merge_live_catalog` and the canonical `imscribe catalog list` CLI's
-/// read-time merge (the 5275-vs-5292 gap). Returns entries added.
-fn merge_live_catalog(out: &mut Vec<CatalogEntry>) -> usize {
-    let live_path = PathBuf::from(expand_user("~/.imscrbgrmr/catalog.json"));
-    let Ok(text) = fs::read_to_string(&live_path) else {
-        return 0;
-    };
-    let Ok(v) = serde_json::from_str::<Value>(&text) else {
-        return 0;
-    };
-    let live = v
-        .get("imscriptions")
-        .cloned()
-        .unwrap_or(v);
-    let Some(arr) = live.as_array() else {
-        return 0;
-    };
-    let existing: std::collections::HashSet<String> =
-        out.iter().map(|e| e.name.clone()).collect();
-    let mut added = 0usize;
-    for item in arr {
-        let name = item
-            .get("name")
-            .and_then(|x| x.as_str())
-            .unwrap_or("")
-            .to_string();
-        if name.is_empty() || existing.contains(&name) {
-            continue;
-        }
-        let description = item
-            .get("description")
-            .and_then(|x| x.as_str())
-            .unwrap_or("")
-            .to_string();
-        let proved_hint = item.get("proved_hint").and_then(|x| x.as_bool());
-        let sa = item.get("structural_algebra");
-        let tier = sa
-            .and_then(|s| s.get("ouroboricity_tier"))
-            .and_then(|x| x.as_str())
-            .map(|s| s.to_string());
-        let d_cl8 = sa
-            .and_then(|s| s.get("distance_from_cl8nk"))
-            .and_then(|x| x.as_f64());
-        out.push(CatalogEntry {
-            name,
-            description,
-            proved_hint,
-            tier,
-            d_cl8,
-            raw: item.clone(),
-        });
-        added += 1;
-    }
-    added
+    let main = PathBuf::from(expand_user("~/.imscrbgrmr/catalog.json"));
+    main.is_file().then_some(main)
 }
 
 fn load_catalog(path: &Path) -> Result<Vec<CatalogEntry>, String> {
@@ -1019,9 +930,8 @@ fn load_catalog(path: &Path) -> Result<Vec<CatalogEntry>, String> {
 }
 
 fn load_catalog_value(v: Value) -> Result<Vec<CatalogEntry>, String> {
-    let arr = v
-        .as_array()
-        .ok_or_else(|| "catalog root must be array".to_string())?;
+    let arr = v.get("imscriptions").unwrap_or(&v).as_array()
+        .ok_or_else(|| "catalog must be an array or an object with imscriptions".to_string())?;
     let mut out = Vec::with_capacity(arr.len() + 32);
     for item in arr {
         let name = item
@@ -1068,7 +978,8 @@ fn load_catalog_value(v: Value) -> Result<Vec<CatalogEntry>, String> {
             });
         }
     }
-    merge_live_catalog(&mut out);
+    // Every native operation reads the selected main catalog without merging
+    // a repository copy into its namespace.
     Ok(out)
 }
 
@@ -5921,23 +5832,15 @@ fn catalog_has_name(name: &str) -> bool {
     catalog_names().into_iter().any(|n| n.to_lowercase() == nl)
 }
 
-/// All entry names across the base and live catalogs.
+/// Entry names from the same canonical catalog used by the native tools.
 fn catalog_names() -> Vec<String> {
-    let live = PathBuf::from(expand_user("~/.imscrbgrmr/catalog.json"));
-    let mut names = Vec::new();
-    for p in [resolve_catalog_path(), Some(live)].into_iter().flatten() {
-        let Ok(text) = fs::read_to_string(&p) else { continue };
-        let Ok(v) = serde_json::from_str::<Value>(&text) else { continue };
-        let arr = v.get("imscriptions").cloned().unwrap_or(v);
-        if let Some(a) = arr.as_array() {
-            for item in a {
-                if let Some(n) = item.get("name").and_then(|x| x.as_str()) {
-                    names.push(n.to_string());
-                }
-            }
-        }
-    }
-    names
+    let Some(path) = resolve_catalog_path() else { return Vec::new() };
+    let Ok(text) = fs::read_to_string(path) else { return Vec::new() };
+    let Ok(value) = serde_json::from_str::<Value>(&text) else { return Vec::new() };
+    let entries = value.get("imscriptions").unwrap_or(&value);
+    entries.as_array().map(|entries| entries.iter()
+        .filter_map(|entry| entry.get("name").and_then(Value::as_str))
+        .map(str::to_string).collect()).unwrap_or_default()
 }
 
 /// Normalize a name for near-duplicate comparison: lowercase, drop surrounding underscores,
@@ -6209,7 +6112,10 @@ fn register_tuple_verbatim(name: &str, glyphs: &[String], provenance: &str) -> R
     let cat = resolve_catalog_path().ok_or("could not locate the IG catalog")?;
     let text = fs::read_to_string(&cat).map_err(|e| format!("read catalog: {e}"))?;
     let mut v: Value = serde_json::from_str(&text).map_err(|e| format!("parse catalog: {e}"))?;
-    let arr = v.as_array_mut().ok_or("catalog is not a JSON array")?;
+    let entries = if v.is_object() {
+        v.get_mut("imscriptions").ok_or("catalog has no imscriptions array")?
+    } else { &mut v };
+    let arr = entries.as_array_mut().ok_or("catalog entries are not a JSON array")?;
 
     let mut entry = serde_json::Map::new();
     entry.insert("name".into(), json!(name));
@@ -6226,42 +6132,7 @@ fn register_tuple_verbatim(name: &str, glyphs: &[String], provenance: &str) -> R
     fs::write(&tmp, out).map_err(|e| format!("write temp: {e}"))?;
     fs::rename(&tmp, &cat).map_err(|e| format!("commit catalog: {e}"))?;
 
-    // The generate pipeline writes to the LIVE catalog (~/.imscrbgrmr/catalog.json);
-    // this writer targets IG_catalog.json. Writing only one leaves the two stores
-    // divergent, so an entry registered here is invisible to the pipeline's own
-    // duplicate check and to every reader that loads live-first. Mirror it.
-    let _ = mirror_to_live_catalog(&entry, name);
-    Ok(())
-}
-
-/// Mirror a verbatim entry into the live catalog so the two stores agree.
-/// Best-effort: the IG catalog is the store of record, so a live-write failure
-/// does not fail the registration — but it is reported by `imscribe` when it happens.
-fn mirror_to_live_catalog(entry: &serde_json::Map<String, Value>, name: &str) -> Result<(), String> {
-    let live = PathBuf::from(expand_user("~/.imscrbgrmr/catalog.json"));
-    if !live.is_file() {
-        return Ok(()); // no live store on this host — nothing to keep in sync
-    }
-    let text = fs::read_to_string(&live).map_err(|e| format!("read live: {e}"))?;
-    let mut v: Value = serde_json::from_str(&text).map_err(|e| format!("parse live: {e}"))?;
-
-    // The live store is either a bare array or {"imscriptions": [...]}.
-    let arr = if let Some(a) = v.get_mut("imscriptions").and_then(|x| x.as_array_mut()) {
-        a
-    } else if let Some(a) = v.as_array_mut() {
-        a
-    } else {
-        return Err("live catalog is neither an array nor {imscriptions: [...]}".into());
-    };
-    if arr.iter().any(|e| e.get("name").and_then(|n| n.as_str()) == Some(name)) {
-        return Ok(()); // already there, first-name-wins
-    }
-    arr.push(Value::Object(entry.clone()));
-
-    let out = serde_json::to_string(&v).map_err(|e| format!("serialize live: {e}"))?;
-    let tmp = live.with_extension("json.tmp");
-    fs::write(&tmp, out).map_err(|e| format!("write live temp: {e}"))?;
-    fs::rename(&tmp, &live).map_err(|e| format!("commit live: {e}"))?;
+    // Registration and duplicate checks use this same canonical catalog.
     Ok(())
 }
 

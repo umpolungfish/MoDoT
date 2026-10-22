@@ -413,15 +413,17 @@ fn register_chimera(
         lines.push(format!("    \"{}\": \"{}\"", PRIMS[i], g));
     }
     let entry = format!("  {{\n{}\n  }}", lines.join(",\n"));
-    let close = text.rfind(']').ok_or("catalog has no closing ]")?;
-    let head = text[..close].trim_end();
-    if !head.ends_with('}') {
-        return Err("catalog tail is not a well-formed array".into());
-    }
-    let new = format!("{head},\n{entry}\n]\n");
-    serde_json::from_str::<serde_json::Value>(&new)
-        .map_err(|e| format!("append would corrupt the catalog (aborted): {e}"))?;
-    std::fs::write(catalog_path, new).map_err(|e| format!("catalog write: {e}"))?;
+    let mut catalog: serde_json::Value = serde_json::from_str(&text)
+        .map_err(|e| format!("catalog parse: {e}"))?;
+    let entries = if catalog.is_object() {
+        catalog.get_mut("imscriptions").ok_or("catalog has no imscriptions array")?
+    } else { &mut catalog };
+    entries.as_array_mut().ok_or("catalog entries are not an array")?
+        .push(serde_json::from_str(&entry).map_err(|e| format!("product parse: {e}"))?);
+    let new = serde_json::to_string_pretty(&catalog).map_err(|e| format!("catalog serialize: {e}"))?;
+    let pending = catalog_path.with_extension("json.tmp");
+    std::fs::write(&pending, new).map_err(|e| format!("catalog write: {e}"))?;
+    std::fs::rename(pending, catalog_path).map_err(|e| format!("catalog commit: {e}"))?;
     Ok(())
 }
 
@@ -430,14 +432,12 @@ fn register_chimera(
 /// to `python3 cl8nk_navigator.py entry <name>` in the navigators dir beside the
 /// catalog; on any failure, prints the commands for the user to run.
 fn decompose_via_navigator(catalog_path: &Path, name: &str) {
-    let nav_dir = catalog_path
-        .parent()
-        .map(|d| d.join("navigators"))
-        .unwrap_or_else(|| Path::new("navigators").to_path_buf());
+    let nav_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../imscribing_grammar/navigators");
     let script = nav_dir.join("cl8nk_navigator.py");
     let ran = Command::new("python3")
         .arg(&script)
         .args(["entry", name])
+        .env("MOMONADOS_CATALOG", catalog_path)
         .current_dir(&nav_dir)
         .output();
     match ran {
@@ -1609,7 +1609,14 @@ pub fn run_cycle(
     println!("    {substrate_name}‡  {}", fmt_tuple(&product));
 
     // ── Return stroke (μ / Coagula): regeneration binds the freed quantum ──
+    let returned = match return_stroke(&c_star, dir) {
+        Ok(returned) if returned == cat_t => returned,
+        Ok(_) => { eprintln!("cycle: return stroke changed the resting catalyst"); return 2; }
+        Err(error) => { eprintln!("cycle: return stroke failed: {error}"); return 2; }
+    };
     println!("  return stroke (μ / COAGULA — binds the freed quantum into an invariant): {catalyst_name}* ⊡ {}→{} — the catalyst coagulates back to itself (terminal redox restores the resting state).", glyph_of(WIND, cw1), glyph_of(WIND, cw0));
+    println!("    executed terminal carrier exchange Δ⊡={:+}; returned tuple {} — all twelve coordinates match the resting catalyst.",
+        returned[WIND].unwrap() as i16 - c_star[WIND].unwrap() as i16, fmt_tuple(&returned));
 
     // ── Turnover / loop closure: the two coagulations ──
     println!("  turnover: net {substrate_name} → {substrate_name}‡ (one quantum delivered); {catalyst_name} returned unchanged — the catalyst is a FIXED POINT of the loop.");
@@ -1618,10 +1625,10 @@ pub fn run_cycle(
 
     // ── Certify the catalyst regeneration (Coagula∘Solve = id on the catalyst) ──
     if certify {
-        println!("  certifying the catalyst is a fixed point of the loop (both states valid + regeneration μ∘δ=id)…");
+        println!("  checking kernel validity and transport for the resting and spent states; the executed tuple return has already matched on all twelve coordinates…");
         let (green, out) = certify_switch(&cat_t, &c_star);
         if green {
-            println!("  ✓ KERNEL-CERTIFIED: {catalyst_name} and {catalyst_name}* are both valid Imscriptions AND readback∘board = id — Coagula∘Solve = id on the catalyst (μ∘δ=id, lossless regeneration); the loop closes as the kernel's own verdict.");
+            println!("  ✓ KERNEL-CERTIFIED transport: {catalyst_name} and {catalyst_name}* are both valid Imscriptions and readback∘board = id. Executed return-stroke equality separately establishes tuple regeneration with the terminal carrier exchange above.");
         } else {
             let tail: String = out.lines().rev().take(4).collect::<Vec<_>>().into_iter().rev().collect::<Vec<_>>().join("\n    ");
             println!("  ✗ kernel rejected the cycle:\n    {tail}");
@@ -1720,6 +1727,13 @@ pub fn run_pathway(
             imprint.map(|p| format!(", imprint {p}")).unwrap_or_default()
         );
         println!("           {} → {}", fmt_tuple(&current), fmt_tuple(&product));
+        match return_stroke(&c_star, dir) {
+            Ok(returned) if returned == ct => {
+                println!("           executed catalyst return: all twelve coordinates match; terminal Δ⊡={:+}",
+                    returned[WIND].unwrap() as i16 - c_star[WIND].unwrap() as i16);
+            }
+            _ => {eprintln!("pathway: catalyst return failed for {cn}");return 2;}
+        }
         if certify && !certified.iter().any(|c| c == cn) {
             let (green, _) = certify_switch(&ct, &c_star);
             println!("           {} {cn} regenerates (fixed point){}", if green { "✓" } else { "✗" }, if green { "" } else { " — REJECTED" });
@@ -1821,6 +1835,20 @@ fn working_stroke(
     };
     let imprint = structural_imprint(catalyst, &mut product);
     Ok((c_star, product, dir, imprint))
+}
+
+/// Execute the terminal carrier exchange used to regenerate the catalyst.
+/// This acts on the spent tuple, without receiving the original as a target.
+/// The caller compares the complete result with the resting state. The
+/// terminal supplies/accepts this quantum; it is not removed from the product.
+fn return_stroke(spent:&[Option<u8>;12],direction:&str)->Result<[Option<u8>;12],String>{
+    let winding=spent[WIND].ok_or("spent catalyst has no winding coordinate")?;
+    let restored=match direction {
+        "reductive"=>winding.checked_add(1).filter(|&w|w<=max_ord(WIND)),
+        "oxidative"=>winding.checked_sub(1),
+        _=>return Err("unknown catalytic carrier direction".into()),
+    }.ok_or("terminal carrier exchange exceeds the winding boundary")?;
+    let mut returned=*spent;returned[WIND]=Some(restored);Ok(returned)
 }
 
 // ── Imscriptive polymerization: chain the clicks into a sequence-preserving polymer ──
@@ -4419,6 +4447,30 @@ pub fn run_recalibrate(catalog: Option<&[CatalogEntry]>, name: &str, axis: &str)
 #[cfg(test)]
 mod alchemy_tests {
     use super::{fractionate, Tuple};
+
+    #[test]
+    fn catalytic_return_executes_on_spent_state_in_both_directions() {
+        for donor_winding in 0..=super::max_ord(super::WIND) {
+            for substrate_winding in 0..=super::max_ord(super::WIND) {
+                let mut catalyst=[Some(0);12];let mut substrate=catalyst;
+                catalyst[super::WIND]=Some(donor_winding);
+                substrate[super::WIND]=Some(substrate_winding);
+                if let Ok((spent,product,direction,_))=super::working_stroke(&catalyst,&substrate) {
+                    assert_ne!(spent,catalyst);
+                    assert_eq!(super::return_stroke(&spent,direction).unwrap(),catalyst);
+                    assert_ne!(product[super::WIND],substrate[super::WIND]);
+                    assert_eq!(spent[super::WIND].unwrap()+product[super::WIND].unwrap(),
+                        donor_winding+substrate_winding);
+                }
+            }
+        }
+        let empty=[None;12];
+        assert!(super::return_stroke(&empty,"reductive").is_err());
+        let mut boundary=[Some(0);12];
+        assert!(super::return_stroke(&boundary,"oxidative").is_err());
+        boundary[super::WIND]=Some(super::max_ord(super::WIND));
+        assert!(super::return_stroke(&boundary,"reductive").is_err());
+    }
 
     fn u(name: &str, crit: u8) -> Tuple {
         let mut ord = [Some(0u8); 12];
