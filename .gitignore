@@ -11,3 +11,6 @@ imasm_core/target/
 # Generated run logs — kept on disk, not versioned
 crystal_fs/*.jsonl
 crystal_fs/*.txt
+
+# Local measurements and execution receipts
+measurements/

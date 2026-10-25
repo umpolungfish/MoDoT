@@ -1,5 +1,3 @@
-I batch polymer imscriptions and preserve main catalog compatibility
+I keep measurements local and remove their files from Git tracking.
 
-I compute and register 136 polymer recipes through the MoDoT algebra tools in one atomic batch, retaining exact readback receipts and unrelated catalog records.
-I preserve wrapped and flat catalog formats, honor catalog configuration, and retain the rebuilt CUDA-capable tool and native material results.
-I execute and verify the catalyst return stroke on all twelve coordinates.
+I ignore measurement directories at every depth while preserving their local contents.
