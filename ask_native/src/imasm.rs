@@ -337,98 +337,9 @@ fn comb(backbone: &[Token], teeth: &[(usize, Vec<Token>)]) -> Graph {
     g
 }
 
-/// Reconstruct a graph from an ordered opcode bootstrap plus its FSPLIT/FFUSE
-/// pair list (from a type's `topology_report`). The inline chain carries the
-/// T-branch (FSPLIT → next, prev → FFUSE); each pair adds the F-branch arc
-/// FSPLIT → FFUSE, so the fork gets out-2, the fuse in-2, and β rises by one per
-/// pair — faithful to the empty-F-branch flat_chain the auto-designer emits.
-/// The strange loop: every TYPE the Grammar writes with is itself a full IMASM
-/// program. Locate a `the_primitive_type_called_<name>` ob3ect, pull its ordered
-/// bootstrap opcodes (phase_4) and fork/fuse pairs (topology_report), and hand
-/// back the reconstructed graph plus the per-step domain actions.
+/// Expand the ordered executable construction exported by the checked Lean type module.
 fn expand_type(name: &str) -> Result<(Vec<Token>, Vec<(usize, usize)>, Vec<String>), String> {
-    let key = name
-        .trim()
-        .trim_start_matches("the_primitive_type_called_")
-        .trim_start_matches("the primitive type called ")
-        .replace(' ', "_")
-        .to_ascii_lowercase();
-    // MoDoT was renamed to 2m3iosis and these two roots were left pointing at a
-    // directory that no longer exists, so every type expansion answered "not
-    // found" for all 49. The tree-relative path is tried first so the tool works
-    // from its own checkout without depending on where that checkout sits.
-    let roots = [
-        crate::expand_user("~/imsgct/2m3iosis/ob3ects/primitives"),
-        crate::expand_user("~/imsgct/2m3iosis/ob3ects"),
-        crate::expand_user("~/imsgct/MoDoT/ob3ects/primitives"),
-        crate::expand_user("~/imsgct/MoDoT/ob3ects"),
-    ];
-    let mut path = None;
-    for r in &roots {
-        let cand = std::path::Path::new(r)
-            .join(format!("the_primitive_type_called_{key}_ob3ect.json"));
-        if cand.is_file() {
-            path = Some(cand);
-            break;
-        }
-    }
-    let Some(path) = path else {
-        return Err(format!(
-            "type '{key}' not found under ob3ects/primitives/. The types are the 49 Shavian \
-             names (ado, air, ash, awe, …); each is a full IMASM program. Use `imasm types` to list."
-        ));
-    };
-    let text = std::fs::read_to_string(&path).map_err(|e| format!("read {}: {e}", path.display()))?;
-    let v: serde_json::Value = serde_json::from_str(&text).map_err(|e| format!("parse: {e}"))?;
-
-    let steps = v
-        .pointer("/phases/phase_4/steps")
-        .and_then(|s| s.as_array())
-        .ok_or("no phase_4 bootstrap steps in this ob3ect")?;
-    let mut ops = Vec::new();
-    let mut actions = Vec::new();
-    for s in steps {
-        let op = s.get("opcode").and_then(|o| o.as_str()).unwrap_or("");
-        if let Some(t) = Token::parse(op) {
-            ops.push(t);
-            let act = s.get("domain_action").and_then(|a| a.as_str()).unwrap_or("");
-            actions.push(format!("{op}: {act}"));
-        }
-    }
-    // fork/fuse pairs indexed into the bootstrap sequence
-    let mut pairs = Vec::new();
-    if let Some(pl) = v.pointer("/topology_report/pair_list").and_then(|p| p.as_array()) {
-        for p in pl {
-            if let Some(a) = p.as_array() {
-                if a.len() == 2 {
-                    if let (Some(x), Some(y)) = (a[0].as_u64(), a[1].as_u64()) {
-                        pairs.push((x as usize, y as usize));
-                    }
-                }
-            }
-        }
-    }
-    if ops.is_empty() {
-        return Err(format!("type '{key}' has no readable opcode sequence"));
-    }
-    Ok((ops, pairs, actions))
-}
-
-fn list_types() -> Vec<String> {
-    let dir = crate::expand_user("~/imsgct/MoDoT/ob3ects/primitives");
-    let mut names = Vec::new();
-    if let Ok(rd) = std::fs::read_dir(&dir) {
-        for e in rd.flatten() {
-            let f = e.file_name().to_string_lossy().into_owned();
-            if let Some(rest) = f.strip_prefix("the_primitive_type_called_") {
-                if let Some(nm) = rest.strip_suffix("_ob3ect.json") {
-                    names.push(nm.to_string());
-                }
-            }
-        }
-    }
-    names.sort();
-    names
+    crate::lean_primitives::expand(name)
 }
 
 // ── argument parsing ─────────────────────────────────────────────────────────
@@ -539,8 +450,9 @@ not fatal. The shape is named by circuit rank β = E−V+C
                                       arms do WORK, μ fuses. Verdicts: T closes (a real
                                       type-check); N identity (split→fuse with no work —
                                       μ∘δ=id verifies nothing); B open (a fork dangles)
-                                      or paradox (ENGAGR); F ill-typed; N no fork/void.
-                                      A bare cycle is NOT a closure — β is not diagnostic.
+                                      ; F unmatched fuse; N no fork/void.
+                                      Cyclic closure engine shared with ROTAT.
+  imasm check-classic T1 T2 …        explicit classic linear graph check (ENGAGR holds B).
   imasm prove <name|word>            take the closure verdict to the ACTUAL p4ramill
                                       kernel (lake build against BelnapSplitFuse:
                                       B_is_the_only_bifurcation_point, split_fuse_id)
@@ -708,13 +620,45 @@ fn build_graph(op: &str, rest: &[String]) -> Result<(&'static str, Graph), Strin
     }
 }
 
+/// Check the current symbolic word with the cyclic closure engine used by ROTAT.
+/// Keep graph validation available explicitly through `check-classic`.
+fn verdict_check(rest: &[String]) -> String {
+    use imasm_core::imasm16_3::{parse_glyph_word, tri_ancestral_verdict};
+    let mut word = String::new();
+    for chunk in rest.iter().flat_map(|s| s.split_whitespace()) {
+        let Some(tokens) = Token::parse(chunk).map(|t| vec![t]).or_else(|| parse_codons(chunk)) else {
+            return format!("IMASM check: unrecognized opcode '{chunk}'\n");
+        };
+        for token in tokens {
+            if token == Token::Rotat {
+                return "IMASM check: ROTAT acts on a word; it is not a word opcode\n".into();
+            }
+            word.push_str(token.code());
+        }
+    }
+    let steps = parse_glyph_word(&word);
+    let (verdict, reason) = tri_ancestral_verdict(&steps);
+    let gloss = match verdict {
+        'T' => "cyclic ancestry",
+        'B' => "open",
+        'F' => "ill-typed",
+        _ if steps.is_empty() => "void",
+        _ if steps.iter().any(|t| t.glyph() == '∈') => "identity",
+        _ => "no fork",
+    };
+    let execution = imasm_core::imasm16_3::execution_audit(&steps);
+    format!("IMASM check → {verdict} ({gloss})\n  word: {word}\n  {reason}\n  engine: cyclic tri-ancestral closure (shared with ROTAT)\n  executed return: {} ({} open frames, {} executed reconnections, {} skipped ∋)\n",
+        if execution.returned() { "complete" } else { "held" }, execution.open_frames,
+        execution.executed_reconnections, execution.skipped_fuses)
+}
+
 /// Type-check a decision expressed as an opcode word against the grammar, and
 /// return a Belnap verdict + guidance. This is the model checking its OWN thinking:
 ///   T — well-typed and CLOSES (μ∘δ balanced): the reasoning resolves. Proceed.
 ///   B — well-typed but holds an open fork or engages paradox (ENGAGR): look again.
 ///   F — ILL-TYPED (illegal fork/fuse valence): the reasoning is malformed. Revise.
 ///   N — nothing committed (void): state the decision as an opcode word first.
-fn verdict_check(rest: &[String]) -> String {
+fn verdict_check_classic(rest: &[String]) -> String {
     let ops = tok_list(rest);
     if ops.is_empty() {
         return "IMASM check → N (void)\n  No committed opcodes. Express the decision as an \
@@ -972,14 +916,11 @@ pub(crate) const TUPLE_ORDER: [&str; 12] = ["⊢","⊣","≻","≺","⋈","⊤",
 /// A catalog entry, expanded into the IMASM program it IS.
 ///
 /// The strange loop makes this exact: the 49 Shavian types the Grammar writes tuples with are
-/// themselves full IMASM programs (`ob3ects/primitives/`), so a 12-tuple is twelve programs
+/// themselves executable Lean primitive constructions, so a 12-tuple is twelve programs
 /// composed in canonical order. Nothing is invented here — the entry's own glyphs name the
 /// types, and each type unfolds to the opcodes it already carries.
 fn expand_entry(name: &str) -> Result<(String, Vec<Token>, Vec<(usize, usize)>), String> {
-    let path = crate::resolve_catalog_path().ok_or("no catalog on this host")?;
-    let text = std::fs::read_to_string(&path).map_err(|e| format!("read catalog: {e}"))?;
-    let v: serde_json::Value = serde_json::from_str(&text).map_err(|e| format!("parse catalog: {e}"))?;
-    let arr = v.as_array().ok_or("catalog is not a list")?;
+    let arr = catalog_entries()?;
     let want = name.trim().to_ascii_lowercase();
     let entry = arr
         .iter()
@@ -1009,7 +950,8 @@ pub(crate) fn catalog_entries() -> Result<Vec<serde_json::Value>, String> {
     let path = crate::resolve_catalog_path().ok_or("no catalog on this host")?;
     let text = std::fs::read_to_string(&path).map_err(|e| format!("read catalog: {e}"))?;
     let v: serde_json::Value = serde_json::from_str(&text).map_err(|e| format!("parse catalog: {e}"))?;
-    v.as_array().cloned().ok_or_else(|| "catalog is not a list".to_string())
+    v.as_array().or_else(|| v.get("imscriptions").and_then(|entries| entries.as_array()))
+        .cloned().ok_or_else(|| "catalog has no imscriptions list".to_string())
 }
 
 /// The twelve type-glyphs of a named entry, in canonical tuple order.
@@ -1440,17 +1382,8 @@ fn words_verb(rest: &[String]) -> String {
     )
 }
 
-/// The word of one catalog entry, read from the wordbook if it is on disk and
-/// computed from the catalog otherwise. The loop calls this to start from a name.
+/// A named entry always expands through its current Lean primitive definitions.
 pub(crate) fn word_for_entry(name: &str) -> Option<String> {
-    let book = crate::expand_user("~/imsgct/MoDoT/ob3ects/imasm_catalog_words.json");
-    if let Ok(text) = std::fs::read_to_string(&book) {
-        if let Ok(v) = serde_json::from_str::<serde_json::Value>(&text) {
-            if let Some(w) = v.get(name).and_then(|w| w.as_str()) {
-                return Some(w.to_string());
-            }
-        }
-    }
     entry_glyph_word(name).ok()
 }
 
@@ -1477,6 +1410,9 @@ fn cycle_one(tuple_glyphs: &str) -> String {
         let orig = type_name_for_glyph(&tuple[i]).unwrap_or("?");
         let names: Vec<&str> = hits.iter().map(|g| type_name_for_glyph(g).unwrap_or("?")).collect();
         let kept = hits.contains(&tuple[i]);
+        if let Ok(source) = crate::lean_primitives::source(orig) {
+            let _ = writeln!(out, "  {ax} Lean source: {source}");
+        }
         if hits.len() == 1 && kept {
             exact += 1;
             let _ = writeln!(out, "  {ax}  {orig}  → recovered exactly");
@@ -2262,6 +2198,7 @@ pub fn run(args: &[String]) -> String {
         "rotat" | "rotate" | "shift" => rotat_op(rest),
         "arev" | "hop" | "door" => crate::arev::run(rest),
         "check" | "typecheck" => verdict_check(rest),
+        "check-classic" => verdict_check_classic(rest),
         "checkpairs" | "pairs" => verdict_checkpairs(rest),
         "define" | "forge_tool" => define_tool(rest),
         "run" | "invoke" => run_tool(rest),
@@ -2273,6 +2210,17 @@ pub fn run(args: &[String]) -> String {
         "learn" | "study" => crate::learn::run(rest),
         "path" | "promote" => crate::learn::path(rest),
         "cycle" => cycle_verb(rest),
+        "nest" => {
+            let expanded: Vec<char> = rest.join("").chars().filter(|c| !c.is_whitespace()).collect();
+            if expanded.is_empty() || expanded.iter().any(|c| Token::parse(&c.to_string()).is_none()) {
+                return "imasm nest: expected a complete IMASM word\n".into();
+            }
+            let (nested, positions) = crate::word_nesting::enclose_type_programs(&expanded);
+            let word: String = nested.into_iter().collect();
+            serde_json::json!({"expanded_word": expanded.iter().collect::<String>(),
+                "word": word, "retained_positions": positions,
+                "operation": "canonical boundary dissolution; interior work and fixation order retained"}).to_string()
+        },
         "derive" => derive_verb(rest),
         "write" | "compose_word" => write_verb(rest),
         "words" | "wordbook" => words_verb(rest),
@@ -2289,7 +2237,10 @@ pub fn run(args: &[String]) -> String {
         }
         "diff" | "compare" => diff_types(rest),
         "types" | "list" => {
-            let ts = list_types();
+            let ts = match crate::lean_primitives::names() {
+                Ok(names) => names,
+                Err(error) => return format!("{error}\n"),
+            };
             format!(
                 "IMASM types ({} — the Shavian names the Grammar writes tuples with; each is a \
                  full IMASM program):\n  {}\nExpand any one: imasm expand <name>\n",
@@ -2315,6 +2266,7 @@ pub fn run(args: &[String]) -> String {
                          glyph in a tuple unfolds into its own opcode sequence):",
                         name.trim_start_matches("the_primitive_type_called_")
                     );
+                    let _ = writeln!(s, "  Lean source: {}", crate::lean_primitives::source(name).unwrap_or_default());
                     let _ = writeln!(s, "  sequence: {}", seq.join(" "));
                     let _ = writeln!(s, "{}", g.classify());
                     let errs = g.validate();
@@ -2378,20 +2330,13 @@ pub fn run(args: &[String]) -> String {
 #[cfg(test)]
 mod tests {
 
-    /// The cycle's two facts, pinned so a change to the type table
-    /// cannot quietly break the return leg. First: type programs are not
-    /// self-delimiting, so a word cannot be cut on the boundary pair — `out`
-    /// carries TANCH in its middle. Second: an entry's word reads back to a
-    /// tuple that still contains the original at every axis.
+    /// Expansion uses the checked primitive gate construction, and the
+    /// parse-based return still admits the original assignment at each axis.
     #[test]
-    fn the_cycle_closes_and_out_is_not_self_delimiting() {
+    fn the_cycle_closes_and_out_uses_its_checked_gate_program() {
         let (ops, _p, _a) = expand_type("out").expect("the type 'out' expands");
         let word: String = ops.iter().map(|t| t.code()).collect();
-        assert!(
-            !word.ends_with('⊣'),
-            "'out' now ends on the boundary pair; the parse-based return leg was written because \
-             it did not, and a boundary cut would be viable again"
-        );
+        assert_eq!(word, "⊢≻∈⊤⋈⊡⊥≺⊞∋⊙⊣");
 
         // A tuple written and read back must still admit the tuple it came from.
         let Ok(tuple) = entry_tuple("hydrogen_atom") else { return }; // no catalog on this host
@@ -2421,7 +2366,7 @@ mod tests {
             .iter().map(|s| s.to_string()).collect();
         let out = eval_tool(&args, false);
         assert!(out.contains("id (lossless split-fuse)"), "{out}");
-        assert!(out.contains("readout at sink(s): EVALT(T)"), "{out}");
+        assert!(out.contains("readout at sink(s): ⊤(T)"), "{out}");
     }
 
     /// An AREV on the truth arm breaks value-level μ∘δ even though the SHAPE
@@ -2536,7 +2481,7 @@ mod tests {
         }
         // a glued code word parses to the same tokens as the spelled-out names, and a
         // multi-letter name is never char-split
-        let glued = tok_list(&["⊢>∈⊤⊙⊡⊣".to_string()]);
+        let glued = tok_list(&["⊢≻∈⊤⊙⊡⊣".to_string()]);
         let named = tok_list(&[
             "VINIT AFWD FSPLIT EVALT IMSCRIB IFIX TANCH".to_string(),
         ]);
@@ -2588,10 +2533,30 @@ mod tests {
     }
 
     #[test]
+    fn check_matches_cycle_at_every_cut() {
+        for source in [
+            "⊢⊙∈⊤≻⋈⊡≺⊥∋⊙⊣⊢⊙≻⊡∈⊤⋈≺∋⊞⊣⊢⊙≻∈⊤≺⊥∋⋈⊞⊡⊣⊢∈⊤≻≺⋈⊙∋⊞⊡⊣⊢⊙≻∈⊤⋈∋≺⊞⊡⊣⊢⊙≻∈⊤⊡⊥≺∋⋈⊞⊡⊣⊢⊙≻∈⊤⊥∋⋈⊙⊡⊣⊢⊙⋈∈⊤≻⊡≺⊥⊡∋⊞⊣⊢≻∈⊤⊙∋⋈⊡⊣⊢⊙≻∈⊤⋈⊡≺⊥∋⊞⊙⊡⊣⊢⊙∈⊤≻≺∋∈⊥∋⋈⊡⊣⊢⊙≻∈⊤⋈∋⊙⊡⊣",
+            "⊢⊙∈⊤≻⋈⊡≺⊥⊙⊙≻⊡⊤⋈≺⊞⊙≻⊤≺⊥⋈⊞⊡⊤≻≺⋈⊙⊞⊡⊙≻⊤⋈≺⊞⊡⊙≻⊤⊡⊥≺⋈⊞⊡⊙≻⊤⊥⋈⊙⊡⊙⋈⊤≻⊡≺⊥⊡⊞≻⊤⊙⋈⊡⊙≻⊤⋈⊡≺⊥⊞⊙⊡⊙⊤≻≺⊥⋈⊡⊙≻⊤⋈⊙⊡∋⊣",
+        ] {
+            let chars: Vec<char> = source.chars().collect();
+            for cut in 0..chars.len() {
+                let word: String = chars[cut..].iter().chain(&chars[..cut]).collect();
+                let expected = imasm_core::lattice_flow::tri_ancestral_word_verdict(&word).unwrap();
+                let result = verdict_check(&[word]);
+                assert!(result.starts_with(&format!("IMASM check → {expected} ")), "{result}");
+                assert_eq!(expected, 'T');
+            }
+        }
+        assert!(verdict_check(&["∈⊞∋".into()]).contains("T (cyclic ancestry)"));
+        assert!(verdict_check(&["∈ garbage ∋".into()]).contains("unrecognized opcode"));
+        assert!(verdict_check(&["∋".into()]).contains("F (ill-typed)"));
+    }
+
+    #[test]
     fn check_verdicts() {
         // closes: fork resolved by fuse, then fixed → T
         let t = run(&["check".into(), "VINIT IMSCRIB FSPLIT EVALT EVALF FFUSE IFIX".into()]);
-        assert!(t.contains("T (closes)"), "{t}");
+        assert!(t.contains("T (cyclic ancestry)"), "{t}");
         // open: forks but never fuses → B
         let b = run(&["check".into(), "IMSCRIB FSPLIT EVALT".into()]);
         assert!(b.contains("B (open)"), "{b}");

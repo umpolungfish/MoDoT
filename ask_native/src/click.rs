@@ -1617,6 +1617,26 @@ pub fn run_cycle(
     println!("  return stroke (μ / COAGULA — binds the freed quantum into an invariant): {catalyst_name}* ⊡ {}→{} — the catalyst coagulates back to itself (terminal redox restores the resting state).", glyph_of(WIND, cw1), glyph_of(WIND, cw0));
     println!("    executed terminal carrier exchange Δ⊡={:+}; returned tuple {} — all twelve coordinates match the resting catalyst.",
         returned[WIND].unwrap() as i16 - c_star[WIND].unwrap() as i16, fmt_tuple(&returned));
+    // Export the executed operands and return, never a handwritten catalog entry.
+    // Consumers must identify and test their numerical representation of this action.
+    if let Some(path) = std::env::var_os("MODOT_CYCLE_RECORD") {
+        let record = serde_json::json!({
+            "format":"modot-executed-cycle-v1", "catalyst":catalyst_name,
+            "substrate":substrate_name, "resting":cat_t, "spent":c_star,
+            "input":sub_t, "product":product, "returned":returned,
+            "direction":dir, "imprint":imprint,
+            "ordinal_maxima":(0..12).map(max_ord).collect::<Vec<_>>(),
+            "terminal_exchange":returned[WIND].unwrap() as i16-c_star[WIND].unwrap() as i16,
+            "regenerated":returned==cat_t,
+            "catalog":catalog_path.map(|p|p.to_string_lossy().to_string())
+        });
+        let path=std::path::PathBuf::from(path);
+        let pending=path.with_extension("json.pending");
+        let result=serde_json::to_vec_pretty(&record).map_err(|e|e.to_string())
+            .and_then(|bytes|std::fs::write(&pending,bytes).map_err(|e|e.to_string()))
+            .and_then(|_|std::fs::rename(&pending,&path).map_err(|e|e.to_string()));
+        if let Err(error)=result {eprintln!("cycle record: {error}");return 2;}
+    }
 
     // ── Turnover / loop closure: the two coagulations ──
     println!("  turnover: net {substrate_name} → {substrate_name}‡ (one quantum delivered); {catalyst_name} returned unchanged — the catalyst is a FIXED POINT of the loop.");
@@ -1780,45 +1800,6 @@ fn dir_arrow(reductive: bool) -> &'static str {
 // cycle), so a pathway closes STRUCTURALLY only when the whole chain of imprints
 // composes back to the identity — the substrate returned across all twelve axes.
 
-fn norm_ord(ord: &[Option<u8>; 12], i: usize) -> Option<f32> {
-    let m = max_ord(i);
-    ord[i].map(|o| if m > 0 { o as f32 / m as f32 } else { 0.0 })
-}
-
-/// Rotate primitive `i` of `t` by `dir` notches, mod its cycle length (invertible).
-fn rot(t: &mut [Option<u8>; 12], i: usize, dir: i16) {
-    if let Some(o) = t[i] {
-        let n = max_ord(i) as i16 + 1;
-        let v = (((o as i16 + dir) % n) + n) % n;
-        t[i] = Some(v as u8);
-    }
-}
-
-/// Coagula imprint: the catalyst shapes the substrate on its dominant structural
-/// live pair (T↔H or R↔S), raising the member it favors and lowering the other by
-/// one notch (mod cycle) — the catalyst's polarity pressed into the substrate.
-/// Returns the pair label, or None if the catalyst has no structural polarity.
-fn structural_imprint(catalyst: &[Option<u8>; 12], substrate: &mut [Option<u8>; 12]) -> Option<&'static str> {
-    let pairs = [(1usize, 9usize, "T↔H"), (2usize, 10usize, "R↔S")];
-    let mut best: Option<(usize, usize, &'static str, f32)> = None;
-    for &(x, y, lbl) in pairs.iter() {
-        if let (Some(nx), Some(ny)) = (norm_ord(catalyst, x), norm_ord(catalyst, y)) {
-            let ch = nx - ny;
-            if best.map_or(true, |(_, _, _, m)| ch.abs() > m.abs()) {
-                best = Some((x, y, lbl, ch));
-            }
-        }
-    }
-    let (x, y, lbl, ch) = best?;
-    if ch == 0.0 {
-        return None;
-    }
-    let s: i16 = if ch > 0.0 { 1 } else { -1 };
-    rot(substrate, x, s);
-    rot(substrate, y, -s);
-    Some(lbl)
-}
-
 /// One catalytic working stroke: the ⊡ carrier transfer (reductive if the catalyst
 /// can donate, else oxidative) plus the Coagula structural imprint on the substrate.
 /// Returns (catalyst spent C*, product, carrier direction, imprint pair label).
@@ -1826,15 +1807,8 @@ fn working_stroke(
     catalyst: &[Option<u8>; 12],
     substrate: &[Option<u8>; 12],
 ) -> Result<([Option<u8>; 12], [Option<u8>; 12], &'static str, Option<&'static str>), String> {
-    let (c_star, mut product, dir) = match transfer_electron(catalyst, substrate) {
-        Ok((cs, p)) => (cs, p, "reductive"),
-        Err(_) => match transfer_electron(substrate, catalyst) {
-            Ok((p, cs)) => (cs, p, "oxidative"),
-            Err(e) => return Err(e),
-        },
-    };
-    let imprint = structural_imprint(catalyst, &mut product);
-    Ok((c_star, product, dir, imprint))
+    crate::catalytic_cycle::working(catalyst,substrate,&std::array::from_fn(max_ord))
+        .map_err(str::to_owned)
 }
 
 /// Execute the terminal carrier exchange used to regenerate the catalyst.
@@ -1842,13 +1816,8 @@ fn working_stroke(
 /// The caller compares the complete result with the resting state. The
 /// terminal supplies/accepts this quantum; it is not removed from the product.
 fn return_stroke(spent:&[Option<u8>;12],direction:&str)->Result<[Option<u8>;12],String>{
-    let winding=spent[WIND].ok_or("spent catalyst has no winding coordinate")?;
-    let restored=match direction {
-        "reductive"=>winding.checked_add(1).filter(|&w|w<=max_ord(WIND)),
-        "oxidative"=>winding.checked_sub(1),
-        _=>return Err("unknown catalytic carrier direction".into()),
-    }.ok_or("terminal carrier exchange exceeds the winding boundary")?;
-    let mut returned=*spent;returned[WIND]=Some(restored);Ok(returned)
+    crate::catalytic_cycle::restore(spent,direction,&std::array::from_fn(max_ord))
+        .map_err(str::to_owned)
 }
 
 // ── Imscriptive polymerization: chain the clicks into a sequence-preserving polymer ──

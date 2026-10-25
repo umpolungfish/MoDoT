@@ -26,13 +26,13 @@ the original is not among the pre-images, or either leg refuses.
 
 ### The type programs are not self-delimiting
 
-The obvious reading cuts the word on the ⊢…⊣ boundary pair, one segment per
-type. That is wrong, and the type `out` is the counterexample: its program
-carries TANCH in the middle and does not end on ⊣. A concatenation of type
-programs therefore has no boundary structure to cut on, and the word must be
-PARSED, axis by axis, each axis consuming some admissible type's program as a
-prefix and every complete consumption a genuine pre-image. Cutting on the boundary
-pair loses entries that a parse recovers without difficulty.
+The return leg parses programs axis by axis against the current checked Lean
+registry, retaining every admissible pre-image. It does not assume that a
+boundary pair identifies an entire Type. The out primitive now binds to its
+checked twelve-opcode gate construction and ends on its terminal anchor.
+Its namespace-initialization bootstrap is excluded from primitive expansion.
+The bridge preserves the raw axis-parsed expansion, then nests its component
+programs into the enclosing working frame before measurement and re-entry.
 
 ### Position is load-bearing, and it does not save everything
 

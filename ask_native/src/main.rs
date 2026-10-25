@@ -32,9 +32,13 @@ mod binary_tools;
 mod calc;
 mod style;
 mod click;
+mod catalytic_cycle;
 mod arev;
 mod dialect;
 mod imasm;
+mod lean_primitives;
+#[path = "../../../Vox/src/word_nesting.rs"]
+mod word_nesting;
 mod riemann_sic;
 mod riemann_hilbert;
 pub(crate) use imasm_core::imasm16_3;

@@ -1,0 +1,39 @@
+* SPICE Netlist for Paraconsistent FDE Breathing Gate (G_cycle)
+* generated from Cfg fields — no hardcoded values
+.include subcircuits.lib
+IT  1 0 DC 50uA
+IF  2 0 DC 0uA
+IB  3 0 DC 50uA
+IN  4 0 DC 0uA
+VGG 5 0 PULSE(0V 5V 10us 1ns 1ns 10us 20us)
+VDD 99 0 DC 5V
+VSS 98 0 DC -5V
+
+XOP1 0 1 11 99 98 TL074
+RF1  1 11 10.000k
+XOP2 0 2 12 99 98 TL074
+RF2  2 12 10.000k
+XOP3 0 3 13 99 98 TL074
+RF3  3 13 10.000k
+XOP4 0 4 14 99 98 TL074
+RF4  4 14 10.000k
+
+VREF 6 0 DC 0.500V
+XCOMP 5 6 20 99 98 LM311
+
+RB1 13 30 10.000k
+RN1 14 31 40.000k
+XOPD 31 30 32 99 98 TL074
+RFD 30 32 4.500k
+
+S1 11 40 20 0 SW_CLOSE
+S2 12 40 20 0 SW_CLOSE
+S3 13 40 20 0 SW_CLOSE
+S4 14 40 20 0 SW_CLOSE
+XOPS 0 40 50 99 98 TL074
+RFS 40 50 10.000k
+
+.model SW_CLOSE SW(V_ON=4V V_OFF=1V R_ON=0.1 R_OFF=1G)
+.tran 10ns 40us
+.probe
+.end

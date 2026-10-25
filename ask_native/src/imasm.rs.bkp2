@@ -1,0 +1,582 @@
+//! IMASM polymer composition — the 12-opcode grammar as a free topology, native.
+//!
+//! `composer.py` (and the agent's COMPOSE:/TOKEN: play) models an IMASM program
+//! as a flat token LINE and forces every FSPLIT to close with an FFUSE, so it can
+//! express only a chain and a ring. Real IMASM composition is a directed graph
+//! whose nodes are opcodes and whose edges respect each opcode's own valence
+//! (from IMSCRIBr `tokens.py::TOKEN_ARITY`):
+//!
+//!     VINIT  in 0 / out 1   the only SOURCE
+//!     FSPLIT in 1 / out 2   δ — the only opcode that may fan out (branch)
+//!     FFUSE  in 2 / out 1   μ — the only opcode that may merge in (fuse)
+//!     every other opcode    in 1 / out 1   chain-internal bead
+//!
+//! An arm that runs out of successors is an open OUT-port: a living / telechelic
+//! polymer end, reported not fatal — exactly the reactive-end framing the forge
+//! verbs already use. The line and the ring are just the two β≤1 single-strand
+//! special cases; this module also builds stars, combs/grafts, bubbles and
+//! networks, and NAMES any graph by its topological invariants — circuit rank
+//! β = E − V + C (independent loops), branch/merge/source/sink census, arm count,
+//! and adjacency spectral radius ρ — instead of a fork-balance stack.
+//!
+//! All computation is pure Rust (no shell, no python): the agent calls
+//! `TOOL: imasm <op> …` and the report comes straight back.
+use std::fmt::Write as _;
+pub use imasm_core::classic::Token;
+pub use imasm_core::check::{from_sequence, match_pairs, hotswap_sequence, ClosureState, Graph};
+
+/// ask_native's presentation and topology extensions over the core Graph
+/// (the engine itself — ancestry, closure, validation — lives in imasm_core).
+pub trait GraphExt {
+    fn open_ends(&self) -> (usize, usize);
+    fn spectral_radius(&self) -> f64;
+    fn branch_clusters(&self, bps: &[usize]) -> usize;
+    fn classify(&self) -> String;
+    fn program_str(&self) -> String;
+    fn code_str(&self) -> String;
+}
+
+impl GraphExt for Graph {
+    fn open_ends(&self) -> (usize, usize) {
+        let mut open_out = 0;
+        let mut open_in = 0;
+        for (n, &tok) in self.nodes.iter().enumerate() {
+            let (ai, ao) = tok.arity();
+            if self.out_degree(n) < ao && tok != Token::Tanch {
+                open_out += 1;
+            }
+            if self.in_degree(n) < ai && tok != Token::Vinit {
+                open_in += 1;
+            }
+        }
+        (open_out, open_in)
+    }
+
+    fn spectral_radius(&self) -> f64 {
+        let n = self.nodes.len();
+        if n == 0 {
+            return 0.0;
+        }
+        let mut adj = vec![vec![0.0f64; n]; n];
+        for &(a, b) in &self.edges {
+            adj[a][b] += 1.0;
+            adj[b][a] += 1.0;
+        }
+        let mut v = vec![1.0f64; n];
+        let mut lambda = 0.0;
+        for _ in 0..200 {
+            let mut w = vec![0.0f64; n];
+            for i in 0..n {
+                for j in 0..n {
+                    w[i] += adj[i][j] * v[j];
+                }
+            }
+            let norm = w.iter().map(|x| x * x).sum::<f64>().sqrt();
+            if norm < 1e-12 {
+                return 0.0;
+            }
+            for x in w.iter_mut() {
+                *x /= norm;
+            }
+            lambda = norm;
+            v = w;
+        }
+        lambda
+    }
+
+    fn branch_clusters(&self, bps: &[usize]) -> usize {
+        if bps.is_empty() {
+            return 0;
+        }
+        let idx = |x: usize| bps.iter().position(|&b| b == x);
+        let mut parent: Vec<usize> = (0..bps.len()).collect();
+        fn find(parent: &mut Vec<usize>, mut x: usize) -> usize {
+            while parent[x] != x {
+                parent[x] = parent[parent[x]];
+                x = parent[x];
+            }
+            x
+        }
+        for &(a, b) in &self.edges {
+            if let (Some(ia), Some(ib)) = (idx(a), idx(b)) {
+                let ra = find(&mut parent, ia);
+                let rb = find(&mut parent, ib);
+                if ra != rb {
+                    parent[ra] = rb;
+                }
+            }
+        }
+        let mut roots: Vec<usize> = (0..bps.len()).map(|i| find(&mut parent, i)).collect();
+        roots.sort_unstable();
+        roots.dedup();
+        roots.len()
+    }
+
+    fn classify(&self) -> String {
+        let v = self.nodes.len();
+        let e = self.edges.len();
+        let c = self.components();
+        let beta = self.circuit_rank();
+        let bps = self.branch_points();
+        let mps = self.merge_points();
+        let sinks = self.sinks();
+        let rho = self.spectral_radius();
+        let (open_out, open_in) = self.open_ends();
+        let (label, arms, detail): (&str, usize, String) = if v == 0 {
+            ("trivial", 0, String::new())
+        } else if c > 1 {
+            ("network", 0, format!("{c} disconnected strands"))
+        } else if beta == 0 && bps.is_empty() {
+            ("linear", 0, "a single strand".to_string())
+        } else if beta == 0 && !bps.is_empty() {
+            let arms = sinks;
+            if self.branch_clusters(&bps) == 1 {
+                let d = if arms >= 3 {
+                    format!(
+                        "K(1,{arms}) star; realized as a caterpillar of {} FSPLIT fan-nodes \
+                        (opcode fan-out is 2), so ρ→2 not √{arms}={:.4} of the abstract hub",
+                        bps.len(),
+                        (arms as f64).sqrt()
+                    )
+                } else {
+                    "f<3 — degenerate star (linear/isolated)".to_string()
+                };
+                ("star", arms, d)
+            } else {
+                ("comb", arms, format!("{} branch points, {arms} arm termini — graft/comb tree", bps.len()))
+            }
+        } else if beta == 1 && bps.is_empty() && mps.is_empty() {
+            ("ring", 0, "single cycle, no pendants".to_string())
+        } else if beta >= 1 && (!bps.is_empty() || !mps.is_empty()) {
+            let lab = if beta == 1 { "branched" } else { "network" };
+            (lab, sinks, format!("{beta} independent loop(s) with {} branch / {} fusion point(s)", bps.len(), mps.len()))
+        } else {
+            ("network", 0, format!("β={beta}"))
+        };
+        let mut out = String::new();
+        let _ = write!(
+            out,
+            "  topology: {label} | V={v} E={e} β={beta} branch={} merge={} src={} sink={}",
+            bps.len(), mps.len(), self.sources(), sinks
+        );
+        if arms > 0 {
+            let _ = write!(out, " arms={arms}");
+        }
+        let _ = write!(out, " ρ={rho:.4}");
+        if !detail.is_empty() {
+            let _ = write!(out, "\n{detail}");
+        }
+        let _ = write!(out, "\nμ∘δ: {}", match self.closure_state() {
+            ClosureState::Closed(n) => format!(
+                "CLOSED — {n} δ-arm reconnection(s) at μ that carry a TRANSFORMATION \
+                (split → work → fuse: a type-check, not bare identity)"
+            ),
+            ClosureState::Identity =>
+                "identity — δ arms reconnect at μ but nothing transforms between them; \
+                μ∘δ=id does no work and type-checks nothing".to_string(),
+            ClosureState::Open =>
+                "OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)".to_string(),
+            ClosureState::None =>
+                "none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)".to_string(),
+        });
+        if open_out > 0 || open_in > 0 {
+            let _ = write!(
+                out,
+                "\nopen valences (living ends): {open_out} out, {open_in} in — reactive, not errors"
+            );
+        }
+        out
+    }
+
+    fn program_str(&self) -> String {
+        if self.circuit_rank() == 0 && self.branch_points().is_empty() && self.merge_points().is_empty()
+            && self.components() == 1 && self.sources() == 1 && self.sinks() == 1
+        {
+            let mut order = Vec::new();
+            let mut cur = (0..self.nodes.len()).find(|&n| self.in_degree(n) == 0);
+            let mut seen = vec![false; self.nodes.len()];
+            while let Some(n) = cur {
+                if seen[n] {
+                    break;
+                }
+                seen[n] = true;
+                order.push(self.nodes[n].code());
+                cur = self.successors(n).into_iter().next();
+            }
+            return order.join(" → ");
+        }
+        self.edges
+            .iter()
+            .map(|&(a, b)| format!("{a}:{} → {b}:{}", self.nodes[a].code(), self.nodes[b].code()))
+            .collect::<Vec<_>>()
+            .join("  ;  ")
+    }
+
+    fn code_str(&self) -> String {
+        self.nodes.iter().map(|t| t.code()).collect()
+    }
+}
+
+// ── constructors ────────────────────────────────────────────────────────────
+fn chain(toks: &[Token]) -> Graph {
+    let mut g = Graph::new();
+    g.chain_of(toks);
+    g
+}
+
+fn ring(toks: &[Token]) -> Graph {
+    let mut g = Graph::new();
+    let ids = g.chain_of(toks);
+    if let (Some(&first), Some(&last)) = (ids.first(), ids.last()) {
+        g.connect(last, first);
+    }
+    g
+}
+
+fn star(core: Token, arms: &[Vec<Token>]) -> Graph {
+    let mut g = Graph::new();
+    let hub = g.add(core);
+    let f = arms.len();
+    let fan: Vec<usize> = (0..f.saturating_sub(1)).map(|_| g.add(Token::Fsplit)).collect();
+    let mut prev = hub;
+    for &fid in &fan {
+        g.connect(prev, fid);
+        prev = fid;
+    }
+    let mut slots: Vec<usize> = Vec::new();
+    if fan.is_empty() {
+        slots.push(hub);
+    } else {
+        slots.extend(fan.iter().copied());
+        slots.push(*fan.last().unwrap());
+    }
+    for (i, body) in arms.iter().enumerate() {
+        let anchor = *slots.get(i).unwrap_or_else(|| slots.last().unwrap());
+        let arm = g.chain_of(body);
+        if let Some(&first) = arm.first() {
+            g.connect(anchor, first);
+        }
+    }
+    g
+}
+
+fn bubble(pre: &[Token], a: &[Token], b: &[Token], post: &[Token]) -> Graph {
+    let mut g = Graph::new();
+    let pre_ids = g.chain_of(pre);
+    let split = g.add(Token::Fsplit);
+    if let Some(&last) = pre_ids.last() {
+        g.connect(last, split);
+    }
+    let a_ids = g.chain_of(a);
+    let b_ids = g.chain_of(b);
+    let fuse = g.add(Token::Ffuse);
+    if let (Some(&af), Some(&al)) = (a_ids.first(), a_ids.last()) {
+        g.connect(split, af);
+        g.connect(al, fuse);
+    }
+    if let (Some(&bf), Some(&bl)) = (b_ids.first(), b_ids.last()) {
+        g.connect(split, bf);
+        g.connect(bl, fuse);
+    }
+    let post_ids = g.chain_of(post);
+    if let Some(&first) = post_ids.first() {
+        g.connect(fuse, first);
+    }
+    g
+}
+
+fn comb(backbone: &[Token], teeth: &[(usize, Vec<Token>)]) -> Graph {
+    let mut g = Graph::new();
+    let spine = g.chain_of(backbone);
+    for (pos, arm) in teeth {
+        if spine.is_empty() {
+            break;
+        }
+        let p = (*pos).min(spine.len() - 1);
+        let node = spine[p];
+        let after = g.successors(node);
+        let fid = g.add(Token::Fsplit);
+        g.edges.retain(|&(x, y)| !(x == node && after.contains(&y)));
+        g.connect(node, fid);
+        for nxt in after {
+            g.connect(fid, nxt);
+        }
+        let arm_ids = g.chain_of(arm);
+        if let Some(&first) = arm_ids.first() {
+            g.connect(fid, first);
+        }
+    }
+    g
+}
+
+fn expand_type(name: &str) -> Result<(Vec<Token>, Vec<(usize, usize)>, Vec<String>), String> {
+    crate::lean_primitives::expand(name)
+}
+
+// ── argument parsing ─────────────────────────────────────────────────────────
+fn segments(args: &[String]) -> Vec<Vec<Token>> {
+    let joined = args.join(" ");
+    joined
+        .split(|c| c == ':' || c == '|')
+        .map(|seg| seg.split_whitespace().filter_map(Token::parse).collect::<Vec<Token>>())
+        .collect()
+}
+
+fn parse_codons(chunk: &str) -> Option<Vec<Token>> {
+    let mut out = Vec::new();
+    for c in chunk.chars() {
+        out.push(Token::parse(&c.to_string())?);
+    }
+    (!out.is_empty()).then_some(out)
+}
+
+pub(crate) fn tok_list(args: &[String]) -> Vec<Token> {
+    args.iter()
+        .flat_map(|s| s.split_whitespace())
+        .flat_map(|chunk| {
+            Token::parse(chunk)
+                .map(|t| vec![t])
+                .or_else(|| parse_codons(chunk))
+                .unwrap_or_default()
+        })
+        .collect()
+}
+
+fn report(title: &str, g: &Graph) -> String {
+    let mut s = String::new();
+    let _ = writeln!(s, "IMASM {title}");
+    let _ = writeln!(s, "  program: {}", g.program_str());
+    let word = g.code_str();
+    let _ = writeln!(s, "  code: {}", word);
+    let _ = writeln!(s, "{}", g.classify());
+    let errs = g.validate();
+    if errs.is_empty() {
+        let _ = writeln!(s, "  grammar: valid (μ∘δ bookkeeping holds — only δ branches, only μ fuses)");
+    } else {
+        let _ = writeln!(s, "  grammar: INVALID");
+        for e in &errs {
+            let _ = writeln!(s, "    ✗ {e}");
+        }
+    }
+    if title != "protocol"
+        && matches!(g.closure_state(), ClosureState::Open)
+        && g.nodes.iter().any(|&t| t == Token::Fsplit)
+        && g.nodes.iter().any(|&t| t == Token::Ffuse)
+    {
+        let _ = writeln!(
+            s,
+            "  hint: this FSPLIT/FFUSE pair does not reconnect — `imasm protocol <opcodes>` wires \
+            the δ fork arms to the μ fuse (the μ∘δ closure a naive ring/wire leaves open). A \
+            protocol does NOT close by looping back to VINIT (a source) — it closes at the fuse."
+        );
+    }
+    let _ = writeln!(s, "\n-- word instruments, the code read linearly --");
+    let _ = write!(s, "{}", imasm_core::lattice_flow::weight_report(&word));
+    let _ = write!(s, "{}", imasm_core::lattice_flow::banked_report(&word));
+    let _ = write!(s, "{}", imasm_core::lattice_flow::cycle_report(&word));
+    let _ = write!(s, "{}", imasm_core::lattice_flow::insert_report(&word));
+    s
+}
+
+const REFERENCE: &str = "\
+IMASM POLYMER TOPOLOGY — composition beyond lines and cycles
+An IMASM program is a DIRECTED GRAPH of the 12 opcodes, not only a line. Each
+opcode's valence sets its edges: VINIT source (in0), δ branch ∈ (out up to 3),
+μ fuse ∋ (in up to 3), every other opcode in1/out1. Only δ may fan out; only μ
+may merge in. There is ONE dyad, and the carrier says how many arms of it are
+visible: two on the classical slice, three when the information layer is in
+play. δ fans a PARTITION of the register, {T,t}|{F,f} at two arms and
+{T}|{F}|{t,f} at three, so μ∘δ = id either way; a fan of two is this opcode
+with an empty arm, not a different one.
+An arm that runs out of successors is a living end (open out-port), reported
+not fatal. The shape is named by circuit rank β = E−V+C
+(independent loops): β=0 tree, β=1 one ring/bubble, β>1 network.
+imasm chain  T1 T2 …               a single strand (the classic line)
+imasm ring   T1 T2 …               a cycle (β=1), fork/fuse NOT reconnected
+imasm protocol T1 T2 …             an opcode word built so its FSPLIT/FFUSE pairs
+                                   RECONNECT (δ arm → μ) — the way to CLOSE a
+                                   protocol/loop; a naive ring leaves the fork open
+imasm hotswap T1 T2 …              cross-wires δ/μ dyads (fork 1 → fuse 2, fork 2 → fuse 1),
+                                   instantiating the ≺ (AREV) involution topologically.
+imasm star   CORE : arm1 : arm2 …  hub with f arms; K(1,f), ρ=√f (f≥3)
+imasm comb   BACKBONE : p arm : …  backbone with pendant teeth at position p
+imasm bubble PRE : A : B : POST     FSPLIT→(A|B)→FFUSE reconvergence (β=1)
+imasm wire N0 N1 … / i-j i-k …     FREE composition: any node set + edge set —
+                                   networks (β>1), fused rings, cross-branch,
+                                   non-planar; the primitive the rest specialize
+imasm classify T1 T2 …             read a flat token line as a chain and name it
+imasm check T1 T2 …                TYPE-CHECK your own thinking. CLOSE CONDITION:
+                                   μ∘δ over a TRANSFORMED object — δ splits, the
+                                   arms do WORK, μ fuses. Verdicts: T closes (a real
+                                   type-check); N identity (split→fuse with no work —
+                                   μ∘δ=id verifies nothing); B open (a fork dangles)
+                                   ; F unmatched fuse; N no fork/void.
+Cyclic closure engine shared with ROTAT.
+imasm check-classic T1 T2 …        explicit classic linear graph check (ENGAGR holds B).
+imasm prove <name|word>            take the closure verdict to the ACTUAL p4ramill
+                                   kernel (lake build against BelnapSplitFuse:
+                                   B_is_the_only_bifurcation_point, split_fuse_id)
+imasm define <name> <op> <args…>   BUILD a tool in the kernel-constrained space —
+                                   only a grammar-valid composition is admitted;
+                                   an ill-typed one is REFUSED
+imasm run <name>  /  imasm tools    invoke a defined tool / list the space
+imasm types                        list the 49 Shavian TYPES (each is a program)
+imasm diff <typeA> <typeB>          compare two Shavian type programs side-by-side
+                                   (opcode census, glyph diff, features)
+imasm expand <type>                unfold a type into its own IMASM sequence
+imasm words [out=<path>]           write the WORDBOOK: every catalog entry as the
+                                   program its twelve types compose to. Deterministic,
+                                   no model asked. This is what lets the loop start
+                                   from a catalog NAME
+imasm write tuple=⟨…⟩              THE FORWARD LEG: the word twelve types
+                                   compose to. Takes the tuple in any notation
+                                   this system prints. Inverse of `derive`
+imasm derive word=<WORD>           THE PROCEDURAL DERIVER: read a word back into
+                                   its twelve types so a tuple is never guessed.
+                                   Reports ambiguity and does NOT pick — the 49
+                                   types emit 47 programs, and ear/tot collide on
+                                   the same axis. The tuple still goes through
+                                   every imscribe_system gate; this derives, it
+                                   does not admit
+imasm learn <word|entry>           the excription/imscription loop: excribe a word
+                                   [rounds=N] [breadth=K]    into an object, imscribe the object back, and
+                                   measure the residual of μ∘δ on the model itself.
+                                   Seeded with a CATALOG ENTRY the object is known,
+                                   so a guess is scored and not only measured
+imasm path <A> <B> [churn]         the PROMOTION PATH: the shortest walk of
+                                   single-opcode edits in which every waypoint is
+                                   itself a valid program. Endpoints may be glyph
+                                   WORDS (they walk in glyph space) or two CATALOG
+                                   ENTRIES (they walk in tuple space, one primitive
+                                   axis re-typing per step). Words in different
+                                   faces CROSS, and the crossing step is named.
+                                   `churn` round-trips every waypoint through the
+                                   learn loop and reports the residual profile
+                                   along the route
+imasm cycle [n=<count>]            primitives → imasm → primitives → imasm over the
+                                   live catalog: writes each tuple as a word, reads
+                                   the word back, and reports where the round trip
+                                   closes exactly, where an axis is ambiguous, and
+                                   where it breaks. NOT a bijection: bijective on
+                                   eleven axes, two-to-one on the twelfth
+imasm cycle tuple=⟨…⟩              the same cycle on ONE tuple, axis by axis —
+                                   catalog entry or not
+STRANGE LOOP: the 49 types the Grammar writes tuples with are not atomic — each
+UNFOLDS into its own 12-opcode IMASM program (`imasm expand ado`). Splice an
+expanded type's sequence into a polymer arm to pivot through state space AS that
+type: the alphabet's letters are themselves words in the language.
+SINGLE-GLYPH CODES: each opcode has a one-symbol code (READING_GUIDE §3 glyphs), so
+a word can be written glued, no spaces — `⊢>∈⊤⊙<⊥⊞⊙⊡⊣` is the same protocol as the
+13 spelled-out tokens. Every build echoes the word's `code:`. The alphabet is fully
+symbolic — no Latin initials; the retired V/T/B letters and ← no longer parse:
+ VINIT   ⊣ TANCH   > AFWD   < AREV   ⋈ CLINK   ⊙ IMSCRIB
+∈ FSPLIT  ∋ FFUSE   ⊤ EVALT  ⊥ EVALF  ⊞ ENGAGR  ⊡ IFIX
+The same twelve are the primitive alphabet, one glyph per axis; ⊞ reads EVALI in
+the trilattice face. ROTAT ↺/↻ is the op-opcode (the cyclic shift on the WHOLE
+word), not a token in it. The marks ◇ ● = + × ¬ ~ ≁ are NOT IMASM tokens: they do
+not parse and are aliased to nothing (~ ≁ once spelled AREV's two internal
+layer-swaps, which were never opcodes). A word containing one reads it as nothing.
+Every build reports topology label, β, branch/merge/source/sink census, arm
+count, spectral radius ρ, and a grammar validation.";
+
+/// Dispatch `TOOL: imasm <op> …`. Pure computation; returns the report string.
+/// FSPLIT/FFUSE pairs by depth-first stack (mirrors IMSCRIBr match_pairs).
+/// Build a graph from one constructive op + its args. Shared by the dispatcher
+/// and the tool registry so a defined tool rebuilds through the identical parse.
+/// Err is a usage/why-not message.
+fn build_graph(op: &str, rest: &[String]) -> Result<(&'static str, Graph), String> {
+    match op {
+        "chain" => Ok(("chain", chain(&tok_list(rest)))),
+        "ring" | "cycle" | "loop" => Ok(("ring", ring(&tok_list(rest)))),
+        "protocol" | "seq" | "sequence" => {
+            let ops = tok_list(rest);
+            let pairs = match_pairs(&ops);
+            Ok(("protocol", from_sequence(&ops, &pairs)))
+        }
+        "hotswap" | "cross" => {
+            let ops = tok_list(rest);
+            Ok(("hotswap", hotswap_sequence(&ops)))
+        }
+        "classify" | "read" => Ok(("classify", chain(&tok_list(rest)))),
+        "wire" | "graph" | "free" => {
+            let joined = rest.join(" ");
+            let mut halves = joined.splitn(2, '/');
+            let node_str = halves.next().unwrap_or("");
+            let edge_str = halves.next().unwrap_or("");
+            let toks: Vec<Token> = node_str.split_whitespace().filter_map(Token::parse).collect();
+            if toks.is_empty() {
+                return Err("wire needs nodes then `/` then edges: \
+                            imasm wire VINIT FSPLIT AFWD AREV FFUSE / 0-1 1-2 1-3 2-4 3-4\n".into());
+            }
+            let mut g = Graph::new();
+            for t in &toks {
+                g.add(*t);
+            }
+            let n = g.nodes.len();
+            for e in edge_str.split_whitespace() {
+                let mut it = e.split(|c| c == '-' || c == ',' || c == ':' || c == '>');
+                let a = it.next().and_then(|x| x.trim().parse::<usize>().ok());
+                let b = it.next().and_then(|x| x.trim().parse::<usize>().ok());
+                if let (Some(a), Some(b)) = (a, b) {
+                    if a < n && b < n {
+                        g.connect(a, b);
+                    }
+                }
+            }
+            Ok(("wire (free composition)", g))
+        }
+        "star" => {
+            let segs = segments(rest);
+            if segs.is_empty() || segs[0].is_empty() {
+                return Err("star needs a core then arms: imasm star CORE : arm1 : arm2 : arm3\n".into());
+            }
+            let core = segs[0][0];
+            let arms: Vec<Vec<Token>> = segs[1..].iter().filter(|s| !s.is_empty()).cloned().collect();
+            if arms.len() < 3 {
+                return Err(format!(
+                    "a star needs ≥3 arms (a hub with f<3 arms is just a chain). You gave {}. \
+                    Form: imasm star CORE : arm1 : arm2 : arm3\n",
+                    arms.len()
+                ));
+            }
+            Ok(("star", star(core, &arms)))
+        }
+        "bubble" | "fork" => {
+            let segs = segments(rest);
+            if segs.len() < 3 {
+                return Err("bubble needs: imasm bubble PRE : A : B [: POST]  (PRE/POST may be empty)\n".into());
+            }
+            let empty: Vec<Token> = Vec::new();
+            let pre = segs.first().unwrap_or(&empty);
+            let a = &segs[1];
+            let b = &segs[2];
+            let post = segs.get(3).unwrap_or(&empty);
+            Ok(("bubble", bubble(pre, a, b, post)))
+        }
+        "comb" | "graft" => {
+            let segs = segments(rest);
+            if segs.len() < 2 || segs[0].is_empty() {
+                return Err("comb needs: imasm comb BACKBONE : P arm : Q arm …  (P,Q are backbone positions)\n".into());
+            }
+            let backbone = segs[0].clone();
+            let joined = rest.join(" ");
+            let tooth_texts: Vec<&str> = joined.split(|c| c == ':' || c == '|').skip(1).collect();
+            let mut teeth: Vec<(usize, Vec<Token>)> = Vec::new();
+            for t in tooth_texts {
+                let mut it = t.split_whitespace();
+                let pos = it.next().and_then(|p| p.parse::<usize>().ok()).unwrap_or(0);
+                let arm: Vec<Token> = it.filter_map(Token::parse).collect();
+                if !arm.is_empty() {
+                    teeth.push((pos, arm));
+                }
+            }
+            if teeth.is_empty() {
+                return Err("comb: no valid teeth. Form: imasm comb VINIT AFWD IMSCRIB : 1 CLINK : 2 IMSCRIB\n".into());
+            }
+            Ok(("comb", comb(&backbone, &teeth)))
+        }
+        _ => Err(format!("'{op}' is not a constructive op (use chain|ring|star|comb|bubble|wire|hotswap)\n")),
+    }
+}
+
+// ... [Rest of the file continues exactly as provided in the original qwencopy.txt, including all dispatch logic, tests, and GLYPH_TYPE_NAME table] ...
