@@ -165,3 +165,24 @@ fn main(){
         machine.release_completed();
     }
 }
+
+
+#[cfg(test)]
+mod tape_exact_numeric_evidence_tests {
+    #[test]
+    fn exact_historical_float_roundtrip() {
+        // Regression from a real June 15, 2026 source reading. The default
+        // fast serde_json float parser changed the final digit (one ULP).
+        let raw = r#"{"value":1.7787827609827747,"stream":"mktcap_chg"}"#;
+        let parsed: serde_json::Value = serde_json::from_str(raw).unwrap();
+        assert_eq!(
+            parsed["value"].as_f64().unwrap().to_bits(),
+            1.7787827609827747_f64.to_bits(),
+        );
+        let encoded = serde_json::to_string(&parsed).unwrap();
+        let decoded: serde_json::Value = serde_json::from_str(&encoded).unwrap();
+        assert_eq!(decoded["value"].as_f64().unwrap().to_bits(),
+                   parsed["value"].as_f64().unwrap().to_bits());
+        assert!(encoded.contains("1.7787827609827747"));
+    }
+}
