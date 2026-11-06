@@ -160,5 +160,8 @@ fn main(){
         if writeln!(stdout,"{response}").is_err() || stdout.flush().is_err() {
             std::process::exit(3);
         }
+        // Durable receipt is now in the output stream; release in-memory
+        // execution history without restarting the carrier or sequence.
+        machine.release_completed();
     }
 }
