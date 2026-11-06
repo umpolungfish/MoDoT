@@ -1,0 +1,31 @@
+name: IMASM native morphism tape
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'imasm_core/src/tape.rs'
+      - 'imasm_core/src/lib.rs'
+      - 'imasm_core/src/bin/imasm_tape.rs'
+      - '.github/workflows/imasm-tape-native.yml'
+  workflow_dispatch:
+jobs:
+  native-morphism-tape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run native carrier, graph and tape tests
+        run: cargo test --manifest-path imasm_core/Cargo.toml --lib tape::tests -- --nocapture
+      - name: Build native executable tape CLI
+        run: cargo build --manifest-path imasm_core/Cargo.toml --bin imasm_tape
+      - name: Smoke test operator execution on exact 3-arm graph
+        shell: bash
+        run: |
+          printf '%s\n' \
+            '{"kind":"register","id":"coop","nodes":["VINIT","FSPLIT3","EVALT","EVALF","IMSCRIB","FFUSE3","ENGAGR","IFIX","TANCH"],"edges":[[0,1],[1,2],[1,3],[1,4],[2,5],[3,5],[4,5],[5,6],[6,7],[7,8]],"readout":8}' \
+            '{"kind":"sample","source":"coop.x","program":"coop","observed_at_ns":1,"available_at_ns":2,"as_of_ns":2,"seed":"TF","payload":{"x":1.25}}' \
+          | imasm_core/target/debug/imasm_tape | tee /tmp/tape-out.jsonl
+          grep -q '"verdict":"B"' /tmp/tape-out.jsonl
+          grep -q '"readout":"A"' /tmp/tape-out.jsonl
