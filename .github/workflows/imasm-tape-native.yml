@@ -33,6 +33,16 @@ jobs:
           grep -q '"verdict":"B"' /tmp/tape-out.jsonl
           grep -q '"readout":"A"' /tmp/tape-out.jsonl
 
+      - name: Check canonical default full-carrier seed A
+        shell: bash
+        run: |
+          printf '%s\n' \
+            '{"kind":"register","id":"default","nodes":["VINIT","TANCH"],"edges":[[0,1]],"readout":1}' \
+            '{"kind":"sample","source":"native.example","program":"default","observed_at_ns":1,"available_at_ns":1,"as_of_ns":1,"payload":1.7787827609827747}' \
+          | imasm_core/target/debug/imasm_tape | tee /tmp/default-carrier.jsonl
+          grep -q '"input":"A"' /tmp/default-carrier.jsonl
+          grep -q '"readout":"A"' /tmp/default-carrier.jsonl
+          grep -q '1.7787827609827747' /tmp/default-carrier.jsonl
       - uses: actions/upload-artifact@v4
         with:
           name: native-imasm-tape-linux-x86_64
