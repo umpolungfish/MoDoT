@@ -29,3 +29,9 @@ jobs:
           | imasm_core/target/debug/imasm_tape | tee /tmp/tape-out.jsonl
           grep -q '"verdict":"B"' /tmp/tape-out.jsonl
           grep -q '"readout":"A"' /tmp/tape-out.jsonl
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-imasm-tape-linux-x86_64
+          path: imasm_core/target/debug/imasm_tape
+          retention-days: 3
