@@ -135,8 +135,10 @@ fn process(v:&Value,m:&mut TapeMachine)->Result<Value,String>{
 fn main(){
     let stdin=io::stdin();
     let mut stdout=io::stdout().lock();
-    // N is only the starting state; callers may supply any of 16 seeds.
-    let mut machine=TapeMachine::new(Reg16_3::default());
+    // IMASM full SIXTEEN_3 default seed is A, not classical B or N.
+    // Explicit sample seeds override this value; subsequent events carry flow.
+    let mut machine=TapeMachine::new(Reg16_3::from_name("A")
+        .expect("canonical full-carrier default"));
     for (line_number,line) in stdin.lock().lines().enumerate(){
         let line=match line {
             Ok(s)=>s,Err(e)=>{
