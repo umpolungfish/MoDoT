@@ -16,6 +16,8 @@ extern crate std;
 
 pub mod check;
 pub mod flow;
+/// Executable, timestamp-causal morphism tape over the canonical graph and carrier.
+pub mod tape;
 pub mod classic;
 pub mod imasm16_3;
 /// The spectrum of a ring, in integers. Lived in the kernel, where `ask` could
