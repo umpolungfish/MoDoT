@@ -709,6 +709,11 @@
     "title": "ring",
     "topology": "  topology: ring | V=21 E=21 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 3 out, 3 in — reactive, not errors"
   },
+  "dialetheic_fold": {
+    "spec": "protocol VINIT FSPLIT EVALT AFWD CLINK IFIX TANCH FFUSE EVALF AREV IMSCRIB ENGAGR",
+    "title": "protocol",
+    "topology": "  topology: network | V=12 E=13 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8140\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 0 in — reactive, not errors"
+  },
   "distill_manifold_tool": {
     "spec": "ring ⊙ > < ● ●",
     "title": "ring",
@@ -838,6 +843,11 @@
     "spec": "ring ⊙ > < ⊣",
     "title": "ring",
     "topology": "  topology: ring | V=4 E=4 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "fold_op": {
+    "spec": "ring ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣ ∈ ⊤ ⊥ ∋ ⊡ ⊣",
+    "title": "ring",
+    "topology": "  topology: ring | V=144 E=144 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 24 out, 24 in — reactive, not errors"
   },
   "forcing_d12": {
     "spec": "protocol FSPLIT EVALT EVALF FFUSE",
@@ -1139,6 +1149,81 @@
     "title": "ring",
     "topology": "  topology: ring | V=5 E=5 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
   },
+  "k4_analysis": {
+    "spec": "protocol IMSCRIB FSPLIT AFWD AFWD AFWD FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=8 E=9 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8438\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_autokey": {
+    "spec": "protocol IMSCRIB FSPLIT AFWD AFWD FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=7 E=8 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8962\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_autokey_solve": {
+    "spec": "protocol VINIT FSPLIT AFWD AFWD AFWD FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=8 E=9 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8438\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
+  },
+  "k4_berlin_clock": {
+    "spec": "protocol IMSCRIB FSPLIT EVALT EVALF AFWD AREV ENGAGR FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=10 E=11 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8103\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_ciphertext": {
+    "spec": "ring IMSCRIB AFWD AREV",
+    "title": "ring",
+    "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "k4_clues": {
+    "spec": "ring IMSCRIB EVALT EVALF AFWD AREV FFUSE IFIX TANCH",
+    "title": "ring",
+    "topology": "  topology: ring | V=8 E=8 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_complete": {
+    "spec": "protocol IMSCRIB FSPLIT EVALT EVALF AFWD AREV ENGAGR FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=10 E=11 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8103\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_hill": {
+    "spec": "protocol IMSCRIB FSPLIT AFWD AFWD AFWD AFWD AFWD FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=10 E=11 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8103\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_horn_torus": {
+    "spec": "protocol IMSCRIB FSPLIT AFWD AFWD AFWD AFWD AFWD AFWD AFWD AFWD FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=13 E=14 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8032\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_k5": {
+    "spec": "protocol IMSCRIB FSPLIT AFWD AFWD AFWD AFWD AFWD AFWD AFWD AFWD AFWD FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=14 E=15 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8029\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_known_plaintext": {
+    "spec": "ring IMSCRIB EVALT EVALF AFWD AREV ENGAGR FFUSE IFIX TANCH",
+    "title": "ring",
+    "topology": "  topology: ring | V=9 E=9 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: OPEN — a δ fork or μ fuse dangles unreconnected (not closed yet)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_kryptos_key": {
+    "spec": "protocol IMSCRIB FSPLIT AFWD AFWD AFWD AFWD AFWD AFWD FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=11 E=12 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8059\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_morse": {
+    "spec": "protocol IMSCRIB FSPLIT EVALT EVALF AFWD AREV ENGAGR FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=10 E=11 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8103\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_transposition": {
+    "spec": "protocol IMSCRIB FSPLIT AREV AREV AREV FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=8 E=9 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8438\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
+  "k4_vigenere": {
+    "spec": "protocol IMSCRIB FSPLIT AFWD AFWD AFWD AFWD FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=9 E=10 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8205\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 0 out, 1 in — reactive, not errors"
+  },
   "k_seam_probe": {
     "spec": "ring IMSCRIB FSPLIT EVALT FFUSE IFIX TANCH",
     "title": "ring",
@@ -1163,6 +1248,16 @@
     "spec": "protocol FSPLIT ENGAGR AFWD CLINK FFUSE",
     "title": "protocol",
     "topology": "  topology: branched | V=5 E=5 β=1 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.0000\n  1 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)\n  open valences (living ends): 1 out, 1 in — reactive, not errors"
+  },
+  "kryptos_k4_decrypt": {
+    "spec": "protocol ⊢ ∈ ⊤ ∋ ⊡ ⊞ ⊣",
+    "title": "protocol",
+    "topology": "  topology: network | V=7 E=8 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=3.0176\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
+  },
+  "kryptos_k4_tableau_op": {
+    "spec": "protocol ⊢ ∈ ≻ ⊤ ≺ ∋ ⊞ ⊡ ⊣",
+    "title": "protocol",
+    "topology": "  topology: network | V=9 E=10 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8467\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
   "kummer_ring": {
     "spec": "ring IMSCRIB AFWD KUMMER_TRANSITION_OPERATOR FFUSE",
@@ -1493,6 +1588,11 @@
     "spec": "ring ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "phastos_disc": {
+    "spec": "protocol VINIT FSPLIT AFWD EVALT AREV EVALF FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=9 E=10 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8205\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
   "phi_embedding": {
     "spec": "chain VINIT FSPLIT AFWD EVALT FFUSE IFIX TANCH",
@@ -2213,6 +2313,11 @@
     "spec": "ring ⊙ > <",
     "title": "ring",
     "topology": "  topology: ring | V=3 E=3 β=1 branch=0 merge=0 src=0 sink=0 ρ=2.0000\n  single cycle, no pendants\n  μ∘δ: none — no δ/μ dyad; a bare line or cycle is NOT a closure (β is not diagnostic)"
+  },
+  "vigenere_autokey": {
+    "spec": "protocol VINIT FSPLIT AFWD AFWD FFUSE IFIX TANCH",
+    "title": "protocol",
+    "topology": "  topology: network | V=7 E=8 β=2 branch=1 merge=1 src=1 sink=1 arms=1 ρ=2.8962\n  2 independent loop(s) with 1 branch / 1 fusion point(s)\n  μ∘δ: CLOSED — 1 δ-arm reconnection(s) at μ that carry a TRANSFORMATION (split → work → fuse: a type-check, not bare identity)"
   },
   "wire_hamiltonian": {
     "spec": "chain ⊙ > < ●",

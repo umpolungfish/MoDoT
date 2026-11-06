@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-11-01 06:46:52",
+  "source": "monad",
+  "discoveries": [
+    {
+      "category": "catalog_reach",
+      "claim": "monad couples with 0+ catalog entries",
+      "evidence": "Top partners: []",
+      "tier": ""
+    },
+    {
+      "category": "complement",
+      "claim": "monad has a well-defined structural complement with round-trip distance d=0.0",
+      "evidence": "Complement pairs: []",
+      "tier": ""
+    },
+    {
+      "category": "physics",
+      "claim": "Horn torus winding arithmetic gives \u03b1\u207b\u00b9 = 137.03536",
+      "evidence": "Formula: D\u00b2-7+tilt/(4\u221a3) where tilt=arctan(1/4)=14.036243\u00b0",
+      "tier": "O_\u221e"
+    }
+  ]
+}

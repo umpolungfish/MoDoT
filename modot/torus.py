@@ -115,8 +115,8 @@ class TorusGraph:
         """Compact glyph code for the torus word."""
         glyph_map = {
             "VINIT": "⊢", "TANCH": "⊣", "AFWD": "≻", "AREV": "≺",
-            "CLINK": "=", "IMSCRIB": "⊙", "FSPLIT": "◇", "FFUSE": "●",
-            "EVALT": "+", "EVALF": "×", "EVALI": "⊞", "ENGAGR": "⊞", "IFIX": "¬",
+            "CLINK": "⋈", "IMSCRIB": "⊙", "FSPLIT": "∈", "FFUSE": "∋",
+            "EVALT": "⊤", "EVALF": "⊥", "EVALI": "⊞", "ENGAGR": "⊞", "IFIX": "⊡",
         }
         return "".join(glyph_map.get(n, "?") for n in self.nodes)
 

@@ -1299,6 +1299,7 @@ struct Llm {
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 enum Provider {
     OpenRouter,
+    MuleRouter,
     GeminiDirect,
     DeepSeek,
     /// Groq — OpenAI-compatible, LPU inference (very low latency). Key: GROQ_API_KEY.
@@ -1324,6 +1325,7 @@ enum Provider {
 fn provider_label(p: Provider) -> &'static str {
     match p {
         Provider::OpenRouter => "openrouter",
+        Provider::MuleRouter => "mulerouter",
         Provider::DeepSeek => "deepseek",
         Provider::Groq => "groq",
         Provider::GeminiDirect => "gemini",
@@ -1335,6 +1337,7 @@ fn provider_label(p: Provider) -> &'static str {
 fn provider_default_model(p: Provider) -> &'static str {
     match p {
         Provider::OpenRouter => "google/gemini-3-flash-preview",
+        Provider::MuleRouter => "qwen3-max",
         Provider::DeepSeek => "deepseek-chat",
         Provider::Groq => "llama-3.3-70b-versatile",
         Provider::GeminiDirect => "gemini-2.0-flash",
@@ -1351,6 +1354,7 @@ fn provider_default_model(p: Provider) -> &'static str {
 fn provider_has_key(p: Provider) -> bool {
     match p {
         Provider::OpenRouter => env_first(&["OPENROUTER_API_KEY", "MODOT_API_KEY"]).is_some(),
+        Provider::MuleRouter => env_first(&["MULEROUTER_API_KEY", "MULROUTER_API_KEY"]).is_some(),
         Provider::DeepSeek => env_first(&["DEEPSEEK_API_KEY", "MODOT_API_KEY"]).is_some(),
         Provider::Groq => env_first(&["GROQ_API_KEY", "MODOT_API_KEY"]).is_some(),
         Provider::GeminiDirect => {
@@ -1377,6 +1381,14 @@ fn build_llm(provider: Provider, model_override: Option<&str>, think: bool, expl
             model,
             base_url: "https://openrouter.ai/api/v1".into(),
             provider: Provider::OpenRouter,
+            think,
+            explicit_provider,
+        },
+        Provider::MuleRouter => Llm {
+            api_key: env_first(&["MULEROUTER_API_KEY", "MULROUTER_API_KEY"]),
+            model,
+            base_url: "https://api.mulerouter.ai/vendors/openai/v1".into(),
+            provider: Provider::MuleRouter,
             think,
             explicit_provider,
         },
@@ -1515,6 +1527,7 @@ fn is_fatal_llm_error(e: &str) -> bool {
 fn parse_provider(s: &str) -> Option<Provider> {
     match s.trim().to_ascii_lowercase().as_str() {
         "openrouter" | "or" | "router" => Some(Provider::OpenRouter),
+        "mulerouter" | "mulrouter" => Some(Provider::MuleRouter),
         "gemini" | "google" | "gemini-direct" | "google-ai" => Some(Provider::GeminiDirect),
         "deepseek" | "ds" | "deepseek-direct" => Some(Provider::DeepSeek),
         "groq" => Some(Provider::Groq),
@@ -1538,6 +1551,7 @@ fn parse_provider(s: &str) -> Option<Provider> {
 fn export_ig_env(llm: &Llm) {
     let provider = match llm.provider {
         Provider::OpenRouter => "openrouter",
+        Provider::MuleRouter => "mulerouter",
         Provider::GeminiDirect => "gemini",
         Provider::DeepSeek => "deepseek",
         Provider::Groq => "groq",
@@ -1829,6 +1843,7 @@ fn infer(
     const FAST_FAIL_SECS: u64 = 45;
     let call = || match llm.provider {
         Provider::OpenRouter => infer_openrouter(llm, key, messages, max_tokens, temperature, false),
+        Provider::MuleRouter => infer_openrouter(llm, key, messages, max_tokens, temperature, false),
         Provider::DeepSeek => infer_openrouter(llm, key, messages, max_tokens, temperature, false),
         Provider::Groq => infer_openrouter(llm, key, messages, max_tokens, temperature, false),
         Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature, false),
@@ -1978,6 +1993,7 @@ fn infer_stream_impl(
 
     let call = || match llm.provider {
         Provider::OpenRouter => infer_openrouter_stream(llm, key, messages, max_tokens, temperature),
+        Provider::MuleRouter => infer_openrouter_stream(llm, key, messages, max_tokens, temperature),
         Provider::DeepSeek => infer_openrouter_stream(llm, key, messages, max_tokens, temperature),
         Provider::Groq => infer_openrouter_stream(llm, key, messages, max_tokens, temperature),
         Provider::GeminiDirect => infer_gemini(llm, key, messages, max_tokens, temperature, true),
@@ -6757,6 +6773,7 @@ fn run_one(
         llm.model,
         match llm.provider {
             Provider::OpenRouter => "openrouter",
+            Provider::MuleRouter => "mulerouter",
             Provider::GeminiDirect => "gemini-direct",
             Provider::DeepSeek => "deepseek",
             Provider::Groq => "groq",
@@ -6968,6 +6985,7 @@ fn run_one(
                 if is_fatal_llm_error(&e) {
                     let pname = match llm.provider {
                         Provider::OpenRouter => "openrouter",
+                        Provider::MuleRouter => "mulerouter",
                         Provider::GeminiDirect => "gemini",
                         Provider::DeepSeek => "deepseek",
                         Provider::Groq => "groq",

@@ -514,6 +514,12 @@ class LLMInterface:
                 if not self.api_key:
                     self.api_key = os.environ.get("GROQ_API_KEY")
                 self.model = model_id
+            elif prefix_lower in ("mulerouter", "mulrouter"):
+                if not self.base_url:
+                    self.base_url = "https://api.mulerouter.ai/vendors/openai/v1"
+                if not self.api_key:
+                    self.api_key = os.environ.get("MULEROUTER_API_KEY") or os.environ.get("MULROUTER_API_KEY")
+                self.model = model_id
 
         # Fallbacks to OpenRouter
         if not self.base_url:
