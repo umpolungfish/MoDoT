@@ -101,12 +101,13 @@ pub struct TapeMachine {
     pub last_commit:Option<Reg16_3>,
     pub frames:Vec<TapeFrame>,
     last_available:Option<i64>,
+    next_sequence:usize,
 }
 
 impl TapeMachine {
     pub fn new(seed:Reg16_3) -> Self {
         Self{programs:Vec::new(),working:seed,last_commit:None,
-             frames:Vec::new(),last_available:None}
+             frames:Vec::new(),last_available:None,next_sequence:0}
     }
     pub fn register(&mut self,p:TapeProgram)->Result<(),String>{
         if self.programs.iter().any(|x|x.id==p.id){return Err("duplicate program".into());}
@@ -116,6 +117,10 @@ impl TapeMachine {
     pub fn program(&self,id:&str)->Option<&TapeProgram>{
         self.programs.iter().find(|p|p.id==id)
     }
+    /// Release completed execution receipts after they have been persisted.
+    /// The next sequence number remains monotonic across releases.
+    pub fn release_completed(&mut self) { self.frames.clear(); }
+
     pub fn execute(&mut self,s:TapeSample)->Result<&TapeFrame,String>{
         if s.source.is_empty(){return Err("source required".into());}
         if s.observed_at_ns>s.available_at_ns {return Err("availability precedes observation".into());}
@@ -130,9 +135,10 @@ impl TapeMachine {
         let readout=node_in[program.readout];
         let (verdict,closure)=program.verdict();
         let committed=program.fix_upstream_of_readout();
-        let frame=TapeFrame{sequence:self.frames.len(),source:s.source,program:s.program,
+        let frame=TapeFrame{sequence:self.next_sequence,source:s.source,program:s.program,
             observed_at_ns:s.observed_at_ns,available_at_ns:s.available_at_ns,
             input,readout,verdict,closure,committed,payload:s.payload};
+        self.next_sequence+=1;
         self.working=readout;
         if committed {self.last_commit=Some(readout);}
         self.last_available=Some(frame.available_at_ns);
